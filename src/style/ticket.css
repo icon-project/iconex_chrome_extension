@@ -1,0 +1,62 @@
+@charset "utf-8";
+
+/* initialize */
+body { margin:0; padding:0; background-color:#ffffff; color:#202020; font-size:12px; line-height:1;-webkit-text-size-adjust:none; -ms-text-size-adjust: none; font-family:'NanumSquarer', 'sans-serif';}
+html, body {/*width:100%; height:100%; *//*min-width:1024px; */}
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address,big, cite, code, del, dfn, em,
+img, ins, kbd, q, s, samp, small, strike,strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset,form, label, legend, table,
+caption, tbody, tfoot, thead, tr, th, article, aside, canvas, footer, header, menu, nav, section, summary, video {z-index: inherit;padding: 0;border: 0;margin: 0;vertical-align: baseline;font: inherit;font-size: 100%; font-family:'NanumSquare', 'sans-serif';}
+
+input[type=button], input[type=text], input[type=image],
+input[type=submit],input[type=password], input[type=tel],
+input[type=number], textarea {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	border-radius: 0;
+	outline: 0;
+	vertical-align:middle;
+}
+
+input[type=checkbox] {-webkit-appearance: checkbox;-moz-appearance: checkbox;}
+input[type=radio] {-webkit-appearance: radio;-moz-appearance: radio;}
+input::-ms-clear {display: none;width: 0;height: 0;}
+input::-ms-reveal {display: none;width: 0;height: 0;}
+
+select{-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
+
+li{ list-style:none; }
+table{ width:100%; border-collapse:collapse; border-spacing:0; }
+th, td{ border-collapse:collapse; }
+legend, caption, hr{ display:none; }
+/*a { text-decoration:none; color:#fff;}
+a:hover {  color:#fff;}*/
+
+*{-webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;}
+
+
+.wrap.ticket{width: 1040px; height: 420px; margin: 60px 10px; position: relative;}
+.wrap.ticket .back img{width: 100%; position: absolute; height: 420px;}
+.wrap.ticket .header-wrapper{width: 100%;z-index: 9; height: 120px; color: #fff; position: absolute;}
+.wrap.ticket .label-group{font-size: 34px; color: #fff; display: table !important;}
+.wrap.ticket .label-group p:not(:first-child){font-size: 13px; position: absolute; bottom: 40px;}
+.wrap.ticket .label-group p:nth-child(2){left: 40px;}
+.wrap.ticket .label-group p:nth-child(3){right: 40px;}
+.wrap.ticket .label-group .name{display: table-cell; vertical-align: middle; font-weight: 700;}
+
+.wrap.ticket .header-wrapper .url{float: right; margin: 44px 50px 0 0; font-size: 25px; color: #fff;}
+.wrap.ticket .content-wrapper {position: absolute; z-index: 10; top: 0px; margin:0; width: 100%;}
+.wrap.ticket .content-wrapper .title {font-size: 28px; }
+.wrap.ticket .content-wrapper .title em{width:36px; height: 36px; display: inline-block;margin-right: 10px; vertical-align: top; }
+.wrap.ticket .content-wrapper .title em img{width: 100%;}
+.wrap.ticket .content-wrapper ul li:nth-child(1){width: 340px;}
+.wrap.ticket .content-wrapper ul li:nth-child(3){width: 340px;}
+.wrap.ticket .content-wrapper ul li{display: inline-block;width: 360px; vertical-align: top;   text-align: center; position: relative;}
+.wrap.ticket .content-wrapper ul li:not(:first-child){margin-left: -6px;}
+.wrap.ticket .content-wrapper ul li .qr{display: inline-block; vertical-align: top; width: 140px; height: 140px; margin-top: 15px;}
+.wrap.ticket .content-wrapper ul li .qr svg{width: 140px; height: 140px;}
+.wrap.ticket .content-wrapper ul li .txt{display: inline-block; width: 100%; height: 420px;     position: relative; padding: 40px 35px;}
+.wrap.ticket .content-wrapper ul li .title{font-size: 17px;  margin-top: 40px; font-weight: 700;}
+.wrap.ticket .content-wrapper ul li .key{font-size: 15px; margin-top: 25px;     word-break: break-all; line-height: 20px; color: #262626; font-weight: 700; height: 73px;}
+.wrap.ticket .content-wrapper ul li .etc{font-size: 13px; color: #aaaaaa; position: absolute; bottom: 40px; width: 280px; }

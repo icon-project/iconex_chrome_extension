@@ -1,0 +1,137 @@
+.content-wrap.main .main-holder .load {
+  height: 340px;
+}
+
+.content-wrap .wrap-holder.exchange .quantity-holder .controller .c {
+  margin-left: 46px;
+}
+.content-wrap .wrap-holder.exchange .quantity-holder .controller .b.minus {
+  margin-right: 3px;
+}
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul {
+  margin-left: 241px;
+}
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul li {
+  margin-right: 19px;
+}
+
+.btn-type-copy { width: 104px; }
+[class ^="btn-type"]:nth-child(2) {margin-left: 5px;}
+
+.content-wrap .wrap-holder.exchange .won-group p.error {
+  padding-top: 33px;
+  padding-left: 20px;
+}
+
+.content-wrap .wrap-holder.exchange p.error.gasLimit {
+  padding-top: 4px;
+}
+
+.content-wrap .wrap-holder.exchange p.error.data {
+  padding-top: 4px;
+}
+
+.content-wrap .wrap-holder.exchange p.error {
+  left: 0px;
+}
+
+.loading {background: url(../image/loadingL.png) left top no-repeat; background-size: auto 60px;width: 60px; height: 60px;}
+
+.loading.black {background: url(../image/loadingB.png) left top no-repeat; background-size: auto 18px; width: 18px; height: 18px;
+  animation: animateLoading 1s steps(26) forwards;
+  animation-iteration-count: infinite;
+}
+.loading.white {background: url(../image/loadingW.png) left top no-repeat; background-size: auto 18px; width: 18px; height: 18px;
+  animation: animateLoading 1s steps(26) forwards;
+  animation-iteration-count: infinite;
+}
+
+.btn-type-normal.load span, .btn-type-fill.load span, .btn-type-fill2.load span {
+  display: inline-block;
+  margin-bottom: -4px;
+  padding-bottom: 0px;
+}
+
+.btn-type-normal.load2 span{
+  display: inline-block;
+  margin-bottom: -23px;
+  height: 40px;
+  width: 180px;
+  padding-bottom: 17px;
+}
+
+.help-layer{
+  display: block;
+}
+
+.content-wrap .main-holder .b-group ul li {
+  font-size: 11px;
+  line-height: 180%;
+  display: block;
+  width: 105px;
+}
+.content-wrap .main-holder .b-group .container {
+  display: inline-block;
+  vertical-align: top;
+  width: 90px;
+  height: 200px;
+  margin: 5px;
+  position: absolute;
+  top: 69px;
+  left: 100px;
+}
+.content-wrap .main-holder .b-group  ul {
+  position: relative;
+  padding: 0;
+  list-style: none;
+  transform: translateY(-50%);
+  top: 50%;
+}
+.content-wrap .main-holder .b-group  li {
+  /*text-align: center;
+  height: 25px;
+  margin: 10px;*/
+}
+.content-wrap .main-holder .b-group ul li:nth-child(1) { color: #FFFFFF; }
+.content-wrap .main-holder .b-group ul li:nth-child(2) { color: #C6EAEE; }
+.content-wrap .main-holder .b-group ul li:nth-child(3) { color: #9BDAE1; }
+.content-wrap .main-holder .b-group ul li:nth-child(4) { color: #7BCED7; }
+.content-wrap .main-holder .b-group ul li:nth-child(5) { color: #63C5D0; }
+.content-wrap .main-holder .b-group ul span.li {
+  width: 5px;
+  height: 5px;
+  display: inline-block;
+  border-radius: 100%;
+  margin-right: 10px;
+	margin-bottom: 1px;
+}
+.popup-wrap .tabbox-holder .with-loading .load {
+   width: 50px;
+ 	 height: 50px;
+   position: absolute;
+   right: 0;
+ 	 bottom: 0;
+}
+
+.content-wrap .wrap-holder.exchange .layer li span.c.load {
+   padding-top: 0px;
+   margin-top: -1px;
+}
+
+.table-typeC tbody td:nth-child(3) .load {
+   right: 20px;
+   position: absolute;
+   top: 1px;
+}
+
+.content-wrap .wrap-holder.exchange .quantity-holder .change-group span.load {margin: 0 8px 0 252px;}
+.content-wrap .wrap-holder.exchange .quantity-holder .change-group span.load.c {margin: 0 0 0 262px;}
+
+.table-typeC tbody td:nth-child(1).load {
+   height: 49px;
+}
+
+.popup-wrap .quantity-holder.ethereum .group .won-group p.error {
+   padding-top: 33px;
+   padding-left: 20px;
+}

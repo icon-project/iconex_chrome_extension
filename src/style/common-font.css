@@ -1,0 +1,70 @@
+@charset "utf-8";
+
+
+
+.help-layer .txt,
+.content-wrap .wrap-holder .coin-holder .c em,
+.content-wrap .layer.sub li,
+.content-wrap .layer-wallet li,
+.content-wrap .layer.default li,
+.wrap.home .content-wrap .content-holder li .box p:nth-child(3){font-weight: 100;}
+
+.popup-wrap .popup .scroll .info .dot,
+.content-wrap .wrap-holder.exchange .quantity-holder .controller .a,
+.btn-type-exchange,
+.error,
+.wrap.home .content-wrap .content-holder .txt,
+.popup-wrap h2,
+.content-wrap .layer-wallet,
+.notice-wrap .wrap-holder .txt,
+.content-wrap .main-holder .a-group .b p,
+.content-wrap .main-holder .layer.left,
+.popup-wrap .popup .layout .step .info .dot,
+.wrap.home .content-wrap.lock .content-holder .guide-holder .forget,
+.wrap.home .content-wrap.lock .content-holder .pw-group .error{font-weight: 300;}
+
+.content-wrap .wrap-holder .table-typeC.coin thead .c span.m_usd em,
+.header-wrap .language-holder span{font-weight: 400;}
+
+
+
+
+.content-wrap .wrap-holder .table-typeC thead .a {font-weight: 500;}
+
+.content-wrap .wrap-holder.exchange .quantity-holder .controller .a em,
+.popup-wrap .terms .tabbox-holder h2{font-weight: 600;}
+
+
+.content-wrap .wrap-holder .table-typeC thead .c em,
+.popup-wrap .terms .tabbox-holder .title,
+.content-wrap .tab-holder li.on,
+.content-wrap .tab-holder li:hover,
+.content-wrap .main-holder .a-group .b span em{font-weight: 700;}
+
+
+
+
+
+/*/////////////////////////////////*/
+.popup-wrap .popup .layout .content .exchange .change-group .num,
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul li,
+.tabbox-holder .cnt em,
+.content-wrap .wrap-holder.exchange .quantity-holder .change-group .c em,
+.content-wrap .wrap-holder.exchange .quantity-holder .controller .a em,
+.content-wrap .wrap-holder.exchange .quantity-holder .change-group .b,
+.table-typeA tbody td:nth-child(2),
+.pager-holder li .number,
+.table-typeB tbody td:nth-child(4),
+.table-typeB tbody td:nth-child(1),
+.content-wrap .wrap-holder .coin-holder .d em,
+.content-wrap .wrap-holder .coin-holder .c,
+/*.popup-wrap .backup .tabbox-holder .key-group .key,*/
+.table-typeC tbody td:nth-child(4) span,
+.popup-wrap.send p em,
+.content-wrap .wrap-holder .table-typeC thead .token_num,
+.content-wrap .main-holder .a-group .c span em:first-child,
+.content-wrap .main-holder .a-group .b span em,
+.content-wrap .wrap-holder .table-typeC thead .c em,
+/*.table-typeC tbody td:nth-child(3) em,*/
+.table-typeC tbody td:nth-child(2) em,
+.tabbox-holder .wallet-group li .icx{font-family: NanumSquare;}

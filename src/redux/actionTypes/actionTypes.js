@@ -8,6 +8,8 @@ const actionTypes = {
   logOut: 'LOG_OUT',
   checkIsLocked: 'CHECK_IS_LOCKED',
   setUnlock: 'SET_UNLOCK',
+  setIsAppOpenedByPopup: 'SET_IS_APP_OPENED_BY_POPUP',
+  setShowChangePasscodePopup: 'SET_SHOW_CHANGE_PASSCODE_POPUP',
 
   // globalActions
   setLanguage: 'SET_LANGUAGE',
@@ -79,7 +81,7 @@ const actionTypes = {
   updatePassword: 'UPDATE_PASSWORD',
   updatePasswordFulfilled: 'UPDATE_PASSWORD_FULFILLED',
   updatePasswordRejected: 'UPDATE_PASSWORD_REJECTED',
-  setPrivKeyForBackup: 'SET_PRIV_KEY_FOR_BACKUP',
+  setPrivKeyAndV3ForBackup: 'SET_PRIV_KEY_AND_V3_FOR_BACKUP',
   isExistToken: 'IS_EXIST_TOKEN',
   isExistTokenFulfilled: 'IS_EXIST_TOKEN_FULFILLED',
   isExistTokenRejected: 'IS_EXIST_TOKEN_REJECTED',
@@ -153,6 +155,9 @@ const actionTypes = {
   fetchTransactionHistoryFulfilled: 'FETCH_TRANSACTION_HISTORY_FULFILLED',
   fetchTransactionHistoryRejected: 'FETCH_TRANSACTION_HISTORY_REJECTED',
   resetHistoryReducer: 'RESET_HISTORY_REDUCER',
+
+  setIsRequestedStatus: 'SET_IS_REQUESTED_STATUS',
+  setTransactionStatus: 'SET_TRANSACTION_STATUS'
 };
 
 export default actionTypes;

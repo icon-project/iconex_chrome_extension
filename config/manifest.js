@@ -10,6 +10,16 @@ module.exports = {
       ],
       "persistent": true
     },
+    "content_scripts": [
+  		{
+  			"matches": [
+  				"<all_urls>"
+  			],
+  			"js": [
+  				"static/js/contentScript.bundle.js"
+  			]
+  		}
+  	],
     "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
     "icons": { "16": prodDev("icon_16.png", "icon_16_test.png"),
               "32": prodDev("icon_32.png", "icon_32_test.png"),
@@ -18,6 +28,7 @@ module.exports = {
               },
     "browser_action": {
       "default_title": prodDev("ICONex Beta", "ICONex Testnet"),
+    //  "default_popup": "popup.html"
     },
     "permissions": [
         "storage",

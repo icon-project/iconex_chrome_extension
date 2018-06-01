@@ -16,13 +16,29 @@ function walletToV3File(wallet, pw, coinType) {
 onmessage = function(m) {
   switch(m.data.type) {
     case 'sendTransaction':
-    case 'backupWallet':
       try {
         const wallet = Wallet.fromV3(m.data.priv, m.data.pw, V3_OPTIONS);
         const privKey = wallet.getPrivateKey().toString('hex');
         this.postMessage(privKey)
       }
       catch (e) {
+        console.log(e)
+        this.postMessage(undefined)
+      }
+      break;
+
+    case 'backupWallet':
+      try {
+        const wallet = Wallet.fromV3(m.data.priv, m.data.pw, V3_OPTIONS);
+        const privKey = wallet.getPrivateKey().toString('hex');
+        const v3 = walletToV3File(wallet, m.data.pw, m.data.coinType);
+        this.postMessage({
+          privKey,
+          v3
+        })
+      }
+      catch (e) {
+        console.log(e)
         this.postMessage(undefined)
       }
       break;
@@ -44,6 +60,7 @@ onmessage = function(m) {
     case 'importWallet_2_ks':
       try {
         let ks = m.data.file;
+
         const wallet = Wallet.fromV3(ks, m.data.pw, V3_OPTIONS);
         if (ks['coinType'] === 'icx') {
           const pubKey = wallet.getAddressIcx().toString('hex');
@@ -82,6 +99,12 @@ onmessage = function(m) {
           const walletData = file[i];
           const walletDataValue = walletData[Object.keys(walletData)[0]];
           const ks = JSON.parse(walletDataValue.priv);
+
+          if (ks['Crypto']) {
+            ks['crypto'] = ks.Crypto;
+            delete ks.Crypto;
+          }
+
           const wallet = Wallet.fromV3(ks, pw, V3_OPTIONS);
 
           if (ks['coinType'] === 'icx' && walletDataValue['type'] === 'icx') {

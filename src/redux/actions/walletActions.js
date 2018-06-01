@@ -58,9 +58,9 @@ export function updatePassword(account, priv) {
   };
 }
 
-export function setPrivKeyForBackup(payload) {
+export function setPrivKeyAndV3ForBackup(payload) {
   return {
-    type: actionTypes.setPrivKeyForBackup,
+    type: actionTypes.setPrivKeyAndV3ForBackup,
     payload
   };
 }

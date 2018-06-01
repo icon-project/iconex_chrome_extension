@@ -49,3 +49,31 @@ export function setShowNotice() {
     type: actionTypes.setShowNotice
   }
 }
+
+export function setIsAppOpenedByPopup(payload) {
+  return {
+    type: actionTypes.setIsAppOpenedByPopup,
+    payload
+  }
+}
+
+export function setShowChangePasscodePopup(payload) {
+  return {
+    type: actionTypes.setShowChangePasscodePopup,
+    payload
+  }
+}
+
+export function setIsRequestedStatus(payload) {
+  return {
+    type: actionTypes.setIsRequestedStatus,
+    payload
+  }
+}
+
+export function setTransactionStatus(payload) {
+  return {
+    type: actionTypes.setTransactionStatus,
+    payload
+  }
+}

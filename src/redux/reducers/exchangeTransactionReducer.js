@@ -1,6 +1,6 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
 import { isAddress, isAddressIcx, getTypeText, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix } from 'utils'
-import { store } from 'redux/store/store.js';
+import { store } from 'redux/store/store';
 //import { coinRound as ROUND } from 'constants/index';
 import BigNumber from 'bignumber.js';
 
@@ -322,11 +322,13 @@ export function exchangeTransactionReducer(state = initialState, action) {
       return Object.assign({}, initialState)
 
     case actionTypes.resetEXTRInputReducer:
+      const { accountAddress, coinTypeIndex } = state;
+      const isToken = accountAddress !== coinTypeIndex
       const newState = Object.assign({}, {
         ...state,
         coinQuantity: 0,
         recipientAddress: '',
-        gasLimit: 21000,
+        gasLimit: isToken ? 55000 : 21000,
         gasPrice: 21,
         data: '',
         submit: false,

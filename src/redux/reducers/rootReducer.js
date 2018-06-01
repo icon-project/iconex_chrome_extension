@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   wallet: walletReducer,
   exchangeTransaction: exchangeTransactionReducer,
   history: historyReducer,
-  mainPage: mainPageUIReducer
+  mainPage: mainPageUIReducer,
 });
 
 export default rootReducer;

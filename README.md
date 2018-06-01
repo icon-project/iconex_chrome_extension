@@ -1,5 +1,5 @@
 # ICONex
-> ICONex desktop version (Chrome extension)
+> ICONex Desktop version (Chrome extension)
 
 ICONex is a wallet where you can keep not only ICX but also other various crypto-currencies.
 

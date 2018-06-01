@@ -21,6 +21,11 @@ webpack(config).watch({}, (err, stats) => {
 function copyPublicFolder() {
   fs.copySync(paths.appPublic, paths.appBuildTest, {
     dereference: true,
-    filter: file => file !== paths.appHtml
+    // filter appHtml, appPopupHtml for preventing overwrite webpack-builded files
+    filter: file =>
+        file !== paths.appHtml &&
+        file !== paths.appPopupHtml &&
+        file !== paths.appHtmlTest &&
+        (file.includes('png') ? file.includes('test') : true)
   });
 }

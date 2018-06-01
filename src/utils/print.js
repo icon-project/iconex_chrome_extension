@@ -1,6 +1,6 @@
 import QRCode from 'qrcode';
 import { coinLabel as COIN_LABEL } from 'constants/index';
-import bg from 'image/ticket/bg.png'
+import bg from 'app/image/ticket/bg.png'
 import { formatDate } from 'utils'
 import i18n from 'constants/i18n'
 

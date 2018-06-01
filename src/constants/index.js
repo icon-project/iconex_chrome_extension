@@ -1,5 +1,5 @@
-import ICON from 'image/icon/icon_01.png';
-import ETH from 'image/icon/icon_02.png';
+import ICON from 'app/image/icon/icon_01.png';
+import ETH from 'app/image/icon/icon_02.png';
 
 export const coinLabel = {
   'icx': 'ICON (ICX)',
@@ -15,11 +15,18 @@ export const popupType = {
   'createWallet': '_01_createWallet'
 }
 
-export const v3_options =  {
+export const v3_options_pdkdf2 =  {
   kdf: "pbkdf2",
+  c: 16384,
   cipher: "aes-128-ctr",
   prf: "hmac-sha256"
 };
+
+export const v3_options = {
+  kdf: "scrypt",
+  n: 16384,
+  cipher: "aes-128-ctr",
+}
 
 export const routeConstants = {
   'home': '/',

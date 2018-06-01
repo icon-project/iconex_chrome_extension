@@ -3,7 +3,7 @@ import actionTypes from 'redux/actionTypes/actionTypes'
 const initialState = {
   initLoading: true,
   isLoggedIn: false,
-  isLocked: true,
+  isLocked: false,
   error: '',
 }
 

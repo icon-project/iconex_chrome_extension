@@ -45,15 +45,18 @@ module.exports = {
   appBuildTest: resolveApp('build-test'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/index.js'),
+  appPopupHtml: resolveApp('public/popup.html'),
+  appIndexJs: resolveApp('src/app/index.js'),
+  appPopupJs: resolveApp('src/app-popup/index.js'),
   // <--- SH
   appPublicTest: resolveApp('public_test'),
   appHtmlTest: resolveApp('public/index_test.html'),
+  appContentScriptJs: resolveApp('src/content-script/contentScript.js'),
   // ---> SH
   // --- added by JH Kim
-  appStoreJs: resolveApp('src/backgroundRedux/store/store.js'),
+  appBackgroundJs: resolveApp('src/background/background.js'),
   appWorkerJs: resolveApp('src/workers/wallet.worker.js'),
-  appPrintCss: resolveApp('src/style/ticket.css'),
+  appPrintCss: resolveApp('src/app/style/ticket.css'),
   // --- added by JH Kim
 
   appPackageJson: resolveApp('package.json'),

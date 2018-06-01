@@ -32,6 +32,7 @@ export default {
     copyDepositAddress: 'Copy Address',
     close: 'Close',
     complete: 'Complete',
+    goToWallet: 'Access My Wallet'
   },
 
   error: {
@@ -51,12 +52,12 @@ export default {
     alertBalanceRemove: 'You may remove it only when you have 0 balance.',
     alertDownloadAfterBackup: "Click 'Next' button after downloading the Keystore file.",
 
-    lockPasscode: 'Enter screen lock password.',
+    lockPasscode: 'Enter passcode.',
     lockPasscodeExactly: 'Please check your password and try again.',
 
-    currentPasscodeEnter: 'Enter the current screen lock password.',
-    passcodeEnter: 'Please enter your screen lock password.',
-    currentPasscodeFail: 'Please confirm your screen lock password.',
+    currentPasscodeEnter: 'Enter the current screen lock passcode.',
+    passcodeEnter: 'Please enter your screen lock passcode.',
+    currentPasscodeFail: 'Please confirm your screen lock passcode.',
     passcodeSix: 'Enter 6-digit number.',
     passcodeSame: 'Screen lock password does not match. Please check again.',
     currentPasscodeSame: 'New password is the same as the previous one.',
@@ -180,9 +181,9 @@ export default {
   exchangeTransactionInfo: 'Please check the amount and the address again as there is no way to cancel the transaction after you confirm the transaction.',
 
   lockPageDescState: 'Locked.',
-  lockPageDescEnter: 'Enter 6-digit screen lock password.',
-  lockPageInputPlaceholder: 'Enter screen lock password',
-  lockPageInputForget: 'Forgot your password?',
+  lockPageDescEnter: 'Enter 6-digit screen lock passcode.',
+  lockPageInputPlaceholder: 'Enter passcode.',
+  lockPageInputForget: 'Forgot your passcode?',
 
   noticeTitle: 'Always keep your backup file(s) and private key(s) in a secure location.',
   noticeDesc1: 'If you did not backup your wallet, you may not be able to recover it.',
@@ -194,15 +195,15 @@ export default {
   myPageWalletChecked: 'Selected Wallets',
   myPageSubTitle1: 'Screen Lock',
   myPageSubTitle2: 'Export Wallet Bundle',
-  myPageInfo1: 'By activating the screen lock function, a 6-digit password is required every time you open ICONex in a new chrome window.\nIf you forget your screen lock password, you can reset the password using your wallet password.',
-  myPageInfo2: 'If you activate the screen lock, a 6-digit password is required every time you open your ICONex. It can protect your assets from others.',
+  myPageInfo1: 'By activating the screen lock function, a 6-digit passcode is required every time you open ICONex in a new chrome window.\nIf you forget your screen lock passcode, you can reset the password using your wallet password.',
+  myPageInfo2: 'If you activate the screen lock, a 6-digit passcode is required every time you open your ICONex. It can protect your assets from others.',
   myPageInfo3: 'Wallet bundle backs up your wallets in one file.\nYou can easily manage different wallets at once.',
   myPageUnlock: '· Do you want to unlock?',
   myPageLockNumber: 'Screen Lock',
   myPageLockNumberUsing: 'Screen lock activated',
-  myPageLabel1: 'New Screen Lock Password',
+  myPageLabel1: 'New Passcode',
   myPageLabel2: 'Confirm',
-  myPageLabel3: 'Current Screen Lock Password',
+  myPageLabel3: 'Current Passcode',
   myPagePlaceholder1: 'Enter 6-digit number.',
   myPagePlaceholder2: 'Enter password.',
 
@@ -270,14 +271,14 @@ export default {
     wallet: 'Wallet',
     cancelCreateWallet: 'Are you sure you want to cancel?',
 
-    desc3: 'Pay a special attention to your Keystore files.',
+    desc3: 'Pay special attention to your Keystore files.',
     leftInfoTitle3_1: 'This Keystore file contains the encrypted private key and requires the wallet password to access it.',
     leftInfoDesc3_1: '· Use this Keystore file to load your wallet from other devices.',
     leftInfoDesc3_2: '· Keystore file can replace your private key.',
     leftInfoDesc3_3: "· You can download your Keystore file from the “Backup wallet” menu.",
-    downloadSuccess: 'Download Keystore files. Always keep your Keystore files in a secure location.',
+    downloadSuccess: 'Download your Keystore file. Always keep your Keystore file in a secure location.',
     passWithoutDownload: 'Do you want to proceed without downloading the Keystore file?',
-    cancelCreateWalletNotDownload: 'Are you sure you want to cancel?<br/> A new wallet will be created <br/> after you download the Keystore file.', // 삭제 필요
+    cancelCreateWalletNotDownload: 'Are you sure you want to cancel?',
 
     desc4: 'Print your paper wallet or write down your private key.',
     leftInfoTitle4_1: 'Use your private key to load your wallet from other devices. You can print or write the private key to keep it safe.',
@@ -404,13 +405,13 @@ export default {
     title: 'Change token information',
     desc: 'You may change token information.',
     inputLabel1: 'Address',
-    inputPlaceHolder1: 'Enter address',
+    inputPlaceHolder1: 'Enter address.',
     inputLabel2: 'Token Name',
-    inputPlaceHolder2: 'Enter token name',
+    inputPlaceHolder2: 'Enter token name.',
     inputLabel3: 'Token Symbol',
-    inputPlaceHolder3: 'Enter the token symbol (letters or numbers)',
-    inputLabel4: 'Number of Decimals',
-    inputPlaceHolder4: 'Enter number',
+    inputPlaceHolder3: 'Enter token symbol. (letters or numbers)',
+    inputLabel4: 'Decimals',
+    inputPlaceHolder4: 'Enter decimals.',
   },
 
   addressList: {
@@ -427,18 +428,18 @@ export default {
 
   unlockPopup: {
     title: 'Unlock the Screen Lock',
-    desc: 'Enter your current screen lock password.',
-    subTitle: 'Current Screen Lock Password',
-    placeholder: 'Enter 6-digit password.',
+    desc: 'Enter your current passcode.',
+    subTitle: 'Current Passcode',
+    placeholder: 'Enter 6-digit passcode.',
     success: 'Screen is unlocked.',
   },
 
   changePasscode: {
-    title: 'Reset screen lock password',
-    desc1: 'You can reset your screen lock password using your wallet password.',
-    desc2: 'You can reset your screen lock password.',
-    inputLabel1: 'New screen lock password',
-    inputLabel2: 'Confirm new screen lock password.',
+    title: 'Reset screen lock passcode',
+    desc1: 'You can reset your passcode using your wallet password.',
+    desc2: 'You can reset your passcode.',
+    inputLabel1: 'New passcode',
+    inputLabel2: 'Confirm new passcode.',
     inputPlaceHolder1: 'Enter your password.',
     inputPlaceHolder: 'Enter a 6-digit number.',
   },
@@ -484,6 +485,7 @@ export default {
     txFeeEth: 'Max Fee',
     address: 'Address',
 
+    icxFailure: 'ICX transaction has been cancelled.',
     infoFailure: 'Your transaction has been canceled.<br/>Please try again with a higher gas price.',
     knownFailure: 'Your transaction has been canceled.<br/>The transaction is being processed.',
     anotherFailure: 'Your transaction has been canceled.<br/>Another transaction is being processed.',

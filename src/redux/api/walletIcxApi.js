@@ -67,7 +67,11 @@ export function icx_sendCoinApi(privKey, data) {
     }
     axiosApi.post('/api/v2', JSON.stringify(param))
       .then(res => {
-        resolve([true, res.data.result.tx_hash]);
+        if(res.data.result['response_code'] === 0) {
+            resolve([true, res.data.result.tx_hash]);
+        } else {
+            resolve([false, res.data.result]);
+        }
       })
       .catch(error => {
         resolve([false, error]);

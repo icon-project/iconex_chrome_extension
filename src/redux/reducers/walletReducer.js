@@ -8,7 +8,8 @@ const initialState = {
   rate: {},
   rateLoading: true,
   currency: 'usd',
-  _06_privateKey: '', // 06 BACKUP WALLETS
+  _06_privateKey: '', // 06 BACKUP WALLETS,
+  _06_v3: '', // 06 BACKUP WALLETS
   _07_isExistToken: false, // 07 ADD TOKENS
   _07_isExistTokenLoading: true,
   _07_tokenInfo: {},
@@ -73,9 +74,10 @@ export function walletReducer(state = initialState, action) {
         _09_newPw: '',
       })
     }
-    case actionTypes.setPrivKeyForBackup: {
+    case actionTypes.setPrivKeyAndV3ForBackup: {
       return Object.assign({}, state, {
-          _06_privateKey: action.payload
+          _06_privateKey: action.payload.privKey,
+          _06_v3: action.payload.v3,
       })
     }
     case actionTypes.isExistToken: {

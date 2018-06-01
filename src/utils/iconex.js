@@ -61,11 +61,18 @@ function validateIconexFile(iconexFile) {
   return false
 }
 
+function openApp() {
+  window.chrome.tabs.create({
+      'url': window.chrome.extension.getURL('index.html')
+  }, function(tab){});
+}
+
 export {
   generateIconexObject,
   makeWalletArray,
   getTxFee,
   downloadFile,
   validateKSFile,
-  validateIconexFile
+  validateIconexFile,
+  openApp
 }

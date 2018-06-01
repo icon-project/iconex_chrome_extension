@@ -40,10 +40,20 @@ module.exports = {
     //  require.resolve('react-dev-utils/webpackHotDevClient'),
       paths.appIndexJs,
     ],
+    popup: [
+      require.resolve('./polyfills'),
+    //  require.resolve('react-dev-utils/webpackHotDevClient'),
+      paths.appPopupJs,
+    ],
     store: [
       require.resolve('./polyfills'),
       //.resolve('react-dev-utils/webpackHotDevClient'),
-      paths.appStoreJs,
+      paths.appBackgroundJs,
+    ],
+    contentScript: [
+      require.resolve('./polyfills'),
+      //.resolve('react-dev-utils/webpackHotDevClient'),
+      paths.appContentScriptJs,
     ],
     print: paths.appPrintCss
   },
@@ -236,6 +246,13 @@ module.exports = {
       inject: true,
       chunks: ["index"],
       template: paths.appHtmlTest,
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      filename: "popup.html",
+      chunks: ["popup"],
+      template: paths.appPopupHtml,
+      templateParameters: true
     }),
     // Add module names to factory functions so they appear in browser profiler.
     new webpack.NamedModulesPlugin(),

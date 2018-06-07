@@ -1,6 +1,6 @@
 {
   "name": "ICONex",
-  "version": "0.1.14",
+  "version": "0.1.20",
   "private": true,
   "dependencies": {
     "autoprefixer": "7.1.2",
@@ -43,7 +43,6 @@
     "js-sha3": "^0.7.0",
     "keythereum": "^1.0.2",
     "moment": "^2.19.2",
-    "node-sass": "^4.5.3",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
@@ -66,7 +65,6 @@
     "redux-localstorage": "^0.4.1",
     "redux-saga": "^0.15.6",
     "remote-redux-devtools": "^0.5.12",
-    "sass-loader": "^6.0.6",
     "sha256": "^0.2.0",
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.4",

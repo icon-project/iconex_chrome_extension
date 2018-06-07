@@ -20,7 +20,6 @@ module.exports = {
   			]
   		}
   	],
-    "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
     "icons": { "16": prodDev("icon_16.png", "icon_16_test.png"),
               "32": prodDev("icon_32.png", "icon_32_test.png"),
               "48": prodDev("icon_48.png", "icon_48_test.png"),

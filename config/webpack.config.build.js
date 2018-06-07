@@ -169,10 +169,10 @@ module.exports = {
             },
           },
           // put scss loader
-          {
-            test: /\.scss$/,
-            loaders: ["style-loader", "css-loader", "sass-loader"]
-          },
+          // {
+          //   test: /\.scss$/,
+          //   loaders: ["style-loader", "css-loader", "sass-loader"]
+          // },
           // "postcss" loader applies autoprefixer to our CSS.
           // "css" loader resolves paths in CSS and adds assets as dependencies.
           // "style" loader turns CSS into JS modules that inject <style> tags.
@@ -228,9 +228,7 @@ module.exports = {
             /\.bmp$/,
             /\.gif$/,
             /\.jpe?g$/,
-            /\.png$/,
-            /\.sass$/,
-            /\.scss$/],
+            /\.png$/],
             loader: require.resolve('file-loader'),
             options: {
               name: 'static/media/[name].[hash:8].[ext]',

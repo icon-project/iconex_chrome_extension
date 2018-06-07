@@ -173,7 +173,7 @@ class CreateWallet3 extends Component {
               handleCancel={this.closeAlert}
               text={I18n.createWallet.downloadSuccess}
               cancelText={I18n.button.confirm}
-              btnButtom={false}
+              btnButtom={true}
             />
           )
         }

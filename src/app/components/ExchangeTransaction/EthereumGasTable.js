@@ -103,7 +103,7 @@ class EthereumGasTable extends Component {
             <button onClick={() => this.setGasPriceByClick(gasPrice + 1)} className="b plus"><em className="_img"></em></button>
             <span className="c">{I18n.transferPageSlow}</span>
             <InputRange
-              maxValue={60}
+              maxValue={99}
               minValue={1}
               value={gasPrice}
               step={1}
@@ -127,6 +127,10 @@ class EthereumGasTable extends Component {
               <li>40</li>
               <li>50</li>
               <li>60</li>
+              <li>70</li>
+              <li>80</li>
+              <li>90</li>
+              <li>99</li>
             </ul>
             <span>{I18n.transferPageFast}</span>
           </div>

@@ -450,7 +450,7 @@ h2{font-size: 16px;}
 .content-wrap .wrap-holder.exchange .quantity-holder .controller .drag-holder .drag{display: inline-block; width: 28px; height: 28px; border: 2px solid #1aaaba; background: #fff; border-radius: 50%; position: absolute; top: 0; left: 50%;}
 .content-wrap .wrap-holder.exchange .quantity-holder .controller .drag-holder .drag:hover{background: #1aaaba; }
 .content-wrap .wrap-holder.exchange .quantity-holder .controller .drag-holder ul{color: #262626; position: absolute;    margin-top: 20px;}
-.content-wrap .wrap-holder.exchange .quantity-holder .controller .drag-holder ul li { float: left; margin: 0 18px;}
+.content-wrap .wrap-holder.exchange .quantity-holder .controller .drag-holder ul li { float: left; margin: 0 7.8px;}
 .content-wrap .wrap-holder.exchange .quantity-holder .controller .drag-holder ul li:first-child{margin-left: 0;}
 .content-wrap .wrap-holder.exchange .quantity-holder .controller .drag-holder ul li:last-child{margin-right: 0;}
 .content-wrap .wrap-holder.exchange .quantity-holder .controller .drag-holder .none {display: none;}

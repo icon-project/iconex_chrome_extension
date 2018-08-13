@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { coinNameKorean as COIN_NAME_KOREAN, coinName as COIN_NAME } from 'constants/index';
-import { makeWalletArray, convertNumberToText, calcTokenBalanceWithRate } from 'utils'
+import { convertNumberToText, calcTokenBalanceWithRate } from 'utils'
 import withClickOut from 'HOC/withClickOut';
 import { LoadingComponent  } from 'app/components/'
 import withLanguageProps from 'HOC/withLanguageProps';
+import { walletNameSelector, walletArraySelector } from 'redux/helper/walletSelector'
 
 const INIT_STATE = {
   showWalletList: false,
@@ -26,7 +27,7 @@ class WalletSelector extends Component {
 
   calcBalanceWithRate = (rate) => {
     let resultArr = []
-    let walletArr = makeWalletArray(this.props.wallets);
+    let walletArr = walletArraySelector();
     for(let i=0; i<walletArr.length; i++) {
       let coinBalanceWithRate = walletArr[i].balance * rate[walletArr[i].type]
       let tokenBalanceWithRateArrSum = 0;
@@ -72,7 +73,6 @@ class WalletSelector extends Component {
 
   render() {
     const {
-      wallets,
       selectedAccount,
       I18n,
       isContractPage,
@@ -81,8 +81,8 @@ class WalletSelector extends Component {
       ledgerWallet
     } = this.props
 
-    const walletName = wallets[selectedAccount] ? wallets[selectedAccount].name : I18n.transferPagePlaceholder3
-    const walletsArr = makeWalletArray(wallets);
+    const walletName = selectedAccount ? walletNameSelector() : I18n.transferPagePlaceholder3
+    const walletsArr = walletArraySelector();
 
     if (isContractPage) {
       return (

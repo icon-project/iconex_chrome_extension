@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { CheckPassword } from 'app/components/';
 import withLanguageProps from 'HOC/withLanguageProps';
+import { walletNameSelector, walletPrivSelector, walletCoinTypeSelector } from 'redux/helper/walletSelector'
 
 @withLanguageProps
 class BackupWallet1 extends Component {
@@ -18,13 +19,10 @@ class BackupWallet1 extends Component {
   }
 
   render() {
-    const {
-      wallets, selectedAccount
-    } = this.props;
 
-    const name = wallets[selectedAccount].name;
-    const priv = wallets[selectedAccount].priv;
-    const coinType = wallets[selectedAccount].type;
+    const name = walletNameSelector();
+    const priv = walletPrivSelector();
+    const coinType = walletCoinTypeSelector();
 
     return (
       <div className="popup size-medium2">

@@ -74,7 +74,7 @@ import ComboBox from './ExchangeTransaction/ComboBox'
 import HeaderTitle from './ExchangeTransaction/HeaderTitle'
 import WalletSelector from './ExchangeTransaction/WalletSelector'
 import QuantitySetter from './ExchangeTransaction/QuantitySetter'
-import GasStepTable from './ExchangeTransaction/GasStepTable'
+import TxFeeAndData from './ExchangeTransaction/TxFeeAndData'
 import CalculationTable from './ExchangeTransaction/CalculationTable'
 import RecipientAddress from './ExchangeTransaction/RecipientAddress'
 import ExchangePanel from './ExchangeTransaction/ExchangePanel'
@@ -206,7 +206,7 @@ export {
   HeaderTitle,
   WalletSelector,
   QuantitySetter,
-  GasStepTable,
+  TxFeeAndData,
   CalculationTable,
   RecipientAddress,
   ExchangePanel,

@@ -4,14 +4,14 @@ import { nToBr, convertNumberToText, dataToHex } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
-  gasLimitHelpLayer: false,
-  gasPriceHelpLayer: false,
+  txFeeLimitHelpLayer: false,
+  txFeePriceHelpLayer: false,
   dataHelpLayer: false,
   showDataInput: false
 }
 
 @withLanguageProps
-class GasStepTable extends Component {
+class TxFeeAndData extends Component {
 
   constructor(props) {
     super(props);
@@ -19,10 +19,17 @@ class GasStepTable extends Component {
   }
 
   componentWillMount() {
-    const { isToken } = this.props
-    // if token
-    if (isToken) {
-      this.props.setGasLimit(55000);
+    const { calcData, isToken } = this.props
+    const { walletCoinType } = calcData;
+    if (walletCoinType === 'icx') {
+      this.props.getTxFeeInfo({
+        coinType: 'icx'
+      });
+    } else {
+      if (isToken) {
+        this.props.setTxFeeLimit(55000);
+      //  this.props.setCalcData()
+      }
     }
   }
 
@@ -33,23 +40,21 @@ class GasStepTable extends Component {
     })
   }
 
-  setGasLimit = (e) => {
+  setTxFeeLimit = (e) => {
     if (!isNaN(e.target.value)) {
-      this.props.setGasLimit(e.target.value);
+      this.props.setTxFeeLimit(e.target.value);
     }
   }
 
-  setGasPriceByClick = (gasPrice) => {
-    if (gasPrice < 1 || gasPrice > 99) {
+  setTxFeePriceByClick = (gasPrice) => {
+    if (gasPrice < 1 || gasPrice > 60) {
       return false;
     }
-    this.props.setGasPrice(gasPrice)
+    this.props.setTxFeePrice(gasPrice)
     this.props.setCalcData()
   }
 
   setData = (e) => {
-    console.log(dataToHex(e.target.value))
-    console.log(decodeURIComponent(escape(dataToHex(e.target.value))))
     this.props.setData(e.target.value);
   }
 
@@ -57,11 +62,11 @@ class GasStepTable extends Component {
     this.props.setDataError();
   }
 
-  handleGasLimitBlur = () => {
+  handleTxFeeLimitBlur = () => {
     if (this.props.isContractPage) {
-      this.props.setContractGasLimitError();
+      this.props.setContractTxFeeLimitError();
     } else {
-      this.props.setGasLimitError();
+      this.props.setTxFeeLimitError();
     }
   }
 
@@ -77,25 +82,25 @@ class GasStepTable extends Component {
 
   render() {
     const {
-      gasLimitHelpLayer,
-      gasPriceHelpLayer,
+      txFeeLimitHelpLayer,
+      txFeePriceHelpLayer,
       dataHelpLayer,
       showDataInput
     } = this.state;
 
     const {
-      gasPrice, gasLimit, data, isToken, dataError, gasLimitError, I18n, calcData, isContractPage
+      txFeePrice, txFeeLimit, data, isToken, dataError, txFeeLimitError, I18n, calcData, isContractPage
     } = this.props;
 
-    const { walletCoinType, gasPriceWithRate } = calcData;
+    const { walletCoinType, txFeePriceWithRate } = calcData;
 
     if (isContractPage) {
       return (
       <div className="-group">
         <div className="-group">
-					<span className="title">{I18n[`transferPageLabel7_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="gasLimitHelpLayer" className="_img"></i>
+					<span className="title">{I18n[`transferPageLabel7_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeeLimitHelpLayer" className="_img"></i>
             {
-              gasLimitHelpLayer && (
+              txFeeLimitHelpLayer && (
                 <div className="help-layer">
                   <p className="title">{I18n[`transferPageHelperTitle2_${walletCoinType}`]}</p>
                   <p className="txt">{nToBr(I18n[`transferPageHelperDesc2_${walletCoinType}`])}</p>
@@ -103,13 +108,13 @@ class GasStepTable extends Component {
               )
             }
 					</span>
-				  <input onChange={this.setGasLimit} type="text" className={`txt-type-normal ${gasLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={gasLimit} onBlur={this.handleGasLimitBlur} />
-          <p className="error">{I18n.error[gasLimitError]}</p>
+				  <input onChange={this.setTxFeeLimit} type="text" className={`txt-type-normal ${txFeeLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={txFeeLimit} onBlur={this.handleTxFeeLimitBlur} />
+          <p className="error">{I18n.error[txFeeLimitError]}</p>
 				</div>
         <div className="-group price">
-					<span className="title">{I18n[`transferPageLabel10_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="gasPriceHelpLayer" className="_img"></i>
+					<span className="title">{I18n[`transferPageLabel10_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeePriceHelpLayer" className="_img"></i>
             {
-              gasPriceHelpLayer && (
+              txFeePriceHelpLayer && (
               <div className="help-layer">
                 <p className="title">{I18n[`transferPageHelperTitle3_${walletCoinType}`]}</p>
                 <p className="txt">{I18n[`transferPageHelperDesc3_${walletCoinType}`]}</p>
@@ -119,8 +124,8 @@ class GasStepTable extends Component {
 					</span>
           <ul className="change-group">
 						<li className="loop">
-							<span className="b">{convertNumberToText(gasPrice, 'transaction', true)}<em>Loop</em></span>
-							<span className="c"><i className="_img"></i><em>{gasPriceWithRate}</em> <em>USD</em></span>
+							<span className="b">{convertNumberToText(txFeePrice, 'transaction', true)}<em>Loop</em></span>
+							<span className="c"><i className="_img"></i><em>{txFeePriceWithRate}</em> <em>USD</em></span>
 						</li>
 					</ul>
 				</div>
@@ -131,9 +136,9 @@ class GasStepTable extends Component {
     return (
       <div id="gasTable">
         <div className="group">
-          <span className="label">{I18n[`transferPageLabel7_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="gasLimitHelpLayer" className="_img"></i>
+          <span className="label">{I18n[`transferPageLabel7_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeeLimitHelpLayer" className="_img"></i>
             {
-              gasLimitHelpLayer && (
+              txFeeLimitHelpLayer && (
                 <div className="help-layer">
                   <p className="title">{I18n[`transferPageHelperTitle2_${walletCoinType}`]}</p>
                   <p className="txt">{nToBr(I18n[`transferPageHelperDesc2_${walletCoinType}`])}</p>
@@ -141,13 +146,13 @@ class GasStepTable extends Component {
               )
             }
           </span>
-          <p className="error gasLimit">{I18n.error[gasLimitError]}</p>
-          <input onChange={this.setGasLimit} type="text" className={`txt-type-normal ${gasLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={gasLimit} onBlur={this.handleGasLimitBlur} />
+          <p className="error gasLimit">{I18n.error[txFeeLimitError]}</p>
+          <input onChange={this.setTxFeeLimit} type="text" className={`txt-type-normal ${txFeeLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={txFeeLimit} onBlur={this.handleTxFeeLimitBlur} />
         </div>
         <div className="group money">
-          <span className="label">{I18n[`transferPageLabel10_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="gasPriceHelpLayer" className="_img"></i>
+          <span className="label">{I18n[`transferPageLabel10_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeePriceHelpLayer" className="_img"></i>
             {
-              gasPriceHelpLayer && (
+              txFeePriceHelpLayer && (
               <div className="help-layer">
                 <p className="title">{I18n[`transferPageHelperTitle3_${walletCoinType}`]}</p>
                 <p className="txt">{I18n[`transferPageHelperDesc3_${walletCoinType}`]}</p>
@@ -158,19 +163,19 @@ class GasStepTable extends Component {
           {
             walletCoinType === 'icx' ? (
               <div className="controller">
-    								<span className="a"><em>{convertNumberToText(gasPrice, 'transaction', true)}</em>Loop</span>
-    						    <span className="won"><i className="_img"></i><em>{gasPriceWithRate}</em> <em>USD</em></span>
+    								<span className="a"><em>{convertNumberToText(txFeePrice, 'transaction', true)}</em>Loop</span>
+    						    <span className="won"><i className="_img"></i><em>{txFeePriceWithRate}</em> <em>USD</em></span>
     					</div>
             ) : (
               <div className="controller">
-                <span className="a"><em>{gasPrice}</em>Gwei</span>
-                <button onClick={() => this.setGasPriceByClick(gasPrice - 1)} className="b minus"><em className="_img"></em></button>
-                <button onClick={() => this.setGasPriceByClick(gasPrice + 1)} className="b plus"><em className="_img"></em></button>
+                <span className="a"><em>{txFeePrice}</em>Gwei</span>
+                <button onClick={() => this.setTxFeePriceByClick(txFeePrice - 1)} className="b minus"><em className="_img"></em></button>
+                <button onClick={() => this.setTxFeePriceByClick(txFeePrice + 1)} className="b plus"><em className="_img"></em></button>
                 <span className="c">{I18n.transferPageSlow}</span>
                 <InputRange
                   maxValue={99}
                   minValue={1}
-                  value={gasPrice}
+                  value={txFeePrice}
                   step={1}
                   classNames={{
                     minLabel: 'none',
@@ -182,7 +187,7 @@ class GasStepTable extends Component {
                     sliderContainer: 'drag-wrap',
                     slider: 'drag'
                   }}
-                  onChange={gasPrice => this.props.setGasPrice(gasPrice)}
+                  onChange={txFeePrice => this.props.setTxFeePrice(txFeePrice)}
                   onChangeComplete={() => this.props.setCalcData()} />
                 <ul>
                   <li>1</li>
@@ -236,4 +241,4 @@ class GasStepTable extends Component {
   }
 }
 
-export default GasStepTable;
+export default TxFeeAndData;

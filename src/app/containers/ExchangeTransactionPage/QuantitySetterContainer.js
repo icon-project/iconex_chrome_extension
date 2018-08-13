@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { QuantitySetter } from 'app/components/';
 import { setSelectedWallet } from 'redux/actions/walletActions';
-import { setCalcData, setCoinQuantity, setCoinQuantityError, setGasLimit, setGasPrice, getGasInfo, toggleFullBalance } from 'redux/actions/exchangeTransactionActions';
+import { setCalcData, setCoinQuantity, setCoinQuantityError, setTxFeeLimit, setTxFeePrice, getTxFeeInfo, toggleFullBalance } from 'redux/actions/exchangeTransactionActions';
 
 function mapStateToProps(state) {
   return {
@@ -17,9 +17,9 @@ function mapStateToProps(state) {
     recipientAddress: state.exchangeTransaction.recipientAddress,
     coinQuantityError: state.exchangeTransaction.coinQuantityError,
     isResultBalanceMinus: state.exchangeTransaction.isResultBalanceMinus,
-    gasLoading: state.exchangeTransaction.gasLoading,
-    gasPrice: state.exchangeTransaction.gasPrice,
-    gasLimit: state.exchangeTransaction.gasLimit,
+    txFeeLoading: state.exchangeTransaction.txFeeLoading,
+    txFeePrice: state.exchangeTransaction.txFeePrice,
+    txFeeLimit: state.exchangeTransaction.txFeeLimit,
     language: state.global.language
   };
 }
@@ -31,9 +31,9 @@ function mapDispatchToProps(dispatch) {
     setCoinQuantity: quantity => dispatch(setCoinQuantity(quantity)),
     setCoinQuantityError: () => dispatch(setCoinQuantityError()),
     toggleFullBalance: (payload) => dispatch(toggleFullBalance(payload)),
-    setGasLimit: payload => dispatch(setGasLimit(payload)),
-    setGasPrice: payload => dispatch(setGasPrice(payload)),
-    getGasInfo: data => dispatch(getGasInfo(data)),
+    setTxFeeLimit: payload => dispatch(setTxFeeLimit(payload)),
+    setTxFeePrice: payload => dispatch(setTxFeePrice(payload)),
+    getTxFeeInfo: data => dispatch(getTxFeeInfo(data)),
   };
 }
 

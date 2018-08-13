@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { CheckPassword } from 'app/components/';
+import { walletNameSelector, walletPrivSelector } from 'redux/helper/walletSelector'
 
 const INIT_STATE = {
 
@@ -26,16 +27,14 @@ class SendTransaction1 extends Component {
       isLoggedIn: true,
       privKey: privKey
     });
+    this.props.setCalcData();
     this.props.closePopup();
   }
 
   render() {
-    const {
-      wallets, selectedAccount
-    } = this.props;
 
-    const name = wallets[selectedAccount].name;
-    const priv = wallets[selectedAccount].priv;
+    const name = walletNameSelector();
+    const priv = walletPrivSelector();
 
     return (
       <div className="popup size-medium2">

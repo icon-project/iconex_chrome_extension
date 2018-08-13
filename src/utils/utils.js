@@ -4,8 +4,7 @@ import { coinRound as COIN_ROUND, currencyRound as CURRENCY_ROUND } from 'consta
 import i18n from 'constants/i18n'
 import React from 'react';
 import BigNumber from 'bignumber.js';
-import { erc20Abi } from 'constants/index'
-import { CHAIN_ID, IS_V3 } from 'constants/config.js'
+import { IS_V3 } from 'constants/config.js'
 
 function charFreq( string ) {
     let value;
@@ -149,6 +148,19 @@ function isAddress(address) {
     }
 }
 
+// let isChecksumAddress = function (address) {
+//     // Check each case
+//     address = address.replace('0x','');
+//     var addressHash = window.web3.sha3(address.toLowerCase());
+//     for (var i = 0; i < 40; i++ ) {
+//         // the nth letter should be uppercase if the nth digit of casemap is 1
+//         if ((parseInt(addressHash[i], 16) > 7 && address[i].toUpperCase() !== address[i]) || (parseInt(addressHash[i], 16) <= 7 && address[i].toLowerCase() !== address[i])) {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+
 function isIcxWalletAddress(address) {
     const addressLowerCase = address.toLowerCase();
     if (/^(hx)[0-9a-f]{40}$/.test(addressLowerCase)) {
@@ -270,27 +282,6 @@ function calcMaxPageNum(total, rowNum) {
   return Math.ceil(total / rowNum);
 }
 
-function makeWalletNameArr(wallets) {
-  let result = []
-  if (Array.isArray(wallets)) {
-    Object.keys(wallets).forEach(key => {result.push(wallets[key].name)});
-  }
-  return result
-}
-
-function isWalletNameExists(wallets, name) {
-  let nameArr = []
-  if (wallets) {
-    Object.keys(wallets).forEach(key => {nameArr.push(wallets[key].name)});
-  }
-  if (nameArr.indexOf(name) !== -1){
-    return true
-  }
-  else {
-    return false
-  }
-}
-
 function nToBr(str) {
   const arr = str.split('\n').map( (line, i) => {
       return (<span style={{position: 'relative'}} key={i}>{line}<br/></span>);
@@ -353,43 +344,6 @@ function sortTokensByDate(tokens) {
   })
 }
 
-function makeEthRawTx(isToken, data) {
-  let rawTx = {}
-  if (isToken) {
-    let token = window.web3.eth.contract(erc20Abi).at(check0xPrefix(data.from))
-    let valueDiv = customValueToTokenValue(new BigNumber(data.value), data.tokenDefaultDecimal, data.tokenDecimal).times(Math.pow(10, data.tokenDefaultDecimal)).toString();
-    const dataObj = token.transfer.getData(check0xPrefix(data.to), valueDiv);
-    rawTx = {
-      nonce: window.web3.toHex(window.web3.eth.getTransactionCount(check0xPrefix(data.from))),
-      from: check0xPrefix(data.from),
-      to: check0xPrefix(data.contractAddress),
-      gasPrice: window.web3.toHex(window.web3.toWei(data.gasPrice, 'gwei')),
-      gasLimit: window.web3.toHex(data.gasLimit),
-      // EIP 155 chainId - mainnet: 1, ropsten: 3
-      chainId: CHAIN_ID(),
-      value: 0,
-      data: dataObj
-    }
-  }
-  else {
-    const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
-    rawTx = {
-      nonce: window.web3.toHex(window.web3.eth.getTransactionCount(check0xPrefix(data.from))),
-      from: check0xPrefix(data.from),
-      to: check0xPrefix(data.to),
-      gasPrice: window.web3.toHex(window.web3.toWei(data.gasPrice, 'gwei')),
-      gasLimit: window.web3.toHex(data.gasLimit),
-      // EIP 155 chainId - mainnet: 1, ropsten: 3
-      chainId: CHAIN_ID(),
-      value: window.web3.toHex(sendAmount),
-    }
-    if (data.data) rawTx['data'] = data.data;
-  }
-
-  return rawTx
-}
-
-
 function makeIcxRawTx(isContract, data) {
   let rawTx = {}
   if (!IS_V3) {
@@ -410,7 +364,7 @@ function makeIcxRawTx(isContract, data) {
       to: data.contractAddress,
       version: "0x3",
       nid: '0x3',
-      stepLimit: check0xPrefix(new BigNumber(data.gasLimit).toString(16)),
+      stepLimit: check0xPrefix(new BigNumber(data.txFeeLimit).toString(16)),
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16)),
       dataType: 'call',
       data: {
@@ -418,6 +372,10 @@ function makeIcxRawTx(isContract, data) {
           "params": data.inputObj
       }
     };
+    if (data.value) {
+      const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
+      rawTx['value'] = window.web3.toHex(sendAmount)
+    }
   }
   else {
     const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
@@ -427,7 +385,7 @@ function makeIcxRawTx(isContract, data) {
       value: window.web3.toHex(sendAmount),
       version: "0x3",
       nid: '0x3',
-      stepLimit: check0xPrefix(new BigNumber(data.gasLimit).toString(16)),
+      stepLimit: check0xPrefix(new BigNumber(data.txFeeLimit).toString(16)),
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16))
     }
     if (data.data) {
@@ -506,15 +464,12 @@ export {
   formatDate,
   randomUint32,
   calcMaxPageNum,
-  makeWalletNameArr,
-  isWalletNameExists,
   nToBr,
   checkLength,
   makeAddressStr,
   onlyKorEngNum,
   isValidWalletName,
   dataToHex,
-  makeEthRawTx,
   makeIcxRawTx,
   isDevelopment,
   calcGasPrice

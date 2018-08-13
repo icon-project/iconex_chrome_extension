@@ -1,6 +1,6 @@
 import { chromeStorage } from 'utils';
 import Wallet from 'lib/ethjs-wallet';
-import { isEmpty, check0xPrefix, checkCxPrefix } from 'utils';
+import { isEmpty, check0xPrefix, checkCxPrefix, checkHxPrefix } from 'utils';
 import {
   eth_fetchCoinBalanceApi,
   eth_fetchTokenBalanceApi,
@@ -192,6 +192,7 @@ export function updatePasswordApi(account, priv) {
   })
 }
 
+/* TODO: getTokenInfo API 중복 사용 중 */
 export function addTokenApi(account, tokenInfo, type) {
   return new Promise(resolve => {
     chromeStorage.get(account, (result) => {

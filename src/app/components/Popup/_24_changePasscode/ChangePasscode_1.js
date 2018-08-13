@@ -1,10 +1,9 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 
 import React, { Component } from 'react';
-import { makeWalletArray } from 'utils'
 import Worker from 'workers/wallet.worker.js';
 import { LoadingComponent } from 'app/components/'
-
+import { walletArraySelector } from 'redux/helper/walletSelector'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 @withLanguageProps
@@ -67,7 +66,7 @@ class ChangePasscode1 extends Component {
       this.setState({ error: I18n.error.pwErrorEnter })
       return
     }
-    const walletsArr = makeWalletArray(this.props.wallets)
+    const walletsArr = walletArraySelector()
     const wallet = walletsArr[Number(this.state.selected)]
     const { priv } = wallet;
     const data = {
@@ -79,7 +78,7 @@ class ChangePasscode1 extends Component {
   }
 
   render() {
-    const walletsArr = makeWalletArray(this.props.wallets)
+    const walletsArr = walletArraySelector()
     const { error } = this.state
     const { I18n } = this.props;
     return (

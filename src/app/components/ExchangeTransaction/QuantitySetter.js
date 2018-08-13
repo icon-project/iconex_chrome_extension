@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { ComboBox } from 'app/components/'
-import { GasStepTableContainer, CalculationTableContainer } from 'app/containers/'
-import { isEmpty, checkValueLength, trimLeftZero, makeEthRawTx } from 'utils/utils'
+import { TxFeeAndDataContainer, CalculationTableContainer } from 'app/containers/'
+import { isEmpty, checkValueLength, trimLeftZero } from 'utils/utils'
 import withLanguageProps from 'HOC/withLanguageProps';
 import { IS_V3 } from 'constants/config'
+import { walletCoinTypeSelector } from 'redux/helper/walletSelector'
+import { makeEthRawTx } from 'redux/helper/walletUtils'
 
 const INIT_STATE = {
 //  currencyIndex: 0,
@@ -35,31 +37,19 @@ class QuantitySetter extends Component {
     if (!isNaN(e.target.value) && checkValueLength(e.target.value) && !e.target.value.includes("+") && !e.target.value.includes("-")) {
       this.props.setCoinQuantity(e.target.value);
       this.props.toggleFullBalance(false);
-      this.setGasInfo();
+      this.getTxFeeInfo();
     }
   }
 
-  setGasInfo = () => {
-    const { wallets, selectedAccount, selectedTokenId, isToken } = this.props
-    if (isToken && wallets[selectedAccount].type === 'eth') {
-      const { wallets, recipientAddress, coinQuantity, gasPrice, gasLimit, swapPage } = this.props
+  getTxFeeInfo = () => {
+    const { isToken } = this.props
+    if (isToken && walletCoinTypeSelector() === 'eth') {
       clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
-        const token = wallets[selectedAccount].tokens[selectedTokenId]
-        const rawTx = makeEthRawTx(true, {
-          from: selectedAccount,
-          to: recipientAddress,
-          contractAddress: token.address,
-          tokenDefaultDecimal: token.defaultDecimals,
-          tokenDecimal: token.decimals,
-          value: coinQuantity,
-          gasPrice: gasPrice,
-          gasLimit: gasLimit,
-          isSwap: swapPage
-        })
+        const rawTx = makeEthRawTx()
         delete rawTx.chainId;
         delete rawTx.gasLimit;
-        this.props.getGasInfo(rawTx)
+        this.props.getTxFeeInfo(rawTx)
       }, 500)
     }
   }
@@ -87,7 +77,7 @@ class QuantitySetter extends Component {
     if (!isFullBalance) {
       this.props.setCoinQuantity(balance)
       this.props.toggleFullBalance(true);
-      this.setGasInfo();
+      this.getTxFeeInfo();
     }
     else {
       this.props.toggleFullBalance(false);
@@ -95,17 +85,15 @@ class QuantitySetter extends Component {
   }
 
   changeCoin = (index) => {
-    const { selectedAccount } = this.props;
+    const { selectedAccount, isToken } = this.props;
     this.props.setSelectedWallet({
       account: selectedAccount,
       tokenId: index === selectedAccount ? '' : index
     })
-
-    const { isToken } = this.props
     this.props.toggleFullBalance(false);
-    this.props.setGasLimit(isToken ? 55000 : 21000);
-    this.props.setGasPrice(21);
-    this.props.setCalcData()
+    this.props.setTxFeeLimit(isToken ? 55000 : 21000);
+    this.props.setTxFeePrice(21);
+    this.props.setCalcData();
   }
 
   render() {
@@ -170,7 +158,7 @@ class QuantitySetter extends Component {
             {!swapPage ? (
                 <ComboBox
                   disabled={!isLoggedIn}
-                  list={!isEmpty(calcData) ? calcData.coinTypeObj : ['']}
+                  list={!isEmpty(calcData) ? calcData.coinTypeObj : {}}
                   index={selectedTokenId || selectedAccount}
                   setIndex={this.changeCoin}
                 />
@@ -189,7 +177,7 @@ class QuantitySetter extends Component {
         </div>
     {
       (isLoggedIn && !swapPage) && (calcData.coinType === 'icx' ? IS_V3 : true) && (
-        <GasStepTableContainer />
+        <TxFeeAndDataContainer />
       )
     }
     {

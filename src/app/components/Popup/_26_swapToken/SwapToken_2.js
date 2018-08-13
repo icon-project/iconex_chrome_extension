@@ -122,7 +122,7 @@ class SwapToken2 extends Component {
                         <li>{I18n.swapToken.rightInfoTitle1_1_1}</li>
                         <li className="dot" ref={ref => {if (ref) ref.innerHTML = I18n.swapToken.rightInfoDesc1_1_1_1}}></li>
                         <li className="dot" ref={ref => {if (ref) ref.innerHTML = I18n.swapToken.rightInfoDesc1_1_2_1}}></li>
-                        <li className="dot">· <a href='https://docs.google.com/spreadsheets/d/1HiT98wqEpFgF2d98eJefQfH7xK4KPPxNDiiXg3AcJ7w/edit#gid=0' target="_blank" rel="noopener noreferrer">{I18n.swapToken.rightInfoDesc1_1_3_1}</a></li>
+                        <li className="dot">· <a href='https://docs.google.com/spreadsheets/d/1HiT98wqEpFgF2d98eJefQfH7xK4KPPxNDiiXg3AcJ7w/edit#gid=0' target="_blank">{I18n.swapToken.rightInfoDesc1_1_3_1}</a></li>
                         <li className="dot" ref={ref => {if (ref) ref.innerHTML = I18n.swapToken.rightInfoDesc1_1_4_1}}></li>
                       </ul>
                     )

@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { ValidationForm, LoadingComponent, Alert } from 'app/components/'
 import Worker from 'workers/wallet.worker.js';
+import { walletCoinTypeSelector, walletPrivSelector } from 'redux/helper/walletSelector';
 
 import withLanguageProps from 'HOC/withLanguageProps';
 
@@ -73,13 +74,12 @@ class UpdatePassword extends Component {
   }
 
   handleSuccess = (newPw) => {
-    const { wallets, selectedAccount } = this.props;
     this.setState({
       loading: true
     }, () => {
       this.worker.postMessage({
-        coinType: wallets[selectedAccount].type,
-        priv: wallets[selectedAccount].priv,
+        coinType: walletCoinTypeSelector(),
+        priv: walletPrivSelector(),
         curPw: this.state.curPw,
         newPw: newPw,
         type: 'updatePassword'

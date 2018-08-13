@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { MyWalletHeader, MyWalletContent } from 'app/components/';
 import { coinName as COIN_NAME } from 'constants/index'
-import { makeWalletArray, calcTokenBalanceWithRate, customValueToTokenValue, sortTokensByDate } from 'utils';
+import { calcTokenBalanceWithRate, customValueToTokenValue, sortTokensByDate } from 'utils';
+import { walletArraySelector } from 'redux/helper/walletSelector'
+
 
 const INIT_STATE = {
   totalBalance: 0,
@@ -165,8 +167,8 @@ class MyWallet extends Component {
 
   setGraphData = (dataSortedByCoin) => {
 
-    let coinArr = makeWalletArray(dataSortedByCoin['coin']);
-    let tokenArr = makeWalletArray(dataSortedByCoin['token']);
+    let coinArr = walletArraySelector(dataSortedByCoin['coin']);
+    let tokenArr = walletArraySelector(dataSortedByCoin['token']);
 
     let dataArr = [...coinArr, ...tokenArr];
     let sortedByTotalBalance = dataArr.sort((a, b) => { return b.walletSectionBalanceWithRate - a.walletSectionBalanceWithRate})
@@ -188,7 +190,7 @@ class MyWallet extends Component {
     let totalBalance = 0;
     let dataSortedByWallet = [];
     let dataSortedByCoin = {"coin": {}, "token": {}};
-    let walletArr = makeWalletArray(this.props.wallets);
+    let walletArr = walletArraySelector();
     for(let i=0; i<walletArr.length; i++) {
 
       let coinBalanceWithRate = walletArr[i].balance * (rate[walletArr[i].type] || 0)

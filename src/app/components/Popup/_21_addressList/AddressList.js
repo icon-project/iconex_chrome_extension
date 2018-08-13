@@ -2,9 +2,10 @@
 
 import React, { Component } from 'react';
 import { AddressTable, SmallPopup } from 'app/components';
-import { makeWalletArray, check0xPrefix } from 'utils'
+import { check0xPrefix } from 'utils'
 import withLanguageProps from 'HOC/withLanguageProps';
 import { Alert } from 'app/components/';
+import { walletArraySelector, walletCoinTypeSelector } from 'redux/helper/walletSelector'
 import { ETH_SCAN } from 'constants/config.js'
 
 
@@ -15,25 +16,20 @@ class AddressList extends Component {
 
     const {
       type,
-      wallets,
       selectedAccount,
       selectedTokenId,
       txHistory,
       isToken,
-      isLedger,
-      ledgerWallet
     } = props;
 
     this.state = {
       addressArr: []
     };
 
-    const currentWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
-
     switch (type) {
       case 'address_transaction':
         let addressArr;
-        const walletsArr = makeWalletArray(wallets);
+        const walletsArr = walletArraySelector();
         if (!isToken) {
           addressArr = walletsArr;
         } else {
@@ -46,7 +42,7 @@ class AddressList extends Component {
         }
         addressArr = addressArr
                     .filter(l => l.account !== selectedAccount)
-                    .filter(l => l.type === currentWallet.type)
+                    .filter(l => l.type === walletCoinTypeSelector())
 
         this.state = {
           addressArr
@@ -59,27 +55,6 @@ class AddressList extends Component {
           addressArr: txHistoryFilter
         }
         break;
-//
-// -      case 'history_transaction':
-//   -        if (!isToken) {
-//   -          coin = wallets[selectedAccount];
-//   -        } else {
-//   -          coin = wallets[selectedAccount].tokens[selectedTokenId];
-//   -          tokenSymbol = coin.symbol;
-//   +        this.state = {
-//   +          addressArr
-//            }
-//   -        let { recent } = coin;
-//   -        recent = recent.sort((a, b) => b.time - a.time)
-//   -        recent = recent.map((item) => {
-//   -          const addressStr = makeAddressStr(item.to, item.type)
-//   -          return Object.assign({}, item, {
-//   -            'name': wallets[addressStr] ? wallets[addressStr].name : '-',
-//   -            'unit': !isToken ? item.type : tokenSymbol,
-//   -          })
-//   -        });
-//   -        return recent;
-
       default:
         break;
     }
@@ -116,10 +91,8 @@ class AddressList extends Component {
   }
 
   render() {
-    const { I18n, isLedger, wallets, ledgerWallet, selectedAccount } = this.props;
+    const { I18n, selectedAccount } = this.props;
     const { addressArr } = this.state;
-
-    const currentWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
 
     let title = ''
     switch (this.props.type) {
@@ -134,7 +107,7 @@ class AddressList extends Component {
       default:
     }
 
-    if (this.props.type === 'history_transaction' && currentWallet.type === 'eth') {
+    if (this.props.type === 'history_transaction' && walletCoinTypeSelector() === 'eth') {
       return (
         <div>
           <div className="dimmed"></div>
@@ -170,7 +143,6 @@ class AddressList extends Component {
           <AddressTable
             selectAddress={(address) => this.props.setRecipientAddress(address)}
             listArr={addressArr}
-            currentWallet={isLedger ? ledgerWallet : wallets[selectedAccount]}
             {...this.props}/>
     		</div>
     	</div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { coinTokenSelector } from 'redux/helper/walletSelector'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -23,7 +23,7 @@ class UpdateToken extends Component {
   }
 
   componentWillMount() {
-    const prevToken = this.props.wallets[this.props.selectedAccount].tokens[this.props.selectedTokenId];
+    const prevToken = coinTokenSelector();
     this.setState({
       address: prevToken.address,
       name: prevToken.name,

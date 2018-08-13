@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { SmallPopup } from 'app/components/';
-
+import { walletSelector } from 'redux/helper/walletSelector'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 @withLanguageProps
@@ -17,8 +17,7 @@ class DeleteWallet extends Component {
   }
 
   render() {
-    const { wallets, selectedAccount } = this.props
-    const wallet = wallets[selectedAccount]
+    const wallet = walletSelector()
     const balance = wallet ? wallet.balance : 0
     const { I18n } = this.props;
     const text = balance.eq(0) ? I18n.deleteWallet.info1 : I18n.deleteWallet.info2

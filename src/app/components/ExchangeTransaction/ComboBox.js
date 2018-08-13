@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import withClickOut from 'HOC/withClickOut';
+import { isEmpty } from 'utils/utils'
 
 const INIT_STATE = {
   showList: false
@@ -29,7 +30,7 @@ class ComboBox extends Component {
   render() {
     return (
       <span className={`money-group ${this.props.disabled ? 'disabled' : ''}`} onClick={this.toggleList}>
-        {this.props.index ? this.props.list[this.props.index].toUpperCase() : '    '}
+        {!isEmpty(this.props.list) && this.props.index ? this.props.list[this.props.index].toUpperCase() : '    '}
         {
           !this.props.noArrow && (
             <em className="_img"></em>

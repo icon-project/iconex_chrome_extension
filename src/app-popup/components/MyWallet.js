@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { LoadingComponent } from 'app/components/'
 import WalletBar from './WalletBar'
-import { makeWalletArray, openApp } from 'utils';
+import { openApp } from 'utils';
+import { walletArraySelector } from 'redux/helper/walletSelector'
 import withLanguageProps from 'HOC/withLanguageProps';
 import Worker from 'workers/wallet.worker.js';
 
@@ -35,8 +36,8 @@ class MyWallet extends Component {
           tokenDefaultDecimal: 18,
           tokenDecimal: 18,
           data: {},
-          gasLimit: '',
-          gasPrice: '',
+          txFeeLimit: '',
+          txFeePrice: '',
           coinType: 'icx'
         });
 
@@ -73,9 +74,8 @@ class MyWallet extends Component {
   }
 
   calcData = () => {
-    const { wallets } = this.props;
     let { data, tab } = this.state;
-    let walletArr = makeWalletArray(wallets);
+    let walletArr = walletArraySelector();
 
     walletArr.map((wallet) => {
       data[wallet.type].push(wallet)

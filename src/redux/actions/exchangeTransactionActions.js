@@ -12,28 +12,28 @@ export function setWalletSelectorError() {
   };
 }
 
-export function setGasLimit(payload) {
+export function setTxFeeLimit(payload) {
   return {
-    type: actionTypes.setGasLimit,
+    type: actionTypes.setTxFeeLimit,
     payload
   };
 }
 
-export function setGasLimitError() {
+export function setTxFeeLimitError() {
   return {
-    type: actionTypes.setGasLimitError
+    type: actionTypes.setTxFeeLimitError
   };
 }
 
-export function setContractGasLimitError() {
+export function setContractTxFeeLimitError() {
   return {
-    type: actionTypes.setContractGasLimitError
+    type: actionTypes.setContractTxFeeLimitError
   };
 }
 
-export function setGasPrice(payload) {
+export function setTxFeePrice(payload) {
   return {
-    type: actionTypes.setGasPrice,
+    type: actionTypes.setTxFeePrice,
     payload
   };
 }
@@ -120,9 +120,9 @@ export function resetEXTRInputReducer() {
   };
 }
 
-export function getGasInfo(data) {
+export function getTxFeeInfo(data) {
   return {
-    type: actionTypes.getGasInfo,
+    type: actionTypes.getTxFeeInfo,
     data
   }
 }

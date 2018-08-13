@@ -5,14 +5,12 @@ const initialState = {
   wallets: {},
   walletsLoading: true,
   totalResultLoading: false,
-  // rate: {},
-  // rateLoading: true,
-  // currency: 'usd',
   selectedWallet: {
     account: '',
     tokenId: '',
-    isToken: false
+    isToken: false,
   },
+
   _06_privateKey: '', // 06 BACKUP WALLETS,
   _06_v3: '', // 06 BACKUP WALLETS
 
@@ -283,16 +281,18 @@ export function walletReducer(state = initialState, action) {
       }
     }
     case actionTypes.setSelectedWallet: {
+      const { account, tokenId } = action.payload;
       const selectedWallet = {
-        account: action.payload.account,
-        tokenId: action.payload['tokenId'] || '',
-        isToken: !!action.payload['tokenId']
+        account,
+        tokenId: tokenId || '',
+        isToken: !!tokenId,
       }
       return Object.assign({}, state, {
           selectedWallet: selectedWallet
       })
     }
 
+    /* TODO: selectedWallet 어떤 상황에서 리셋해야 하는지 체크*/
     case actionTypes.resetContractInputOutput:
     case actionTypes.resetEXTRPageReducer:
     case actionTypes.resetSelectedWallet:

@@ -1,25 +1,21 @@
 import BigNumber from 'bignumber.js';
 import tx from 'ethereumjs-tx';
-import { check0xPrefix, makeEthRawTx, calcGasPrice } from 'utils';
+import { check0xPrefix, calcGasPrice } from 'utils';
 import { ethToken } from 'constants/ethToken.js'
 import { erc20Abi } from 'constants/index'
+import { makeEthRawTx } from 'redux/helper/walletUtils'
 
 BigNumber.config({ ERRORS: false });
 BigNumber.config({ EXPONENTIAL_AT: 1e+9 })
 
-/**
- * fetch gas price & gas limit
- * @param {Object} data: { from, to, contractAddress, tokenDefaultDecimal, tokenDecimal, value, gasPrice }
- * @return {Object} result: { gasPrice, gasLimit }
-*/
-function getGasInfo(data) {
+function getTxFeeInfo(data) {
   return new Promise (resolve => {
     window.web3.eth.getGasPrice((errorPrice, gasPrice) => {
       window.web3.eth.estimateGas(data, (errorLimit, gasLimit) => {
         const { isToken } = data
         const result = {
-          gasPrice: !gasPrice ? 21 : calcGasPrice(gasPrice),
-          gasLimit: !gasLimit ? (isToken ? 55000 : 21000) : gasLimit * (isToken ? 2 : 1)
+          txFeePrice: !gasPrice ? 21 : calcGasPrice(gasPrice),
+          txFeeLimit: !gasLimit ? (isToken ? 55000 : 21000) : gasLimit * (isToken ? 2 : 1)
         }
         resolve(result)
       })
@@ -27,9 +23,9 @@ function getGasInfo(data) {
   })
 }
 
-export function eth_getGasInfoApi(data) {
+export function eth_getTxFeeInfoApi(data) {
   return new Promise(resolve => {
-    const result = getGasInfo(data)
+    const result = getTxFeeInfo(data)
     resolve(result)
   })
 }
@@ -197,7 +193,7 @@ export function eth_fetchTokenBalanceApi(tokenAddress, customDecimal, account) {
 // https://ethereum.stackexchange.com/questions/12054/can-not-send-eth-on-ropsten-using-infura-node
 export function eth_sendCoinApi(privKey, data) {
   return new Promise((resolve, reject) => {
-    const rawTx = makeEthRawTx(false, data)
+    const rawTx = makeEthRawTx()
     const privateKey = new Buffer(privKey, 'hex');
     const transaction = new tx(rawTx);
     transaction.sign(privateKey);
@@ -218,7 +214,7 @@ export function eth_sendCoinApi(privKey, data) {
 // https://ethereum.stackexchange.com/questions/24828/how-to-send-erc20-token-using-web3-api
 export function eth_sendTokenApi(privKey, data) {
   return new Promise((resolve, reject) => {
-    const rawTx = makeEthRawTx(true, data)
+    const rawTx = makeEthRawTx()
     const privateKey = new Buffer(privKey, 'hex');
     const transaction = new tx(rawTx);
     transaction.sign(privateKey);

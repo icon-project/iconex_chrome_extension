@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
-import { charFreq, isWalletNameExists, isValidWalletName } from 'utils';
+import { charFreq, isValidWalletName } from 'utils';
+import { isWalletNameExists } from 'redux/helper/walletUtils'
 
 const INIT_STATE = {
   walletNameError: '',
@@ -90,7 +91,7 @@ class ValidationForm extends Component {
             walletNameError = I18n.error.alertWalletName
             break;
           }
-          else if (isWalletNameExists(this.props.wallets, this.state.walletName)) {
+          else if (isWalletNameExists(this.state.walletName)) {
             walletNameError = I18n.error.alertWalletNameSame
             break;
           }

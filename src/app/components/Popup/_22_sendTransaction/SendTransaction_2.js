@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { convertNumberToText } from 'utils';
 import { IS_V3 } from 'constants/config.js'
+import { defaultDecimalsSelector, decimalsSelector, walletCoinTypeSelector } from 'redux/helper/walletSelector'
 
 @withRouter
 @withLanguageProps
@@ -40,9 +41,8 @@ class SendTransaction2 extends Component {
        isToken,
        recipientAddress,
        coinQuantity,
-       gasLimit,
-       gasPrice,
-       wallets,
+       txFeeLimit,
+       txFeePrice,
        data,
        privKey,
        loading,
@@ -67,13 +67,13 @@ class SendTransaction2 extends Component {
              from: selectedAccount,
              to: recipientAddress,
              contractAddress: !isToken ? null : selectedTokenId,
-             tokenDefaultDecimal: !isToken ? 18 : wallets[selectedAccount].tokens[selectedTokenId].defaultDecimals,
-             tokenDecimal: !isToken ? 18 : wallets[selectedAccount].tokens[selectedTokenId].decimals,
+             tokenDefaultDecimal: !isToken ? 18 : defaultDecimalsSelector(),
+             tokenDecimal: !isToken ? 18 : decimalsSelector(),
              value: coinQuantity,
              data: data,
-             gasLimit: gasLimit,
-             gasPrice: gasPrice,
-             coinType: wallets[selectedAccount].type
+             txFeeLimit: txFeeLimit,
+             txFeePrice: txFeePrice,
+             coinType: walletCoinTypeSelector()
            }
            this.props.sendCall(privKey, sendData);
          }
@@ -85,29 +85,8 @@ class SendTransaction2 extends Component {
    }
 
    renderPageTypeSwitch = () => {
-     const {
-       I18n,
-       funcList,
-       selectedAccount,
-       selectedFuncIndex,
-       funcInput,
-       coinQuantity,
-       recipientAddress,
-       txLoading,
-       calcData,
-       gasPrice,
-       gasLimit,
-       pageType,
-       icxSwapAddress,
-       wallets,
-       swapWalletName,
-       isLedger,
-       ledgerTimer,
-       isLedgerConfirmed,
-       language
-     } = this.props;
-
-     const txFee = convertNumberToText(gasLimit * window.web3.fromWei(window.web3.toWei(gasPrice, 'gwei'), 'ether'), 'transaction', true);
+     const { I18n, funcList, txLoading, selectedAccount, selectedFuncIndex, funcInput, coinQuantity, recipientAddress, calcData, txFeePrice, txFeeLimit, pageType, icxSwapAddress, wallets, swapWalletName, isLedger, ledgerTimer, isLedgerConfirmed, language } = this.props;
+     const txFee = convertNumberToText(txFeeLimit * window.web3.fromWei(window.web3.toWei(txFeePrice, 'gwei'), 'ether'), 'transaction', true);
 
      switch(pageType) {
        case 'swap': {
@@ -149,11 +128,12 @@ class SendTransaction2 extends Component {
                             </div>
                         )
                       }
-                      return true;
                     })
                   }
                   <p className="title">{'지갑 주소'}</p>
                   <p className="address">{selectedAccount}</p>
+                  { !!coinQuantity && (<p className="title">{'송금할 ICX 수량'}</p>)}
+                  { !!coinQuantity && (<p className="address">{`${coinQuantity} ICX`}</p>)}
                   <p className="title">{'최대 수수료'}</p>
                   <p className="address">{txFee}</p>
          				</div>

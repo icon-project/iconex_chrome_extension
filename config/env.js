@@ -4,6 +4,17 @@ const fs = require('fs');
 const path = require('path');
 const paths = require('./paths');
 
+// JH Added
+const MAINNET_VERSION_HEADER = 1
+const TESTNET_VERSION_HEADER = 0
+const DEVELOPER_VERSION_HEADER = 99
+
+const isDevVersion = () => process.env.USER === 'developer';
+
+function prodDev(prod, dev) {
+  return process.env.NODE_ENV === 'production' ? prod : dev;
+}
+
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];
 
@@ -75,7 +86,11 @@ function getClientEnvironment(publicUrl) {
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
         // JH added: app version
-        APP_VERSION: process.env.APP_VERSION
+        APP_VERSION: prodDev(
+                `${MAINNET_VERSION_HEADER}.${process.env.APP_VERSION}`,
+                `${isDevVersion() ? DEVELOPER_VERSION_HEADER : TESTNET_VERSION_HEADER}.${process.env.APP_VERSION}`
+              ),
+        USER: process.env.USER        
       }
     );
   // Stringify all values so we can feed into Webpack DefinePlugin

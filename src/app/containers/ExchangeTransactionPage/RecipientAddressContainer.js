@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { RecipientAddress } from 'app/components/';
-import { setRecipientAddress, setRecipientAddressError, resetEXTRPageReducer, getGasInfo } from 'redux/actions/exchangeTransactionActions';
+import { setRecipientAddress, setRecipientAddressError, resetEXTRPageReducer, getTxFeeInfo } from 'redux/actions/exchangeTransactionActions';
 import { openPopup } from 'redux/actions/popupActions';
 import { fetchRecentHistory } from 'redux/actions/historyActions';
 
@@ -15,9 +15,9 @@ function mapStateToProps(state) {
     recipientAddress: state.exchangeTransaction.recipientAddress,
     recipientAddressError: state.exchangeTransaction.recipientAddressError,
     historyLoading: state.history.historyLoading,
-    gasLoading: state.exchangeTransaction.gasLoading,
-    gasPrice: state.exchangeTransaction.gasPrice,
-    gasLimit: state.exchangeTransaction.gasLimit,
+    txFeeLoading: state.exchangeTransaction.txFeeLoading,
+    txFeePrice: state.exchangeTransaction.txFeePrice,
+    txFeeLimit: state.exchangeTransaction.txFeeLimit,
   };
 }
 
@@ -30,7 +30,7 @@ function mapDispatchToProps(dispatch) {
 
     openPopup: (s) => dispatch(openPopup(s)),
     resetReducer: () => dispatch(resetEXTRPageReducer()),
-    getGasInfo: data => dispatch(getGasInfo(data)),
+    getTxFeeInfo: data => dispatch(getTxFeeInfo(data)),
   };
 }
 

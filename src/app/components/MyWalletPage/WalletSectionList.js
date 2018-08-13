@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { WalletSection } from 'app/components/';
-import { makeWalletArray } from 'utils';
+import { walletArraySelector } from 'redux/helper/walletSelector'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -19,8 +19,8 @@ class WalletSectionList extends Component {
     if (!isCoinView) {
       dataArr = data;
     } else {
-      let coinArr = makeWalletArray(data['coin']);
-      let tokenArr = makeWalletArray(data['token']);
+      let coinArr = walletArraySelector(data['coin']);
+      let tokenArr = walletArraySelector(data['token']);
       dataArr = [...coinArr, ...tokenArr];
     }
     return dataArr;

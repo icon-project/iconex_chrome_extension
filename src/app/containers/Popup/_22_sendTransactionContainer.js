@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { SendTransaction } from 'app/components/';
 import {  openPopup, setPopupNum, closePopup } from 'redux/actions/popupActions';
-import { sendCall, submitCall, resetEXTRPageReducer, setEXTRLogInState, resetEXTRInputReducer } from 'redux/actions/exchangeTransactionActions';
+import { sendCall, submitCall, resetEXTRPageReducer, setEXTRLogInState, resetEXTRInputReducer, setCalcData } from 'redux/actions/exchangeTransactionActions';
 import { executeFunc, resetContractInputOutput } from 'redux/actions/contractActions';
 import { confirmLedger, resetLedgerReducer } from 'redux/actions/ledgerActions'
 import { fetchAll, resetSelectedWallet } from 'redux/actions/walletActions'
@@ -21,8 +21,8 @@ function mapStateToProps(state) {
     privKey: state.exchangeTransaction.privKey,
     calcData: state.exchangeTransaction.calcData,
     data: state.exchangeTransaction.data,
-    gasPrice: state.exchangeTransaction.gasPrice,
-    gasLimit: state.exchangeTransaction.gasLimit,
+    txFeePrice: state.exchangeTransaction.txFeePrice,
+    txFeeLimit: state.exchangeTransaction.txFeeLimit,
     popupNum: state.popup.popupNum,
     tx: state.exchangeTransaction.tx,
     txLoading: state.exchangeTransaction.txLoading,
@@ -53,6 +53,7 @@ function mapDispatchToProps(dispatch) {
     sendCall: (privKey, data, isLedger) => dispatch(sendCall(privKey, data, isLedger)),
     setEXTRLogInState: (payload) => dispatch(setEXTRLogInState(payload)),
     submitCall: (payload) => dispatch(submitCall(payload)),
+    setCalcData: () => dispatch(setCalcData()),
     resetEXTRPageReducer: () => dispatch(resetEXTRPageReducer()),
     resetInput: () => dispatch(resetEXTRInputReducer()),
     fetchAll: (wallets) => dispatch(fetchAll(wallets)),

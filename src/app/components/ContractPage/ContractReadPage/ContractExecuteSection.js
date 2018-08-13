@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {  LoadingComponent, InputText, InputBoolean, Output } from 'app/components/';
-import { WalletSelectorContainer, GasStepTableContainer, CalculationTableContainer, QuantitySetterContainer } from 'app/containers';
+import { WalletSelectorContainer, TxFeeAndDataContainer, CalculationTableContainer, QuantitySetterContainer } from 'app/containers';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -141,7 +141,7 @@ class WalletSelectorInput extends Component {
       <div>
         <WalletSelectorContainer isContractPage={true} />
         { isLoggedIn && payable && (<QuantitySetterContainer isContractPage={true} />) }
-        { isLoggedIn && (<GasStepTableContainer isContractPage={true} />) }
+        { isLoggedIn && (<TxFeeAndDataContainer isContractPage={true} />) }
         { isLoggedIn && (<CalculationTableContainer isContractPage={true} />) }
       </div>
     )

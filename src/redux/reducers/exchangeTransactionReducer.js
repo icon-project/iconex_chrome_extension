@@ -1,8 +1,24 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
-import { isAddress, isIcxWalletAddress, isIcxContractAddress, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
+import {
+  convertNumberToText,
+  calcTokenBalanceWithRate,
+  parseError
+} from 'utils'
+import {
+  validateCoinQuantityError,
+  validateRecipientAddressError,
+  validateDataError,
+  validateTxFeeLimitError,
+  validateContractTxFeeLimitError,
+} from 'redux/helper/validation'
 import { store } from 'redux/store/store';
 import { IS_V3 } from 'constants/config.js'
-//import { coinRound as ROUND } from 'constants/index';
+import {
+  walletSelector,
+  assetSymbolListSelector,
+  walletCoinTypeSelector,
+  symbolSelector
+} from 'redux/helper/walletSelector'
 import BigNumber from 'bignumber.js';
 
 const mainState = {
@@ -19,10 +35,12 @@ const uiState = {
   recipientAddressError: '',
   isFullBalance: false,
 
-  gasLoading: false,
-  gasLimit: 21000,
-  gasLimitError: '',
-  gasPrice: 21,
+  txFeeLoading: false,
+  txFeeLimit: 21000,
+  txFeeLimitError: '',
+  txFeePrice: 21,
+  stepLimitTable: {},
+
   data: '',
   dataError: '',
   txFee: 0,
@@ -38,118 +56,29 @@ const initialState = {
   ...uiState
 }
 
-export function validateCoinQuantityError(state) {
-  let error = '';
-  if (!state.coinQuantity) {
-    error = 'coinAmount'
-  } else if (Number(state.coinQuantity) === 0) {
-    error = 'coinAmountZero'
-  } else if (state.calcData.isResultBalanceMinus) {
-    error = 'coinAmountBalance'
-  } else {
-    error = ''
-  }
-  return error
-}
-
-export function validateRecipientAddressError(state) {
-  const selectedAccount = store.getState().wallet.selectedWallet.account;
-  let error = '';
-  let recipientAddressLowerCase = state.recipientAddress.toLowerCase();
-  let isAddressFunc = (s) => {
-    return state.calcData.walletCoinType === 'icx' ? (isIcxWalletAddress(s) || isIcxContractAddress(s)) : isAddress(s);
-  }
-  let isAddressSame = (s) => {
-    if (state.calcData.walletCoinType === 'icx') {
-      return selectedAccount === checkHxPrefix(s)
-    } else {
-      return selectedAccount === check0xPrefix(s);
-    }
-  }
-  if (!recipientAddressLowerCase) {
-    error = 'transferAddressEnter'
-  } else if (!isAddressFunc(recipientAddressLowerCase)) {
-    error = 'transferAddressConfirm'
-  } else if (isAddressSame(recipientAddressLowerCase)) {
-    error = 'transferAddressSame'
-  } else {
-    error = ''
-  }
-  return error;
-}
-
-export function validateDataError(state) {
-  let error = '';
-  if (!isHex(state.data)) {
-    error = 'checkData'
-  } else {
-    error = ''
-  }
-  return error;
-}
-
-export function validateGasLimitError(state) {
-  let error = '';
-  if (!state.gasLimit) {
-    error = 'enterGasPrice'
-  } else {
-    error = ''
-  }
-  return error
-}
-
-export function validateContractGasLimitError(state) {
-  let error = '';
-  if (!state.gasLimit) {
-    error = 'enterGasPrice'
-  } else if (state.calcData.isResultBalanceMinus) {
-    error = 'notEnoughBalance'
-  } else {
-    error = ''
-  }
-  return error
-}
-
-
-const getCoinTypeObj = (wallet) => {
-  const coinTypeObj = {}
-  const tokens = Object.values(wallet.tokens);
-
-  coinTypeObj[wallet.account] = wallet.type
-  for(let i=0; i<tokens.length; i++) {
-    coinTypeObj[tokens[i].address] = tokens[i].symbol
-  }
-  return coinTypeObj;
-}
-
 const calcData = (props) => {
   let {
     coinQuantity,
-    gasLimit,
-    gasPrice,
-    account: selectedAccount = store.getState().wallet.selectedWallet.account,
+    txFeeLimit,
+    txFeePrice,
     tokenId: selectedTokenId = store.getState().wallet.selectedWallet.tokenId,
     isToken = store.getState().wallet.selectedWallet.isToken,
   } = props;
 
-  const isLedger = store.getState().ledger.isLedger;
-  const ledgerWallet = store.getState().ledger.ledgerWallet;
-
   const rate = store.getState().rate.rate;
   const totalResultLoading = store.getState().wallet.totalResultLoading;
-  const wallets = store.getState().wallet.wallets;
-  const wallet = isLedger ? ledgerWallet : wallets[selectedAccount];
-  const coinTypeObj = getCoinTypeObj(wallet);
-  const walletCoinType = wallet.type;
-  const type = !isToken ? coinTypeObj[wallet.account] : coinTypeObj[selectedTokenId]
+  const wallet = walletSelector();
+  const coinTypeObj = assetSymbolListSelector();
+  const walletCoinType = walletCoinTypeSelector();
+  const type = symbolSelector();
   const usdRate = !totalResultLoading ? (rate[type.toLowerCase()] ? new BigNumber(rate[type.toLowerCase()]) : 0) : 0;
   const txFeeUsdRate = !totalResultLoading ? (rate[walletCoinType.toLowerCase()] ? new BigNumber(rate[walletCoinType.toLowerCase()]) : 0) : 0;
   const balance = !isToken ? new BigNumber(wallet.balance) : new BigNumber(wallet.tokens[selectedTokenId].balance);
   const coinQuantityNumber = new BigNumber(coinQuantity || 0);
-  const gasLimitNumber = new BigNumber(gasLimit || 0);
-  let gasPriceCalc = new BigNumber(window.web3.fromWei(window.web3.toWei(gasPrice, walletCoinType === 'icx' ? 'wei' : 'gwei'), 'ether'))
-  let txFee = gasPriceCalc.times(gasLimitNumber)
-  const gasPriceWithRate = convertNumberToText(gasPriceCalc.times(usdRate), 'usd', false);
+  const txFeeLimitNumber = new BigNumber(txFeeLimit || 0);
+  let txFeePriceCalc = new BigNumber(window.web3.fromWei(window.web3.toWei(txFeePrice, walletCoinType === 'icx' ? 'wei' : 'gwei'), 'ether'))
+  let txFee = txFeePriceCalc.times(txFeeLimitNumber)
+  const txFeePriceWithRate = convertNumberToText(txFeePriceCalc.times(usdRate), 'usd', false);
 
   if(!IS_V3 && walletCoinType === 'icx') {
     txFee = new BigNumber(0.01);
@@ -174,7 +103,7 @@ const calcData = (props) => {
 
   return {
     totalBalance: totalBalance.toFixed(18),
-    gasPriceWithRate: gasPriceWithRate,
+    txFeePriceWithRate: txFeePriceWithRate,
     txFee: txFeeText,
     txFeeWithRate: txFeeWithRateText,
     sendQuantity: sendQuantityText,
@@ -204,14 +133,15 @@ export function exchangeTransactionReducer(state = initialState, action) {
     }
     case actionTypes.setSelectedWallet: {
       const newState = Object.assign({}, state, uiState);
-      return Object.assign({}, newState, {
-          calcData: calcData({
-              ...newState,
-              account: action.payload.account,
-              tokenId: action.payload['tokenId'] || '',
-              isToken: !!action.payload['tokenId']
-          })
-      })
+      // return Object.assign({}, newState, {
+      //     calcData: calcData({
+      //         ...newState,
+      //         account: action.payload.account,
+      //         tokenId: action.payload['tokenId'] || '',
+      //         isToken: !!action.payload['tokenId']
+      //     })
+      // })
+      return Object.assign({}, newState);
     }
     case actionTypes.setCoinQuantity: {
       const newState = Object.assign({}, state, {
@@ -231,17 +161,17 @@ export function exchangeTransactionReducer(state = initialState, action) {
       return Object.assign({}, state, {
           calcData: calcData(state)
       })
-    case actionTypes.setGasLimit: {
+    case actionTypes.setTxFeeLimit: {
       const newState = Object.assign({}, state, {
-          gasLimit: action.payload,
+          txFeeLimit: action.payload,
       })
       return Object.assign({}, newState, {
           calcData: calcData(newState)
       })
     }
-    case actionTypes.setGasPrice: {
+    case actionTypes.setTxFeePrice: {
       const newState = Object.assign({}, state, {
-          gasPrice: action.payload,
+          txFeePrice: action.payload,
       })
       return Object.assign({}, newState, {
           calcData: calcData(newState)
@@ -262,7 +192,7 @@ export function exchangeTransactionReducer(state = initialState, action) {
           submit: submit
         })
       } else {
-        if (state.walletCoinType === 'icx') {
+        if (state.calcData.walletCoinType === 'icx') {
           const coinQuantityError = validateCoinQuantityError(state);
           const recipientAddressError = validateRecipientAddressError(state);
           if (!coinQuantityError && !recipientAddressError) {
@@ -276,15 +206,15 @@ export function exchangeTransactionReducer(state = initialState, action) {
         } else {
           const coinQuantityError = validateCoinQuantityError(state);
           const recipientAddressError = validateRecipientAddressError(state);
-          const gasLimitError = validateGasLimitError(state);
+          const txFeeLimitError = validateTxFeeLimitError(state);
           const dataError = validateDataError(state);
-          if (!coinQuantityError && !recipientAddressError && !dataError && !gasLimitError) {
+          if (!coinQuantityError && !recipientAddressError && !dataError && !txFeeLimitError) {
             submit = true;
           }
           return Object.assign({}, state, {
             coinQuantityError: coinQuantityError,
             recipientAddressError: recipientAddressError,
-            gasLimitError: gasLimitError,
+            txFeeLimitError: txFeeLimitError,
             dataError: dataError,
             submit: submit
           })
@@ -336,16 +266,16 @@ export function exchangeTransactionReducer(state = initialState, action) {
           dataError: error
       })
     }
-    case actionTypes.setGasLimitError: {
-      let error = validateGasLimitError(state);
+    case actionTypes.setTxFeeLimitError: {
+      let error = validateTxFeeLimitError(state);
       return Object.assign({}, state, {
-          gasLimitError: error
+          txFeeLimitError: error
       })
     }
-    case actionTypes.setContractGasLimitError: {
-      let error = validateContractGasLimitError(state);
+    case actionTypes.setContractTxFeeLimitError: {
+      let error = validateContractTxFeeLimitError(state);
       return Object.assign({}, state, {
-          gasLimitError: error
+          txFeeLimitError: error
       })
     }
     case actionTypes.resetContractInputOutput:
@@ -356,29 +286,29 @@ export function exchangeTransactionReducer(state = initialState, action) {
       const isToken = store.getState().wallet.selectedWallet.isToken;
       const newState = Object.assign({}, state, {
         ...uiState,
-        gasLimit: isToken ? 55000 : 21000
+        txFeeLimit: isToken ? 55000 : 21000
       })
 
       return Object.assign({}, newState, {
         calcData: calcData(newState)
       })
 
-    case actionTypes.getGasInfo:
+    case actionTypes.getTxFeeInfo:
       return Object.assign({}, state, {
-          gasLoading: true
+          txFeeLoading: true
       })
-    case actionTypes.getGasInfoFulfilled:
+    case actionTypes.getTxFeeInfoFulfilled:
       const newGasState = Object.assign({}, state, {
-        gasLoading: false,
-        gasPrice: action.payload.gasPrice,
-        gasLimit: action.payload.gasLimit,
+        txFeeLoading: false,
+        txFeePrice: action.payload.txFeePrice,
+        txFeeLimit: action.payload.txFeeLimit,
       })
       return Object.assign({}, newGasState, {
         calcData: calcData(newGasState)
       })
-    case actionTypes.getGasInfoRejected:
+    case actionTypes.getTxFeeInfoRejected:
       return Object.assign({}, state, {
-          gasLoading: false
+          txFeeLoading: false
       })
     default: {
       return state

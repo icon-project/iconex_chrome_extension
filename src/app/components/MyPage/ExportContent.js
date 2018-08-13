@@ -1,10 +1,11 @@
 
 /* eslint-disable import/no-webpack-loader-syntax */
 import React, { Component } from 'react';
-import { isEmpty, convertNumberToText, makeWalletArray, nToBr } from 'utils';
+import { isEmpty, convertNumberToText, nToBr } from 'utils';
 import { LoadingComponent, Alert } from 'app/components/';
 import Worker from 'workers/wallet.worker.js';
 import withLanguageProps from 'HOC/withLanguageProps';
+import { walletArraySelector } from 'redux/helper/walletSelector'
 
 const INIT_STATE = {
   walletArr: [],
@@ -51,7 +52,7 @@ class ExportContent extends Component {
   }
 
   componentWillMount() {
-    const walletArr = makeWalletArray(this.props.wallets);
+    const walletArr = walletArraySelector();
     this.setState({
       walletArr: walletArr,
       checklist: Array(walletArr.length).fill({}),

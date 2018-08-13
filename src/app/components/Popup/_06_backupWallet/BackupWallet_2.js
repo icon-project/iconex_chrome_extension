@@ -3,6 +3,8 @@ import { CopyButton } from 'app/components/';
 import { printDom, downloadFile } from 'utils';
 import FileSaver from 'lib/FileSaver.min.js';
 import withLanguageProps from 'HOC/withLanguageProps';
+import { walletNameSelector, walletPrivSelector, walletCoinTypeSelector } from 'redux/helper/walletSelector'
+
 
 @withLanguageProps
 class BackupWallet2 extends Component {
@@ -10,9 +12,9 @@ class BackupWallet2 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      'name': this.props.wallets[this.props.selectedAccount].name,
-      'type': this.props.wallets[this.props.selectedAccount].type,
-      'priv': this.props.wallets[this.props.selectedAccount].priv,
+      'name': walletNameSelector(),
+      'type': walletCoinTypeSelector(),
+      'priv': walletPrivSelector(),
       'toggleKey': 'on'
     };
   }

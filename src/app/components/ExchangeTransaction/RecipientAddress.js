@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { Alert, LoadingComponent } from 'app/components/'
-import { makeEthRawTx } from 'utils/utils'
+import { makeEthRawTx } from 'redux/helper/walletUtils'
 
 const INIT_STATE = {
   recipientAddressError: '',
@@ -18,10 +18,10 @@ class RecipientAddress extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setGasInfo(nextProps)
+    this.getTxFeeInfo(nextProps)
   }
 
-  setGasInfo = (nextProps) => {
+  getTxFeeInfo = (nextProps) => {
     clearTimeout(this.timeout)
 
     const { isToken } = nextProps
@@ -34,21 +34,10 @@ class RecipientAddress extends Component {
     if (wallets[selectedAccount].type === 'icx') return
 
     this.timeout = setTimeout(() => {
-      const { wallets, gasPrice, gasLimit, selectedAccount, selectedTokenId } = nextProps
-      const token = wallets[selectedAccount].tokens[selectedTokenId]
-      const rawTx = makeEthRawTx(true, {
-        from: selectedAccount,
-        to: recipientAddress,
-        contractAddress: token.address,
-        tokenDefaultDecimal: token.defaultDecimals,
-        tokenDecimal: token.decimals,
-        value: coinQuantity,
-        gasPrice: gasPrice,
-        gasLimit: gasLimit
-      })
+      const rawTx = makeEthRawTx()
       delete rawTx.chainId;
       delete rawTx.gasLimit;
-      this.props.getGasInfo(rawTx)
+      this.props.getTxFeeInfo(rawTx)
     }, 500)
   }
 

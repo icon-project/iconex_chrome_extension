@@ -23,9 +23,12 @@ import {
   fetchCoinBalanceApi as FETCH_COIN_BALANCE,
   fetchTokenBalanceApi as FETCH_TOKEN_BALANCE,
   fetchTransactionHistoryApi as FETCH_TRANSACTION_HISTORY_API,
+  getTransactionReceiptApi as GET_TRANSACTION_RECEIPT_API,
+  getBlockNumberApi as GET_BLOCK_NUMBER,
   addRecentTransactionApi as ADD_RECENT_TRANSACTION
 } from 'redux/api/walletApi';
 import { icx_checkIcxTransactionExist as CHECK_ICX_TRANSACTION_EXIST } from 'redux/api/walletIcxApi';
+import { blockSearchNum as BLOCK_SEARCH_NUM } from 'constants/index'
 
 function* getWalletFunc(action) {
   try {

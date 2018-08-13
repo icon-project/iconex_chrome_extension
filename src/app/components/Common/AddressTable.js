@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { convertNumberToText } from 'utils'
-
+import { unitSymbolSelector } from 'redux/helper/walletSelector'
 
 class AddressTable extends Component {
 
@@ -30,20 +30,12 @@ class AddressTable extends Component {
 
     const {
       I18n,
-      currentWallet,
-      selectedTokenId,
       listArr,
       type
     } = this.props
 
     const quantityTitle = this.getQuantityTitle()
-    const unitSymbol = type !== 'contractList'
-                          ? (
-                              selectedTokenId
-                                ? currentWallet.tokens[selectedTokenId].defaultSymbol
-                                : currentWallet.type
-                            )
-                          : ''
+    const unitSymbol = type !== 'contractList' ? unitSymbolSelector() : ''
     return (
       <div className="scroll-holder">
 				<div className="tabbox-holder">
@@ -98,6 +90,8 @@ class AddressTable extends Component {
                       );
                     })
                   : listArr.map((l, i) => {
+                    console.log(l)
+                    /* TODO: 이 부분 오브젝트 통일 필요, 송금 받은 지갑의 경우 from을 최근 내역에 보여줘야 함. */
                       const number = l.balance || l.quantity || l.amount
                       const account = l.to || l.address || l.account || l.toAddr
                       const name = l.name || (this.props.wallets[account] && this.props.wallets[account]['name']) || '-'

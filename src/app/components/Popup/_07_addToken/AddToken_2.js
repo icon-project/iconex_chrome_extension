@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { isEmpty, isIcxContractAddress, isAddress } from 'utils';
+import { check0xPrefix, checkCxPrefix, isEmpty, isIcxContractAddress, isAddress } from 'utils';
 import { LoadingComponent } from 'app/components/';
 import withLanguageProps from 'HOC/withLanguageProps'
 

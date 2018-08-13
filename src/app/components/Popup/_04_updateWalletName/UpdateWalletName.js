@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { isWalletNameExists, isValidWalletName } from 'utils';
+import { isValidWalletName } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { Alert } from 'app/components/'
+import { walletNameSelector } from 'redux/helper/walletSelector';
+import { isWalletNameExists } from 'redux/helper/walletUtils'
 
 const INIT_STATE = {
   newWalletName: '',
@@ -19,7 +21,7 @@ class UpdateWalletName extends Component {
 
   componentWillMount() {
     this.setState({
-      newWalletName: this.props.wallets[this.props.selectedAccount].name
+      newWalletName: walletNameSelector()
     })
   }
 
@@ -42,7 +44,7 @@ class UpdateWalletName extends Component {
       this.setState({ showAlertWalletName: true });
       return;
     }
-    else if (isWalletNameExists(this.props.wallets, this.state.newWalletName)) {
+    else if (isWalletNameExists(this.state.newWalletName)) {
       this.setState({ showAlertWalletNameSame: true });
       return;
     }

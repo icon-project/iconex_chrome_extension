@@ -6,7 +6,6 @@ import { logIn } from 'redux/actions/authActions';
 
 function mapStateToProps(state) {
   return {
-    wallets: state.wallet.wallets,
     selectedAccount: state.wallet.selectedWallet.account,
     language: state.global.language
   };
@@ -14,7 +13,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-
     closePopup: () => dispatch(closePopup()),
     updatePassword: (s1, s2) => dispatch(updatePassword(s1, s2)),
     resetSelectedWallet: () => dispatch(resetSelectedWallet()),

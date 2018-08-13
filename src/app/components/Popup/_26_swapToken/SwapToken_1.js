@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { CheckPassword } from 'app/components/';
 import Wallet from 'ethereumjs-wallet';
 import { Alert } from 'app/components/';
+import { walletNameSelector, walletPrivSelector } from 'redux/helper/walletSelector';
 
 const INIT_STATE = {
   showAlertAddressSame: false,
@@ -28,29 +29,16 @@ class SwapToken1 extends Component {
     }).then(result => {
 
       const { wallets } = this.props;
-      const key = result.getAddressIcx().toString('hex')
+      const swapWalletAddress = result.getAddressIcx().toString('hex')
+      const isSwapWalletExist = () => wallets[swapWalletAddress]
 
-      if (wallets[key]) {
-        this.props.setIcxSwapAddress(key)
+      if (isSwapWalletExist()) {
+        this.props.setIcxSwapAddress(swapWalletAddress)
         this.props.setPrivKeyForSwap(privKey);
         this.props.setEXTRLogInState({isLoggedIn: true, privKey: privKey});
         this.props.checkSwapWalletExist(true);
         this.props.setPopupNum(2);
         return;
-        // ** swap function
-        // if (isDevelopment) {
-        //   this.props.setIcxSwapAddress(key)
-        //   this.props.setPrivKeyForSwap(privKey);
-        //   this.props.setEXTRLogInState({isLoggedIn: true, privKey: privKey});
-        //   this.props.setPopupNum(6);
-        // }
-        // else {
-        //   this.setState({
-        //     showAlertAddressSame: true,
-        //     sameWalletName: wallets[key].name
-        //   })
-        // }
-        // return;
       }
 
       this.props.setPrivKeyForSwap(privKey);
@@ -59,7 +47,7 @@ class SwapToken1 extends Component {
         wallet: result,
       }, () => {
         this.props.setWalletObject(result);
-        this.props.setAddress(key);
+        this.props.setAddress(swapWalletAddress);
         this.props.setCoinType('icx')
         this.props.setPopupNum(2);
       })
@@ -67,13 +55,11 @@ class SwapToken1 extends Component {
   }
 
   render() {
-    const {showAlertAddressSame, sameWalletName} = this.state
-    const {
-      I18n, wallets, selectedAccount
-    } = this.props;
+    const { showAlertAddressSame, sameWalletName } = this.state
+    const { I18n } = this.props;
 
-    const name = wallets[selectedAccount].name;
-    const priv = wallets[selectedAccount].priv;
+    const name = walletNameSelector()
+    const priv = walletPrivSelector()
 
     return (
       <div className="popup size-medium2">

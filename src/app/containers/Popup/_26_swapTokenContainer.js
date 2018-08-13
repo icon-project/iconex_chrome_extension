@@ -26,7 +26,7 @@ import {
 } from 'redux/actions/signupActions';
 import { getWallet, resetSelectedWallet } from 'redux/actions/walletActions';
 import { logIn } from 'redux/actions/authActions';
-import { setCalcData, setGasLimit, setGasPrice, setRecipientAddress, getGasInfo, submitCall } from 'redux/actions/exchangeTransactionActions';
+import { setCalcData, setTxFeeLimit, setTxFeePrice, setRecipientAddress, getTxFeeInfo, submitCall } from 'redux/actions/exchangeTransactionActions';
 
 function mapStateToProps(state) {
   return {
@@ -37,10 +37,10 @@ function mapStateToProps(state) {
     isToken: state.wallet.selectedWallet.isToken,
     recipientAddress: state.exchangeTransaction.recipientAddress,
     coinQuantity: state.exchangeTransaction.coinQuantity,
-    gasLimit: state.exchangeTransaction.gasLimit,
-    gasPrice: state.exchangeTransaction.gasPrice,
+    txFeeLimit: state.exchangeTransaction.txFeeLimit,
+    txFeePrice: state.exchangeTransaction.txFeePrice,
     isLoggedIn: state.exchangeTransaction.isLoggedIn,
-    gasLoading: state.exchangeTransaction.gasLoading,
+    txFeeLoading: state.exchangeTransaction.txFeeLoading,
     submit: state.exchangeTransaction.submit,
     walletObj: state.signup.walletObj,
     coinType: state.signup.coinType,
@@ -79,10 +79,10 @@ function mapDispatchToProps(dispatch) {
     setWalletNameAndPasswordForSwap: (walletName, pw) => dispatch(setWalletNameAndPasswordForSwap(walletName, pw)),
     setAddress: (address) => dispatch(setAddress(address)),
     setCalcData: () => dispatch(setCalcData()),
-    setGasLimit: (value) => dispatch(setGasLimit(value)),
-    setGasPrice: (value) => dispatch(setGasPrice(value)),
+    setTxFeeLimit: (value) => dispatch(setTxFeeLimit(value)),
+    setTxFeePrice: (value) => dispatch(setTxFeePrice(value)),
     setRecipientAddress: address => dispatch(setRecipientAddress(address)),
-    getGasInfo: data => dispatch(getGasInfo(data)),
+    getTxFeeInfo: data => dispatch(getTxFeeInfo(data)),
     submitCall: (payload) => dispatch(submitCall(payload)),
     deleteWallet: (s) => dispatch(deleteWallet(s)),
     logIn: () => dispatch(logIn()),

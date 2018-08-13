@@ -5,6 +5,7 @@ const fs = require('fs-extra');
 const paths = require('../config/paths');
 const webpack = require('webpack');
 const config = require('../config/webpack.config.dev.js');
+const isDevVersion = () => process.env.USER === 'developer';
 
 webpack(config).watch({}, (err, stats) => {
   if (err) {
@@ -19,13 +20,15 @@ webpack(config).watch({}, (err, stats) => {
 });
 
 function copyPublicFolder() {
-  fs.copySync(paths.appPublic, paths.appBuildTest, {
+  fs.copySync(paths.appPublic, isDevVersion() ? paths.appBuildDev : paths.appBuildTest, {
     dereference: true,
     // filter appHtml, appPopupHtml for preventing overwrite webpack-builded files
     filter: file =>
         file !== paths.appHtml &&
         file !== paths.appPopupHtml &&
         file !== paths.appHtmlTest &&
-        (file.includes('png') ? file.includes('test') : true)
+        file !== paths.appHtmlDev &&
+        (file.includes('png') ? (isDevVersion() ? file.includes('dev') : file.includes('test')) : true) &&
+        (file.includes('ico') ? (isDevVersion() ? file.includes('dev') : file.includes('test')) : true)
   });
 }

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { GasStepTable } from 'app/components/';
-import { setGasLimit, setGasPrice, setCalcData, setData, setGasLimitError, setContractGasLimitError, setDataError } from 'redux/actions/exchangeTransactionActions';
+import { TxFeeAndData } from 'app/components/';
+import { setTxFeeLimit, setTxFeePrice, updateStepLimit, setCalcData, setData, setTxFeeLimitError, setContractTxFeeLimitError, setDataError, getTxFeeInfo } from 'redux/actions/exchangeTransactionActions';
 
 function mapStateToProps(state) {
   return {
@@ -14,9 +14,9 @@ function mapStateToProps(state) {
     recipientAddress: state.exchangeTransaction.recipientAddress,
     coinQuantityError: state.exchangeTransaction.coinQuantityError,
     isResultBalanceMinus: state.exchangeTransaction.isResultBalanceMinus,
-    gasPrice: state.exchangeTransaction.gasPrice,
-    gasLimit: state.exchangeTransaction.gasLimit,
-    gasLimitError: state.exchangeTransaction.gasLimitError,
+    txFeePrice: state.exchangeTransaction.txFeePrice,
+    txFeeLimit: state.exchangeTransaction.txFeeLimit,
+    txFeeLimitError: state.exchangeTransaction.txFeeLimitError,
     data: state.exchangeTransaction.data,
     dataError: state.exchangeTransaction.dataError,
   };
@@ -24,16 +24,18 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setGasLimit: payload => dispatch(setGasLimit(payload)),
-    setGasLimitError: () => dispatch(setGasLimitError()),
-    setContractGasLimitError: () => dispatch(setContractGasLimitError()),
-    setGasPrice: payload => dispatch(setGasPrice(payload)),
+    setTxFeeLimit: payload => dispatch(setTxFeeLimit(payload)),
+    setTxFeeLimitError: () => dispatch(setTxFeeLimitError()),
+    setContractTxFeeLimitError: () => dispatch(setContractTxFeeLimitError()),
+    setTxFeePrice: payload => dispatch(setTxFeePrice(payload)),
     setData: payload => dispatch(setData(payload)),
     setDataError: () => dispatch(setDataError()),
     setCalcData: () => dispatch(setCalcData()),
+    getTxFeeInfo: (payload) => dispatch(getTxFeeInfo(payload)),
+    updateStepLimit: (payload) => dispatch(updateStepLimit(payload))
   };
 }
 
-const GasStepTableContainer = connect(mapStateToProps, mapDispatchToProps)(GasStepTable);
+const TxFeeAndDataContainer = connect(mapStateToProps, mapDispatchToProps)(TxFeeAndData);
 
-export default GasStepTableContainer;
+export default TxFeeAndDataContainer;

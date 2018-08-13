@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { AddressTable } from 'app/components/';
+import { isIcxContractAddress, checkCxPrefix } from 'utils';
 import { icxContract } from 'constants/icxContract'
 
 const INIT_STATE = {
@@ -22,6 +23,7 @@ class ContractList extends Component {
   }
 
   render() {
+    const { I18n } = this.props;
     return (
       <div>
         <div className="dimmed"></div>

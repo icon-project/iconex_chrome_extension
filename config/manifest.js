@@ -1,9 +1,9 @@
 module.exports = {
     "manifest_version": 2,
-    "name": prodDev("ICONex", "ICONex Testnet"),
+    "name": prodDev("ICONex", "ICONex Testnet", "ICONex Developer"),
     "short_name": "ICX Wallet",
-    "description": prodDev("ICONex", "ICONex Testnet"),
-    "version": prodDev(`1.${process.env.APP_VERSION}`, `0.${process.env.APP_VERSION}`),
+    "description": prodDev("ICONex", "ICONex Testnet", "ICONex Developer"),
+    "version": process.env.APP_VERSION,
     "background": {
       "scripts": [
         "static/js/store.bundle.js"
@@ -20,14 +20,13 @@ module.exports = {
   			]
   		}
   	],
-    "icons": { "16": prodDev("icon_16.png", "icon_16_test.png"),
-              "32": prodDev("icon_32.png", "icon_32_test.png"),
-              "48": prodDev("icon_48.png", "icon_48_test.png"),
-              "128": prodDev("icon_128.png", "icon_128_test.png")
+    "icons": { "16": prodDev("icon_16.png", "icon_16_test.png", "icon_16_dev.png"),
+              "32": prodDev("icon_32.png", "icon_32_test.png", "icon_32_dev.png"),
+              "48": prodDev("icon_48.png", "icon_48_test.png", "icon_48_dev.png"),
+              "128": prodDev("icon_128.png", "icon_128_test.png", "icon_128_dev.png")
               },
     "browser_action": {
-      "default_title": prodDev("ICONex", "ICONex Testnet"),
-    //  "default_popup": "popup.html"
+      "default_title": prodDev("ICONex", "ICONex Testnet", "ICONex Developer"),
     },
     "permissions": [
         "storage",
@@ -36,6 +35,8 @@ module.exports = {
     ]
 };
 
-function prodDev(prod, dev) {
-  return process.env.NODE_ENV === 'production' ? prod : dev;
+function prodDev(prod, dev, devForDeveloper = '') {
+  return process.env.NODE_ENV === 'production'
+          ? prod
+          : process.env.USER === 'developer' ? devForDeveloper : dev;
 }

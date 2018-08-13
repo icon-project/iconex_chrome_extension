@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import {
   sendCoinApi as SEND_COIN,
   sendTokenApi as SEND_TOKEN,
-  getGasInfoApi as GET_GAS_INFO
+  getTxFeeInfoApi as GET_TX_FEE_INFO
 } from 'redux/api/transactionApi';
 import {
   icx_sendTransaction as ICX_SEND_TRANSACTION,
@@ -13,14 +13,16 @@ import { check0xPrefix, customValueToTokenValue } from 'utils'
 import {
   addRecentTransaction
 } from 'redux/actions/walletActions';
+import { store } from 'redux/store/store';
 
-export function* getGasInfoFunc(action) {
+export function* getTxFeeInfoFunc(action) {
   try {
-    const payload = yield call(GET_GAS_INFO, action.data.coinType, action.data);
-    yield put({type: AT.getGasInfoFulfilled, payload: payload});
+    const walletCoinType = store.getState().exchangeTransaction.calcData.walletCoinType;
+    const payload = yield call(GET_TX_FEE_INFO, walletCoinType, action.data);
+    yield put({type: AT.getTxFeeInfoFulfilled, payload: payload});
   } catch (e) {
     alert(e);
-    yield put({type: AT.getGasInfoRejected, error: e});
+    yield put({type: AT.getTxFeeInfoRejected, error: e});
   }
 }
 
@@ -66,8 +68,8 @@ export function* sendTransactionCallFunc(action) {
   }
 }
 
-function* watchGetGasInfo() {
-  yield takeLatest(AT.getGasInfo, getGasInfoFunc)
+function* watchGetTxFeeInfo() {
+  yield takeLatest(AT.getTxFeeInfo, getTxFeeInfoFunc)
 }
 
 function* watchSendTransactionCall() {
@@ -75,6 +77,6 @@ function* watchSendTransactionCall() {
 }
 
 export default function* walletSaga() {
-   yield fork(watchGetGasInfo);
+   yield fork(watchGetTxFeeInfo);
    yield fork(watchSendTransactionCall);
 }

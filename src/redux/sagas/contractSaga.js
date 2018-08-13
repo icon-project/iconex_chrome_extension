@@ -6,10 +6,10 @@ import {
   icx_sendTransaction as ICX_SEND_TRANSACTION
 } from 'redux/api/walletIcxApi'
 import { validateInputError } from 'redux/reducers/contractReducer'
-import { validateCoinQuantityError, validateContractGasLimitError } from 'redux/reducers/exchangeTransactionReducer'
+import { validateCoinQuantityError, validateContractTxFeeLimitError } from 'redux/reducers/exchangeTransactionReducer'
 import { openPopup } from 'redux/actions/popupActions'
 import { executeFunc, setFuncInputError } from 'redux/actions/contractActions'
-import { setWalletSelectorError, setCoinQuantityError, setContractGasLimitError } from 'redux/actions/exchangeTransactionActions'
+import { setWalletSelectorError, setCoinQuantityError, setContractTxFeeLimitError } from 'redux/actions/exchangeTransactionActions'
 import { makeIcxRawTx, signRawTx } from 'utils'
 
 export function* executeFuncFunc(action) {
@@ -45,10 +45,10 @@ export function* executeFuncFunc(action) {
       });
     } else {
       const privKey = yield select(state => state.exchangeTransaction.privKey);
-      const gasLimit = yield select(state => state.exchangeTransaction.gasLimit);
+      const txFeeLimit = yield select(state => state.exchangeTransaction.txFeeLimit);
       const rawTx = makeIcxRawTx(true, {
         from: selectedAccount,
-        gasLimit,
+        txFeeLimit: txFeeLimit,
         contractAddress,
         methodName: func['name'],
         inputObj: funcInputHex
@@ -64,10 +64,11 @@ export function* executeFuncFunc(action) {
 }
 
 export function* checkContractInputErrorFunc(action) {
-  let isLoggedIn, gasLimit, calcData, coinQuantity;
+  let isLoggedIn, txFeeLimit, calcData, coinQuantity;
   const funcList = yield select(state => state.contract.funcList);
   const selectedFuncIndex = yield select(state => state.contract.selectedFuncIndex);
   const func = funcList[selectedFuncIndex]
+  const isPayableFunc = func.hasOwnProperty('payable')
 
   try {
     let errorFlag = false;
@@ -93,17 +94,17 @@ export function* checkContractInputErrorFunc(action) {
 
     if (!func.readonly) {
       isLoggedIn = yield select(state => state.exchangeTransaction.isLoggedIn);
-      gasLimit = yield select(state => state.exchangeTransaction.gasLimit);
+      txFeeLimit = yield select(state => state.exchangeTransaction.txFeeLimit);
       coinQuantity = yield select(state => state.exchangeTransaction.coinQuantity);
       calcData = yield select(state => state.exchangeTransaction.calcData);
       if (!isLoggedIn) {
         yield put(setWalletSelectorError());
         errorFlag = true;
-      } else if (validateCoinQuantityError({coinQuantity, calcData})) {
+      } else if (isPayableFunc && validateCoinQuantityError({coinQuantity, calcData})) {
         yield put(setCoinQuantityError());
         errorFlag = true;
-      } else if (validateContractGasLimitError({gasLimit, calcData})) {
-        yield put(setContractGasLimitError());
+      } else if (validateContractTxFeeLimitError({txFeeLimit, calcData})) {
+        yield put(setContractTxFeeLimitError());
         errorFlag = true;
       }
     }

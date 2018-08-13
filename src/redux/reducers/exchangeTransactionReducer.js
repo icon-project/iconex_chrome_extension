@@ -1,5 +1,5 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
-import { isAddress, isIcxWalletAddress, isIcxContractAddress, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
+import { isAddress, isEmpty, isIcxWalletAddress, checkLength, isIcxContractAddress, getTypeText, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
 import { store } from 'redux/store/store';
 import { IS_V3 } from 'constants/config.js'
 //import { coinRound as ROUND } from 'constants/index';
@@ -19,10 +19,12 @@ const uiState = {
   recipientAddressError: '',
   isFullBalance: false,
 
-  gasLoading: false,
-  gasLimit: 21000,
-  gasLimitError: '',
-  gasPrice: 21,
+  txFeeLoading: false,
+  txFeeLimit: 21000,
+  txFeeLimitError: '',
+  txFeePrice: 21,
+  stepLimitTable: {},
+
   data: '',
   dataError: '',
   txFee: 0,
@@ -88,9 +90,9 @@ export function validateDataError(state) {
   return error;
 }
 
-export function validateGasLimitError(state) {
+export function validateTxFeeLimitError(state) {
   let error = '';
-  if (!state.gasLimit) {
+  if (!state.txFeeLimit) {
     error = 'enterGasPrice'
   } else {
     error = ''
@@ -98,9 +100,9 @@ export function validateGasLimitError(state) {
   return error
 }
 
-export function validateContractGasLimitError(state) {
+export function validateContractTxFeeLimitError(state) {
   let error = '';
-  if (!state.gasLimit) {
+  if (!state.txFeeLimit) {
     error = 'enterGasPrice'
   } else if (state.calcData.isResultBalanceMinus) {
     error = 'notEnoughBalance'
@@ -125,8 +127,8 @@ const getCoinTypeObj = (wallet) => {
 const calcData = (props) => {
   let {
     coinQuantity,
-    gasLimit,
-    gasPrice,
+    txFeeLimit,
+    txFeePrice,
     account: selectedAccount = store.getState().wallet.selectedWallet.account,
     tokenId: selectedTokenId = store.getState().wallet.selectedWallet.tokenId,
     isToken = store.getState().wallet.selectedWallet.isToken,
@@ -146,10 +148,10 @@ const calcData = (props) => {
   const txFeeUsdRate = !totalResultLoading ? (rate[walletCoinType.toLowerCase()] ? new BigNumber(rate[walletCoinType.toLowerCase()]) : 0) : 0;
   const balance = !isToken ? new BigNumber(wallet.balance) : new BigNumber(wallet.tokens[selectedTokenId].balance);
   const coinQuantityNumber = new BigNumber(coinQuantity || 0);
-  const gasLimitNumber = new BigNumber(gasLimit || 0);
-  let gasPriceCalc = new BigNumber(window.web3.fromWei(window.web3.toWei(gasPrice, walletCoinType === 'icx' ? 'wei' : 'gwei'), 'ether'))
-  let txFee = gasPriceCalc.times(gasLimitNumber)
-  const gasPriceWithRate = convertNumberToText(gasPriceCalc.times(usdRate), 'usd', false);
+  const txFeeLimitNumber = new BigNumber(txFeeLimit || 0);
+  let txFeePriceCalc = new BigNumber(window.web3.fromWei(window.web3.toWei(txFeePrice, walletCoinType === 'icx' ? 'wei' : 'gwei'), 'ether'))
+  let txFee = txFeePriceCalc.times(txFeeLimitNumber)
+  const txFeePriceWithRate = convertNumberToText(txFeePriceCalc.times(usdRate), 'usd', false);
 
   if(!IS_V3 && walletCoinType === 'icx') {
     txFee = new BigNumber(0.01);
@@ -174,7 +176,7 @@ const calcData = (props) => {
 
   return {
     totalBalance: totalBalance.toFixed(18),
-    gasPriceWithRate: gasPriceWithRate,
+    txFeePriceWithRate: txFeePriceWithRate,
     txFee: txFeeText,
     txFeeWithRate: txFeeWithRateText,
     sendQuantity: sendQuantityText,
@@ -187,6 +189,22 @@ const calcData = (props) => {
     coinTypeObj: coinTypeObj
   }
 };
+
+// const updateStepLimit = () => {
+//   const txFeeLimitTable = store.getState().exchangeTransaction.txFeeLimitTable;
+//   const data = store.getState().exchangeTransaction.data;
+//
+//   if (isEmpty(txFeeLimitTable)) return 0;
+//   let stepLimit = ''
+//   // if() {
+//   //   stepLimit = parseInt(txFeeLimitTable['default'], 16)
+//   if(data) {
+//     stepLimit = parseInt(txFeeLimitTable['input'], 16) * checkLength(data)
+//   }else{
+//     stepLimit = parseInt(txFeeLimitTable['default'], 16)
+//   }
+//   return stepLimit
+// }
 
 export function exchangeTransactionReducer(state = initialState, action) {
   switch (action.type) {
@@ -231,25 +249,30 @@ export function exchangeTransactionReducer(state = initialState, action) {
       return Object.assign({}, state, {
           calcData: calcData(state)
       })
-    case actionTypes.setGasLimit: {
+    case actionTypes.setTxFeeLimit: {
       const newState = Object.assign({}, state, {
-          gasLimit: action.payload,
+          txFeeLimit: action.payload,
       })
       return Object.assign({}, newState, {
           calcData: calcData(newState)
       })
     }
-    case actionTypes.setGasPrice: {
+    case actionTypes.setTxFeePrice: {
       const newState = Object.assign({}, state, {
-          gasPrice: action.payload,
+          txFeePrice: action.payload,
       })
       return Object.assign({}, newState, {
           calcData: calcData(newState)
       })
     }
     case actionTypes.setData: {
+      const walletCoinType = state.calcData.walletCoinType
       const newState = Object.assign({}, state, {
           data: action.payload,
+          txFeeLimit: walletCoinType === 'icx'
+                        ? (action.payload.length > 0 ? parseInt(state.txFeeLimitTable['default'], 16) + parseInt(state.txFeeLimitTable['input'], 16) * checkLength(action.payload)
+                                                     : parseInt(state.txFeeLimitTable['default'], 16))
+                        : state.txFeeLimit
       })
       return Object.assign({}, newState, {
           calcData: calcData(newState)
@@ -276,15 +299,15 @@ export function exchangeTransactionReducer(state = initialState, action) {
         } else {
           const coinQuantityError = validateCoinQuantityError(state);
           const recipientAddressError = validateRecipientAddressError(state);
-          const gasLimitError = validateGasLimitError(state);
+          const txFeeLimitError = validateTxFeeLimitError(state);
           const dataError = validateDataError(state);
-          if (!coinQuantityError && !recipientAddressError && !dataError && !gasLimitError) {
+          if (!coinQuantityError && !recipientAddressError && !dataError && !txFeeLimitError) {
             submit = true;
           }
           return Object.assign({}, state, {
             coinQuantityError: coinQuantityError,
             recipientAddressError: recipientAddressError,
-            gasLimitError: gasLimitError,
+            txFeeLimitError: txFeeLimitError,
             dataError: dataError,
             submit: submit
           })
@@ -336,16 +359,16 @@ export function exchangeTransactionReducer(state = initialState, action) {
           dataError: error
       })
     }
-    case actionTypes.setGasLimitError: {
-      let error = validateGasLimitError(state);
+    case actionTypes.setTxFeeLimitError: {
+      let error = validateTxFeeLimitError(state);
       return Object.assign({}, state, {
-          gasLimitError: error
+          txFeeLimitError: error
       })
     }
-    case actionTypes.setContractGasLimitError: {
-      let error = validateContractGasLimitError(state);
+    case actionTypes.setContractTxFeeLimitError: {
+      let error = validateContractTxFeeLimitError(state);
       return Object.assign({}, state, {
-          gasLimitError: error
+          txFeeLimitError: error
       })
     }
     case actionTypes.resetContractInputOutput:
@@ -356,30 +379,53 @@ export function exchangeTransactionReducer(state = initialState, action) {
       const isToken = store.getState().wallet.selectedWallet.isToken;
       const newState = Object.assign({}, state, {
         ...uiState,
-        gasLimit: isToken ? 55000 : 21000
+        txFeeLimit: isToken ? 55000 : 21000
       })
 
       return Object.assign({}, newState, {
         calcData: calcData(newState)
       })
 
-    case actionTypes.getGasInfo:
+    case actionTypes.getTxFeeInfo:
       return Object.assign({}, state, {
-          gasLoading: true
+          txFeeLoading: true
       })
-    case actionTypes.getGasInfoFulfilled:
-      const newGasState = Object.assign({}, state, {
-        gasLoading: false,
-        gasPrice: action.payload.gasPrice,
-        gasLimit: action.payload.gasLimit,
+    case actionTypes.getTxFeeInfoFulfilled:
+      const { txFeePrice, txFeeLimit, txFeeLimitTable } = action.payload
+      const newTxFeeState = Object.assign({}, state, {
+        txFeeLoading: false,
+        txFeePrice: txFeePrice,
+        txFeeLimit: txFeeLimitTable ? parseInt(txFeeLimitTable['default'], 16) : txFeeLimit,
+        txFeeLimitTable: txFeeLimitTable || {}
       })
-      return Object.assign({}, newGasState, {
-        calcData: calcData(newGasState)
+      return Object.assign({}, newTxFeeState, {
+        calcData: calcData(newTxFeeState)
       })
-    case actionTypes.getGasInfoRejected:
+    case actionTypes.getTxFeeInfoRejected:
       return Object.assign({}, state, {
-          gasLoading: false
+          txFeeLoading: false
       })
+    case actionTypes.updateStepLimit: {
+      const { dataType } = action.payload
+      const { txFeeLimitTable, data } = state
+      let stepLimit = ''
+      switch(dataType) {
+        case 'default':
+          stepLimit = parseInt(txFeeLimitTable['default'], 16)
+          break;
+        case 'message':
+          stepLimit = parseInt(txFeeLimitTable['input'], 16) * checkLength(data)
+          break;
+        default:
+          break;
+      }
+      const newState = Object.assign({}, state, {
+        txFeeLimit: stepLimit
+      })
+      return Object.assign({}, newState, {
+        calcData: calcData(newState)
+      })
+    }
     default: {
       return state
     }

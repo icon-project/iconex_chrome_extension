@@ -149,6 +149,19 @@ function isAddress(address) {
     }
 }
 
+let isChecksumAddress = function (address) {
+    // Check each case
+    address = address.replace('0x','');
+    var addressHash = window.web3.sha3(address.toLowerCase());
+    for (var i = 0; i < 40; i++ ) {
+        // the nth letter should be uppercase if the nth digit of casemap is 1
+        if ((parseInt(addressHash[i], 16) > 7 && address[i].toUpperCase() !== address[i]) || (parseInt(addressHash[i], 16) <= 7 && address[i].toLowerCase() !== address[i])) {
+            return false;
+        }
+    }
+    return true;
+}
+
 function isIcxWalletAddress(address) {
     const addressLowerCase = address.toLowerCase();
     if (/^(hx)[0-9a-f]{40}$/.test(addressLowerCase)) {
@@ -363,8 +376,8 @@ function makeEthRawTx(isToken, data) {
       nonce: window.web3.toHex(window.web3.eth.getTransactionCount(check0xPrefix(data.from))),
       from: check0xPrefix(data.from),
       to: check0xPrefix(data.contractAddress),
-      gasPrice: window.web3.toHex(window.web3.toWei(data.gasPrice, 'gwei')),
-      gasLimit: window.web3.toHex(data.gasLimit),
+      gasPrice: window.web3.toHex(window.web3.toWei(data.txFeePrice, 'gwei')),
+      gasLimit: window.web3.toHex(data.txFeeLimit),
       // EIP 155 chainId - mainnet: 1, ropsten: 3
       chainId: CHAIN_ID(),
       value: 0,
@@ -377,8 +390,8 @@ function makeEthRawTx(isToken, data) {
       nonce: window.web3.toHex(window.web3.eth.getTransactionCount(check0xPrefix(data.from))),
       from: check0xPrefix(data.from),
       to: check0xPrefix(data.to),
-      gasPrice: window.web3.toHex(window.web3.toWei(data.gasPrice, 'gwei')),
-      gasLimit: window.web3.toHex(data.gasLimit),
+      gasPrice: window.web3.toHex(window.web3.toWei(data.txFeePrice, 'gwei')),
+      gasLimit: window.web3.toHex(data.txFeeLimit),
       // EIP 155 chainId - mainnet: 1, ropsten: 3
       chainId: CHAIN_ID(),
       value: window.web3.toHex(sendAmount),
@@ -410,7 +423,7 @@ function makeIcxRawTx(isContract, data) {
       to: data.contractAddress,
       version: "0x3",
       nid: '0x3',
-      stepLimit: check0xPrefix(new BigNumber(data.gasLimit).toString(16)),
+      stepLimit: check0xPrefix(new BigNumber(data.txFeeLimit).toString(16)),
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16)),
       dataType: 'call',
       data: {
@@ -418,6 +431,10 @@ function makeIcxRawTx(isContract, data) {
           "params": data.inputObj
       }
     };
+    if (data.value) {
+      const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
+      rawTx['value'] = window.web3.toHex(sendAmount)
+    }
   }
   else {
     const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
@@ -427,7 +444,7 @@ function makeIcxRawTx(isContract, data) {
       value: window.web3.toHex(sendAmount),
       version: "0x3",
       nid: '0x3',
-      stepLimit: check0xPrefix(new BigNumber(data.gasLimit).toString(16)),
+      stepLimit: check0xPrefix(new BigNumber(data.txFeeLimit).toString(16)),
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16))
     }
     if (data.data) {

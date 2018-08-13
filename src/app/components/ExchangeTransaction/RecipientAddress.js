@@ -18,10 +18,10 @@ class RecipientAddress extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setGasInfo(nextProps)
+    this.getTxFeeInfo(nextProps)
   }
 
-  setGasInfo = (nextProps) => {
+  getTxFeeInfo = (nextProps) => {
     clearTimeout(this.timeout)
 
     const { isToken } = nextProps
@@ -34,7 +34,7 @@ class RecipientAddress extends Component {
     if (wallets[selectedAccount].type === 'icx') return
 
     this.timeout = setTimeout(() => {
-      const { wallets, gasPrice, gasLimit, selectedAccount, selectedTokenId } = nextProps
+      const { wallets, txFeePrice, txFeeLimit, selectedAccount, selectedTokenId } = nextProps
       const token = wallets[selectedAccount].tokens[selectedTokenId]
       const rawTx = makeEthRawTx(true, {
         from: selectedAccount,
@@ -43,12 +43,12 @@ class RecipientAddress extends Component {
         tokenDefaultDecimal: token.defaultDecimals,
         tokenDecimal: token.decimals,
         value: coinQuantity,
-        gasPrice: gasPrice,
-        gasLimit: gasLimit
+        txFeePrice: txFeePrice,
+        txFeeLimit: txFeeLimit
       })
       delete rawTx.chainId;
       delete rawTx.gasLimit;
-      this.props.getGasInfo(rawTx)
+      this.props.getTxFeeInfo(rawTx)
     }, 500)
   }
 

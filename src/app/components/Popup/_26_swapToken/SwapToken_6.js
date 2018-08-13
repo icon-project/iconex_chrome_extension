@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
-import { nToBr } from 'utils';
+import { nToBr, makeEthRawTx } from 'utils';
 import { QuantitySetterContainer } from 'app/containers/'
-import { ICX_TOKEN_DISCARD_ADDRESS } from 'constants/config'
+import { ICX_TOKEN_CONTRACT_ADDRESS, ICX_TOKEN_DISCARD_ADDRESS } from 'constants/config'
 
 const INIT_STATE = {
 }
@@ -22,8 +22,8 @@ class SwapToken6 extends Component {
     //   coinTypeIndex: ICX_CONTRACT_ADDRESS
     // })
 
-    this.props.setGasLimit(0);
-    this.props.setGasPrice(0);
+    this.props.setTxFeeLimit(0);
+    this.props.setTxFeePrice(0);
     this.props.setRecipientAddress(ICX_TOKEN_DISCARD_ADDRESS());
     this.props.setCalcData()
   }
@@ -38,7 +38,7 @@ class SwapToken6 extends Component {
   }
 
   handleSubmit = (e) => {
-    if (this.props.gasLimit * this.props.gasPrice === 0) {
+    if (this.props.txFeeLimit * this.props.txFeePrice === 0) {
       return
     }
     this.props.submitCall(true);
@@ -98,7 +98,7 @@ class SwapToken6 extends Component {
 						</div>
 					</div>
           <div className="btn-holder">
-            <button onClick={this.handleSubmit} type="submit" className={`btn-type-normal ${this.props.gasLimit * this.props.gasPrice === 0  && 'disabled'}`}><span>{I18n.button.complete}</span></button>
+            <button onClick={this.handleSubmit} type="submit" className={`btn-type-normal ${this.props.txFeeLimit * this.props.txFeePrice === 0  && 'disabled'}`}><span>{I18n.button.complete}</span></button>
 					</div>
         </li>
       </ul>

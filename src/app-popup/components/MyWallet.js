@@ -35,8 +35,8 @@ class MyWallet extends Component {
           tokenDefaultDecimal: 18,
           tokenDecimal: 18,
           data: {},
-          gasLimit: '',
-          gasPrice: '',
+          txFeeLimit: '',
+          txFeePrice: '',
           coinType: 'icx'
         });
 

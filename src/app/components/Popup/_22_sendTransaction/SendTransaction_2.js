@@ -40,8 +40,8 @@ class SendTransaction2 extends Component {
        isToken,
        recipientAddress,
        coinQuantity,
-       gasLimit,
-       gasPrice,
+       txFeeLimit,
+       txFeePrice,
        wallets,
        data,
        privKey,
@@ -71,8 +71,8 @@ class SendTransaction2 extends Component {
              tokenDecimal: !isToken ? 18 : wallets[selectedAccount].tokens[selectedTokenId].decimals,
              value: coinQuantity,
              data: data,
-             gasLimit: gasLimit,
-             gasPrice: gasPrice,
+             txFeeLimit: txFeeLimit,
+             txFeePrice: txFeePrice,
              coinType: wallets[selectedAccount].type
            }
            this.props.sendCall(privKey, sendData);
@@ -85,29 +85,8 @@ class SendTransaction2 extends Component {
    }
 
    renderPageTypeSwitch = () => {
-     const {
-       I18n,
-       funcList,
-       selectedAccount,
-       selectedFuncIndex,
-       funcInput,
-       coinQuantity,
-       recipientAddress,
-       txLoading,
-       calcData,
-       gasPrice,
-       gasLimit,
-       pageType,
-       icxSwapAddress,
-       wallets,
-       swapWalletName,
-       isLedger,
-       ledgerTimer,
-       isLedgerConfirmed,
-       language
-     } = this.props;
-
-     const txFee = convertNumberToText(gasLimit * window.web3.fromWei(window.web3.toWei(gasPrice, 'gwei'), 'ether'), 'transaction', true);
+     const { I18n, funcList, txLoading, selectedAccount, selectedFuncIndex, funcInput, coinQuantity, recipientAddress, calcData, pageType, icxSwapAddress, wallets, swapWalletName, isLedger, ledgerTimer, isLedgerConfirmed, language } = this.props;
+     const txFee = calcData.txFee
 
      switch(pageType) {
        case 'swap': {
@@ -149,11 +128,12 @@ class SendTransaction2 extends Component {
                             </div>
                         )
                       }
-                      return true;
                     })
                   }
                   <p className="title">{'지갑 주소'}</p>
                   <p className="address">{selectedAccount}</p>
+                  { !!coinQuantity && (<p className="title">{'송금할 ICX 수량'}</p>)}
+                  { !!coinQuantity && (<p className="address">{`${coinQuantity} ICX`}</p>)}
                   <p className="title">{'최대 수수료'}</p>
                   <p className="address">{txFee}</p>
          				</div>

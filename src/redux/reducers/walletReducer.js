@@ -293,6 +293,7 @@ export function walletReducer(state = initialState, action) {
       })
     }
 
+    /* TODO: selectedWallet 어떤 상황에서 리셋해야 하는지 체크*/
     case actionTypes.resetContractInputOutput:
     case actionTypes.resetEXTRPageReducer:
     case actionTypes.resetSelectedWallet:

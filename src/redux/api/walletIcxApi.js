@@ -1,9 +1,11 @@
 import { chromeStorage } from 'utils';
 import axios from 'axios';
-import { signRawTx, customValueToTokenValue, makeIcxRawTx, checkHxPrefix, check0xPrefix, delete0xPrefix, randomUint32, isIRCTokenFunc } from 'utils';
+import { signRawTx, customValueToTokenValue, makeIcxRawTx, checkHxPrefix, check0xPrefix, delete0xPrefix, concatTypedArrays, randomUint32, isIRCTokenFunc } from 'utils';
 import moment from 'moment';
 import BigNumber from 'bignumber.js';
 import { ICX_WALLET_SERVER, ICX_TRACKER_SERVER, IS_V3 } from 'constants/config.js';
+
+const GOVERNANCE_ADDRESS = 'cx0000000000000000000000000000000000000001'
 
 let walletApi = axios.create({
   baseURL: ICX_WALLET_SERVER(),
@@ -223,20 +225,17 @@ export function icx_getTokenInfoApi(tokenObj) {
         console.log(getNameObj)
         const name = await icx_call({
           contractAddress: tokenObj.address,
-          methodName: getNameObj[0].name,
-          inputObj: {}
+          methodName: getNameObj[0].name
         });
         const getSymbolObj = tokenFuncList.filter(obj => obj.name === 'symbol');
         const symbol = await icx_call({
           contractAddress: tokenObj.address,
-          methodName: getSymbolObj[0].name,
-          inputObj: {}
+          methodName: getSymbolObj[0].name
         });
         const getDecimalsObj = tokenFuncList.filter(obj => obj.name === 'decimals');
         const decimals = await icx_call({
           contractAddress: tokenObj.address,
-          methodName: getDecimalsObj[0].name,
-          inputObj: {}
+          methodName: getDecimalsObj[0].name
         });
         const result = Object.assign({}, tokenObj, {
           defaultName: name[0],
@@ -260,7 +259,7 @@ export function icx_getTokenInfoApi(tokenObj) {
 export function icx_call({
   contractAddress,
   methodName,
-  inputObj
+  inputObj = {}
 } = {}) {
   return new Promise((resolve, reject) => {
     let param = {
@@ -357,4 +356,27 @@ export function icx_getScoreApi(address) {
         reject(error);
       })
   });
+}
+
+export function icx_getTxFeeInfoApi(data) {
+  return (async () => {
+      try {
+        const stepPrice = await icx_call({
+          contractAddress: GOVERNANCE_ADDRESS,
+          methodName: 'getStepPrice'
+        });
+        const stepLimitTable = await icx_call({
+          contractAddress: GOVERNANCE_ADDRESS,
+          methodName: 'getStepCosts'
+        });
+        return {
+          txFeePrice: stepPrice[0],
+          txFeeLimitTable: stepLimitTable[0]
+        }
+      } catch (error) {
+        return {
+          error
+        };
+      }
+    })();
 }

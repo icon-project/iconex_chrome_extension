@@ -26,21 +26,24 @@ class CalculationTable extends Component {
   }
 
   render() {
-    const { calcData: data, I18n, swapPage, gasLimit, gasPrice, isContractPage } = this.props;
+    const { calcData: data, I18n, swapPage, txFeeLimit, txFeePrice, isContractPage } = this.props;
     const { walletCoinType } = data;
     const { txFeeHelpLayer } = this.state;
     return (
       <ul className="change-group">
+        {/* if swap page */}
         {swapPage &&
         <li>
+          {/* TODO loadingComponent */}
           <span className="a">{I18n.swapToken.gasLimit}</span>
-          <span className="b num">{gasLimit === 0 ? '-' : gasLimit}</span>
+          <span className="b num">{txFeeLimit === 0 ? '-' : txFeeLimit}</span>
         </li>
         }
         {swapPage &&
         <li>
+          {/* TODO loadingComponent */}
           <span className="a">{I18n.swapToken.gasPrice}</span>
-          <span className="b num">{gasPrice === 0 ? '-': gasPrice}<em>Gwei</em></span>
+          <span className="b num">{txFeePrice === 0 ? '-': txFeePrice}<em>Gwei</em></span>
         </li>
         }
         <li style={isContractPage && {marginTop: 40}}>

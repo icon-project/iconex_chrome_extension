@@ -24,6 +24,9 @@ function copyPublicFolder() {
     filter: file =>
         file !== paths.appHtml &&
         file !== paths.appPopupHtml &&
-        !file.includes('test')
+        file !== paths.appHtmlTest &&
+        file !== paths.appHtmlDev &&
+        !file.includes('test') &&
+        !file.includes('dev')
   });
 }

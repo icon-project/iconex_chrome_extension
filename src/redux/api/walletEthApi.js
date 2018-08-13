@@ -7,19 +7,14 @@ import { erc20Abi } from 'constants/index'
 BigNumber.config({ ERRORS: false });
 BigNumber.config({ EXPONENTIAL_AT: 1e+9 })
 
-/**
- * fetch gas price & gas limit
- * @param {Object} data: { from, to, contractAddress, tokenDefaultDecimal, tokenDecimal, value, gasPrice }
- * @return {Object} result: { gasPrice, gasLimit }
-*/
-function getGasInfo(data) {
+function getTxFeeInfo(data) {
   return new Promise (resolve => {
     window.web3.eth.getGasPrice((errorPrice, gasPrice) => {
       window.web3.eth.estimateGas(data, (errorLimit, gasLimit) => {
         const { isToken } = data
         const result = {
-          gasPrice: !gasPrice ? 21 : calcGasPrice(gasPrice),
-          gasLimit: !gasLimit ? (isToken ? 55000 : 21000) : gasLimit * (isToken ? 2 : 1)
+          txFeePrice: !gasPrice ? 21 : calcGasPrice(gasPrice),
+          txFeeLimit: !gasLimit ? (isToken ? 55000 : 21000) : gasLimit * (isToken ? 2 : 1)
         }
         resolve(result)
       })
@@ -27,9 +22,9 @@ function getGasInfo(data) {
   })
 }
 
-export function eth_getGasInfoApi(data) {
+export function eth_getTxFeeInfoApi(data) {
   return new Promise(resolve => {
-    const result = getGasInfo(data)
+    const result = getTxFeeInfo(data)
     resolve(result)
   })
 }

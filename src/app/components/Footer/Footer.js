@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { routeConstants as ROUTE } from 'constants/index';
 import { ServerChanger } from 'app/components/'
-import { APP_VERSION, HIDE_SERVER } from 'constants/config.js'
+import { HIDE_SERVER } from 'constants/config.js'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -43,7 +43,7 @@ class Footer extends Component {
                         <ServerChanger {...this.props} />
                       )
                     }
-                <span className="ver">{`Ver.${APP_VERSION}`}</span>
+                <span className="ver">{`Ver.${process.env.APP_VERSION}`}</span>
                 </div>
           		</div>
               )

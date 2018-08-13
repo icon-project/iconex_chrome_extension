@@ -4,6 +4,7 @@ import withLanguageProps from 'HOC/withLanguageProps';
 import { Alert } from 'app/components'
 import { customValueToTokenValue, makeIcxRawTx } from 'utils';
 import BigNumber from 'bignumber.js';
+import { icx_sendtransaction_v2 } from 'redux/api/walletIcxApi'
 
 @withLanguageProps
 class SendTransaction extends Component {
@@ -54,8 +55,8 @@ class SendTransaction extends Component {
       isToken,
       recipientAddress,
       coinQuantity,
-      gasLimit,
-      gasPrice,
+      txFeeLimit,
+      txFeePrice,
       wallets,
       data,
       isLedger,
@@ -73,8 +74,8 @@ class SendTransaction extends Component {
       tokenDecimal: !isToken ? 18 : selectedWallet.tokens[selectedTokenId].decimals,
       value: coinQuantity,
       data: data,
-      gasLimit: gasLimit,
-      gasPrice: gasPrice,
+      txFeeLimit: txFeeLimit,
+      txFeePrice: txFeePrice,
       coinType: selectedWallet.type
     }
 
@@ -102,6 +103,8 @@ class SendTransaction extends Component {
     switch (method) {
       case 'setRawTx':
         this.props.confirmLedger(payload)
+        // const result = await icx_sendtransaction_v2(payload);
+        // source.postMessage(result, '*')
         break;
       default:
         break;

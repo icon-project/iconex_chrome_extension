@@ -18,7 +18,7 @@ class UnlockPopup extends Component {
   }
 
   closePopup = () => {
-    this.props.togglePopup();
+    this.props.closePopup();
   }
 
   handleSubmit = () => {
@@ -36,9 +36,11 @@ class UnlockPopup extends Component {
     }
 
     this.props.setLock('', '')
-
     this.setState({
       showAlertSuccess: true
+    })
+    window.chrome.tabs.getCurrent((tab) => {
+      window.chrome.runtime.sendMessage({ type: 'REFRESH_LOCK_STATE', payload: tab.id });
     })
   }
 
@@ -60,7 +62,7 @@ class UnlockPopup extends Component {
   }
 
   closeAlert = () => {
-    this.props.togglePopup();
+    this.props.closePopup();
     this.props.history.push(ROUTE['mywallet']);
   }
 

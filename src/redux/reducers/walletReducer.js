@@ -4,16 +4,22 @@ import update from 'react-addons-update';
 const initialState = {
   wallets: {},
   walletsLoading: true,
-  totalResultLoading: true,
-  rate: {},
-  rateLoading: true,
-  currency: 'usd',
+  totalResultLoading: false,
+  // rate: {},
+  // rateLoading: true,
+  // currency: 'usd',
+  selectedWallet: {
+    account: '',
+    tokenId: '',
+    isToken: false
+  },
   _06_privateKey: '', // 06 BACKUP WALLETS,
   _06_v3: '', // 06 BACKUP WALLETS
-  _07_isExistToken: false, // 07 ADD TOKENS
-  _07_isExistTokenLoading: true,
+
   _07_tokenInfo: {},
   _07_tokenInfoLoading: false,
+  _07_tokenInfoError: '',
+
   _09_exportWalletObjects: {}, // 09 EXPORT WALLETS
   _09_newPw: '',
   error: ''
@@ -80,45 +86,24 @@ export function walletReducer(state = initialState, action) {
           _06_v3: action.payload.v3,
       })
     }
-    case actionTypes.isExistToken: {
-      return Object.assign({}, state, {
-        _07_isExistToken: false,
-        _07_isExistTokenLoading: true
-      })
-    }
-    case actionTypes.isExistTokenFulfilled: {
-      return Object.assign({}, state, {
-        _07_isExistToken: action.payload,
-        _07_isExistTokenLoading: false
-      })
-    }
-    case actionTypes.isExistTokenRejected: {
-      return Object.assign({}, state, {
-        _07_isExistToken: false,
-        _07_isExistTokenLoading: false
-      })
-    }
-    case actionTypes.resetAddTokenState: {
-      return Object.assign({}, state, {
-        _07_isExistToken: false,
-        _07_isExistTokenLoading: true,
-      })
-    }
     case actionTypes.getTokenInfo: {
       return Object.assign({}, state, {
         _07_tokenInfo: {},
-        _07_tokenInfoLoading: true
+        _07_tokenInfoLoading: true,
+        _07_tokenInfoError: ''
       })
     }
     case actionTypes.getTokenInfoFulfilled: {
       return Object.assign({}, state, {
         _07_tokenInfo: action.payload,
-        _07_tokenInfoLoading: false
+        _07_tokenInfoLoading: false,
+        _07_tokenInfoError: ''
       })
     }
     case actionTypes.getTokenInfoRejected: {
       return Object.assign({}, state, {
-        _07_tokenInfoLoading: false
+        _07_tokenInfoLoading: false,
+        _07_tokenInfoError: action.error
       })
     }
     case actionTypes.fetchCoinBalanceLoading: {
@@ -201,29 +186,29 @@ export function walletReducer(state = initialState, action) {
           totalResultLoading: false
       })
     }
-    case actionTypes.setCurrency: {
-      return Object.assign({}, state, {
-          currency: action.currency
-      })
-    }
-    case actionTypes.getRateLoading: {
-      return Object.assign({}, state, {
-          rateLoading: true
-      })
-    }
-    case actionTypes.getRateFulfilled: {
-      return Object.assign({}, state, {
-          rate: action.payload.result,
-          currency: action.payload.currency,
-          rateLoading: false
-      })
-    }
-    case actionTypes.getRateRejected: {
-      return Object.assign({}, state, {
-          error: action.error,
-          rateLoading: false
-      })
-    }
+    // case actionTypes.setCurrency: {
+    //   return Object.assign({}, state, {
+    //       currency: action.currency
+    //   })
+    // }
+    // case actionTypes.getRateLoading: {
+    //   return Object.assign({}, state, {
+    //       rateLoading: true
+    //   })
+    // }
+    // case actionTypes.getRateFulfilled: {
+    //   return Object.assign({}, state, {
+    //       rate: action.payload.result,
+    //       currency: action.payload.currency,
+    //       rateLoading: false
+    //   })
+    // }
+    // case actionTypes.getRateRejected: {
+    //   return Object.assign({}, state, {
+    //       error: action.error,
+    //       rateLoading: false
+    //   })
+    // }
     case actionTypes.deleteToken:
       return Object.assign({}, state, {
       })
@@ -248,39 +233,77 @@ export function walletReducer(state = initialState, action) {
       })
     }
     case actionTypes.addRecentTransactionFulfilled: {
-      if(action.tokenIndex !== null) {
-        return update(state, {
-          wallets: {
-            [action.account]: {
-              tokens: {
-                [action.tokenIndex]: {
-                  recent: {$set: [action.transactionData, ...state.wallets[action.account].tokens[action.tokenIndex].recent]}
-                }
-              }
-            }
-          }
-        })
-      } else {
-        if (state.wallets[action.account].type === "icx") {
+      const { contractAddress, from } = action.payload
+      if (contractAddress) {
+        if (state.wallets[from].type === "icx") {
           return update(state, {
             wallets: {
-              [action.account]: {
-                recent: {$set: [action.transactionData, ...state.wallets[action.account].recent]},
-                pendingTransaction: {$set: [action.transactionData, ...state.wallets[action.account].pendingTransaction]}
+              [from]: {
+                tokens: {
+                  [contractAddress]: {
+                    recent: {$set: [action.payload.recent]},
+                    pendingTransaction: {$set: [action.payload.pending, ...state.wallets[from].tokens[contractAddress].pendingTransaction]}
+                  }
+                }
               }
             }
           })
         } else {
           return update(state, {
             wallets: {
-              [action.account]: {
-                recent: {$set: [action.transactionData, ...state.wallets[action.account].recent]}
+              [from]: {
+                tokens: {
+                  [contractAddress]: {
+                    recent: {$set: [action.payload.recent, ...state.wallets[from].tokens[contractAddress].recent].slice(0, 5)}
+                  }
+                }
+              }
+            }
+          })
+        }
+      } else {
+        if (state.wallets[from].type === "icx") {
+          return update(state, {
+            wallets: {
+              [from]: {
+                recent: {$set: [action.payload.recent]},
+                pendingTransaction: {$set: [action.payload.pending, ...state.wallets[from].pendingTransaction]}
+              }
+            }
+          })
+        } else {
+          return update(state, {
+            wallets: {
+              [from]: {
+                recent: {$set: [action.payload.recent, ...state.wallets[from].recent].slice(0, 5)}
               }
             }
           })
         }
       }
     }
+    case actionTypes.setSelectedWallet: {
+      const selectedWallet = {
+        account: action.payload.account,
+        tokenId: action.payload['tokenId'] || '',
+        isToken: !!action.payload['tokenId']
+      }
+      return Object.assign({}, state, {
+          selectedWallet: selectedWallet
+      })
+    }
+
+    case actionTypes.resetContractInputOutput:
+    case actionTypes.resetEXTRPageReducer:
+    case actionTypes.resetSelectedWallet:
+      const selectedWallet = {
+        account: '',
+        tokenId: '',
+        isToken: false
+      }
+      return Object.assign({}, state, {
+          selectedWallet: selectedWallet
+      })
     default: {
       return state
     }

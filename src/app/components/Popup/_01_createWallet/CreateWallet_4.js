@@ -8,7 +8,7 @@ import { nToBr, isEmpty, generateIconexObject } from 'utils';
 
 const INIT_STATE = {
   isDone: false,
-  toggleKey: '',
+  toggleKey: 'on',
   showAlertCancelCreateWalletNotDownload: false,
   loading: false
 }
@@ -129,7 +129,7 @@ class CreateWallet4 extends Component {
 							<div className="tabbox-holder ">
 								<div className="key-group">
 									<p className="title">{I18n.createWallet.privateKey}</p>
-                  <p className="key">{toggleKey === 'on' ? privateKey : '*'.repeat(64)}<em onClick={this.toggleKey} className={`_img ${toggleKey}`}></em></p>
+                  <p className="key">{toggleKey === '' ? privateKey : '*'.repeat(64)}<em onClick={this.toggleKey} className={`_img ${toggleKey}`}></em></p>
 								</div>
 								<div className="btn-group">
                   <CopyButton target={privateKey} text={I18n.button.copyPrivateKey} type="small" defaultSize={true} copyFinish={I18n.button.copyFinish}/>
@@ -150,7 +150,7 @@ class CreateWallet4 extends Component {
               text={I18n.createWallet.cancelCreateWalletNotDownload}
               cancelText={I18n.button.no}
               submitText={I18n.button.yes}
-              btnButtom={true}
+              btnBottom={true}
             />
           )
         }

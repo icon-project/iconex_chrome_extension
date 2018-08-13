@@ -22,7 +22,6 @@ class MyWallet extends Component {
     if(!this.props.walletsLoading) {
       this.props.fetchAll(this.props.wallets);
     }
-    this.props.setIsAppOpenedByPopup(false);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -41,7 +40,6 @@ class MyWallet extends Component {
 
   componentWillUnmount() {
     this.setState(INIT_STATE);
-    this.props.resetMainPageUIReducer();
   }
 
   setCoinDataSortedByWallet = (wallet, coinBalanceWithRate, dataSortedByWallet) => {
@@ -75,10 +73,11 @@ class MyWallet extends Component {
       account: wallet.account,
       balance: token.balance,
       balanceLoading: token.balanceLoading,
+      walletBalance: wallet.balance,
       balanceWithRate: tokenBalanceWithRate || null,
       recent: token.recent,
       tokenId: token.address,
-      symbol: token.defaultSymbol,
+      symbol: token.symbol,
       defaultDecimals: token.defaultDecimals,
       decimals: token.decimals,
     }

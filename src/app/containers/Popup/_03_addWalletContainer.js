@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { AddWallet } from 'app/components/';
-import { togglePopup, setPopupType, setPopupNum, initPopupState } from 'redux/actions/popupActions';
+import {  openPopup, setPopupNum, closePopup } from 'redux/actions/popupActions';
 
 function mapStateToProps(state) {
   return {
@@ -10,9 +10,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    togglePopup: () => dispatch(togglePopup()),
-    initPopupState: () => dispatch(initPopupState()),
-    setPopupType: (s) => dispatch(setPopupType(s)),
+    
+    closePopup: () => dispatch(closePopup()),
+    openPopup: (s) => dispatch(openPopup(s)),
     setPopupNum: (n) => dispatch(setPopupNum(n)),
   };
 }

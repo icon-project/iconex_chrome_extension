@@ -6,7 +6,7 @@ import Worker from 'workers/wallet.worker.js';
 import { CopyButton, LoadingComponent, Alert } from 'app/components/'
 
 const INIT_STATE = {
-  toggleKey: '',
+  toggleKey: 'on',
   loading: false,
   showAlertCompleteInfo: false
 }
@@ -65,7 +65,8 @@ class SwapToken5 extends Component {
   }
 
   goToFinalStep = () => {
-    this.setState({showAlertCompleteInfo: true})
+    this.props.setPopupNum(6)
+    // this.setState({showAlertCompleteInfo: true})
     // ** swap function
     // const _isDevelopment = isDevelopment()
     // if (_isDevelopment) {
@@ -78,7 +79,7 @@ class SwapToken5 extends Component {
 
   goToHome = () => {
     this.setState(INIT_STATE)
-    this.props.initPopupState();
+    this.props.closePopup();
     this.props.logIn();
   }
 
@@ -97,7 +98,7 @@ class SwapToken5 extends Component {
             <h1 className="title">Step 4</h1>
             <span className="img"><em className="_img step4"></em></span>
             <ul>
-              <li>{I18n.swapToken.step1}</li>
+              <li>{nToBr(I18n.swapToken.step1)}</li>
               <li>{nToBr(I18n.swapToken.step2)}</li>
               <li>{nToBr(I18n.swapToken.step3)}</li>
               <li className="on">{nToBr(I18n.swapToken.step4)}</li>
@@ -121,7 +122,7 @@ class SwapToken5 extends Component {
 							<div className="tabbox-holder ">
 								<div className="key-group">
 									<p className="title">{I18n.createWallet.privateKey}</p>
-                  <p className="key">{toggleKey === 'on' ? privateKey : '*'.repeat(64)}<em onClick={this.toggleKey} className={`_img ${toggleKey}`}></em></p>
+                  <p className="key">{toggleKey === '' ? privateKey : '*'.repeat(64)}<em onClick={this.toggleKey} className={`_img ${toggleKey}`}></em></p>
 								</div>
 								<div className="btn-group">
                   <CopyButton target={privateKey} text={I18n.button.copyPrivateKey} type="small" defaultSize={true} copyFinish={I18n.button.copyFinish}/>
@@ -133,7 +134,7 @@ class SwapToken5 extends Component {
           <div className="btn-holder">
             <button onClick={this.goBack} type="submit" className="btn-type-fill"><span>{I18n.button.back}</span></button>
             {loading ? (<button type="submit" className="btn-type-normal load2"><span><LoadingComponent type="black" /></span></button>)
-                     : (<button onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.swapToken.walletFinish}</span></button>)}
+                     : (<button onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.button.next}</span></button>)}
 					</div>
         </li>
         {showAlertCompleteInfo &&
@@ -141,7 +142,7 @@ class SwapToken5 extends Component {
             handleSubmit={this.goToHome}
             text={I18n.swapToken.alertCompleteInfo}
             submitText={I18n.button.confirm}
-            btnButtom={true}
+            btnBottom={true}
           />
         }
       </ul>

@@ -54,11 +54,10 @@ class WalletSection extends Component {
     const {
       walletSectionData,
       isCoinView,
-      setPopupType,
-      togglePopup,
+      openPopup,
       currency,
-      setAccountAddress,
-      setPopupNum
+      setPopupNum,
+      setSelectedWallet
     } = this.props;
 
     const {
@@ -128,11 +127,10 @@ class WalletSection extends Component {
                       key={i}
                       data={barData}
                       currency={currency}
-                      togglePopup={togglePopup}
-                      setPopupType={setPopupType}
+                      openPopup={openPopup}
                       isCoinView={isCoinView}
-                      setAccountAddress={setAccountAddress}
                       setPopupNum={setPopupNum}
+                      setSelectedWallet={setSelectedWallet}
                       />
                   ))
                 }

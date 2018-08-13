@@ -130,7 +130,7 @@ module.exports = {
             name: 'static/js/worker.bundle.js'
           }
         }],
-        include: paths.appSrc
+        include: paths.appWorkerJs
       },
       {
         // "oneOf" will traverse all following loaders until one will

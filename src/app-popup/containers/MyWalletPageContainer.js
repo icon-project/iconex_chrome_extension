@@ -1,10 +1,8 @@
 import { connect } from 'react-redux';
 import MyWallet from 'app-popup/components/MyWallet';
-import { getWallet, fetchAll } from 'redux/actions/walletActions';
-import { resetMainPageUIReducer } from 'redux/actions/mainPageUIActions';
-import { setSelectedAccount } from 'redux/actions/mainPageUIActions';
-import { setAccountAddress, sendCall } from 'redux/actions/exchangeTransactionActions'
-import { setIsAppOpenedByPopup, setIsRequestedStatus, setTransactionStatus } from 'redux/actions/globalActions';
+import { getWallet, fetchAll, setSelectedWallet } from 'redux/actions/walletActions';
+import { sendCall } from 'redux/actions/exchangeTransactionActions'
+import { setIsRequestedStatus, setTransactionStatus } from 'redux/actions/globalActions';
 
 function mapStateToProps(state) {
   return {
@@ -13,20 +11,17 @@ function mapStateToProps(state) {
     totalResultLoading: state.wallet.totalResultLoading,
     tx: state.exchangeTransaction.tx,
     txLoading: state.exchangeTransaction.txLoading,
-    // isRequestedStatus: state.global.message.isRequestedStatus,
-    // transaction: state.global.message.transaction,
+    isRequestedStatus: state.global.message ? state.global.message.isRequestedStatus : undefined,
+    transaction: state.global.message ? state.global.message.transaction : undefined,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     getWallet: () => dispatch(getWallet()),
-    sendCall: (privKey, data) => dispatch(sendCall(privKey, data)),
-    setSelectedAccount: (s) => dispatch(setSelectedAccount(s)),
-    setAccountAddress: payload => dispatch(setAccountAddress(payload)),
+    sendCall: (privKey, data, isLedger) => dispatch(sendCall(privKey, data, isLedger)),
+    setSelectedWallet: (payload) => dispatch(setSelectedWallet(payload)),
     fetchAll: (o) => dispatch(fetchAll(o)),
-    resetMainPageUIReducer: () => dispatch(resetMainPageUIReducer()),
-    setIsAppOpenedByPopup: (isTrue) => dispatch(setIsAppOpenedByPopup(isTrue)),
     setIsRequestedStatus: (requested) => dispatch(setIsRequestedStatus(requested)),
     setTransactionStatus: (transaction) => dispatch(setTransactionStatus(transaction)),
   };

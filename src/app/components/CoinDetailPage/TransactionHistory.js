@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { LoadingComponent } from 'app/components/';
 import { dateFormat as DATE_FORMAT } from 'constants/index';
 import { ETH_SCAN, txidUrl as TXID_URL } from 'constants/config.js'
-import { convertNumberToText, check0xPrefix, delete0xPrefix, tokenValueToCustomValue, calcMaxPageNum } from 'utils'
+import { convertNumberToText, check0xPrefix, calcMaxPageNum } from 'utils'
 import moment from 'moment';
 import withLanguageProps from 'HOC/withLanguageProps';
+import { IS_V3 } from 'constants/config.js';
 
 @withLanguageProps
 class TransactionHistory extends Component {
@@ -12,63 +13,67 @@ class TransactionHistory extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tab: this.props.coinType === 'icx' ? 'complete' : 'pending',
+      tab: this.props.walletCoinType === 'icx' ? 'complete' : 'pending',
       page: 1
     };
   }
 
   componentWillMount() {
-    const { account, coinType, tokenData } = this.props;
-    const tokenAddress = this.props.tokenData ? tokenData.tokenAddress : ''
-    if (coinType === 'icx') {
-      this.props.fetchTransactionHistory(account, {
-        coinType,
-        tokenAddress: tokenAddress,
-        isPending: coinType === 'icx' ? false : true,
-        endBlockNumber: ''
+    const { account, walletCoinType, tokenData } = this.props;
+    const contractAddress = this.props.tokenData ? tokenData.contractAddress : ''
+    console.log(contractAddress)
+    if (walletCoinType === 'icx') {
+      this.props.fetchTransactionHistory({
+        account,
+        walletCoinType,
+        contractAddress,
+        isPending: false
       });
     }
   }
 
   changeTab = (e) => {
-    const { account, coinType, tokenData, wallets} = this.props;
+    const { account, walletCoinType, tokenData, wallets } = this.props;
     const target = e.target.getAttribute('data-id');
     if(this.state.tab === target) return false;
     this.setState({
       tab: target,
       page: 1
     }, () => {
-      const tokenAddress = this.props.tokenData ? tokenData.tokenAddress : ''
+      const contractAddress = this.props.tokenData ? tokenData.contractAddress : ''
+      console.log(contractAddress, account)
+      const pendingList = contractAddress ? wallets[account].tokens[contractAddress]['pendingTransaction'] : wallets[account]['pendingTransaction']
+      console.log(pendingList)
       const isPending = this.state.tab === "pending" ? true : false;
-      this.props.fetchTransactionHistory(account, {
-        coinType,
-        tokenAddress: tokenAddress,
-        endBlockNumber: '',
-        isPending: isPending,
-        pendingList: (coinType === 'icx' && isPending) ? (wallets[account]['pendingTransaction']) : [],
+      this.props.fetchTransactionHistory({
+        account,
+        walletCoinType,
+        contractAddress,
+        isPending,
+        pendingList: isPending ? pendingList : [],
         page: 1
       })
-      if (tokenAddress) {
-        this.props.fetchTokenBalance(tokenAddress, tokenAddress, tokenData.decimals, account, coinType);
+      if (contractAddress) {
+        this.props.fetchTokenBalance(contractAddress, contractAddress, tokenData.decimals, account, walletCoinType);
       } else {
-        this.props.fetchCoinBalance(account, coinType);
+        this.props.fetchCoinBalance(account, walletCoinType);
       };
     })
   }
 
   changePage = (num) => {
-    const { account, coinType, tokenData } = this.props;
+    const { account, walletCoinType, tokenData } = this.props;
     this.setState({
       tab: this.state.tab,
       page: num
     }, () => {
-      const tokenAddress = this.props.tokenData ? tokenData.tokenAddress : ''
+      const contractAddress = this.props.tokenData ? tokenData.contractAddress : ''
       const isPending = this.state.tab === "pending" ? true : false;
-      this.props.fetchTransactionHistory(account, {
-        coinType,
-        tokenAddress: tokenAddress,
-        endBlockNumber: '',
-        isPending: isPending,
+      this.props.fetchTransactionHistory({
+        account,
+        walletCoinType,
+        contractAddress,
+        isPending,
         page: num
       });
     })
@@ -81,23 +86,23 @@ class TransactionHistory extends Component {
     } = this.state;
 
     const {
-      history,
-      historyLoading,
-      tokenData,
-      coinType,
+      txHistory,
+      txHistoryLoading,
+      walletCoinType,
       account,
       totalData,
+      tokenData = {},
       I18n
     } = this.props;
 
-    const noTransaction = (coinType, tab) => {
+    const noTransaction = (walletCoinType, tab) => {
       switch(tab) {
         case 'pending':
           return (
             <tr><td colSpan="4" className="nodata">{I18n.coinDetailHistoryNoTransactionDefault}</td></tr>
           )
         case 'complete':
-          if (coinType === 'icx') {
+          if (walletCoinType === 'icx') {
             return (
               <tr><td colSpan="4" className="nodata">{I18n.coinDetailHistoryNoTransactionDefault}</td></tr>
             )
@@ -111,7 +116,7 @@ class TransactionHistory extends Component {
                     })}
                   </p><br/><br/>
                   <p>
-                    <a href={`${ETH_SCAN}/address/${check0xPrefix(account)}`} target="_blank"><span>{`https://etherscan.io/`}</span></a>
+                    <a href={`${ETH_SCAN()}/address/${check0xPrefix(account)}`} target="_blank"><span>{`https://etherscan.io/`}</span></a>
                   </p>
                 </td>
               </tr>
@@ -123,10 +128,10 @@ class TransactionHistory extends Component {
     }
 
     return (
-      <div className={`wrap-holder ${coinType === "eth" ? 'nodata' : ''}`}>
+      <div className={`wrap-holder ${walletCoinType === "eth" ? 'nodata' : ''}`}>
         <h2>{I18n.coinDetailHistoryTitle}</h2>
         {
-          coinType === 'icx' && (
+          walletCoinType === 'icx' && (
             <p className="listsort">
               <span data-id="pending" onClick={this.changeTab} className={tab === 'pending' && 'on'}>{I18n.coinDetailHistoryPending}</span>
               <span className="gap">|</span>
@@ -135,8 +140,8 @@ class TransactionHistory extends Component {
           )
         }
         {
-          coinType === 'icx' &&
-            (historyLoading
+          walletCoinType === 'icx' &&
+            (txHistoryLoading
               ? (
                   <table className="table-typeB">
                     <thead>
@@ -166,42 +171,33 @@ class TransactionHistory extends Component {
                     </thead>
                     <tbody>
                       {
-                        history.length > 0
+                        txHistory.length > 0
                           ? (
-                                history.map((row, i) => {
-                                  if (coinType !== 'icx') {
-                                    const timestamp = row.time.split(" ")[0] * 1000;
+                                txHistory.map((row, i) => {
+                                    console.log(row)
+                                    const newRow = {
+                                        to: row.address || row.toAddr,
+                                        time: row.time || row.age || row.createDate,
+                                        txid: row.txid || row.txHash,
+                                        value: row.quantity || row.amount,
+                                        isFail: row.isFail || false,
+                                        unit: tokenData['defaultSymbol'] || row.symbol || walletCoinType
+                                    }
+                                    const isUp = newRow.to === account
                                     return (
                                       <HistoryRow key={i}
-                                        time={moment(timestamp).format(DATE_FORMAT)}
-                                        type={row.isUp ? I18n.deposit : I18n.withdraw}
-                                        txid={row.txid}
-                                        status={row['status'] ? row.status : 'success'}
-                                        isUp={row.isUp}
-                                        value={tokenData ? convertNumberToText(tokenValueToCustomValue(row.value, tokenData.defaultDecimals, tokenData.decimals), 'transaction', true) : convertNumberToText(row.value, 'transaction', true)}
-                                        coinType={coinType}
-                                        unit={tokenData ? tokenData.symbol : coinType}/>
-                                    )
-                                  }
-                                  else {
-                                    const isUp = (row.address || row.toAddr) === account
-                                    return (
-                                      <HistoryRow key={i}
-                                        time={row.time
-                                              ? moment(row.time).format(DATE_FORMAT)
-                                              : row.createDate ? moment(row.createDate).format(DATE_FORMAT) : '-'}
+                                        time={newRow.time ? moment(newRow.time).format(DATE_FORMAT) : '-'}
                                         type={isUp ? I18n.deposit : I18n.withdraw}
-                                        txid={row.txid || row.txHash}
-                                        status={'success'}
+                                        txid={newRow.txid}
+                                        isFail={newRow.isFail}
                                         isUp={isUp}
-                                        value={convertNumberToText(row.quantity || row.amount, 'transaction', true)}
-                                        coinType={coinType}
-                                        unit={coinType}/>
+                                        value={convertNumberToText(newRow.value, 'transaction', true)}
+                                        walletCoinType={walletCoinType}
+                                        unit={newRow.unit}/>
                                     )
-                                  }
                                 })
                             )
-                          : noTransaction(coinType, tab)
+                          : noTransaction(walletCoinType, tab)
                         }
                     </tbody>
                   </table>
@@ -209,19 +205,19 @@ class TransactionHistory extends Component {
             )
         }
         {
-          (tab === "pending" && coinType === 'icx') && (
+          (tab === "pending" && walletCoinType === 'icx') && (
             <div className="">
               <p className="lock-txt"><em className="_img"></em>{I18n.coinDetailHistoryPendingInfo}</p>
             </div>
           )
         }
         {
-          coinType === 'eth' && (
+          walletCoinType === 'eth' && (
             <table className="table-typeB">
               <tbody>
     						<tr>
       						<td colSpan="4" className="nodata"><p>{I18n.coinDetailHistoryNoTransactionEth}</p><br/>
-      							<p><a href={`${ETH_SCAN}/address/${check0xPrefix(account)}`} target="_blank">{`https://etherscan.io/`}</a></p>
+      							<p><a href={`${ETH_SCAN()}/address/${check0xPrefix(account)}`} target="_blank">{`https://etherscan.io/`}</a></p>
       						</td>
     						</tr>
     					</tbody>
@@ -230,7 +226,7 @@ class TransactionHistory extends Component {
         }
 
         {
-          (tab === "complete" && history.length > 0) && <Pagination coinType={coinType} totalData={totalData} page={page} changePage={this.changePage}/>
+          (tab === "complete" && txHistory.length > 0) && <Pagination walletCoinType={walletCoinType} totalData={totalData} page={page} changePage={this.changePage}/>
         }
       </div>
     );
@@ -239,8 +235,8 @@ class TransactionHistory extends Component {
 
 class Pagination extends Component {
   render() {
-    const { coinType, totalData, page, changePage } = this.props
-    const pagination = (_coinType) => {
+    const { walletCoinType, totalData, page, changePage } = this.props
+    const pagination = (_walletCoinType) => {
       const maxPage = calcMaxPageNum(totalData, 10)
       const pageNum = []
       let initNum, maxNum
@@ -264,7 +260,7 @@ class Pagination extends Component {
         })
       }
 
-      if (_coinType === 'icx') {
+      if (_walletCoinType === 'icx') {
         return (
           <div className="pager-holder">
             <ul className="">
@@ -323,7 +319,7 @@ class Pagination extends Component {
     }
 
     return (
-      pagination(coinType)
+      pagination(walletCoinType)
     )
   }
 }
@@ -331,22 +327,18 @@ class Pagination extends Component {
 class HistoryRow extends Component {
 
   handleTxidClick = () => {
-      const txidUrl = TXID_URL[this.props.coinType];
-      if (this.props.coinType === "eth") {
-        window.open(txidUrl + check0xPrefix(this.props.txid), '_blank');
-      } else {
-        window.open(txidUrl + delete0xPrefix(this.props.txid), '_blank');
-      }
+      const txidUrl = TXID_URL[this.props.walletCoinType];
+      window.open(IS_V3 ? `${txidUrl}${check0xPrefix(this.props.txid)}` : `${txidUrl}${this.props.txid}`, '_blank');
   }
 
   render() {
-    const { time, type, txid, isUp, value, unit, status } = this.props;
+    const { time, type, txid, isUp, value, unit, isFail } = this.props;
     return (
       <tr>
         <td>{time}</td>
         <td>{type}</td>
         <td onClick={this.handleTxidClick}><span>{txid}</span><em className="_img"></em></td>
-        { status === "fail" ? (
+        { isFail ? (
           <td className={'down'}>실패</td>
         ) : (
           <td className={isUp ? 'up' : 'down'}>{`${isUp ? '' : '-'} ${value} ${unit.toUpperCase()}`}</td>

@@ -86,7 +86,7 @@ class SwapToken4 extends Component {
             <h1 className="title">Step 3</h1>
             <span className="img"><em className="_img step3"></em></span>
             <ul>
-              <li>{I18n.swapToken.step1}</li>
+              <li>{nToBr(I18n.swapToken.step1)}</li>
               <li>{nToBr(I18n.swapToken.step2)}</li>
               <li className="on">{nToBr(I18n.swapToken.step3)}</li>
               <li>{nToBr(I18n.swapToken.step4)}</li>
@@ -129,7 +129,7 @@ class SwapToken4 extends Component {
               text={I18n.createWallet.passWithoutDownload}
               cancelText={I18n.button.no}
               submitText={I18n.button.yes}
-              btnButtom={true}
+              btnBottom={true}
             />
           )
         }
@@ -139,7 +139,7 @@ class SwapToken4 extends Component {
               handleCancel={this.closeAlert}
               text={I18n.createWallet.downloadSuccess}
               cancelText={I18n.button.confirm}
-              btnButtom={true}
+              btnBottom={true}
             />
           )
         }

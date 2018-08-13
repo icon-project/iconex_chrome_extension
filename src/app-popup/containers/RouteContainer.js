@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { isLoggedIn, checkIsLocked } from 'redux/actions/authActions';
+import { isLoggedIn, setLockState } from 'redux/actions/authActions';
 import { getWallet } from 'redux/actions/walletActions';
-import { setShowNotice, setIsAppOpenedByPopup, setIsRequestedStatus, setTransactionStatus } from 'redux/actions/globalActions';
+import { setShowNotice, setIsRequestedStatus, setTransactionStatus } from 'redux/actions/globalActions';
 import Routes from 'app-popup/Routes.js';
 
 function mapStateToProps(state) {
@@ -12,8 +12,8 @@ function mapStateToProps(state) {
     isLocked: state.auth.isLocked,
     language: state.global.language,
     showNotice: state.global.showNotice,
-    // isRequestedStatus: state.global.message.isRequestedStatus,
-    // transaction: state.global.message.transaction,
+    isRequestedStatus: state.global.message ? state.global.message.isRequestedStatus : undefined,
+    transaction: state.global.message ? state.global.message.transaction : undefined,
   };
 }
 
@@ -21,9 +21,8 @@ function mapDispatchToProps(dispatch) {
   return {
     checkAuth: () => dispatch(isLoggedIn()),
     getWallet: () => dispatch(getWallet()),
-    checkIsLocked: (checkIsLock) => dispatch(checkIsLocked(checkIsLock)),
+    setLockState: (isLocked) => dispatch(setLockState(isLocked)),
     setShowNotice: () => dispatch(setShowNotice()),
-    setIsAppOpenedByPopup: (isTrue) => dispatch(setIsAppOpenedByPopup(isTrue)),
     setIsRequestedStatus: (requested) => dispatch(setIsRequestedStatus(requested)),
     setTransactionStatus: (transaction) => dispatch(setTransactionStatus(transaction)),
   };

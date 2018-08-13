@@ -17,7 +17,7 @@ class ExportWallet2 extends Component {
 
   closePopup = () => {
     this.setState(INIT_STATE);
-    this.props.initPopupState();
+    this.props.closePopup();
   }
 
   handleSubmit = () => {

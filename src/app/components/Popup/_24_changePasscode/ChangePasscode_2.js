@@ -17,7 +17,7 @@ class ChangePasscode2 extends Component {
   }
 
   closePopup = () => {
-    this.props.togglePopup();
+    this.props.closePopup();
   }
 
   clearError = () => {
@@ -52,7 +52,7 @@ class ChangePasscode2 extends Component {
       return
     }
     const passcodeHash = hash.sha256().update(first).digest('hex')
-    this.props.setLock(passcodeHash, this.props.emailAddress)
+    this.props.setLock(passcodeHash)
     this.closePopup()
   }
 

@@ -1,25 +1,26 @@
 import { chromeStorage } from 'utils';
 import Wallet from 'lib/ethjs-wallet';
-import { isEmpty, check0xPrefix, checkHxPrefix } from 'utils';
+import { isEmpty, check0xPrefix, checkCxPrefix } from 'utils';
 import {
   eth_fetchCoinBalanceApi,
   eth_fetchTokenBalanceApi,
   eth_fetchTransactionHistoryApi,
   eth_getTransactionReceiptApi,
   eth_getTokenInfoApi,
-  eth_isExistTokenApi,
 } from './walletEthApi'
 
 import {
-  icx_getBalanceApi,
-  icx_fetchTransactionHistoryApi
+  icx_fetchCoinBalanceApi,
+  icx_fetchTokenBalanceApi,
+  icx_fetchTransactionHistoryApi,
+  icx_getTokenInfoApi
 } from './walletIcxApi'
 
 export function fetchCoinBalanceApi(account, type) {
   switch(type) {
     case 'icx':
       return new Promise(resolve => {
-        const result = icx_getBalanceApi(account);
+        const result = icx_fetchCoinBalanceApi(account);
         resolve(result)
       })
     case 'eth':
@@ -35,7 +36,10 @@ export function fetchCoinBalanceApi(account, type) {
 export function fetchTokenBalanceApi(address, customDecimal, account, type) {
   switch(type) {
     case 'icx':
-      break;
+      return new Promise(resolve => {
+        const result = icx_fetchTokenBalanceApi(address, customDecimal, account);
+        resolve(result)
+      })
     case 'eth':
       return new Promise(resolve => {
         const result = eth_fetchTokenBalanceApi(address, customDecimal, account);
@@ -62,7 +66,7 @@ export function getBlockNumberApi(type) {
 }
 
 export function fetchTransactionHistoryApi(data) {
-  switch(data.coinType) {
+  switch(data.walletCoinType) {
     case 'icx':
       return new Promise(resolve => {
         const result = icx_fetchTransactionHistoryApi(data)
@@ -92,24 +96,15 @@ export function getTransactionReceiptApi(tx, type) {
   }
 }
 
-export function isExistTokenApi(address, type) {
-  switch(type) {
-    case 'icx':
-      break;
-    case 'eth':
-      return new Promise(resolve => {
-        const result = eth_isExistTokenApi(address);
-        resolve(result);
-      });
-    default:
-      break;
-  }
-}
-
 export function getTokenInfoApi(address, type) {
   switch(type) {
     case 'icx':
-      break;
+      return (async () => {
+        const { result, error } = await icx_getTokenInfoApi({address});
+        if (error) throw new Error(error);
+        console.log(result)
+        return result;
+      })();
     case 'eth':
       return new Promise(resolve => {
         const result = eth_getTokenInfoApi({address});
@@ -197,29 +192,15 @@ export function updatePasswordApi(account, priv) {
   })
 }
 
-export function addTokenApi(account, token, type) {
+export function addTokenApi(account, tokenInfo, type) {
   return new Promise(resolve => {
-    let tokenInfo;
-    switch(type) {
-      case 'icx':
-        break;
-      case 'eth':
-        tokenInfo = eth_getTokenInfoApi(token);
-        break;
-      default:
-        break;
-    }
-    resolve(tokenInfo);
-  }).then((tokenInfo) => {
-    return new Promise(resolve => {
-      chromeStorage.get(account, (result) => {
-          const tokenId = tokenInfo.address;
-          result[account].tokens[tokenId] = tokenInfo;
-          chromeStorage.set(result, () => {
-              resolve(true);
-          });
-      });
-    })
+    chromeStorage.get(account, (result) => {
+        const tokenId = tokenInfo.address;
+        result[account].tokens[tokenId] = tokenInfo;
+        chromeStorage.set(result, () => {
+            resolve(true);
+        });
+    });
   })
 }
 
@@ -258,32 +239,36 @@ export function isWalletExistApi() {
 
 /**
    * add transaction log in 'Recent Tx' section
-   * @param {String} account
-   * @param {String} tokenIndex: token address
    * @param {Object} transactionData: tx data
    * @return {Array} result: recent tx array
 */
-export function addRecentTransactionApi(account, tokenIndex, transactionData) {
-  tokenIndex = check0xPrefix(tokenIndex);
+export function addRecentTransactionApi(transactionData) {
+  const { contractAddress, type, from, pending, recent } = transactionData;
+
+  const updatePendingTransaction = (obj) => {
+    if(!obj['pendingTransaction']) {
+      obj['pendingTransaction'] = []
+    }
+    const oldPendingTransaction = obj.pendingTransaction;
+    obj.pendingTransaction = [pending, ...oldPendingTransaction]
+    obj.pendingTransaction = obj.pendingTransaction.slice(0, 5)
+    return obj
+  }
+
+  const tokenId = contractAddress
+                    ? (type === 'icx'
+                        ? checkCxPrefix(contractAddress)
+                        : check0xPrefix(contractAddress))
+                    : ''
+
   return new Promise(resolve => {
-    chromeStorage.get(account, (result) => {
-      const oldRecent = tokenIndex ? result[account].tokens[tokenIndex].recent : result[account].recent;
-      if (transactionData.type === 'icx') transactionData.address = checkHxPrefix(transactionData.address)
-      else transactionData.address = check0xPrefix(transactionData.address)
-      if (!tokenIndex) {
-        result[account].recent = [transactionData, ...oldRecent]
-        result[account].recent = result[account].recent.slice(0, 30)
+    chromeStorage.get(from, (result) => {
+      if (!tokenId) {
+        result[from].recent = [{ time: recent.time }]
+        if (type === 'icx') result[from] = updatePendingTransaction(result[from])
       } else {
-        result[account].tokens[tokenIndex].recent = [transactionData, ...oldRecent]
-        result[account].tokens[tokenIndex].recent = result[account].tokens[tokenIndex].recent.slice(0, 30)
-      }
-      if (transactionData.type === 'icx') {
-        if(!result[account]['pendingTransaction']) {
-          result[account]['pendingTransaction'] = []
-        }
-        const oldPendingTransaction = result[account].pendingTransaction;
-        result[account].pendingTransaction = [transactionData, ...oldPendingTransaction]
-        result[account].pendingTransaction = result[account].pendingTransaction.slice(0, 30)
+        result[from].tokens[tokenId].recent = [{ time: recent.time }]
+        if (type === 'icx') result[from].tokens[tokenId] = updatePendingTransaction(result[from].tokens[tokenId])
       }
       chromeStorage.set(result, () => {
         resolve(result);

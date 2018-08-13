@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Footer } from 'app/components/';
-import { togglePopup, setPopupType } from 'redux/actions/popupActions';
+import {  openPopup } from 'redux/actions/popupActions';
 import { withRouter } from 'react-router-dom';
 
 function mapStateToProps(state) {
@@ -11,8 +11,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    togglePopup: () => dispatch(togglePopup()),
-    setPopupType: (s) => dispatch(setPopupType(s)),
+    
+    openPopup: (s) => dispatch(openPopup(s)),
   };
 }
 

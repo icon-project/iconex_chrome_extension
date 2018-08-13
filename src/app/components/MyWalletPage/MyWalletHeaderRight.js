@@ -24,8 +24,9 @@ class MyWalletHeaderRight extends Component {
   }
 
   handleExport = () => {
-    this.props.togglePopup();
-    this.props.setPopupType('exportWallet');
+    this.props.openPopup({
+      popupType: 'exportWallet'
+    });
   }
 
   render() {

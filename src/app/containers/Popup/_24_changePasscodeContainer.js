@@ -1,21 +1,22 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { ChangePasscode } from 'app/components/';
-import { togglePopup } from 'redux/actions/popupActions';
+import { closePopup } from 'redux/actions/popupActions';
 import { setLock } from 'redux/actions/globalActions';
+import { getWallet } from 'redux/actions/walletActions';
 
 function mapStateToProps(state) {
   return {
     wallets: state.wallet.wallets,
-    emailAddress: state.global.email,
-    language: state.global.language    
+    language: state.global.language
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    togglePopup: () => dispatch(togglePopup()),
-    setLock: (passcodeHash, email) => dispatch(setLock(passcodeHash, email))
+    closePopup: () => dispatch(closePopup()),
+    setLock: (passcodeHash) => dispatch(setLock(passcodeHash)),
+    getWallet: () => dispatch(getWallet())
   };
 }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import withClickOut from 'HOC/withClickOut'
 import withLanguageProps from 'HOC/withLanguageProps';
+import { IS_V3 } from 'constants/config.js'
 
 const INIT_STATE = {
 
@@ -14,57 +15,33 @@ class WalletMenuBar extends Component {
     this.state = INIT_STATE;
   }
 
-  handleUpdateWalletName = () => {
-    this.props.onClickOut();
-    this.props.setSelectedAccount(this.props.account);
-    this.openPopup('updateWalletName');
-  }
+  handleMenuClick = (popupType, popupNum = 1) => {
+    const {
+      account,
+      onClickOut,
+      setSelectedWallet,
+      openPopup
+     } = this.props;
 
-  handleUpdatePassword = () => {
-    this.props.onClickOut();
-    this.props.setSelectedAccount(this.props.account);
-    this.openPopup('updatePassword');
-  }
-
-  handleBackupWallet = () => {
-    this.props.onClickOut();
-    this.props.setSelectedAccount(this.props.account);
-    this.openPopup('backupWallet');
-  }
-
-  handleAddToken = () => {
-    this.props.onClickOut();
-    this.props.setSelectedAccount(this.props.account);
-    this.openPopup('addToken', 2);
-  }
-
-  handleDeleteWallet = () => {
-    this.props.onClickOut();
-    this.props.setSelectedAccount(this.props.account);
-    this.openPopup('deleteWallet');
-  }
-
-  openPopup = (type, num = '') => {
-    this.props.togglePopup();
-    this.props.setPopupType(type);
-    if (num) {
-      this.props.setPopupNum(num);
-    }
+    onClickOut();
+    setSelectedWallet({
+        account
+    });
+    openPopup({
+      popupType,
+      popupNum
+    });
   }
 
   render() {
-    const { I18n } = this.props;
+    const { I18n, walletSectionData } = this.props;
     return (
       <ul>
-        <li onClick={this.handleUpdateWalletName} className="name"><span><em className="_img"></em>{I18n.walletMenuBarUpdateWalletName}</span></li>
-        <li onClick={this.handleUpdatePassword} className="pw"><span><em className="_img"></em>{I18n.walletMenuBarUpdatePassword}</span></li>
-        <li onClick={this.handleBackupWallet} className="backup"><span><em className="_img"></em>{I18n.walletMenuBarBackupWallet}</span></li>
-        {
-          this.props.walletSectionData.coinType !== 'icx' && (
-            <li onClick={this.handleAddToken} className="add"><span><em className="_img"></em>{I18n.walletMenuBarAddToken}</span></li>
-          )
-        }
-        <li onClick={this.handleDeleteWallet} className="del"><span><em className="_img"></em>{I18n.walletMenuBarDeleteWallet}</span></li>
+        <li onClick={() => this.handleMenuClick('updateWalletName')} className="name"><span><em className="_img"></em>{I18n.walletMenuBarUpdateWalletName}</span></li>
+        <li onClick={() => this.handleMenuClick('updatePassword')} className="pw"><span><em className="_img"></em>{I18n.walletMenuBarUpdatePassword}</span></li>
+        <li onClick={() => this.handleMenuClick('backupWallet')} className="backup"><span><em className="_img"></em>{I18n.walletMenuBarBackupWallet}</span></li>
+        {(IS_V3 || walletSectionData.coinType === 'eth') && (<li onClick={() => this.handleMenuClick('addToken', 2)} className="add"><span><em className="_img"></em>{I18n.walletMenuBarAddToken}</span></li>)}
+        <li onClick={() => this.handleMenuClick('deleteWallet')} className="del"><span><em className="_img"></em>{I18n.walletMenuBarDeleteWallet}</span></li>
       </ul>
     )
   }

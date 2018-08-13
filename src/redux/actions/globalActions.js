@@ -7,26 +7,10 @@ export function setLanguage(lan) {
   };
 }
 
-export function setSelectedAccount(account) {
-  return {
-    type: actionTypes.setSelectedAccount,
-    payload: account
-  };
-}
-
-export function setSelectedToken(account, index) {
-  return {
-    type: actionTypes.setSelectedToken,
-    account,
-    index
-  };
-}
-
-export function setLock(passcodeHash, email) {
+export function setLock(passcodeHash) {
   return {
     type: actionTypes.setLock,
-    passcodeHash,
-    email
+    passcodeHash
   };
 }
 
@@ -37,23 +21,9 @@ export function changePasscodeHash(payload) {
   };
 }
 
-export function changeEmail(payload) {
-  return {
-    type: actionTypes.changeEmail,
-    payload
-  };
-}
-
 export function setShowNotice() {
   return {
     type: actionTypes.setShowNotice
-  }
-}
-
-export function setIsAppOpenedByPopup(payload) {
-  return {
-    type: actionTypes.setIsAppOpenedByPopup,
-    payload
   }
 }
 
@@ -76,4 +46,11 @@ export function setTransactionStatus(payload) {
     type: actionTypes.setTransactionStatus,
     payload
   }
+}
+
+export function changeServer(payload) {
+  return {
+    type: actionTypes.changeServer,
+    payload
+  };
 }

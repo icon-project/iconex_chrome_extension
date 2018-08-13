@@ -33,6 +33,7 @@ export const routeConstants = {
   'mywallet': '/mywallet',
   'exchange': '/exchange',
   'transaction': '/transaction',
+  'contract': '/contract',
   'mypage': '/mypage',
   'lock': '/lock'
 }

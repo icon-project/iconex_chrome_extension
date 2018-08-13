@@ -8,7 +8,8 @@ import withLanguageProps from 'HOC/withLanguageProps';
 class DeleteToken extends Component {
 
   closePopup = () => {
-    this.props.togglePopup();
+    this.props.closePopup();
+    this.props.resetSelectedWallet();
   }
 
   handleSubmit = () => {

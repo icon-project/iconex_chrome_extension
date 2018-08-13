@@ -1,9 +1,8 @@
 import { connect } from 'react-redux';
 import { CreateWallet } from 'app/components/';
 import {
-  togglePopup,
   setPopupNum ,
-  initPopupState } from 'redux/actions/popupActions';
+  closePopup } from 'redux/actions/popupActions';
 import { getWallet } from 'redux/actions/walletActions';
 import {
   generateWallet,
@@ -36,8 +35,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    togglePopup: () => dispatch(togglePopup()),
-    initPopupState: () => dispatch(initPopupState()),
+
+    closePopup: () => dispatch(closePopup()),
     setPopupNum: (n) => dispatch(setPopupNum(n)),
     setCoinType: (s) => dispatch(setCoinType(s)),
     generateWallet: (s1, s2, s3) => dispatch(generateWallet(s1, s2, s3)),

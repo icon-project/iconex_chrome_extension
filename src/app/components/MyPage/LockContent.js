@@ -71,6 +71,9 @@ class LockContent extends Component {
 
     if (changing) {
       this.props.setLock(passcodeHash, '')
+      window.chrome.tabs.getCurrent((tab) => {
+        window.chrome.runtime.sendMessage({ type: 'REFRESH_LOCK_STATE', payload: tab.id });
+      })
     }
     return true
   }
@@ -108,8 +111,9 @@ class LockContent extends Component {
   }
 
   unlock = () => {
-    this.props.togglePopup();
-    this.props.setPopupType('unlockPopup')
+    this.props.openPopup({
+      popupType: 'unlockPopup'
+    })
   }
 
   setPasscodeEmail = () => {
@@ -121,6 +125,7 @@ class LockContent extends Component {
     const { first } = this.state
 
     this.props.setLock(hash.sha256().update(first).digest('hex'), '')
+
     this.setState({
       status: 1,
       current: '',
@@ -129,6 +134,10 @@ class LockContent extends Component {
       firstError: undefined,
       second: '',
       secondError: undefined
+    })
+
+    window.chrome.tabs.getCurrent((tab) => {
+      window.chrome.runtime.sendMessage({ type: 'REFRESH_LOCK_STATE', payload: tab.id });
     })
   }
 

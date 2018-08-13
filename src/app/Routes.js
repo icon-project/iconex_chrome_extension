@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Route, Redirect, HashRouter } from 'react-router-dom';
-import { HeaderContainer, PopupContainer, FooterContainer } from 'app/containers';
+import { HeaderContainer, PopupContainer, FooterContainer, TimerContainer } from 'app/containers';
 import { Notice } from 'app/components';
 import MainPage from 'app/pages/MainPage';
 import MyWalletPage from 'app/pages/MyWalletPage';
 import ExchangePage from 'app/pages/ExchangePage';
 import TransactionPage from 'app/pages/TransactionPage';
 import CoinDetailPage from 'app/pages/CoinDetailPage';
+import ContractPage from 'app/pages/ContractPage';
 import MyPage from 'app/pages/MyPage';
 import LockPage from 'app/pages/LockPage';
 import { routeConstants as ROUTE } from '../constants/index';
@@ -24,15 +25,17 @@ const HomeRoute = ({ component: Component, isLoggedIn, isLocked, ...rest }) => (
   )}/>
 )
 
-const PrivateRoute = ({ component: Component, isLoggedIn, isLocked, ...rest }) => (
+const PrivateRoute = ({ component: Component, isLoggedIn, isLocked, isLedgerAccess, ...rest }) => (
   <Route onEnter={window.scroll(0, 0)} {...rest} render={props => (
-    isLoggedIn ? (
-      isLocked
-        ? (<Redirect to={ROUTE['lock']}/>)
-        : (<Component {...props}/>)
-    ) : (
-      <Redirect to={ROUTE['home']}/>
-    )
+    isLoggedIn
+      ? (
+        isLocked
+          ? (<Redirect to={ROUTE['lock']}/>)
+          : (<Component {...props}/>)
+        )
+      : isLedgerAccess
+          ? (<Component {...props}/>)
+          : (<Redirect to={ROUTE['home']}/>)
   )}/>
 )
 
@@ -54,6 +57,8 @@ class Routes extends Component {
     this.state = {
       showNotice: this.props.showNotice
     }
+    this.tabId = ''
+    this.mounted = false;
   }
 
   componentWillMount(){
@@ -69,17 +74,58 @@ class Routes extends Component {
           })
         });
       });
-      if (!this.props.isAppOpenedByPopup) {
-        this.props.checkIsLocked(this.props.passcodeHash ? true : false);
-      }
-      this.props.setIsAppOpenedByPopup(false);
-      this.props.checkAuth();
-      this.props.getWallet();
+      window.chrome.runtime.sendMessage({ type: 'CHECK_APP_LOCK_STATE' });
     })();
+  }
+
+  componentDidMount() {
+    window.chrome.tabs.getCurrent((tab) => {
+      this.tabId = tab.id
+      window.chrome.runtime.sendMessage({ type: 'ADD_TAB_ID', payload: tab.id });
+    })
+    window.chrome.extension.onMessage.addListener(message => {
+      this.listenerHandler(message)
+    })
   }
 
   componentWillUpdate() {
     window.scroll(0, 0);
+  }
+
+  listenerHandler = (message) => {
+    const { type, payload } = message
+    console.log(message)
+    switch (type) {
+      case 'REFRESH_LOCK_STATE_FULFILLED':
+      console.log(payload, this.tabId)
+        if (payload !== this.tabId) {
+          window.chrome.tabs.reload(this.tabId)
+        }
+        break;
+      case 'SET_LOCK_STATE':
+        if (payload) {
+          window.chrome.tabs.reload(this.tabId)
+        } else {
+          this.props.closePopup();
+          this.props.setLockState(payload);
+          this.props.getWallet();
+        }
+        break;
+      case 'CHECK_APP_LOCK_STATE_FULFILLED':
+        if (this.mounted) return;
+        this.props.setLockState(payload);
+        // if locked
+        if (payload) {
+          this.props.checkAuth();
+        } else {
+          this.props.checkAuth();
+          this.props.getWallet();
+        }
+        this.mounted = true;
+        break;
+      default:
+        break;
+    }
   }
 
   toggleNotice = () => {
@@ -87,7 +133,7 @@ class Routes extends Component {
   }
 
   render() {
-    const { initLoading, isLoggedIn, isLocked, language } = this.props;
+    const { initLoading, isLoggedIn, isLocked, isLedger, language } = this.props;
     const isShowNotice = (isLoggedIn && !isLocked) && this.state.showNotice
     return (
       <div className={`${navigator.platform.indexOf('Mac') > -1 ? 'isMac' : ''} empty`}>
@@ -95,19 +141,25 @@ class Routes extends Component {
         !initLoading && (
           <HashRouter>
             <div className="empty">
-              <div className={`wrap ${language} ${(!isLoggedIn || isLocked) && 'home'} ${isShowNotice && 'notice'}`}>
+              <div className={`
+                  wrap
+                  ${language}
+                  ${(!isLoggedIn || isLocked) && !isLedger ? 'home' : ''}
+                  ${isShowNotice ? 'notice' : ''}`}>
                 {isShowNotice && <Notice toggleNotice={this.toggleNotice} {...this.props}/>}
                 <HeaderContainer />
                 <HomeRoute path={ROUTE['home']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={MainPage} />
                 <PrivateRoute exact path={ROUTE['mywallet']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={MyWalletPage} />
                 <PrivateRoute path={ROUTE['mywallet'] + "/:id"} isLoggedIn={isLoggedIn} isLocked={isLocked} component={CoinDetailPage} />
                 <PrivateRoute path={ROUTE['exchange']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={ExchangePage} />
-                <PrivateRoute path={ROUTE['transaction']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={TransactionPage} />
+                <PrivateRoute path={ROUTE['transaction']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={TransactionPage} isLedgerAccess={isLedger}/>
+                <PrivateRoute path={ROUTE['contract']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={ContractPage} />
                 <PrivateRoute path={ROUTE['mypage']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={MyPage} />
                 <LoginRoute path={ROUTE['lock']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={LockPage} />
               </div>
               <FooterContainer />
               <PopupContainer />
+              <TimerContainer />
             </div>
           </HashRouter>
         )

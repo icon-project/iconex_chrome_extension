@@ -18,7 +18,7 @@ class ImportWallet5 extends Component {
 
   closePopup = () => {
     this.setState(INIT_STATE);
-    this.props.togglePopup();
+    this.props.closePopup();
   }
 
   handleSubmit = () => {

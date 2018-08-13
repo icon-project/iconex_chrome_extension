@@ -1,21 +1,22 @@
 import { connect } from 'react-redux';
 import { DeleteToken } from 'app/components/';
-import { deleteToken } from 'redux/actions/walletActions';
+import { deleteToken, resetSelectedWallet } from 'redux/actions/walletActions';
 import { withRouter } from 'react-router-dom';
-import { togglePopup, initPopupState } from 'redux/actions/popupActions';
+import {  closePopup } from 'redux/actions/popupActions';
 
 function mapStateToProps(state) {
   return {
-    selectedAccount: state.mainPage.selectedAccount,
-    selectedTokenId: state.mainPage.selectedTokenId,
+    selectedAccount: state.wallet.selectedWallet.account,
+    selectedTokenId: state.wallet.selectedWallet.tokenId,
     language: state.global.language
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    togglePopup: () => dispatch(togglePopup()),
-    initPopupState: () => dispatch(initPopupState()),
+
+    closePopup: () => dispatch(closePopup()),
+    resetSelectedWallet: () => dispatch(resetSelectedWallet()),
     deleteToken: (s, i) => dispatch(deleteToken(s, i))
   };
 }

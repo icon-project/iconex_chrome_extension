@@ -13,12 +13,13 @@ import {
   DeleteTokenContainer,
   UpdateTokenContainer,
   AddressListContainer,
-  SendEmailContainer,
   SendTransactionContainer,
   UnlockPopupContainer,
   ChangePasscodeContainer,
   ImmunityPopupContainer,
-  SwapTokenContainer
+  SwapTokenContainer,
+  ContractListContainer,
+  ConnectLedgerContainer
 } from 'app/containers/';
 
 class Popup extends Component {
@@ -40,16 +41,39 @@ class Popup extends Component {
     }
   }
 
-
   closePopup = () => {
-    this.props.initPopupState();
+    this.props.closePopup();
+  }
+
+  switchPopupClass = () => {
+    const { popupType, popupNum, funcResult, error } = this.props
+    const isSuccess = funcResult[0] && !error
+    if (popupType.startsWith('sendTransaction')) {
+      const pageType = popupType.split('_')[1];
+      switch(true) {
+        case ((pageType === 'swap' || pageType === 'transaction') && popupNum === 2) : {
+          return 'send'
+        }
+        case (pageType === 'contract' && popupNum === 3 && !isSuccess) : {
+          return ''
+        }
+        case (pageType === 'contract' && (popupNum === 2 || popupNum === 3)) : {
+          return 'contract'
+        }
+        default:
+          return ''
+      }
+    }
+    if (popupType === 'connectLedger' && popupNum === 1) {
+      return 'send ledger'
+    }
+    return ''
   }
 
   render() {
     const {
       popupState,
       popupType,
-      popupNum
     } = this.props;
 
     const content = (type) => {
@@ -83,11 +107,11 @@ class Popup extends Component {
           return <AddressListContainer type={type}/>
         case 'sendTransaction_exchange':
         case 'sendTransaction_transaction':
-          return <SendTransactionContainer type={type}/>
+          return <SendTransactionContainer type={type} pageType={'transaction'}/>
         case 'sendTransaction_swap':
-          return <SendTransactionContainer type={type} swapPage={true}/>
-        case 'sendEmail':
-          return <SendEmailContainer />
+          return <SendTransactionContainer type={type} pageType={'swap'}/>
+        case 'sendTransaction_contract':
+          return <SendTransactionContainer type={type} pageType={'contract'}/>
         case 'changePasscode':
           return <ChangePasscodeContainer />
         case 'unlockPopup':
@@ -96,6 +120,10 @@ class Popup extends Component {
           return <ImmunityPopupContainer />
         case 'swapToken':
           return <SwapTokenContainer />
+        case 'contractList':
+          return <ContractListContainer type={type}/>
+        case 'connectLedger':
+          return <ConnectLedgerContainer />
         default:
           break;
           }
@@ -104,7 +132,7 @@ class Popup extends Component {
     return (
       <div>
         { popupState && (
-          <div id="popup" className={`popup-wrap ${popupType.startsWith('sendTransaction') && popupNum === 2 ? 'send' : ''}`}>
+          <div id="popup" className={`popup-wrap ${this.switchPopupClass()}`}>
             { content(popupType) }
         	</div>
         )}

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { ExportWallet } from 'app/components/';
-import { togglePopup, setPopupType, setPopupNum, initPopupState } from 'redux/actions/popupActions';
+import {  openPopup, setPopupNum, closePopup } from 'redux/actions/popupActions';
 import {
   setExportWalletObject,
   setNewPw,
@@ -22,9 +22,9 @@ function mapDispatchToProps(dispatch) {
     setExportWalletObject: (o) => dispatch(setExportWalletObject(o)),
     setNewPw: (s) => dispatch(setNewPw(s)),
     resetExportWalletState: () => dispatch(resetExportWalletState()),
-    togglePopup: () => dispatch(togglePopup()),
-    initPopupState: () => dispatch(initPopupState()),
-    setPopupType: (s) => dispatch(setPopupType(s)),
+    
+    closePopup: () => dispatch(closePopup()),
+    openPopup: (s) => dispatch(openPopup(s)),
     setPopupNum: (n) => dispatch(setPopupNum(n)),
   };
 }

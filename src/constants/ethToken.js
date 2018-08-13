@@ -1,8 +1,26 @@
 //https://github.com/kvhnuke/etherwallet/blob/mercury/app/scripts/tokens/ethTokens.json
 export const ethToken = [
 	{
+		"address": "0x4E84E9e5fb0A972628Cf4568c403167EF1D40431",
+		"symbol": "$FFC",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0xa024e8057eec474a9b2356833707dd0579e26ef3",
 		"symbol": "$FYX",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0xcdb7ecfd3403eef3882c65b761ef9b5054890a47",
+		"symbol": "$HUR",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0x0db8d8b76bc361bacbb72e2c491e06085a97ab31",
+		"symbol": "$IQN",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -10,6 +28,12 @@ export const ethToken = [
 		"address": "0x7dd7f56d697cc0f2b52bd55c057f378f1fe6ab4b",
 		"symbol": "$TEAK",
 		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0xB6eD7644C69416d67B522e20bC294A9a9B405B31",
+		"symbol": "0xBTC",
+		"decimal": 8,
 		"type": "default"
 	},
 	{
@@ -123,6 +147,12 @@ export const ethToken = [
 	{
 		"address": "0x1063ce524265d5a3A624f4914acd573dD89ce988",
 		"symbol": "AIX",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0x1ca43a170bad619322e6f54d46b57e504db663aa",
+		"symbol": "AKC",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -265,6 +295,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x97AEB5066E1A590e868b511457BEb6FE99d329F5",
+		"symbol": "ATMI",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0x887834d3b8d450b6bab109c252df3da286d73ce4",
 		"symbol": "ATT",
 		"decimal": 18,
@@ -295,9 +331,9 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
-		"address": "0x9af2c6B1A28D3d6BC084bd267F70e90d49741D5B",
-		"symbol": "AXP",
-		"decimal": 8,
+		"address": "0xC39E626A04C5971D770e319760D7926502975e47",
+		"symbol": "AXPR",
+		"decimal": 18,
 		"type": "default"
 	},
 	{
@@ -309,6 +345,12 @@ export const ethToken = [
 	{
 		"address": "0x0D8775F648430679A709E98d2b0Cb6250d2887EF",
 		"symbol": "BAT",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0x4a6058666cf1057eaC3CD3A5a614620547559fc9",
+		"symbol": "BBK",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -375,6 +417,12 @@ export const ethToken = [
 	{
 		"address": "0x8aA33A7899FCC8eA5fBe6A608A109c3893A1B8b2",
 		"symbol": "BET",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0x14C926F2290044B647e1Bf2072e67B495eff1905",
+		"symbol": "BETHER",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -559,12 +607,6 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
-		"address": "0xa02e3bb9cebc03952601b3724b4940e0845bebcf",
-		"symbol": "BTHR",
-		"decimal": 18,
-		"type": "default"
-	},
-	{
 		"address": "0xdb8646f5b487b5dd979fac618350e85018f557d4",
 		"symbol": "BTK",
 		"decimal": 18,
@@ -596,8 +638,14 @@ export const ethToken = [
 	},
 	{
 		"address": "0x080aa07e2c7185150d7e4da98838a8d2feac3dfc",
-		"symbol": "BTT",
+		"symbol": "BTT (Bitether)",
 		"decimal": 0,
+		"type": "default"
+	},
+	{
+		"address": "0xFA456Cf55250A839088b27EE32A424d7DAcB54Ff",
+		"symbol": "BTT (Blocktrade)",
+		"decimal": 18,
 		"type": "default"
 	},
 	{
@@ -637,17 +685,23 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x4d9e23a3842fe7eb7682b9725cf6c507c424a41b",
+		"symbol": "CAR (Carblock)",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0xa517a46baad6b054a76bd19c46844f717fe69fea",
 		"symbol": "CARB",
 		"decimal": 8,
 		"type": "default"
 	},
-  {
-		"address": "0x1ed2B1eaEd8e968bc36EB90a914660A71827A5E9",
+	{
+		"address": "0xB07ec2c28834B889b1CE527Ca0F19364cD38935c",
 		"symbol": "CARD",
-		"decimal": 0,
+		"decimal": 18,
 		"type": "default"
-  },
+	},
 	{
 		"address": "0xbf18f246b9301f231e9561b35a3879769bb46375",
 		"symbol": "CARE",
@@ -733,6 +787,24 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0xb056c38f6b7dc4064367403e26424cd2c60655e1",
+		"symbol": "CEEK",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0xf660ca1e228e7be1fa8b4f5583145e31147fb577",
+		"symbol": "CET",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0x5dff89a2caa4d76bc286f74d67bd718eb834da61",
+		"symbol": "CFC",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0x12FEF5e57bF45873Cd9B62E9DBd7BFb99e32D73e",
 		"symbol": "CFI",
 		"decimal": 18,
@@ -754,6 +826,12 @@ export const ethToken = [
 		"address": "0x06012c8cf97bead5deae237070f9587f8e7a266d",
 		"symbol": "CK",
 		"decimal": 0,
+		"type": "default"
+	},
+	{
+		"address": "0xb1c1cb8c7c1992dba24e628bf7d38e71dad46aeb",
+		"symbol": "CLB",
+		"decimal": 18,
 		"type": "default"
 	},
 	{
@@ -895,6 +973,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0xf49cdd50ad408d387d611f88a647179c3de3492b",
+		"symbol": "CRGO",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0x80a7e048f37a50500351c204cb407766fa3bae7f",
 		"symbol": "CRPT",
 		"decimal": 18,
@@ -925,6 +1009,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x9e7d29bd499b6c7da2a5b2eafcf4a39d3bd845d1",
+		"symbol": "CTGC",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0xbf4cfd7d1edeeea5f6600827411b41a21eb08abd",
 		"symbol": "CTL",
 		"decimal": 2,
@@ -939,6 +1029,12 @@ export const ethToken = [
 	{
 		"address": "0x662aBcAd0b7f345AB7FfB1b1fbb9Df7894f18e66",
 		"symbol": "CTX",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0x05c3617cbf1304b9260aa61ec960f115d67becea",
+		"symbol": "Cubrix",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -1021,6 +1117,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0xd82Df0ABD3f51425Eb15ef7580fDA55727875f14",
+		"symbol": "DAV",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0x61725f3db4004afe014745b21dab1e1677cc328b",
 		"symbol": "DAXT",
 		"decimal": 18,
@@ -1029,6 +1131,12 @@ export const ethToken = [
 	{
 		"address": "0x386Faa4703a34a7Fdb19Bec2e14Fd427C9638416",
 		"symbol": "DCA",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0xffa93aacf49297d51e211817452839052fdfb961",
+		"symbol": "DCC",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -1069,6 +1177,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x89cbeac5e8a13f0ebb4c74fadfc69be81a501106",
+		"symbol": "DEPO (Depository Network)",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0xdd94De9cFE063577051A5eb7465D08317d8808B6",
 		"symbol": "Devcon2 Token",
 		"decimal": 0,
@@ -1087,8 +1201,20 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
-		"address": "0x55b9a11c2e8351b4Ffc7b11561148bfaC9977855",
+		"address": "0x6aEDbF8dFF31437220dF351950Ba2a3362168d1b",
+		"symbol": "DGS",
+		"decimal": 8,
+		"type": "default"
+	},
+	{
+		"address": "0x4f3afec4e5a3f2a6a1a411def7d7dfe50ee057bf",
 		"symbol": "DGX",
+		"decimal": 9,
+		"type": "default"
+	},
+	{
+		"address": "0x55b9a11c2e8351b4Ffc7b11561148bfaC9977855",
+		"symbol": "DGX1",
 		"decimal": 9,
 		"type": "default"
 	},
@@ -1096,6 +1222,12 @@ export const ethToken = [
 		"address": "0x2e071D2966Aa7D8dECB1005885bA1977D6038A65",
 		"symbol": "DICE",
 		"decimal": 16,
+		"type": "default"
+	},
+	{
+		"address": "0xc719d010B63E5bbF2C0551872CD5316ED26AcD83",
+		"symbol": "DIP (Decentralized Insurance Protocol)",
+		"decimal": 18,
 		"type": "default"
 	},
 	{
@@ -1171,6 +1303,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x62d4c04644314f35868ba4c65cc27a77681de7a9",
+		"symbol": "DRVH",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0x1e09BD8Cadb441632e441Db3e1D79909EE0A2256",
 		"symbol": "DSC",
 		"decimal": 1,
@@ -1195,14 +1333,14 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
-		"address": "0x82fdedfB7635441aA5A92791D001fA7388da8025",
-		"symbol": "DTx",
+		"address": "0x765f0c16d1ddc279295c1a7c24b0883f62d33f75",
+		"symbol": "DTX",
 		"decimal": 18,
 		"type": "default"
 	},
 	{
-		"address": "0x765f0c16d1ddc279295c1a7c24b0883f62d33f75",
-		"symbol": "DTX",
+		"address": "0x82fdedfB7635441aA5A92791D001fA7388da8025",
+		"symbol": "DTx",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -1261,6 +1399,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0xc528c28FEC0A90C083328BC45f587eE215760A0F",
+		"symbol": "EDR",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0x2a22e5cca00a3d63308fa39f29202eb1b39eef52",
 		"symbol": "EDU",
 		"decimal": 18,
@@ -1300,6 +1444,12 @@ export const ethToken = [
 		"address": "0x44197a4c44d6a059297caf6be4f7e172bd56caaf",
 		"symbol": "ELTCOIN",
 		"decimal": 8,
+		"type": "default"
+	},
+	{
+		"address": "0xa95592DCFfA3C080B4B40E459c5f5692F67DB7F8",
+		"symbol": "ELY",
+		"decimal": 18,
 		"type": "default"
 	},
 	{
@@ -1405,12 +1555,6 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
-		"address": "0x523630976eB6147621B5c31c781eBe2Ec2a806E0",
-		"symbol": "eUSD",
-		"decimal": 18,
-		"type": "default"
-	},
-	{
 		"address": "0x923108a439C4e8C2315c4f6521E5cE95B44e9B4c",
 		"symbol": "EVE",
 		"decimal": 18,
@@ -1435,6 +1579,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x5c743a35e903f6c584514ec617acee0611cf44f3",
+		"symbol": "EXY",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0xb67734521eAbBE9C773729dB73E16CC2dfb20A58",
 		"symbol": "E₹",
 		"decimal": 2,
@@ -1444,6 +1594,12 @@ export const ethToken = [
 		"address": "0x190e569bE071F40c704e15825F285481CB74B6cC",
 		"symbol": "FAM",
 		"decimal": 12,
+		"type": "default"
+	},
+	{
+		"address": "0x90162f41886c0946d09999736f1c15c8a105a421",
+		"symbol": "FAN",
+		"decimal": 18,
 		"type": "default"
 	},
 	{
@@ -1539,6 +1695,12 @@ export const ethToken = [
 	{
 		"address": "0x419D0d8BdD9aF5e606Ae2232ed285Aff190E711b",
 		"symbol": "FUN",
+		"decimal": 8,
+		"type": "default"
+	},
+	{
+		"address": "0xc92d6e3e64302c59d734f3292e2a13a13d7e1817",
+		"symbol": "FXC",
 		"decimal": 8,
 		"type": "default"
 	},
@@ -1657,6 +1819,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0xe530441f4f73bDB6DC2fA5aF7c3fC5fD551Ec838",
+		"symbol": "GSE",
+		"decimal": 4,
+		"type": "default"
+	},
+	{
 		"address": "0xB70835D7822eBB9426B56543E391846C107bd32C",
 		"symbol": "GTC",
 		"decimal": 18,
@@ -1717,7 +1885,7 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
-		"address": "0xf244176246168f24e3187f7288edbca29267739b",
+		"address": "0xC011A72400E58ecD99Ee497CF89E3775d4bd732F",
 		"symbol": "HAV",
 		"decimal": 18,
 		"type": "default"
@@ -1725,6 +1893,12 @@ export const ethToken = [
 	{
 		"address": "0xffe8196bc259e8dedc544d935786aa4709ec3e64",
 		"symbol": "HDG",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0x95C4be8534d69C248C0623c4C9a7A2a001c17337",
+		"symbol": "HDL",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -1933,6 +2107,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x0cf713b11c9b986ec40d65bd4f7fbd50f6ff2d64",
+		"symbol": "IST34",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0x5e6b6d9abad9093fdc861ea1600eba1b355cd940",
 		"symbol": "ITC",
 		"decimal": 18,
@@ -1957,7 +2137,7 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
-		"address": "0x0Aaf561eFF5BD9c8F911616933F84166A17cfE0C",
+		"address": "0x884e3902C4d5cFA86de4aCE7A96AA91EbC25C0Ff",
 		"symbol": "JBX",
 		"decimal": 0,
 		"type": "default"
@@ -2071,7 +2251,7 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
-		"address": "0xB5AE848EdB296C21259b7467331467d2647eEcDf",
+		"address": "0x60C24407d01782C2175D32fe7C8921ed732371D1",
 		"symbol": "LEMO",
 		"decimal": 18,
 		"type": "default"
@@ -2167,8 +2347,14 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x253c7dd074f4bacb305387f922225a4f737c08bd",
+		"symbol": "LOOK",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0x21ae23b882a340a22282162086bc98d3e2b73018",
-		"symbol": "LOK",
+		"symbol": "LOOK old",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -2287,6 +2473,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0xDF2C7238198Ad8B389666574f2d8bc411A4b7428",
+		"symbol": "MFT",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0x40395044ac3c0c57051906da938b54bd6557f212",
 		"symbol": "MGO",
 		"decimal": 8,
@@ -2308,6 +2500,12 @@ export const ethToken = [
 		"address": "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
 		"symbol": "MKR",
 		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0x7939882b54fcf0bcae6b53dec39ad6e806176442",
+		"symbol": "MKT",
+		"decimal": 8,
 		"type": "default"
 	},
 	{
@@ -2515,8 +2713,20 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x245ef47d4d0505ecf3ac463f4d81f41ade8f1fd1",
+		"symbol": "NUG",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0xb91318f35bdb262e9423bc7c7c2a3a93dd93c92c",
 		"symbol": "NULS",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0x57Ab1E02fEE23774580C119740129eAC7081e9D3",
+		"symbol": "nUSD",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -2539,6 +2749,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x5e888B83B7287EED4fB7DA7b7d0A0D4c735d94b3",
+		"symbol": "OAK",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0x701C244b988a513c945973dEFA05de933b23Fe1D",
 		"symbol": "OAX",
 		"decimal": 18,
@@ -2551,6 +2767,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0xbf52f2ab39e26e0951d2a02b49b7702abe30406a",
+		"symbol": "ODE",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0x6f539a9456a5bcb6334a1a41207c3788f5825207",
 		"symbol": "OHNI",
 		"decimal": 18,
@@ -2559,6 +2781,12 @@ export const ethToken = [
 	{
 		"address": "0xc66ea802717bfb9833400264dd12c2bceaa34a6d",
 		"symbol": "OLD_MKR",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0x64A60493D888728Cf42616e034a0dfEAe38EFCF0",
+		"symbol": "OLT",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -2605,6 +2833,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x170b275ced089fffaebfe927f445a350ed9160dc",
+		"symbol": "OWN",
+		"decimal": 8,
+		"type": "default"
+	},
+	{
 		"address": "0x65a15014964f2102ff58647e16a16a6b9e14bcf6",
 		"symbol": "Ox Fina",
 		"decimal": 3,
@@ -2619,12 +2853,6 @@ export const ethToken = [
 	{
 		"address": "0xea5f88e54d982cbb0c441cde4e79bc305e5b43bc",
 		"symbol": "PARETO",
-		"decimal": 18,
-		"type": "default"
-	},
-	{
-		"address": "0xBB1fA4FdEB3459733bF67EbC6f893003fA976a82",
-		"symbol": "PAT",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -2887,6 +3115,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x4a220E6096B25EADb88358cb44068A3248254675",
+		"symbol": "QNT",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0xFFAA5ffc455d9131f8A2713A741fD1960330508B",
 		"symbol": "QRG",
 		"decimal": 18,
@@ -2913,6 +3147,12 @@ export const ethToken = [
 	{
 		"address": "0x9a642d6b3368ddc662CA244bAdf32cDA716005BC",
 		"symbol": "QTUM",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0x45edb535942a8c84d9f4b5d37e1b25f91ea4804c",
+		"symbol": "RAO",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -2947,13 +3187,19 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x76960dccd5a1fe799f7c29be9f19ceb4627aeb2f",
+		"symbol": "RED",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0x408e41876cCCDC0F92210600ef50372656052a38",
 		"symbol": "REN",
 		"decimal": 18,
 		"type": "default"
 	},
 	{
-		"address": "0xE94327D07Fc17907b4DB788E5aDf2ed424adDff6",
+		"address": "0x1985365e9f78359a9B6AD760e32412f4a445E862",
 		"symbol": "REP",
 		"decimal": 18,
 		"type": "default"
@@ -3184,6 +3430,12 @@ export const ethToken = [
 		"address": "0x7A5fF295Dc8239d5C2374E4D894202aAF029Cab6",
 		"symbol": "SLT",
 		"decimal": 3,
+		"type": "default"
+	},
+	{
+		"address": "0x7928c8aBF1F74eF9F96D4D0a44e3b4209d360785",
+		"symbol": "SLY",
+		"decimal": 18,
 		"type": "default"
 	},
 	{
@@ -3469,6 +3721,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0xa5db1d6f7a0d5bccc17d0bfd39d7af32d5e5edc6",
+		"symbol": "TICO",
+		"decimal": 5,
+		"type": "default"
+	},
+	{
 		"address": "0x6531f133e6DeeBe7F2dcE5A0441aA7ef330B4e53",
 		"symbol": "TIME",
 		"decimal": 8,
@@ -3499,6 +3757,12 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x8eb965ee9cCFBCE76c0a06264492c0afEfc2826d",
+		"symbol": "TOOR",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0xcB3F902bf97626391bF8bA87264bbC3DC13469be",
 		"symbol": "TRC",
 		"decimal": 18,
@@ -3520,6 +3784,12 @@ export const ethToken = [
 		"address": "0xf230b790e05390fc8295f4d3f60332c93bed42e2",
 		"symbol": "TRX",
 		"decimal": 6,
+		"type": "default"
+	},
+	{
+		"address": "0x6B87999bE87358065bBdE41e8a0fe0B7b1cd2514",
+		"symbol": "TSW",
+		"decimal": 18,
 		"type": "default"
 	},
 	{
@@ -3583,6 +3853,18 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
+		"address": "0x3543638eD4a9006E4840B105944271Bcea15605D",
+		"symbol": "UUU",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0x57C75ECCc8557136D32619a191fBCDc88560d711",
+		"symbol": "VDG",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
 		"address": "0x82BD526bDB718C6d4DD2291Ed013A5186cAE2DCa",
 		"symbol": "VDOC",
 		"decimal": 18,
@@ -3595,12 +3877,6 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
-		"address": "0xD850942eF8811f2A866692A623011bDE52a462C1",
-		"symbol": "VET",
-		"decimal": 18,
-		"type": "default"
-	},
-	{
 		"address": "0xEbeD4fF9fe34413db8fC8294556BBD1528a4DAca",
 		"symbol": "VENUS",
 		"decimal": 3,
@@ -3609,6 +3885,12 @@ export const ethToken = [
 	{
 		"address": "0x8f3470A7388c05eE4e7AF3d01D8C722b0FF52374",
 		"symbol": "VERI",
+		"decimal": 18,
+		"type": "default"
+	},
+	{
+		"address": "0xD850942eF8811f2A866692A623011bDE52a462C1",
+		"symbol": "VET",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -3669,7 +3951,7 @@ export const ethToken = [
 	{
 		"address": "0x92e78dae1315067a8819efd6dca432de9dcde2e9",
 		"symbol": "VRS",
-		"decimal": 5,
+		"decimal": 6,
 		"type": "default"
 	},
 	{
@@ -3751,14 +4033,14 @@ export const ethToken = [
 		"type": "default"
 	},
 	{
-		"address": "0x728781E75735dc0962Df3a51d7Ef47E798A7107E",
-		"symbol": "WOLK",
+		"address": "0xd73A66B8FB26Be8B0AcD7c52Bd325054Ac7d468b",
+		"symbol": "WNK",
 		"decimal": 18,
 		"type": "default"
 	},
 	{
-		"address": "0x62087245087125d3db5b9a3d713d78e7bbc31e54",
-		"symbol": "WPC",
+		"address": "0x728781E75735dc0962Df3a51d7Ef47E798A7107E",
+		"symbol": "WOLK",
 		"decimal": 18,
 		"type": "default"
 	},
@@ -3862,6 +4144,12 @@ export const ethToken = [
 		"address": "0x572e6f318056ba0c5d47a422653113843d250691",
 		"symbol": "XNT",
 		"decimal": 0,
+		"type": "default"
+	},
+	{
+		"address": "0xBB1fA4FdEB3459733bF67EbC6f893003fA976a82",
+		"symbol": "XPAT",
+		"decimal": 18,
 		"type": "default"
 	},
 	{

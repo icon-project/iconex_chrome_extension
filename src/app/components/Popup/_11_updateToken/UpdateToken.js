@@ -37,7 +37,8 @@ class UpdateToken extends Component {
   }
 
   closePopup = () => {
-    this.props.initPopupState();
+    this.props.closePopup();
+    this.props.resetSelectedWallet();
   }
 
 

@@ -1,15 +1,21 @@
 import { connect } from 'react-redux';
 import { SendTransaction } from 'app/components/';
-import { togglePopup, setPopupType, setPopupNum, initPopupState } from 'redux/actions/popupActions';
+import {  openPopup, setPopupNum, closePopup } from 'redux/actions/popupActions';
 import { sendCall, submitCall, resetEXTRPageReducer, setEXTRLogInState, resetEXTRInputReducer } from 'redux/actions/exchangeTransactionActions';
-import { fetchAll } from 'redux/actions/walletActions'
+import { executeFunc, resetContractInputOutput } from 'redux/actions/contractActions';
+import { confirmLedger, resetLedgerReducer } from 'redux/actions/ledgerActions'
+import { fetchAll, resetSelectedWallet } from 'redux/actions/walletActions'
+import {
+  resetSignupReducer
+} from 'redux/actions/signupActions';
+import { logIn } from 'redux/actions/authActions';
 
 function mapStateToProps(state) {
   return {
     wallets: state.wallet.wallets,
-    pageType: state.exchangeTransaction.pageType,
-    accountAddress: state.exchangeTransaction.accountAddress,
-    coinTypeIndex: state.exchangeTransaction.coinTypeIndex,
+    selectedAccount: state.wallet.selectedWallet.account,
+    selectedTokenId: state.wallet.selectedWallet.tokenId,
+    isToken: state.wallet.selectedWallet.isToken,
     recipientAddress: state.exchangeTransaction.recipientAddress,
     coinQuantity: state.exchangeTransaction.coinQuantity,
     privKey: state.exchangeTransaction.privKey,
@@ -21,22 +27,43 @@ function mapStateToProps(state) {
     tx: state.exchangeTransaction.tx,
     txLoading: state.exchangeTransaction.txLoading,
     error: state.exchangeTransaction.error,
-    language: state.global.language
+    language: state.global.language,
+    icxSwapAddress: state.signup.icxSwapAddress,
+    swapWalletName: state.signup.walletName,
+
+    funcList: state.contract.funcList,
+    selectedFuncIndex: state.contract.selectedFuncIndex,
+    funcInput: state.contract.funcInput,
+    funcLoading: state.contract.funcLoading,
+    funcResult: state.contract.funcResult,
+
+    isLedger: state.ledger.isLedger,
+    ledgerWallet: state.ledger.ledgerWallet,
+    isLedgerConfirmed: state.ledger.isLedgerConfirmed,
+    ledgerSignedRawTx: state.ledger.ledgerSignedRawTx,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    togglePopup: () => dispatch(togglePopup()),
-    initPopupState: () => dispatch(initPopupState()),
-    setPopupType: (s) => dispatch(setPopupType(s)),
+
+    closePopup: () => dispatch(closePopup()),
+    openPopup: (s) => dispatch(openPopup(s)),
     setPopupNum: (n) => dispatch(setPopupNum(n)),
-    sendCall: (privKey, data) => dispatch(sendCall(privKey, data)),
+    sendCall: (privKey, data, isLedger) => dispatch(sendCall(privKey, data, isLedger)),
     setEXTRLogInState: (payload) => dispatch(setEXTRLogInState(payload)),
     submitCall: (payload) => dispatch(submitCall(payload)),
-    resetReducer: () => dispatch(resetEXTRPageReducer()),
+    resetEXTRPageReducer: () => dispatch(resetEXTRPageReducer()),
     resetInput: () => dispatch(resetEXTRInputReducer()),
     fetchAll: (wallets) => dispatch(fetchAll(wallets)),
+    executeFunc: () => dispatch(executeFunc()),
+    resetSelectedWallet: () => dispatch(resetSelectedWallet()),
+    resetSignupReducer: () => dispatch(resetSignupReducer()),
+    logIn: () => dispatch(logIn()),
+
+    resetContractInputOutput: () => dispatch(resetContractInputOutput()),
+    confirmLedger: (payload) => dispatch(confirmLedger(payload)),
+    resetLedgerReducer: () => dispatch(resetLedgerReducer())
   };
 }
 

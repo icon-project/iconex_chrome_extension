@@ -24,9 +24,9 @@ export function logOut() {
   };
 }
 
-export function checkIsLocked(payload) {
+export function setLockState(payload) {
   return {
-    type: actionTypes.checkIsLocked,
+    type: actionTypes.setLockState,
     payload
   };
 }

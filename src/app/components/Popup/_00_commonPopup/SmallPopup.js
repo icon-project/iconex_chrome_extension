@@ -11,12 +11,11 @@ class SmallPopup extends Component {
   }
 
   render() {
-    const { btnButtom, submitText = false, cancelText = false } = this.props;
-
+    const { btnBottom, submitText = false, cancelText = false } = this.props;
     return (
         <div className="popup">
           <p className="txt_box" ref={ref => {if (ref) ref.innerHTML = this.props.text}}></p>
-          <div className={`btn-holder ${btnButtom && 'bottom'}`}>
+          <div className={`btn-holder ${btnBottom && 'bottom'}`}>
             { cancelText && (<button onClick={this.closePopup} className="btn-type-fill size-del"><span>{this.props.cancelText || '취소'}</span></button>)}
             { submitText && (<button onClick={this.handleSubmit} className="btn-type-normal size-del"><span>{this.props.submitText || '확인'}</span></button>)}
           </div>

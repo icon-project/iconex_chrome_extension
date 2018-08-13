@@ -6,7 +6,7 @@ import withLanguageProps from 'HOC/withLanguageProps';
 class ImmunityPopup extends Component {
 
   closePopup = () => {
-    this.props.initPopupState();
+    this.props.closePopup();
   }
 
   render() {

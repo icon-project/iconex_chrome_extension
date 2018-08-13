@@ -18,6 +18,6 @@ function* watchIsLoggedIn() {
   yield takeLatest(AT.initLoginCheck, isLoggedInFunc)
 }
 
-export default function* walletSaga() {
+export default function* authSaga() {
  yield fork(watchIsLoggedIn);
 }

@@ -70,7 +70,7 @@ class ImportWallet2 extends Component {
   closePopup = () => {
     this.worker.terminate();
     this.setState(INIT_STATE);
-    this.props.togglePopup();
+    this.props.closePopup();
   }
 
   acceptDrop = (files) => {

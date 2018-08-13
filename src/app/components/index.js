@@ -9,6 +9,10 @@ import CurrencyMenuBar from './Common/CurrencyMenuBar'
 import CopyButton from './Common/CopyButton'
 import CopyButton2 from './Common/CopyButton2'
 import Alert from './Common/Alert'
+import Timer from './Common/Timer'
+import AddressTable from './Common/AddressTable'
+import ServerChanger from './Common/ServerChanger'
+import LedgerIframe from './Common/LedgerIframe'
 
 import MainPage from './MainPage/MainPage'
 
@@ -70,10 +74,21 @@ import ComboBox from './ExchangeTransaction/ComboBox'
 import HeaderTitle from './ExchangeTransaction/HeaderTitle'
 import WalletSelector from './ExchangeTransaction/WalletSelector'
 import QuantitySetter from './ExchangeTransaction/QuantitySetter'
-import EthereumGasTable from './ExchangeTransaction/EthereumGasTable'
+import GasStepTable from './ExchangeTransaction/GasStepTable'
 import CalculationTable from './ExchangeTransaction/CalculationTable'
 import RecipientAddress from './ExchangeTransaction/RecipientAddress'
 import ExchangePanel from './ExchangeTransaction/ExchangePanel'
+
+import ContractPage from './ContractPage/ContractPage'
+import ContractReadPage from './ContractPage/ContractReadPage/ContractReadPage'
+import ContractRunSection from './ContractPage/ContractReadPage/ContractRunSection'
+import ContractSearchSection from './ContractPage/ContractReadPage/ContractSearchSection'
+import ContractExecuteSection from './ContractPage/ContractReadPage/ContractExecuteSection'
+import InputText from './ContractPage/ContractReadPage/InputText'
+import InputData from './ContractPage/ContractReadPage/InputData'
+import InputBoolean from './ContractPage/ContractReadPage/InputBoolean'
+import Output from './ContractPage/ContractReadPage/Output'
+import ContractList from './Popup/_27_contractList/ContractList'
 
 import MyPage from './MyPage/MyPage'
 import LockContent from './MyPage/LockContent'
@@ -83,12 +98,8 @@ import UnlockPopup from './Popup/_23_unlockPopup/UnlockPopup'
 
 import PasswordSetter from './MyPage/PasswordSetter'
 import PasswordInput from './MyPage/PasswordInput'
-import EmailSetter from './MyPage/EmailSetter'
-import EmailInput from './MyPage/EmailInput'
 
 import LockPage from './LockPage/LockPage'
-
-import SendEmail from './Popup/_22_sendEmail/SendEmail'
 
 import ChangePasscode from './Popup/_24_changePasscode/ChangePasscode'
 import ChangePasscode1 from './Popup/_24_changePasscode/ChangePasscode_1'
@@ -106,6 +117,9 @@ import SwapToken4 from './Popup/_26_swapToken/SwapToken_4'
 import SwapToken5 from './Popup/_26_swapToken/SwapToken_5'
 import SwapToken6 from './Popup/_26_swapToken/SwapToken_6'
 
+import ConnectLedger from './Popup/_27_connectLedger/ConnectLedger'
+
+
 export {
   Notice,
   Header,
@@ -121,6 +135,10 @@ export {
   CopyButton2,
   Alert,
   ImmunityPopup,
+  Timer,
+  AddressTable,
+  ServerChanger,
+  LedgerIframe,
 
   // *** MAIN PAGE *** //
   MainPage,
@@ -144,7 +162,8 @@ export {
   SwapToken4,
   SwapToken5,
   SwapToken6,
-
+  ConnectLedger,
+  
   // *** MY WALLET PAGE *** //
   MyWallet,
   MyWalletHeader,
@@ -187,7 +206,7 @@ export {
   HeaderTitle,
   WalletSelector,
   QuantitySetter,
-  EthereumGasTable,
+  GasStepTable,
   CalculationTable,
   RecipientAddress,
   ExchangePanel,
@@ -198,6 +217,19 @@ export {
   SendTransaction2,
   SendTransaction3,
 
+  //*** CONTRACT PAGE *** //
+  ContractPage,
+  ContractReadPage,
+  ContractRunSection,
+  ContractSearchSection,
+  ContractExecuteSection,
+  InputText,
+  InputBoolean,
+  InputData,
+  Output,
+  // popup //
+  ContractList,
+
   // *** MY PAGE *** //
   MyPage,
   LockContent,
@@ -206,10 +238,7 @@ export {
   UnlockPopup,
   PasswordSetter,
   PasswordInput,
-  EmailSetter,
-  EmailInput,
   LockPage,
-  SendEmail,
   ChangePasscode,
   ChangePasscode1,
   ChangePasscode2,

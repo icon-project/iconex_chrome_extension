@@ -7,10 +7,9 @@ export function setCurrency(currency) {
   };
 }
 
-export function getRate(currency, wallets) {
+export function getRate(currency) {
   return {
     type: actionTypes.getRate,
-    currency,
-    wallets
+    currency
   };
 }

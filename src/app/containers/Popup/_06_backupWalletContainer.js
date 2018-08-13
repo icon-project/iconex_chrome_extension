@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { BackupWallet } from 'app/components/';
-import { togglePopup, initPopupState, setPopupNum } from 'redux/actions/popupActions';
-import { setPrivKeyAndV3ForBackup } from 'redux/actions/walletActions';
+import {  closePopup, setPopupNum } from 'redux/actions/popupActions';
+import { setPrivKeyAndV3ForBackup, resetSelectedWallet } from 'redux/actions/walletActions';
 
 function mapStateToProps(state) {
   return {
     wallets: state.wallet.wallets,
-    selectedAccount: state.mainPage.selectedAccount,
+    selectedAccount: state.wallet.selectedWallet.account,
     privKey: state.wallet._06_privateKey,
     v3: state.wallet._06_v3,
     popupNum: state.popup.popupNum,
@@ -16,10 +16,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    togglePopup: () => dispatch(togglePopup()),
-    initPopupState: () => dispatch(initPopupState()),
+
+    closePopup: () => dispatch(closePopup()),
     setPopupNum: (i) => dispatch(setPopupNum(i)),
     setPrivKeyAndV3ForBackup: (s) => dispatch(setPrivKeyAndV3ForBackup(s)),
+    resetSelectedWallet: () => dispatch(resetSelectedWallet())
   };
 }
 

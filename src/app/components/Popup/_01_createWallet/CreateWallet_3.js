@@ -151,7 +151,7 @@ class CreateWallet3 extends Component {
               text={I18n.createWallet.cancelCreateWalletNotDownload}
               cancelText={I18n.button.no}
               submitText={I18n.button.yes}
-              btnButtom={true}
+              btnBottom={true}
             />
           )
         }
@@ -163,7 +163,7 @@ class CreateWallet3 extends Component {
               text={I18n.createWallet.passWithoutDownload}
               cancelText={I18n.button.no}
               submitText={I18n.button.yes}
-              btnButtom={true}
+              btnBottom={true}
             />
           )
         }
@@ -173,7 +173,7 @@ class CreateWallet3 extends Component {
               handleCancel={this.closeAlert}
               text={I18n.createWallet.downloadSuccess}
               cancelText={I18n.button.confirm}
-              btnButtom={true}
+              btnBottom={true}
             />
           )
         }

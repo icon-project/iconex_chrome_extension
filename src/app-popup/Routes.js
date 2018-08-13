@@ -43,16 +43,13 @@ class Routes extends Component {
           })
         });
       });
-      this.props.checkIsLocked(this.props.passcodeHash ? true : false);
-      this.props.checkAuth();
-      this.props.getWallet();
+      window.chrome.runtime.sendMessage({ type: 'CHECK_POPUP_LOCK_STATE' });
     })();
   }
 
   componentDidMount() {
     const message = queryString.parse(window.location.search)
     this.listenerHandler(message)
-
     window.chrome.extension.onMessage.addListener(message => {
       this.listenerHandler(message)
       window.focus()
@@ -62,6 +59,9 @@ class Routes extends Component {
   listenerHandler(message) {
     const { type } = message
     switch (type) {
+      case 'SET_LOCK_STATE':
+        this.props.setLockState(message.payload);
+        break;
       case 'REQUEST_ADDRESS':
         this.props.setIsRequestedStatus(true)
         this.props.setTransactionStatus()
@@ -70,12 +70,18 @@ class Routes extends Component {
         const { payload } = message
         this.props.setTransactionStatus(typeof payload === 'string' ? JSON.parse(payload) : payload)
         break;
+      case 'CHECK_POPUP_LOCK_STATE_FULFILLED':
+        this.props.setLockState(message.payload);
+        // if locked
+        if (payload) {
+          this.props.checkAuth();
+        } else {
+          this.props.checkAuth();
+          this.props.getWallet();
+        }
+        break;
       default:
     }
-  }
-
-  componentWillUpdate() {
-    //window.scroll(0, 0);
   }
 
   render() {

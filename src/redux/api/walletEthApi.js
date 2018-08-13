@@ -1,14 +1,15 @@
 import BigNumber from 'bignumber.js';
 import tx from 'ethereumjs-tx';
-import { check0xPrefix, isAddress, makeRawTx } from 'utils';
+import { check0xPrefix, makeEthRawTx, calcGasPrice } from 'utils';
 import { ethToken } from 'constants/ethToken.js'
 import { erc20Abi } from 'constants/index'
 
 BigNumber.config({ ERRORS: false });
+BigNumber.config({ EXPONENTIAL_AT: 1e+9 })
 
 /**
  * fetch gas price & gas limit
- * @param {Object} data: { from, to, tokenAddress, tokenDefaultDecimal, tokenDecimal, value, gasPrice, gasLimit }
+ * @param {Object} data: { from, to, contractAddress, tokenDefaultDecimal, tokenDecimal, value, gasPrice }
  * @return {Object} result: { gasPrice, gasLimit }
 */
 function getGasInfo(data) {
@@ -17,8 +18,8 @@ function getGasInfo(data) {
       window.web3.eth.estimateGas(data, (errorLimit, gasLimit) => {
         const { isToken } = data
         const result = {
-          gasPrice: !gasPrice ? 21 : window.web3.fromWei(gasPrice, "gwei").toNumber(),
-          gasLimit: !gasLimit ? (isToken ? 55000 : 21000) : gasLimit
+          gasPrice: !gasPrice ? 21 : calcGasPrice(gasPrice),
+          gasLimit: !gasLimit ? (isToken ? 55000 : 21000) : gasLimit * (isToken ? 2 : 1)
         }
         resolve(result)
       })
@@ -145,7 +146,7 @@ export function eth_getTokenInfoApi(tokenObj) {
             });
             if (tokenInfo.length > 0) {
               const result = Object.assign({}, tokenObj, {
-                defaultName: tokenObj['name'] || '',
+                defaultName: '',
                 defaultSymbol: tokenInfo[0].symbol,
                 defaultDecimals: tokenInfo[0].decimal,
                 recent: [],
@@ -154,9 +155,9 @@ export function eth_getTokenInfoApi(tokenObj) {
               resolve(result)
             } else {
               const result = Object.assign({}, tokenObj, {
-                defaultName: tokenObj['name'] || '',
-                defaultSymbol: tokenObj['symbol'] || '',
-                defaultDecimals: tokenObj['decimals'] || '',
+                defaultName: '',
+                defaultSymbol: '',
+                defaultDecimals: '',
                 recent: [],
                 createdAt: Date.now().toString()
               })
@@ -193,18 +194,10 @@ export function eth_fetchTokenBalanceApi(tokenAddress, customDecimal, account) {
   });
 }
 
-//https://stackoverflow.com/questions/45364197/how-to-detect-if-an-ethereum-address-is-an-erc20-token-contract
-export function eth_isExistTokenApi(address) {
-  return new Promise(resolve => {
-    const result = isAddress(address.toLowerCase());
-    resolve(result);
-  });
-}
-
 // https://ethereum.stackexchange.com/questions/12054/can-not-send-eth-on-ropsten-using-infura-node
 export function eth_sendCoinApi(privKey, data) {
-  return new Promise(resolve => {
-    const rawTx = makeRawTx(false, data)
+  return new Promise((resolve, reject) => {
+    const rawTx = makeEthRawTx(false, data)
     const privateKey = new Buffer(privKey, 'hex');
     const transaction = new tx(rawTx);
     transaction.sign(privateKey);
@@ -212,9 +205,10 @@ export function eth_sendCoinApi(privKey, data) {
     window.web3.eth.sendRawTransaction(
         check0xPrefix(serializedTx), function(err, result) {
             if(err) {
-                resolve([false, err]);
+              console.log(err)
+              reject(err);
             } else {
-                resolve([true, result]);
+                resolve(result);
             }
         }
     );
@@ -223,19 +217,20 @@ export function eth_sendCoinApi(privKey, data) {
 
 // https://ethereum.stackexchange.com/questions/24828/how-to-send-erc20-token-using-web3-api
 export function eth_sendTokenApi(privKey, data) {
-  return new Promise(resolve => {
-    const rawTx = makeRawTx(true, data)
+  return new Promise((resolve, reject) => {
+    const rawTx = makeEthRawTx(true, data)
     const privateKey = new Buffer(privKey, 'hex');
     const transaction = new tx(rawTx);
     transaction.sign(privateKey);
     const serializedTx = transaction.serialize().toString('hex');
     window.web3.eth.sendRawTransaction(
         check0xPrefix(serializedTx), function(err, result) {
-            if(err) {
-              resolve([false, err]);
-            } else {
-              resolve([true, result]);
-            }
+          if(err) {
+              console.log(err)
+              reject(err);
+          } else {
+              resolve(result);
+          }
         }
     );
   })

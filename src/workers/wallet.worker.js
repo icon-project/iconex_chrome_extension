@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import Wallet from 'lib/ethjs-wallet';
 import { v3_options as V3_OPTIONS } from 'constants/index';
-import { isEmpty, check0xPrefix, checkHxPrefix, generateIconexObject } from 'utils';
+import { isEmpty, check0xPrefix, checkHxPrefix } from 'utils';
 
 function walletToV3File(wallet, pw, coinType) {
   let v3 = wallet.toV3(pw, V3_OPTIONS);
@@ -148,8 +148,9 @@ onmessage = function(m) {
         const wallet = new Wallet(new Buffer(privKey));
         const key = coinType === 'icx' ? wallet.getAddressIcx().toString('hex') : check0xPrefix(wallet.getAddress().toString('hex'))
         let v3 = walletToV3File(wallet, pw, coinType);
-        const iconexObj = generateIconexObject(key, coinType, walletName, v3);
-        this.postMessage({iconexObj: iconexObj})
+        this.postMessage({
+          key, coinType, walletName, v3
+        })
       }
       catch (e) {
         console.log(e)

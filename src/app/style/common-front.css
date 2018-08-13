@@ -135,3 +135,19 @@
    padding-top: 33px;
    padding-left: 20px;
 }
+
+.popup-wrap .popup .scroll b {
+    font-weight: 500;
+}
+
+.popup-wrap .popup .txt_box a {color:#4fa8b8; text-decoration: underline;}
+
+/* popup-wrap alert class */
+.popup-wrap.home.alert .popup{width: 484px; height: 300px; text-align: center; padding: 40px; font-size: 20px; border-radius: 5px;}
+.popup-wrap.home.alert .popup .txt_box{width: 404px; height: 150px; display: table-cell; vertical-align: middle; text-align: center; line-height: 32px;     word-break: keep-all; border-bottom: none}
+
+
+/* copy button small type */
+.btn-type-copy2{width: 110px; height: 26px; border: 1px solid #262626; background: #262626; font-size: 12px; border-radius: 3px; color: #fff;}
+.btn-type-copy2:hover{background: #808080; color: #fff; border: 1px solid #808080;}
+.btn-type-copy2-fill { width: 110px; height: 26px; border: 1px solid #1aaaba; background: #1aaaba; font-size: 12px; border-radius: 3px; color: #fff;}

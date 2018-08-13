@@ -7,11 +7,12 @@ import withLanguageProps from 'HOC/withLanguageProps';
 class DeleteWallet extends Component {
 
   closePopup = () => {
-    this.props.togglePopup();
+    this.props.closePopup();
+    this.props.resetSelectedWallet();
   }
 
   handleSubmit = () => {
-    this.props.initPopupState();
+    this.props.closePopup();
     this.props.deleteWallet(this.props.selectedAccount);
   }
 

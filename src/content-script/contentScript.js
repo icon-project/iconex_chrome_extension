@@ -14,8 +14,6 @@ window.addEventListener('message', event => {
   }
 }, false);
 
-window.chrome.runtime.onMessage.addListener(detail => {
-  window.dispatchEvent(
-    new CustomEvent('fromContentScriptMessage', { detail })
-  );
+window.chrome.runtime.onMessage.addListener(event => {
+  window.postMessage(event, '*')
 });

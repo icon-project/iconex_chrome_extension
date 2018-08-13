@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { MainPage } from 'app/components/';
-import { togglePopup, setPopupType } from 'redux/actions/popupActions';
-import { setAccountAddress } from 'redux/actions/exchangeTransactionActions';
+import {  openPopup } from 'redux/actions/popupActions';
 
 function mapStateToProps(state) {
   return {
@@ -12,9 +11,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    togglePopup: () => dispatch(togglePopup()),
-    setPopupType: (s) => dispatch(setPopupType(s)),
-    setAccountAddress: address => dispatch(setAccountAddress(address)),
+
+    openPopup: (s) => dispatch(openPopup(s)),
   };
 }
 

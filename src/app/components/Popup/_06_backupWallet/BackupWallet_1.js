@@ -6,7 +6,8 @@ import withLanguageProps from 'HOC/withLanguageProps';
 class BackupWallet1 extends Component {
 
   closePopup = () => {
-    this.props.initPopupState();
+    this.props.closePopup();
+    this.props.resetSelectedWallet();
   }
 
   handleSuccess = (data) => {

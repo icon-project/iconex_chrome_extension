@@ -60,7 +60,8 @@ class UpdatePassword extends Component {
   closePopup = () => {
     this.worker.terminate();
     this.setState(INIT_STATE);
-    this.props.initPopupState();
+    this.props.closePopup();
+    this.props.resetSelectedWallet();
   }
 
   handleSubmit = () => {

@@ -11,7 +11,8 @@ const initialState = {
   address: '',
   loading: false,
   error: '',
-  icxSwapAddress: 'abc',
+  icxSwapAddress: '',
+  isSwapWalletExist: false
 }
 
 export function signupReducer(state = initialState, action) {
@@ -110,6 +111,10 @@ export function signupReducer(state = initialState, action) {
       return Object.assign({}, state, {
         walletName: action.walletName,
         pw: action.pw
+      });
+    case actionTypes.checkSwapWalletExist:
+      return Object.assign({}, state, {
+        isSwapWalletExist: action.payload
       });
     default:
       return state

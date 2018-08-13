@@ -34,6 +34,15 @@ class MyWalletContent extends Component {
     					<li onClick={this.setSubTab} data-nav="coinView" className={this.state.subNav === "coinView" && "on"}>{I18n.myWalletContentCoinView}</li>
     					<li></li>
     				</ul>
+            <div className="add-group">
+    					<span onClick={() => this.props.openPopup({
+                popupType: 'addWallet'
+              })}>{I18n.myWalletContentAddWallet}</span>
+              <em></em>
+            <span onClick={() => this.props.openPopup({
+                popupType: 'connectLedger'
+              })}>{I18n.button.connectLedger}</span>
+    				</div>
     			</div>
           {
             ((subNav === "walletView" && (dataSortedByWallet.length < 1 || walletsLoading)) || (subNav === "coinView" && (isEmpty(dataSortedByCoin) || totalResultLoading)))

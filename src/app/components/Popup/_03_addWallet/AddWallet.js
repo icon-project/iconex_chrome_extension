@@ -21,16 +21,18 @@ class AddWallet extends Component {
 
   closePopup = () => {
     this.setState(INIT_STATE);
-    this.props.initPopupState();
+    this.props.closePopup();
   }
 
   handleSubmit = () => {
     if(this.state.addType === 'create') {
-      this.props.setPopupType('createWallet');
-      this.props.setPopupNum(1);
+      this.props.openPopup({
+        popupType: 'createWallet'
+      });
     } else {
-      this.props.setPopupType('importWallet');
-      this.props.setPopupNum(1);
+      this.props.openPopup({
+        popupType: 'importWallet'
+      });
     }
   }
 

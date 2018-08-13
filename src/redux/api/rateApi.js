@@ -18,7 +18,7 @@ export function getRate(currency, symbolList) {
         let symbolWithCurrency = symbol + currency + ',';
         query += symbolWithCurrency;
       });
-      axios.get(`${ICX_TRACKER_SERVER}/v0/exchange/currentExchangeList?codeList=${query.slice(0, -1)}`)
+      axios.get(`${ICX_TRACKER_SERVER()}/v0/exchange/currentExchangeList?codeList=${query.slice(0, -1)}`)
       .then(function (res) {
         const response = res.data.data;
         const data = {}

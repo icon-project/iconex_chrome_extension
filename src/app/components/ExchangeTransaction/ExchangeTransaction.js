@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { HeaderTitle, LoadingComponent, ExchangePanel, Alert } from 'app/components/'
+import { HeaderTitle, LoadingComponent, Alert } from 'app/components/'
 import { WalletSelectorContainer, QuantitySetterContainer, RecipientAddressContainer, } from 'app/containers/'
-import { isEmpty } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -18,38 +17,32 @@ class ExchangeTransaction extends Component {
   }
 
   componentWillMount() {
-
     const {
       walletsLoading,
       wallets,
       fetchAll,
-      resetReducer,
-      setEXTRPageType,
-      setAccountAddress,
-      location
+      isLedger,
     } = this.props;
 
-    resetReducer();
-    setEXTRPageType(location.pathname.slice(1));
-
-    if (!isEmpty(location.state)) {
-      setAccountAddress({
-        accountAddress: location.state.accountAddress,
-        coinTypeIndex: location.state.coinTypeIndex
-      })
+    if (isLedger) {
+      fetchAll({});
     }
-
-    if (!walletsLoading) {
+    if (!isLedger && !walletsLoading) {
       fetchAll(wallets);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if(this.props.submit !== nextProps.submit && nextProps.submit) {
-      nextProps.togglePopup();
-      nextProps.setPopupType(`sendTransaction_${nextProps.pageType}`);
-      nextProps.setPopupNum(2);
+      nextProps.openPopup({
+        popupType: `sendTransaction_transaction`,
+        popupNum: 2
+      });
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetReducer();
   }
 
   handleSubmit = () => {
@@ -70,7 +63,7 @@ class ExchangeTransaction extends Component {
   }
 
   render() {
-    const { pageType, walletsLoading, I18n } = this.props;
+    const { walletsLoading, I18n } = this.props;
     const { showAlertWalletFirst } = this.state;
 
     if (walletsLoading) {
@@ -81,21 +74,16 @@ class ExchangeTransaction extends Component {
       );
     }
 
-    const title = pageType === 'exchange' ? I18n.exchange : I18n.transfer
     return (
       <div>
-        <HeaderTitle title={title}/>
-        { pageType === 'exchange' && (
-            <ExchangePanel />
-          )
-        }
+        <HeaderTitle title={I18n.transfer}/>
         <div className="wrap-holder exchange">
           <WalletSelectorContainer />
           <QuantitySetterContainer />
           <RecipientAddressContainer />
           <p className="lock-txt"><em className="_img"></em>{I18n.transferPageInfo1}</p>
           <div className="btn-holder in">
-            <button className="btn-type-normal size-medium" onClick={this.handleSubmit}><span>{title}</span></button>
+            <button className="btn-type-normal size-medium" onClick={this.handleSubmit}><span>{I18n.transfer}</span></button>
           </div>
         </div>
         {

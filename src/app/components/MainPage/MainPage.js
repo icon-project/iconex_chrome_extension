@@ -12,16 +12,22 @@ class MainPage extends Component {
     }
   }
 
-  importWallet = () => {
-    const { togglePopup, setPopupType } = this.props;
-    togglePopup();
-    setPopupType('importWallet');
+  createWallet = () => {
+    this.props.openPopup({
+      popupType: 'createWallet'
+    });
   }
 
-  createWallet = () => {
-    const { togglePopup, setPopupType } = this.props;
-    togglePopup();
-    setPopupType('createWallet');
+  importWallet = () => {
+    this.props.openPopup({
+      popupType: 'importWallet'
+    });
+  }
+
+  connectLedger = () => {
+    this.props.openPopup({
+      popupType: 'connectLedger'
+    });
   }
 
   render() {
@@ -46,6 +52,13 @@ class MainPage extends Component {
     							<p>{I18n.mainPageImportWalletDesc}</p>
     						</div>
     					</li>
+    					<li onClick={() => this.connectLedger()} className="ledger">
+    						<div className="box">
+    							<p className="title">{I18n.mainPageConnectLedger}</p>
+    							<span><em className="_img"></em></span>
+    						  <p>{I18n.mainPageConnectLedgerDesc}</p>
+                </div>
+              </li>
     				</ul>
     			</div>
     		</div>

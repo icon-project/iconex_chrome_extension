@@ -106,3 +106,10 @@ export function setAddress(payload) {
     payload
   };
 }
+
+export function checkSwapWalletExist(payload) {
+  return {
+    type: actionTypes.checkSwapWalletExist,
+    payload
+  }
+}

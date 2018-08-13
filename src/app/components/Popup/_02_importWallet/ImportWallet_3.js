@@ -41,7 +41,7 @@ class ImportWallet3 extends Component {
 
   closePopup = () => {
     this.setState(INIT_STATE);
-    this.props.togglePopup();
+    this.props.closePopup();
   }
 
   handleSubmit = () => {

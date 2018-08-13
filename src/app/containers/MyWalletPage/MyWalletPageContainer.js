@@ -1,21 +1,17 @@
 import { connect } from 'react-redux';
 import { MyWallet } from 'app/components/';
-import { togglePopup, setPopupType, setPopupNum } from 'redux/actions/popupActions';
-import { getWallet, fetchAll } from 'redux/actions/walletActions';
+import {  openPopup, setPopupNum } from 'redux/actions/popupActions';
+import { getWallet, fetchAll, setSelectedWallet } from 'redux/actions/walletActions';
 import { setCurrency, getRate } from 'redux/actions/rateActions';
-import { resetMainPageUIReducer } from 'redux/actions/mainPageUIActions';
-import { setSelectedAccount } from 'redux/actions/mainPageUIActions';
-import { setAccountAddress } from 'redux/actions/exchangeTransactionActions'
-import { setIsAppOpenedByPopup } from 'redux/actions/globalActions';
 
 
 function mapStateToProps(state) {
   return {
     wallets: state.wallet.wallets,
     walletsLoading: state.wallet.walletsLoading,
-    currency: state.wallet.currency,
-    rate: state.wallet.rate,
-    rateLoading: state.wallet.rateLoading,
+    currency: state.rate.currency,
+    rate: state.rate.rate,
+    rateLoading: state.rate.rateLoading,
     totalResultLoading: state.wallet.totalResultLoading,
   };
 }
@@ -23,16 +19,13 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getWallet: () => dispatch(getWallet()),
-    togglePopup: () => dispatch(togglePopup()),
-    setPopupType: (s) => dispatch(setPopupType(s)),
+
+    openPopup: (s) => dispatch(openPopup(s)),
     setPopupNum: (n) => dispatch(setPopupNum(n)),
-    setSelectedAccount: (s) => dispatch(setSelectedAccount(s)),
-    getRate: (currency, wallets) => dispatch(getRate(currency, wallets)),
+    setSelectedWallet: (payload) => dispatch(setSelectedWallet(payload)),
+    getRate: (payload) => dispatch(getRate(payload)),
     setCurrency: (s) => dispatch(setCurrency(s)),
-    setAccountAddress: payload => dispatch(setAccountAddress(payload)),
-    fetchAll: (o) => dispatch(fetchAll(o)),
-    resetMainPageUIReducer: () => dispatch(resetMainPageUIReducer()),
-    setIsAppOpenedByPopup: (isTrue) => dispatch(setIsAppOpenedByPopup(isTrue))
+    fetchAll: (o) => dispatch(fetchAll(o))
   };
 }
 

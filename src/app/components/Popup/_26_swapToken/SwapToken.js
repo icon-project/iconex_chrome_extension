@@ -14,10 +14,10 @@ class SwapToken extends Component {
   }
 
   cancelSwap = () => {
-    const { popupNum } = this.props;
+    const { popupNum, isSwapWalletExist } = this.props;
     this.setState({
       alertClose: true,
-      closeText: popupNum === 6 ? 'cancelSwap' : 'cancelWalletAndSwap'
+      closeText: (isSwapWalletExist || popupNum === 6) ? 'cancelSwap' : 'cancelWalletAndSwap'
     })
   }
 
@@ -31,7 +31,8 @@ class SwapToken extends Component {
     });
     this.setState({alertClose: false})
     this.props.resetSignupReducer();
-    this.props.initPopupState();
+    this.props.resetSelectedWallet();
+    this.props.closePopup();
     this.props.logIn();
   }
 
@@ -44,7 +45,7 @@ class SwapToken extends Component {
         case 0:
           return <SwapToken0 {...this.props}/>
         case 1:
-          return <SwapToken1 {...this.props}/>
+          return <SwapToken1 {...this.props} />
         case 2:
           return <SwapToken2 {...this.props} cancelSwap={this.cancelSwap}/>
         case 3:

@@ -1,9 +1,9 @@
 module.exports = {
     "manifest_version": 2,
-    "name": prodDev("ICONex Beta", "ICONex Testnet"),
+    "name": prodDev("ICONex", "ICONex Testnet"),
     "short_name": "ICX Wallet",
-    "description": prodDev("ICONex Beta", "ICONex Testnet"),
-    "version": process.env.NODE_ENV === 'development' ? `0.${process.env.APP_VERSION}` : `1.${process.env.APP_VERSION}`,
+    "description": prodDev("ICONex", "ICONex Testnet"),
+    "version": prodDev(`1.${process.env.APP_VERSION}`, `0.${process.env.APP_VERSION}`),
     "background": {
       "scripts": [
         "static/js/store.bundle.js"
@@ -26,12 +26,13 @@ module.exports = {
               "128": prodDev("icon_128.png", "icon_128_test.png")
               },
     "browser_action": {
-      "default_title": prodDev("ICONex Beta", "ICONex Testnet"),
+      "default_title": prodDev("ICONex", "ICONex Testnet"),
     //  "default_popup": "popup.html"
     },
     "permissions": [
         "storage",
-        prodDev("https://wallet.icon.foundation/*", "https://testwallet.icon.foundation/*")
+        "https://wallet.icon.foundation/*",
+        "https://testwallet.icon.foundation/*"
     ]
 };
 

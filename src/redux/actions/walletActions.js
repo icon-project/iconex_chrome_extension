@@ -6,6 +6,19 @@ export function getWallet() {
   };
 }
 
+export function setSelectedWallet(payload) {
+  return {
+    type: actionTypes.setSelectedWallet,
+    payload
+  }
+}
+
+export function resetSelectedWallet(payload) {
+  return {
+    type: actionTypes.resetSelectedWallet
+  }
+}
+
 export function fetchAll(payload) {
   return {
     type: actionTypes.fetchAll,
@@ -65,14 +78,6 @@ export function setPrivKeyAndV3ForBackup(payload) {
   };
 }
 
-export function isExistToken(address, coinType) {
-  return {
-    type: actionTypes.isExistToken,
-    address,
-    coinType
-  };
-}
-
 export function getTokenInfo(address, coinType) {
   return {
     type: actionTypes.getTokenInfo,
@@ -87,12 +92,6 @@ export function addToken(address, tokenArr, coinType) {
     address,
     tokenArr,
     coinType
-  };
-}
-
-export function resetAddTokenState() {
-  return {
-    type: actionTypes.resetAddTokenState
   };
 }
 
@@ -133,11 +132,9 @@ export function setNewPw(pw) {
   };
 }
 
-export function addRecentTransaction(account, tokenIndex, transactionData) {
+export function addRecentTransaction(transactionData) {
   return {
     type: actionTypes.addRecentTransaction,
-    account,
-    tokenIndex,
     transactionData
   };
 }

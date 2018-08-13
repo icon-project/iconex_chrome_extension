@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ValidationForm, LoadingComponent, Alert } from 'app/components/';
-import { check0xPrefix } from 'utils';
+import { check0xPrefix, generateIconexObject } from 'utils';
 import Worker from 'workers/wallet.worker.js';
 import withLanguageProps from 'HOC/withLanguageProps';
 
@@ -26,7 +26,8 @@ class ImportWallet4 extends Component {
         })
       }
       else {
-        const { iconexObj } = m.data;
+        const { key, coinType, walletName, v3 } = m.data;
+        const iconexObj = generateIconexObject(key, coinType, walletName, v3);
         if(!this.props.loading) {
           this.props.createWallet(iconexObj);
           this.setState({
@@ -40,7 +41,7 @@ class ImportWallet4 extends Component {
   closePopup = () => {
     this.worker.terminate();
     this.setState(INIT_STATE);
-    this.props.togglePopup();
+    this.props.closePopup();
   }
 
   handleSubmit = () => {

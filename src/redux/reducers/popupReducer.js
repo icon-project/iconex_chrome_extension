@@ -8,26 +8,17 @@ const initialState = {
 
 export function popupReducer(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.setPopupType:
+    case actionTypes.openPopup:
       return Object.assign({}, state, {
-          popupType: action.popupType
+          popupType: action.payload.popupType,
+          popupNum: action.payload.popupNum || 1,
+          isPopupOn: true
       })
     case actionTypes.setPopupNum:
       return Object.assign({}, state, {
           popupNum: action.popupNum
       })
-    case actionTypes.togglePopup:
-      let num;
-      if (state.isPopupOn) {
-        num = 1;
-      } else {
-        num = state.popupNum;
-      }
-      return Object.assign({}, state, {
-          isPopupOn: !state.isPopupOn,
-          popupNum: num
-      })
-    case actionTypes.initPopupState:
+    case actionTypes.closePopup:
       return Object.assign({}, initialState)
     default:
       return state

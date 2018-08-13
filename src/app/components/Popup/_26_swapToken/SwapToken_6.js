@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
-import { nToBr, makeRawTx } from 'utils';
+import { nToBr } from 'utils';
 import { QuantitySetterContainer } from 'app/containers/'
-import { IcxContractAddress as ICX_CONTRACT_ADDRESS, IcxDiscardAddress as ICX_DISCARD_ADDRESS } from 'constants/config'
+import { ICX_TOKEN_DISCARD_ADDRESS } from 'constants/config'
 
 const INIT_STATE = {
 }
 
 @withLanguageProps
-class SwapToken5 extends Component {
+class SwapToken6 extends Component {
 
   constructor(props) {
     super(props);
@@ -16,21 +16,24 @@ class SwapToken5 extends Component {
   }
 
   componentDidMount() {
-    this.props.setAccountAddress({
-      isLoggedIn: true,
-      accountAddress: this.props.accountAddress,
-      coinTypeIndex: ICX_CONTRACT_ADDRESS
-    })
+    // this.props.setAccountAddress({
+    //   isLoggedIn: true,
+    //   accountAddress: this.props.accountAddress,
+    //   coinTypeIndex: ICX_CONTRACT_ADDRESS
+    // })
+
     this.props.setGasLimit(0);
     this.props.setGasPrice(0);
-    this.props.setRecipientAddress(ICX_DISCARD_ADDRESS);
+    this.props.setRecipientAddress(ICX_TOKEN_DISCARD_ADDRESS());
     this.props.setCalcData()
   }
 
   componentWillReceiveProps(nextProps) {
     if(this.props.submit !== nextProps.submit && nextProps.submit) {
-      nextProps.setPopupType(`sendTransaction_swap`);
-      nextProps.setPopupNum(2);
+      nextProps.openPopup({
+        popupType: 'sendTransaction_swap',
+        popupNum: 2
+      });
     }
   }
 
@@ -41,49 +44,32 @@ class SwapToken5 extends Component {
     this.props.submitCall(true);
   }
 
-  checkGasInfo = () => {
-    const { wallets, accountAddress, recipientAddress, coinQuantity, gasPrice, gasLimit, coinTypeIndex } = this.props
-    const token = wallets[accountAddress].tokens[coinTypeIndex]
-    const rawTx = makeRawTx(true, {
-      from: accountAddress,
-      to: recipientAddress,
-      tokenAddress: token.address,
-      tokenDefaultDecimal: token.defaultDecimals,
-      tokenDecimal: token.decimals,
-      value: coinQuantity,
-      gasPrice: gasPrice,
-      gasLimit: gasLimit
-    })
-    this.props.getGasInfo(rawTx)
-  }
-
   render() {
-    const { I18n } = this.props;
+    const { I18n, isSwapWalletExist } = this.props;
     return (
       <ul className="layout">
-        <li className="swap">
+        <li className={`swap ${isSwapWalletExist ? 'twostep' : ''}`}>
           <div className="tab-holder">
-            <h1 className="title">Step 5</h1>
-            <span className="img"><em className="_img step5"></em></span>
+            <h1 className="title">{isSwapWalletExist ? 'Step 2' : 'Step 5'}</h1>
+            <span className="img"><em className={`_img ${isSwapWalletExist ? 'step2' : 'step5'}`}></em></span>
             <ul>
-              <li>{I18n.swapToken.step1}</li>
-              <li>{nToBr(I18n.swapToken.step2)}</li>
-              <li>{nToBr(I18n.swapToken.step3)}</li>
-              <li>{nToBr(I18n.swapToken.step4)}</li>
-              <li className="on">{nToBr(I18n.swapToken.step5)}</li>
+              {!isSwapWalletExist ? (<li>{nToBr(I18n.swapToken.step1)}</li>) : (<li>{nToBr(I18n.swapToken.step1_1)}</li>)}
+              <li className={isSwapWalletExist ? 'on' : ''}>{isSwapWalletExist ? nToBr(I18n.swapToken.step5) : nToBr(I18n.swapToken.step2)}</li>
+              {!isSwapWalletExist && (<li>{nToBr(I18n.swapToken.step3)}</li>)}
+              {!isSwapWalletExist && (<li>{nToBr(I18n.swapToken.step4)}</li>)}
+              {!isSwapWalletExist && (<li className="on">{nToBr(I18n.swapToken.step5)}</li>)}
             </ul>
           </div>
           <div className="info">
             <ul>
               <li><span>{I18n.swapToken.leftInfoTitle5_1}</span></li>
               <li className="dot space">{I18n.swapToken.leftInfoDesc5_1}</li>
-              <li className="dot">{I18n.swapToken.leftInfoDesc5_2}</li>
             </ul>
           </div>
         </li>
         <li className="content">
           <span onClick={this.props.cancelSwap} className="close"><em className="_img"></em></span>
-          <h1 className="title">{I18n.swapToken.title}</h1>
+          <h1 className="title">{I18n.swapToken.titleRequestTokenSwap}</h1>
           <h2>{I18n.swapToken.rightHeaderDesc5}</h2>
           <div className="scroll-holder">
 						<div className="scroll">
@@ -94,7 +80,6 @@ class SwapToken5 extends Component {
 										<li>{I18n.swapToken.gasInfo}</li>
 									</ul>
 								</div>
-
 								<div className="group-holder">
 									<p className="title">{I18n.swapToken.erc20AddressLabel}</p>
 									<p className="key">{this.props.recipientAddress}</p>
@@ -121,4 +106,4 @@ class SwapToken5 extends Component {
   }
 }
 
-export default SwapToken5;
+export default SwapToken6;

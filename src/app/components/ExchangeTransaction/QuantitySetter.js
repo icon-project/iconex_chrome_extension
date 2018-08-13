@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { ComboBox, CalculationTable } from 'app/components/'
-import { EthereumGasTableContainer } from 'app/containers/'
-import { isEmpty, checkValueLength, trimLeftZero, makeRawTx } from 'utils/utils'
+import { ComboBox } from 'app/components/'
+import { GasStepTableContainer, CalculationTableContainer } from 'app/containers/'
+import { isEmpty, checkValueLength, trimLeftZero, makeEthRawTx } from 'utils/utils'
 import withLanguageProps from 'HOC/withLanguageProps';
+import { IS_V3 } from 'constants/config'
 
 const INIT_STATE = {
-  currencyIndex: 0,
-  isFullBalance: false,
+//  currencyIndex: 0,
+//  isFullBalance: false,
 }
-
-const CURRENCY = ['ICX', 'ETH', 'BTC']
 
 @withLanguageProps
 class QuantitySetter extends Component {
@@ -25,67 +24,56 @@ class QuantitySetter extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { accountAddress, coinTypeIndex } = nextProps;
+    const { selectedAccount } = nextProps;
 
-    if ((this.props.accountAddress !== accountAddress && accountAddress)
-     || (this.props.coinTypeIndex !== coinTypeIndex && coinTypeIndex)) {
-      this.setState({
-        currencyIndex: 0,
-        isFullBalance: false,
-      });
-    }
-
-    if(this.props.totalResultLoading !== nextProps.totalResultLoading && !nextProps.totalResultLoading && accountAddress) {
+    if(this.props.totalResultLoading !== nextProps.totalResultLoading && !nextProps.totalResultLoading && selectedAccount) {
       this.props.setCalcData();
-    }
-
-    if (this.props.isInputReset !== nextProps.isInputReset) {
-      this.setState({
-        isFullBalance: false,
-      });
     }
   }
 
   handleInputChange = (e) => {
     if (!isNaN(e.target.value) && checkValueLength(e.target.value) && !e.target.value.includes("+") && !e.target.value.includes("-")) {
       this.props.setCoinQuantity(e.target.value);
-      this.setState({
-        isFullBalance: false
-      })
+      this.props.toggleFullBalance(false);
+      this.setGasInfo();
+    }
+  }
 
-      const { accountAddress, coinTypeIndex } = this.props
-      const isToken = accountAddress !== coinTypeIndex
-      if (isToken) {
-        const { wallets, recipientAddress, coinQuantity, gasPrice, gasLimit } = this.props
-        clearTimeout(this.timeout)
-        this.timeout = setTimeout(() => {
-          const token = wallets[accountAddress].tokens[coinTypeIndex]
-          const rawTx = makeRawTx(true, {
-            from: accountAddress,
-            to: recipientAddress,
-            tokenAddress: token.address,
-            tokenDefaultDecimal: token.defaultDecimals,
-            tokenDecimal: token.decimals,
-            value: coinQuantity,
-            gasPrice: gasPrice,
-            gasLimit: gasLimit
-          })
-          this.props.getGasInfo(rawTx)
-        }, 250)
-      }
+  setGasInfo = () => {
+    const { wallets, selectedAccount, selectedTokenId, isToken } = this.props
+    if (isToken && wallets[selectedAccount].type === 'eth') {
+      const { wallets, recipientAddress, coinQuantity, gasPrice, gasLimit, swapPage } = this.props
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        const token = wallets[selectedAccount].tokens[selectedTokenId]
+        const rawTx = makeEthRawTx(true, {
+          from: selectedAccount,
+          to: recipientAddress,
+          contractAddress: token.address,
+          tokenDefaultDecimal: token.defaultDecimals,
+          tokenDecimal: token.decimals,
+          value: coinQuantity,
+          gasPrice: gasPrice,
+          gasLimit: gasLimit,
+          isSwap: swapPage
+        })
+        delete rawTx.chainId;
+        delete rawTx.gasLimit;
+        this.props.getGasInfo(rawTx)
+      }, 500)
     }
   }
 
   handleInputBlur = () => {
-    this.props.setCoinQuantityError();
     this.props.setCoinQuantity(trimLeftZero(this.props.coinQuantity));
+    this.props.setCoinQuantityError();
   }
 
   toggleCheckBox = (balance) => {
 
     let {
       isLoggedIn,
-      swapPage
+      isFullBalance
     } = this.props;
 
     if(!isLoggedIn) {
@@ -96,71 +84,62 @@ class QuantitySetter extends Component {
       return false
     }
 
-    if (!this.state.isFullBalance) {
+    if (!isFullBalance) {
       this.props.setCoinQuantity(balance)
-      this.setState({
-        isFullBalance: !this.state.isFullBalance
-      }, () => {
-        if (swapPage) {
-          this.props.checkGasInfo()
-        }
-      })
+      this.props.toggleFullBalance(true);
+      this.setGasInfo();
     }
     else {
-      this.setState({
-        isFullBalance: !this.state.isFullBalance
-      })
+      this.props.toggleFullBalance(false);
     }
   }
 
-  setCurrencyIndex = (index) => {
-    this.setState({currencyIndex: index})
-  }
+  changeCoin = (index) => {
+    const { selectedAccount } = this.props;
+    this.props.setSelectedWallet({
+      account: selectedAccount,
+      tokenId: index === selectedAccount ? '' : index
+    })
 
-  setCoinTypeIndex = (index) => {
-    const { accountAddress } = this.props;
-    this.props.setAccountAddress({
-      isLoggedIn: true,
-      accountAddress: accountAddress,
-      coinTypeIndex: index
-    });
-
-    this.setState({
-      isFullBalance: false
-    }, () => {
-      const { accountAddress, coinTypeIndex } = this.props
-      const isToken = accountAddress !== coinTypeIndex
-      this.props.setGasLimit(isToken ? 55000 : 21000);
-      this.props.setGasPrice(21);
-      this.props.setCalcData()
-    });
+    const { isToken } = this.props
+    this.props.toggleFullBalance(false);
+    this.props.setGasLimit(isToken ? 55000 : 21000);
+    this.props.setGasPrice(21);
+    this.props.setCalcData()
   }
 
   render() {
 
     const {
-      isFullBalance,
-      currencyIndex,
-    } = this.state;
-
-    const {
       calcData,
       coinQuantity,
       coinQuantityError,
-      coinTypeIndex,
-      accountAddress,
-      pageType,
-      pageTypeText,
+      selectedTokenId,
+      selectedAccount,
       isLoggedIn,
       I18n,
       swapPage,
-      gasLimit,
-      gasPrice,
-      setGasLimit,
-      setGasPrice,
-      setCalcData,
-      gasLoading
+      isFullBalance,
+      isContractPage
     } = this.props;
+
+    if (isContractPage) {
+      return (
+        <div className="-group">
+          <p className="title">{I18n.transferPageLabel1}</p>
+          <input
+          	type="text"
+          	className={`txt-type-normal ${coinQuantityError && 'error'}`}
+          	placeholder={I18n.transferPagePlaceholder1}
+          	disabled={!isLoggedIn}
+          	value={coinQuantity || ''}
+          	onChange={this.handleInputChange}
+          	onBlur={() => this.handleInputBlur()}
+          />
+          <p className="error">{I18n.error[coinQuantityError]}</p>
+        </div>
+      )
+    }
 
     return (
       <div className={`quantity-holder ${calcData.coinType === 'icx' ? '' : 'ethereum'}`}>
@@ -170,7 +149,7 @@ class QuantitySetter extends Component {
             <input
               type="text"
               className={`txt-type-normal ${coinQuantityError && 'error'}`}
-              placeholder={I18n.transferPagePlaceholder1}
+              placeholder={swapPage ? I18n.swapToken.inputPlaceholder : I18n.transferPagePlaceholder1}
               disabled={!isLoggedIn}
               value={coinQuantity || ''}
               onChange={this.handleInputChange}
@@ -188,60 +167,35 @@ class QuantitySetter extends Component {
               />
               <label htmlFor="quantity-setter-cbox-01" className="_img" onClick={()=>{isLoggedIn && this.toggleCheckBox(calcData.totalBalance)}}></label>
             </div>
-            {(pageType === 'transaction' && !swapPage) && (
+            {!swapPage ? (
                 <ComboBox
                   disabled={!isLoggedIn}
                   list={!isEmpty(calcData) ? calcData.coinTypeObj : ['']}
-                  index={coinTypeIndex || accountAddress}
-                  setIndex={this.setCoinTypeIndex}
+                  index={selectedTokenId || selectedAccount}
+                  setIndex={this.changeCoin}
                 />
-            )}
-            {swapPage &&
+            ) : (
               <ComboBox
                 disabled={true}
                 list={{ICX: "ICX"}}
                 index={"ICX"}
                 setIndex={()=>{}}
+                noArrow={true}
               />
-            }
-            {pageType === 'exchange' &&
-              <div className="a-group">
-                <span className="_img"></span>
-              </div>
-            }
-            {pageType === 'exchange' &&
-              <div className="b-group">
-                <span className={`txt ${isLoggedIn && calcData.coinQuantityNumber !== 0 ? 'txtNumber' : ''}`}>{isLoggedIn && calcData.coinQuantityNumber !== 0 ? calcData.coinQuantityNumber : I18n.transferPageLabel2}</span>
-                <ComboBox
-                  disabled={!isLoggedIn}
-                  list={!isEmpty(calcData) ? calcData.currencyList : CURRENCY}
-                  index={currencyIndex}
-                  setIndex={this.setCurrencyIndex}
-                />
-              </div>
-            }
+            )}
             {isLoggedIn && (<span className="won">{calcData.sendQuantityWithRate !== '-' && <i className="_img"></i>}<em>{calcData.sendQuantityWithRate || 0 }</em> <em>USD</em></span>)}
             <p className="error">{I18n.error[coinQuantityError]}</p>
           </div>
         </div>
     {
-      (isLoggedIn && calcData.coinType !== 'icx' && !swapPage) && (
-        <EthereumGasTableContainer />
+      (isLoggedIn && !swapPage) && (calcData.coinType === 'icx' ? IS_V3 : true) && (
+        <GasStepTableContainer />
       )
     }
     {
       isLoggedIn && (
-        <CalculationTable
-          data={calcData}
-          pageType={pageType}
-          pageTypeText={pageTypeText}
+        <CalculationTableContainer
           swapPage={swapPage}
-          gasLimit={gasLimit}
-          gasPrice={gasPrice}
-          gasLoading={gasLoading}
-          setGasLimit={setGasLimit}
-          setGasPrice={setGasPrice}
-          setCalcData={setCalcData}
         />
       )
     }

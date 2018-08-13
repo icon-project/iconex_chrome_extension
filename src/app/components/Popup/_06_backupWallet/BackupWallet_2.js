@@ -13,7 +13,7 @@ class BackupWallet2 extends Component {
       'name': this.props.wallets[this.props.selectedAccount].name,
       'type': this.props.wallets[this.props.selectedAccount].type,
       'priv': this.props.wallets[this.props.selectedAccount].priv,
-      'toggleKey': ''
+      'toggleKey': 'on'
     };
   }
 
@@ -23,7 +23,8 @@ class BackupWallet2 extends Component {
       'type': '',
       'priv': ''
     });
-    this.props.initPopupState();
+    this.props.closePopup();
+    this.props.resetSelectedWallet();
     this.props.setPrivKeyAndV3ForBackup({privKey: '', v3: ''});
   }
 
@@ -82,7 +83,7 @@ class BackupWallet2 extends Component {
     					</div>
     					<div className="tabbox-holder ">
     						<div className="key-group">
-                  <p className={`key ${toggleKey === 'on' ? '' : 'pw'}`}>{toggleKey === 'on' ? privKey : '*'.repeat(64)}<em onClick={this.toggleKey} className={`_img ${toggleKey}`}></em></p>
+                  <p className={`key ${toggleKey}`}>{toggleKey === '' ? privKey : '*'.repeat(64)}<em onClick={this.toggleKey} className={`_img ${toggleKey}`}></em></p>
     						</div>
     					</div>
     					<div className="message-holder"><i className="_img"></i>

@@ -1,25 +1,27 @@
 import { connect } from 'react-redux';
 import { WalletSelector } from 'app/components/';
-import { setAccountAddress } from 'redux/actions/exchangeTransactionActions';
-import { togglePopup, setPopupType } from 'redux/actions/popupActions';
+import { setSelectedWallet } from 'redux/actions/walletActions';
+import { setEXTRLogInState } from 'redux/actions/exchangeTransactionActions';
+import { openPopup } from 'redux/actions/popupActions';
 
 function mapStateToProps(state) {
   return {
     wallets: state.wallet.wallets,
-    pageType: state.exchangeTransaction.pageType,
-    pageTypeText: state.exchangeTransaction.pageTypeText,
-    accountAddress: state.exchangeTransaction.accountAddress,
-    rate: state.wallet.rate,
-    rateLoading: state.wallet.rateLoading,
+    selectedAccount: state.wallet.selectedWallet.account,
+    walletSelectorError: state.exchangeTransaction.walletSelectorError,
+    rate: state.rate.rate,
+    rateLoading: state.rate.rateLoading,
     totalResultLoading: state.wallet.totalResultLoading,
+    isLedger: state.ledger.isLedger,
+    ledgerWallet: state.ledger.ledgerWallet,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setAccountAddress: address => dispatch(setAccountAddress(address)),
-    togglePopup: () => dispatch(togglePopup()),
-    setPopupType: (s) => dispatch(setPopupType(s))
+    setEXTRLogInState: (payload) => dispatch(setEXTRLogInState(payload)),
+    setSelectedWallet: (payload) => dispatch(setSelectedWallet(payload)),
+    openPopup: (s) => dispatch(openPopup(s))
   };
 }
 

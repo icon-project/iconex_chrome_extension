@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { check0xPrefix, isEmpty } from 'utils';
+import { isEmpty, isIcxContractAddress, isAddress } from 'utils';
 import { LoadingComponent } from 'app/components/';
 import withLanguageProps from 'HOC/withLanguageProps'
 
@@ -12,7 +12,8 @@ const INIT_STATE = {
   nameError: '',
   symbolError: '',
   decimalsError: '',
-  isLoading: false
+  isLoading: false,
+  isSubmit: false
 }
 
 @withLanguageProps
@@ -30,41 +31,43 @@ class AddToken2 extends Component {
     });
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if(this.props.isExistTokenLoading !== nextProps.isExistTokenLoading && !nextProps.isExistTokenLoading) {
-      if (nextProps.isExistToken) {
-        const result = {
-          address: check0xPrefix(nextState.address),
-          name: nextState.name,
-          symbol: nextState.symbol,
-          decimals: nextState.decimals
+  componentWillReceiveProps(nextProps) {
+    if (this.props.tokenInfoLoading !== nextProps.tokenInfoLoading && !nextProps.tokenInfoLoading) {
+      const { tokenInfo, error } = nextProps
+      console.log(tokenInfo, error)
+      if (!isEmpty(tokenInfo) && !error) {
+        if (this.state.isSubmit) {
+          nextProps.addToken(
+            nextProps.selectedAccount,
+            [{
+              ...tokenInfo,
+              name: this.state.name,
+              symbol: this.state.symbol,
+              decimals: this.state.decimals,
+              defaultName: tokenInfo.defaultName || this.state.name,
+              defaultSymbol: tokenInfo.defaultSymbol || this.state.symbol,
+              defaultDecimals: tokenInfo.defaultDecimals || this.state.decimals,
+            }],
+            nextProps.wallets[nextProps.selectedAccount].type
+          );
+        } else {
+          const result = {
+            address: this.state.address,
+            name: tokenInfo.defaultName || this.state.name,
+            symbol: tokenInfo.defaultSymbol || this.state.symbol,
+            decimals: tokenInfo.defaultDecimals || this.state.decimals,
+            addressError: ''
+          };
+          this.setState({
+            ...result,
+            isLoading: false
+          })
         };
-        this.props.addToken(nextProps.selectedAccount, [result], this.props.wallets[this.props.selectedAccount].type);
       } else {
         const { I18n } = this.props;
         this.setState({
+          isSubmit: false,
           isLoading: false,
-          addressError: I18n.error.addressNotValid
-        })
-      }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.tokenInfoLoading !== nextProps.tokenInfoLoading && !nextProps.tokenInfoLoading) {
-      const { tokenInfo } = nextProps
-      const { defaultSymbol } = tokenInfo
-      if (!isEmpty(tokenInfo) && defaultSymbol) {
-        this.setState({
-          address: this.state.address,
-          name: nextProps.tokenInfo.defaultName,
-          symbol: nextProps.tokenInfo.defaultSymbol,
-          decimals: nextProps.tokenInfo.defaultDecimals,
-        })
-      }
-      else {
-        const { I18n } = this.props;
-        this.setState({
           addressError: I18n.error.addressNotValid
         })
       }
@@ -73,11 +76,11 @@ class AddToken2 extends Component {
 
   componentWillUnmount() {
     this.setState(INIT_STATE);
-    this.props.resetAddTokenState();
   }
 
   closePopup = () => {
-    this.props.initPopupState();
+    this.props.closePopup();
+    this.props.resetSelectedWallet();
   }
 
   validateForm = (e, state = '') => {
@@ -91,6 +94,8 @@ class AddToken2 extends Component {
       decimals,
       decimalsError
     } = this.state;
+
+    const walletCoinType = this.props.wallets[this.props.selectedAccount].type;
 
     let targetArr = [];
 
@@ -106,6 +111,7 @@ class AddToken2 extends Component {
       switch (target) {
         case 'address':
           if (address.length < 1) { addressError = I18n.error.addressEnter; }
+          else if ((walletCoinType === 'icx' && !isIcxContractAddress(address)) || (walletCoinType === 'eth' && !isAddress(address))) { addressError = I18n.error.addressNotValid }
           else { addressError = ''; }
           break;
         case 'name':
@@ -153,9 +159,10 @@ class AddToken2 extends Component {
 
     this.setState({
       isLoading: true,
+      isSubmit: true,
       addressError: ''
     }, () => {
-      this.props.checkIsExistToken(address, this.props.wallets[this.props.selectedAccount].type);
+      this.props.getTokenInfo(address, this.props.wallets[this.props.selectedAccount].type)
     })
 
     // initialize timeout
@@ -167,6 +174,7 @@ class AddToken2 extends Component {
       return
     }
 
+    const walletCoinType = this.props.wallets[this.props.selectedAccount].type;
     const target = e.target.getAttribute('data-type');
     const value = target === 'address' ? e.target.value.trim() : e.target.value
     const state = this.state;
@@ -174,13 +182,17 @@ class AddToken2 extends Component {
     this.setState(state);
 
     // check whether address exists
-    if (target === 'address') {
+    if (target === 'address' && ((walletCoinType === 'icx' && isIcxContractAddress(value)) || (walletCoinType === 'eth' && isAddress(value)))) {
       // initialize timeout
       clearTimeout(this.timeout)
       if (value.length === 42) {
-        this.timeout = setTimeout(()=>{
-          this.props.getTokenInfo(value, this.props.wallets[this.props.selectedAccount].type)
-        }, 500)
+        this.setState({
+          isLoading: true
+        }, () => {
+          this.timeout = setTimeout(()=>{
+            this.props.getTokenInfo(value, this.props.wallets[this.props.selectedAccount].type)
+          }, 500)
+        });
       }
     }
   }

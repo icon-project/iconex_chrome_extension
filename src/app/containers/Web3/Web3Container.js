@@ -31,7 +31,7 @@ class Web3Component extends Component {
 
   getWeb3 = () => {
     window.web3 = new Web3();
-    window.web3.setProvider(new window.web3.providers.HttpProvider(ETH_SERVER));
+    window.web3.setProvider(new window.web3.providers.HttpProvider(ETH_SERVER()));
   }
 
   render() {

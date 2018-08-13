@@ -5,22 +5,9 @@ import {
 } from './walletEthApi'
 
 import {
-  icx_sendCoinApi
+  icx_sendCoinApi,
+  icx_sendTokenApi
 } from './walletIcxApi'
-
-export function getTxFeeApi(type, param) {
-  switch(type) {
-    case 'icx':
-      return 0
-    case 'eth':
-      return new Promise(resolve => {
-        const result = {};
-        resolve(result);
-      });
-    default:
-      break;
-  }
-}
 
 export function getGasInfoApi(type, param) {
   switch(type) {
@@ -39,7 +26,7 @@ export function sendCoinApi(privKey, data) {
   switch(data.coinType) {
     case 'icx':
       return new Promise(resolve => {
-        const result = icx_sendCoinApi(privKey, data);
+        const result = icx_sendCoinApi(privKey, data)
         resolve(result);
       });
     case 'eth':
@@ -55,7 +42,10 @@ export function sendCoinApi(privKey, data) {
 export function sendTokenApi(privKey, data) {
   switch(data.coinType) {
     case 'icx':
-      break;
+      return new Promise(resolve => {
+        const result = icx_sendTokenApi(privKey, data);
+        resolve(result);
+      });
     case 'eth':
       return new Promise(resolve => {
         const result = eth_sendTokenApi(privKey, data);

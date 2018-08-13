@@ -37,7 +37,7 @@ class MyWalletHeaderLeft extends Component {
   }
 
   setCurrencyList = (e) => {
-    this.props.getRate(e.target.getAttribute("data-currency"), this.props.wallets);
+    this.props.getRate(e.target.getAttribute("data-currency"));
 
     this.setState({
       showCurrencyList: false

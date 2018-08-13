@@ -33,7 +33,8 @@ class UpdateWalletName extends Component {
 
   closePopup = () => {
     this.setState(INIT_STATE);
-    this.props.initPopupState();
+    this.props.resetSelectedWallet();
+    this.props.closePopup();
   }
 
   handleSubmit = () => {

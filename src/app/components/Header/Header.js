@@ -4,6 +4,9 @@ import {
 } from 'constants/index.js';
 import { Link } from 'react-router-dom';
 import withLanguageProps from 'HOC/withLanguageProps';
+import { isEmpty } from 'utils';
+import { IS_V3 } from 'constants/config.js';
+
 
 const INIT_STATE = {
   showInfo: false,
@@ -51,10 +54,11 @@ class Header extends Component {
   }
 
   render() {
-    const { setLanguage, language, location, I18n } = this.props;
+    const { wallets, isLedger, setLanguage, language, location, I18n } = this.props;
     const isHome = location.pathname === ROUTE['home'];
     const isLock = location.pathname === ROUTE['lock']
-    const showHeaderItem = isHome ? false : isLock ? false : true
+    const showHeaderItem = !(isHome || isLock)
+    const isLedgerAccess = isEmpty(wallets) && isLedger
 
     return (
   		<div className="header-wrap" onClick={this.onHeaderClick}>
@@ -62,12 +66,15 @@ class Header extends Component {
           {showHeaderItem && (
   				  <Link to={isHome ? ROUTE['home'] : ROUTE['mywallet']}><p className="logo"><span className="_img"></span></p></Link>
           )}
-          {showHeaderItem && (
+          {showHeaderItem && !isLedgerAccess && (
             <div className="menu-holder">
     					<Link to="/mywallet"><span className={`wallet ${location.pathname.includes('/mywallet') && 'on'}`}>{I18n.myWallet}</span></Link>
     					{/* <span onClick={this.disableExchange} className={`exchange ${location.pathname === '/exchange' && 'on'}`}>{I18n.exchange}</span> */}
     					<Link to="/transaction"><span className={`remittance ${location.pathname === '/transaction' && 'on'}`}>{I18n.transfer}</span></Link>
-              <Link to="/mypage"><span className={`remittance ${location.pathname === '/mypage' && 'on'}`}>{I18n.myPage}</span></Link>
+              {
+                IS_V3 && (<Link to="/contract"><span className={`contract ${location.pathname === '/contract' && 'on'}`}>{I18n.contract}</span></Link>)
+              }
+              <Link to="/mypage"><span className={`mypage ${location.pathname === '/mypage' && 'on'}`}>{I18n.myPage}</span></Link>
             </div>
           )}
   				<div className="language-holder">

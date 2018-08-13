@@ -42,9 +42,9 @@ class ExportContent extends Component {
             checklist: []
           });
           this.props.setExportWalletObject(m.data.resolvedWalletArr);
-          this.props.togglePopup();
-          this.props.setPopupType('exportWallet');
-          this.props.setPopupNum(1);
+          this.props.openPopup({
+            popupType: 'exportWallet'
+          });
         });
       }
     }

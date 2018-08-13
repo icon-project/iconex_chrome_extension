@@ -1,21 +1,21 @@
 import { connect } from 'react-redux';
 import { UpdateWalletName } from 'app/components/';
-import { togglePopup, initPopupState } from 'redux/actions/popupActions';
-import { updateWalletName } from 'redux/actions/walletActions';
+import {  closePopup } from 'redux/actions/popupActions';
+import { updateWalletName, resetSelectedWallet } from 'redux/actions/walletActions';
 
 function mapStateToProps(state) {
   return {
     wallets: state.wallet.wallets,
-    selectedAccount: state.mainPage.selectedAccount,
+    selectedAccount: state.wallet.selectedWallet.account,
     language: state.global.language
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    togglePopup: () => dispatch(togglePopup()),
-    initPopupState: () => dispatch(initPopupState()),
-    updateWalletName: (s1, s2) => dispatch(updateWalletName(s1, s2))
+    closePopup: () => dispatch(closePopup()),
+    updateWalletName: (s1, s2) => dispatch(updateWalletName(s1, s2)),
+    resetSelectedWallet: () => dispatch(resetSelectedWallet())
   };
 }
 

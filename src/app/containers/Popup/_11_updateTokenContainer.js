@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
 import { UpdateToken } from 'app/components/';
-import { updateToken } from 'redux/actions/walletActions';
-import { setSelectedToken } from 'redux/actions/mainPageUIActions';
+import { updateToken, resetSelectedWallet } from 'redux/actions/walletActions';
 import { withRouter } from 'react-router-dom';
-import { togglePopup, initPopupState } from 'redux/actions/popupActions';
+import {  closePopup } from 'redux/actions/popupActions';
 
 function mapStateToProps(state) {
   return {
-    selectedAccount: state.mainPage.selectedAccount,
-    selectedTokenId: state.mainPage.selectedTokenId,
+    selectedAccount: state.wallet.selectedWallet.account,
+    selectedTokenId: state.wallet.selectedWallet.tokenId,
     wallets: state.wallet.wallets,
     language: state.global.language
   };
@@ -16,10 +15,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    togglePopup: () => dispatch(togglePopup()),
-    initPopupState: () => dispatch(initPopupState()),
+
+    closePopup: () => dispatch(closePopup()),
     updateToken: (account, id, data) => dispatch(updateToken(account, id, data)),
-    setSelectedToken: (s, i) => dispatch(setSelectedToken(s, i))
+    resetSelectedWallet: () => dispatch(resetSelectedWallet())
   };
 }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
-import { Alert } from 'app/components/'
-import { makeRawTx } from 'utils/utils'
+import { Alert, LoadingComponent } from 'app/components/'
+import { makeEthRawTx } from 'utils/utils'
 
 const INIT_STATE = {
   recipientAddressError: '',
@@ -24,31 +24,32 @@ class RecipientAddress extends Component {
   setGasInfo = (nextProps) => {
     clearTimeout(this.timeout)
 
-    const { accountAddress, coinTypeIndex } = nextProps
-
-    const isToken = accountAddress !== coinTypeIndex
+    const { isToken } = nextProps
     if (!isToken) return
 
-    const { recipientAddressError, recipientAddress, coinQuantity } = nextProps
+    const { wallets, selectedAccount, recipientAddressError, recipientAddress, coinQuantity } = nextProps
 
     if (coinQuantity === 0 || recipientAddress === '' || recipientAddressError !== '') return
     if (recipientAddress === this.props.recipientAddress) return
+    if (wallets[selectedAccount].type === 'icx') return
 
     this.timeout = setTimeout(() => {
-      const { wallets, gasPrice, gasLimit } = nextProps
-      const token = wallets[accountAddress].tokens[coinTypeIndex]
-      const rawTx = makeRawTx(true, {
-        from: accountAddress,
+      const { wallets, gasPrice, gasLimit, selectedAccount, selectedTokenId } = nextProps
+      const token = wallets[selectedAccount].tokens[selectedTokenId]
+      const rawTx = makeEthRawTx(true, {
+        from: selectedAccount,
         to: recipientAddress,
-        tokenAddress: token.address,
+        contractAddress: token.address,
         tokenDefaultDecimal: token.defaultDecimals,
         tokenDecimal: token.decimals,
         value: coinQuantity,
         gasPrice: gasPrice,
         gasLimit: gasLimit
       })
+      delete rawTx.chainId;
+      delete rawTx.gasLimit;
       this.props.getGasInfo(rawTx)
-    }, 250)
+    }, 500)
   }
 
   handleInputChange = (e) => {
@@ -67,8 +68,14 @@ class RecipientAddress extends Component {
       })
       return false;
     }
-    this.props.togglePopup();
-    this.props.setPopupType(type);
+
+    if (type === `history_transaction`) {
+      this.props.fetchRecentHistory();
+    } else {
+      this.props.openPopup({
+        popupType: type
+      });
+    }
   }
 
   closeAlert = () => {
@@ -79,7 +86,7 @@ class RecipientAddress extends Component {
 
   render() {
     const { showAlertWalletFirst } = this.state;
-    const { isLoggedIn, recipientAddress, recipientAddressError, pageType, I18n } = this.props;
+    const { isLoggedIn, historyLoading, recipientAddress, recipientAddressError, I18n } = this.props;
     return (
       <div className="address-holder">
         <div className="group">
@@ -96,8 +103,11 @@ class RecipientAddress extends Component {
           />
           <p className="error">{I18n.error[recipientAddressError]}</p>
           <div className="-holder">
-            <button className="btn-type-copy" onClick={() => {this.openPopup(`address_${pageType}`)}}><span>{I18n.button.myAddress}</span></button>
-            <button className="btn-type-copy" onClick={() => {this.openPopup(`history_${pageType}`)}}><span>{I18n.button.recentTransactionAddress}</span></button>
+            <button className="btn-type-copy" onClick={() => {this.openPopup(`address_transaction`)}}><span>{I18n.button.myAddress}</span></button>
+            {
+              historyLoading ? (<button disabled style={{paddingBottom: 8, paddingTop: 3, background: '#fff'}} className="btn-type-copy"><span><LoadingComponent type="black"/></span></button>)
+                             : (<button className="btn-type-copy" onClick={() => {this.openPopup(`history_transaction`)}}><span>{I18n.button.recentTransactionAddress}</span></button>)
+            }
           </div>
         </div>
         {

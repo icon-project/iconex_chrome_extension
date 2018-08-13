@@ -15,8 +15,9 @@ class MyPage extends Component {
   }
 
   unlock = () => {
-    this.props.togglePopup();
-    this.props.setPopupType('unlockPopup')
+    this.props.openPopup({
+      popupType: 'unlockPopup'
+    })
   }
 
   setTab = (e) => {

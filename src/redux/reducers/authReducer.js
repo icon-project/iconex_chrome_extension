@@ -31,7 +31,7 @@ export function authReducer(state = initialState, action) {
       return Object.assign({}, state, {
           isLoggedIn: false
       })
-    case actionTypes.checkIsLocked:
+    case actionTypes.setLockState:
       return Object.assign({}, state, {
           isLocked: action.payload
       })

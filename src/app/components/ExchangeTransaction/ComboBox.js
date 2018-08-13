@@ -30,7 +30,11 @@ class ComboBox extends Component {
     return (
       <span className={`money-group ${this.props.disabled ? 'disabled' : ''}`} onClick={this.toggleList}>
         {this.props.index ? this.props.list[this.props.index].toUpperCase() : '    '}
-        <em className="_img"></em>
+        {
+          !this.props.noArrow && (
+            <em className="_img"></em>
+          )
+        }
         <div className="layer typeB">
         {this.state.showList &&
           <CurrencyList

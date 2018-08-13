@@ -2,10 +2,9 @@ import { connect } from 'react-redux';
 import { SwapToken } from 'app/components/';
 import { setEXTRLogInState } from 'redux/actions/exchangeTransactionActions';
 import {
-  togglePopup,
   setPopupNum ,
-  initPopupState,
-  setPopupType
+  closePopup,
+  openPopup
 } from 'redux/actions/popupActions';
 import {
   setWalletObject,
@@ -14,7 +13,8 @@ import {
   setIcxSwapAddress,
   setPrivKeyForSwap,
   setWalletNameAndPasswordForSwap,
-  setAddress
+  setAddress,
+  checkSwapWalletExist
 } from 'redux/actions/signupActions';
 import {
   generateWallet,
@@ -24,20 +24,21 @@ import {
   createWallet,
   deleteWallet,
 } from 'redux/actions/signupActions';
-import { getWallet } from 'redux/actions/walletActions';
+import { getWallet, resetSelectedWallet } from 'redux/actions/walletActions';
 import { logIn } from 'redux/actions/authActions';
-import { setCalcData, setGasLimit, setGasPrice, setRecipientAddress, getGasInfo, setAccountAddress, submitCall } from 'redux/actions/exchangeTransactionActions';
+import { setCalcData, setGasLimit, setGasPrice, setRecipientAddress, getGasInfo, submitCall } from 'redux/actions/exchangeTransactionActions';
 
 function mapStateToProps(state) {
   return {
     wallets: state.wallet.wallets,
     privKey: state.signup.privateKey,
-    accountAddress: state.exchangeTransaction.accountAddress,
+    selectedAccount: state.wallet.selectedWallet.account,
+    selectedTokenId: state.wallet.selectedWallet.tokenId,
+    isToken: state.wallet.selectedWallet.isToken,
     recipientAddress: state.exchangeTransaction.recipientAddress,
     coinQuantity: state.exchangeTransaction.coinQuantity,
     gasLimit: state.exchangeTransaction.gasLimit,
     gasPrice: state.exchangeTransaction.gasPrice,
-    coinTypeIndex: state.exchangeTransaction.coinTypeIndex,
     isLoggedIn: state.exchangeTransaction.isLoggedIn,
     gasLoading: state.exchangeTransaction.gasLoading,
     submit: state.exchangeTransaction.submit,
@@ -53,13 +54,14 @@ function mapStateToProps(state) {
     pw: state.signup.pw,
     keyError: state.signup.error,
     loading: state.signup.loading,
-    language: state.global.language
+    language: state.global.language,
+    isSwapWalletExist: state.signup.isSwapWalletExist
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    initPopupState: () => dispatch(initPopupState()),
+    closePopup: () => dispatch(closePopup()),
     setEXTRLogInState: (payload) => dispatch(setEXTRLogInState(payload)),
     setWalletObject: (wallet) => dispatch(setWalletObject(wallet)),
     setCoinType: (s) => dispatch(setCoinType(s)),
@@ -69,14 +71,13 @@ function mapDispatchToProps(dispatch) {
     setWalletName: (s) => dispatch(setWalletName(s)),
     resetInfo: () => dispatch(resetInfo()),
     generateWallet: (s1, s2, s3) => dispatch(generateWallet(s1, s2, s3)),
-    setPopupType: type => dispatch(setPopupType(type)),
+    openPopup: type => dispatch(openPopup(type)),
     setPopupNum: (n) => dispatch(setPopupNum(n)),
-    togglePopup: () => dispatch(togglePopup()),
+    resetSelectedWallet: () => dispatch(resetSelectedWallet()),
     setIcxSwapAddress: (address) => dispatch(setIcxSwapAddress(address)),
     setPrivKeyForSwap: (privKey) => dispatch(setPrivKeyForSwap(privKey)),
     setWalletNameAndPasswordForSwap: (walletName, pw) => dispatch(setWalletNameAndPasswordForSwap(walletName, pw)),
     setAddress: (address) => dispatch(setAddress(address)),
-    setAccountAddress: address => dispatch(setAccountAddress(address)),
     setCalcData: () => dispatch(setCalcData()),
     setGasLimit: (value) => dispatch(setGasLimit(value)),
     setGasPrice: (value) => dispatch(setGasPrice(value)),
@@ -85,7 +86,8 @@ function mapDispatchToProps(dispatch) {
     submitCall: (payload) => dispatch(submitCall(payload)),
     deleteWallet: (s) => dispatch(deleteWallet(s)),
     logIn: () => dispatch(logIn()),
-    getWallet: () => dispatch(getWallet())
+    getWallet: () => dispatch(getWallet()),
+    checkSwapWalletExist: (payload) => dispatch(checkSwapWalletExist(payload))
   };
 }
 

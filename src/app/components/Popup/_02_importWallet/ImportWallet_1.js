@@ -22,7 +22,7 @@ class ImportWallet1 extends Component {
   closePopup = () => {
     this.setState(INIT_STATE);
     this.props.resetSignupReducer();
-    this.props.initPopupState();
+    this.props.closePopup();
   }
 
   handleSubmit = () => {

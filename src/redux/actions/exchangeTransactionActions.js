@@ -1,23 +1,14 @@
 import actionTypes from 'redux/actionTypes/actionTypes';
 
-export function setEXTRPageType(payload) {
-  return {
-    type: actionTypes.setEXTRPageType,
-    payload
-  };
-}
-
-export function getTxFee(coinType, param) {
-  return {
-    type: actionTypes.getTxFee,
-    coinType,
-    param
-  };
-}
-
 export function setCalcData() {
   return {
     type: actionTypes.setCalcData
+  };
+}
+
+export function setWalletSelectorError() {
+  return {
+    type: actionTypes.setWalletSelectorError
   };
 }
 
@@ -31,6 +22,12 @@ export function setGasLimit(payload) {
 export function setGasLimitError() {
   return {
     type: actionTypes.setGasLimitError
+  };
+}
+
+export function setContractGasLimitError() {
+  return {
+    type: actionTypes.setContractGasLimitError
   };
 }
 
@@ -55,13 +52,6 @@ export function setDataError() {
   };
 }
 
-export function setAccountAddress(payload) {
-  return {
-    type: actionTypes.setAccountAddress,
-    payload
-  };
-}
-
 export function setEXTRLogInState(payload) {
   return {
     type: actionTypes.setEXTRLogInState,
@@ -82,6 +72,13 @@ export function setCoinQuantityError() {
   };
 }
 
+export function toggleFullBalance(payload) {
+  return {
+    type: actionTypes.toggleFullBalance,
+    payload
+  };
+}
+
 export function setRecipientAddress(payload) {
   return {
     type: actionTypes.setRecipientAddress,
@@ -95,11 +92,12 @@ export function setRecipientAddressError() {
   };
 }
 
-export function sendCall(privKey, data) {
+export function sendCall(privKey, data, isLedger = false) {
   return {
     type: actionTypes.sendCall,
     privKey,
-    data
+    data,
+    isLedger
   };
 }
 

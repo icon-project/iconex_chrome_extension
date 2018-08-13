@@ -34,71 +34,217 @@ class SendTransaction3 extends Component {
   }
 
   closePopup = () => {
-    this.props.initPopupState();
+    switch(this.props.pageType) {
+      case 'swap': {
+        this.props.resetSignupReducer();
+        this.props.resetSelectedWallet();
+        this.props.closePopup();
+        this.props.logIn();
+        break;
+      }
+      case 'contract':
+      case 'transaction': {
+        this.props.closePopup();
+        break;
+      }
+      default:
+        break;
+    }
   }
 
   updateWallets = () => {
-    const { wallets, accountAddress, recipientAddress } = this.props
-    const sending = wallets[accountAddress]
+    const { wallets, selectedAccount, recipientAddress  } = this.props
+    const sending = wallets[selectedAccount]
     const receiving = wallets[recipientAddress]
 
     let fetchWallet = {}
-    fetchWallet[accountAddress] = sending
+    fetchWallet[selectedAccount] = sending
     if (receiving) fetchWallet[recipientAddress] = receiving
 
     this.props.fetchAll(fetchWallet)
   }
 
   closePopupAfterTx = () => {
-    this.updateWallets()
-    this.props.resetInput();
-    this.props.initPopupState();
+    const { funcResult, isLedger } = this.props;
+    switch(this.props.pageType) {
+      case 'swap': {
+        this.props.resetInput();
+        this.props.resetSelectedWallet();
+        this.props.closePopup();
+        this.props.logIn();
+        break;
+      }
+      case 'contract': {
+        this.updateWallets();
+        this.props.resetContractInputOutput();
+        window.open(TXID_URL['icx'] + check0xPrefix(funcResult[0]), '_blank');
+        this.props.closePopup();
+        break;
+      }
+      case 'transaction': {
+        if (!isLedger) this.updateWallets();
+        this.props.resetInput();
+        this.props.closePopup();
+        break;
+      }
+      default:
+        break;
+    }
   }
 
   handleSubmit = () => {
-    const { coinTypeIndex, accountAddress, calcData, tx } = this.props;
-    const coinTypeId = !coinTypeIndex ? accountAddress : coinTypeIndex
-    const url = coinTypeId === accountAddress ? accountAddress : accountAddress + '_' + coinTypeId
+    const { selectedAccount, selectedTokenId, isToken, calcData, tx } = this.props;
+    const url = !isToken ? selectedAccount : selectedAccount + '_' + selectedTokenId
 
-    this.props.initPopupState();
-    this.props.history.push(ROUTE['mywallet'] + '/' + url);
-
-    if (calcData.coinType !== "icx") {
+    switch(this.props.pageType) {
+      case 'swap': {
+        this.props.resetInput();
+        this.props.resetSelectedWallet();
+        this.props.closePopup();
+        this.props.logIn();
         window.open(TXID_URL['eth'] + check0xPrefix(tx), '_blank');
+        break;
+      }
+      case 'contract': {
+        this.updateWallets();
+        this.props.resetContractInputOutput();
+        this.props.closePopup();
+        break;
+      }
+      case 'transaction': {
+        this.props.closePopup();
+        this.props.history.push(ROUTE['mywallet'] + '/' + url);
+
+        if (calcData.walletCoinType !== "icx") {
+            window.open(TXID_URL['eth'] + check0xPrefix(tx), '_blank');
+        }
+        break;
+      }
+      default:
+        break;
     }
   }
 
   getErrorText = () => {
-    const { I18n, error, wallets, accountAddress } = this.props;
-    const { type } = wallets[accountAddress]
+    const { I18n, error, selectedWallet} = this.props;
+    const { type } = selectedWallet
 
-    if (type === 'icx') {
-      return I18n.sendTransaction.icxFailure
+    if (!navigator.onLine) {
+      return I18n.sendTransaction.internetFailure
     }
 
-    switch (error) {
-      case 'replacement transaction underpriced':
-        return I18n.sendTransaction.anotherFailure
+    if (type === 'icx') {
+      switch (error) {
+        case -32700:
+          return 'Invalid JSON was received by the server. An error occurred on the server while parsing the JSON text.'
 
-      case 'intrinsic gas too low':
-        return I18n.sendTransaction.gasFailure
+        case -32600:
+          return 'The JSON sent is not a valid Request object.'
 
-      case 'exceeds block gas limit':
-        return I18n.sendTransaction.exceedsFailure
+        case -32601:
+          return 'The method does not exist / is not available.'
 
-      case 'insufficient funds for gas * price + value':
-        return I18n.sendTransaction.tokenGasFailure
+        case -32602:
+          return 'Invalid method parameter(s).'
 
-      default:
-        if (!navigator.onLine) {
-          return I18n.sendTransaction.internetFailure
-        }
-        else if (error && error.indexOf('known transaction') !== -1) {
-          return I18n.sendTransaction.knownFailure
-        }
-        else {
+        case -32603:
+          return 'Internal JSON-RPC error.'
+
+        case -32000:
+          return 'IconServiceEngine 내부에서 발생하는 오류'
+
+        case -32100:
+          return 'Score 내부에서 발생하는 오류'
+
+        default:
+          return I18n.sendTransaction.icxFailure
+      }
+    } else {
+      if (error.indexOf('known transaction') !== -1) {
+        return I18n.sendTransaction.knownFailure
+      }
+      switch (error) {
+        case 'replacement transaction underpriced':
+          return I18n.sendTransaction.anotherFailure
+
+        case 'intrinsic gas too low':
+          return I18n.sendTransaction.gasFailure
+
+        case 'exceeds block gas limit':
+          return I18n.sendTransaction.exceedsFailure
+
+        case 'insufficient funds for gas * price + value':
+          return I18n.sendTransaction.tokenGasFailure
+
+        default:
           return I18n.sendTransaction.infoFailure
+      }
+    }
+  }
+
+  getText = () => {
+    const { I18n, isLedger } = this.props;
+
+    switch(this.props.pageType) {
+      case 'swap': {
+        return `${I18n.sendTransaction.swapSuccess}<br/><a href='https://docs.google.com/spreadsheets/d/1HiT98wqEpFgF2d98eJefQfH7xK4KPPxNDiiXg3AcJ7w/edit#gid=0' target="_blank">${I18n.swapToken.rightInfoDesc1_1_3_1}</a>`
+      }
+      case 'contract': {
+        break;
+      }
+      case 'transaction': {
+        const { tx, selectedWallet } = this.props;
+        const { type } = selectedWallet
+        if (type === 'eth') {
+          return `${I18n.sendTransaction.infoSuccess}<br/>${I18n.coinDetailHistoryNoTransactionEth}<br/><a href=${TXID_URL['eth'] + check0xPrefix(tx)} target="_blank">https://etherscan.io/</a>`
+        } else {
+          return isLedger ? `${I18n.sendTransaction.infoSuccess}<br/>${I18n.coinDetailHistoryIcx}<br/><a href=${TXID_URL['icx'] + tx} target="_blank">https://tracker.icon.foundation/</a>` : I18n.sendTransaction.infoSuccess
         }
+      }
+      default:
+        return ''
+    }
+  }
+
+  renderPageTypeSwitch = () => {
+    const { I18n, funcResult, selectedWallet } = this.props;
+    const { type } = selectedWallet
+    const text = this.getText()
+    const { pageType, isLedger } = this.props;
+    switch(pageType) {
+      case 'contract': {
+        return (
+          <div className="popup complete">
+            <p className="txt_box">실행이 완료 되었습니다.</p>
+            <div className="scroll-holder">
+              <div className="scroll">
+                <p className="title">TxHash는 ICON Tracker에서 조회 가능합니다.</p>
+                <p onClick={this.closePopupAfterTx} className="address">{funcResult[0]}</p>
+              </div>
+            </div>
+            <div className="btn-holder">
+              <button onClick={this.handleSubmit} className="btn-type-fill size-full"><span>완료</span></button>
+            </div>
+          </div>
+        )
+      }
+      case 'swap':
+      case 'transaction': {
+        const hideSubmit = type === 'eth' || isLedger
+        return (
+          <div className="popup-wrap home">
+            <SmallPopup
+              handleCancel={this.closePopupAfterTx}
+              handleSubmit={this.handleSubmit}
+              text={text}
+              cancelText={I18n.button.close}
+              submitText={hideSubmit ? undefined : I18n.button.checkTransction}
+            />
+          </div>
+        )
+      }
+      default:
+        break;
     }
   }
 
@@ -107,28 +253,20 @@ class SendTransaction3 extends Component {
       isSuccess
     } = this.state;
 
-    const { I18n, swapPage } = this.props;
-    const errorText = this.getErrorText()
-
+    const { I18n } = this.props;
     return (
-      <div className="popup-wrap home">
+      <div>
         {
           isSuccess
-            ? (
-              <SmallPopup
-                handleCancel={this.closePopupAfterTx}
-                handleSubmit={this.handleSubmit}
-                text={swapPage ? I18n.sendTransaction.swapSuccess : I18n.sendTransaction.infoSuccess}
-                cancelText={I18n.button.close}
-                submitText={I18n.button.checkTransction}
-              />
-            )
+            ? this.renderPageTypeSwitch()
             : (
-              <SmallPopup
-                handleCancel={this.closePopup}
-                text={errorText}
-                cancelText={I18n.button.close}
-              />
+              <div className="popup-wrap home">
+                <SmallPopup
+                  handleCancel={this.closePopup}
+                  text={this.getErrorText()}
+                  cancelText={I18n.button.close}
+                />
+              </div>
             )
         }
       </div>

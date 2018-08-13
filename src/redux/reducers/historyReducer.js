@@ -2,9 +2,7 @@ import actionTypes from 'redux/actionTypes/actionTypes'
 
 const initialState = {
   history: [],
-  historyLoading: true,
-  startBlock: 0,
-  endBlock: 0,
+  historyLoading: false,
   totalData: 0
 }
 
@@ -24,8 +22,6 @@ export function historyReducer(state = initialState, action) {
       return Object.assign({}, state, {
           history: action.payload,
           historyLoading: false,
-          startBlock: action.startBlock,
-          endBlock: action.endBlock,
           totalData: action.totalData
       })
     }

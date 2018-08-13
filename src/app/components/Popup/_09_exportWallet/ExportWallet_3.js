@@ -37,7 +37,7 @@ class ExportWallet3 extends Component {
     this.worker.terminate();
     this.setState(INIT_STATE);
     this.props.resetExportWalletState();
-    this.props.initPopupState();
+    this.props.closePopup();
   }
 
   handleDownload = () => {
@@ -54,7 +54,7 @@ class ExportWallet3 extends Component {
     // this.worker.terminate();
     // this.setState(INIT_STATE);
     // this.props.resetExportWalletState();
-    // this.props.initPopupState();
+    // this.props.closePopup();
   }
 
   goToHome = () => {

@@ -1,15 +1,10 @@
 import actionTypes from 'redux/actionTypes/actionTypes';
 
-export function togglePopup() {
-  return {
-    type: actionTypes.togglePopup
-  };
-}
 
-export function setPopupType(popupType) {
+export function openPopup(payload) {
   return {
-    type: actionTypes.setPopupType,
-    popupType: popupType
+    type: actionTypes.openPopup,
+    payload
   };
 }
 
@@ -20,8 +15,8 @@ export function setPopupNum(popupNum) {
   };
 }
 
-export function initPopupState() {
+export function closePopup() {
   return {
-    type: actionTypes.initPopupState,
+    type: actionTypes.closePopup,
   };
 }

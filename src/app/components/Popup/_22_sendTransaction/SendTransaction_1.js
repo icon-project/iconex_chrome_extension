@@ -17,7 +17,8 @@ class SendTransaction1 extends Component {
     this.props.setEXTRLogInState({
       isLoggedIn: false
     });
-    this.props.initPopupState();
+    this.props.resetSelectedWallet();
+    this.props.closePopup();
   }
 
   handleSuccess = (privKey) => {
@@ -25,20 +26,26 @@ class SendTransaction1 extends Component {
       isLoggedIn: true,
       privKey: privKey
     });
-    this.props.initPopupState();
+    this.props.closePopup();
   }
 
   render() {
     const {
-      wallets, accountAddress
+      wallets, selectedAccount
     } = this.props;
 
-    const name = wallets[accountAddress].name;
-    const priv = wallets[accountAddress].priv;
+    const name = wallets[selectedAccount].name;
+    const priv = wallets[selectedAccount].priv;
 
     return (
       <div className="popup size-medium2">
-        <CheckPassword type="sendTransaction" walletName={name} priv={priv} onCancel={this.closePopup} onSuccess={this.handleSuccess} />
+        <CheckPassword
+          type="sendTransaction"
+          walletName={name}
+          priv={priv}
+          onCancel={this.closePopup}
+          onSuccess={this.handleSuccess}
+        />
       </div>
     );
   }

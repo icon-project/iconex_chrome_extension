@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { UnlockPopup } from 'app/components/';
-import { togglePopup } from 'redux/actions/popupActions';
+import { closePopup } from 'redux/actions/popupActions';
 import { setLock } from 'redux/actions/globalActions';
+
 
 function mapStateToProps(state) {
   return {
@@ -12,8 +13,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    togglePopup: () => dispatch(togglePopup()),
-    setLock: (passcodeHash, emailAddress) => dispatch(setLock(passcodeHash, emailAddress))
+    closePopup: () => dispatch(closePopup()),
+    setLock: (passcodeHash) => dispatch(setLock(passcodeHash))
   };
 }
 

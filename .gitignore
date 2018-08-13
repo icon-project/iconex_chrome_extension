@@ -3,6 +3,8 @@
 # build
 /build
 /build-test
+/build-dev
+/buildfile
 
 # dependencies
 /node_modules

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import hash from 'hash.js'
-import { routeConstants as ROUTE } from 'constants/index'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -18,8 +17,9 @@ class LockPage extends Component {
 
   componentWillMount() {
     if(this.props.showChangePasscode) {
-      this.props.togglePopup();
-      this.props.setPopupType('changePasscode');
+      this.props.openPopup({
+        popupType: 'changePasscode'
+      });
       this.props.setShowChangePasscodePopup(false);
     }
   }
@@ -52,13 +52,13 @@ class LockPage extends Component {
       return
     }
 
-    this.props.setUnlock();
-    this.props.history.push(ROUTE['mywallet']);
+    window.chrome.extension.sendMessage({ type: 'UNLOCK' })
   }
 
-  sendEmail = () => {
-    this.props.togglePopup();
-    this.props.setPopupType('changePasscode');
+  handleForgotButtonClick = () => {
+    this.props.openPopup({
+      popupType: 'changePasscode'
+    });
   }
 
   handleKeyPress = (e) => {
@@ -85,7 +85,7 @@ class LockPage extends Component {
 					<button className="btn-type-lock" onClick={this.checkPasscode}><span>{I18n.button.confirm}</span></button>
 				</div>
         <div className="guide-holder">
-				    <p className="forget" onClick={this.sendEmail}>{I18n.lockPageInputForget}</p>
+				    <p className="forget" onClick={this.handleForgotButtonClick}>{I18n.lockPageInputForget}</p>
         </div>
 			</div>
     );

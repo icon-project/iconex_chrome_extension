@@ -5,6 +5,8 @@ import { withRouter } from 'react-router-dom';
 
 function mapStateToProps(state) {
   return {
+    wallets: state.wallet.wallets,
+    isLedger: state.ledger.isLedger,
     passcodeHash: state.global.passcodeHash,
   };
 }

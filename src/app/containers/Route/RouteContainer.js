@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { isLoggedIn, checkIsLocked } from 'redux/actions/authActions';
+import { isLoggedIn, setLockState } from 'redux/actions/authActions';
+import { closePopup } from 'redux/actions/popupActions';
 import { getWallet } from 'redux/actions/walletActions';
-import { setIsAppOpenedByPopup } from 'redux/actions/globalActions';
 import { setShowNotice } from 'redux/actions/globalActions';
 import Routes from 'app/Routes.js';
 
@@ -13,7 +13,7 @@ function mapStateToProps(state) {
     isLocked: state.auth.isLocked,
     language: state.global.language,
     showNotice: state.global.showNotice,
-    isAppOpenedByPopup: state.global.message !== undefined ? state.global.message.isAppOpenedByPopup : false
+    isLedger: state.ledger.isLedger
   };
 }
 
@@ -21,12 +21,12 @@ function mapDispatchToProps(dispatch) {
   return {
     checkAuth: () => dispatch(isLoggedIn()),
     getWallet: () => dispatch(getWallet()),
-    checkIsLocked: (checkIsLock) => dispatch(checkIsLocked(checkIsLock)),
+    setLockState: (isLocked) => dispatch(setLockState(isLocked)),
     setShowNotice: () => dispatch(setShowNotice()),
-    setIsAppOpenedByPopup: (isTrue) => dispatch(setIsAppOpenedByPopup(isTrue))
+    closePopup: () => dispatch(closePopup())
   };
 }
 
-const AuthContainer = connect(mapStateToProps, mapDispatchToProps)(Routes);
+const RouteContainer = connect(mapStateToProps, mapDispatchToProps)(Routes);
 
-export default AuthContainer;
+export default RouteContainer;

@@ -5,7 +5,7 @@ import i18n from 'constants/i18n'
 import React from 'react';
 import BigNumber from 'bignumber.js';
 import { erc20Abi } from 'constants/index'
-import { CHAIN_ID } from 'constants/config.js'
+import { CHAIN_ID, IS_V3 } from 'constants/config.js'
 
 function charFreq( string ) {
     let value;
@@ -142,56 +142,29 @@ function calcTokenBalanceWithRate(balance, rate, defaultDecimals, decimals) {
 // https://ethereum.stackexchange.com/questions/12867/how-to-check-for-valid-contract-address-using-web3
 function isAddress(address) {
     // function isAddress(address) {
-        if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
-        // check if it has the basic requirements of an address
+    if (!/^(0x)[0-9a-f]{40}$/i.test(address)) {
         return false;
-    } else if (/^(0x)?[0-9a-f]{40}$/.test(address) || /^(0x)?[0-9A-F]{40}$/.test(address)) {
-        // If it's all small caps or all all caps, return "true
+    } else {
+        return true;
+    }
+}
+
+function isIcxWalletAddress(address) {
+    const addressLowerCase = address.toLowerCase();
+    if (/^(hx)[0-9a-f]{40}$/.test(addressLowerCase)) {
         return true;
     } else {
-        // Otherwise check each case
-        return isChecksumAddress(address);
-    }
-}
-
-let isChecksumAddress = function (address) {
-    // Check each case
-    address = address.replace('0x','');
-    var addressHash = window.web3.sha3(address.toLowerCase());
-    for (var i = 0; i < 40; i++ ) {
-        // the nth letter should be uppercase if the nth digit of casemap is 1
-        if ((parseInt(addressHash[i], 16) > 7 && address[i].toUpperCase() !== address[i]) || (parseInt(addressHash[i], 16) <= 7 && address[i].toLowerCase() !== address[i])) {
-            return false;
-        }
-    }
-    return true;
-}
-
-function isAddressIcx(address) {
-    // function isAddress(address) {
-        if (!/^(hx)?[0-9a-f]{40}$/i.test(address)) {
-        // check if it has the basic requirements of an address
         return false;
-    } else if (/^(hx)?[0-9a-f]{40}$/.test(address) || /^(hx)?[0-9A-F]{40}$/.test(address)) {
-        // If it's all small caps or all all caps, return "true
+    }
+}
+
+function isIcxContractAddress(address) {
+    const addressLowerCase = address.toLowerCase();
+    if (/^(cx)[0-9a-f]{40}$/.test(addressLowerCase)) {
         return true;
     } else {
-        // Otherwise check each case
-        return isChecksumAddressIcx(address);
+        return false;
     }
-}
-
-let isChecksumAddressIcx = function (address) {
-    // Check each case
-    address = address.replace('hx','');
-    var addressHash = window.web3.sha3(address.toLowerCase());
-    for (var i = 0; i < 40; i++ ) {
-        // the nth letter should be uppercase if the nth digit of casemap is 1
-        if ((parseInt(addressHash[i], 16) > 7 && address[i].toUpperCase() !== address[i]) || (parseInt(addressHash[i], 16) <= 7 && address[i].toLowerCase() !== address[i])) {
-            return false;
-        }
-    }
-    return true;
 }
 
 function isHex(hex) {
@@ -226,17 +199,6 @@ function getTypeText(type, language) {
   }
 }
 
-function isValidEmail(email) {
-  let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-
-  if (email.match(regExp) != null) {
-    return true
-  }
-  else {
-    return false
-  }
-}
-
 function check0xPrefix(string) {
   if (!string) return;
   string = string.toLowerCase();
@@ -254,6 +216,16 @@ function checkHxPrefix(string) {
     return string;
   } else {
     return 'hx' + string;
+  }
+}
+
+function checkCxPrefix(string) {
+  if (!string) return;
+  string = string.toLowerCase();
+  if(string.startsWith('cx')) {
+    return string;
+  } else {
+    return 'cx' + string;
   }
 }
 
@@ -280,13 +252,6 @@ function decimalToHex(d, padding) {
 
 function formatDate() { var d = new Date(), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear(); if (month.length < 2) month = '0' + month; if (day.length < 2) day = '0' + day; return [year, month, day].join('-'); }
 
-/* https://stackoverflow.com/questions/33702838/how-to-append-bytes-multi-bytes-and-buffer-to-arraybuffer-in-javascript */
-function concatTypedArrays(a, b) { // a, b TypedArray of same type
-    var c = new (a.constructor)(a.length + b.length);
-    c.set(a, 0);
-    c.set(b, a.length);
-    return c;
-}
 
 /* https://gist.github.com/RHavar/a6511dea4d4c41aeb1eb */
 function randomUint32() {
@@ -328,7 +293,7 @@ function isWalletNameExists(wallets, name) {
 
 function nToBr(str) {
   const arr = str.split('\n').map( (line, i) => {
-      return (<span key={i}>{line}<br/></span>);
+      return (<span style={{position: 'relative'}} key={i}>{line}<br/></span>);
   });
   return arr;
 }
@@ -365,7 +330,7 @@ function makeAddressStr(address, type) {
     return check0xPrefix(address)
   }
   else if (type === 'icx') {
-    return checkHxPrefix(address)
+    return address
   }
   else {
     return address
@@ -388,20 +353,20 @@ function sortTokensByDate(tokens) {
   })
 }
 
-function makeRawTx(isToken, data) {
+function makeEthRawTx(isToken, data) {
   let rawTx = {}
   if (isToken) {
     let token = window.web3.eth.contract(erc20Abi).at(check0xPrefix(data.from))
-    let valueDiv = customValueToTokenValue(new BigNumber(data.value), data.tokenDefaultDecimal, data.tokenDecimal).times(Math.pow(10, data.tokenDefaultDecimal)).toNumber();
+    let valueDiv = customValueToTokenValue(new BigNumber(data.value), data.tokenDefaultDecimal, data.tokenDecimal).times(Math.pow(10, data.tokenDefaultDecimal)).toString();
     const dataObj = token.transfer.getData(check0xPrefix(data.to), valueDiv);
     rawTx = {
       nonce: window.web3.toHex(window.web3.eth.getTransactionCount(check0xPrefix(data.from))),
       from: check0xPrefix(data.from),
-      to: check0xPrefix(data.tokenAddress),
+      to: check0xPrefix(data.contractAddress),
       gasPrice: window.web3.toHex(window.web3.toWei(data.gasPrice, 'gwei')),
       gasLimit: window.web3.toHex(data.gasLimit),
       // EIP 155 chainId - mainnet: 1, ropsten: 3
-      chainId: CHAIN_ID,
+      chainId: CHAIN_ID(),
       value: 0,
       data: dataObj
     }
@@ -415,18 +380,104 @@ function makeRawTx(isToken, data) {
       gasPrice: window.web3.toHex(window.web3.toWei(data.gasPrice, 'gwei')),
       gasLimit: window.web3.toHex(data.gasLimit),
       // EIP 155 chainId - mainnet: 1, ropsten: 3
-      chainId: CHAIN_ID,
+      chainId: CHAIN_ID(),
       value: window.web3.toHex(sendAmount),
     }
     if (data.data) rawTx['data'] = data.data;
   }
 
-  rawTx['isToken'] = !!data.tokenAddress
   return rawTx
+}
+
+
+function makeIcxRawTx(isContract, data) {
+  let rawTx = {}
+  if (!IS_V3) {
+    const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
+    rawTx = {
+      from: data.from,
+      to: data.to,
+      value: window.web3.toHex(sendAmount),
+      fee: "0x2386f26fc10000",
+      timestamp: (new Date()).getTime().toString() + '000'
+    }
+    return rawTx
+  }
+
+  if (isContract) {
+    rawTx =  {
+      from: data.from,
+      to: data.contractAddress,
+      version: "0x3",
+      nid: '0x3',
+      stepLimit: check0xPrefix(new BigNumber(data.gasLimit).toString(16)),
+      timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16)),
+      dataType: 'call',
+      data: {
+          "method": data.methodName,
+          "params": data.inputObj
+      }
+    };
+  }
+  else {
+    const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
+    rawTx = {
+      from: data.from,
+      to: data.to,
+      value: window.web3.toHex(sendAmount),
+      version: "0x3",
+      nid: '0x3',
+      stepLimit: check0xPrefix(new BigNumber(data.gasLimit).toString(16)),
+      timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16))
+    }
+    if (data.data) {
+      rawTx['data'] = data.data;
+      rawTx['dataType'] = 'message';
+    }
+  }
+
+  return rawTx
+}
+
+function calcGasPrice(gasPrice) {
+  if (!gasPrice) return 21
+  const MIN_GWEI = new BigNumber(window.web3.toWei(11, "gwei"))
+  const WeiPrice = gasPrice.lt(MIN_GWEI) ? MIN_GWEI : gasPrice
+  const GweiPrice = window.web3.fromWei(WeiPrice, "gwei")
+  const newGweiPrice = Number(GweiPrice.plus(10).toFixed(0))
+  const result = newGweiPrice > 99 ? 99 : newGweiPrice
+  return result
 }
 
 function isDevelopment() {
   return process.env.NODE_ENV === 'development'
+}
+
+function dataToHex(text) {
+
+  let bytes = [];
+  let convertedText = '';
+
+  for (let i = 0; i < text.length; i++) {
+      let originBytes = unescape(encodeURIComponent(text[i]));
+      for (let j = 0; j < originBytes.length; j++) {
+          bytes.push(originBytes[j].charCodeAt(0));
+      }
+  }
+
+  let textToHexFormat = '%x'
+  for (var i = 0; i < bytes.length; i++) {
+      let byte = bytes[i];
+      let hexByte = byte.toString(16);
+      if (hexByte.length === 1) {
+          hexByte = '0' + hexByte;
+      }
+      let char = textToHexFormat;
+      char = char.replace(/%x/g, hexByte);
+      convertedText += char;
+  }
+
+  return convertedText;
 }
 
 export {
@@ -442,17 +493,17 @@ export {
   tokenValueToCustomValue,
   calcTokenBalanceWithRate,
   isAddress,
-  isAddressIcx,
+  isIcxWalletAddress,
+  isIcxContractAddress,
   isHex,
   getCoinName,
   getTypeText,
-  isValidEmail,
   check0xPrefix,
+  checkCxPrefix,
   checkHxPrefix,
   delete0xPrefix,
   decimalToHex,
   formatDate,
-  concatTypedArrays,
   randomUint32,
   calcMaxPageNum,
   makeWalletNameArr,
@@ -462,6 +513,9 @@ export {
   makeAddressStr,
   onlyKorEngNum,
   isValidWalletName,
-  makeRawTx,
-  isDevelopment
+  dataToHex,
+  makeEthRawTx,
+  makeIcxRawTx,
+  isDevelopment,
+  calcGasPrice
 }

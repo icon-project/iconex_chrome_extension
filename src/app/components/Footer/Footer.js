@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { routeConstants as ROUTE } from 'constants/index';
-import { APP_VERSION } from 'constants/config.js'
+import { ServerChanger } from 'app/components/'
+import { APP_VERSION, HIDE_SERVER } from 'constants/config.js'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -16,8 +17,9 @@ class Footer extends Component {
   }
 
   handleImmunityClick = (e) => {
-    this.props.togglePopup();
-    this.props.setPopupType('immunityPopup');
+    this.props.openPopup({
+      popupType: 'immunityPopup'
+    });
   }
 
   render() {
@@ -36,7 +38,12 @@ class Footer extends Component {
               <div className="footer-wrap">
           			<div className="wrap-holder">
           				<p className="txt-copy"><span>©2018 ICON Foundation</span><em></em><span onClick={this.handleImmunityClick} className="noti">{I18n.disclaimerPage.header}</span></p>
-                  <span className="ver">{`Ver.${APP_VERSION}`}</span>
+                    {
+                      process.env.NODE_ENV === 'development' && !HIDE_SERVER && (
+                        <ServerChanger {...this.props} />
+                      )
+                    }
+                <span className="ver">{`Ver.${APP_VERSION}`}</span>
                 </div>
           		</div>
               )

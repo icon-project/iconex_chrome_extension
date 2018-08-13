@@ -11,6 +11,10 @@ class App extends Component {
     }
   }
 
+  componentWillUnmount() {
+    window.chrome.runtime.sendMessage({ type: 'RESET_TIMER' });
+  }
+
   render() {
     return (
       <div>

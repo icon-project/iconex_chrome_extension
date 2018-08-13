@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import hash from 'hash.js'
 import { openApp } from 'utils';
-import { routeConstants as ROUTE } from 'constants/index'
 import withLanguageProps from 'HOC/withLanguageProps';
 import logo from 'app-popup/image/preview/logo.svg'
 
@@ -45,12 +44,10 @@ class LockPage extends Component {
       this.setState({error: 'lockPasscodeExactly'})
       return
     }
-
-    this.props.setUnlock();
-    this.props.history.push(ROUTE['home']);
+    window.chrome.extension.sendMessage({ type: 'UNLOCK' })
   }
 
-  sendEmail = () => {
+  handleForgotButtonClick = () => {
     this.props.setShowChangePasscodePopup(true);
     openApp();
   }
@@ -79,7 +76,7 @@ class LockPage extends Component {
       					{this.state.error !== '' && <p className="error"><em className="_img"></em>{I18n.error[this.state.error]}</p>}
       				</div>
               <div className="guide-holder">
-      				    <p className="forget" onClick={this.sendEmail}>{I18n.lockPageInputForget}</p>
+      				    <p className="forget" onClick={this.handleForgotButtonClick}>{I18n.lockPageInputForget}</p>
               </div>
       			</div>
           </div>

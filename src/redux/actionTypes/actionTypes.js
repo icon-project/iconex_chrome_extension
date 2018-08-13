@@ -6,9 +6,8 @@ const actionTypes = {
   logIn: 'LOG_IN',
   logInFulfilled: 'LOG_IN_FULFILLED',
   logOut: 'LOG_OUT',
-  checkIsLocked: 'CHECK_IS_LOCKED',
+  setLockState: 'SET_LOCK_STATE',
   setUnlock: 'SET_UNLOCK',
-  setIsAppOpenedByPopup: 'SET_IS_APP_OPENED_BY_POPUP',
   setShowChangePasscodePopup: 'SET_SHOW_CHANGE_PASSCODE_POPUP',
 
   // globalActions
@@ -19,11 +18,11 @@ const actionTypes = {
   setLockFulfilled: 'SET_LOCK_FULFILLED',
   setLockRejected: 'SET_LOCK_REJECTED',
   changePasscodeHash: 'CHANGE_PASSCODE_HASH',
-  changeEmail: 'CHANGE_EMAIL',
   setShowNotice: 'SET_SHOW_NOTICE',
 
   // signupActions
   setWalletName: 'SET_WALLET_NAME',
+  checkSwapWalletExist: 'CHECK_SWAP_WALLET_EXIST',
   setCoinType: 'SET_COIN_TYPE',
   createWallet: 'CREATE_WALLET', // create one wallet
   createWalletFulfilled: 'CREATE_WALLET_FULFILLED',
@@ -67,6 +66,8 @@ const actionTypes = {
   fetchTokenBalanceLoading: 'FETCH_TOKEN_BALANCE_LOADING',
   fetchTokenBalanceFulfilled: 'FETCH_TOKEN_BALANCE_FULFILLED',
   fetchTokenBalanceRejected: 'FETCH_TOKEN_BALANCE_REJECTED',
+  setSelectedWallet: 'SET_SELECTED_WALLET',
+  resetSelectedWallet: 'RESET_SELECTED_WALLET',
   setCurrency: 'SET_CURRENCY',
   getRate: 'GET_RATE',
   getRateLoading: 'GET_RATE_LOADING',
@@ -82,51 +83,39 @@ const actionTypes = {
   updatePasswordFulfilled: 'UPDATE_PASSWORD_FULFILLED',
   updatePasswordRejected: 'UPDATE_PASSWORD_REJECTED',
   setPrivKeyAndV3ForBackup: 'SET_PRIV_KEY_AND_V3_FOR_BACKUP',
-  isExistToken: 'IS_EXIST_TOKEN',
-  isExistTokenFulfilled: 'IS_EXIST_TOKEN_FULFILLED',
-  isExistTokenRejected: 'IS_EXIST_TOKEN_REJECTED',
+
   getTokenInfo: 'GET_TOKEN_INFO',
   getTokenInfoFulfilled: 'GET_TOKEN_INFO_FULFILLED',
   getTokenInfoRejected: 'GET_TOKEN_INFO_REJECTED',
   addToken: 'ADD_TOKEN',
   addTokenFulfilled: 'ADD_TOKEN_FULFILLED',
   addTokenRejected: 'ADD_TOKEN_REJECTED',
-  resetAddTokenState: 'RESET_ADD_TOKEN_STATE',
+
   updateToken: 'UPDATE_TOKEN',
   updateTokenFulfilled: 'UPDATE_TOKEN_FULFILLED',
   updateTokenRejected: 'UPDATE_TOKEN_REJECTED',
   addRecentTransaction: 'ADD_RECENT_TRANSACTION',
   addRecentTransactionFulfilled: 'ADD_RECENT_TRANSACTION_FULFILLED',
   icx_checkPendingTransactionDone: 'ICX_CHECK_PENDING_TRANSACTION_DONE',
-
-  // mainPageUIActions
   totalResultLoading: 'TOTAL_RESULT_LOADING', // check whether all data for main page is fetched
   totalResultFulfilled: 'TOTAL_RESULT_FULFILLED',
-  resetMainPageUIReducer: 'RESET_MAIN_PAGE_UI_REDUCER',
-  setSelectedAccount: 'SET_SELECTED_ACCOUNT', // store account string which clicked
-  setSelectedToken: 'SET_SELECTED_TOKEN',
 
   // popupAction
-  togglePopup: 'TOGGLE_POPUP',
-  setPopupType: 'SET_POPUP_TYPE',
+  openPopup: 'OPEN_POPUP',
   setPopupNum: 'SET_POPUP_NUM',
-  initPopupState: 'INIT_POPUP_STATE',
+  closePopup: 'CLOSE_POPUP',
 
   // exchangeActions
-  setExchangeAccountAddress: 'SET_EXCHANGE_ACCOUNT_ADDRESS',
-  setExchangeCoinQuantity: 'SET_EXCHANGE_COIN_QUANTITY',
-  setExchangeRecipientAddress: 'SET_EXCHANGE_RECEIVED_ADDRESS',
-  checkExchangeResultBalanceMinus: 'CHECK_EXCHANGE_RESULT_BALANCE_MINUS',
-  resetExchangePageReducer: 'RESET_EXCHANGE_PAGE_REDUCER',
+  // setExchangeAccountAddress: 'SET_EXCHANGE_ACCOUNT_ADDRESS',
+  // setExchangeCoinQuantity: 'SET_EXCHANGE_COIN_QUANTITY',
+  // setExchangeRecipientAddress: 'SET_EXCHANGE_RECEIVED_ADDRESS',
+  // checkExchangeResultBalanceMinus: 'CHECK_EXCHANGE_RESULT_BALANCE_MINUS',
+  // resetExchangePageReducer: 'RESET_EXCHANGE_PAGE_REDUCER',
 
   // ExchangeTransactionActions
-  setEXTRPageType: 'SET_EXTR_PAGE_TYPE',
   setEXTRLogInState: 'SET_EXTR_LOG_IN_STATE',
-  getTxFee: 'GET_TX_FEE',
-  getTxFeeFulfilled: 'GET_TX_FEE_FULFILLED',
-  getTxFeeRejected: 'GET_TX_FEE_REJECTED',
-  setAccountAddress: 'SET_ACCOUNT_ADDRESS',
   setCoinQuantity: 'SET_COIN_QUANTITY',
+  toggleFullBalance: 'TOGGLE_FULL_BALANCE',
   setGasPrice: 'SET_GAS_PRICE',
   setGasLimit: 'SET_GAS_LIMIT',
   setData: 'SET_DATA',
@@ -136,10 +125,12 @@ const actionTypes = {
   sendCallFulfilled: 'SEND_CALL_FULFILLED',
   sendCallRejected: 'SEND_CALL_REJECTED',
   setCalcData: 'SET_CALC_DATA',
+  setWalletSelectorError: 'SET_WALLET_SELECTOR_ERROR',
   setCoinQuantityError: 'SEND_COIN_QUANTITY_ERROR',
   setRecipientAddressError: 'SEND_RECIPIENT_ADDRESS_ERROR',
   setDataError: 'SEND_DATA_ERROR',
-  setGasLimitError: 'SEND_GAS_LIMIT_ERROR',
+  setGasLimitError: 'SET_GAS_LIMIT_ERROR',
+  setContractGasLimitError: 'SET_CONTRACT_GAS_LIMIT_ERROR',
   submitCall: 'SUBMIT_CALL',
   resetEXTRPageReducer: 'RESET_EXTR_PAGE_REDUCER',
   resetEXTRInputReducer: 'RESET_EXTR_INPUT_REDUCER',
@@ -150,6 +141,7 @@ const actionTypes = {
   // historyActions
   loadHistory: 'LOAD_HISTORY',
   addHistory: 'ADD_HISTORY',
+  fetchRecentHistory: 'FETCH_RECENT_HISTORY',
   fetchTransactionHistory: 'FETCH_TRANSACTION_HISTORY',
   fetchTransactionHistoryLoading: 'FETCH_TRANSACTION_HISTORY_LOADING',
   fetchTransactionHistoryFulfilled: 'FETCH_TRANSACTION_HISTORY_FULFILLED',
@@ -157,7 +149,30 @@ const actionTypes = {
   resetHistoryReducer: 'RESET_HISTORY_REDUCER',
 
   setIsRequestedStatus: 'SET_IS_REQUESTED_STATUS',
-  setTransactionStatus: 'SET_TRANSACTION_STATUS'
+  setTransactionStatus: 'SET_TRANSACTION_STATUS',
+
+  // contractActions
+  setContractAddress: 'SET_CONTRACT_ADDRESS',
+  setContractAddressError: 'SET_CONTRACT_ADDRESS_ERROR',
+  fetchAbi: 'FETCH_ABI',
+  fetchAbiFulfilled: 'FETCH_ABI_FULFILLED',
+  fetchAbiRejected: 'FETCH_ABI_REJECTED',
+  getAbiByContractAddress: 'GET_ABI_BY_CONTRACT_ADDRESS',
+  setFuncList: 'SET_FUNC_LIST',
+  setFuncIndex: 'SET_FUNC_INDEX',
+  handleFuncInputChange: 'HANDLE_FUNC_INPUT_CHANGE',
+  setFuncInputError: 'SET_FUNC_INPUT_ERROR',
+  checkContractInputError: 'CHECK_CONTRACT_INPUT_ERROR',
+  executeFunc: 'EXECUTE_FUNC',
+  executeFuncFulfilled: 'EXECUTE_FUNC_FULFILLED',
+  executeFuncRejected: 'EXECUTE_FUNC_REJECTED',
+  resetContractPageReducer: 'RESET_CONTRACT_PAGE_REDUCER',
+  resetContractInputOutput: 'RESET_CONTRACT_INPUT_OUTPUT',
+
+  //ledgerActions
+  setEXTRLogInStateForLedger: 'SET_EXTR_LOG_IN_STATE_FOR_LEDGER',
+  confirmLedger: 'CONFIRM_LEDGER',
+  resetLedgerReducer: 'RESET_LEDGER_REDUCER'
 };
 
 export default actionTypes;

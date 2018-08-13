@@ -47,7 +47,7 @@ class SwapToken3 extends Component {
             <h1 className="title">Step 2</h1>
             <span className="img"><em className="_img step2"></em></span>
             <ul>
-              <li>{I18n.swapToken.step1}</li>
+              <li>{nToBr(I18n.swapToken.step1)}</li>
               <li className="on">{nToBr(I18n.swapToken.step2)}</li>
               <li>{nToBr(I18n.swapToken.step3)}</li>
               <li>{nToBr(I18n.swapToken.step4)}</li>

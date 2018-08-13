@@ -4,9 +4,11 @@ import { popupReducer } from 'redux/reducers/popupReducer'
 import { signupReducer } from 'redux/reducers/signupReducer'
 import { authReducer } from 'redux/reducers/authReducer'
 import { walletReducer } from 'redux/reducers/walletReducer'
-import { mainPageUIReducer } from 'redux/reducers/mainPageUIReducer'
 import { exchangeTransactionReducer } from 'redux/reducers/exchangeTransactionReducer'
 import { historyReducer } from 'redux/reducers/historyReducer'
+import { contractReducer } from 'redux/reducers/contractReducer'
+import { rateReducer } from 'redux/reducers/rateReducer'
+import { ledgerReducer } from 'redux/reducers/ledgerReducer'
 
 const rootReducer = combineReducers({
   global: globalReducer,
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
   wallet: walletReducer,
   exchangeTransaction: exchangeTransactionReducer,
   history: historyReducer,
-  mainPage: mainPageUIReducer,
+  contract: contractReducer,
+  rate: rateReducer,
+  ledger: ledgerReducer
 });
 
 export default rootReducer;

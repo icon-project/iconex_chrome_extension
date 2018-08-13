@@ -3,7 +3,12 @@ import AT from 'redux/actionTypes/actionTypes';
 
 function* setLockFunc(action) {
   try {
-    yield put({type: AT.setLockFulfilled, payload: action.passcodeHash, email: action.email});
+    yield put({type: AT.setLockFulfilled, payload: action.passcodeHash});
+    if (!action.passcodeHash) {
+      window.chrome.runtime.sendMessage({ type: 'CLEAR_LOCK' });
+    } else {
+      window.chrome.extension.sendMessage({ type: 'LOCK' })
+    }
   } catch (e) {
     yield put({type: AT.setLockRejected, error: e});
   }

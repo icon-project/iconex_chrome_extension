@@ -62,14 +62,14 @@ class MyWallet extends Component {
 
     if (this.props.txLoading !== nextProps.txLoading && !nextProps.txLoading) {
       window.chrome.tabs.query({ active: true }, (tabs) => {
-        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'TRANSACTION_SUCCESS', txHash: this.props.tx });
+        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_TRANSACTION', payload: this.props.tx });
+        this.clearPopup()
       });
     }
   }
 
   componentWillUnmount() {
     this.setState(INIT_STATE);
-    this.props.resetMainPageUIReducer();
   }
 
   calcData = () => {
@@ -93,7 +93,6 @@ class MyWallet extends Component {
   }
 
   goApp = () => {
-    this.props.setIsAppOpenedByPopup(true);
     openApp();
     window.chrome.runtime.sendMessage({type: 'CLOSE_POPUP'});
   }
@@ -114,7 +113,7 @@ class MyWallet extends Component {
     if (isRequestedStatus) {
       this.props.setIsRequestedStatus(false)
       window.chrome.tabs.query({ active: true }, (tabs) => {
-        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'SEND_ADDRESS', address});
+        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_ADDRESS', payload: address});
         this.clearPopup()
       });
     }

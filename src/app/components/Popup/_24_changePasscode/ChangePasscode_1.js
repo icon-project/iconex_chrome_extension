@@ -31,12 +31,16 @@ class ChangePasscode1 extends Component {
     }
   }
 
+  componentWillMount() {
+    this.props.getWallet();
+  }
+
   componentWillUnmount() {
     this.worker.terminate()
   }
 
   closePopup = () => {
-    this.props.togglePopup();
+    this.props.closePopup();
   }
 
   handleRadioChange = (e) => {
@@ -95,7 +99,7 @@ class ChangePasscode1 extends Component {
                       return (
                         <li key={i}>
                           <input id={`rbox-${i}`} className="rbox-type" type="radio" name="rbox-1" value={i.toString()} onChange={this.handleRadioChange} checked={checked}/>
-                          <label htmlFor={`rbox-${i}`} className="_img">{w.name}</label><span className="icx">{w.balance.toFixed(3)}<em>{w.type.toUpperCase()}</em></span>
+                          <label htmlFor={`rbox-${i}`} className="_img">{w.name}</label>{/*<span className="icx">{w.balance.toFixed(3)}<em>{w.type.toUpperCase()}</em></span>*/}
                           {checked &&
                           <div className="pw-add">
                             <input type="password" className={`txt-type-normal ${error && 'error'}`} placeholder={I18n.changePasscode.inputPlaceHolder1}

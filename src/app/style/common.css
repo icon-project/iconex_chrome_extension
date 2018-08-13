@@ -70,6 +70,7 @@ button:focus {outline:0;}
 
 h1{font-size: 22px;}
 h2{font-size: 16px;}
+h3{font-size: 14px;}
 
 
 .content-wrap h2{font-size: 16px;    border-bottom: 2px solid #2d2d2d; height: 45px; margin-bottom: 25px;    padding-left: 20px}
@@ -118,20 +119,24 @@ h2{font-size: 16px;}
 .wrap.home .content-wrap {position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto; padding: 0; width: 700px; height: 460px; padding-bottom: 80px;}
 .wrap.home .content-wrap .content-holder{color: #fff;text-align: center;}
 .wrap.home .content-wrap .content-holder .logo ._img{background-position: 0px 0px; width: 265px; height: 69px;}
-.wrap.home .content-wrap .content-holder .txt{font-size: 18px; margin-top: 20px; color: rgba(255,255,255,0.5); border-radius: 3px;}
-.wrap.home .content-wrap .content-holder ul{margin-top: 66px;}
-.wrap.home .content-wrap .content-holder li{display: inline-block; vertical-align: top;}
-.wrap.home .content-wrap .content-holder li .box{border-radius: 2px; width: 260px; height: 260px; background:#5fc4cf; cursor: pointer;     padding: 40px 20px 0 ; word-break: keep-all;}
+.wrap.home .content-wrap .content-holder .txt{font-size: 18px; margin-top: 30px; color: rgba(255,255,255,0.5); border-radius: 3px;}
+.wrap.home .content-wrap .content-holder ul{margin-top: 90px; display: inline-block;}
+.wrap.home .content-wrap .content-holder li{vertical-align: top;}
+.wrap.home .content-wrap .content-holder li .box{border-radius: 2px; width: 460px; height: 82px; background:#5fc4cf; cursor: pointer;     padding: 20px 20px 0 86px ; word-break: keep-all; text-align: left; position: relative;}
 .wrap.home .content-wrap .content-holder li .box:hover{background:#fff; color: #1aaaba}
-.wrap.home .content-wrap .content-holder li.import .box:hover ._img{background-position: -50px -100px;}
-.wrap.home .content-wrap .content-holder li.create .box:hover ._img{background-position: -150px -100px; }
+.wrap.home .content-wrap .content-holder li.import .box:hover ._img{background-position: -50px -1350px;}
+.wrap.home .content-wrap .content-holder li.create .box:hover ._img{background-position: -150px -1350px; }
+.wrap.home .content-wrap .content-holder li.ledger .box:hover ._img{background-position: -250px -1350px; }
 
-.wrap.home .content-wrap .content-holder li .box ._img{width:40px; height: 40px;  margin:15px 0 10px;}
-.wrap.home .content-wrap .content-holder li .box p.title{font-size: 20px; text-align: center;display: block; height: 37px;}
-.wrap.home .content-wrap .content-holder li .box p{ font-size: 12px;margin-top: 10px;}
-.wrap.home .content-wrap .content-holder li.import .box ._img{background-position: 0px -100px;}
-.wrap.home .content-wrap .content-holder li.create .box ._img{background-position: -100px -100px; }
-.wrap.home .content-wrap .content-holder li.import{margin-left: 7px;}
+.wrap.home .content-wrap .content-holder li .box ._img{width:36px; height: 36px; position: absolute;left: 30px; top: 23px;}
+.wrap.home .content-wrap .content-holder li .box p.title{font-size:16px; display: block;}
+.wrap.home .content-wrap .content-holder li .box p{ font-size: 12px;}
+.wrap.home .content-wrap .content-holder li.import .box ._img{background-position: 0px -1350px;}
+.wrap.home .content-wrap .content-holder li.create .box ._img{background-position: -100px -1350px; }
+.wrap.home .content-wrap .content-holder li.ledger .box ._img{background-position: -200px -1350px; }
+.wrap.home .content-wrap .content-holder li.create .box{border-radius: 10px 10px 0 0;}
+.wrap.home .content-wrap .content-holder li.ledger .box{border-radius:  0 0 10px 10px;}
+.wrap.home .content-wrap .content-holder li:not(:last-child) .box:after{content: ""; display: block; height: 1px; background:  rgba(255, 255, 255, 0.3); position: absolute; width: 400px; left: 30px; bottom: 0;}
 
 
 /*lock*/
@@ -166,6 +171,16 @@ h2{font-size: 16px;}
 .popup-wrap .popup.send p.modified span{position: static;}
 .popup-wrap .popup.send p.modified em{text-indent: 0px; display: inline; color: #1aaaba;}
 
+.popup-wrap.ledger .popup{width: 484px; height: 410px; text-align: center; padding: 40px; font-size: 20px; border-radius: 5px;}
+.popup-wrap.ledger p:not(.txt_box){text-align: center;}
+.popup-wrap.ledger p:nth-child(2){margin-top: 43px !important;}
+.popup-wrap.ledger p.mint{color: #1aaaba;}
+.popup-wrap.ledger p i._img{background-position: -400px -200px; position: relative; left: 0; right: 0; top: 4px; margin-right: 5px;}
+.popup-wrap.ledger .fail .message{color:#ff3344; margin-top: 25px !important}
+.popup-wrap.ledger .fail .txt{font-size: 12px; color: #808080;}
+
+
+/*코인상세조회 */
 .content-wrap{padding: 124px 0 0px 0;}
 .content-wrap .wrap-holder{background: #ffffff; position: relative;}
 .content-wrap .wrap-holder.bg h2{    position: absolute; top: -36px; color: #fff; border: none;    left: 16px;}
@@ -236,6 +251,7 @@ h2{font-size: 16px;}
 .content-wrap .wrap-holder.nodata table td.nodata{padding: 60px; font-weight: 500;}
 .content-wrap .wrap-holder.nodata table td.nodata a{color: #1aaaba;}
 
+/*자산보기*/
 .content-wrap.main{padding: 0px 0 0px 0;}
 .content-wrap .main-holder{height: 408px; background:#1aaaba; color: #fff;margin-bottom: 20px;  position: relative; padding-top: 68px;}
 .content-wrap.main .wrap-holder{margin-top: 30px;}
@@ -284,6 +300,11 @@ h2{font-size: 16px;}
 .content-wrap .tab-holder li:hover{}
 
 .content-wrap .tab-holder li.on:after{content: ""; display: block; height: 4px; background: #262626;margin: 4px auto; position: absolute; width: 100%; left: 0; bottom: -5px;}
+
+.content-wrap .tab-holder .add-group{font-size: 12px; float: right; margin-top: -40px;}
+.content-wrap .tab-holder .add-group span{cursor: pointer;}
+.content-wrap .tab-holder .add-group em{display: inline-block; width: 3px; height: 3px; background: #262626; border-radius: 50%; vertical-align: middle; margin: 0 10px;}
+
 
 .content-wrap .wrap-holder .table-typeC thead{font-size: 16px; }
 .content-wrap .wrap-holder .table-typeC thead tr{background: #fff;     border: 1px solid #262626;  height: 64px;}
@@ -346,6 +367,7 @@ h2{font-size: 16px;}
 .content-wrap .layer-wallet .off span{opacity: 0.25;}
 .content-wrap .layer-wallet li.backup p{font-size: 12px; color: rgba(255,255,255,0.3); }
 
+/*환전*/
 .content-wrap .title-holder.sub{    border-bottom: none;}
 .content-wrap .wrap-holder.list{border: 1px solid #e7e8e9;}
 .content-wrap .wrap-holder.list .money-group{position: absolute; width: 82px; margin-top: 8px;}
@@ -358,6 +380,7 @@ h2{font-size: 16px;}
 .content-wrap .layer.sub li:hover{ background: #1aaaba; }
 
 
+/*송금*/
 .content-wrap .wrap-holder.list .b-group {position: absolute; right: 50px;    top: 50px;}
 .content-wrap .wrap-holder.list .b-group ._img{ background-position:-385px -50px; width: 14px ; height: 8px; }
 .content-wrap .wrap-holder.list .b-group.open ._img{ background-position:-410px -50px;cursor: pointer;}
@@ -373,16 +396,21 @@ h2{font-size: 16px;}
 .content-wrap .wrap-holder.exchange{border-top: 2px solid #262626;    margin-top: 10px;}
 .content-wrap .wrap-holder.exchange .label{width: 210px;margin-left: 0; position: relative;     margin-top: 14px;}
 .content-wrap .wrap-holder.exchange .label em{font-size: 12px;     color: rgba(38, 38, 38, 0.5); }
-.content-wrap .wrap-holder.exchange .name-holder{border-bottom: 1px solid #ddd; margin: 0 50px;}
+.content-wrap .wrap-holder.exchange .name-holder{border-bottom: 1px solid #ddd; margin: 0 50px; position: relative;}
 .content-wrap .wrap-holder.exchange .name-holder .money-group{width: 610px; display: inline-block; padding: 19px 0px 10px 30px ;position: relative; font-size: 12px; border-bottom: 2px solid #262626; height: 48px;}
+.content-wrap .wrap-holder.exchange .name-holder .money-group.connect{color: rgba(38, 38, 38, 0.5); cursor: auto;;border-bottom: 1px dashed  #ccc;}
 
 .popup-wrap  .layer,
+.content-wrap .wrap-holder.contract .layer,
 .content-wrap .wrap-holder.exchange .layer{position: absolute; display: inline-block; color: #fff; top: 48px; left: 0; width: 100%; background: #262626; font-size: 12px; z-index: 9;}
 .popup-wrap  .layer li,
+.content-wrap .wrap-holder.contract .layer li,
 .content-wrap .wrap-holder.exchange .layer li{padding: 9px 30px; cursor: pointer;    border-top: 1px solid #fff; height: 40px;  }
 .popup-wrap  .layer li.on,
+.content-wrap .wrap-holder.contract .layer li.on,
 .content-wrap .wrap-holder.exchange .layer li.on{background: #1aaaba;}
 .popup-wrap  .layer li:hover,
+.content-wrap .wrap-holder.contract .layer li:hover,
 .content-wrap .wrap-holder.exchange .layer li:hover{background: #1aaaba; }
 .content-wrap .wrap-holder.exchange .layer li span.a{}
 .content-wrap .wrap-holder.exchange .layer li span.b{position: absolute; right: 226px;}
@@ -401,6 +429,8 @@ h2{font-size: 16px;}
 
 .content-wrap .wrap-holder.exchange .quantity-holder .won-group .won{margin:5px 0 0 30px ; display: block; color: rgba(38, 38, 38, 0.5);; position: absolute; font-size: 14px;}
 .popup-wrap .popup .layout .content .exchange .change-group .c ._img{margin-right: 5px !important;}
+.content-wrap .wrap-holder.exchange .quantity-holder .controller .won ._img,
+.content-wrap .wrap-holder.contract .search-holder .name-group .c ._img,
 .popup-wrap .popup .layout .content .exchange .group .won-group .won ._img,
 .popup-wrap .popup .layout .content .exchange .change-group .c ._img,
 .content-wrap .wrap-holder.exchange .quantity-holder .change-group .c ._img,
@@ -427,9 +457,15 @@ h2{font-size: 16px;}
 .content-wrap .wrap-holder.exchange .quantity-holder .change-group .c em:last-child{font-size: 12px;}
 .content-wrap .wrap-holder.exchange .quantity-holder .no{    font-size: 11px; color: rgba(38, 38, 38, 0.5); float: right; margin: 12px 30px 0 0 ;}
 
+.content-wrap .wrap-holder.contract .file-holder  .group .label i._img,
+.content-wrap .wrap-holder.contract .search-holder .name-group .title i._img,
+.content-wrap .wrap-holder.contract .search-holder .name-group .a i._img,
 .popup-wrap .popup .layout .content .tabbox-holder .group .label i._img,
 .content-wrap .wrap-holder.exchange .quantity-holder .change-group .a i._img,
 .content-wrap .wrap-holder.exchange .quantity-holder .label i._img{    display: inline-block;width: 14px;height: 14px; background-position: -400px -150px;margin-left: 10px; margin-top: -4px; vertical-align: middle; }
+.content-wrap .wrap-holder.contract .file-holder  .group .label i._img:hover,
+.content-wrap .wrap-holder.contract .search-holder .name-group .title i._img:hover,
+.content-wrap .wrap-holder.contract .search-holder .name-group .a i._img:hover,
 .popup-wrap .popup .layout .content .tabbox-holder .group .label i._img:hover,
 .content-wrap .wrap-holder.exchange .quantity-holder .change-group .a i._img:hover,
 .content-wrap .wrap-holder.exchange .quantity-holder .label i._img:hover{background-position: -350px -150px;}
@@ -455,15 +491,13 @@ h2{font-size: 16px;}
 .content-wrap .wrap-holder.exchange .quantity-holder .controller .drag-holder ul li:last-child{margin-right: 0;}
 .content-wrap .wrap-holder.exchange .quantity-holder .controller .drag-holder .none {display: none;}
 .content-wrap .wrap-holder.exchange .quantity-holder .controller .drag-holder .drag-wrap {-webkit-transition: left 0.3s ease-out; transition: left 0.3s ease-out; position: absolute;margin-left: -15px;top: 0px;}
-
+.content-wrap .wrap-holder.exchange .quantity-holder .controller .won{font-size: 16px; margin-right: 20px; float: right;}
+.content-wrap .wrap-holder.exchange .quantity-holder .controller .won em:last-child{font-size: 12px;}
 
 .content-wrap .wrap-holder.exchange .quantity-holder .controller ul{color: #262626; position: absolute;   margin-top: 20px; /*margin-left: 240px;*/ width: 330px; }
 .content-wrap .wrap-holder.exchange .quantity-holder .controller ul li { float: left; margin: 0 16.9px;}
 .content-wrap .wrap-holder.exchange .quantity-holder .controller ul li:first-child{margin-left: 0;}
 .content-wrap .wrap-holder.exchange .quantity-holder .controller ul li:last-child{margin-right: 0;}
-
-
-
 
 .content-wrap .wrap-holder.exchange .address-holder { position: relative; margin: 0 50px;}
 .content-wrap .wrap-holder.exchange .address-holder input{width: 610px;    padding: 17px 70px 10px 30px;font-size: 12px;;}
@@ -471,12 +505,24 @@ h2{font-size: 16px;}
 .content-wrap .wrap-holder.exchange .message-holder{ font-size: 14px; background: #0d3658; color: #fff;    margin: 20px 0 0;     padding: 15px 20px; line-height: 21px;}
 
 
-.content-wrap .wrap-holder.exchange p.error{position: absolute; left: 280px;}
+.content-wrap .wrap-holder.exchange p.error{position: absolute; left: 230px;}
 .content-wrap .wrap-holder.exchange .address-holder p.error{position: absolute; left: 230px;}
 .content-wrap .wrap-holder.exchange p.error.data { margin: 0px 0 0 230px; padding-top: 15px; }
 .content-wrap .wrap-holder.exchange p.error.gasLimit { margin: 0px 0 0 230px; padding-top: 15px; }
 
 
+/*icx 송금*/
+.content-wrap .wrap-holder.exchange .input-group {margin:  -30px 0 0 213px;}
+.content-wrap .wrap-holder.exchange .input-group textarea{width: 610px;  height: 190px; border: 1px solid #262626; padding: 16px 30px; display: block;}
+.content-wrap .wrap-holder.exchange .input-group p{ text-align: right; font-size: 12px; color:#939393; margin: 16px 20px 0 0; float: right;}
+.content-wrap .wrap-holder.exchange .input-group p span{color: #262626;}
+.content-wrap .wrap-holder.exchange .input-group button{margin-top: 20px;}
+.content-wrap .wrap-holder.exchange .input-group.error textarea {border: solid 1px #ff3344;}
+.content-wrap .wrap-holder.exchange .input-group.error p {color: #ff3344;}
+
+.content-wrap .wrap-holder.exchange .name-holder .-holder { position: absolute; left: 850px; top: 10px;}
+
+/*잠금설정*/
 .content-wrap.lock{    padding: 130px 0 0px 0;}
 .content-wrap.lock .tab-holder{margin-top: 20px;}
 .content-wrap.lock .tabbox-holder .txt-group{font-size: 14px;    margin-bottom: 11px;}
@@ -486,6 +532,8 @@ h2{font-size: 16px;}
 
 .content-wrap .lock-txt{font-size: 12px;margin: 40px 0 0; background: #edf0f2; padding: 15px 62px; position: relative; line-height: 20px;}
 .content-wrap .caution-holder .lock-txt{background: #ffd9dc; color:#ff3344;  }
+
+.popup-wrap.ledger i._img,
 .popup-wrap .message-holder i._img,
 .content-wrap .lock-txt ._img{display: inline-block; width: 14px; height: 14px; background-position:-300px -150px;position: absolute;left: 37px; top: 18px;  }
 .content-wrap.lock .lock-txt ._img{ top: 18px;  }
@@ -518,8 +566,94 @@ h2{font-size: 16px;}
 .content-wrap .txt-holder .lock-txt em{color: #1aaaba;     margin-left: 10px; cursor: pointer;}
 .content-wrap .txt-holder .lock-txt em:hover{text-decoration: underline;}
 
+/*컨트랙트*/
+.content-wrap .wrap-holder.contract button{margin: 26px 0 0 0px;}
+.content-wrap .wrap-holder.contract .address-holder { position: relative; margin: 0 50px;}
+.content-wrap .wrap-holder.contract .address-holder input{width: 680px;    padding: 15px 90px 12px 20px;font-size: 12px;;}
+.content-wrap .wrap-holder.contract .address-holder .-holder{position: absolute; right: 28px; top:-10px;}
+.content-wrap .wrap-holder.contract .address-holder .btn-type-search2{float: left; margin-right: 18px;}
+
+.content-wrap .wrap-holder.contract .api-holder { position: relative; margin: 44px 50px 40px;}
+.content-wrap .wrap-holder.contract .api-holder .label{vertical-align: top;}
+.content-wrap .wrap-holder.contract .api-holder button{display: block; margin: 22px 0 0 210px;}
+
+.content-wrap .wrap-holder.contract .search-holder { border-top: 1px solid #edf0f2; position: relative; padding: 40px 50px;}
+.content-wrap .wrap-holder.contract .search-holder.line{    border-bottom: 1px solid #262626; padding-bottom: 80px;}
+.content-wrap .wrap-holder.contract .search-holder .group{margin-top: 20px;}
+.content-wrap .wrap-holder.contract .search-holder input{width: 680px;    padding: 17px 70px 10px 20px;font-size: 12px;;}
+.content-wrap .wrap-holder.contract .search-holder .-holder{position: absolute; right: 0; top:10px;}
+.content-wrap .wrap-holder.contract .search-holder .money-group{width: 680px; display: inline-block; padding: 19px 0px 10px 20px ;position: relative; font-size: 12px; border-bottom: 2px solid #262626; height: 48px;}
+.content-wrap .wrap-holder.contract .search-holder .result-group{display: inline-block; width: 680px; background: #f7f7f7; padding: 25px 40px 30px; margin-left: 210px; margin-top: 48px;}
+.content-wrap .wrap-holder.contract .search-holder .result-group .a{ display: inline-block;    font-size: 14px; color: rgba(38, 38, 38, 0.5);     text-indent: -30px;}
+.content-wrap .wrap-holder.contract .search-holder .result-group .a ._img{background-position: -400px -98px; width: 22px; height: 22px;margin-right: 9px; }
+.content-wrap .wrap-holder.contract .search-holder .result-group .b{font-size: 12px; word-break: break-all; vertical-align: top;; padding-top: 14px; display: block;}
+.content-wrap .wrap-holder.contract .search-holder .result-group .b.false{color: #ff3344;}
+.content-wrap .wrap-holder.contract .search-holder .result-group .b.true{color: #1daab9;}
+.content-wrap .wrap-holder.contract .search-holder .result-group .type-b .b{padding-bottom: 15px; border-bottom: 1px dashed #ccc;}
+/*.content-wrap .wrap-holder.contract .search-holder .result-group input{width: 320px;     border-bottom: 2px dotted #ccc; padding: 8px 20px 10px 20px;}*/
+.content-wrap .wrap-holder.contract .search-holder .result-group em{margin-right: 6px; color: #262626;}
+.content-wrap .wrap-holder.contract .search-holder .result-group li{padding: 10px 0 0 30px;}
+
+.content-wrap .wrap-holder.contract .search-holder .name-group{display: inline-block; width: 680px; margin-left: 210px;}
+.content-wrap .wrap-holder.contract .search-holder .name-group em{color: rgba(38, 38, 38, 0.5); margin-left: 6px;}
+.content-wrap .wrap-holder.contract .search-holder .name-group .title{font-size: 14px; position: relative; font-weight: 500;}
+.content-wrap .wrap-holder.contract .search-holder .name-group label{font-size: 12px;     margin-right: 40px; margin-top: 10px;}
+.content-wrap .wrap-holder.contract .search-holder .name-group .-group{margin-top: 36px; position: relative;}
+.content-wrap .wrap-holder.contract .search-holder p.error{left: 20px;}
+
+.content-wrap .wrap-holder.contract .change-group{width: 680px; font-size: 14px; background: #edf0f2; margin-top: -34px;}
+.content-wrap .wrap-holder.contract .change-group li{padding: 12px 0px; margin: 0 30px;}
+.content-wrap .wrap-holder.contract .change-group li:last-child{ border-top: 1px solid #fff}
+.content-wrap .wrap-holder.contract .change-group span{display: inline-block;}
+.content-wrap .wrap-holder.contract .change-group .a{font-size: 14px; width: 200px;    position: relative;}
+.content-wrap .wrap-holder.contract .change-group .a em{font-size: 12px; }
+.content-wrap .wrap-holder.contract .change-group .b{width: 416px; text-align: right; font-size: 14px;}
+.content-wrap .wrap-holder.contract .change-group .b em{font-size: 12px; margin-left: 5px; color: #262626;}
+.content-wrap .wrap-holder.contract .change-group .c {font-size: 12px; width: 100%; text-align: right; color:rgba(38, 38, 38, 0.5) }
+.content-wrap .wrap-holder.contract .change-group .c em:first-child{font-size: 12px;}
+.content-wrap .wrap-holder.contract .change-group .c em:last-child{font-size: 12px;}
+.content-wrap .wrap-holder.contract .change-group .loop {padding-bottom: 40px; padding-right: 30px; margin: 0; background: #fff;}
+.content-wrap .wrap-holder.contract .change-group .loop .b{width: 100%; text-align: right; font-size: 14px;}
+
+.content-wrap .wrap-holder.contract{    margin-top: 37px;}
+.content-wrap .wrap-holder.contract .label{width: 210px;margin-left: 0; position: relative; font-weight: 500;    margin-top: 14px;}
+.content-wrap .wrap-holder.contract .label em{font-size: 12px;     color: rgba(38, 38, 38, 0.5); }
+.content-wrap .wrap-holder.contract p.error{position: absolute; left: 234px;}
+.content-wrap .wrap-holder.contract textarea {background: #f7f7f7; width: 680px; height: 194px; border: 0; padding: 16px 20px;font-size: 12px;}
+
+.content-wrap .wrap-holder.contract .file-holder { position: relative; margin: 40px 50px 52px;}
+.content-wrap .wrap-holder.contract .file-holder .label{vertical-align: top; margin-top: 0;}
+.content-wrap .wrap-holder.contract .file-holder button{width: 100px; height: 70px; margin: 0 0 0 16px; position: absolute;}
+
+.content-wrap .wrap-holder.contract .drag{height: 70px; border: 1px dashed #cacbcc; color: #a4a4a5; padding-top: 23px; text-align: center;position: relative; background: #fbfcfc; border-radius: 3px; font-size: 14px; width: 560px; display: inline-block;}
+/*.content-wrap .wrap-holder.contract .drag.error{border: 2px dotted #ff3344;padding: 9px 10px; }*/
+.content-wrap .wrap-holder.contract .drag .message{position: absolute; bottom: -23px; color: rgba(38, 38, 38, 0.5); font-size: 11px;}
+.content-wrap .wrap-holder.contract .drag .error{ bottom: -23px; left: 0;}
+/*.content-wrap .wrap-holder.contract .drag.error .list{background: #ff3344;}*/
+.content-wrap .wrap-holder.contract .drag .list{color: #fff; padding: 16px 40px 15px 18px;background: #1aaaba; position: relative;    text-align: left;    text-overflow: ellipsis; white-space: nowrap; overflow: hidden; font-size: 12px; border-radius: 4px; box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);}
+.content-wrap .wrap-holder.contract .drag .list ._img{background-position:-100px -150px; width: 15px; height: 15px; position: absolute; right: 17px; top: 18px; cursor: pointer;}
+.content-wrap .wrap-holder.contract .drag.on{border: 1px dashed #1aaaba;padding: 9px 10px; }
 
 
+
+.popup-wrap.contract .popup{width: 484px; height: 600px; text-align: center; padding: 40px; font-size: 20px; border-radius: 5px;}
+.popup-wrap.contract p:not(.txt_box){text-align: left; font-size: 14px; }
+.popup-wrap.contract p.title{margin-top: 20px; color: #262626; font-weight: 500;}
+.popup-wrap.contract p.title span{margin-left: 5px; color: rgba(38, 38, 38, 0.5);;}
+.popup-wrap.contract p.address{margin-top: 4px; color: #1daab9;}
+.popup-wrap.contract p.address:last-child{margin-bottom: 20px; word-break: break-all;}
+.popup-wrap.contract .popup .txt_box{width: 404px; height: 90px; display: table-cell; vertical-align: middle; text-align: center; border-bottom: 2px solid #262626; font-weight: 500;}
+.popup-wrap.contract .btn-holder{width: 100%; padding: 0 38px; bottom: 40px;}
+.popup-wrap.contract .scroll{height: 350px; overflow-y: auto;     margin: 0; }
+.popup-wrap.contract .scroll-holder{border-bottom: 1px solid #262626;}
+/*.popup-wrap.contract .btn-holder button:nth-child(2){margin-left: -1px;}*/
+
+.popup-wrap.contract .complete p{text-align: center;}
+.popup-wrap.contract .complete p.title{margin-top: 140px;}
+.popup-wrap.contract .complete p.address{cursor: pointer;}
+.popup-wrap.contract .complete p.address:hover{text-decoration: underline;}
+
+/*로딩*/
 .content-wrap .wrap-holder.exchange .quantity-holder .change-group span.load {width: 20px;margin: 0 0 0 180px;height: 17px;padding-top: 4px;}
 .content-wrap .wrap-holder.exchange .quantity-holder .change-group span.load.c {margin: 0 0 0 358px;}
 .content-wrap .wrap-holder.exchange .quantity-holder .change-group span.load em:first-child {width: 30px;position: absolute; margin-left: -32px; height: 14px; }
@@ -576,6 +710,7 @@ h2{font-size: 16px;}
 .popup-wrap .scroll-holder{}
 .popup-wrap .scroll{height: 300px; overflow-y: auto;     margin: 0 30px;}
 .popup-wrap .scroll.line{border-top: 1px solid #262626; border-bottom: 1px solid #262626; }
+.popup-wrap .scroll.tokenAdd{ height: 235px;}
 
 .popup-wrap .dimmed {width: 100%; height: 100%; background: rgba(0,0,0, 0.8); position:  fixed; left: 0; right: 0; top: 0; bottom: 0;  }
 .popup-wrap .popup { background: #fff; position:  absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto; border-radius: 5px; height: 600px; width: 760px; padding: 60px;}
@@ -683,6 +818,11 @@ h2{font-size: 16px;}
 .popup-wrap .popup .layout .swap .tab-holder ul li:nth-child(5){left: 310px;}
 .popup-wrap .popup .layout .swap .tab-holder ul li.on{color: #fff;}
 .popup-wrap .popup .layout .swap .tab-holder ul li.on ~ li{color: #068a99;}
+
+.popup-wrap .popup .layout .swap.twostep .tab-holder ._img.step1{background-position: 0px -1250px; }
+.popup-wrap .popup .layout .swap.twostep .tab-holder ._img.step2{background-position: 0px -1300px; }
+.popup-wrap .popup .layout .swap.twostep .tab-holder ul li:nth-child(2){left: 117px;}
+
 .popup-wrap .popup .layout .read {   border-top: 1px solid #262626;    margin-top: 35px;}
 .popup-wrap .popup .layout .read li{padding: 30px 15px 15px;}
 .popup-wrap .popup .layout .read p.error{margin-left: 30px;}
@@ -691,6 +831,7 @@ h2{font-size: 16px;}
 .popup-wrap .popup .scroll .info{font-size: 14px; }
 .popup-wrap .popup .scroll .info li:nth-child(1){margin-bottom: 10px;}
 .popup-wrap .popup .scroll .info .dot{text-indent: -10px; padding-left: 10px; font-size: 13px; margin-bottom: 8px; }
+.popup-wrap .popup .scroll .info .dot .line{text-indent: 0px; text-decoration: underline; cursor: pointer; color: #4fa8b8;}
 .popup-wrap .popup .scroll .info .space{margin: 18px 0 10px 0;}
 .popup-wrap .popup .scroll .info img{width:495px; margin-top: 12px; }
 .popup-wrap .popup .scroll .info a{color:#4fa8b8; text-decoration: underline; }
@@ -704,6 +845,7 @@ h2{font-size: 16px;}
 
 .popup-wrap .tabbox-holder .coin{}
 .popup-wrap .tabbox-holder .coin li{padding: 14px 10px;}
+.content-wrap .wrap-holder.contract p.error,
 .content-wrap .wrap-holder.exchange p.error,
 .popup-wrap .tabbox-holder p.error{font-size: 11px; color: #ff3344;     padding-top: 4px;}
 .popup-wrap .tabbox-holder p.noti{font-size: 11px; color: #1aaaba;     padding-top: 4px;}
@@ -768,9 +910,12 @@ h2{font-size: 16px;}
 .popup-wrap .terms .scroll{height: 400px;}
 .popup-wrap .terms .tabbox-holder h2.modified-title{font-size: 18px !important; font-weight: 400 !important;}
 
-
-
-
+.tokenAdd .tabbox-holder .wallet-group li{ padding: 13px 0 12px 21px;}
+.tokenAdd .tabbox-holder .wallet-group li label{width: 210px;}
+.tokenAdd .tabbox-holder .wallet-group li span{    font-size: 12px; color: rgba(38, 38, 38, 0.5);}
+.popup-wrap .txt-holder{margin: 14px 30px; }
+.popup-wrap .txt-holder .addtxt{display: inline-block;}
+.popup-wrap .txt-holder button{float: right; }
 
 .tabbox-holder .wallet-group.line {border-top: 1px solid #262626; border-bottom: 1px solid #262626;}
 .tabbox-holder .wallet-group li{border-bottom:1px solid #edf0f2; padding: 14px 0 14px 21px; font-size: 14px;}
@@ -878,6 +1023,43 @@ table .ellipsis {text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
 .table-typeD .circle{border:  3px solid #4fa8b8; width: 12px; height: 12px; display: inline-block;border-radius: 50%; }
 .table-typeD td{border-bottom: 1px solid #262626; border-right: 1px solid #262626;}
 
+.table-typeE thead th{font-size: 14px; padding: 0 30px; font-weight: 500;}
+.table-typeE thead th:nth-child(1),
+.table-typeE tbody td:nth-child(1){width: 300px; word-break: break-all;}
+.table-typeE thead th:nth-child(3),
+.table-typeE tbody td:nth-child(3) {width: 120px;     padding: 10px 20px;}
+.table-typeE tbody td{padding: 10px 20px;}
+.table-typeE tr:last-child td{    border-bottom: solid 1px #edf0f2;}
+
+.table-typeF thead th{font-size: 14px; padding: 0 13px; font-weight: 500;}
+.table-typeF thead th:nth-child(1),
+.table-typeF tbody td:nth-child(1){width: 80px; text-align: center;}
+.table-typeF thead th:nth-child(2),
+.table-typeF tbody td:nth-child(2){width: 280px; }
+.table-typeF thead th:nth-child(3),
+.table-typeF tbody td:nth-child(3){width: 310px; }
+.table-typeF tbody td:nth-child(3){text-align: right; }
+.table-typeF thead th:nth-child(4),
+.table-typeF tbody td:nth-child(4){width: 96px; text-align: center; padding: 10px 6px;}
+.table-typeF thead th:nth-child(5),
+.table-typeF tbody td:nth-child(5) { padding: 10px 20px;}
+.table-typeF button{vertical-align: top;}
+
+.table-typeF.mini thead th:nth-child(2),
+.table-typeF.mini tbody td:nth-child(2){width: 360px; }
+/*.table-typeF.mini thead th:nth-child(3),
+.table-typeF.mini tbody td:nth-child(3){width: 310px; }*/
+.table-typeF.mini .ellipsis{width: 210px;}
+
+.table-typeF tbody td{padding: 12px 20px 8px;}
+.table-typeF tr:last-child td{    border-bottom: solid 1px #edf0f2;}
+.table-typeF .ellipsis{width: 118px;}
+.table-typeF i{background-position: -300px -200px; width: 14px; height: 14px; display: inline-block;}
+.popup-wrap .popup.address.wallet h2{font-size: 14px; margin: 20px 0 0px 30px; font-weight: 400;}
+.popup-wrap .popup.address.wallet h2 span{font-size: 12px; margin-left: 6px; color: #929292;}
+.popup-wrap .popup.address.wallet .tabbox-holder .table-holder{height: 305px;}
+.popup-wrap .popup.address.wallet .tabbox-holder{margin-top: 17px;}
+.popup-wrap .popup.address.wallet .pager-holder{margin-top: 20px;}
 /*////////// ////////// ////////// */
 /*radio*/
 .tabbox-holder {  }
@@ -891,12 +1073,12 @@ input[type=radio][disabled][checked] + label {background-position: 0px -1200px; 
 .btn-holder {padding: 60px 0; text-align: center; position: relative;}
 .btn-holder.in{padding: 40px 0 0px;}
 .btn-holder.bottom {bottom: 0 !important}
-[class ^="btn-type"] {display: inline-block; color: #fff; background-color: #1aaaba ; cursor: pointer; font-size: 16px; border-radius: 3px;width: 200px; height: 40px;     padding-top: 0px;}
+[class ^="btn-type"] {display: inline-block; color: #fff; background-color: #1aaaba ; cursor: pointer; font-size: 16px; border-radius: 3px;width: 200px; height: 40px;     padding-top: 0px; transition: color .2s, border .2s, background .2s;}
 [class ^="btn-type"]:first-child {margin-left: 0px;}
 [class ^="btn-type"]:disabled {background: #dddddd;}
 [class ^="btn-type"]:disabled:hover {background: #dddddd;}
 [class ^="btn-type"]:hover {background: #158c99;}
-[class ^="btn-type"]:nth-child(2) {margin-left: 0px;}
+[class ^="btn-type"]:nth-child(2) {margin-left: 2px;}
 
 .btn-type-normal {border: transparent;}
 .btn-type-normal:disabled {background: #dddddd;  }
@@ -905,15 +1087,21 @@ input[type=radio][disabled][checked] + label {background-position: 0px -1200px; 
 .btn-type-fill:hover{background: #808080;}
 .btn-type-fill2 {background: #262626; border: transparent; color: #fff; width: 340px;  }
 .btn-type-fill2:hover{background: #808080;}
+.btn-type-fill3 {background: #262626; border: transparent; color: #fff; width: auto; padding: 0 35px;  }
+.btn-type-fill3:hover{background: #808080;}
 .btn-type-lock {background: #5fc4cf; border: transparent; width: 300px; height: 40px;font-size: 16px; }
 .btn-type-lock:hover {background: #fff; color: #1aaaba; }
 .btn-type-lock-pop {background-color: #0e78d3; border: transparent; width: 120px; height: 40px; font-size: 16px;}
-.btn-type-choice{width: 80px; height: 30px; border: transparent; font-size: 14px; background: #262626;}
+.btn-type-choice{width: 80px; height: 26px; border: transparent; font-size: 12px; background: #262626;}
 .btn-type-choice:hover{background: #808080;}
 .btn-type-copy{width: 120px; height: 26px; border: 1px solid #262626; background: #fff; font-size: 12px; border-radius: 3px; color: #262626;}
 .btn-type-copy:hover{background: #262626; color: #fff; border: 1px solid #262626;}
+.btn-type-copy.view{width: 80px;}
 
-.btn-type-copy2{width: 130px; height: 30px; border: 1px solid #262626; background: #262626; font-size: 14px; border-radius: 3px; color: #fff;}
+.btn-type-search2{width: 120px; height: 26px; border: 1px solid #262626; background: #262626; font-size: 12px; border-radius: 3px; color: #fff;}
+.btn-type-search2:hover{background: #808080; color: #fff; border: 1px solid #808080;}
+
+.btn-type-copy2{width: 110px; height: 26px; border: 1px solid #262626; background: #262626; font-size: 12px; border-radius: 3px; color: #fff;}
 .btn-type-copy2:hover{background: #808080; color: #fff; border: 1px solid #808080;}
 .btn-type-copy2-fill { width: 130px; height: 30px; border: 1px solid #1aaaba; background: #1aaaba; font-size: 14px; border-radius: 3px; color: #fff;}
 .btn-type-copy-fill {color: #fff; width: 120px; height: 30px; border: transparent; font-size: 14px; background-color: #1aaaba; }
@@ -930,6 +1118,10 @@ input[type=radio][disabled][checked] + label {background-position: 0px -1200px; 
 .btn-type-normal2 {border: transparent; height: 40px; font-size: 14px;     width: auto; padding: 0 16px;  margin-left: 4px; }
 .btn-type-normal2:hover{background: #2a2a2a;}
 
+[class ^="btn-type"].auto{width: auto; padding: 0 20px; }
+
+.w104{width: 104px;}
+
 
 /*txt*/
 [class ^="txt-type"] {color: #262626; background-color: transparent; ; font-size: 16px; border: none; border-bottom: 2px solid #262626; padding: 22px 50px 16px 16px; }
@@ -943,14 +1135,14 @@ input::-webkit-input-placeholder {color: #b8b8b8;}
 
 /*checkbox*/
 .cbox-holder {display: table-cell;width: auto;vertical-align: middle;border: 1px solid #ccc;height: 48px;width: auto;padding-left: 31px;   }
-[class ^="cbox-type"]{display: none;}
+[class ^="cbox-type"]{display: none; }
 [class ^="cbox-type"] + label {height: 18px; line-height: 18px; padding: 0 20px 0 30px; background-color: #fff;  background-position: 0px -850px; font-size: 12px; display: inline-block; cursor: pointer; color: #191919;}
 input[type=checkbox]:checked + label {background-position: 0px -900px; }
 input[type=checkbox]:disabled+ label {background-position: 0px -950px; cursor: default;}
 input[type=checkbox][disabled][checked] + label {background-position: 0px -1000px; cursor: default;}
 
 
-
+/*공지*/
 .notice .content-wrap.main{padding: 100px 0 0 ;}
 .notice .content-wrap:not(.main) { padding: 250px 0 0px 0;}
 .notice .header-wrap{top: 100px;}
@@ -977,7 +1169,10 @@ input[type=checkbox][disabled][checked] + label {background-position: 0px -1000p
 .content-wrap .wrap-holder.exchange .quantity-holder #gasTable .group:nth-child(2) .help-layer{left: 93px; width: 500px;}
 .content-wrap .wrap-holder.exchange .quantity-holder #gasTable .group:nth-child(3) .help-layer{left: 108px; width: 500px;}
 
-
+.content-wrap .wrap-holder.contract .search-holder .change-group .a .help-layer{left: 126px; width: 500px; top: 4px;}
+.content-wrap .wrap-holder.contract .search-holder .help-layer{left: 88px; width: 500px; top: 4px;}
+.content-wrap .wrap-holder.contract .search-holder .price .help-layer{left: 88px; width: 500px; top: 4px;}
+.content-wrap .wrap-holder.contract .search-holder .help-layer .title{font-size: 11px;}
 
 
 .copyKey {position: absolute;color: transparent;font-size: 0px;}
@@ -993,6 +1188,9 @@ input[type=checkbox][disabled][checked] + label {background-position: 0px -1000p
 
 .en .popup-wrap .popup .layout .content .tabbox-holder.exchange .group:nth-child(4) .help-layer{left: 135px; width: 440px; top: 4px;}
 
+/* ******************* */
+/* 그래프 관련 CSS 시작 */
+/* ******************* */
 .content-wrap .main-holder .b-group > div {position: relative; display: block; }
 .content-wrap .main-holder .b-group ul {
   /*position: absolute;*/
@@ -1098,11 +1296,19 @@ input[type=checkbox][disabled][checked] + label {background-position: 0px -1000p
         opacity: 1;
     }
 }
+/* ******************* */
+/* 그래프 관련 CSS 끝 */
+/* ******************* */
 
 
 
 
 
+
+
+/* ******************* */
+/* 로딩 관련 CSS 시작 */
+/* ******************* */
 .loadingDiv {width: 100%;height: -webkit-fill-available;position: relative;}
 .loading {margin: 0;position: absolute;top: 50%;left: 50%;margin-right: -50%;transform: translate(-50%, -50%); }
 .main .loading{background: url(../image/loadingL.png) left top no-repeat; background-size: auto 60px;width: 60px; height: 60px;}
@@ -1119,79 +1325,81 @@ input[type=checkbox][disabled][checked] + label {background-position: 0px -1000p
     0% {background-position-x: 0px;}
     100% {background-position-x: -468px;}
 }
-
+/* 각 페이지 로딩시 페이지를 감싸는 전체 wrapper div의 스타일 조정 */
 .page-loading-wrap {
   height: calc(100vh - 160px);
 }
-
+/* 메인 내 지갑 페이지 상단 섹션 로딩 wapper div 스타일 */
 .content-wrap.main .main-holder .load {
   height: 400px;
 }
-
+/* 메인 내 지갑 페이지 하단 섹션 로딩 wapper div 스타일 */
 .content-wrap.main .content-holder.load {
   height: 340px;
   margin-bottom: -72px;
 }
-
+/* 메인 내 지갑 페이지 지갑 섹션 - 상단 환율적용가 로딩 div 스타일 */
 .content-wrap .wrap-holder .table-typeC thead .c .load {
   padding-left: 198px;
   height: 6px;
 }
-
+/* 메인 내 지갑 페이지 지갑 섹션 - 코인/토큰 줄 섹션 로딩 div 스타일 */
 .table-typeC tbody td:nth-child(1).load {
   width: 100%;
   height: 54px;
   padding: 0px;
 }
-
+/* 메인 내 지갑 페이지 지갑 섹션 - 코인/토큰 줄 섹션 중 환율적용가 로딩 div 스타일 */
 .table-typeC tbody td:nth-child(3) .load {
   right: 20px;
   position: absolute;
 }
-
+/* 코인 상세 조회 페이지 잔고 부분 로딩 wrapper div 스타일 */
 .content-wrap .wrap-holder .coin-holder .c .load {
   width: 40px;
   display: inline-block;
   position: relative;
   height: 6px;
 }
-
+/* 송금 화면 지갑 선택 섹션 잔고 로딩 스타일*/
 .content-wrap .wrap-holder.exchange .layer li span.c.load {
   padding-top: 8px;
 }
-
+/* 토큰 추가 팝업 - 토큰 주소 입력 폼 부분 로딩 스타일*/
 .popup-wrap .tabbox-holder .with-loading .load {
   width: 50px;
   position: absolute;
   right: 0;
   bottom: 25px;
 }
-
+/* 마이페이지 잠금 설정 잠금번호 변경 화면 첫번째 인풋 라벨 ("현재 잠금번호") 길이 조정 스타일. 영어 문구가 길기 때문에 width를 더 줌. */
 .content-wrap .wrap-holder .locknum-holder .pw-group .label.long{
   width: 300px;
 }
-
+/* 버튼 내부 로딩 div 스타일 */
 .btn-type-normal.load span, .btn-type-fill.load span {
   display: inline-block;
   padding-bottom: 3px;
 }
-
+/* ******************* */
+/* 로딩 관련 CSS 끝 */
+/* ******************* */
 
 .isMac [class ^="cbox-type"] + label,
-.isMac [class ^="rbox-type"] + label{line-height: 22px;}
+.isMac [class ^="rbox-type"] + label{line-height: 19px;}
 .isMac .tabbox-holder .wallet-group li .icx{margin: 0px 30px 0 0;}
 .isMac .content-wrap .wrap-holder .table-typeC thead th{    padding: 0px 0 0 90px;}
-.isMac .content-wrap .wrap-holder .table-typeC thead .a span{margin-top: 2px;}
+.isMac .content-wrap .wrap-holder .table-typeC thead .a span{margin-top: -1px;}
 .isMac .table-typeC tbody td:not(:last-child){padding-top: 3px;}
-.isMac .content-wrap .add-wallet ._img{margin-top: -3px;}
+.isMac .content-wrap .add-wallet ._img{margin-top: 0px;}
 .isMac .popup-wrap .message-holder{    padding: 18px 20px 14px 40px;}
 .isMac .table-typeB tbody td:nth-child(1),
 .isMac .table-typeB tbody td:nth-child(3),
 .isMac .table-typeB tbody td:nth-child(4){padding: 16px 10px 12px;}
 .isMac table.table-typeB td.nodata{padding: 70px;}
 .isMac .content-wrap .lock-txt{padding: 18px 62px 14px;}
-.isMac .popup-wrap .message-holder i._img,
-.isMac .content-wrap .lock-txt ._img{top: 19px;}
+.isMac .popup-wrap .message-holder i._img{top: 20px;}
+.isMac .content-wrap .lock-txt ._img{top: 21px;}
 .isMac .content-wrap .main-holder .a-group .b span em{vertical-align: middle;}
 .isMac .content-wrap .wrap-holder.exchange .quantity-holder .all label{margin-top: 0;}
 .isMac .content-wrap .layer.default li{padding: 6px 7px 8px;}
@@ -1200,7 +1408,4 @@ input[type=checkbox][disabled][checked] + label {background-position: 0px -1000p
 
 
 
-
-
-
-/*.help-layer{display: none;}*/
+.help-layer{display: none;}

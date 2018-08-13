@@ -14,11 +14,16 @@ export function addHistory(payload) {
   };
 }
 
-export function fetchTransactionHistory(account, data) {
+export function fetchRecentHistory() {
+  return {
+    type: actionTypes.fetchRecentHistory
+  };
+}
+
+export function fetchTransactionHistory(payload) {
   return {
     type: actionTypes.fetchTransactionHistory,
-    account,
-    data,
+    payload
   };
 }
 

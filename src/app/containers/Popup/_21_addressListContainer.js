@@ -1,29 +1,35 @@
 import { connect } from 'react-redux';
 import { AddressList } from 'app/components/';
-import { togglePopup, setPopupType, setPopupNum, initPopupState } from 'redux/actions/popupActions';
-import { setRecipientAddress, getTxFee } from 'redux/actions/exchangeTransactionActions';
+import {  openPopup, setPopupNum, closePopup } from 'redux/actions/popupActions';
+import { setRecipientAddress } from 'redux/actions/exchangeTransactionActions';
+import { fetchTransactionHistory, resetHistoryReducer } from 'redux/actions/historyActions'
 
 function mapStateToProps(state) {
   return {
     wallets: state.wallet.wallets,
-    accountAddress: state.exchangeTransaction.accountAddress,
-    coinTypeIndex: state.exchangeTransaction.coinTypeIndex,
+    selectedAccount: state.wallet.selectedWallet.account,
+    selectedTokenId: state.wallet.selectedWallet.tokenId,
+    isToken: state.wallet.selectedWallet.isToken,
     coinQuantity: state.exchangeTransaction.coinQuantity,
     recipientAddress: state.exchangeTransaction.recipientAddress,
     history: state.history.list,
-    pageType: state.exchangeTransaction.pageType,
-    language: state.global.language
+    language: state.global.language,
+    txHistory: state.history.history,
+    txHistoryLoading: state.history.historyLoading,
+    isLedger: state.ledger.isLedger,
+    ledgerWallet: state.ledger.ledgerWallet,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    togglePopup: () => dispatch(togglePopup()),
-    initPopupState: () => dispatch(initPopupState()),
-    setPopupType: (s) => dispatch(setPopupType(s)),
+
+    closePopup: () => dispatch(closePopup()),
+    openPopup: (s) => dispatch(openPopup(s)),
     setPopupNum: (n) => dispatch(setPopupNum(n)),
     setRecipientAddress: (a) => dispatch(setRecipientAddress(a)),
-    getTxFee: (coinType, param) => dispatch(getTxFee(coinType, param))
+    fetchTransactionHistory: (payload) => dispatch(fetchTransactionHistory(payload)),
+    resetReducer: () => dispatch(resetHistoryReducer()),
   };
 }
 

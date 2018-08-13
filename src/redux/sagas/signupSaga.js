@@ -1,10 +1,9 @@
 import { fork, put, takeLatest, call, all } from 'redux-saga/effects'
 import AT from 'redux/actionTypes/actionTypes';
 import { resetSignupReducer, setWalletName } from 'redux/actions/signupActions';
-import { initPopupState } from 'redux/actions/popupActions';
+import { closePopup } from 'redux/actions/popupActions';
 import { logInFulfilled } from 'redux/actions/authActions';
 import { getWallet } from 'redux/actions/walletActions';
-import { resetMainPageUIReducer } from 'redux/actions/mainPageUIActions';
 import {
   generateWalletApi as GENERATE_WALLET,
   createWalletApi as CREATE_WALLET,
@@ -50,10 +49,9 @@ function* logInFunc(action) {
   try {
     const isLoggedIn = yield call(IS_LOGGED_IN);
     yield put(resetSignupReducer());
-    yield put(initPopupState());
+    yield put(closePopup());
     if (isLoggedIn) {
       yield put(logInFulfilled());
-      yield put(resetMainPageUIReducer());
       yield put(getWallet());
     }
   } catch (e) {

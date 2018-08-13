@@ -17,7 +17,8 @@ class SwapToken1 extends Component {
 
   closePopup = () => {
     this.setState(INIT_STATE);
-    this.props.initPopupState();
+    this.props.resetSelectedWallet();
+    this.props.closePopup();
   }
 
   handleSuccess = (privKey) => {
@@ -30,10 +31,11 @@ class SwapToken1 extends Component {
       const key = result.getAddressIcx().toString('hex')
 
       if (wallets[key]) {
-        this.setState({
-          showAlertAddressSame: true,
-          sameWalletName: wallets[key].name
-        })
+        this.props.setIcxSwapAddress(key)
+        this.props.setPrivKeyForSwap(privKey);
+        this.props.setEXTRLogInState({isLoggedIn: true, privKey: privKey});
+        this.props.checkSwapWalletExist(true);
+        this.props.setPopupNum(2);
         return;
         // ** swap function
         // if (isDevelopment) {
@@ -67,11 +69,11 @@ class SwapToken1 extends Component {
   render() {
     const {showAlertAddressSame, sameWalletName} = this.state
     const {
-      I18n, wallets, accountAddress
+      I18n, wallets, selectedAccount
     } = this.props;
 
-    const name = wallets[accountAddress].name;
-    const priv = wallets[accountAddress].priv;
+    const name = wallets[selectedAccount].name;
+    const priv = wallets[selectedAccount].priv;
 
     return (
       <div className="popup size-medium2">

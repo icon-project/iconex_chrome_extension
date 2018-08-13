@@ -17,7 +17,7 @@ class Alert extends Component {
 
   render() {
     return (
-        <div id="alert" className='popup-wrap home'>
+        <div id="alert" className='popup-wrap home alert'>
           <div>
             <div className="dimmed"></div>
             <SmallPopup
@@ -26,7 +26,7 @@ class Alert extends Component {
               text={this.props.text}
               submitText={this.props.submitText}
               cancelText={this.props.cancelText}
-              btnButtom={this.props.btnButtom}
+              btnBottom={this.props.btnBottom}
             />
           </div>
         </div>

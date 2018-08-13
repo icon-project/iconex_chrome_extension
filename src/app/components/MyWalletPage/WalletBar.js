@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { routeConstants as ROUTE, currencyUnit as CURRENCY_UNIT, dateFormat as DATE_FORMAT} from 'constants/index'
-import { IcxContractAddress as ICX_CONTRACT_ADDRESS } from 'constants/config'
+import { ICX_TOKEN_CONTRACT_ADDRESS } from 'constants/config'
 import { LoadingComponent, Alert } from 'app/components/'
 import { convertNumberToText } from 'utils'
 import { withRouter } from 'react-router-dom'
@@ -15,7 +15,9 @@ class WalletBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showAlertNoBalance: false
+      showAlertNoBalance: false,
+      showAlertNoSwapBalance: false,
+      showAlertNoSwapGasBalance: false
     }
   }
 
@@ -35,43 +37,65 @@ class WalletBar extends Component {
       })
       return false;
     }
+    this.props.setSelectedWallet({
+      account,
+      tokenId
+    })
     history.push({
-      pathname: ROUTE['transaction'],
-      state: {
-        accountAddress: account,
-        coinTypeIndex: tokenId || account
-       }
+      pathname: ROUTE['transaction']
     });
-    this.props.togglePopup();
-    this.props.setPopupType(`sendTransaction_transaction`);
+    this.props.openPopup({
+      popupType: 'sendTransaction_transaction'
+    });
   }
 
   handleSwapClick = () => {
     const { data } = this.props;
-    const { tokenId, account } = data;
-    this.props.setAccountAddress({
-      isLoggedIn: false,
-      accountAddress: account,
-      coinTypeIndex: tokenId
+    const { tokenId, balance, walletBalance, account } = data;
+
+    if (balance.eq(0)) {
+      this.setState({
+        showAlertNoSwapBalance: true
+      });
+      return false;
+    }
+
+    if (walletBalance.eq(0)) {
+      this.setState({
+        showAlertNoSwapGasBalance: true
+      });
+      return false;
+    }
+
+    // this.props.setAccountAddress({
+    //   isLoggedIn: false,
+    //   accountAddress: account,
+    //   coinTypeIndex: tokenId
+    // })
+    this.props.setSelectedWallet({
+      account,
+      tokenId
     })
-    this.props.togglePopup();
-    this.props.setPopupType(`swapToken`);
-    this.props.setPopupNum(0);
+    this.props.openPopup({
+      popupType: 'swapToken'
+    });
   }
 
   closeAlert = () => {
     this.setState({
-      showAlertNoBalance: false
+      showAlertNoBalance: false,
+      showAlertNoSwapBalance: false,
+      showAlertNoSwapGasBalance: false
     })
   }
 
   render() {
-    const { showAlertNoBalance } = this.state;
+    const { showAlertNoBalance, showAlertNoSwapBalance, showAlertNoSwapGasBalance } = this.state;
     const { currency, data, I18n } = this.props;
     const { name, balanceLoading = false, symbol, balance, recent, totalResultLoading, balanceWithRate, tokenId } = data;
 
     const balanceText = convertNumberToText(balance, symbol, true);
-    const isSwapAvailable = tokenId === ICX_CONTRACT_ADDRESS
+    const isSwapAvailable = tokenId === ICX_TOKEN_CONTRACT_ADDRESS()
 
     if (balanceLoading) {
       return (
@@ -112,6 +136,24 @@ class WalletBar extends Component {
               <Alert
                 handleCancel={this.closeAlert}
                 text={I18n.error.alertNoBalance}
+                cancelText={I18n.button.confirm}
+              />
+            )
+          }
+          {
+            showAlertNoSwapBalance && (
+              <Alert
+                handleCancel={this.closeAlert}
+                text={I18n.error.alertNoSwapBalance}
+                cancelText={I18n.button.confirm}
+              />
+            )
+          }
+          {
+            showAlertNoSwapGasBalance && (
+              <Alert
+                handleCancel={this.closeAlert}
+                text={I18n.error.alertNoSwapGasBalance}
                 cancelText={I18n.button.confirm}
               />
             )

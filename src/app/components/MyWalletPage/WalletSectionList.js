@@ -26,11 +26,6 @@ class WalletSectionList extends Component {
     return dataArr;
   }
 
-  openPopup = (type) => {
-    this.props.togglePopup();
-    this.props.setPopupType(type);
-  }
-
   render() {
     const {
       isCoinView,
@@ -38,7 +33,6 @@ class WalletSectionList extends Component {
     } = this.props;
 
     let dataArr = this.walletDataToArr(data, isCoinView);
-    const { I18n } = this.props;
 
     return (
       <div>
@@ -51,14 +45,6 @@ class WalletSectionList extends Component {
                 />
             ))
         }
-        { !isCoinView && (
-          <div className="add-wallet">
-            <span onClick={() => this.openPopup("addWallet")}>
-              <em className="_img"></em>
-              {I18n.myWalletContentAddWallet}
-            </span>
-          </div>
-        )}
       </div>
     )
   }

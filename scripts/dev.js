@@ -28,7 +28,7 @@ function copyPublicFolder() {
         file !== paths.appPopupHtml &&
         file !== paths.appHtmlTest &&
         file !== paths.appHtmlDev &&
-        (file.includes('png') ? (isDevVersion() ? file.includes('dev') : file.includes('test')) : true) &&
-        (file.includes('ico') ? (isDevVersion() ? file.includes('dev') : file.includes('test')) : true)
+        (file.includes('icon_') ? (isDevVersion() ? file.includes('dev') : file.includes('test')) : true) &&
+        (file.includes('favicon') ? (isDevVersion() ? file.includes('dev') : file.includes('test')) : true)
   });
 }

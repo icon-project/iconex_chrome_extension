@@ -1,5 +1,5 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
-import { isAddress, isEmpty, isIcxWalletAddress, checkLength, isIcxContractAddress, getTypeText, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
+import { isAddress, isEmpty, customValueToTokenValue, isIcxWalletAddress, checkLength, isIcxContractAddress, getTypeText, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
 import { store } from 'redux/store/store';
 import { IS_V3 } from 'constants/config.js'
 //import { coinRound as ROUND } from 'constants/index';
@@ -206,6 +206,33 @@ const calcData = (props) => {
 //   return stepLimit
 // }
 
+const calcTxFeeLimit = (state) => {
+  if (state.calcData.walletCoinType === 'icx') {
+    const isToken = store.getState().wallet.selectedWallet.isToken
+    if (isToken) {
+      const selectedAccount = store.getState().wallet.selectedWallet.account
+      const selectedTokenId = store.getState().wallet.selectedWallet.tokenId
+      const wallets = store.getState().wallet.wallets;
+      const defaultDecimals = wallets[selectedAccount].tokens[selectedTokenId].defaultDecimals
+      const decimals = wallets[selectedAccount].tokens[selectedTokenId].decimals
+      const sendAmount = customValueToTokenValue(new BigNumber(state.coinQuantity || 0), defaultDecimals, decimals).times(Math.pow(10, defaultDecimals)).toString()
+      const data = {
+          "method": 'transfer',
+          "params": {
+            "_to": state.recipientAddress,
+            "_value": window.web3.toHex(sendAmount)
+          }
+      }
+      return parseInt(state.txFeeLimitTable['default'], 16) + parseInt(state.txFeeLimitTable['contractCall'], 16) * checkLength(JSON.stringify(data))
+    } else {
+      return state.data.length > 0 ? parseInt(state.txFeeLimitTable['default'], 16) + parseInt(state.txFeeLimitTable['input'], 16) * checkLength(state.data)
+                                   : parseInt(state.txFeeLimitTable['default'], 16)
+    }
+  } else {
+    return state.txFeeLimit
+  }
+}
+
 export function exchangeTransactionReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.setEXTRLogInStateForLedger: {
@@ -237,14 +264,19 @@ export function exchangeTransactionReducer(state = initialState, action) {
           coinQuantityError: ''
       })
       return Object.assign({}, newState, {
-          calcData: calcData(newState)
+          calcData: calcData(newState),
+          txFeeLimit: calcTxFeeLimit(newState)
       })
     }
-    case actionTypes.setRecipientAddress:
-      return Object.assign({}, state, {
-          recipientAddress: action.payload,
-          recipientAddressError: ''
+    case actionTypes.setRecipientAddress: {
+      const newState = Object.assign({}, state, {
+        recipientAddress: action.payload,
+        recipientAddressError: ''
       })
+      return Object.assign({}, newState, {
+          txFeeLimit: calcTxFeeLimit(newState)
+      })
+    }
     case actionTypes.setCalcData:
       return Object.assign({}, state, {
           calcData: calcData(state)
@@ -266,16 +298,12 @@ export function exchangeTransactionReducer(state = initialState, action) {
       })
     }
     case actionTypes.setData: {
-      const walletCoinType = state.calcData.walletCoinType
       const newState = Object.assign({}, state, {
-          data: action.payload,
-          txFeeLimit: walletCoinType === 'icx'
-                        ? (action.payload.length > 0 ? parseInt(state.txFeeLimitTable['default'], 16) + parseInt(state.txFeeLimitTable['input'], 16) * checkLength(action.payload)
-                                                     : parseInt(state.txFeeLimitTable['default'], 16))
-                        : state.txFeeLimit
+          data: action.payload
       })
       return Object.assign({}, newState, {
-          calcData: calcData(newState)
+          calcData: calcData(newState),
+          txFeeLimit: calcTxFeeLimit(newState)
       })
     }
     case actionTypes.submitCall:
@@ -375,17 +403,17 @@ export function exchangeTransactionReducer(state = initialState, action) {
     case actionTypes.resetEXTRPageReducer:
       return Object.assign({}, state, initialState)
 
-    case actionTypes.resetEXTRInputReducer:
+    case actionTypes.resetEXTRInputReducer: {
+      /* TODO 수수료 초기화 코드 정리 */
       const isToken = store.getState().wallet.selectedWallet.isToken;
       const newState = Object.assign({}, state, {
         ...uiState,
         txFeeLimit: isToken ? 55000 : 21000
       })
-
       return Object.assign({}, newState, {
         calcData: calcData(newState)
       })
-
+    }
     case actionTypes.getTxFeeInfo:
       return Object.assign({}, state, {
           txFeeLoading: true

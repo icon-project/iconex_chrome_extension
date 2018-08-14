@@ -95,7 +95,7 @@ class QuantitySetter extends Component {
   }
 
   changeCoin = (index) => {
-    const { selectedAccount } = this.props;
+    const { selectedAccount, calcData } = this.props;
     this.props.setSelectedWallet({
       account: selectedAccount,
       tokenId: index === selectedAccount ? '' : index
@@ -103,8 +103,12 @@ class QuantitySetter extends Component {
 
     const { isToken } = this.props
     this.props.toggleFullBalance(false);
-    this.props.setTxFeeLimit(isToken ? 55000 : 21000);
-    this.props.setTxFeePrice(21);
+
+    if (calcData.walletCoinType === 'eth') {
+      this.props.setTxFeeLimit(isToken ? 55000 : 21000);
+      this.props.setTxFeePrice(21);
+    }
+    
     this.props.setCalcData()
   }
 

@@ -57,7 +57,6 @@ class QuantitySetter extends Component {
           gasLimit: gasLimit,
           isSwap: swapPage
         })
-        delete rawTx.chainId;
         delete rawTx.gasLimit;
         this.props.getGasInfo(rawTx)
       }, 600)

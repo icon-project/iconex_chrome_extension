@@ -199,7 +199,7 @@ export function eth_fetchTokenBalanceApi(tokenAddress, customDecimal, account) {
 export function eth_sendCoinApi(privKey, data) {
   return new Promise((resolve, reject) => {
     window.web3.eth.getTransactionCount(
-      check0xPrefix(data.from), function(err, txCount) {
+      check0xPrefix(data.from), function(nonceErr, txCount) {
         const rawTx = makeEthRawTx(false, data)
         rawTx['nonce'] = window.web3.toHex(txCount)
         const privateKey = new Buffer(privKey, 'hex');
@@ -208,7 +208,7 @@ export function eth_sendCoinApi(privKey, data) {
         const serializedTx = transaction.serialize().toString('hex');
         window.web3.eth.sendRawTransaction(
             check0xPrefix(serializedTx), function(err, result) {
-                if(err) {
+                if(err || nonceErr) {
                   console.log(err)
                   reject(err);
                 } else {
@@ -225,7 +225,7 @@ export function eth_sendCoinApi(privKey, data) {
 export function eth_sendTokenApi(privKey, data) {
   return new Promise((resolve, reject) => {
     window.web3.eth.getTransactionCount(
-      check0xPrefix(data.from), function(err, txCount) {
+      check0xPrefix(data.from), function(nonceErr, txCount) {
         const rawTx = makeEthRawTx(true, data)
         rawTx['nonce'] = window.web3.toHex(txCount)
         const privateKey = new Buffer(privKey, 'hex');
@@ -234,7 +234,7 @@ export function eth_sendTokenApi(privKey, data) {
         const serializedTx = transaction.serialize().toString('hex');
         window.web3.eth.sendRawTransaction(
             check0xPrefix(serializedTx), function(err, result) {
-              if(err) {
+              if(err || nonceErr) {
                   console.log(err)
                   reject(err);
               } else {

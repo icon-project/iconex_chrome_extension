@@ -48,8 +48,8 @@ export const ICX_TRACKER_SERVER = () => {
 export const ETH_SERVER = () => {
   const ethServer = getCurrentServer('eth');
   const obj = {
-    'ropsten': 'https://api.myetherwallet.com/eth',
-    'main': 'https://api.myetherwallet.com/eth'
+    'ropsten': 'https://ropsten.infura.io/',
+    'main': 'https://mainnet.infura.io/'
   }
   return obj[ethServer];
 }

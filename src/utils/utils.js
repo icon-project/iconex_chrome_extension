@@ -364,8 +364,6 @@ function makeEthRawTx(isToken, data) {
       to: check0xPrefix(data.contractAddress),
       gasPrice: window.web3.toHex(window.web3.toWei(data.gasPrice, 'gwei')),
       gasLimit: window.web3.toHex(data.gasLimit),
-      // EIP 155 chainId - mainnet: 1, ropsten: 3
-      chainId: CHAIN_ID(),
       value: 0,
       data: dataObj
     }
@@ -377,8 +375,6 @@ function makeEthRawTx(isToken, data) {
       to: check0xPrefix(data.to),
       gasPrice: window.web3.toHex(window.web3.toWei(data.gasPrice, 'gwei')),
       gasLimit: window.web3.toHex(data.gasLimit),
-      // EIP 155 chainId - mainnet: 1, ropsten: 3
-      chainId: CHAIN_ID(),
       value: window.web3.toHex(sendAmount),
     }
     if (data.data) rawTx['data'] = data.data;

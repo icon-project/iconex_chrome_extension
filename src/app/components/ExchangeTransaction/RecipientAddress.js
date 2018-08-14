@@ -46,7 +46,6 @@ class RecipientAddress extends Component {
         gasPrice: gasPrice,
         gasLimit: gasLimit
       })
-      delete rawTx.chainId;
       delete rawTx.gasLimit;
       this.props.getGasInfo(rawTx)
     }, 600)

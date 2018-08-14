@@ -49,7 +49,7 @@ class RecipientAddress extends Component {
       delete rawTx.chainId;
       delete rawTx.gasLimit;
       this.props.getGasInfo(rawTx)
-    }, 500)
+    }, 600)
   }
 
   handleInputChange = (e) => {

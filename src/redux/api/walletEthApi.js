@@ -19,7 +19,7 @@ function getGasInfo(data) {
         const { isToken } = data
         const result = {
           gasPrice: !gasPrice ? 21 : calcGasPrice(gasPrice),
-          gasLimit: !gasLimit ? (isToken ? 55000 : 21000) : gasLimit * (isToken ? 2 : 1)
+          gasLimit: !gasLimit ? (isToken ? 55000 : 21000) : gasLimit * 2
         }
         resolve(result)
       })
@@ -197,41 +197,51 @@ export function eth_fetchTokenBalanceApi(tokenAddress, customDecimal, account) {
 // https://ethereum.stackexchange.com/questions/12054/can-not-send-eth-on-ropsten-using-infura-node
 export function eth_sendCoinApi(privKey, data) {
   return new Promise((resolve, reject) => {
-    const rawTx = makeEthRawTx(false, data)
-    const privateKey = new Buffer(privKey, 'hex');
-    const transaction = new tx(rawTx);
-    transaction.sign(privateKey);
-    const serializedTx = transaction.serialize().toString('hex');
-    window.web3.eth.sendRawTransaction(
-        check0xPrefix(serializedTx), function(err, result) {
-            if(err) {
-              console.log(err)
-              reject(err);
-            } else {
-                resolve(result);
-            }
-        }
-    );
+    window.web3.eth.getTransactionCount(
+      check0xPrefix(data.from), function(err, txCount) {
+        const rawTx = makeEthRawTx(false, data)
+        rawTx['nonce'] = window.web3.toHex(txCount)
+        const privateKey = new Buffer(privKey, 'hex');
+        const transaction = new tx(rawTx);
+        transaction.sign(privateKey);
+        const serializedTx = transaction.serialize().toString('hex');
+        window.web3.eth.sendRawTransaction(
+            check0xPrefix(serializedTx), function(err, result) {
+                if(err) {
+                  console.log(err)
+                  reject(err);
+                } else {
+                    resolve(result);
+                }
+             }
+        );
+      }
+    )
   });
 }
 
 // https://ethereum.stackexchange.com/questions/24828/how-to-send-erc20-token-using-web3-api
 export function eth_sendTokenApi(privKey, data) {
   return new Promise((resolve, reject) => {
-    const rawTx = makeEthRawTx(true, data)
-    const privateKey = new Buffer(privKey, 'hex');
-    const transaction = new tx(rawTx);
-    transaction.sign(privateKey);
-    const serializedTx = transaction.serialize().toString('hex');
-    window.web3.eth.sendRawTransaction(
-        check0xPrefix(serializedTx), function(err, result) {
-          if(err) {
-              console.log(err)
-              reject(err);
-          } else {
-              resolve(result);
-          }
-        }
-    );
+    window.web3.eth.getTransactionCount(
+      check0xPrefix(data.from), function(err, txCount) {
+        const rawTx = makeEthRawTx(true, data)
+        rawTx['nonce'] = window.web3.toHex(txCount)
+        const privateKey = new Buffer(privKey, 'hex');
+        const transaction = new tx(rawTx);
+        transaction.sign(privateKey);
+        const serializedTx = transaction.serialize().toString('hex');
+        window.web3.eth.sendRawTransaction(
+            check0xPrefix(serializedTx), function(err, result) {
+              if(err) {
+                  console.log(err)
+                  reject(err);
+              } else {
+                  resolve(result);
+              }
+            }
+        );
+      }
+    )
   })
 }

@@ -60,7 +60,7 @@ class QuantitySetter extends Component {
         delete rawTx.chainId;
         delete rawTx.gasLimit;
         this.props.getGasInfo(rawTx)
-      }, 500)
+      }, 600)
     }
   }
 
@@ -101,9 +101,8 @@ class QuantitySetter extends Component {
       tokenId: index === selectedAccount ? '' : index
     })
 
-    const { isToken } = this.props
     this.props.toggleFullBalance(false);
-    this.props.setGasLimit(isToken ? 55000 : 21000);
+    this.props.setGasLimit(index !== selectedAccount ? 55000 : 21000);
     this.props.setGasPrice(21);
     this.props.setCalcData()
   }

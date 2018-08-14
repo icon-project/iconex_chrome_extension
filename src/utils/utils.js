@@ -360,7 +360,6 @@ function makeEthRawTx(isToken, data) {
     let valueDiv = customValueToTokenValue(new BigNumber(data.value), data.tokenDefaultDecimal, data.tokenDecimal).times(Math.pow(10, data.tokenDefaultDecimal)).toString();
     const dataObj = token.transfer.getData(check0xPrefix(data.to), valueDiv);
     rawTx = {
-      nonce: window.web3.toHex(window.web3.eth.getTransactionCount(check0xPrefix(data.from))),
       from: check0xPrefix(data.from),
       to: check0xPrefix(data.contractAddress),
       gasPrice: window.web3.toHex(window.web3.toWei(data.gasPrice, 'gwei')),
@@ -374,7 +373,6 @@ function makeEthRawTx(isToken, data) {
   else {
     const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
     rawTx = {
-      nonce: window.web3.toHex(window.web3.eth.getTransactionCount(check0xPrefix(data.from))),
       from: check0xPrefix(data.from),
       to: check0xPrefix(data.to),
       gasPrice: window.web3.toHex(window.web3.toWei(data.gasPrice, 'gwei')),
@@ -385,7 +383,6 @@ function makeEthRawTx(isToken, data) {
     }
     if (data.data) rawTx['data'] = data.data;
   }
-
   return rawTx
 }
 

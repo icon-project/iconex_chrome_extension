@@ -3,6 +3,8 @@ import { withRouter } from 'react-router-dom';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { convertNumberToText } from 'utils';
 import { IS_V3 } from 'constants/config.js'
+import { LoadingComponent } from 'app/components/'
+
 
 @withRouter
 @withLanguageProps
@@ -126,7 +128,7 @@ class SendTransaction2 extends Component {
        			<div className="btn-holder">
        				<button onClick={this.closePopup} className="btn-type-fill size-del"><span>{I18n.button.cancel}</span></button>
               {
-                txLoading ? (<button className="btn-type-normal size-del"><span>{I18n.button.swap}</span></button>)
+                txLoading ? (<button style={{paddingBottom: 14, paddingTop: 11}} className="btn-type-normal size-del"><span><LoadingComponent type="white" /></span></button>)
                           : (<button onClick={this.handleSubmit} className="btn-type-normal size-del"><span>{I18n.button.swap}</span></button>)
               }
        			</div>
@@ -203,7 +205,7 @@ class SendTransaction2 extends Component {
        			<div className="btn-holder">
        				<button onClick={this.closePopup} className="btn-type-fill size-del"><span>{I18n.button.cancel}</span></button>
        				{
-                txLoading ? (<button className="btn-type-normal size-del"><span>{I18n.button.transfer}</span></button>)
+                txLoading ? (<button style={{paddingBottom: 14, paddingTop: 11}} className="btn-type-normal size-del"><span><LoadingComponent type="white" /></span></button>)
                           : (<button disabled={isLedger ? !isLedgerConfirmed : false} onClick={this.handleSubmit} className="btn-type-normal size-del"><span>{I18n.button.transfer}</span></button>)
               }
        			</div>

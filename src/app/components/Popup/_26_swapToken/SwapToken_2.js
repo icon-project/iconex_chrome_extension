@@ -18,6 +18,10 @@ class SwapToken2 extends Component {
   }
 
   componentWillMount() {
+    const { wallets, selectedAccount } = this.props;
+    let fetchWallet = {}
+    fetchWallet[selectedAccount] = wallets[selectedAccount]
+    this.props.fetchAll(fetchWallet)
     this.setState({
       sectionNum: this.props.isSwapWalletExist ? 1 : 0
     })

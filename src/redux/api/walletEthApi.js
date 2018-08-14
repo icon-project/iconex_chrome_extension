@@ -35,10 +35,11 @@ export function eth_getGasInfoApi(data) {
 }
 
 export function eth_fetchCoinBalanceApi(account) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
      window.web3.eth.getBalance(check0xPrefix(account), (error, balance) => {
        if (error) {
-         resolve(window.web3.fromWei(new BigNumber(0), 'ether'))
+      //   resolve(window.web3.fromWei(new BigNumber(0), 'ether'))
+         resolve('error')
        }
        resolve(window.web3.fromWei(balance, 'ether'))
      })
@@ -180,12 +181,12 @@ export function eth_getTokenInfoApi(tokenObj) {
 }
 
 export function eth_fetchTokenBalanceApi(tokenAddress, customDecimal, account) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     let token = window.web3.eth.contract(erc20Abi).at(check0xPrefix(tokenAddress));
       token.balanceOf.call(check0xPrefix(account), (err, balance) => {
 				// update the UI to reflect the data returned from the blockchain
         if (err) {
-          resolve(new BigNumber(0));
+          resolve('error');
         }
 				let divisor = new BigNumber(10).toPower(customDecimal);
 				balance = balance.div(divisor);

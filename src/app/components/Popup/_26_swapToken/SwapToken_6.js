@@ -38,6 +38,9 @@ class SwapToken6 extends Component {
   }
 
   handleSubmit = (e) => {
+    if (this.props.gasLoading) {
+      return
+    }
     if (this.props.gasLimit * this.props.gasPrice === 0) {
       return
     }
@@ -98,7 +101,7 @@ class SwapToken6 extends Component {
 						</div>
 					</div>
           <div className="btn-holder">
-            <button onClick={this.handleSubmit} type="submit" className={`btn-type-normal ${this.props.gasLimit * this.props.gasPrice === 0  && 'disabled'}`}><span>{I18n.button.complete}</span></button>
+            <button onClick={this.handleSubmit} type="submit" className={`btn-type-normal ${(this.props.gasLoading || this.props.gasLimit * this.props.gasPrice === 0) && 'disabled'}`}><span>{I18n.button.complete}</span></button>
 					</div>
         </li>
       </ul>

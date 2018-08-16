@@ -46,10 +46,9 @@ class RecipientAddress extends Component {
         txFeePrice: txFeePrice,
         txFeeLimit: txFeeLimit
       })
-      delete rawTx.chainId;
       delete rawTx.gasLimit;
       this.props.getTxFeeInfo(rawTx)
-    }, 500)
+    }, 600)
   }
 
   handleInputChange = (e) => {

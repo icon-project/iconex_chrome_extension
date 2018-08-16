@@ -42,6 +42,7 @@ export function walletReducer(state = initialState, action) {
           const newTokenObject = Object.assign({}, {
             balance: 0,
             balanceLoading: true,
+            isError: false,
             recent: []
           }, tokensValues[v])
           values[i].tokens[tokensValues[v].address] = newTokenObject
@@ -49,6 +50,7 @@ export function walletReducer(state = initialState, action) {
         result[keys[i]] = Object.assign({}, {
           account: keys[i],
           balance: 0,
+          isError: false,
           balanceLoading: true,
           recent: []
         }, values[i]);
@@ -110,7 +112,8 @@ export function walletReducer(state = initialState, action) {
       return update(state, {
         wallets: {
           [action.account]: {
-            balanceLoading: {$set: true}
+            balanceLoading: {$set: true},
+            isError: {$set: false}
           }
         }
       });
@@ -120,7 +123,8 @@ export function walletReducer(state = initialState, action) {
         wallets: {
           [action.account]: {
             balance: {$set: action.balance},
-            balanceLoading: {$set: false}
+            balanceLoading: {$set: false},
+            isError: {$set: action.isError}
           }
         }
       });
@@ -141,7 +145,8 @@ export function walletReducer(state = initialState, action) {
           [action.account]: {
             tokens: {
               [action.index]: {
-                balanceLoading: {$set: true}
+                balanceLoading: {$set: true},
+                isError: {$set: false}
               }
             }
           }
@@ -155,7 +160,8 @@ export function walletReducer(state = initialState, action) {
             tokens: {
               [action.index]: {
                 balance: {$set: action.balance},
-                balanceLoading: {$set: false}
+                balanceLoading: {$set: false},
+                isError: {$set: action.isError}
               }
             }
           }

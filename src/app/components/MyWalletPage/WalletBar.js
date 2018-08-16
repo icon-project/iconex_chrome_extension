@@ -51,27 +51,24 @@ class WalletBar extends Component {
 
   handleSwapClick = () => {
     const { data } = this.props;
-    const { tokenId, balance, walletBalance, account } = data;
+    const { tokenId, balance, walletBalance, account, isError } = data;
 
-    if (balance.eq(0)) {
-      this.setState({
-        showAlertNoSwapBalance: true
-      });
-      return false;
+    if (!isError) {
+      if (balance.eq(0)) {
+        this.setState({
+          showAlertNoSwapBalance: true
+        });
+        return false;
+      }
+
+      if (walletBalance.eq(0)) {
+        this.setState({
+          showAlertNoSwapGasBalance: true
+        });
+        return false;
+      }
     }
-
-    if (walletBalance.eq(0)) {
-      this.setState({
-        showAlertNoSwapGasBalance: true
-      });
-      return false;
-    }
-
-    // this.props.setAccountAddress({
-    //   isLoggedIn: false,
-    //   accountAddress: account,
-    //   coinTypeIndex: tokenId
-    // })
+    
     this.props.setSelectedWallet({
       account,
       tokenId
@@ -92,7 +89,7 @@ class WalletBar extends Component {
   render() {
     const { showAlertNoBalance, showAlertNoSwapBalance, showAlertNoSwapGasBalance } = this.state;
     const { currency, data, I18n } = this.props;
-    const { name, balanceLoading = false, symbol, balance, recent, totalResultLoading, balanceWithRate, tokenId } = data;
+    const { name, balanceLoading = false, isError, symbol, balance, recent, totalResultLoading, balanceWithRate, tokenId } = data;
 
     const balanceText = convertNumberToText(balance, symbol, true);
     const isSwapAvailable = tokenId === ICX_TOKEN_CONTRACT_ADDRESS()
@@ -109,7 +106,7 @@ class WalletBar extends Component {
       return (
         <tr>
           <td onClick={this.handleClick}>{name}</td>
-          <td onClick={this.handleClick}><em>{balanceText}</em><span>{symbol.toUpperCase()}</span></td>
+          <td onClick={this.handleClick}><em>{isError ? '-' : balanceText}</em><span>{symbol.toUpperCase()}</span></td>
           <td onClick={this.handleClick}>
             {!totalResultLoading ? (
               <div>{balanceWithRate !== null && <i className="_img"></i>}<em>{balanceWithRate !== null ? convertNumberToText(balanceWithRate, currency, false) : "-"}</em><em>{CURRENCY_UNIT[currency]}</em></div>
@@ -125,9 +122,6 @@ class WalletBar extends Component {
               : (<td className="no" onClick={this.handleClick}>{I18n.myWalletBarNoTransaction}</td>)
           }
           <td>
-            {/* { !isToken && (
-              <button disabled={true} className="btn-type-exchange"><span>{I18n.button.exchange}</span></button>
-            )} */}
             {isSwapAvailable && <button onClick={this.handleSwapClick} className="btn-type-exchange"><span>{I18n.button.swap}</span></button>}
             <button onClick={this.handleTransactionClick} className="btn-type-exchange"><span>{I18n.button.transfer}</span></button>
           </td>

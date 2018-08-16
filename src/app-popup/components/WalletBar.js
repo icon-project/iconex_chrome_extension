@@ -62,7 +62,7 @@ class WalletBar extends Component {
     return (
       <li className={isRequestedStatus ? 'requested' : ''} onClick={()=>{onCellClick(wallet.account)}}>
         <span className="name">{wallet.name}<em>{Object.keys(wallet.tokens).length + 1}</em></span>
-        <span className="coin">{balanceText}<em>{wallet.type.toUpperCase()}</em></span>
+        <span className="coin">{wallet.isError ? '-' : balanceText}<em>{wallet.type.toUpperCase()}</em></span>
         {
           addressClickState !== 'complete' ? (
             <p onMouseEnter={() => this.handleAddressMouseOver('copy')} onMouseLeave={() => this.handleAddressMouseOver('address')} onClick={this.handleCopy} className={addressHoverState}>{wallet.account}

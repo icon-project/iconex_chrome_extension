@@ -11,6 +11,7 @@ import {
 } from 'redux/actions/globalActions';
 import { logOut } from 'redux/actions/authActions';
 import { getRate as GET_RATE_API } from 'redux/api/rateApi'
+import BigNumber from 'bignumber.js';
 import {
   getWalletApi as GET_WALLET,
   updateWalletNameApi as UPDATE_WALLET_NAME,
@@ -104,10 +105,12 @@ function* fetchCoinBalanceFunc(action) {
   try {
     yield put({type: AT.fetchCoinBalanceLoading, account: action.account});
     const balance = yield call(FETCH_COIN_BALANCE, action.account, action.coinType);
+    const isError = balance === 'error';
     yield put({
       type: AT.fetchCoinBalanceFulfilled,
       account: action.account,
-      balance: balance
+      balance: isError ? new BigNumber(0) : balance,
+      isError: isError
     });
   } catch (e) {
     alert(e);
@@ -122,12 +125,14 @@ function* fetchTokenBalanceFunc(action) {
   try {
     yield put({type: AT.fetchTokenBalanceLoading, index: action.index, account: action.account});
     const balance = yield call(FETCH_TOKEN_BALANCE, action.address, action.customDecimal, action.account, action.coinType);
+    const isError = balance === 'error';
     yield put({
       type: AT.fetchTokenBalanceFulfilled,
       index: action.index,
       address: action.address,
       account: action.account,
-      balance: balance
+      balance: isError ? new BigNumber(0) : balance,
+      isError: isError
     });
   } catch (e) {
     alert(e);

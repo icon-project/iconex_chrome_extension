@@ -57,10 +57,9 @@ class QuantitySetter extends Component {
           txFeeLimit: txFeeLimit,
           isSwap: swapPage
         })
-        delete rawTx.chainId;
         delete rawTx.gasLimit;
         this.props.getTxFeeInfo(rawTx)
-      }, 500)
+      }, 600)
     }
   }
 
@@ -101,14 +100,13 @@ class QuantitySetter extends Component {
       tokenId: index === selectedAccount ? '' : index
     })
 
-    const { isToken } = this.props
     this.props.toggleFullBalance(false);
 
     if (calcData.walletCoinType === 'eth') {
-      this.props.setTxFeeLimit(isToken ? 55000 : 21000);
+      this.props.setTxFeeLimit(index !== selectedAccount ? 55000 : 21000);
       this.props.setTxFeePrice(21);
     }
-    
+
     this.props.setCalcData()
   }
 

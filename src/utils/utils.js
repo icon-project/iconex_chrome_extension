@@ -373,13 +373,10 @@ function makeEthRawTx(isToken, data) {
     let valueDiv = customValueToTokenValue(new BigNumber(data.value), data.tokenDefaultDecimal, data.tokenDecimal).times(Math.pow(10, data.tokenDefaultDecimal)).toString();
     const dataObj = token.transfer.getData(check0xPrefix(data.to), valueDiv);
     rawTx = {
-      nonce: window.web3.toHex(window.web3.eth.getTransactionCount(check0xPrefix(data.from))),
       from: check0xPrefix(data.from),
       to: check0xPrefix(data.contractAddress),
       gasPrice: window.web3.toHex(window.web3.toWei(data.txFeePrice, 'gwei')),
       gasLimit: window.web3.toHex(data.txFeeLimit),
-      // EIP 155 chainId - mainnet: 1, ropsten: 3
-      chainId: CHAIN_ID(),
       value: 0,
       data: dataObj
     }
@@ -387,18 +384,14 @@ function makeEthRawTx(isToken, data) {
   else {
     const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
     rawTx = {
-      nonce: window.web3.toHex(window.web3.eth.getTransactionCount(check0xPrefix(data.from))),
       from: check0xPrefix(data.from),
       to: check0xPrefix(data.to),
       gasPrice: window.web3.toHex(window.web3.toWei(data.txFeePrice, 'gwei')),
       gasLimit: window.web3.toHex(data.txFeeLimit),
-      // EIP 155 chainId - mainnet: 1, ropsten: 3
-      chainId: CHAIN_ID(),
       value: window.web3.toHex(sendAmount),
     }
     if (data.data) rawTx['data'] = data.data;
   }
-
   return rawTx
 }
 

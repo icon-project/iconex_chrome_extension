@@ -65,7 +65,7 @@ class CalculationTable extends Component {
           }
           {
             data.txFeeWithRate ? <span className={`c`}><em>{ !(swapPage && data.txFeeWithRate === "0") && <i className="_img"></i>}{ swapPage && data.txFeeWithRate === "0" ? '-' : data.txFeeWithRate }</em> <em>USD</em></span>
-                               : <span className={`load c`}><LoadingComponent type="black"/></span>
+                               : swapPage ? (<span className='c'></span>) : (<span className={`load c`}><LoadingComponent type="black"/></span>)
           }
         </li>
         <li>
@@ -76,7 +76,7 @@ class CalculationTable extends Component {
           }
           {
             data.resultBalanceWithRate ? <span className={`${data.resultBalanceWithRate && data.resultBalance.includes("-") && 'minus'} c`}><em>{data.resultBalanceWithRate !== '-' && <i className="_img"></i>}{data.resultBalanceWithRate}</em> <em>USD</em></span>
-                                       : <span className={`load c`}><LoadingComponent type="black"/></span>
+                                       : swapPage ? (<span className='c'></span>) : (<span className={`load c`}><LoadingComponent type="black"/></span>)
           }
         </li>
       </ul>

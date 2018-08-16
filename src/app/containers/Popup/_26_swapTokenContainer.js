@@ -24,7 +24,7 @@ import {
   createWallet,
   deleteWallet,
 } from 'redux/actions/signupActions';
-import { getWallet, resetSelectedWallet } from 'redux/actions/walletActions';
+import { getWallet, resetSelectedWallet, fetchAll } from 'redux/actions/walletActions';
 import { logIn } from 'redux/actions/authActions';
 import { setCalcData, setTxFeeLimit, setTxFeePrice, setRecipientAddress, getTxFeeInfo, submitCall } from 'redux/actions/exchangeTransactionActions';
 
@@ -61,6 +61,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    fetchAll: (payload) => dispatch(fetchAll(payload)),
     closePopup: () => dispatch(closePopup()),
     setEXTRLogInState: (payload) => dispatch(setEXTRLogInState(payload)),
     setWalletObject: (wallet) => dispatch(setWalletObject(wallet)),

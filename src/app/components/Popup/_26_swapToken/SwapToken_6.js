@@ -101,11 +101,7 @@ class SwapToken6 extends Component {
 						</div>
 					</div>
           <div className="btn-holder">
-<<<<<<< HEAD
-            <button onClick={this.handleSubmit} type="submit" className={`btn-type-normal ${this.props.txFeeLimit * this.props.txFeePrice === 0  && 'disabled'}`}><span>{I18n.button.complete}</span></button>
-=======
-            <button onClick={this.handleSubmit} type="submit" className={`btn-type-normal ${(this.props.gasLoading || this.props.gasLimit * this.props.gasPrice === 0) && 'disabled'}`}><span>{I18n.button.complete}</span></button>
->>>>>>> hotfix_eth_delay2
+            <button onClick={this.handleSubmit} type="submit" className={`btn-type-normal ${(this.props.gasLoading || this.props.txFeeLimit * this.props.txFeePrice === 0)  && 'disabled'}`}><span>{I18n.button.complete}</span></button>
 					</div>
         </li>
       </ul>

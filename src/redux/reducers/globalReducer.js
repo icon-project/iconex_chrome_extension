@@ -53,6 +53,56 @@ export function globalReducer(state = initialState, action) {
       return Object.assign({}, state, {
           showNotice: !state.showNotice
       })
+    case actionTypes.setScoreData:
+      return {
+        ...state,
+        message: {
+          ...state.message,
+          score: {
+            ...state.message.score,
+            from: action.payload ? action.payload.from : '',
+            param: action.payload ? action.payload.param : {}
+          }
+        }
+      }
+    case actionTypes.callScoreExternally:
+      return {
+        ...state,
+        message: {
+          ...state.message,
+          score: {
+            ...state.message.score,
+            loading: true,
+            error: ''
+          }
+        }
+      }
+    case actionTypes.callScoreExternallyFulfilled:
+      return {
+        ...state,
+        message: {
+          ...state.message,
+          score: {
+            ...state.message.score,
+            result: action.payload,
+            loading: false,
+            error: ''
+          }
+        }
+      }
+    case actionTypes.callScoreExternallyRejected:
+      return {
+        ...state,
+        message: {
+          ...state.message,
+          score: {
+            ...state.message.score,
+            loading: false,
+            error: action.error
+          }
+        }
+      }
+
     default:
       return state
   }

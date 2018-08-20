@@ -177,7 +177,13 @@ const actionTypes = {
   updateLedgerWalletBalanceFulfilled: 'UPDATE_LEDGER_WALLET_BALANCE_FULFILLED',
   updateLedgerWalletBalanceRejected: 'UPDATE_LEDGER_WALLET_BALANCE_REJECTED',
   addTokenFulfilledForLedger: 'ADD_TOKEN_FULFILLED_FOR_LEDGER',
-  fetchTokenBalanceFulfilledForLedger: 'FETCH_TOKEN_BALANCE_FULFILLED_FOR_LEDGER'
+  fetchTokenBalanceFulfilledForLedger: 'FETCH_TOKEN_BALANCE_FULFILLED_FOR_LEDGER',
+
+  setScoreData: 'SET_SCORE_DATA',
+  callScoreExternally: 'CALL_SCORE_EXTERNALLY',
+  callScoreExternallyFulfilled: 'CALL_SCORE_EXTERNALLY_FULFILLED',
+  callScoreExternallyRejected: 'CALL_SCORE_EXTERNALLY_REJECTED'
+
 };
 
 export default actionTypes;

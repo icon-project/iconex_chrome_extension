@@ -137,7 +137,6 @@ const actionTypes = {
   getTxFeeInfo: 'GET_TX_FEE_INFO',
   getTxFeeInfoFulfilled: 'GET_TX_FEE_INFO_FULFILLED',
   getTxFeeInfoRejected: 'GET_TX_FEE_INFO_REJECTED',
-  updateStepLimit: 'UPDATE_STEP_LIMIT',
 
   // historyActions
   loadHistory: 'LOAD_HISTORY',

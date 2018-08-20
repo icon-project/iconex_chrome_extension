@@ -22,13 +22,10 @@ class TxFeeAndData extends Component {
     const { calcData, isToken } = this.props
     const { walletCoinType } = calcData;
     if (walletCoinType === 'icx') {
-      this.props.getTxFeeInfo({
-        dataType: 'default'
-      });
+      this.props.getTxFeeInfo({});
     } else {
       if (isToken) {
         this.props.setTxFeeLimit(55000);
-      //  this.props.setCalcData()
       }
     }
   }

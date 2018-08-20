@@ -11,10 +11,9 @@ function getTxFeeInfo(data) {
   return new Promise (resolve => {
     window.web3.eth.getGasPrice((errorPrice, gasPrice) => {
       window.web3.eth.estimateGas(data, (errorLimit, gasLimit) => {
-        const { isToken } = data
         const result = {
           txFeePrice: !gasPrice ? 21 : calcGasPrice(gasPrice),
-          txFeeLimit: !gasLimit ? (isToken ? 55000 : 21000) : gasLimit * 2
+          txFeeLimit: !gasLimit ? 55000 : gasLimit * 2
         }
         resolve(result)
       })

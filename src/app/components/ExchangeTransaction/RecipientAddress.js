@@ -17,42 +17,8 @@ class RecipientAddress extends Component {
     this.timeout = null;
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.getTxFeeInfo(nextProps)
-  }
-
-  getTxFeeInfo = (nextProps) => {
-    clearTimeout(this.timeout)
-
-    const { isToken } = nextProps
-    if (!isToken) return
-
-    const { wallets, selectedAccount, recipientAddressError, recipientAddress, coinQuantity } = nextProps
-
-    if (coinQuantity === 0 || recipientAddress === '' || recipientAddressError !== '') return
-    if (recipientAddress === this.props.recipientAddress) return
-    if (wallets[selectedAccount].type === 'icx') return
-
-    this.timeout = setTimeout(() => {
-      const { wallets, txFeePrice, txFeeLimit, selectedAccount, selectedTokenId } = nextProps
-      const token = wallets[selectedAccount].tokens[selectedTokenId]
-      const rawTx = makeEthRawTx(true, {
-        from: selectedAccount,
-        to: recipientAddress,
-        contractAddress: token.address,
-        tokenDefaultDecimal: token.defaultDecimals,
-        tokenDecimal: token.decimals,
-        value: coinQuantity,
-        txFeePrice: txFeePrice,
-        txFeeLimit: txFeeLimit
-      })
-      delete rawTx.gasLimit;
-      this.props.getTxFeeInfo(rawTx)
-    }, 600)
-  }
-
   handleInputChange = (e) => {
-    this.props.setRecipientAddress(e.target.value);
+    this.props.setRecipientAddress(e.target.value, true);
   }
 
   handleInputBlur = () => {
@@ -85,7 +51,8 @@ class RecipientAddress extends Component {
 
   render() {
     const { showAlertWalletFirst } = this.state;
-    const { isLoggedIn, historyLoading, recipientAddress, recipientAddressError, I18n } = this.props;
+    const { isLoggedIn, calcData, historyLoading, recipientAddress, recipientAddressError, I18n } = this.props;
+    const hideRecentAddressButton = isLoggedIn && calcData.walletCoinType === 'eth'
     return (
       <div className="address-holder">
         <div className="group">
@@ -104,8 +71,8 @@ class RecipientAddress extends Component {
           <div className="-holder">
             <button className="btn-type-copy" onClick={() => {this.openPopup(`address_transaction`)}}><span>{I18n.button.myAddress}</span></button>
             {
-              historyLoading ? (<button disabled style={{paddingBottom: 8, paddingTop: 3, background: '#fff'}} className="btn-type-copy"><span><LoadingComponent type="black"/></span></button>)
-                             : (<button className="btn-type-copy" onClick={() => {this.openPopup(`history_transaction`)}}><span>{I18n.button.recentTransactionAddress}</span></button>)
+              !hideRecentAddressButton && (historyLoading ? (<button disabled style={{paddingBottom: 8, paddingTop: 3, background: '#fff'}} className="btn-type-copy"><span><LoadingComponent type="black"/></span></button>)
+                                                          : (<button className="btn-type-copy" onClick={() => {this.openPopup(`history_transaction`)}}><span>{I18n.button.recentTransactionAddress}</span></button>))
             }
           </div>
         </div>

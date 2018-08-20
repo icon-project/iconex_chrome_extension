@@ -276,6 +276,8 @@ export default {
   dataInputOpen: '데이터 입력 열기',
   dataInputClose: '데이터 입력 닫기',
 
+  contractReadPage: '조회/실행하기',
+
   checkPassword: {
     title: 'Confirm wallet password.',
     desc: 'Enter your password.',

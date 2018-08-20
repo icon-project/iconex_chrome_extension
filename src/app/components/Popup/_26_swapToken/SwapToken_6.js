@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
-import { nToBr, makeEthRawTx } from 'utils';
+import { nToBr } from 'utils';
 import { QuantitySetterContainer } from 'app/containers/'
-import { ICX_TOKEN_CONTRACT_ADDRESS, ICX_TOKEN_DISCARD_ADDRESS } from 'constants/config'
+import { ICX_TOKEN_DISCARD_ADDRESS } from 'constants/config'
 
 const INIT_STATE = {
 }
@@ -16,12 +16,6 @@ class SwapToken6 extends Component {
   }
 
   componentDidMount() {
-    // this.props.setAccountAddress({
-    //   isLoggedIn: true,
-    //   accountAddress: this.props.accountAddress,
-    //   coinTypeIndex: ICX_CONTRACT_ADDRESS
-    // })
-
     this.props.setTxFeeLimit(0);
     this.props.setTxFeePrice(0);
     this.props.setRecipientAddress(ICX_TOKEN_DISCARD_ADDRESS());

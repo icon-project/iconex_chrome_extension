@@ -278,6 +278,8 @@ export default {
   dataInputOpen: '데이터 입력 열기',
   dataInputClose: '데이터 입력 닫기',
 
+  contractReadPage: '조회/실행하기',
+
   checkPassword: {
     title: '지갑 비밀번호 확인',
     desc: '지갑의 비밀번호를 입력하여 주세요.',

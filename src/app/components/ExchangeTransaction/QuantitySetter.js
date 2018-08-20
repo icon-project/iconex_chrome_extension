@@ -23,48 +23,19 @@ class QuantitySetter extends Component {
     clearTimeout(this.timeout)
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { selectedAccount } = nextProps;
-
-    if(this.props.totalResultLoading !== nextProps.totalResultLoading && !nextProps.totalResultLoading && selectedAccount) {
-      this.props.setCalcData();
-    }
-  }
-
   handleInputChange = (e) => {
     if (!isNaN(e.target.value) && checkValueLength(e.target.value) && !e.target.value.includes("+") && !e.target.value.includes("-")) {
-      this.props.setCoinQuantity(e.target.value);
+      this.setCoinQuantity(e.target.value);
       this.props.toggleFullBalance(false);
-      this.getTxFeeInfo();
     }
   }
 
-  getTxFeeInfo = () => {
-    const { wallets, selectedAccount, selectedTokenId, isToken } = this.props
-    if (isToken && wallets[selectedAccount].type === 'eth') {
-      const { wallets, recipientAddress, coinQuantity, txFeePrice, txFeeLimit, swapPage } = this.props
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        const token = wallets[selectedAccount].tokens[selectedTokenId]
-        const rawTx = makeEthRawTx(true, {
-          from: selectedAccount,
-          to: recipientAddress,
-          contractAddress: token.address,
-          tokenDefaultDecimal: token.defaultDecimals,
-          tokenDecimal: token.decimals,
-          value: coinQuantity,
-          txFeePrice: txFeePrice,
-          txFeeLimit: txFeeLimit,
-          isSwap: swapPage
-        })
-        delete rawTx.gasLimit;
-        this.props.getTxFeeInfo(rawTx)
-      }, 600)
-    }
+  setCoinQuantity = (value) => {
+    this.props.setCoinQuantity(value, true);
   }
 
   handleInputBlur = () => {
-    this.props.setCoinQuantity(trimLeftZero(this.props.coinQuantity));
+    this.props.setCoinQuantity(trimLeftZero(this.props.coinQuantity), false);
     this.props.setCoinQuantityError();
   }
 
@@ -84,9 +55,8 @@ class QuantitySetter extends Component {
     }
 
     if (!isFullBalance) {
-      this.props.setCoinQuantity(balance)
+      this.setCoinQuantity(balance)
       this.props.toggleFullBalance(true);
-      this.getTxFeeInfo();
     }
     else {
       this.props.toggleFullBalance(false);
@@ -107,7 +77,7 @@ class QuantitySetter extends Component {
       this.props.setTxFeePrice(21);
     }
 
-    this.props.setCalcData()
+    this.props.setCalcData();
   }
 
   render() {
@@ -122,7 +92,8 @@ class QuantitySetter extends Component {
       I18n,
       swapPage,
       isFullBalance,
-      isContractPage
+      isContractPage,
+      isLedger
     } = this.props;
 
     if (isContractPage) {
@@ -168,6 +139,7 @@ class QuantitySetter extends Component {
                 checked={isFullBalance}
               />
               <label htmlFor="quantity-setter-cbox-01" className="_img" onClick={()=>{isLoggedIn && this.toggleCheckBox(calcData.totalBalance)}}></label>
+              { IS_V3 && isLedger && (<button onClick={() => this.props.openPopup({ popupType: 'addToken', popupNum: 2 })} className="btn-type-copy w104"><span>{I18n.addToken.title1}</span></button>) }
             </div>
             {!swapPage ? (
                 <ComboBox

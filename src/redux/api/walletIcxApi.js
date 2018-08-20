@@ -31,7 +31,8 @@ export function icx_fetchCoinBalanceApi(account) {
         resolve(window.web3.fromWei(new BigNumber(IS_V3 ? res.data.result : res.data.result.response), 'ether'))
       })
       .catch(error => {
-        resolve(window.web3.fromWei(new BigNumber(0), 'ether'));
+        resolve('error')
+        //resolve(window.web3.fromWei(new BigNumber(0), 'ether'));
       })
   })
 }
@@ -57,7 +58,8 @@ export function icx_fetchTokenBalanceApi(tokenAddress, customDecimal, account) {
         return dividedBalance
 
       } catch (e) {
-        return window.web3.fromWei(new BigNumber(0), 'ether')
+        return 'error'
+        //return window.web3.fromWei(new BigNumber(0), 'ether')
       }
     })();
 }
@@ -113,11 +115,11 @@ export function icx_fetchTransactionHistoryApi(data) {
     return new Promise(resolve => {
       if (IS_V3) {
         const url = data.contractAddress ? `/v3/token/txList?tokenAddr=${_addressId}&page=${_pageId}&contractAddr=${data.contractAddress}`
-                                         : `/v3/address/txList?address=${_addressId}&page=${_pageId}&type=0`
+                                         : `/v3/address/txListForWallet?address=${_addressId}&page=${_pageId}&type=0`
         trackerApi.get(url)
           .then(res => {
             resolve({
-              data: res.data.data,
+              data: res.data.data || [],
               total: res.data.listSize || 0
             })
           })
@@ -371,7 +373,7 @@ export function icx_getTxFeeInfoApi(data) {
           methodName: 'getStepCosts'
         });
         return {
-          txFeePrice: stepPrice[0],
+          txFeePriceStep: stepPrice[0],
           txFeeLimitTable: stepLimitTable[0]
         }
       } catch (error) {

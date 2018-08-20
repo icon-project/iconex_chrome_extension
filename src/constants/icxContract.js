@@ -1,7 +1,7 @@
 export const icxContract = [
 	{
-		"address": "cxcd1a51f395b60381c3dc1900bd6a0f218c86e00d",
-		"name": "IRC Fallback Payable"
+		"address": "cxe382845b0fa8d00d748f7b29c9ee7369eee20897",
+		"name": "TEST ICX"
 	},
 	{
 		"address": "cx7b7184b0b6cb3a4f1c199fc6f4067499837febd4",

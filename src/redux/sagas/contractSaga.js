@@ -1,4 +1,5 @@
 import { fork, put, takeLatest, call, select, all } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import AT from 'redux/actionTypes/actionTypes';
 import {
   icx_getScoreApi as GET_SCORE,
@@ -125,6 +126,14 @@ export function* checkContractInputErrorFunc(action) {
   }
 }
 
+export function* handleFuncInputChangeFunc(action) {
+  try {
+    yield put({type: AT.getTxFeeInfo});
+  } catch (e) {
+    alert(e);
+  }
+}
+
 export function* fetchAbiFunc(action) {
   try {
     const payloadArr = yield call(GET_SCORE, action.payload);
@@ -147,7 +156,12 @@ function* watchFetchAbi() {
   yield takeLatest(AT.fetchAbi, fetchAbiFunc)
 }
 
+function* watchHandleFuncInputChange() {
+  yield takeLatest(AT.handleFuncInputChange, handleFuncInputChangeFunc)
+}
+
 export default function* contractSaga() {
+ yield fork(watchHandleFuncInputChange)
  yield fork(watchFetchAbi);
  yield fork(watchExecuteFunc);
  yield fork(watchCheckContractInputError);

@@ -59,10 +59,11 @@ export function setEXTRLogInState(payload) {
   };
 }
 
-export function setCoinQuantity(payload) {
+export function setCoinQuantity(payload, isTxFeeNeeded) {
   return {
     type: actionTypes.setCoinQuantity,
-    payload
+    payload,
+    isTxFeeNeeded
   };
 }
 
@@ -79,10 +80,11 @@ export function toggleFullBalance(payload) {
   };
 }
 
-export function setRecipientAddress(payload) {
+export function setRecipientAddress(payload, isTxFeeNeeded) {
   return {
     type: actionTypes.setRecipientAddress,
-    payload
+    payload,
+    isTxFeeNeeded
   };
 }
 
@@ -124,12 +126,5 @@ export function getTxFeeInfo(data) {
   return {
     type: actionTypes.getTxFeeInfo,
     data
-  }
-}
-
-export function updateStepLimit(payload) {
-  return {
-    type: actionTypes.updateStepLimit,
-    payload
   }
 }

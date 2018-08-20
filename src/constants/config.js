@@ -18,7 +18,7 @@ export const INITIAL_SERVER_ICX = prodDev('main', 'test');
 export const INITIAL_SERVER_ETH = prodDev('main', 'ropsten');
 
 export const HIDE_SERVER = isDevVersion() ? false : true;
-export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://hardwallet.icon.foundation/test.html')
+export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://localhost:3000')
 
 export const getCurrentServer = (coinType) => {
   let server;
@@ -114,6 +114,11 @@ export const ICX_TOKEN_DISCARD_ADDRESS = () => {
 export const txidUrl = {
     'icx': `${ICX_TRACKER_SERVER()}/transaction/`,
     'eth': `${ETH_SCAN()}/tx/`
+}
+
+export const trackerAccountUrl = {
+    'icx': `${ICX_TRACKER_SERVER()}/address/`,
+    'eth': `${ETH_SCAN()}/address/`
 }
 
 function prodDev(prod, dev) {

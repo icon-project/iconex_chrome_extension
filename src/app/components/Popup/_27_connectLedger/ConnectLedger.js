@@ -4,6 +4,7 @@ import withLanguageProps from 'HOC/withLanguageProps';
 import { LoadingComponent, LedgerIframe, Alert } from 'app/components';
 import { routeConstants as ROUTE } from 'constants/index';
 import { icx_fetchCoinBalanceApi } from 'redux/api/walletIcxApi'
+import { trackerAccountUrl as TRACKER_ACCOUNT_URL } from 'constants/config.js'
 import { nToBr } from 'utils';
 
 
@@ -77,6 +78,9 @@ class ConnectLedger extends Component {
         history.push({
           pathname: ROUTE['transaction']
         });
+        break;
+      case 'openAccountInfoOnTracker':
+        window.open(`${TRACKER_ACCOUNT_URL['icx']}${payload}`)
         break;
       case 'setBalanceError':
         this.setState({

@@ -103,8 +103,7 @@ export default {
 
     checkData: 'Please check your data.',
     enterGasPrice: 'Please enter the gas limit.',
-    /* TODO: 번역 */
-    notEnoughBalance: '수수료 지불을 위한 ICX 잔액이 부족합니다.',
+    notEnoughBalance: 'Insufficient ICX balance for transaction fee.',
 
     alertIcxGetBalanceError: 'An error occurred while checking your balance.',
     buttonChecked: 'Please check this box if you want to proceed.',

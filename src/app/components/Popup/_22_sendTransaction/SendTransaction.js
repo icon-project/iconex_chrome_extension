@@ -4,7 +4,6 @@ import withLanguageProps from 'HOC/withLanguageProps';
 import { Alert } from 'app/components'
 import { customValueToTokenValue, makeIcxRawTx } from 'utils';
 import BigNumber from 'bignumber.js';
-import { icx_sendtransaction_v2 } from 'redux/api/walletIcxApi'
 
 @withLanguageProps
 class SendTransaction extends Component {
@@ -80,18 +79,15 @@ class SendTransaction extends Component {
     }
 
     if (isToken) {
-      const sendAmount = customValueToTokenValue(new BigNumber(data.value), data.tokenDefaultDecimal, data.tokenDecimal).times(Math.pow(10, data.tokenDefaultDecimal)).toString();
+      const sendAmount = customValueToTokenValue(new BigNumber(coinQuantity), selectedWallet.tokens[selectedTokenId].defaultDecimals, selectedWallet.tokens[selectedTokenId].decimals).times(Math.pow(10, selectedWallet.tokens[selectedTokenId].defaultDecimals)).toString();
       queryObj = Object.assign({}, queryObj, {
         methodName: 'transfer',
         inputObj: {
-          "_to": data.to,
+          "_to": recipientAddress,
           "_value": window.web3.toHex(sendAmount)
         }
       })
     }
-
-    console.log(queryObj)
-
     return makeIcxRawTx(!!queryObj.contractAddress, queryObj)
   }
 

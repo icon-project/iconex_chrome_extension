@@ -49,6 +49,7 @@
     "postcss-loader": "2.0.6",
     "promise": "8.0.1",
     "qrcode": "^0.9.0",
+    "qs": "^6.5.2",
     "query-string": "^6.0.0",
     "react": "^15.6.2",
     "react-addons-update": "^15.6.2",

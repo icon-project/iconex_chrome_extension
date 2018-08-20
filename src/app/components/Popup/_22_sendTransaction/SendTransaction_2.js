@@ -60,9 +60,7 @@ class SendTransaction2 extends Component {
        case 'swap':
        case 'transaction': {
          if (loading) return;
-
          if (isLedger) {
-           console.log(ledgerSignedRawTx)
            this.props.sendCall('', ledgerSignedRawTx, true);
          } else {
            const sendData = {
@@ -195,7 +193,7 @@ class SendTransaction2 extends Component {
        default:
          break;
      }
-   }
+  }
 
   render() {
     return this.renderPageTypeSwitch()

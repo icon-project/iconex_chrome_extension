@@ -59,26 +59,6 @@ class AddressList extends Component {
           addressArr: txHistoryFilter
         }
         break;
-//
-// -      case 'history_transaction':
-//   -        if (!isToken) {
-//   -          coin = wallets[selectedAccount];
-//   -        } else {
-//   -          coin = wallets[selectedAccount].tokens[selectedTokenId];
-//   -          tokenSymbol = coin.symbol;
-//   +        this.state = {
-//   +          addressArr
-//            }
-//   -        let { recent } = coin;
-//   -        recent = recent.sort((a, b) => b.time - a.time)
-//   -        recent = recent.map((item) => {
-//   -          const addressStr = makeAddressStr(item.to, item.type)
-//   -          return Object.assign({}, item, {
-//   -            'name': wallets[addressStr] ? wallets[addressStr].name : '-',
-//   -            'unit': !isToken ? item.type : tokenSymbol,
-//   -          })
-//   -        });
-//   -        return recent;
 
       default:
         break;
@@ -134,21 +114,21 @@ class AddressList extends Component {
       default:
     }
 
-    if (this.props.type === 'history_transaction' && currentWallet.type === 'eth') {
-      return (
-        <div>
-          <div className="dimmed"></div>
-          <div className="popup-wrap home">
-            <SmallPopup
-              handleCancel={this.closeAlert}
-              text={`${I18n.coinDetailHistoryNoTransactionEth}<br/><a href=${ETH_SCAN()}/address/${check0xPrefix(selectedAccount)} target="_blank">https://etherscan.io/</a>`}
-              cancelText={I18n.button.close}
-              submitText={undefined}
-            />
-          </div>
-        </div>
-      )
-    }
+    // if (this.props.type === 'history_transaction' && currentWallet.type === 'eth') {
+    //   return (
+    //     <div>
+    //       <div className="dimmed"></div>
+    //       <div className="popup-wrap home">
+    //         <SmallPopup
+    //           handleCancel={this.closeAlert}
+    //           text={`${I18n.coinDetailHistoryNoTransactionEth}<br/><a href=${ETH_SCAN()}/address/${check0xPrefix(selectedAccount)} target="_blank">https://etherscan.io/</a>`}
+    //           cancelText={I18n.button.close}
+    //           submitText={undefined}
+    //         />
+    //       </div>
+    //     </div>
+    //   )
+    // }
 
     if (addressArr.length < 1) {
       const alertError = this.noResultError();
@@ -168,9 +148,9 @@ class AddressList extends Component {
     			<span className="close" onClick={this.props.closePopup}><em className="_img"></em></span>
     			<h1 className="title">{title}</h1>
           <AddressTable
-            selectAddress={(address) => this.props.setRecipientAddress(address)}
+            selectAddress={(address) => this.props.setRecipientAddress(address, true)}
             listArr={addressArr}
-            currentWallet={isLedger ? ledgerWallet : wallets[selectedAccount]}
+            currentWallet={currentWallet}
             {...this.props}/>
     		</div>
     	</div>

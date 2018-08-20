@@ -9,6 +9,9 @@ import {
 import {
   setLock
 } from 'redux/actions/globalActions';
+import {
+  setCalcData
+} from 'redux/actions/exchangeTransactionActions';
 import { logOut } from 'redux/actions/authActions';
 import { getRate as GET_RATE_API } from 'redux/api/rateApi'
 import BigNumber from 'bignumber.js';
@@ -141,7 +144,41 @@ function* fetchTokenBalanceFunc(action) {
       index: action.index,
       error: e
     });
+  }
+}
 
+function* updateLedgerWalletBalanceFunc(action) {
+  try {
+    const isToken = yield select(state => state.wallet.selectedWallet.isToken)
+    const selectedTokenId = yield select(state => state.wallet.selectedWallet.tokenId)
+    const ledgerWallet = yield select(state => state.ledger.ledgerWallet)
+    let balance = '', isError = '';
+    if (isToken) {
+      balance = yield call(FETCH_TOKEN_BALANCE, selectedTokenId, ledgerWallet.tokens[selectedTokenId].decimals, ledgerWallet.account, 'icx');
+      isError = balance === 'error';
+      yield put({
+        type: AT.fetchTokenBalanceFulfilledForLedger,
+        balance: isError ? new BigNumber(0) : balance,
+        isError: isError
+      });
+    } else {
+      balance = yield call(FETCH_COIN_BALANCE, ledgerWallet.account, 'icx');
+      isError = balance === 'error';
+      yield put({
+        type: AT.updateLedgerWalletBalanceFulfilled,
+        balance: isError ? new BigNumber(0) : balance,
+        isError: isError
+      });
+    }
+    yield put({
+      type: AT.setCalcData,
+    });
+  } catch (e) {
+    alert(e);
+    yield put({
+      type: AT.updateLedgerWalletBalanceRejected,
+      error: e
+    });
   }
 }
 
@@ -254,13 +291,35 @@ function* getTokenInfoFunc(action) {
 
 function* addTokenFunc(action) {
   try {
-    for(let i=0; i<action.tokenArr.length; i++) {
-      yield call(ADD_TOKEN, action.address, action.tokenArr[i], action.coinType)
+    const isLedger = yield select(state => state.ledger.isLedger);
+    const ledgerWallet = yield select(state => state.ledger.ledgerWallet);
+    if (isLedger) {
+      yield put({type: AT.addTokenFulfilledForLedger, payload: action.tokenArr[0]});
+      const balance = yield call(FETCH_TOKEN_BALANCE, action.tokenArr[0].address, action.tokenArr[0].decimals, ledgerWallet.account, ledgerWallet.type);
+      const isError = balance === 'error';
+      yield put({
+        type: AT.fetchTokenBalanceFulfilledForLedger,
+        address: action.tokenArr[0].address,
+        balance: isError ? new BigNumber(0) : balance,
+        isError: isError
+      });
+      yield put({
+        type: AT.setSelectedWallet,
+        payload: {
+          account: ledgerWallet.account,
+          tokenId: action.tokenArr[0].address
+        }
+      })
+      yield put(closePopup());
+    } else {
+      for(let i=0; i<action.tokenArr.length; i++) {
+        yield call(ADD_TOKEN, action.address, action.tokenArr[i], action.coinType)
+      }
+      yield put({type: AT.addTokenFulfilled});
+      yield put(getWallet());
+      yield put(resetSelectedWallet());
+      yield put(closePopup());
     }
-    yield put({type: AT.addTokenFulfilled});
-    yield put(getWallet());
-    yield put(resetSelectedWallet());
-    yield put(closePopup());
   } catch (e) {
     alert(e);
     yield put({type: AT.addTokenRejected, error: e});
@@ -362,6 +421,10 @@ function* watchFetchTokenBalance() {
   yield takeEvery(AT.fetchTokenBalance, fetchTokenBalanceFunc)
 }
 
+function* watchUpdateLedgerWalletBalance() {
+  yield takeLatest(AT.updateLedgerWalletBalance, updateLedgerWalletBalanceFunc)
+}
+
 function* watchFetchRecentHistory() {
   yield takeLatest(AT.fetchRecentHistory, fetchRecentHistoryFunc)
 }
@@ -411,6 +474,7 @@ export default function* walletSaga() {
    yield fork(watchFetchAll);
    yield fork(watchFetchWalletData);
    yield fork(watchFetchCoinBalance);
+   yield fork(watchUpdateLedgerWalletBalance);
    yield fork(watchFetchTokenBalance);
    yield fork(watchFetchRecentHistory);
    yield fork(watchFetchTransactionHistory);

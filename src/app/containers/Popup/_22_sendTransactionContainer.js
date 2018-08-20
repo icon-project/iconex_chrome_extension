@@ -3,7 +3,7 @@ import { SendTransaction } from 'app/components/';
 import {  openPopup, setPopupNum, closePopup } from 'redux/actions/popupActions';
 import { sendCall, submitCall, resetEXTRPageReducer, setEXTRLogInState, resetEXTRInputReducer } from 'redux/actions/exchangeTransactionActions';
 import { executeFunc, resetContractInputOutput } from 'redux/actions/contractActions';
-import { confirmLedger, resetLedgerReducer } from 'redux/actions/ledgerActions'
+import { confirmLedger, resetLedgerReducer, updateLedgerWalletBalance } from 'redux/actions/ledgerActions'
 import { fetchAll, resetSelectedWallet } from 'redux/actions/walletActions'
 import {
   resetSignupReducer
@@ -60,6 +60,8 @@ function mapDispatchToProps(dispatch) {
     resetSelectedWallet: () => dispatch(resetSelectedWallet()),
     resetSignupReducer: () => dispatch(resetSignupReducer()),
     logIn: () => dispatch(logIn()),
+
+    updateLedgerWalletBalance: () => dispatch(updateLedgerWalletBalance()),
 
     resetContractInputOutput: () => dispatch(resetContractInputOutput()),
     confirmLedger: (payload) => dispatch(confirmLedger(payload)),

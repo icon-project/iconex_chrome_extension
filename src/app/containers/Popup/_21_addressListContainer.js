@@ -27,7 +27,7 @@ function mapDispatchToProps(dispatch) {
     closePopup: () => dispatch(closePopup()),
     openPopup: (s) => dispatch(openPopup(s)),
     setPopupNum: (n) => dispatch(setPopupNum(n)),
-    setRecipientAddress: (a) => dispatch(setRecipientAddress(a)),
+    setRecipientAddress: (payload, isTxFeeNeeded) => dispatch(setRecipientAddress(payload, isTxFeeNeeded)),
     fetchTransactionHistory: (payload) => dispatch(fetchTransactionHistory(payload)),
     resetReducer: () => dispatch(resetHistoryReducer()),
   };

@@ -82,9 +82,13 @@ class SendTransaction3 extends Component {
         break;
       }
       case 'transaction': {
-        if (!isLedger) this.updateWallets();
-        this.props.resetInput();
         this.props.closePopup();
+        if (!isLedger) {
+          this.props.history.push(ROUTE['mywallet']);
+        } else {
+          this.props.updateLedgerWalletBalance();
+          this.props.resetInput();
+        }
         break;
       }
       default:

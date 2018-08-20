@@ -82,7 +82,7 @@ function mapDispatchToProps(dispatch) {
     setCalcData: () => dispatch(setCalcData()),
     setTxFeeLimit: (value) => dispatch(setTxFeeLimit(value)),
     setTxFeePrice: (value) => dispatch(setTxFeePrice(value)),
-    setRecipientAddress: address => dispatch(setRecipientAddress(address)),
+    setRecipientAddress: (address, isTxFeeNeeded) => dispatch(setRecipientAddress(address, isTxFeeNeeded)),
     getTxFeeInfo: data => dispatch(getTxFeeInfo(data)),
     submitCall: (payload) => dispatch(submitCall(payload)),
     deleteWallet: (s) => dispatch(deleteWallet(s)),

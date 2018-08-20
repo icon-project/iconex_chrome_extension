@@ -10,6 +10,7 @@ function mapStateToProps(state) {
     coinQuantity: state.exchangeTransaction.coinQuantity,
     selectedAccount: state.wallet.selectedWallet.account,
     selectedTokenId: state.wallet.selectedWallet.tokenId,
+    calcData: state.exchangeTransaction.calcData,
     isToken: state.wallet.selectedWallet.isToken,
     isLoggedIn: state.exchangeTransaction.isLoggedIn,
     recipientAddress: state.exchangeTransaction.recipientAddress,
@@ -23,7 +24,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setRecipientAddress: address => dispatch(setRecipientAddress(address)),
+    setRecipientAddress: (address, isTxFeeNeeded) => dispatch(setRecipientAddress(address, isTxFeeNeeded)),
     setRecipientAddressError: () => dispatch(setRecipientAddressError()),
 
     fetchRecentHistory: () => dispatch(fetchRecentHistory()),

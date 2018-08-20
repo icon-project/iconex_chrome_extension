@@ -18,7 +18,7 @@ export const INITIAL_SERVER_ICX = prodDev('main', 'test');
 export const INITIAL_SERVER_ETH = prodDev('main', 'ropsten');
 
 export const HIDE_SERVER = isDevVersion() ? false : true;
-export const LEDGER_SERVER = 'https://hardwallet.icon.foundation/index.html';
+export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://hardwallet.icon.foundation/test.html')
 
 export const getCurrentServer = (coinType) => {
   let server;

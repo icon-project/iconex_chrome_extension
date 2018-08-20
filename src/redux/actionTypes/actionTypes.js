@@ -172,7 +172,12 @@ const actionTypes = {
   //ledgerActions
   setEXTRLogInStateForLedger: 'SET_EXTR_LOG_IN_STATE_FOR_LEDGER',
   confirmLedger: 'CONFIRM_LEDGER',
-  resetLedgerReducer: 'RESET_LEDGER_REDUCER'
+  resetLedgerReducer: 'RESET_LEDGER_REDUCER',
+  updateLedgerWalletBalance: 'UPDATE_LEDGER_WALLET_BALANCE',
+  updateLedgerWalletBalanceFulfilled: 'UPDATE_LEDGER_WALLET_BALANCE_FULFILLED',
+  updateLedgerWalletBalanceRejected: 'UPDATE_LEDGER_WALLET_BALANCE_REJECTED',
+  addTokenFulfilledForLedger: 'ADD_TOKEN_FULFILLED_FOR_LEDGER',
+  fetchTokenBalanceFulfilledForLedger: 'FETCH_TOKEN_BALANCE_FULFILLED_FOR_LEDGER'
 };
 
 export default actionTypes;

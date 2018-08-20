@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { QuantitySetter } from 'app/components/';
 import { setSelectedWallet } from 'redux/actions/walletActions';
 import { setCalcData, setCoinQuantity, setCoinQuantityError, setTxFeeLimit, setTxFeePrice, getTxFeeInfo, toggleFullBalance } from 'redux/actions/exchangeTransactionActions';
+import { openPopup } from 'redux/actions/popupActions'
 
 function mapStateToProps(state) {
   return {
@@ -20,7 +21,8 @@ function mapStateToProps(state) {
     txFeeLoading: state.exchangeTransaction.txFeeLoading,
     txFeePrice: state.exchangeTransaction.txFeePrice,
     txFeeLimit: state.exchangeTransaction.txFeeLimit,
-    language: state.global.language
+    language: state.global.language,
+    isLedger: state.ledger.isLedger
   };
 }
 
@@ -28,12 +30,13 @@ function mapDispatchToProps(dispatch) {
   return {
     setCalcData: () => dispatch(setCalcData()),
     setSelectedWallet: (payload) => dispatch(setSelectedWallet(payload)),
-    setCoinQuantity: quantity => dispatch(setCoinQuantity(quantity)),
+    setCoinQuantity: (quantity, isTxFeeNeeded) => dispatch(setCoinQuantity(quantity, isTxFeeNeeded)),
     setCoinQuantityError: () => dispatch(setCoinQuantityError()),
     toggleFullBalance: (payload) => dispatch(toggleFullBalance(payload)),
     setTxFeeLimit: payload => dispatch(setTxFeeLimit(payload)),
     setTxFeePrice: payload => dispatch(setTxFeePrice(payload)),
     getTxFeeInfo: data => dispatch(getTxFeeInfo(data)),
+    openPopup: payload => dispatch(openPopup(payload))
   };
 }
 

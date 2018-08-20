@@ -420,8 +420,9 @@ h3{font-size: 14px;}
 
 .content-wrap .wrap-holder.exchange .quantity-holder{border-bottom: 1px solid #ddd; padding: 40px 0 40px 0; margin: 0 50px;}
 .content-wrap .wrap-holder.exchange .quantity-holder input{width: 610px;padding: 19px 70px 10px 30px; font-size: 12px;}
-.content-wrap .wrap-holder.exchange .quantity-holder .all{display: inline-block; font-size: 12px;    position: absolute; top: 18px; right: -74px;}
+.content-wrap .wrap-holder.exchange .quantity-holder .all{display: inline-block; font-size: 12px;    position: absolute; top: 18px; /*right: -74px;*/left: 634px; width: 210px;}
 .content-wrap .wrap-holder.exchange .quantity-holder .all label{vertical-align: top;padding: 10px; margin-left: 5px; margin-top: 0px;}
+.content-wrap .wrap-holder.exchange .quantity-holder .all button{margin-left: 22px; margin-top: -4px;}
 .content-wrap .wrap-holder.exchange .quantity-holder > div > div{ display: inline-block; position: relative;}
 .content-wrap .wrap-holder.exchange .group{height: 50px; margin: 40px 0;}
 .content-wrap .wrap-holder.exchange .quantity-holder .group:first-child{margin: 0 0 40px;}

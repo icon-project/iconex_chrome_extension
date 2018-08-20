@@ -117,7 +117,7 @@ class SendTransaction2 extends Component {
        case 'contract': {
          return (
              <div className="popup">
-         			<p className="txt_box">실행할 정보를 한번 더 확인해주세요.</p>
+         			<p className="txt_box">{I18n.sendTransaction.confirmData}</p>
          			<div className="scroll-holder">
          				<div className="scroll">
                   {
@@ -132,18 +132,18 @@ class SendTransaction2 extends Component {
                       }
                     })
                   }
-                  <p className="title">{'지갑 주소'}</p>
+                  <p className="title">{I18n.sendTransaction.walletAddress}</p>
                   <p className="address">{selectedAccount}</p>
-                  { !!coinQuantity && (<p className="title">{'송금할 ICX 수량'}</p>)}
+                  { !!coinQuantity && (<p className="title">{I18n.sendTransaction.sendQuantity}</p>)}
                   { !!coinQuantity && (<p className="address">{`${coinQuantity} ICX`}</p>)}
-                  <p className="title">{'최대 수수료'}</p>
-                  <p className="address">{txFee}</p>
+                  <p className="title">{I18n.sendTransaction.maximumFee}</p>
+                  <p className="address">{`${txFee} ICX`}</p>
          				</div>
          			</div>
 
          			<div className="btn-holder">
-         				<button onClick={this.closePopup} className="btn-type-fill size-del"><span>취소</span></button>
-         				<button onClick={this.handleSubmit}  className="btn-type-normal size-del"><span>{'실행'}</span></button>
+         				<button onClick={this.closePopup} className="btn-type-fill size-del"><span>{I18n.button.cancel}</span></button>
+         				<button onClick={this.handleSubmit}  className="btn-type-normal size-del"><span>{I18n.button.write}</span></button>
          			</div>
          		</div>
          )

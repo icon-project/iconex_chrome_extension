@@ -17,7 +17,6 @@ export function getTxFeeInfoApi(type, param) {
         const result = icx_getTxFeeInfoApi(param);
         resolve(result);
       });
-    // TODO : 이더는 coinType 받아오고 있지도 않음
     case 'eth':
     default:
       return new Promise(resolve => {

@@ -215,15 +215,15 @@ class SendTransaction3 extends Component {
       case 'contract': {
         return (
           <div className="popup complete">
-            <p className="txt_box">실행이 완료 되었습니다.</p>
+            <p className="txt_box">{I18n.sendTransaction.txComplete}</p>
             <div className="scroll-holder">
               <div className="scroll">
-                <p className="title">TxHash는 ICON Tracker에서 조회 가능합니다.</p>
+                <p className="title">{I18n.sendTransaction.txHashTracker}</p>
                 <p onClick={this.closePopupAfterTx} className="address">{funcResult[0]}</p>
               </div>
             </div>
             <div className="btn-holder">
-              <button onClick={this.handleSubmit} className="btn-type-fill size-full"><span>완료</span></button>
+              <button onClick={this.handleSubmit} className="btn-type-fill size-full"><span>{I18n.button.submit}</span></button>
             </div>
           </div>
         )

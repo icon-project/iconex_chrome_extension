@@ -29,7 +29,7 @@ class ContractList extends Component {
         <div className="dimmed"></div>
     		<div className="popup address">
     			<span className="close" onClick={this.props.closePopup}><em className="_img"></em></span>
-    			<h1 className="title">{'컨트랙트 목록'}</h1>
+    			<h1 className="title">{I18n.contractList.contractList}</h1>
           <AddressTable
             listArr={icxContract}
             selectAddress={this.selectAddress}

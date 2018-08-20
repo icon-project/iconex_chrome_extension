@@ -192,7 +192,6 @@ export function updatePasswordApi(account, priv) {
   })
 }
 
-/* TODO: getTokenInfo API 중복 사용 중 */
 export function addTokenApi(account, tokenInfo, type) {
   return new Promise(resolve => {
     chromeStorage.get(account, (result) => {

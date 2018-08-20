@@ -35,7 +35,9 @@ export default {
     goToWallet: '내 지갑 가기',
     connect: '연결',
     connectLedger: 'Ledger Wallet 연결',
-    retry: '재시도'
+    retry: '재시도',
+    read: '조회',
+    write: '실행'
   },
 
   error: {
@@ -110,7 +112,20 @@ export default {
     ledgerError: '오류가 발생하였습니다. 다시 시도해주세요.',
     deniedByUser: 'Ledger Wallet에서 승인이 취소되었습니다.',
 
-    noBalance: '잔액이 부족합니다.'
+    noBalance: '잔액이 부족합니다.',
+
+    contractAddressEmpty: '컨트렉트 주소를 입력해주세요.',
+    contractAddressConfirm: '컨트렉트 주소를 확인해주세요.',
+
+    strEnter: '“str“ 값을 입력해주세요.',
+    AddressEnter: '주소를 입력해주세요',
+    AddressConfirm: '주소를 확인해주세요',
+
+    intEnter: '“int“ 값을 입력해주세요.',
+    intConfirm: '“int“ 값을 확인해주세요.',
+
+    bytesEnter: '“bytes“ 값을 입력해주세요.',
+    bytesConfirm: '“bytes“ 값을 확인해주세요.',
   },
 
   currency: {
@@ -263,22 +278,21 @@ export default {
   transferPageHelperTitle4_eth: '수신자로부터 Data 입력을 요청 받지 않은 경우에는 입력하지 않고 송금할 수 있습니다.',
   transferPageHelperDesc4_eth: 'Data를 입력해야만 거래가 실행되도록 설계되어 있는 경우, Data를 입력하지 않으면\n송금이 불가하며 수수료만 차감될 수 있습니다.',
 
-  /* TODO text */
   transferPageHelperTitle1_icx: '예상 최대 수수료는 Transaction 실행 시 발생할 수 있는 최대 수수료로서, 스텝 한도와 스텝 가격을 곱한 값입니다.',
-  /* TODO text confirm */
-  transferPageHelperDesc1_icx: 'Transaction이 발생했지만 채굴자에 의해 채택되지 않는 경우, 이미 사용된 수수료는 소진되고 해당 Transaction은 취소되니 적절한 수준의 스텝 한도와 스텝 가격을 설정해야 합니다.',
+  transferPageHelperDesc1_icx: '',
   transferPageHelperTitle2_icx: '스텝 한도는 Transaction 실행에 지불할 용의가 있는 스텝의 최대량을 의미합니다.',
-  transferPageHelperDesc2_icx: '스텝은 최소 XXX, 최대 990,000까지 입력 가능합니다.\n스텝 한도를 아주 높게 설정하더라도 Transaction에 필요한 만큼의 스텝만 소진합니다. 즉, 스텝 한도는 최대치만 설정 가능하며 실제 소진되는 스텝량은 유동적입니다.',
+  transferPageHelperDesc2_icx: '스텝 한도를 아주 높게 설정하더라도 Transaction에 필요한 만큼의 스텝만 소진합니다. 즉, 스텝 한도는 최대치만 설정 가능하며 실제 소진되는 스텝량은 유동적입니다.',
   transferPageHelperTitle3_icx: '1 loop = 0.000000000000000001 ICX 로 고정되어 있습니다.',
-  /* TODO text confirm */
-  transferPageHelperDesc3_icx: '이더리움 채굴자는 블록을 생성할 때 자신에게 가장 이익이 되는 Transaction을 먼저\n채택합니다. 이는 가스 가격을 높게 설정할수록, 또는 가스 한도가 높을수록 채택될 확률이\n높음을 의미하며, 따라서 전송속도에 영향을 미치게 됩니다',
+  transferPageHelperDesc3_icx: '',
   transferPageHelperTitle4_icx: '수신자로부터 Data 입력을 요청 받지 않은 경우에는 입력하지 않고 송금할 수 있습니다.',
   transferPageHelperDesc4_icx: 'Data를 입력해야만 거래가 실행되도록 설계되어 있는 경우, Data를 입력하지 않으면\n송금이 불가하며 수수료만 차감될 수 있습니다.',
 
   dataInputOpen: '데이터 입력 열기',
   dataInputClose: '데이터 입력 닫기',
 
-  contractReadPage: '조회/실행하기',
+  contractReadPage: '조회 / 실행하기',
+  contractReadPageAddressInputPlaceHolder: '컨트랙트 주소 입력',
+  contractAbiPlaceHolder: '컨트랙트 주소를 입력하면 자동으로 작성됩니다',
 
   checkPassword: {
     title: '지갑 비밀번호 확인',
@@ -464,7 +478,13 @@ export default {
     quantityExchange: '환전량',
     quantityTransaction: '송금량',
     columnName: '지갑명',
-    columnAddress: '지갑 주소'
+    columnAddress: '지갑 주소',
+  },
+
+  contractList: {
+    contractList: '컨트렉트 목록',
+    contractName: '컨트렉트명',
+    contractAddress: '컨트렉트 주소'
   },
 
   unlockPopup: {
@@ -536,7 +556,16 @@ export default {
     tokenGasFailure: '이더리움 계좌 잔액이 부족하여<br/>토큰을 송금할 수 없습니다.',
 
     swapSuccess: '스왑 요청이 완료되었습니다.<br/>ICX 지급 날짜 및 시각은 상황에 따라<br/>달라질 수 있으므로 아래 안내를 확인해 주세요.',
-    swapQuantity: '스왑 수량'
+    swapQuantity: '스왑 수량',
+
+    confirmData: '실행할 정보를 한번 더 확인해주세요.',
+    maximumFee: '예상 최대 수수료',
+    sendQuantity: '송금할 ICX 수량',
+    walletAddress: '지갑 주소',
+
+    txComplete: '실행이 완료 되었습니다.',
+    txHashTracker: 'TxHash는 ICON Tracker에서 조회 가능합니다.'
+
   },
 
   connectLedger: {

@@ -35,7 +35,9 @@ export default {
     goToWallet: 'Access My Wallet',
     connect: 'Connect',
     connectLedger: 'Connect to Ledger',
-    retry: 'Retry'
+    retry: 'Retry',
+    read: 'Read',
+    write: 'Write'
   },
 
   error: {
@@ -101,6 +103,7 @@ export default {
 
     checkData: 'Please check your data.',
     enterGasPrice: 'Please enter the gas limit.',
+    /* TODO: 번역 */
     notEnoughBalance: '수수료 지불을 위한 ICX 잔액이 부족합니다.',
 
     alertIcxGetBalanceError: 'An error occurred while checking your balance.',
@@ -110,7 +113,20 @@ export default {
     ledgerError: 'Failed to connect. Please try again.',
     deniedByUser: 'The confirmation has been cancelled on Ledger Wallet.',
 
-    noBalance: 'No Balance.'
+    noBalance: 'No Balance.',
+
+    contractAddressEmpty: 'Please enter contract address.',
+    contractAddressConfirm: 'Please check contract address again.',
+
+    strEnter: 'Please enter “str“ value',
+    AddressEnter: 'Please enter address',
+    AddressConfirm: 'Please check address again.',
+
+    intEnter: 'Please enter “int“ value',
+    intConfirm: 'Please check “int” value again.',
+
+    bytesEnter: 'Please enter “bytes“ value',
+    bytesConfirm: 'Please check “bytes” value again.',
   },
 
   currency: {
@@ -261,22 +277,23 @@ export default {
   transferPageHelperTitle3_eth: 'Gas price is a unit of gas. 1 Gwei equals 0.000000001 ETH.',
   transferPageHelperDesc3_eth: 'Ethereum miners prioritize based on gas price when generating blocks. If you set higher gas price, you have more chance to get your transaction confirmed. It also determines your transaction speed.',
   transferPageHelperTitle4_eth: 'If you do not enter the data when required, the transaction will fail.',
-  transferPageHelperDesc4_eth: "You will still have to pay the transaction fees.You don't have to enter data if it is not required in the transaction.",
+  transferPageHelperDesc4_eth: "You will still have to pay the transaction fees. You don't have to enter data if it is not required in the transaction.",
 
-  /* TODO text */
-  transferPageHelperTitle1_icx: 'Estimated Maximum Fee = Step price * Step limit.',
-  transferPageHelperDesc1_icx: 'Transaction이 발생했지만 채굴자에 의해 채택되지 않는 경우, 이미 사용된 수수료는 소진되고 해당 Transaction은 취소되니 적절한 수준의 가스 한도와 가스 가격을 설정해야 합니다.',
-  transferPageHelperTitle2_icx: '가스 한도는 Transaction 실행에 지불할 용의가 있는 가스의 최대량을 의미합니다.',
-  transferPageHelperDesc2_icx: '가스 한도를 더 높게 설정하더라도 Transaction에 필요한 만큼의 가스만 소진합니다.\n즉, 가스한도는 최대치만 설정 가능하며 실제 소진되는 가스량은 유동적입니다.',
-  transferPageHelperTitle3_icx: '가스 가격은 단위가 1 Gwei = 0.000000001 ETH로 고정되어 있습니다.',
-  transferPageHelperDesc3_icx: '이더리움 채굴자는 블록을 생성할 때 자신에게 가장 이익이 되는 Transaction을 먼저\n채택합니다. 이는 가스 가격을 높게 설정할수록, 또는 가스 한도가 높을수록 채택될 확률이\n높음을 의미하며, 따라서 전송속도에 영향을 미치게 됩니다',
-  transferPageHelperTitle4_icx: '수신자로부터 Data 입력을 요청 받지 않은 경우에는 입력하지 않고 송금할 수 있습니다.',
-  transferPageHelperDesc4_icx: 'Data를 입력해야만 거래가 실행되도록 설계되어 있는 경우, Data를 입력하지 않으면\n송금이 불가하며 수수료만 차감될 수 있습니다.',
+  transferPageHelperTitle1_icx: 'Estimated Maximum Fee = Step price * Step limit',
+  transferPageHelperDesc1_icx: '',
+  transferPageHelperTitle2_icx: 'Step limit is the amount of step to send with your transaction.',
+  transferPageHelperDesc2_icx: 'Unnecessary step is refunded to you at the end of transaction. In other words, you can set the maximum amount of step but the actual step consumption is not fixed.',
+  transferPageHelperTitle3_icx: '1 loop equals 0.000000000000000001 ICX',
+  transferPageHelperDesc3_icx: '',
+  transferPageHelperTitle4_icx: 'If you do not enter the data when required, the transaction will fail.',
+  transferPageHelperDesc4_icx: "You will still have to pay the transaction fees. You don't have to enter data if it is not required in the transaction.",
 
-  dataInputOpen: '데이터 입력 열기',
-  dataInputClose: '데이터 입력 닫기',
+  dataInputOpen: 'Open Data',
+  dataInputClose: 'Close Data',
 
-  contractReadPage: '조회/실행하기',
+  contractReadPage: 'Read / Write Contract',
+  contractReadPageAddressInputPlaceHolder: 'Enter contract address',
+  contractAbiPlaceHolder: 'Enter contract address to auto fill this field',
 
   checkPassword: {
     title: 'Confirm wallet password.',
@@ -462,7 +479,13 @@ export default {
     quantityExchange: 'Exchange Amount',
     quantityTransaction: 'Transfer Amount',
     columnName: 'Wallet Name',
-    columnAddress: 'Wallet Address'
+    columnAddress: 'Wallet Address',
+  },
+
+  contractList: {
+    contractList: 'Contract List',
+    contractName: 'Contract Name',
+    contractAddress: 'Contract Address'
   },
 
   unlockPopup: {
@@ -534,7 +557,15 @@ export default {
     tokenGasFailure: 'You have insufficient ETH balance for GAS.',
 
     swapSuccess: 'Request for swap has been completed.<br/>ICX distribution schedule is subject to change so please refer to the following information.',
-    swapQuantity: 'Swap Amount'
+    swapQuantity: 'Swap Amount',
+
+    confirmData: 'Check the write information once again.',
+    maximumFee: 'Estimated Maximum Fee',
+    sendQuantity: 'Transfer ICX Amount',
+    walletAddress: 'Wallet Address',
+
+    txComplete: 'Request for write contract has been completed.',
+    txHashTracker: 'Tx Hash is trackable on ICON Tracker.'
   },
 
   connectLedger: {

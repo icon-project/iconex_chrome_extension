@@ -39,7 +39,7 @@ class ContractExecuteSection extends Component {
       setFuncInputError,
       I18n } = this.props;
     const value = funcInputState[input.name];
-    const error = funcInputError[input.name];
+    const error = I18n.error[funcInputError[input.name]];
     switch (input.type) {
       case 'bytes':
       case 'Address':
@@ -73,6 +73,7 @@ class ContractExecuteSection extends Component {
 
   render() {
     const {
+      I18n,
       funcList,
       selectedFuncIndex,
       funcLoading,
@@ -95,7 +96,7 @@ class ContractExecuteSection extends Component {
               <button style={{width: 99.45}} className="btn-type-fill3"><LoadingComponent type='white' /></button>
             ) : (
               <button onClick={() => this.props.checkContractInputError()} className="btn-type-fill3">
-                <span>{ readonly ? '조회' : '실행' }</span>
+                <span>{ readonly ? I18n.button.read : I18n.button.write }</span>
               </button>
             )
           }

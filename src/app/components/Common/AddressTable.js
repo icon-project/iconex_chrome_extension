@@ -20,7 +20,7 @@ class AddressTable extends Component {
       case 'history_transaction':
         return I18n.addressList.quantityTransaction
       case 'contractList':
-        return '컨트랙트 목록'
+        return ''
       default:
         return ''
     }
@@ -52,8 +52,8 @@ class AddressTable extends Component {
 							<thead>
                 {type === 'contractList' ? (
                   <tr>
-  									<th>{'컨트렉트명'}</th>
-  									<th>{'컨트렉트 주소'}</th>
+  									<th>{I18n.contractList.contractName}</th>
+  									<th>{I18n.contractList.contractAddress}</th>
   									<th></th>
   								</tr>
                 ) : (
@@ -73,8 +73,8 @@ class AddressTable extends Component {
               <thead>
                 {type === 'contractList' ? (
                   <tr>
-                    <th>{'컨트렉트명'}</th>
-                    <th>{'컨트렉트 주소'}</th>
+                    <th>{I18n.contractList.contractName}</th>
+  									<th>{I18n.contractList.contractAddress}</th>
                     <th></th>
                   </tr>
                 ) : (

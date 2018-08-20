@@ -252,7 +252,6 @@ class CoinDetailContent extends Component {
 
           <div className="deposit-hoder">
             <p>{I18n.coinDetailContentAddress}</p>
-            {/* TODO: 복사 버튼 누르면 크기가 커짐 */}
             <span>{data.account}<CopyButton type="small" target={data.account} text={I18n.button.copyDepositAddress} copyFinish={I18n.button.copyFinish}/></span>
             <ul>
               <li>· {I18n.coinDetailContentDesc1}</li>

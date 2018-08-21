@@ -40,7 +40,7 @@ class AddressList extends Component {
           addressArr = walletsArr.map((wallet) => {
             return Object.assign({}, wallet, {
               'balance': wallet['tokens'][selectedTokenId] ? wallet['tokens'][selectedTokenId]['balance'] : '0',
-              'unit': wallet['tokens'][selectedTokenId] ? wallet['tokens'][selectedTokenId]['symbol'] : ' ',
+              'unit': wallet['tokens'][selectedTokenId] ? wallet['tokens'][selectedTokenId]['symbol'] : '',
             })
           })
         }

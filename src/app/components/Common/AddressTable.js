@@ -103,11 +103,11 @@ class AddressTable extends Component {
                       const number = l.balance || l.quantity || l.amount
                       const account = l.to || l.address || l.account || l.toAddr
                       const name = l.name || (this.props.wallets[account] && this.props.wallets[account]['name']) || '-'
-                      const unit = unitSymbol.toUpperCase()
+                      const unit = l.unit ? unitSymbol.toUpperCase() : ' '
                       return (
                         <tr key={i}>
                           <td>{name}</td>
-                          <td>{convertNumberToText(number, unit, true)}<span>{unit.toUpperCase()}</span></td>
+                          <td>{convertNumberToText(number, unit, true)}<span>{unit}</span></td>
                           <td><span className="ellipsis">{account}</span></td>
                           <td><button className="btn-type-choice" onClick={()=>{this.selectAddress(account)}}><span>{I18n.button.select}</span></button></td>
                         </tr>

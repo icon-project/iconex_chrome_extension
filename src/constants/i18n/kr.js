@@ -114,8 +114,8 @@ export default {
 
     noBalance: '잔액이 부족합니다.',
 
-    contractAddressEmpty: '컨트렉트 주소를 입력해주세요.',
-    contractAddressConfirm: '컨트렉트 주소를 확인해주세요.',
+    contractAddressEmpty: '컨트랙트 주소를 입력해주세요.',
+    contractAddressConfirm: '컨트랙트 주소를 확인해주세요.',
 
     strEnter: '“str“ 값을 입력해주세요.',
     AddressEnter: '주소를 입력해주세요',
@@ -482,9 +482,9 @@ export default {
   },
 
   contractList: {
-    contractList: '컨트렉트 목록',
-    contractName: '컨트렉트명',
-    contractAddress: '컨트렉트 주소'
+    contractList: '컨트랙트 목록',
+    contractName: '컨트랙트명',
+    contractAddress: '컨트랙트 주소'
   },
 
   unlockPopup: {
@@ -541,7 +541,7 @@ export default {
     infoSuccess: '송금 요청이 완료되었습니다.',
     offline: '인터넷이 연결되어 있지 않습니다.',
     titleInfo: '수량과 주소를 한번 더 확인해 주세요.',
-    txFeeIcx: '수수료',
+    txFeeIcx: '예상 최대 수수료',
     txFeeEth: '예상 최대 수수료',
     quantity: '송금 수량',
     address: '받는 주소',

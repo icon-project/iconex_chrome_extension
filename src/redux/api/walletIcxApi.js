@@ -166,13 +166,9 @@ export function icx_checkIcxTransactionExist(data) {
         .then(res => {
           // success
           console.log(res)
-          if (res.data.result.status === "0x1") {
+          if (res.data.result.status === "0x1" || res.data.result.status === "0x0") {
             resolve('');
           // failure
-          } else if (res.data.result.status === "0x0") {
-            resolve(Object.assign({}, data, {
-              isFail: true
-            }));
           } else {
             resolve(data);
           }
@@ -181,7 +177,6 @@ export function icx_checkIcxTransactionExist(data) {
           if (!data['txid']) {
             resolve('');
           } else {
-            console.log('maybe')
             resolve(data);
           }
         })

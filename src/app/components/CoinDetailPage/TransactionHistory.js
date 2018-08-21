@@ -180,7 +180,7 @@ class TransactionHistory extends Component {
                                         time: row.time || row.age || row.createDate,
                                         txid: row.txid || row.txHash,
                                         value: row.quantity || row.amount,
-                                        isFail: row.isFail || false,
+                                        isFail: row["state"] === 0 ? true : false,
                                         unit: tokenData['defaultSymbol'] || row.symbol || walletCoinType
                                     }
                                     const isUp = newRow.to === account

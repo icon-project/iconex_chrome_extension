@@ -144,6 +144,7 @@ class MyWallet extends Component {
       account: wallet.account,
       balance: defaultBalance,
       balanceLoading: token.balanceLoading,
+      walletBalance: wallet.balance,
       isError: token.isError,
       tokenId: token.address,
       symbol: symbol,

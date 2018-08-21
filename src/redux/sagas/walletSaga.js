@@ -158,6 +158,7 @@ function* updateLedgerWalletBalanceFunc(action) {
       isError = balance === 'error';
       yield put({
         type: AT.fetchTokenBalanceFulfilledForLedger,
+        address: selectedTokenId,
         balance: isError ? new BigNumber(0) : balance,
         isError: isError
       });

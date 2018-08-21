@@ -383,8 +383,8 @@ export function exchangeTransactionReducer(state = initialState, action) {
       const isToken = store.getState().wallet.selectedWallet.isToken;
       const newState = Object.assign({}, state, {
         ...uiState,
-        txFeeLimit: initializeTxFeeLimit(isToken, state.calcData.walletcoinType, state.txFeeLimitTable),
-        txFeePrice: initializeTxFeePrice(isToken, state.calcData.walletcoinType, state.txFeePriceStep)
+        txFeeLimit: initializeTxFeeLimit(isToken, state.calcData.walletCoinType, state.txFeeLimitTable),
+        txFeePrice: initializeTxFeePrice(isToken, state.calcData.walletCoinType, state.txFeePriceStep)
       })
       return Object.assign({}, newState, {
         calcData: calcData(newState)

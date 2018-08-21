@@ -130,7 +130,10 @@ export function* checkContractInputErrorFunc(action) {
 
 export function* handleFuncInputChangeFunc(action) {
   try {
-    yield put({type: AT.getTxFeeInfo});
+    const isLoggedIn = yield select(state => state.exchangeTransaction.isLoggedIn);
+    if (isLoggedIn) {
+      yield put({type: AT.getTxFeeInfo});
+    }
   } catch (e) {
     alert(e);
   }

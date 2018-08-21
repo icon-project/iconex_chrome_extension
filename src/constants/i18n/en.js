@@ -282,7 +282,7 @@ export default {
   transferPageHelperDesc1_icx: '',
   transferPageHelperTitle2_icx: 'Step limit is the amount of step to send with your transaction.',
   transferPageHelperDesc2_icx: 'Unnecessary step is refunded to you at the end of transaction. In other words, you can set the maximum amount of step but the actual step consumption is not fixed.',
-  transferPageHelperTitle3_icx: '1 loop equals 0.000000000000000001 ICX',
+  transferPageHelperTitle3_icx: 'Step price is an unit of step. 1 Gloop equals 0.000000001 ICX.',
   transferPageHelperDesc3_icx: '',
   transferPageHelperTitle4_icx: 'If you do not enter the data when required, the transaction will fail.',
   transferPageHelperDesc4_icx: "You will still have to pay the transaction fees. You don't have to enter data if it is not required in the transaction.",

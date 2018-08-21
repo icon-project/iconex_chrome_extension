@@ -367,7 +367,7 @@ export function icx_getTxFeeInfoApi(data) {
           methodName: 'getStepCosts'
         });
         return {
-          txFeePriceStep: stepPrice[0],
+          txFeePriceStep: new BigNumber(stepPrice[0]),
           txFeeLimitTable: stepLimitTable[0]
         }
       } catch (error) {

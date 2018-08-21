@@ -282,7 +282,7 @@ export default {
   transferPageHelperDesc1_icx: '',
   transferPageHelperTitle2_icx: '스텝 한도는 Transaction 실행에 지불할 용의가 있는 스텝의 최대량을 의미합니다.',
   transferPageHelperDesc2_icx: '스텝 한도를 아주 높게 설정하더라도 Transaction에 필요한 만큼의 스텝만 소진합니다. 즉, 스텝 한도는 최대치만 설정 가능하며 실제 소진되는 스텝량은 유동적입니다.',
-  transferPageHelperTitle3_icx: '1 loop = 0.000000000000000001 ICX 로 고정되어 있습니다.',
+  transferPageHelperTitle3_icx: '스텝 가격은 단위가 1 Gloop = 0.000000001 로 고정되어 있습니다.',
   transferPageHelperDesc3_icx: '',
   transferPageHelperTitle4_icx: '수신자로부터 Data 입력을 요청 받지 않은 경우에는 입력하지 않고 송금할 수 있습니다.',
   transferPageHelperDesc4_icx: 'Data를 입력해야만 거래가 실행되도록 설계되어 있는 경우, Data를 입력하지 않으면\n송금이 불가하며 수수료만 차감될 수 있습니다.',

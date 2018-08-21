@@ -205,7 +205,7 @@ const initializeTxFeeLimit = (isToken, walletCoinType, txFeeLimitTable) => {
 
 const initializeTxFeePrice = (isToken, walletCoinType, txFeePriceStep) => {
   if (walletCoinType === 'icx') {
-    return txFeePriceStep || 1000000000000
+    return txFeePriceStep || new BigNumber(1000000000000)
   } else {
     return 21
   }

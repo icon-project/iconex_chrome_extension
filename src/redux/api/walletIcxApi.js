@@ -83,7 +83,6 @@ export function icx_sendTokenApi(privKey, data) {
         "_value": window.web3.toHex(sendAmount)
       }
     })
-    delete newData.value;
     const rawTx = makeIcxRawTx(true, newData);
     const rawTxSigned = signRawTx(privKey, rawTx)
     const result = await icx_sendTransaction(rawTxSigned);

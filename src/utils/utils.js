@@ -421,7 +421,7 @@ function makeIcxRawTx(isContract, data) {
       dataType: 'call',
       data: {
           "method": data.methodName,
-          "params": data.inputObj
+          "params": data.inputObj || {}
       }
     };
     if (data.payableValue) {

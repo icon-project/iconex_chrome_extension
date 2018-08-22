@@ -134,13 +134,13 @@ class MyWallet extends Component {
         walletSectionBalanceWithRate: 0,
         createdAt: 0,
         coinType: symbol,
-        name: name
+        name: name,
+        walletCoinType: wallet.type,
       };
     }
 
     dataSortedByCoin['token'][symbol].data.push({
       name: wallet.name,
-      //index: v,
       account: wallet.account,
       balance: defaultBalance,
       balanceLoading: token.balanceLoading,

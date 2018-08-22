@@ -48,8 +48,8 @@ class CalculationTable extends Component {
         }
         <li style={isContractPage && {marginTop: 40}}>
           <span className="a">
-            {data.walletCoinType !== 'icx' ? I18n.transferPageLabel5_2 : I18n.transferPageLabel5_1}
-            {data.walletCoinType !== 'icx' && <i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeeHelpLayer" className="_img"></i>}
+            {I18n.transferPageLabel5_2}
+            <i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeeHelpLayer" className="_img"></i>
             {
               txFeeHelpLayer && (
                 <div className="help-layer">

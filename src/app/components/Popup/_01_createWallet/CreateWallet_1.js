@@ -56,6 +56,7 @@ class CreateWallet1 extends Component {
                 <li>{I18n.createWallet.leftInfoTitle1_1}</li>
                 <li className="dot space">{I18n.createWallet.leftInfoDesc1_1}</li>
                 <li className="dot">{I18n.createWallet.leftInfoDesc1_2}</li>
+                <li className="dot">{I18n.createWallet.leftInfoDesc1_3}</li>
               </ul>
             </div>
           </li>

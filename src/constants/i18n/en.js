@@ -310,8 +310,8 @@ export default {
 
     desc1: 'Which coin would you like to add?',
     leftInfoTitle1_1: 'Select a wallet between ICX wallet and ETH wallet.',
-    leftInfoDesc1_1: '· You can add ERC20 tokens using Ethereum wallet menu.',
-    leftInfoDesc1_2: '· You can add IRC tokens using ICON wallet menu.',
+    leftInfoDesc1_1: '· You can add IRC tokens using ICON wallet menu.',
+    leftInfoDesc1_2: '· You can add ERC20 tokens using Ethereum wallet menu.',
     leftInfoDesc1_3: '· Wallets for other coins will be added later.',
 
     desc2: 'Enter a wallet name and a password.',

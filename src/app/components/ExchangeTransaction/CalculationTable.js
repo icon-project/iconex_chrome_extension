@@ -69,7 +69,7 @@ class CalculationTable extends Component {
           }
         </li>
         <li>
-          <span className={`${data.resultBalance && data.resultBalance.includes("-") && 'minus'} a`}>{data.walletCoinType !== 'icx' ? I18n.transferPageLabel6_2 : I18n.transferPageLabel6_1}</span>
+          <span className={`${data.resultBalance && data.resultBalance.includes("-") && 'minus'} a`}>{I18n.transferPageLabel6_2}</span>
           {
             data.resultBalance ? <span className={`${data.resultBalance.includes("-") && 'minus'} b`}>{ data.resultBalance }<em>{data.coinType.toUpperCase()}</em></span>
                                : <span className={`load b`}><LoadingComponent type="black"/></span>

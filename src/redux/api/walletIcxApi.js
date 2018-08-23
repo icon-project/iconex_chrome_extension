@@ -152,7 +152,6 @@ export function icx_checkIcxTransactionExist(data) {
 
   return new Promise(resolve => {
     if (moment() > moment(data.time).add(10, 'minutes')) {
-      console.log('here')
       resolve('')
     }
     if (IS_V3) {
@@ -164,13 +163,24 @@ export function icx_checkIcxTransactionExist(data) {
       }
       walletApi.post('/api/v3', JSON.stringify(param))
         .then(res => {
-          // success
           console.log(res)
-          if (res.data.result.status === "0x1" || res.data.result.status === "0x0") {
-            resolve('');
-          // failure
+          if (data.isToken) {
+            if (res.data.result.status === "0x1") {
+              resolve('');
+            } else if (res.data.result.status === "0x0") {
+              resolve({
+                ...data,
+                isFail: true
+              });
+            } else {
+              resolve(data);
+            }
           } else {
-            resolve(data);
+            if (res.data.result.status === "0x1" || res.data.result.status === "0x0") {
+              resolve('');
+            } else {
+              resolve(data);
+            }
           }
         })
         .catch(error => {

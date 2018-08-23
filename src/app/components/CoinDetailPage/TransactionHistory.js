@@ -95,6 +95,8 @@ class TransactionHistory extends Component {
       I18n
     } = this.props;
 
+    const isPending = this.state.tab === "pending" ? true : false;
+
     const noTransaction = (walletCoinType, tab) => {
       switch(tab) {
         case 'pending':
@@ -180,7 +182,7 @@ class TransactionHistory extends Component {
                                         time: row.time || row.age || row.createDate,
                                         txid: row.txid || row.txHash,
                                         value: row.quantity || row.amount,
-                                        isFail: row["state"] === 0 ? true : false,
+                                        isFail: isPending ? (row["isFail"]) : (row["state"] === 0),
                                         unit: tokenData['defaultSymbol'] || row.symbol || walletCoinType
                                     }
                                     const isUp = newRow.to === account

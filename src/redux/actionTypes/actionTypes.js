@@ -19,6 +19,10 @@ const actionTypes = {
   setLockRejected: 'SET_LOCK_REJECTED',
   changePasscodeHash: 'CHANGE_PASSCODE_HASH',
   setShowNotice: 'SET_SHOW_NOTICE',
+  setScoreData: 'SET_SCORE_DATA',
+  callScoreExternally: 'CALL_SCORE_EXTERNALLY',
+  callScoreExternallyFulfilled: 'CALL_SCORE_EXTERNALLY_FULFILLED',
+  callScoreExternallyRejected: 'CALL_SCORE_EXTERNALLY_REJECTED',
 
   // signupActions
   setWalletName: 'SET_WALLET_NAME',
@@ -182,7 +186,7 @@ const actionTypes = {
 
   //addressBookActions
   addAddressInAddressBook: 'ADD_ADDRESS_IN_ADDRESS_BOOK',
-  deleteAddressInAddressBook: 'DELETE_ADDRESS_IN_ADDRESS_BOOK'
+  deleteAddressInAddressBook: 'DELETE_ADDRESS_IN_ADDRESS_BOOK',
 };
 
 export default actionTypes;

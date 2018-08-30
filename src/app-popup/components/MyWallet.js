@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { LoadingComponent } from 'app/components/'
 import WalletBar from './WalletBar'
-import { makeWalletArray, openApp } from 'utils';
+import { makeWalletArray, openApp, isEmpty } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 import Worker from 'workers/wallet.worker.js';
 
@@ -23,24 +23,24 @@ class MyWallet extends Component {
     this.state = INIT_STATE;
     this.worker = new Worker();
     this.worker.onmessage = (m) => {
-      const { transaction, I18n } = this.props;
+      const { transaction, score, I18n } = this.props;
       if (!m.data) {
         this.setState({
           loading: false,
           pwError: I18n.error.pwConfirmError
         })
       } else {
-        const sendData = Object.assign({}, transaction, {
-          tokenAddress: null,
-          tokenDefaultDecimal: 18,
-          tokenDecimal: 18,
-          data: {},
-          txFeeLimit: '',
-          txFeePrice: '',
-          coinType: 'icx'
-        });
-
-        this.props.sendCall(m.data, sendData);
+        const _isScore = this.isScore()
+        if (_isScore) {
+          this.props.callScoreExternally({privKey:m.data, param:score.param})
+        }
+        else {
+          const sendData = Object.assign({}, transaction, {
+            txFeeLimit: '4000',
+            coinType: 'icx'
+          });
+          this.props.sendCall(m.data, sendData);
+        }
       }
     }
   }
@@ -48,6 +48,16 @@ class MyWallet extends Component {
   componentWillMount() {
     if(!this.props.walletsLoading) {
       this.props.fetchAll(this.props.wallets);
+    }
+  }
+
+  isScore = () => {
+    const { param } = this.props.score
+    if (!!param && !isEmpty(param)) {
+      return true
+    }
+    else {
+      return false
     }
   }
 
@@ -63,6 +73,13 @@ class MyWallet extends Component {
     if (this.props.txLoading !== nextProps.txLoading && !nextProps.txLoading) {
       window.chrome.tabs.query({ active: true }, (tabs) => {
         window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_TRANSACTION', payload: this.props.tx });
+        this.clearPopup()
+      });
+    }
+
+    if (this.props.score.loading !== nextProps.score.loading && !nextProps.score.loading) {
+      window.chrome.tabs.query({ active: true }, (tabs) => {
+        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_SCORE', payload: this.props.score.result });
         this.clearPopup()
       });
     }
@@ -121,7 +138,7 @@ class MyWallet extends Component {
 
   onCancelClick = () => {
     window.chrome.tabs.query({ active: true }, (tabs) => {
-      window.chrome.tabs.sendMessage(tabs[0].id, { type: 'CANCEL_TRANSACTION'});
+      window.chrome.tabs.sendMessage(tabs[0].id, { type: `CANCEL_${this.isScore() ? 'SCORE' : 'TRANSACTION'}`});
       this.clearPopup()
     });
   }
@@ -134,13 +151,13 @@ class MyWallet extends Component {
       return
     }
 
-    const { wallets, transaction } = this.props;
-    const { priv } = wallets[transaction.from];
-
-    const data = {
-      priv, pw: password, type: 'sendTransaction'
-    };
     this.setState({ loading: true, pwError: '' }, () => {
+      const { wallets, transaction, score } = this.props;
+      console.log(this.isScore(), score.from, transaction.from)
+      const { priv } = wallets[this.isScore() ? score.from : transaction.from];
+      const data = {
+        priv, pw: password, type: 'sendTransaction'
+      };
       this.worker.postMessage(data);
     })
   }
@@ -148,6 +165,7 @@ class MyWallet extends Component {
   clearPopup = () => {
     window.chrome.runtime.sendMessage({type: 'CLOSE_POPUP'});
     this.props.setTransactionStatus()
+    this.props.setScoreData()
     this.setState({
       password: '',
       pwError: ''
@@ -156,7 +174,7 @@ class MyWallet extends Component {
 
   render() {
     const { tab, data, password, pwError, loading } = this.state;
-    const { I18n, totalResultLoading, transaction, isRequestedStatus } = this.props;
+    const { I18n, totalResultLoading, transaction, isRequestedStatus, score } = this.props;
 
     return (
       <div className="wrap">
@@ -184,6 +202,8 @@ class MyWallet extends Component {
                             index={i}
                             wallet={wallet}
                             transaction={transaction}
+                            score={score}
+                            isScore = {this.isScore}
                             isRequestedStatus={isRequestedStatus}
                             password={password}
                             error={pwError}

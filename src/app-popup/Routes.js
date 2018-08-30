@@ -67,9 +67,14 @@ class Routes extends Component {
         this.props.setTransactionStatus()
         break;
       case 'REQUEST_TRANSACTION':
-        const { payload } = message
+        let { payload } = message
         this.props.setTransactionStatus(typeof payload === 'string' ? JSON.parse(payload) : payload)
         break;
+      case 'REQUEST_SCORE':
+        payload = message.payload
+        console.log(payload, typeof payload)
+        this.props.setScoreData(typeof payload === 'string' ? JSON.parse(payload) : payload)
+        break;  
       case 'CHECK_POPUP_LOCK_STATE_FULFILLED':
         this.props.setLockState(message.payload);
         // if locked

@@ -54,3 +54,17 @@ export function changeServer(payload) {
     payload
   };
 }
+
+export function setScoreData(payload) {
+  return {
+    type: actionTypes.setScoreData,
+    payload
+  };
+}
+
+export function callScoreExternally(payload) {
+  return {
+    type: actionTypes.callScoreExternally,
+    payload
+  }
+}

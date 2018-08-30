@@ -84,6 +84,7 @@ export function icx_sendTokenApi(privKey, data) {
       }
     })
     const rawTx = makeIcxRawTx(true, newData);
+    console.log(rawTx)
     const rawTxSigned = signRawTx(privKey, rawTx)
     const result = await icx_sendTransaction(rawTxSigned);
     return result;
@@ -386,4 +387,22 @@ export function icx_getTxFeeInfoApi(data) {
         };
       }
     })();
+}
+
+export function icx_callScoreExternally(param) {
+  return new Promise((resolve, reject) => {
+    console.log(param, JSON.stringify(param)
+  )
+    walletApi.post(`/api/v3`, JSON.stringify(param))
+      .then(res => {
+        if(res.data.result) {
+          resolve(res.data.result);
+        } else {
+          throw new Error(res.data.error);
+        }
+      })
+      .catch(error => {
+        reject(error);
+      })
+  });
 }

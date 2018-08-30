@@ -11,9 +11,10 @@ import {
 } from 'redux/api/walletEthApi';
 import {
   icx_sendTransaction as ICX_SEND_TRANSACTION,
-  icx_getTxFeeInfoApi as ICX_GET_TX_FEE_INFO
+  icx_getTxFeeInfoApi as ICX_GET_TX_FEE_INFO,
+  icx_callScoreExternally as CALL_SCORE_EXTERNALLY_API
 } from 'redux/api/walletIcxApi';
-import { check0xPrefix, customValueToTokenValue, makeEthRawTx, isEmpty, checkLength } from 'utils'
+import { check0xPrefix, signRawTx, customValueToTokenValue, makeEthRawTx, isEmpty, checkLength } from 'utils'
 import {
   addRecentTransaction
 } from 'redux/actions/walletActions';
@@ -128,6 +129,19 @@ export function* getTxFeeInfoFunc(action) {
   }
 }
 
+export function* callScoreExternallyFunc(action) {
+  try {
+    const { privKey, param } = action.payload
+    const { params } = param
+    param.params = signRawTx(privKey, params)
+    const payload = yield call(CALL_SCORE_EXTERNALLY_API, param);
+    yield put({type: AT.callScoreExternallyFulfilled, payload: payload});
+  } catch (e) {
+    alert(e);
+    yield put({type: AT.callScoreExternallyRejected, error: e});
+  }
+}
+
 export function* setCoinQuantityFunc(action) {
   try {
     yield put({type: AT.setCalcData});
@@ -225,10 +239,16 @@ function* watchSendTransactionCall() {
   yield takeLatest(AT.sendCall, sendTransactionCallFunc)
 }
 
+function* watchCallScoreExternally() {
+  yield takeLatest(AT.callScoreExternally, callScoreExternallyFunc)
+}
+
+
 export default function* walletSaga() {
   yield fork(watchSetCoinQuantity);
   yield fork(watchSetRecipientAddress);
   yield fork(watchSetData);
   yield fork(watchGetTxFeeInfo);
   yield fork(watchSendTransactionCall);
+  yield fork(watchCallScoreExternally)
 }

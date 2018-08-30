@@ -37,7 +37,10 @@ export default {
     connectLedger: 'Connect to Ledger',
     retry: 'Retry',
     read: 'Read',
-    write: 'Write'
+    write: 'Write',
+    edit: 'Edit',
+    editComplete: 'Edit Complete',
+    delete: 'Delete'
   },
 
   error: {
@@ -77,6 +80,14 @@ export default {
     alertWalletName: 'Enter new wallet name.',
     alertWalletNameSame: 'This wallet name already exists.',
     alertAccountSame: 'This wallet account already exists.',
+
+    alertAddressName: 'Enter address name.',
+    alertAddressNameSame: 'This address name already exists.',
+    alertAddress: 'Enter address.',
+    alertAddressNotCorrect_icx: 'Incorrect icx address.',
+    alertAddressNotCorrect_eth: 'Incorrect eth address.',
+    alertAddressSame_icx:  'This icx account already exists.',
+    alertAddressSame_eth: 'This eth account already exists.',
 
     alertAddToken: 'Please select a token to add.',
     addressNotValid: 'Incorrect address. Please check again.',
@@ -480,6 +491,12 @@ export default {
     quantityTransaction: 'Transfer Amount',
     columnName: 'Wallet Name',
     columnAddress: 'Wallet Address',
+
+    addressBook: 'Address Book',
+    addressName: 'Address Name',
+    walletNamePlaceHolder: 'Enter wallet name',
+    walletAddressPlaceHolder: 'Enter wallet address',
+
   },
 
   contractList: {

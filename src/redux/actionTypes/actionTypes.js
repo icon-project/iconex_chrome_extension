@@ -177,7 +177,11 @@ const actionTypes = {
   updateLedgerWalletBalanceFulfilled: 'UPDATE_LEDGER_WALLET_BALANCE_FULFILLED',
   updateLedgerWalletBalanceRejected: 'UPDATE_LEDGER_WALLET_BALANCE_REJECTED',
   addTokenFulfilledForLedger: 'ADD_TOKEN_FULFILLED_FOR_LEDGER',
-  fetchTokenBalanceFulfilledForLedger: 'FETCH_TOKEN_BALANCE_FULFILLED_FOR_LEDGER'
+  fetchTokenBalanceFulfilledForLedger: 'FETCH_TOKEN_BALANCE_FULFILLED_FOR_LEDGER',
+
+  //addressBookActions
+  addAddressInAddressBook: 'ADD_ADDRESS_IN_ADDRESS_BOOK',
+  deleteAddressInAddressBook: 'DELETE_ADDRESS_IN_ADDRESS_BOOK'
 };
 
 export default actionTypes;

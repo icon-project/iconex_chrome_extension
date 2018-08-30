@@ -37,7 +37,10 @@ export default {
     connectLedger: 'Ledger Wallet 연결',
     retry: '재시도',
     read: '조회',
-    write: '실행'
+    write: '실행',
+    edit: '편집',
+    editComplete: '편집 완료',
+    delete: '삭제'
   },
 
   error: {
@@ -77,6 +80,15 @@ export default {
     alertWalletName: '지갑 이름을 입력해주세요.',
     alertWalletNameSame: '같은 이름의 지갑이 이미 존재합니다.',
     alertAccountSame: '같은 주소의 지갑이 이미 존재합니다.',
+
+    alertAddressName: '주소명을 입력해주세요.',
+    alertAddressNameSame: '같은 이름의 주소명이 이미 존재합니다.',
+    alertAddress: '주소를 입력해주세요.',
+    alertAddressNotCorrect_icx: '올바른 ICX 주소가 아닙니다.',
+    alertAddressNotCorrect_eth: '올바른 ETH 주소가 아닙니다.',
+    alertAddressSame_icx:  '같은 ICX 주소가 이미 존재합니다.',
+    alertAddressSame_eth: '같은 ETH 주소가 이미 존재합니다.',
+
 
     alertAddToken: '추가할 토큰을 선택해주세요.',
     addressNotValid: '주소가 올바르지 않습니다. 다시 확인해주세요.',
@@ -480,6 +492,13 @@ export default {
     quantityTransaction: '송금량',
     columnName: '지갑명',
     columnAddress: '지갑 주소',
+
+    addressBook: '주소록',
+    addressName: '주소명',
+    walletNamePlaceHolder: '주소명 입력',
+    walletAddressPlaceHolder: '지갑 주소 입력',
+
+
   },
 
   contractList: {

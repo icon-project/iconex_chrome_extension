@@ -115,7 +115,7 @@ class TxFeeAndData extends Component {
               txFeePriceHelpLayer && (
               <div className="help-layer">
                 <p className="title">{I18n[`transferPageHelperTitle3_${walletCoinType}`]}</p>
-                <p className="txt">{I18n[`transferPageHelperDesc3_${walletCoinType}`]}</p>
+                <p ref={ref => {if (ref) ref.innerHTML = I18n[`transferPageHelperDesc3_${walletCoinType}`]}} className="txt"></p>
               </div>
               )
             }
@@ -153,7 +153,7 @@ class TxFeeAndData extends Component {
               txFeePriceHelpLayer && (
               <div className="help-layer">
                 <p className="title">{I18n[`transferPageHelperTitle3_${walletCoinType}`]}</p>
-                <p className="txt">{I18n[`transferPageHelperDesc3_${walletCoinType}`]}</p>
+                <p ref={ref => {if (ref) ref.innerHTML = I18n[`transferPageHelperDesc3_${walletCoinType}`]}} className="txt"></p>
               </div>
               )
             }
@@ -161,13 +161,13 @@ class TxFeeAndData extends Component {
           {
             walletCoinType === 'icx' ? (
               <div className="controller">
-                { /* TODO 스타일 수정 필요*/ }
-								<span style={{width: 300, textAlign: 'left'}} className="a"><em>{convertNumberToText(window.web3.fromWei(txFeePrice, 'ether'), 'transaction', true)} ICX</em>({convertNumberToText(window.web3.fromWei(txFeePrice, 'gwei'), 'transaction', true)} Gloop)</span>
-						    <span className="won"><i className="_img"></i><em>{txFeePriceWithRate}</em> <em>USD</em></span>
+								<span className="a loop"><em>{convertNumberToText(window.web3.fromWei(txFeePrice, 'ether'), 'transaction', true)}</em>ICX ({convertNumberToText(window.web3.fromWei(txFeePrice, 'gwei'), 'transaction', true)} Gloop)</span>
+                <span className="won"><i className="_img"></i><em>{txFeePriceWithRate}</em> <em>USD</em></span>
     					</div>
             ) : (
               <div className="controller">
                 <span className="a"><em>{txFeePrice}</em>Gwei</span>
+
                 <button onClick={() => this.setTxFeePriceByClick(txFeePrice - 1)} className="b minus"><em className="_img"></em></button>
                 <button onClick={() => this.setTxFeePriceByClick(txFeePrice + 1)} className="b plus"><em className="_img"></em></button>
                 <span className="c">{I18n.transferPageSlow}</span>
@@ -220,7 +220,7 @@ class TxFeeAndData extends Component {
                 }
 							</span>
 							<div className="-holder">
-								<button onClick={this.toggleDataInput} className="btn-type-copy w104"><span>{I18n[`dataInput${showDataInput ? 'Close' : 'Open'}`]}</span></button>
+								<button onClick={this.toggleDataInput} className="btn-type-copy"><span>{I18n[`dataInput${showDataInput ? 'Close' : 'Open'}`]}</span></button>
 							</div>
 						</div>
           )

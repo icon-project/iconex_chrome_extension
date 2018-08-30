@@ -71,6 +71,11 @@ function trimLeftZero(str) {
     return str;
   }
 
+  // if string is a single 0 repeating character
+  if (str === '0' || (str.startsWith("0") && /^(.)\1+$/.test(str))) {
+    return str.replace(/(^0+)/, "0");
+  }
+
   if (str.startsWith("0") && str.indexOf("0.") !== -1) {
     if (str.includes(".") && /^[0]+$/.test(str.split(".")[0])) {
       return "0".concat(str.replace(/(^0+)/, ""));

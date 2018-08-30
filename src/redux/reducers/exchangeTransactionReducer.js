@@ -89,6 +89,8 @@ export function validateDataError(state) {
   let error = '';
   if (!isHex(state.data)) {
     error = 'checkData'
+  } else if (checkLength(state.data) > (512 * 1024)) {
+    error = 'dataOverLimit'
   } else {
     error = ''
   }

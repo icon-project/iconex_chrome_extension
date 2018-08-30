@@ -162,6 +162,7 @@ const actionTypes = {
   setFuncIndex: 'SET_FUNC_INDEX',
   handleFuncInputChange: 'HANDLE_FUNC_INPUT_CHANGE',
   setFuncInputError: 'SET_FUNC_INPUT_ERROR',
+  setFuncInputDataExceedError: 'SET_FUNC_INPUT_DATA_EXCEED_ERROR',
   checkContractInputError: 'CHECK_CONTRACT_INPUT_ERROR',
   executeFunc: 'EXECUTE_FUNC',
   executeFuncFulfilled: 'EXECUTE_FUNC_FULFILLED',

@@ -113,6 +113,7 @@ export default {
     transferAddressSame: 'Sending and receiving address are the same.',
 
     checkData: 'Please check your data.',
+    dataOverLimit: '데이터의 용량이 너무 큽니다.',
     enterGasPrice: 'Please enter the gas limit.',
     notEnoughBalance: 'Insufficient ICX balance for transaction fee.',
 

@@ -19,6 +19,7 @@ const funcState = {
   selectedFuncIndex: 0,
   funcInput: {},
   funcInputError: {},
+  funcInputDataExceedError: false,
   funcLoading: false,
   funcResult: []
 }
@@ -184,6 +185,10 @@ export function contractReducer(state = initialState, action) {
           [action.payload.name]: {$set: error}
         }
       });
+    case actionTypes.setFuncInputDataExceedError:
+      return Object.assign({}, state, {
+        funcInputDataExceedError: action.payload
+      })
     case actionTypes.executeFunc:
       return Object.assign({}, state, {
         funcLoading: true,

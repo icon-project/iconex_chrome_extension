@@ -158,6 +158,7 @@ function* updateLedgerWalletBalanceFunc(action) {
       isError = balance === 'error';
       yield put({
         type: AT.fetchTokenBalanceFulfilledForLedger,
+        address: selectedTokenId,
         balance: isError ? new BigNumber(0) : balance,
         isError: isError
       });
@@ -222,7 +223,7 @@ function* fetchRecentHistoryFunc(action) {
 }
 
 function* fetchTransactionHistoryFunc(action) {
-  const { walletCoinType, isPending, pendingList } = action.payload
+  const { walletCoinType, isPending, pendingList, contractAddress } = action.payload
   try {
     yield put({ type: AT.fetchTransactionHistoryLoading });
     if (walletCoinType === 'icx') {
@@ -230,7 +231,10 @@ function* fetchTransactionHistoryFunc(action) {
         let callArr = [];
         console.log(pendingList)
         for (let i = 0; i < pendingList.length; i++) {
-          callArr.push(call(CHECK_ICX_TRANSACTION_EXIST, pendingList[i]))
+          callArr.push(call(CHECK_ICX_TRANSACTION_EXIST, {
+            ...pendingList[i],
+            isToken: !!contractAddress
+          }))
         }
         let resultArr = yield all(callArr);
         console.log(resultArr)

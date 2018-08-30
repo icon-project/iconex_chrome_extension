@@ -51,8 +51,8 @@ class RecipientAddress extends Component {
 
   render() {
     const { showAlertWalletFirst } = this.state;
-    const { isLoggedIn, calcData, historyLoading, recipientAddress, recipientAddressError, I18n } = this.props;
-    const hideRecentAddressButton = isLoggedIn && calcData.walletCoinType === 'eth'
+    const { isLoggedIn, recipientAddress, recipientAddressError, I18n } = this.props;
+    //const hideRecentAddressButton = isLoggedIn && calcData.walletCoinType === 'eth'
     return (
       <div className="address-holder">
         <div className="group">
@@ -70,10 +70,10 @@ class RecipientAddress extends Component {
           <p className="error">{I18n.error[recipientAddressError]}</p>
           <div className="-holder">
             <button className="btn-type-copy" onClick={() => {this.openPopup(`address_transaction`)}}><span>{I18n.button.myAddress}</span></button>
-            {
+            {/*
               !hideRecentAddressButton && (historyLoading ? (<button disabled style={{paddingBottom: 8, paddingTop: 3, background: '#fff'}} className="btn-type-copy"><span><LoadingComponent type="black"/></span></button>)
                                                           : (<button className="btn-type-copy" onClick={() => {this.openPopup(`history_transaction`)}}><span>{I18n.button.recentTransactionAddress}</span></button>))
-            }
+            */}
           </div>
         </div>
         {

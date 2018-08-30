@@ -45,6 +45,7 @@ export function* executeFuncFunc(action) {
         inputObj: funcInputHex
       });
     } else {
+      const payableValue = yield select(state => state.exchangeTransaction.coinQuantity);
       const privKey = yield select(state => state.exchangeTransaction.privKey);
       const txFeeLimit = yield select(state => state.exchangeTransaction.txFeeLimit);
       const rawTx = makeIcxRawTx(true, {
@@ -52,7 +53,8 @@ export function* executeFuncFunc(action) {
         txFeeLimit: txFeeLimit,
         contractAddress,
         methodName: func['name'],
-        inputObj: funcInputHex
+        inputObj: funcInputHex,
+        payableValue: payableValue
       });
       const rawTxSigned = signRawTx(privKey, rawTx)
       payload = yield call(ICX_SEND_TRANSACTION, rawTxSigned);
@@ -128,7 +130,10 @@ export function* checkContractInputErrorFunc(action) {
 
 export function* handleFuncInputChangeFunc(action) {
   try {
-    yield put({type: AT.getTxFeeInfo});
+    const isLoggedIn = yield select(state => state.exchangeTransaction.isLoggedIn);
+    if (isLoggedIn) {
+      yield put({type: AT.getTxFeeInfo});
+    }
   } catch (e) {
     alert(e);
   }

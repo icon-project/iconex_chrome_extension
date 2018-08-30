@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import InputRange from 'react-input-range';
 import { nToBr, convertNumberToText, dataToHex } from 'utils';
+import BigNumber from 'bignumber.js';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -121,7 +122,7 @@ class TxFeeAndData extends Component {
 					</span>
           <ul className="change-group">
 						<li className="loop">
-							<span className="b">{convertNumberToText(txFeePrice, 'transaction', true)}<em>Loop</em></span>
+							<span className="b">{convertNumberToText(window.web3.fromWei(txFeePrice, 'ether'), 'transaction', true)}<em>ICX ({convertNumberToText(window.web3.fromWei(txFeePrice, 'gwei'), 'transaction', true)} Gloop)</em></span>
 							<span className="c"><i className="_img"></i><em>{txFeePriceWithRate}</em> <em>USD</em></span>
 						</li>
 					</ul>
@@ -160,8 +161,9 @@ class TxFeeAndData extends Component {
           {
             walletCoinType === 'icx' ? (
               <div className="controller">
-    								<span className="a"><em>{convertNumberToText(txFeePrice, 'transaction', true)}</em>Loop</span>
-    						    <span className="won"><i className="_img"></i><em>{txFeePriceWithRate}</em> <em>USD</em></span>
+                { /* TODO 스타일 수정 필요*/ }
+								<span style={{width: 300, textAlign: 'left'}} className="a"><em>{convertNumberToText(window.web3.fromWei(txFeePrice, 'ether'), 'transaction', true)} ICX</em>({convertNumberToText(window.web3.fromWei(txFeePrice, 'gwei'), 'transaction', true)} Gloop)</span>
+						    <span className="won"><i className="_img"></i><em>{txFeePriceWithRate}</em> <em>USD</em></span>
     					</div>
             ) : (
               <div className="controller">

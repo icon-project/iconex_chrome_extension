@@ -421,11 +421,11 @@ function makeIcxRawTx(isContract, data) {
       dataType: 'call',
       data: {
           "method": data.methodName,
-          "params": data.inputObj
+          "params": data.inputObj || {}
       }
     };
-    if (data.value) {
-      const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
+    if (data.payableValue) {
+      const sendAmount = window.web3.toWei(new BigNumber(data.payableValue), "ether");
       rawTx['value'] = window.web3.toHex(sendAmount)
     }
   }

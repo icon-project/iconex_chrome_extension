@@ -67,7 +67,7 @@ export default {
     currentPasscodeFail: 'Please confirm your screen lock passcode.',
     passcodeSix: 'Enter 6-digit number.',
     passcodeSame: 'Screen lock passcode does not match. Please check again.',
-    currentPasscodeSame: 'New password is the same as the previous one.',
+    currentPasscodeSame: 'New passcode is the same as the previous one.',
 
     dropzoneAttachment: 'Attach your Keystore file.',
     dropzoneFormat: 'Incorrect wallet file form.',
@@ -103,8 +103,7 @@ export default {
 
     checkData: 'Please check your data.',
     enterGasPrice: 'Please enter the gas limit.',
-    /* TODO: 번역 */
-    notEnoughBalance: '수수료 지불을 위한 ICX 잔액이 부족합니다.',
+    notEnoughBalance: 'Insufficient ICX balance for transaction fee.',
 
     alertIcxGetBalanceError: 'An error occurred while checking your balance.',
     buttonChecked: 'Please check this box if you want to proceed.',
@@ -232,7 +231,7 @@ export default {
   myPageWalletChecked: 'Selected Wallets',
   myPageSubTitle1: 'Screen Lock',
   myPageSubTitle2: 'Export Wallet Bundle',
-  myPageInfo1: 'By activating the screen lock function, a 6-digit passcode is required every time you open ICONex in a new chrome window.\nIf you forget your screen lock passcode, you can reset the password using your wallet password.',
+  myPageInfo1: 'By activating the screen lock function, a 6-digit passcode is required every time you open ICONex in a new chrome window.\nIf you forget your screen lock passcode, you can reset the passcode using your wallet password.',
   myPageInfo2: 'If you activate the screen lock, a 6-digit passcode is required every time you open your ICONex. It can protect your assets from others.',
   myPageInfo3: 'Wallet bundle backs up your wallets in one file.\nYou can easily manage different wallets at once.',
   myPageUnlock: '· Do you want to unlock?',
@@ -253,8 +252,8 @@ export default {
   transferPageLabel5_2: 'Estimated Maximum Fee',
   transferPageLabel6_1: 'Balance after transaction',
   transferPageLabel6_2: 'Estimated Balance',
-  transferPageLabel7_eth: 'Gas limit',
-  transferPageLabel7_icx: 'Step limit',
+  transferPageLabel7_eth: 'Gas Limit',
+  transferPageLabel7_icx: 'Step Limit',
   transferPageLabel8: 'Data',
   transferPageLabel9: '(Optional)',
   transferPageLabel10_eth: 'Gas Price',
@@ -283,7 +282,7 @@ export default {
   transferPageHelperDesc1_icx: '',
   transferPageHelperTitle2_icx: 'Step limit is the amount of step to send with your transaction.',
   transferPageHelperDesc2_icx: 'Unnecessary step is refunded to you at the end of transaction. In other words, you can set the maximum amount of step but the actual step consumption is not fixed.',
-  transferPageHelperTitle3_icx: '1 loop equals 0.000000000000000001 ICX',
+  transferPageHelperTitle3_icx: 'Step price is an unit of step. 1 Gloop equals 0.000000001 ICX.',
   transferPageHelperDesc3_icx: '',
   transferPageHelperTitle4_icx: 'If you do not enter the data when required, the transaction will fail.',
   transferPageHelperDesc4_icx: "You will still have to pay the transaction fees. You don't have to enter data if it is not required in the transaction.",
@@ -293,7 +292,7 @@ export default {
 
   contractReadPage: 'Read / Write Contract',
   contractReadPageAddressInputPlaceHolder: 'Enter contract address',
-  contractAbiPlaceHolder: 'Enter contract address to auto fill this field',
+  contractAbiPlaceHolder: 'Enter contract address to auto-fill this field',
 
   checkPassword: {
     title: 'Confirm wallet password.',
@@ -311,8 +310,9 @@ export default {
 
     desc1: 'Which coin would you like to add?',
     leftInfoTitle1_1: 'Select a wallet between ICX wallet and ETH wallet.',
-    leftInfoDesc1_1: '· You can add ERC20 tokens using Ethereum wallet menu.',
-    leftInfoDesc1_2: '· Wallets for other coins will be added later.',
+    leftInfoDesc1_1: '· You can add IRC tokens using ICON wallet menu.',
+    leftInfoDesc1_2: '· You can add ERC20 tokens using Ethereum wallet menu.',
+    leftInfoDesc1_3: '· Wallets for other coins will be added later.',
 
     desc2: 'Enter a wallet name and a password.',
     leftInfoTitle2_1: 'Set a strong and secure password you can remember. You are responsible for keeping your password safe.',
@@ -543,7 +543,7 @@ export default {
     offline: 'There is no internet connection',
     titleInfo: 'Check the amount and the receiving address once again.',
     quantity: 'Amount',
-    txFeeIcx: 'Fee',
+    txFeeIcx: 'Max Fee',
     txFeeEth: 'Max Fee',
     address: 'Address',
 
@@ -646,7 +646,7 @@ export default {
     swapQuantity: 'Swap Amount',
     inputPlaceholder: 'Enter swap amount',
     allCheckBtn: 'Total',
-    gasLimit: 'Gas limit',
+    gasLimit: 'Gas Limit',
     gasPrice: 'Gas Price',
     expectedMaximumFee: 'Estimated Maximum Fee',
     expectedBalacne: 'Estimated Balance',

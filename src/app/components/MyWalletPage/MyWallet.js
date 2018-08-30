@@ -122,28 +122,30 @@ class MyWallet extends Component {
   }
 
   setTokenDataSortedByCoin = (wallet, token, tokenBalanceWithRate, dataSortedByCoin) => {
+    const contractAddress = token.address
     const symbol = token.defaultSymbol
     const name = token.defaultName
     const defaultBalance = customValueToTokenValue(token.balance, token.defaultDecimals, token.decimals);
 
-    if(!dataSortedByCoin['token'].hasOwnProperty(symbol)) {
-      dataSortedByCoin['token'][symbol] = {
+    if(!dataSortedByCoin['token'].hasOwnProperty(contractAddress)) {
+      dataSortedByCoin['token'][contractAddress] = {
         data: [],
         walletSectionName: name,
         walletSectionBalance: 0,
         walletSectionBalanceWithRate: 0,
         createdAt: 0,
         coinType: symbol,
-        name: name
+        name: name,
+        walletCoinType: wallet.type,
       };
     }
 
-    dataSortedByCoin['token'][symbol].data.push({
+    dataSortedByCoin['token'][contractAddress].data.push({
       name: wallet.name,
-      //index: v,
       account: wallet.account,
       balance: defaultBalance,
       balanceLoading: token.balanceLoading,
+      walletBalance: wallet.balance,
       isError: token.isError,
       tokenId: token.address,
       symbol: symbol,
@@ -153,15 +155,15 @@ class MyWallet extends Component {
       recent: token.recent,
     });
 
-    dataSortedByCoin["token"][symbol].walletSectionBalance += defaultBalance.toNumber();
+    dataSortedByCoin["token"][contractAddress].walletSectionBalance += defaultBalance.toNumber();
 
     if (tokenBalanceWithRate !== null) {
-      dataSortedByCoin["token"][symbol].walletSectionBalanceWithRate += tokenBalanceWithRate
+      dataSortedByCoin["token"][contractAddress].walletSectionBalanceWithRate += tokenBalanceWithRate
     } else {
-      dataSortedByCoin["token"][symbol].walletSectionBalanceWithRate = null
+      dataSortedByCoin["token"][contractAddress].walletSectionBalanceWithRate = null
     }
-    if (dataSortedByCoin["token"][symbol].createdAt < token.createdAt) {
-      dataSortedByCoin["token"][symbol].createdAt = token.createdAt
+    if (dataSortedByCoin["token"][contractAddress].createdAt < token.createdAt) {
+      dataSortedByCoin["token"][contractAddress].createdAt = token.createdAt
     }
 
     return dataSortedByCoin

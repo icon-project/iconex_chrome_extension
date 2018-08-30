@@ -30,20 +30,12 @@ class AddressTable extends Component {
 
     const {
       I18n,
-      currentWallet,
       selectedTokenId,
       listArr,
       type
     } = this.props
 
     const quantityTitle = this.getQuantityTitle()
-    const unitSymbol = type !== 'contractList'
-                          ? (
-                              selectedTokenId
-                                ? currentWallet.tokens[selectedTokenId].defaultSymbol
-                                : currentWallet.type
-                            )
-                          : ''
     return (
       <div className="scroll-holder">
 				<div className="tabbox-holder">
@@ -103,7 +95,7 @@ class AddressTable extends Component {
                       const number = l.balance || l.quantity || l.amount
                       const account = l.to || l.address || l.account || l.toAddr
                       const name = l.name || (this.props.wallets[account] && this.props.wallets[account]['name']) || '-'
-                      const unit = unitSymbol.toUpperCase()
+                      const unit = selectedTokenId ? l.unit : l.type
                       return (
                         <tr key={i}>
                           <td>{name}</td>

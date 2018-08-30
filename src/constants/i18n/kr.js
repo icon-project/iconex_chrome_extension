@@ -114,8 +114,8 @@ export default {
 
     noBalance: '잔액이 부족합니다.',
 
-    contractAddressEmpty: '컨트렉트 주소를 입력해주세요.',
-    contractAddressConfirm: '컨트렉트 주소를 확인해주세요.',
+    contractAddressEmpty: '컨트랙트 주소를 입력해주세요.',
+    contractAddressConfirm: '컨트랙트 주소를 확인해주세요.',
 
     strEnter: '“str“ 값을 입력해주세요.',
     AddressEnter: '주소를 입력해주세요',
@@ -282,7 +282,7 @@ export default {
   transferPageHelperDesc1_icx: '',
   transferPageHelperTitle2_icx: '스텝 한도는 Transaction 실행에 지불할 용의가 있는 스텝의 최대량을 의미합니다.',
   transferPageHelperDesc2_icx: '스텝 한도를 아주 높게 설정하더라도 Transaction에 필요한 만큼의 스텝만 소진합니다. 즉, 스텝 한도는 최대치만 설정 가능하며 실제 소진되는 스텝량은 유동적입니다.',
-  transferPageHelperTitle3_icx: '1 loop = 0.000000000000000001 ICX 로 고정되어 있습니다.',
+  transferPageHelperTitle3_icx: '스텝 가격은 단위가 1 Gloop = 0.000000001 로 고정되어 있습니다.',
   transferPageHelperDesc3_icx: '',
   transferPageHelperTitle4_icx: '수신자로부터 Data 입력을 요청 받지 않은 경우에는 입력하지 않고 송금할 수 있습니다.',
   transferPageHelperDesc4_icx: 'Data를 입력해야만 거래가 실행되도록 설계되어 있는 경우, Data를 입력하지 않으면\n송금이 불가하며 수수료만 차감될 수 있습니다.',
@@ -310,8 +310,9 @@ export default {
 
     desc1: '어떤 코인을 추가하시겠습니까?',
     leftInfoTitle1_1: '선택한 코인의 지갑이 생성됩니다.',
-    leftInfoDesc1_1: '· 이더리움 지갑 메뉴를 이용하여 ERC20 토큰을 추가하실 수 있습니다.',
-    leftInfoDesc1_2: '· 추가할 수 있는 코인 종류는 늘어날 예정입니다.',
+    leftInfoDesc1_1: '· 아이콘 지갑 메뉴를 이용하여 IRC 토큰을 추가하실 수 있습니다.',
+    leftInfoDesc1_2: '· 이더리움 지갑 메뉴를 이용하여 ERC20 토큰을 추가하실 수 있습니다.',
+    leftInfoDesc1_3: '· 추가할 수 있는 코인 종류는 늘어날 예정입니다.',
 
     desc2: '새 지갑의 이름과 비밀번호를 입력해주세요.',
     leftInfoTitle2_1: '비밀번호는 강력하고 본인이 확실하게 기억할 수 있는 비밀번호로 설정하세요.',
@@ -482,9 +483,9 @@ export default {
   },
 
   contractList: {
-    contractList: '컨트렉트 목록',
-    contractName: '컨트렉트명',
-    contractAddress: '컨트렉트 주소'
+    contractList: '컨트랙트 목록',
+    contractName: '컨트랙트명',
+    contractAddress: '컨트랙트 주소'
   },
 
   unlockPopup: {
@@ -541,7 +542,7 @@ export default {
     infoSuccess: '송금 요청이 완료되었습니다.',
     offline: '인터넷이 연결되어 있지 않습니다.',
     titleInfo: '수량과 주소를 한번 더 확인해 주세요.',
-    txFeeIcx: '수수료',
+    txFeeIcx: '예상 최대 수수료',
     txFeeEth: '예상 최대 수수료',
     quantity: '송금 수량',
     address: '받는 주소',

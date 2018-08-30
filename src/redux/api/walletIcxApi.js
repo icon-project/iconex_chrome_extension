@@ -83,7 +83,6 @@ export function icx_sendTokenApi(privKey, data) {
         "_value": window.web3.toHex(sendAmount)
       }
     })
-    delete newData.value;
     const rawTx = makeIcxRawTx(true, newData);
     console.log(rawTx)
     const rawTxSigned = signRawTx(privKey, rawTx)
@@ -154,7 +153,6 @@ export function icx_checkIcxTransactionExist(data) {
 
   return new Promise(resolve => {
     if (moment() > moment(data.time).add(10, 'minutes')) {
-      console.log('here')
       resolve('')
     }
     if (IS_V3) {
@@ -166,24 +164,30 @@ export function icx_checkIcxTransactionExist(data) {
       }
       walletApi.post('/api/v3', JSON.stringify(param))
         .then(res => {
-          // success
           console.log(res)
-          if (res.data.result.status === "0x1") {
-            resolve('');
-          // failure
-          } else if (res.data.result.status === "0x0") {
-            resolve(Object.assign({}, data, {
-              isFail: true
-            }));
+          if (data.isToken) {
+            if (res.data.result.status === "0x1") {
+              resolve('');
+            } else if (res.data.result.status === "0x0") {
+              resolve({
+                ...data,
+                isFail: true
+              });
+            } else {
+              resolve(data);
+            }
           } else {
-            resolve(data);
+            if (res.data.result.status === "0x1" || res.data.result.status === "0x0") {
+              resolve('');
+            } else {
+              resolve(data);
+            }
           }
         })
         .catch(error => {
           if (!data['txid']) {
             resolve('');
           } else {
-            console.log('maybe')
             resolve(data);
           }
         })
@@ -374,7 +378,7 @@ export function icx_getTxFeeInfoApi(data) {
           methodName: 'getStepCosts'
         });
         return {
-          txFeePriceStep: stepPrice[0],
+          txFeePriceStep: new BigNumber(stepPrice[0]),
           txFeeLimitTable: stepLimitTable[0]
         }
       } catch (error) {

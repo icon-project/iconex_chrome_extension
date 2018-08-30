@@ -295,7 +295,7 @@ export default {
   transferPageHelperTitle2_icx: 'Step limit is the amount of step to send with your transaction.',
   transferPageHelperDesc2_icx: 'Unnecessary step is refunded to you at the end of transaction. In other words, you can set the maximum amount of step but the actual step consumption is not fixed.',
   transferPageHelperTitle3_icx: 'Step price is the amount you pay per unit of step.',
-  transferPageHelperDesc3_icx: 'Step price is paid in loop and 1 loop is fixed to 0.000000000000000001(10-18) ICX. ICON transaction fee is imposed according to various factors such as the number of smart contract usage, the amount of blockchain database used and the size of transaction data, etc.',
+  transferPageHelperDesc3_icx: 'Step price is paid in loop and 1 loop is fixed to 0.000000000000000001(10<sup>-18</sup>) ICX. ICON transaction fee is imposed according to various factors such as the number of smart contract usage, the amount of blockchain database used and the size of transaction data, etc.',
   transferPageHelperTitle4_icx: 'If you do not enter the data when required, the transaction will fail.',
   transferPageHelperDesc4_icx: "You will still have to pay the transaction fees. You don't have to enter data if it is not required in the transaction.",
 

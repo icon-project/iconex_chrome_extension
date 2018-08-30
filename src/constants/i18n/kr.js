@@ -296,7 +296,7 @@ export default {
   transferPageHelperTitle2_icx: '스텝 한도는 Transaction 실행에 지불할 용의가 있는 스텝의 최대량을 의미합니다.',
   transferPageHelperDesc2_icx: '스텝 한도를 아주 높게 설정하더라도 Transaction에 필요한 만큼의 스텝만 소진합니다. 즉, 스텝 한도는 최대치만 설정 가능하며 실제 소진되는 스텝량은 유동적입니다.',
   transferPageHelperTitle3_icx: 'Step 한 단위당 지불하는 가격입니다.',
-  transferPageHelperDesc3_icx: 'Step 가격은 loop로 지불하며 1 loop는 0.000000000000000001(10-18) ICX로 고정되어 있습니다. ICON 거래 수수료는 스마트 컨트랙트 기능 사용 횟수, 블록체인 데이터베이스 사용량, 거래 데이터 크기 등에 따라 부과됩니다.',
+  transferPageHelperDesc3_icx: 'Step 가격은 loop로 지불하며 1 loop는 0.000000000000000001(10<sup>-18</sup>) ICX로 고정되어 있습니다. ICON 거래 수수료는 스마트 컨트랙트 기능 사용 횟수, 블록체인 데이터베이스 사용량, 거래 데이터 크기 등에 따라 부과됩니다.',
   transferPageHelperTitle4_icx: '수신자로부터 Data 입력을 요청 받지 않은 경우에는 입력하지 않고 송금할 수 있습니다.',
   transferPageHelperDesc4_icx: 'Data를 입력해야만 거래가 실행되도록 설계되어 있는 경우, Data를 입력하지 않으면\n송금이 불가하며 수수료만 차감될 수 있습니다.',
 

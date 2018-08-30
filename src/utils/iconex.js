@@ -107,7 +107,7 @@ function parseError(errorObj, coinType) {
       return errorObj.message
     }
     case (errorObj.hasOwnProperty('code') && errorObj.hasOwnProperty('message')) : {
-      return coinType === 'icx' ? errorObj.code : errorObj.message
+      return errorObj.message
     }
     default:
       return ''

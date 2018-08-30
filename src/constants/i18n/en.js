@@ -565,7 +565,7 @@ export default {
     txFeeEth: 'Max Fee',
     address: 'Address',
 
-    icxFailure: 'ICX transaction has been cancelled.',
+    icxFailure: 'An error occurred while sending transaction.',
     infoFailure: 'Your transaction has been canceled.<br/>Please try again with a higher gas price.',
     knownFailure: 'Your transaction has been canceled.<br/>The transaction is being processed.',
     anotherFailure: 'Your transaction has been canceled.<br/>Another transaction is being processed.',

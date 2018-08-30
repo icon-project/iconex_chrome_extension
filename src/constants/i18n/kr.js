@@ -567,7 +567,7 @@ export default {
     quantity: '송금 수량',
     address: '받는 주소',
 
-    icxFailure: 'ICX 송금을 실패하였습니다.',
+    icxFailure: '오류로 인해 트랜잭션이 실패하였습니다.',
     infoFailure: '송금이 취소되었습니다.<br/>가스 가격을 높게 설정하여<br/>다시 한번 시도해 주세요.',
     knownFailure: '송금이 취소되었습니다.<br/>동일 내역의 송금이 이미 진행 중입니다.',
     anotherFailure: '송금이 취소되었습니다.<br/>다른 내역의 송금이 진행 중입니다.',

@@ -4,7 +4,7 @@ import { routeConstants as ROUTE } from 'constants/index';
 import { withRouter } from 'react-router-dom';
 
 import { txidUrl as TXID_URL } from 'constants/config.js'
-import { check0xPrefix } from 'utils';
+import { check0xPrefix, nToBr } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -130,38 +130,22 @@ class SendTransaction3 extends Component {
   }
 
   getErrorText = () => {
-    const { I18n, error, selectedWallet} = this.props;
+    const { I18n, pageType, sendTransactionError, contractError, selectedWallet} = this.props;
     const { type } = selectedWallet
+    const error = pageType === 'contract' ? contractError : sendTransactionError
 
     if (!navigator.onLine) {
       return I18n.sendTransaction.internetFailure
     }
 
     if (type === 'icx') {
-      switch (error) {
-        case -32700:
-          return 'Invalid JSON was received by the server. An error occurred on the server while parsing the JSON text.'
-
-        case -32600:
-          return 'The JSON sent is not a valid Request object.'
-
-        case -32601:
-          return 'The method does not exist / is not available.'
-
-        case -32602:
-          return 'Invalid method parameter(s).'
-
-        case -32603:
-          return 'Internal JSON-RPC error.'
-
-        case -32000:
-          return 'IconServiceEngine 내부에서 발생하는 오류'
-
-        case -32100:
-          return 'Score 내부에서 발생하는 오류'
-
-        default:
-          return I18n.sendTransaction.icxFailure
+      if (pageType === 'contract') {
+        return error
+      } else {
+        if (error.indexOf('Step limit too low') !== -1) {
+          return I18n.sendTransaction.gasFailure
+        }
+        return error
       }
     } else {
       if (error.indexOf('known transaction') !== -1) {
@@ -187,7 +171,7 @@ class SendTransaction3 extends Component {
   }
 
   getText = () => {
-    const { I18n, isLedger } = this.props;
+    const { I18n } = this.props;
 
     switch(this.props.pageType) {
       case 'swap': {
@@ -252,26 +236,49 @@ class SendTransaction3 extends Component {
     }
   }
 
+  renderErrorPageTypeSwitch = () => {
+    const { I18n, pageType } = this.props;
+    if (pageType === 'contract') {
+      return (
+        <div className="popup-wrap contract">
+          <div className="dimmed"></div>
+          <div className="popup complete">
+            <p className="txt_box">{I18n.sendTransaction.icxFailure}</p>
+            <div className="scroll-holder">
+              <div className="scroll">
+                <p className="errorMsg">{nToBr(this.getErrorText())}</p>
+              </div>
+            </div>
+            <div className="btn-holder">
+              <button onClick={this.closePopup} className="btn-type-fill size-full"><span>{I18n.button.close}</span></button>
+            </div>
+          </div>
+        </div>
+      )
+    } else {
+      return (
+        <div className="popup-wrap home">
+          <SmallPopup
+            handleCancel={this.closePopup}
+            text={this.getErrorText()}
+            cancelText={I18n.button.close}
+          />
+        </div>
+      )
+    }
+  }
+
   render() {
     const {
       isSuccess
     } = this.state;
 
-    const { I18n } = this.props;
     return (
       <div>
         {
           isSuccess
             ? this.renderPageTypeSwitch()
-            : (
-              <div className="popup-wrap home">
-                <SmallPopup
-                  handleCancel={this.closePopup}
-                  text={this.getErrorText()}
-                  cancelText={I18n.button.close}
-                />
-              </div>
-            )
+            : this.renderErrorPageTypeSwitch()
         }
       </div>
     );

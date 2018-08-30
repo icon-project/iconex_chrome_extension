@@ -1,5 +1,5 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
-import { isIcxContractAddress, isIcxWalletAddress, isEmpty, isHex } from 'utils'
+import { isIcxContractAddress, parseError, isIcxWalletAddress, isEmpty, isHex } from 'utils'
 import BigNumber from 'bignumber.js';
 import update from 'react-addons-update';
 import { store } from 'redux/store/store';
@@ -192,23 +192,27 @@ export function contractReducer(state = initialState, action) {
     case actionTypes.executeFunc:
       return Object.assign({}, state, {
         funcLoading: true,
-        funcResult: []
+        funcResult: [],
+        error: ''
       })
     case actionTypes.executeFuncFulfilled:
       return Object.assign({}, state, {
         funcLoading: false,
-        funcResult: action.payload
+        funcResult: action.payload,
+        error: ''
       })
     case actionTypes.executeFuncRejected:
       return Object.assign({}, state, {
         funcLoading: false,
-        funcResult: []
+        funcResult: [],
+        error: parseError(action.errorMsg, 'icx')
       })
     case actionTypes.resetContractInputOutput:
       return Object.assign({}, state, {
         funcInput: initializeFuncInput(state.funcList[state.selectedFuncIndex]),
         funcInputError: initializeFuncInputError(state.funcList[state.selectedFuncIndex]),
-        funcResult: []
+        funcResult: [],
+        error: ''
       })
     case actionTypes.resetContractPageReducer:
       return Object.assign({}, initialState);

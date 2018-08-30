@@ -291,33 +291,20 @@ export function exchangeTransactionReducer(state = initialState, action) {
           submit: submit
         })
       } else {
-        if (state.walletCoinType === 'icx') {
-          const coinQuantityError = validateCoinQuantityError(state);
-          const recipientAddressError = validateRecipientAddressError(state);
-          if (!coinQuantityError && !recipientAddressError) {
-            submit = true;
-          }
-          return Object.assign({}, state, {
-            coinQuantityError: coinQuantityError,
-            recipientAddressError: recipientAddressError,
-            submit: submit
-          })
-        } else {
-          const coinQuantityError = validateCoinQuantityError(state);
-          const recipientAddressError = validateRecipientAddressError(state);
-          const txFeeLimitError = validateTxFeeLimitError(state);
-          const dataError = validateDataError(state);
-          if (!coinQuantityError && !recipientAddressError && !dataError && !txFeeLimitError) {
-            submit = true;
-          }
-          return Object.assign({}, state, {
-            coinQuantityError: coinQuantityError,
-            recipientAddressError: recipientAddressError,
-            txFeeLimitError: txFeeLimitError,
-            dataError: dataError,
-            submit: submit
-          })
+        const coinQuantityError = validateCoinQuantityError(state);
+        const recipientAddressError = validateRecipientAddressError(state);
+        const txFeeLimitError = validateTxFeeLimitError(state);
+        const dataError = validateDataError(state);
+        if (!coinQuantityError && !recipientAddressError && !dataError && !txFeeLimitError) {
+          submit = true;
         }
+        return Object.assign({}, state, {
+          coinQuantityError: coinQuantityError,
+          recipientAddressError: recipientAddressError,
+          txFeeLimitError: txFeeLimitError,
+          dataError: dataError,
+          submit: submit
+        })
       }
     case actionTypes.sendCall:
       return Object.assign({}, state, {

@@ -36,8 +36,7 @@ class MyWallet extends Component {
         }
         else {
           const sendData = Object.assign({}, transaction, {
-            gasLimit: '10000',
-            gasPrice: '1000',
+            txFeeLimit: '4000',
             coinType: 'icx'
           });
           this.props.sendCall(m.data, sendData);

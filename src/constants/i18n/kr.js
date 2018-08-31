@@ -89,6 +89,7 @@ export default {
     alertAddressSame_icx:  '같은 ICX 주소가 이미 존재합니다.',
     alertAddressSame_eth: '같은 ETH 주소가 이미 존재합니다.',
 
+    noAddress: '등록된 주소가 없습니다.',
 
     alertAddToken: '추가할 토큰을 선택해주세요.',
     addressNotValid: '주소가 올바르지 않습니다. 다시 확인해주세요.',
@@ -114,7 +115,7 @@ export default {
     transferAddressSame: '보내는 주소와 받는 주소가 동일합니다.',
 
     checkData: '데이터를 다시 확인해주세요.',
-    dataOverLimit: '데이터의 용량이 너무 큽니다.',
+    dataOverLimit: '입력 한도 512KB를 초과합니다.',
     enterGasPrice: '가스 한도를 입력해주세요.',
     notEnoughBalance: '수수료 지불을 위한 ICX 잔액이 부족합니다.',
 

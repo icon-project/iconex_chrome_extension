@@ -39,7 +39,7 @@ export default {
     read: 'Read',
     write: 'Write',
     edit: 'Edit',
-    editComplete: 'Edit Complete',
+    editComplete: 'Complete',
     delete: 'Delete'
   },
 
@@ -89,6 +89,8 @@ export default {
     alertAddressSame_icx:  'This icx account already exists.',
     alertAddressSame_eth: 'This eth account already exists.',
 
+    noAddress: 'No registered address.',
+
     alertAddToken: 'Please select a token to add.',
     addressNotValid: 'Incorrect address. Please check again.',
     addressEnter: 'Enter transaction address.',
@@ -113,7 +115,7 @@ export default {
     transferAddressSame: 'Sending and receiving address are the same.',
 
     checkData: 'Please check your data.',
-    dataOverLimit: '데이터의 용량이 너무 큽니다.',
+    dataOverLimit: 'This exceeds input limit 512KB.',
     enterGasPrice: 'Please enter the gas limit.',
     notEnoughBalance: 'Insufficient ICX balance for transaction fee.',
 

@@ -197,39 +197,51 @@ class AddressTable extends Component {
 						</table>
 					</div>
 					<div className="table-holder scroll">
-            <table className={tableTypeClass}>
-              <thead>
-                <TableHead
-                  quantityTitle={quantityTitle}
-                  {...this.props}
-                   />
-              </thead>
-              <tbody>
-                { type === 'addressBook' && isEditMode && (
-                  <TableAddSection
-                    {...this.props}
-                    {...this.state}
-                    handleChangeInput={this.handleChangeInput}
-                    handleAddAddress={this.handleAddAddress}
-                    handleBlurInput={this.handleBlurInput}
-                    />
-                )}
-                {
-                  listArr.map((l, i) => {
-                    return (
-                      <TableBodyBar
-                        item={l}
-                        key={i}
-                        index={i}
-                        setAddress={(address) => this.setAddress(address)}
-                        deleteAddress={(index) => this.deleteAddress(index)}
-                        {...this.props}
-                        {...this.state} />
-                    )
-                  })
-                }
-              </tbody>
-            </table>
+            {
+              listArr.length > 0 || isEditMode
+                ? (
+                    <table className={tableTypeClass}>
+                      <thead>
+                        <TableHead
+                          quantityTitle={quantityTitle}
+                          {...this.props}
+                           />
+                      </thead>
+                      <tbody>
+                        { type === 'addressBook' && isEditMode && (
+                          <TableAddSection
+                            {...this.props}
+                            {...this.state}
+                            handleChangeInput={this.handleChangeInput}
+                            handleAddAddress={this.handleAddAddress}
+                            handleBlurInput={this.handleBlurInput}
+                            />
+                        )}
+                        {
+                          listArr.map((l, i) => {
+                            return (
+                              <TableBodyBar
+                                item={l}
+                                key={i}
+                                index={i}
+                                setAddress={(address) => this.setAddress(address)}
+                                deleteAddress={(index) => this.deleteAddress(index)}
+                                {...this.props}
+                                {...this.state} />
+                            )
+                          })
+                        }
+                      </tbody>
+                    </table>
+                  )
+                : (
+                    <div style={{
+                      textAlign: 'center',
+                      position: 'relative',
+                      paddingTop: '146px'
+                    }}>{I18n.error.noAddress}</div>
+                  )
+            }
 					</div>
           {
             type === 'addressBook' && (
@@ -292,7 +304,7 @@ const TableBodyBar = ({ I18n, index, wallets, type, item, selectedTokenId, setAd
         <td><span className="ellipsis">{item.address}</span></td>
         {
           !isEditMode ? (<td><button className="btn-type-choice" onClick={()=>{setAddress(item.address)}}><span>{I18n.button.select}</span></button></td>)
-                     : (<td><button className="btn-type-del" onClick={()=>{deleteAddress(index)}}><span>{I18n.button.delete}</span></button></td>)
+                      : (<td><button className="btn-type-del" onClick={()=>{deleteAddress(index)}}><span>{I18n.button.delete}</span></button></td>)
         }
 
       </tr>

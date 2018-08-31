@@ -4,6 +4,7 @@ import WalletBar from './WalletBar'
 import { makeWalletArray, openApp, isEmpty } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 import Worker from 'workers/wallet.worker.js';
+import queryString from 'query-string'
 
 const INIT_STATE = {
   tab: 'icx',
@@ -35,8 +36,9 @@ class MyWallet extends Component {
           this.props.callScoreExternally({privKey:m.data, param:score.param})
         }
         else {
+          const { stepLimit } = transaction
           const sendData = Object.assign({}, transaction, {
-            txFeeLimit: '4000',
+            txFeeLimit: stepLimit || '4000',
             coinType: 'icx'
           });
           this.props.sendCall(m.data, sendData);
@@ -72,8 +74,16 @@ class MyWallet extends Component {
 
     if (this.props.txLoading !== nextProps.txLoading && !nextProps.txLoading) {
       window.chrome.tabs.query({ active: true }, (tabs) => {
-        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_TRANSACTION', payload: this.props.tx });
-        this.clearPopup()
+        const message = queryString.parse(window.location.search)
+        const { type } = message
+        if (type === 'REQUEST_SCORE') {
+          window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_SCORE', payload: this.props.tx });
+          this.clearPopup()
+        }
+        else {
+          window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_TRANSACTION', payload: this.props.tx });
+          this.clearPopup()
+        }
       });
     }
 
@@ -137,10 +147,20 @@ class MyWallet extends Component {
   }
 
   onCancelClick = () => {
-    window.chrome.tabs.query({ active: true }, (tabs) => {
-      window.chrome.tabs.sendMessage(tabs[0].id, { type: `CANCEL_${this.isScore() ? 'SCORE' : 'TRANSACTION'}`});
-      this.clearPopup()
-    });
+    const message = queryString.parse(window.location.search)
+    const { type } = message
+    if (type === 'REQUEST_SCORE') {
+      window.chrome.tabs.query({ active: true }, (tabs) => {
+        window.chrome.tabs.sendMessage(tabs[0].id, { type: `CANCEL_SCORE`});
+        this.clearPopup()
+      });
+    }
+    else {
+      window.chrome.tabs.query({ active: true }, (tabs) => {
+        window.chrome.tabs.sendMessage(tabs[0].id, { type: `CANCEL_TRANSACTION`});
+        this.clearPopup()
+      });
+    }
   }
 
   onConfirmClick = () => {

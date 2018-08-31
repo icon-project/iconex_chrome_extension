@@ -15,6 +15,7 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 		portFrom.onMessage.addListener(async (message) => {
 			const { type } = message
 			const popupId = notificationManager.getPopupId()
+			let payload
 			switch (type) {
 				case 'REQUEST_ADDRESS':
 					if (popupId) window.chrome.extension.sendMessage({ type })
@@ -22,14 +23,15 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 					break;
 
 				case 'REQUEST_TRANSACTION':
-					let { payload } = message
+					payload = message.payload
 					if (popupId) window.chrome.extension.sendMessage({ type, payload })
 					else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
 					break;
-					
+
 				case 'REQUEST_SCORE':
 					payload = message.payload
-					switch (payload.method) {
+					const { param } = payload
+					switch (param.method) {
 						case 'icx_sendTransaction':
 							if (popupId) window.chrome.extension.sendMessage({ type, payload })
 							else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
@@ -37,7 +39,7 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 						case 'icx_getScoreApi':
 						case 'icx_call':
 						default:
-							const result = await icx_callScoreExternally(message.payload.param)
+							const result = await icx_callScoreExternally(param)
 							const { id } = portFrom.sender.tab
 							window.chrome.tabs.sendMessage(id, { type: 'RESPONSE_SCORE', payload: result });
 					}

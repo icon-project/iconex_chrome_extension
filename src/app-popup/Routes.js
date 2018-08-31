@@ -58,6 +58,8 @@ class Routes extends Component {
 
   listenerHandler(message) {
     const { type } = message
+    let { payload } = message
+    payload = typeof payload === 'string' ? JSON.parse(payload) : payload
     switch (type) {
       case 'SET_LOCK_STATE':
         this.props.setLockState(message.payload);
@@ -67,14 +69,14 @@ class Routes extends Component {
         this.props.setTransactionStatus()
         break;
       case 'REQUEST_TRANSACTION':
-        let { payload } = message
-        this.props.setTransactionStatus(typeof payload === 'string' ? JSON.parse(payload) : payload)
+        this.props.setTransactionStatus(payload)
         break;
       case 'REQUEST_SCORE':
-        payload = message.payload
-        console.log(payload, typeof payload)
-        this.props.setScoreData(typeof payload === 'string' ? JSON.parse(payload) : payload)
-        break;  
+        const { param } = payload
+        if (param.method === 'icx_sendTransaction') {
+          this.props.setTransactionStatus(param.params)
+        }
+        break;
       case 'CHECK_POPUP_LOCK_STATE_FULFILLED':
         this.props.setLockState(message.payload);
         // if locked

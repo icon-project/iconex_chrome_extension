@@ -75,7 +75,8 @@ class SendTransaction extends Component {
       data: data,
       txFeeLimit: txFeeLimit,
       txFeePrice: txFeePrice,
-      coinType: selectedWallet.type
+      coinType: selectedWallet.type,
+      isLedger: isLedger
     }
 
     if (isToken) {

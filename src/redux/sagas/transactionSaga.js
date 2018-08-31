@@ -181,7 +181,7 @@ export function* sendTransactionCallFunc(action) {
   try {
     let response;
     if (action.isLedger) {
-      response = yield call(ICX_SEND_TRANSACTION, action.data);
+      response = yield call(ICX_SEND_TRANSACTION, action.data, action.isLedger);
       yield put({type: AT.sendCallFulfilled, payload: response});
     } else {
       if (!action.data.contractAddress) {

@@ -300,8 +300,8 @@ export function icx_call({
   });
 }
 
-export function icx_sendTransaction(rawTx) {
-  if (IS_V3) {
+export function icx_sendTransaction(rawTx, isLedger = false) {
+  if (IS_V3 && !isLedger) {
     return new Promise((resolve, reject) => {
       let param = {
         jsonrpc:"2.0",

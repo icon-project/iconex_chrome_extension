@@ -74,16 +74,8 @@ class MyWallet extends Component {
 
     if (this.props.txLoading !== nextProps.txLoading && !nextProps.txLoading) {
       window.chrome.tabs.query({ active: true }, (tabs) => {
-        const message = queryString.parse(window.location.search)
-        const { type } = message
-        if (type === 'REQUEST_SCORE') {
-          window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_SCORE', payload: this.props.tx });
-          this.clearPopup()
-        }
-        else {
-          window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_TRANSACTION', payload: this.props.tx });
-          this.clearPopup()
-        }
+        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_TRANSACTION', payload: this.props.tx });
+        this.clearPopup()
       });
     }
 
@@ -147,20 +139,12 @@ class MyWallet extends Component {
   }
 
   onCancelClick = () => {
-    const message = queryString.parse(window.location.search)
-    const { type } = message
-    if (type === 'REQUEST_SCORE') {
-      window.chrome.tabs.query({ active: true }, (tabs) => {
-        window.chrome.tabs.sendMessage(tabs[0].id, { type: `CANCEL_SCORE`});
-        this.clearPopup()
-      });
-    }
-    else {
-      window.chrome.tabs.query({ active: true }, (tabs) => {
-        window.chrome.tabs.sendMessage(tabs[0].id, { type: `CANCEL_TRANSACTION`});
-        this.clearPopup()
-      });
-    }
+    const _isScore = this.isScore()
+    const type = `CANCEL_${_isScore ? 'SCORE' : 'TRANSACTION'}`
+    window.chrome.tabs.query({ active: true }, (tabs) => {
+      window.chrome.tabs.sendMessage(tabs[0].id, { type });
+      this.clearPopup()
+    });
   }
 
   onConfirmClick = () => {

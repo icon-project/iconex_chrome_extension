@@ -48,7 +48,7 @@ export const ICX_WALLET_SERVER = () => {
   const obj = {
     'test': 'https://testwallet.icon.foundation',
     'main': 'https://wallet.icon.foundation',
-    'dev': 'http://52.79.233.89:9000',
+    'dev': 'http://13.209.103.183:9000',
     'custom': getCustomIcxServer().customWalletURL
   }
   return obj[icxServer];

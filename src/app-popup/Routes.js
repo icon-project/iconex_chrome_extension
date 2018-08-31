@@ -74,7 +74,7 @@ class Routes extends Component {
       case 'REQUEST_SCORE':
         const { param } = payload
         if (param.method === 'icx_sendTransaction') {
-          this.props.setTransactionStatus(param.params)
+          this.props.setScoreData(payload)
         }
         break;
       case 'CHECK_POPUP_LOCK_STATE_FULFILLED':

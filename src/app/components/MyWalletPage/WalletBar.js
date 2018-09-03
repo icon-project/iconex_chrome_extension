@@ -95,7 +95,7 @@ class WalletBar extends Component {
     const { name, balanceLoading = false, symbol, balance, recent, totalResultLoading, balanceWithRate, tokenId } = data;
 
     const balanceText = convertNumberToText(balance, symbol, true);
-    const isSwapAvailable = tokenId === ICX_TOKEN_CONTRACT_ADDRESS()
+    const isSwapAvailable = tokenId && tokenId.toLowerCase() === ICX_TOKEN_CONTRACT_ADDRESS().toLowerCase()
 
     if (balanceLoading) {
       return (

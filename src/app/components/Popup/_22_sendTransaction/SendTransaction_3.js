@@ -126,7 +126,7 @@ class SendTransaction3 extends Component {
       }
       default:
         break;
-    }
+    }note
   }
 
   getErrorText = () => {

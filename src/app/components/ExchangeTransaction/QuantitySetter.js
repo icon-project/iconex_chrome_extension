@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ComboBox } from 'app/components/'
-import { GasStepTableContainer, CalculationTableContainer } from 'app/containers/'
+import { TxFeeAndDataContainer, CalculationTableContainer } from 'app/containers/'
 import { isEmpty, checkValueLength, trimLeftZero, makeEthRawTx } from 'utils/utils'
 import withLanguageProps from 'HOC/withLanguageProps';
 import { IS_V3 } from 'constants/config'
@@ -23,49 +23,19 @@ class QuantitySetter extends Component {
     clearTimeout(this.timeout)
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { selectedAccount } = nextProps;
-
-    if(this.props.totalResultLoading !== nextProps.totalResultLoading && !nextProps.totalResultLoading && selectedAccount) {
-      this.props.setCalcData();
-    }
-  }
-
   handleInputChange = (e) => {
     if (!isNaN(e.target.value) && checkValueLength(e.target.value) && !e.target.value.includes("+") && !e.target.value.includes("-")) {
-      this.props.setCoinQuantity(e.target.value);
+      this.setCoinQuantity(e.target.value);
       this.props.toggleFullBalance(false);
-      this.setGasInfo();
     }
   }
 
-  setGasInfo = () => {
-    const { wallets, selectedAccount, selectedTokenId, isToken } = this.props
-    if (isToken && wallets[selectedAccount].type === 'eth') {
-      const { wallets, recipientAddress, coinQuantity, gasPrice, gasLimit, swapPage } = this.props
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        const token = wallets[selectedAccount].tokens[selectedTokenId]
-        const rawTx = makeEthRawTx(true, {
-          from: selectedAccount,
-          to: recipientAddress,
-          contractAddress: token.address,
-          tokenDefaultDecimal: token.defaultDecimals,
-          tokenDecimal: token.decimals,
-          value: coinQuantity,
-          gasPrice: gasPrice,
-          gasLimit: gasLimit,
-          isSwap: swapPage
-        })
-        delete rawTx.chainId;
-        delete rawTx.gasLimit;
-        this.props.getGasInfo(rawTx)
-      }, 500)
-    }
+  setCoinQuantity = (value) => {
+    this.props.setCoinQuantity(value, true);
   }
 
   handleInputBlur = () => {
-    this.props.setCoinQuantity(trimLeftZero(this.props.coinQuantity));
+    this.props.setCoinQuantity(trimLeftZero(this.props.coinQuantity), false);
     this.props.setCoinQuantityError();
   }
 
@@ -85,9 +55,8 @@ class QuantitySetter extends Component {
     }
 
     if (!isFullBalance) {
-      this.props.setCoinQuantity(balance)
+      this.setCoinQuantity(balance)
       this.props.toggleFullBalance(true);
-      this.setGasInfo();
     }
     else {
       this.props.toggleFullBalance(false);
@@ -95,17 +64,20 @@ class QuantitySetter extends Component {
   }
 
   changeCoin = (index) => {
-    const { selectedAccount } = this.props;
+    const { selectedAccount, calcData } = this.props;
     this.props.setSelectedWallet({
       account: selectedAccount,
       tokenId: index === selectedAccount ? '' : index
     })
 
-    const { isToken } = this.props
     this.props.toggleFullBalance(false);
-    this.props.setGasLimit(isToken ? 55000 : 21000);
-    this.props.setGasPrice(21);
-    this.props.setCalcData()
+
+    if (calcData.walletCoinType === 'eth') {
+      this.props.setTxFeeLimit(index !== selectedAccount ? 55000 : 21000);
+      this.props.setTxFeePrice(21);
+    }
+
+    this.props.setCalcData();
   }
 
   render() {
@@ -120,7 +92,8 @@ class QuantitySetter extends Component {
       I18n,
       swapPage,
       isFullBalance,
-      isContractPage
+      isContractPage,
+      isLedger
     } = this.props;
 
     if (isContractPage) {
@@ -166,6 +139,7 @@ class QuantitySetter extends Component {
                 checked={isFullBalance}
               />
               <label htmlFor="quantity-setter-cbox-01" className="_img" onClick={()=>{isLoggedIn && this.toggleCheckBox(calcData.totalBalance)}}></label>
+            {/*  { IS_V3 && isLedger && (<button onClick={() => this.props.openPopup({ popupType: 'addToken', popupNum: 2 })} className="btn-type-copy w104"><span>{I18n.addToken.title1}</span></button>) } */}
             </div>
             {!swapPage ? (
                 <ComboBox
@@ -188,8 +162,8 @@ class QuantitySetter extends Component {
           </div>
         </div>
     {
-      (isLoggedIn && !swapPage) && (calcData.coinType === 'icx' ? IS_V3 : true) && (
-        <GasStepTableContainer />
+      !isLedger && (isLoggedIn && !swapPage) && (calcData.coinType === 'icx' ? IS_V3 : true) && (
+        <TxFeeAndDataContainer />
       )
     }
     {

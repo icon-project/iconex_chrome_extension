@@ -5,14 +5,13 @@ const initialState = {
   wallets: {},
   walletsLoading: true,
   totalResultLoading: false,
-  // rate: {},
-  // rateLoading: true,
-  // currency: 'usd',
+
   selectedWallet: {
     account: '',
     tokenId: '',
     isToken: false
   },
+
   _06_privateKey: '', // 06 BACKUP WALLETS,
   _06_v3: '', // 06 BACKUP WALLETS
 
@@ -42,6 +41,7 @@ export function walletReducer(state = initialState, action) {
           const newTokenObject = Object.assign({}, {
             balance: 0,
             balanceLoading: true,
+            isError: false,
             recent: []
           }, tokensValues[v])
           values[i].tokens[tokensValues[v].address] = newTokenObject
@@ -49,6 +49,7 @@ export function walletReducer(state = initialState, action) {
         result[keys[i]] = Object.assign({}, {
           account: keys[i],
           balance: 0,
+          isError: false,
           balanceLoading: true,
           recent: []
         }, values[i]);
@@ -110,7 +111,8 @@ export function walletReducer(state = initialState, action) {
       return update(state, {
         wallets: {
           [action.account]: {
-            balanceLoading: {$set: true}
+            balanceLoading: {$set: true},
+            isError: {$set: false}
           }
         }
       });
@@ -120,7 +122,8 @@ export function walletReducer(state = initialState, action) {
         wallets: {
           [action.account]: {
             balance: {$set: action.balance},
-            balanceLoading: {$set: false}
+            balanceLoading: {$set: false},
+            isError: {$set: action.isError}
           }
         }
       });
@@ -141,7 +144,8 @@ export function walletReducer(state = initialState, action) {
           [action.account]: {
             tokens: {
               [action.index]: {
-                balanceLoading: {$set: true}
+                balanceLoading: {$set: true},
+                isError: {$set: false}
               }
             }
           }
@@ -155,7 +159,8 @@ export function walletReducer(state = initialState, action) {
             tokens: {
               [action.index]: {
                 balance: {$set: action.balance},
-                balanceLoading: {$set: false}
+                balanceLoading: {$set: false},
+                isError: {$set: action.isError}
               }
             }
           }
@@ -186,29 +191,6 @@ export function walletReducer(state = initialState, action) {
           totalResultLoading: false
       })
     }
-    // case actionTypes.setCurrency: {
-    //   return Object.assign({}, state, {
-    //       currency: action.currency
-    //   })
-    // }
-    // case actionTypes.getRateLoading: {
-    //   return Object.assign({}, state, {
-    //       rateLoading: true
-    //   })
-    // }
-    // case actionTypes.getRateFulfilled: {
-    //   return Object.assign({}, state, {
-    //       rate: action.payload.result,
-    //       currency: action.payload.currency,
-    //       rateLoading: false
-    //   })
-    // }
-    // case actionTypes.getRateRejected: {
-    //   return Object.assign({}, state, {
-    //       error: action.error,
-    //       rateLoading: false
-    //   })
-    // }
     case actionTypes.deleteToken:
       return Object.assign({}, state, {
       })

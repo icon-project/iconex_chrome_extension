@@ -1,4 +1,6 @@
 import NotificationManager from 'lib/notification-manager.js'
+import { icx_callScoreExternally } from 'redux/api/walletIcxApi'
+
 const notificationManager = new NotificationManager();
 let TAB_ARR = [];
 let IS_LOCKED = _initIsAppLocked();
@@ -10,9 +12,10 @@ window.chrome.browserAction.setPopup({ popup: './popup.html' })
 
 window.chrome.runtime.onConnect.addListener(portFrom => {
 	if (portFrom.name === 'iconex-background-content') {
-		portFrom.onMessage.addListener(message => {
+		portFrom.onMessage.addListener(async (message) => {
 			const { type } = message
 			const popupId = notificationManager.getPopupId()
+			let payload
 			switch (type) {
 				case 'REQUEST_ADDRESS':
 					if (popupId) window.chrome.extension.sendMessage({ type })
@@ -20,9 +23,26 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 					break;
 
 				case 'REQUEST_TRANSACTION':
-					const { payload } = message
+					payload = message.payload
 					if (popupId) window.chrome.extension.sendMessage({ type, payload })
 					else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
+					break;
+
+				case 'REQUEST_SCORE':
+					payload = message.payload
+					const { param } = payload
+					switch (param.method) {
+						case 'icx_sendTransaction':
+							if (popupId) window.chrome.extension.sendMessage({ type, payload })
+							else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
+							break;
+						case 'icx_getScoreApi':
+						case 'icx_call':
+						default:
+							const result = await icx_callScoreExternally(param)
+							const { id } = portFrom.sender.tab
+							window.chrome.tabs.sendMessage(id, { type: 'RESPONSE_SCORE', payload: result });
+					}
 					break;
 
 				default:

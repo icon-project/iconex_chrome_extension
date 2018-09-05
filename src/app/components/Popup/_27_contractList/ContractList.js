@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { AddressTable } from 'app/components/';
+import { isIcxContractAddress, checkCxPrefix } from 'utils';
 import { icxContract } from 'constants/icxContract'
 
 const INIT_STATE = {
@@ -22,12 +23,13 @@ class ContractList extends Component {
   }
 
   render() {
+    const { I18n } = this.props;
     return (
       <div>
         <div className="dimmed"></div>
     		<div className="popup address">
     			<span className="close" onClick={this.props.closePopup}><em className="_img"></em></span>
-    			<h1 className="title">{'컨트랙트 목록'}</h1>
+    			<h1 className="title">{I18n.contractList.contractList}</h1>
           <AddressTable
             listArr={icxContract}
             selectAddress={this.selectAddress}

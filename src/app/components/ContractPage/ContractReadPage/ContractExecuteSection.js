@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {  LoadingComponent, InputText, InputBoolean, Output } from 'app/components/';
-import { WalletSelectorContainer, GasStepTableContainer, CalculationTableContainer, QuantitySetterContainer } from 'app/containers';
+import { WalletSelectorContainer, TxFeeAndDataContainer, CalculationTableContainer, QuantitySetterContainer } from 'app/containers';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -39,7 +39,7 @@ class ContractExecuteSection extends Component {
       setFuncInputError,
       I18n } = this.props;
     const value = funcInputState[input.name];
-    const error = funcInputError[input.name];
+    const error = I18n.error[funcInputError[input.name]];
     switch (input.type) {
       case 'bytes':
       case 'Address':
@@ -73,6 +73,7 @@ class ContractExecuteSection extends Component {
 
   render() {
     const {
+      I18n,
       funcList,
       selectedFuncIndex,
       funcLoading,
@@ -95,7 +96,7 @@ class ContractExecuteSection extends Component {
               <button style={{width: 99.45}} className="btn-type-fill3"><LoadingComponent type='white' /></button>
             ) : (
               <button onClick={() => this.props.checkContractInputError()} className="btn-type-fill3">
-                <span>{ readonly ? '조회' : '실행' }</span>
+                <span>{ readonly ? I18n.button.read : I18n.button.write }</span>
               </button>
             )
           }
@@ -141,7 +142,7 @@ class WalletSelectorInput extends Component {
       <div>
         <WalletSelectorContainer isContractPage={true} />
         { isLoggedIn && payable && (<QuantitySetterContainer isContractPage={true} />) }
-        { isLoggedIn && (<GasStepTableContainer isContractPage={true} />) }
+        { isLoggedIn && (<TxFeeAndDataContainer isContractPage={true} />) }
         { isLoggedIn && (<CalculationTableContainer isContractPage={true} />) }
       </div>
     )

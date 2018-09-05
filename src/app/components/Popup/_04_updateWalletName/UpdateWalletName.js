@@ -38,15 +38,17 @@ class UpdateWalletName extends Component {
   }
 
   handleSubmit = () => {
-    if (this.state.newWalletName.length < 1) {
+    const { newWalletName } = this.state;
+    const trimedNewWalletName = newWalletName.trim();
+    if (trimedNewWalletName.length < 1) {
       this.setState({ showAlertWalletName: true });
       return;
     }
-    else if (isWalletNameExists(this.props.wallets, this.state.newWalletName)) {
+    else if (isWalletNameExists(this.props.wallets, trimedNewWalletName)) {
       this.setState({ showAlertWalletNameSame: true });
       return;
     }
-    this.props.updateWalletName(this.props.selectedAccount, this.state.newWalletName);
+    this.props.updateWalletName(this.props.selectedAccount, trimedNewWalletName);
   }
 
   handleKeyPress = (e) => {

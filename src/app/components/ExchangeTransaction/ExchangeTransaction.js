@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { HeaderTitle, LoadingComponent, Alert } from 'app/components/'
+import { HeaderTitle, LoadingComponent, ExchangePanel, Alert } from 'app/components/'
 import { WalletSelectorContainer, QuantitySetterContainer, RecipientAddressContainer, } from 'app/containers/'
+import { isEmpty } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -17,6 +18,7 @@ class ExchangeTransaction extends Component {
   }
 
   componentWillMount() {
+    /* TODO: 잔고 fetch walletSelector 로 이전 */
     const {
       walletsLoading,
       wallets,

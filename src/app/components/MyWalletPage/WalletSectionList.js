@@ -15,13 +15,16 @@ class WalletSectionList extends Component {
   }
 
   walletDataToArr = (data, isCoinView) => {
-    let dataArr;
+    let dataArr = [];
     if (!isCoinView) {
       dataArr = data;
     } else {
       let coinArr = makeWalletArray(data['coin']);
       let tokenArr = makeWalletArray(data['token']);
-      dataArr = [...coinArr, ...tokenArr];
+      for (let coin of coinArr) {
+        const tokenArrWithSameCoinType = tokenArr.filter((token) => token.walletCoinType === coin.coinType);
+        dataArr = [ ...dataArr, coin, ...tokenArrWithSameCoinType ]
+      }
     }
     return dataArr;
   }

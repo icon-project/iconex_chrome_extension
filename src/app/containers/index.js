@@ -17,7 +17,7 @@ import MyWalletPageContainer from './MyWalletPage/MyWalletPageContainer'
 import CoinDetailPageContainer from './CoinDetailPage/CoinDetailPageContainer'
 import ExchangeTransactionPageContainer from './ExchangeTransactionPage/ExchangeTransactionPageContainer'
 import WalletSelectorContainer from './ExchangeTransactionPage/WalletSelectorContainer'
-import GasStepTableContainer from './ExchangeTransactionPage/GasStepTableContainer'
+import TxFeeAndDataContainer from './ExchangeTransactionPage/TxFeeAndDataContainer'
 import QuantitySetterContainer from './ExchangeTransactionPage/QuantitySetterContainer'
 import RecipientAddressContainer from './ExchangeTransactionPage/RecipientAddressContainer'
 import CalculationTableContainer from './ExchangeTransactionPage/CalculationTableContainer'
@@ -59,7 +59,7 @@ export {
   UpdateTokenContainer,
   ExchangeTransactionPageContainer,
   WalletSelectorContainer,
-  GasStepTableContainer,
+  TxFeeAndDataContainer,
   QuantitySetterContainer,
   RecipientAddressContainer,
   CalculationTableContainer,

@@ -54,8 +54,8 @@ class SendTransaction extends Component {
       isToken,
       recipientAddress,
       coinQuantity,
-      gasLimit,
-      gasPrice,
+      txFeeLimit,
+      txFeePrice,
       wallets,
       data,
       isLedger,
@@ -73,24 +73,22 @@ class SendTransaction extends Component {
       tokenDecimal: !isToken ? 18 : selectedWallet.tokens[selectedTokenId].decimals,
       value: coinQuantity,
       data: data,
-      gasLimit: gasLimit,
-      gasPrice: gasPrice,
-      coinType: selectedWallet.type
+      txFeeLimit: txFeeLimit,
+      txFeePrice: txFeePrice,
+      coinType: selectedWallet.type,
+      isLedger: isLedger
     }
 
     if (isToken) {
-      const sendAmount = customValueToTokenValue(new BigNumber(data.value), data.tokenDefaultDecimal, data.tokenDecimal).times(Math.pow(10, data.tokenDefaultDecimal)).toString();
+      const sendAmount = customValueToTokenValue(new BigNumber(coinQuantity), selectedWallet.tokens[selectedTokenId].defaultDecimals, selectedWallet.tokens[selectedTokenId].decimals).times(Math.pow(10, selectedWallet.tokens[selectedTokenId].defaultDecimals)).toString();
       queryObj = Object.assign({}, queryObj, {
         methodName: 'transfer',
         inputObj: {
-          "_to": data.to,
+          "_to": recipientAddress,
           "_value": window.web3.toHex(sendAmount)
         }
       })
     }
-
-    console.log(queryObj)
-
     return makeIcxRawTx(!!queryObj.contractAddress, queryObj)
   }
 
@@ -102,6 +100,8 @@ class SendTransaction extends Component {
     switch (method) {
       case 'setRawTx':
         this.props.confirmLedger(payload)
+        // const result = await icx_sendtransaction_v2(payload);
+        // source.postMessage(result, '*')
         break;
       default:
         break;

@@ -194,6 +194,7 @@ onmessage = function(m) {
           }
           const tokens = Object.values(val.tokens);
           for (let v = 0; v<tokens.length; v++) {
+            delete tokens[v].isError;
             delete tokens[v].recent;
             delete tokens[v].balance;
             delete tokens[v].balanceLoading;

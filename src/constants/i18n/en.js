@@ -35,7 +35,12 @@ export default {
     goToWallet: 'Access My Wallet',
     connect: 'Connect',
     connectLedger: 'Connect to Ledger',
-    retry: 'Retry'
+    retry: 'Retry',
+    read: 'Read',
+    write: 'Write',
+    edit: 'Edit',
+    editComplete: 'Complete',
+    delete: 'Delete'
   },
 
   error: {
@@ -65,7 +70,7 @@ export default {
     currentPasscodeFail: 'Please confirm your screen lock passcode.',
     passcodeSix: 'Enter 6-digit number.',
     passcodeSame: 'Screen lock passcode does not match. Please check again.',
-    currentPasscodeSame: 'New password is the same as the previous one.',
+    currentPasscodeSame: 'New passcode is the same as the previous one.',
 
     dropzoneAttachment: 'Attach your Keystore file.',
     dropzoneFormat: 'Incorrect wallet file form.',
@@ -75,6 +80,16 @@ export default {
     alertWalletName: 'Enter new wallet name.',
     alertWalletNameSame: 'This wallet name already exists.',
     alertAccountSame: 'This wallet account already exists.',
+
+    alertAddressName: 'Enter address name.',
+    alertAddressNameSame: 'This address name already exists.',
+    alertAddress: 'Enter address.',
+    alertAddressNotCorrect_icx: 'Incorrect icx address.',
+    alertAddressNotCorrect_eth: 'Incorrect eth address.',
+    alertAddressSame_icx:  'This icx account already exists.',
+    alertAddressSame_eth: 'This eth account already exists.',
+
+    noAddress: 'No registered address.',
 
     alertAddToken: 'Please select a token to add.',
     addressNotValid: 'Incorrect address. Please check again.',
@@ -100,8 +115,9 @@ export default {
     transferAddressSame: 'Sending and receiving address are the same.',
 
     checkData: 'Please check your data.',
+    dataOverLimit: 'This exceeds input limit 512KB.',
     enterGasPrice: 'Please enter the gas limit.',
-    notEnoughBalance: '수수료 지불을 위한 ICX 잔액이 부족합니다.',
+    notEnoughBalance: 'Insufficient ICX balance for transaction fee.',
 
     alertIcxGetBalanceError: 'An error occurred while checking your balance.',
     buttonChecked: 'Please check this box if you want to proceed.',
@@ -110,7 +126,20 @@ export default {
     ledgerError: 'Failed to connect. Please try again.',
     deniedByUser: 'The confirmation has been cancelled on Ledger Wallet.',
 
-    noBalance: 'No Balance.'
+    noBalance: 'No Balance.',
+
+    contractAddressEmpty: 'Please enter contract address.',
+    contractAddressConfirm: 'Please check contract address again.',
+
+    strEnter: 'Please enter “str“ value',
+    AddressEnter: 'Please enter address',
+    AddressConfirm: 'Please check address again.',
+
+    intEnter: 'Please enter “int“ value',
+    intConfirm: 'Please check “int” value again.',
+
+    bytesEnter: 'Please enter “bytes“ value',
+    bytesConfirm: 'Please check “bytes” value again.',
   },
 
   currency: {
@@ -216,7 +245,7 @@ export default {
   myPageWalletChecked: 'Selected Wallets',
   myPageSubTitle1: 'Screen Lock',
   myPageSubTitle2: 'Export Wallet Bundle',
-  myPageInfo1: 'By activating the screen lock function, a 6-digit passcode is required every time you open ICONex in a new chrome window.\nIf you forget your screen lock passcode, you can reset the password using your wallet password.',
+  myPageInfo1: 'By activating the screen lock function, a 6-digit passcode is required every time you open ICONex in a new chrome window.\nIf you forget your screen lock passcode, you can reset the passcode using your wallet password.',
   myPageInfo2: 'If you activate the screen lock, a 6-digit passcode is required every time you open your ICONex. It can protect your assets from others.',
   myPageInfo3: 'Wallet bundle backs up your wallets in one file.\nYou can easily manage different wallets at once.',
   myPageUnlock: '· Do you want to unlock?',
@@ -237,8 +266,8 @@ export default {
   transferPageLabel5_2: 'Estimated Maximum Fee',
   transferPageLabel6_1: 'Balance after transaction',
   transferPageLabel6_2: 'Estimated Balance',
-  transferPageLabel7_eth: 'Gas limit',
-  transferPageLabel7_icx: 'Step limit',
+  transferPageLabel7_eth: 'Gas Limit',
+  transferPageLabel7_icx: 'Step Limit',
   transferPageLabel8: 'Data',
   transferPageLabel9: '(Optional)',
   transferPageLabel10_eth: 'Gas Price',
@@ -261,20 +290,23 @@ export default {
   transferPageHelperTitle3_eth: 'Gas price is a unit of gas. 1 Gwei equals 0.000000001 ETH.',
   transferPageHelperDesc3_eth: 'Ethereum miners prioritize based on gas price when generating blocks. If you set higher gas price, you have more chance to get your transaction confirmed. It also determines your transaction speed.',
   transferPageHelperTitle4_eth: 'If you do not enter the data when required, the transaction will fail.',
-  transferPageHelperDesc4_eth: "You will still have to pay the transaction fees.You don't have to enter data if it is not required in the transaction.",
+  transferPageHelperDesc4_eth: "You will still have to pay the transaction fees. You don't have to enter data if it is not required in the transaction.",
 
-  /* TODO text */
-  transferPageHelperTitle1_icx: 'Estimated Maximum Fee = Step price * Step limit.',
-  transferPageHelperDesc1_icx: 'Transaction이 발생했지만 채굴자에 의해 채택되지 않는 경우, 이미 사용된 수수료는 소진되고 해당 Transaction은 취소되니 적절한 수준의 가스 한도와 가스 가격을 설정해야 합니다.',
-  transferPageHelperTitle2_icx: '가스 한도는 Transaction 실행에 지불할 용의가 있는 가스의 최대량을 의미합니다.',
-  transferPageHelperDesc2_icx: '가스 한도를 더 높게 설정하더라도 Transaction에 필요한 만큼의 가스만 소진합니다.\n즉, 가스한도는 최대치만 설정 가능하며 실제 소진되는 가스량은 유동적입니다.',
-  transferPageHelperTitle3_icx: '가스 가격은 단위가 1 Gwei = 0.000000001 ETH로 고정되어 있습니다.',
-  transferPageHelperDesc3_icx: '이더리움 채굴자는 블록을 생성할 때 자신에게 가장 이익이 되는 Transaction을 먼저\n채택합니다. 이는 가스 가격을 높게 설정할수록, 또는 가스 한도가 높을수록 채택될 확률이\n높음을 의미하며, 따라서 전송속도에 영향을 미치게 됩니다',
-  transferPageHelperTitle4_icx: '수신자로부터 Data 입력을 요청 받지 않은 경우에는 입력하지 않고 송금할 수 있습니다.',
-  transferPageHelperDesc4_icx: 'Data를 입력해야만 거래가 실행되도록 설계되어 있는 경우, Data를 입력하지 않으면\n송금이 불가하며 수수료만 차감될 수 있습니다.',
+  transferPageHelperTitle1_icx: 'Estimated Maximum Fee = Step price * Step limit',
+  transferPageHelperDesc1_icx: '',
+  transferPageHelperTitle2_icx: 'Step limit is the amount of step to send with your transaction.',
+  transferPageHelperDesc2_icx: 'Unnecessary step is refunded to you at the end of transaction. In other words, you can set the maximum amount of step but the actual step consumption is not fixed.',
+  transferPageHelperTitle3_icx: 'Step price is the amount you pay per unit of step.',
+  transferPageHelperDesc3_icx: 'Step price is paid in loop and 1 loop is fixed to 0.000000000000000001(10<sup>-18</sup>) ICX. ICON transaction fee is imposed according to various factors such as the number of smart contract usage, the amount of blockchain database used and the size of transaction data, etc.',
+  transferPageHelperTitle4_icx: 'If you do not enter the data when required, the transaction will fail.',
+  transferPageHelperDesc4_icx: "You will still have to pay the transaction fees. You don't have to enter data if it is not required in the transaction.",
 
-  dataInputOpen: '데이터 입력 열기',
-  dataInputClose: '데이터 입력 닫기',
+  dataInputOpen: 'Open Data',
+  dataInputClose: 'Close Data',
+
+  contractReadPage: 'Read / Write Contract',
+  contractReadPageAddressInputPlaceHolder: 'Enter contract address',
+  contractAbiPlaceHolder: 'Enter contract address to auto-fill this field',
 
   checkPassword: {
     title: 'Confirm wallet password.',
@@ -292,8 +324,9 @@ export default {
 
     desc1: 'Which coin would you like to add?',
     leftInfoTitle1_1: 'Select a wallet between ICX wallet and ETH wallet.',
-    leftInfoDesc1_1: '· You can add ERC20 tokens using Ethereum wallet menu.',
-    leftInfoDesc1_2: '· Wallets for other coins will be added later.',
+    leftInfoDesc1_1: '· You can add IRC tokens using ICON wallet menu.',
+    leftInfoDesc1_2: '· You can add ERC20 tokens using Ethereum wallet menu.',
+    leftInfoDesc1_3: '· Wallets for other coins will be added later.',
 
     desc2: 'Enter a wallet name and a password.',
     leftInfoTitle2_1: 'Set a strong and secure password you can remember. You are responsible for keeping your password safe.',
@@ -460,7 +493,19 @@ export default {
     quantityExchange: 'Exchange Amount',
     quantityTransaction: 'Transfer Amount',
     columnName: 'Wallet Name',
-    columnAddress: 'Wallet Address'
+    columnAddress: 'Wallet Address',
+
+    addressBook: 'Address Book',
+    addressName: 'Address Name',
+    walletNamePlaceHolder: 'Enter wallet name',
+    walletAddressPlaceHolder: 'Enter wallet address',
+
+  },
+
+  contractList: {
+    contractList: 'Contract List',
+    contractName: 'Contract Name',
+    contractAddress: 'Contract Address'
   },
 
   unlockPopup: {
@@ -518,11 +563,11 @@ export default {
     offline: 'There is no internet connection',
     titleInfo: 'Check the amount and the receiving address once again.',
     quantity: 'Amount',
-    txFeeIcx: 'Fee',
+    txFeeIcx: 'Max Fee',
     txFeeEth: 'Max Fee',
     address: 'Address',
 
-    icxFailure: 'ICX transaction has been cancelled.',
+    icxFailure: 'An error occurred while sending transaction.',
     infoFailure: 'Your transaction has been canceled.<br/>Please try again with a higher gas price.',
     knownFailure: 'Your transaction has been canceled.<br/>The transaction is being processed.',
     anotherFailure: 'Your transaction has been canceled.<br/>Another transaction is being processed.',
@@ -532,7 +577,15 @@ export default {
     tokenGasFailure: 'You have insufficient ETH balance for GAS.',
 
     swapSuccess: 'Request for swap has been completed.<br/>ICX distribution schedule is subject to change so please refer to the following information.',
-    swapQuantity: 'Swap Amount'
+    swapQuantity: 'Swap Amount',
+
+    confirmData: 'Check the write information once again.',
+    maximumFee: 'Estimated Maximum Fee',
+    sendQuantity: 'Transfer ICX Amount',
+    walletAddress: 'Wallet Address',
+
+    txComplete: 'Request for write contract has been completed.',
+    txHashTracker: 'Tx Hash is trackable on ICON Tracker.'
   },
 
   connectLedger: {
@@ -613,7 +666,7 @@ export default {
     swapQuantity: 'Swap Amount',
     inputPlaceholder: 'Enter swap amount',
     allCheckBtn: 'Total',
-    gasLimit: 'Gas limit',
+    gasLimit: 'Gas Limit',
     gasPrice: 'Gas Price',
     expectedMaximumFee: 'Estimated Maximum Fee',
     expectedBalacne: 'Estimated Balance',

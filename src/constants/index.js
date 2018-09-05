@@ -82,7 +82,7 @@ export const coinRound = {
 }
 
 export const currencyRound = {
-  'usd': 2,
+  'usd': 3,
   'btc': 8,
   'eth': 8
 }

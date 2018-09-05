@@ -47,6 +47,13 @@ export function setFuncInputError(payload) {
   };
 }
 
+export function setFuncInputDataExceedError(payload) {
+  return {
+    type: actionTypes.setFuncInputDataExceedError,
+    payload
+  };
+}
+
 export function setContractAddressError() {
   return {
     type: actionTypes.setContractAddressError

@@ -26,27 +26,30 @@ class CalculationTable extends Component {
   }
 
   render() {
-    const { calcData: data, I18n, swapPage, gasLimit, gasPrice, isContractPage } = this.props;
+    const { calcData: data, I18n, swapPage, txFeeLimit, txFeePrice, isContractPage } = this.props;
     const { walletCoinType } = data;
     const { txFeeHelpLayer } = this.state;
     return (
       <ul className="change-group">
+        {/* if swap page */}
         {swapPage &&
         <li>
+          {/* TODO loadingComponent */}
           <span className="a">{I18n.swapToken.gasLimit}</span>
-          <span className="b num">{gasLimit === 0 ? '-' : gasLimit}</span>
+          <span className="b num">{txFeeLimit === 0 ? '-' : txFeeLimit}</span>
         </li>
         }
         {swapPage &&
         <li>
+          {/* TODO loadingComponent */}
           <span className="a">{I18n.swapToken.gasPrice}</span>
-          <span className="b num">{gasPrice === 0 ? '-': gasPrice}<em>Gwei</em></span>
+          <span className="b num">{txFeePrice === 0 ? '-': txFeePrice}<em>Gwei</em></span>
         </li>
         }
         <li style={isContractPage && {marginTop: 40}}>
           <span className="a">
-            {data.walletCoinType !== 'icx' ? I18n.transferPageLabel5_2 : I18n.transferPageLabel5_1}
-            {data.walletCoinType !== 'icx' && <i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeeHelpLayer" className="_img"></i>}
+            {I18n.transferPageLabel5_2}
+            <i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeeHelpLayer" className="_img"></i>
             {
               txFeeHelpLayer && (
                 <div className="help-layer">
@@ -62,18 +65,18 @@ class CalculationTable extends Component {
           }
           {
             data.txFeeWithRate ? <span className={`c`}><em>{ !(swapPage && data.txFeeWithRate === "0") && <i className="_img"></i>}{ swapPage && data.txFeeWithRate === "0" ? '-' : data.txFeeWithRate }</em> <em>USD</em></span>
-                               : <span className={`load c`}><LoadingComponent type="black"/></span>
+                               : swapPage ? (<span className='c'></span>) : (<span className={`load c`}><LoadingComponent type="black"/></span>)
           }
         </li>
         <li>
-          <span className={`${data.resultBalance && data.resultBalance.includes("-") && 'minus'} a`}>{data.walletCoinType !== 'icx' ? I18n.transferPageLabel6_2 : I18n.transferPageLabel6_1}</span>
+          <span className={`${data.resultBalance && data.resultBalance.includes("-") && 'minus'} a`}>{I18n.transferPageLabel6_2}</span>
           {
             data.resultBalance ? <span className={`${data.resultBalance.includes("-") && 'minus'} b`}>{ data.resultBalance }<em>{data.coinType.toUpperCase()}</em></span>
                                : <span className={`load b`}><LoadingComponent type="black"/></span>
           }
           {
             data.resultBalanceWithRate ? <span className={`${data.resultBalanceWithRate && data.resultBalance.includes("-") && 'minus'} c`}><em>{data.resultBalanceWithRate !== '-' && <i className="_img"></i>}{data.resultBalanceWithRate}</em> <em>USD</em></span>
-                                       : <span className={`load c`}><LoadingComponent type="black"/></span>
+                                       : swapPage ? (<span className='c'></span>) : (<span className={`load c`}><LoadingComponent type="black"/></span>)
           }
         </li>
       </ul>

@@ -3,6 +3,8 @@ import { withRouter } from 'react-router-dom';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { convertNumberToText } from 'utils';
 import { IS_V3 } from 'constants/config.js'
+import { LoadingComponent } from 'app/components/'
+
 
 @withRouter
 @withLanguageProps
@@ -40,8 +42,8 @@ class SendTransaction2 extends Component {
        isToken,
        recipientAddress,
        coinQuantity,
-       gasLimit,
-       gasPrice,
+       txFeeLimit,
+       txFeePrice,
        wallets,
        data,
        privKey,
@@ -58,9 +60,7 @@ class SendTransaction2 extends Component {
        case 'swap':
        case 'transaction': {
          if (loading) return;
-
          if (isLedger) {
-           console.log(ledgerSignedRawTx)
            this.props.sendCall('', ledgerSignedRawTx, true);
          } else {
            const sendData = {
@@ -71,8 +71,8 @@ class SendTransaction2 extends Component {
              tokenDecimal: !isToken ? 18 : wallets[selectedAccount].tokens[selectedTokenId].decimals,
              value: coinQuantity,
              data: data,
-             gasLimit: gasLimit,
-             gasPrice: gasPrice,
+             txFeeLimit: txFeeLimit,
+             txFeePrice: txFeePrice,
              coinType: wallets[selectedAccount].type
            }
            this.props.sendCall(privKey, sendData);
@@ -85,29 +85,8 @@ class SendTransaction2 extends Component {
    }
 
    renderPageTypeSwitch = () => {
-     const {
-       I18n,
-       funcList,
-       selectedAccount,
-       selectedFuncIndex,
-       funcInput,
-       coinQuantity,
-       recipientAddress,
-       txLoading,
-       calcData,
-       gasPrice,
-       gasLimit,
-       pageType,
-       icxSwapAddress,
-       wallets,
-       swapWalletName,
-       isLedger,
-       ledgerTimer,
-       isLedgerConfirmed,
-       language
-     } = this.props;
-
-     const txFee = convertNumberToText(gasLimit * window.web3.fromWei(window.web3.toWei(gasPrice, 'gwei'), 'ether'), 'transaction', true);
+     const { I18n, funcList, txLoading, selectedAccount, selectedFuncIndex, funcInput, coinQuantity, recipientAddress, calcData, pageType, icxSwapAddress, wallets, swapWalletName, isLedger, ledgerTimer, isLedgerConfirmed, language } = this.props;
+     const txFee = calcData.txFee
 
      switch(pageType) {
        case 'swap': {
@@ -126,7 +105,7 @@ class SendTransaction2 extends Component {
        			<div className="btn-holder">
        				<button onClick={this.closePopup} className="btn-type-fill size-del"><span>{I18n.button.cancel}</span></button>
               {
-                txLoading ? (<button className="btn-type-normal size-del"><span>{I18n.button.swap}</span></button>)
+                txLoading ? (<button style={{paddingBottom: 14, paddingTop: 11}} className="btn-type-normal size-del"><span><LoadingComponent type="white" /></span></button>)
                           : (<button onClick={this.handleSubmit} className="btn-type-normal size-del"><span>{I18n.button.swap}</span></button>)
               }
        			</div>
@@ -136,7 +115,7 @@ class SendTransaction2 extends Component {
        case 'contract': {
          return (
              <div className="popup">
-         			<p className="txt_box">실행할 정보를 한번 더 확인해주세요.</p>
+         			<p className="txt_box">{I18n.sendTransaction.confirmData}</p>
          			<div className="scroll-holder">
          				<div className="scroll">
                   {
@@ -149,19 +128,20 @@ class SendTransaction2 extends Component {
                             </div>
                         )
                       }
-                      return true;
                     })
                   }
-                  <p className="title">{'지갑 주소'}</p>
+                  <p className="title">{I18n.sendTransaction.walletAddress}</p>
                   <p className="address">{selectedAccount}</p>
-                  <p className="title">{'최대 수수료'}</p>
-                  <p className="address">{txFee}</p>
+                  { !!coinQuantity && (<p className="title">{I18n.sendTransaction.sendQuantity}</p>)}
+                  { !!coinQuantity && (<p className="address">{`${coinQuantity} ICX`}</p>)}
+                  <p className="title">{I18n.sendTransaction.maximumFee}</p>
+                  <p className="address">{`${txFee} ICX`}</p>
          				</div>
          			</div>
 
          			<div className="btn-holder">
-         				<button onClick={this.closePopup} className="btn-type-fill size-del"><span>취소</span></button>
-         				<button onClick={this.handleSubmit}  className="btn-type-normal size-del"><span>{'실행'}</span></button>
+         				<button onClick={this.closePopup} className="btn-type-fill size-del"><span>{I18n.button.cancel}</span></button>
+         				<button onClick={this.handleSubmit}  className="btn-type-normal size-del"><span>{I18n.button.write}</span></button>
          			</div>
          		</div>
          )
@@ -203,7 +183,7 @@ class SendTransaction2 extends Component {
        			<div className="btn-holder">
        				<button onClick={this.closePopup} className="btn-type-fill size-del"><span>{I18n.button.cancel}</span></button>
        				{
-                txLoading ? (<button className="btn-type-normal size-del"><span>{I18n.button.transfer}</span></button>)
+                txLoading ? (<button style={{paddingBottom: 14, paddingTop: 11}} className="btn-type-normal size-del"><span><LoadingComponent type="white" /></span></button>)
                           : (<button disabled={isLedger ? !isLedgerConfirmed : false} onClick={this.handleSubmit} className="btn-type-normal size-del"><span>{I18n.button.transfer}</span></button>)
               }
        			</div>
@@ -213,7 +193,7 @@ class SendTransaction2 extends Component {
        default:
          break;
      }
-   }
+  }
 
   render() {
     return this.renderPageTypeSwitch()

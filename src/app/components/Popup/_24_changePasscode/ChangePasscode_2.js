@@ -39,12 +39,17 @@ class ChangePasscode2 extends Component {
       this.setState({firstError: I18n.error.passcodeEnter})
       return
     }
-    if (second === '') {
-      this.setState({secondError: I18n.error.passcodeEnter})
-      return
-    }
     if (first.length !== 6) {
       this.setState({firstError: I18n.error.passcodeSix})
+      return
+    }
+    const newPasscodeHash = hash.sha256().update(first).digest('hex')
+    if (this.props.passcodeHash === newPasscodeHash) {
+      this.setState({firstError: I18n.error.currentPasscodeSame})
+      return
+    }
+    if (second === '') {
+      this.setState({secondError: I18n.error.passcodeEnter})
       return
     }
     if (first !== second) {

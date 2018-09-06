@@ -85,6 +85,16 @@ export function validateRecipientAddressError(state) {
   return error;
 }
 
+export function validateMessageError(state) {
+  let error = '';
+  if (checkLength(state.data) > (512 * 1024)) {
+    error = 'dataOverLimit'
+  } else {
+    error = ''
+  }
+  return error;
+}
+
 export function validateDataError(state) {
   let error = '';
   if (!isHex(state.data)) {
@@ -294,7 +304,9 @@ export function exchangeTransactionReducer(state = initialState, action) {
         const coinQuantityError = validateCoinQuantityError(state);
         const recipientAddressError = validateRecipientAddressError(state);
         const txFeeLimitError = validateTxFeeLimitError(state);
-        const dataError = validateDataError(state);
+        const dataError = state.calcData.walletCoinType === 'icx'
+                            ? validateMessageError(state)
+                            : validateDataError(state)
         if (!coinQuantityError && !recipientAddressError && !dataError && !txFeeLimitError) {
           submit = true;
         }
@@ -347,7 +359,9 @@ export function exchangeTransactionReducer(state = initialState, action) {
       })
     }
     case actionTypes.setDataError: {
-      let error = validateDataError(state);
+      let error = state.calcData.walletCoinType === 'icx'
+                    ? validateMessageError(state)
+                    : validateDataError(state)
       return Object.assign({}, state, {
           dataError: error
       })

@@ -433,8 +433,7 @@ function makeIcxRawTx(isContract, data) {
       const sendAmount = window.web3.toWei(new BigNumber(data.payableValue), "ether");
       rawTx['value'] = window.web3.toHex(sendAmount)
     }
-  }
-  else {
+  } else {
     const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
     rawTx = {
       from: data.from,
@@ -446,7 +445,7 @@ function makeIcxRawTx(isContract, data) {
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16))
     }
     if (data.data) {
-      rawTx['data'] = data.data;
+      rawTx['data'] = check0xPrefix(dataToHex(data.data))
       rawTx['dataType'] = 'message';
     }
   }

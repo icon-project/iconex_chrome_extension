@@ -51,7 +51,7 @@ export default {
     pwErrorSame: 'Password must not have more than 2 consecutive identical characters.',
     pwErrorEmpty: 'Please do not leave blank.',
     pwConfirmError: 'Please check your password.',
-    pwConfirmErrorSame: 'Password does not match the confirm password.',
+    pwConfirmErrorSame: 'Passwords do not match. Please check again.',
     addressNotCorrect: 'Keystore file address is unexpectedly modified. Please check your file.',
 
     alertWalletFirst: 'Please select wallet.',

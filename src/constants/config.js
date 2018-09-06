@@ -69,7 +69,7 @@ export const ETH_SERVER = () => {
   const ethServer = getCurrentServer('eth');
   const obj = {
     'ropsten': 'https://ropsten.infura.io/',
-    'main': 'https://mainnet.infura.io/'
+    'main': 'https://eth.solidwallet.io/'
   }
   return obj[ethServer];
 }

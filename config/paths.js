@@ -43,6 +43,7 @@ module.exports = {
   dotenv: resolveApp('.env'),
   appBuild: resolveApp('build'),
   appBuildTest: resolveApp('build-test'),
+  appBuildDev: resolveApp('build-dev'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appPopupHtml: resolveApp('public/popup.html'),
@@ -51,6 +52,7 @@ module.exports = {
   // <--- SH
   appPublicTest: resolveApp('public_test'),
   appHtmlTest: resolveApp('public/index_test.html'),
+  appHtmlDev: resolveApp('public/index_dev.html'),
   appContentScriptJs: resolveApp('src/content-script/contentScript.js'),
   // ---> SH
   // --- added by JH Kim

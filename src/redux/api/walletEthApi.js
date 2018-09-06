@@ -7,19 +7,13 @@ import { erc20Abi } from 'constants/index'
 BigNumber.config({ ERRORS: false });
 BigNumber.config({ EXPONENTIAL_AT: 1e+9 })
 
-/**
- * fetch gas price & gas limit
- * @param {Object} data: { from, to, contractAddress, tokenDefaultDecimal, tokenDecimal, value, gasPrice }
- * @return {Object} result: { gasPrice, gasLimit }
-*/
-function getGasInfo(data) {
+function getTxFeeInfo(data) {
   return new Promise (resolve => {
     window.web3.eth.getGasPrice((errorPrice, gasPrice) => {
       window.web3.eth.estimateGas(data, (errorLimit, gasLimit) => {
-        const { isToken } = data
         const result = {
-          gasPrice: !gasPrice ? 21 : calcGasPrice(gasPrice),
-          gasLimit: !gasLimit ? (isToken ? 55000 : 21000) : gasLimit * (isToken ? 2 : 1)
+          txFeePrice: !gasPrice ? 21 : calcGasPrice(gasPrice),
+          txFeeLimit: !gasLimit ? 55000 : gasLimit * 2
         }
         resolve(result)
       })
@@ -27,18 +21,19 @@ function getGasInfo(data) {
   })
 }
 
-export function eth_getGasInfoApi(data) {
+export function eth_getTxFeeInfoApi(data) {
   return new Promise(resolve => {
-    const result = getGasInfo(data)
+    const result = getTxFeeInfo(data)
     resolve(result)
   })
 }
 
 export function eth_fetchCoinBalanceApi(account) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
      window.web3.eth.getBalance(check0xPrefix(account), (error, balance) => {
        if (error) {
-         resolve(window.web3.fromWei(new BigNumber(0), 'ether'))
+      //   resolve(window.web3.fromWei(new BigNumber(0), 'ether'))
+         resolve('error')
        }
        resolve(window.web3.fromWei(balance, 'ether'))
      })
@@ -180,12 +175,12 @@ export function eth_getTokenInfoApi(tokenObj) {
 }
 
 export function eth_fetchTokenBalanceApi(tokenAddress, customDecimal, account) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     let token = window.web3.eth.contract(erc20Abi).at(check0xPrefix(tokenAddress));
       token.balanceOf.call(check0xPrefix(account), (err, balance) => {
 				// update the UI to reflect the data returned from the blockchain
         if (err) {
-          resolve(new BigNumber(0));
+          resolve('error');
         }
 				let divisor = new BigNumber(10).toPower(customDecimal);
 				balance = balance.div(divisor);
@@ -197,41 +192,51 @@ export function eth_fetchTokenBalanceApi(tokenAddress, customDecimal, account) {
 // https://ethereum.stackexchange.com/questions/12054/can-not-send-eth-on-ropsten-using-infura-node
 export function eth_sendCoinApi(privKey, data) {
   return new Promise((resolve, reject) => {
-    const rawTx = makeEthRawTx(false, data)
-    const privateKey = new Buffer(privKey, 'hex');
-    const transaction = new tx(rawTx);
-    transaction.sign(privateKey);
-    const serializedTx = transaction.serialize().toString('hex');
-    window.web3.eth.sendRawTransaction(
-        check0xPrefix(serializedTx), function(err, result) {
-            if(err) {
-              console.log(err)
-              reject(err);
-            } else {
-                resolve(result);
-            }
-        }
-    );
+    window.web3.eth.getTransactionCount(
+      check0xPrefix(data.from), function(nonceErr, txCount) {
+        const rawTx = makeEthRawTx(false, data)
+        rawTx['nonce'] = window.web3.toHex(txCount)
+        const privateKey = new Buffer(privKey, 'hex');
+        const transaction = new tx(rawTx);
+        transaction.sign(privateKey);
+        const serializedTx = transaction.serialize().toString('hex');
+        window.web3.eth.sendRawTransaction(
+            check0xPrefix(serializedTx), function(err, result) {
+                if(err || nonceErr) {
+                  console.log(err)
+                  reject(err);
+                } else {
+                    resolve(result);
+                }
+             }
+        );
+      }
+    )
   });
 }
 
 // https://ethereum.stackexchange.com/questions/24828/how-to-send-erc20-token-using-web3-api
 export function eth_sendTokenApi(privKey, data) {
   return new Promise((resolve, reject) => {
-    const rawTx = makeEthRawTx(true, data)
-    const privateKey = new Buffer(privKey, 'hex');
-    const transaction = new tx(rawTx);
-    transaction.sign(privateKey);
-    const serializedTx = transaction.serialize().toString('hex');
-    window.web3.eth.sendRawTransaction(
-        check0xPrefix(serializedTx), function(err, result) {
-          if(err) {
-              console.log(err)
-              reject(err);
-          } else {
-              resolve(result);
-          }
-        }
-    );
+    window.web3.eth.getTransactionCount(
+      check0xPrefix(data.from), function(nonceErr, txCount) {
+        const rawTx = makeEthRawTx(true, data)
+        rawTx['nonce'] = window.web3.toHex(txCount)
+        const privateKey = new Buffer(privKey, 'hex');
+        const transaction = new tx(rawTx);
+        transaction.sign(privateKey);
+        const serializedTx = transaction.serialize().toString('hex');
+        window.web3.eth.sendRawTransaction(
+            check0xPrefix(serializedTx), function(err, result) {
+              if(err || nonceErr) {
+                  console.log(err)
+                  reject(err);
+              } else {
+                  resolve(result);
+              }
+            }
+        );
+      }
+    )
   })
 }

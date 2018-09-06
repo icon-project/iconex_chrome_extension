@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   routeConstants as ROUTE
 } from 'constants/index.js';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { isEmpty } from 'utils';
 import { IS_V3 } from 'constants/config.js';
@@ -13,6 +13,7 @@ const INIT_STATE = {
   toggleLanguageList: false
 }
 
+@withRouter
 @withLanguageProps
 class Header extends Component {
 
@@ -53,6 +54,13 @@ class Header extends Component {
     }
   }
 
+  goToTransactionPage = () => {
+    this.props.resetEXTRPageReducer()
+    this.props.history.push({
+      pathname: ROUTE['transaction']
+    });
+  }
+
   render() {
     const { wallets, isLedger, setLanguage, language, location, I18n } = this.props;
     const isHome = location.pathname === ROUTE['home'];
@@ -70,7 +78,7 @@ class Header extends Component {
             <div className="menu-holder">
     					<Link to="/mywallet"><span className={`wallet ${location.pathname.includes('/mywallet') && 'on'}`}>{I18n.myWallet}</span></Link>
     					{/* <span onClick={this.disableExchange} className={`exchange ${location.pathname === '/exchange' && 'on'}`}>{I18n.exchange}</span> */}
-    					<Link to="/transaction"><span className={`remittance ${location.pathname === '/transaction' && 'on'}`}>{I18n.transfer}</span></Link>
+    					<Link to="/transaction"><span onClick={this.goToTransactionPage} className={`remittance ${location.pathname === '/transaction' && 'on'}`}>{I18n.transfer}</span></Link>
               {
                 IS_V3 && (<Link to="/contract"><span className={`contract ${location.pathname === '/contract' && 'on'}`}>{I18n.contract}</span></Link>)
               }

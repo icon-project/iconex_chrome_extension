@@ -71,6 +71,11 @@ function trimLeftZero(str) {
     return str;
   }
 
+  // if string is a single 0 repeating character
+  if (str === '0' || (str.startsWith("0") && /^(.)\1+$/.test(str))) {
+    return str.replace(/(^0+)/, "0");
+  }
+
   if (str.startsWith("0") && str.indexOf("0.") !== -1) {
     if (str.includes(".") && /^[0]+$/.test(str.split(".")[0])) {
       return "0".concat(str.replace(/(^0+)/, ""));
@@ -147,6 +152,19 @@ function isAddress(address) {
     } else {
         return true;
     }
+}
+
+let isChecksumAddress = function (address) {
+    // Check each case
+    address = address.replace('0x','');
+    var addressHash = window.web3.sha3(address.toLowerCase());
+    for (var i = 0; i < 40; i++ ) {
+        // the nth letter should be uppercase if the nth digit of casemap is 1
+        if ((parseInt(addressHash[i], 16) > 7 && address[i].toUpperCase() !== address[i]) || (parseInt(addressHash[i], 16) <= 7 && address[i].toLowerCase() !== address[i])) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function isIcxWalletAddress(address) {
@@ -360,13 +378,10 @@ function makeEthRawTx(isToken, data) {
     let valueDiv = customValueToTokenValue(new BigNumber(data.value), data.tokenDefaultDecimal, data.tokenDecimal).times(Math.pow(10, data.tokenDefaultDecimal)).toString();
     const dataObj = token.transfer.getData(check0xPrefix(data.to), valueDiv);
     rawTx = {
-      nonce: window.web3.toHex(window.web3.eth.getTransactionCount(check0xPrefix(data.from))),
       from: check0xPrefix(data.from),
       to: check0xPrefix(data.contractAddress),
-      gasPrice: window.web3.toHex(window.web3.toWei(data.gasPrice, 'gwei')),
-      gasLimit: window.web3.toHex(data.gasLimit),
-      // EIP 155 chainId - mainnet: 1, ropsten: 3
-      chainId: CHAIN_ID(),
+      gasPrice: window.web3.toHex(window.web3.toWei(data.txFeePrice, 'gwei')),
+      gasLimit: window.web3.toHex(data.txFeeLimit),
       value: 0,
       data: dataObj
     }
@@ -374,25 +389,21 @@ function makeEthRawTx(isToken, data) {
   else {
     const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
     rawTx = {
-      nonce: window.web3.toHex(window.web3.eth.getTransactionCount(check0xPrefix(data.from))),
       from: check0xPrefix(data.from),
       to: check0xPrefix(data.to),
-      gasPrice: window.web3.toHex(window.web3.toWei(data.gasPrice, 'gwei')),
-      gasLimit: window.web3.toHex(data.gasLimit),
-      // EIP 155 chainId - mainnet: 1, ropsten: 3
-      chainId: CHAIN_ID(),
+      gasPrice: window.web3.toHex(window.web3.toWei(data.txFeePrice, 'gwei')),
+      gasLimit: window.web3.toHex(data.txFeeLimit),
       value: window.web3.toHex(sendAmount),
     }
     if (data.data) rawTx['data'] = data.data;
   }
-
   return rawTx
 }
 
 
 function makeIcxRawTx(isContract, data) {
   let rawTx = {}
-  if (!IS_V3) {
+  if (!IS_V3 || data.isLedger) {
     const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
     rawTx = {
       from: data.from,
@@ -410,14 +421,18 @@ function makeIcxRawTx(isContract, data) {
       to: data.contractAddress,
       version: "0x3",
       nid: '0x3',
-      stepLimit: check0xPrefix(new BigNumber(data.gasLimit).toString(16)),
+      stepLimit: check0xPrefix(new BigNumber(data.txFeeLimit).toString(16)),
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16)),
       dataType: 'call',
       data: {
           "method": data.methodName,
-          "params": data.inputObj
+          "params": data.inputObj || {}
       }
     };
+    if (data.payableValue) {
+      const sendAmount = window.web3.toWei(new BigNumber(data.payableValue), "ether");
+      rawTx['value'] = window.web3.toHex(sendAmount)
+    }
   }
   else {
     const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
@@ -427,7 +442,7 @@ function makeIcxRawTx(isContract, data) {
       value: window.web3.toHex(sendAmount),
       version: "0x3",
       nid: '0x3',
-      stepLimit: check0xPrefix(new BigNumber(data.gasLimit).toString(16)),
+      stepLimit: check0xPrefix(new BigNumber(data.txFeeLimit).toString(16)),
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16))
     }
     if (data.data) {

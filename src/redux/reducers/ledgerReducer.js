@@ -1,4 +1,5 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
+import update from 'react-addons-update';
 
 const initialState = {
   isLedger: false,
@@ -12,7 +13,11 @@ export function ledgerReducer(state = initialState, action) {
     case actionTypes.setEXTRLogInStateForLedger: {
       return Object.assign({}, state, {
           isLedger: action.payload.isLoggedIn,
-          ledgerWallet: action.payload.ledgerWallet
+          ledgerWallet: {
+            ...action.payload.ledgerWallet,
+            tokens: {},
+            type: 'icx'
+          }
       })
     }
     case actionTypes.confirmLedger: {
@@ -26,6 +31,32 @@ export function ledgerReducer(state = initialState, action) {
       return Object.assign({}, state, {
           isLedgerConfirmed: false,
           ledgerSignedRawTx: ''
+      })
+    case actionTypes.updateLedgerWalletBalanceFulfilled:
+      const newLedgerWallet = {
+        ...state.ledgerWallet,
+        balance: action.balance
+      }
+      return Object.assign({}, state, {
+          ledgerWallet: newLedgerWallet
+      })
+    case actionTypes.addTokenFulfilledForLedger:
+      return update(state, {
+        ledgerWallet: {
+          tokens: {
+            [action.payload.address]: {$set: action.payload}
+          }
+        }
+      })
+    case actionTypes.fetchTokenBalanceFulfilledForLedger:
+      return update(state, {
+        ledgerWallet: {
+          tokens: {
+            [action.address]: {
+              balance: {$set: action.balance}
+            }
+          }
+        }
       })
     case actionTypes.resetEXTRPageReducer:
       return Object.assign({}, initialState)

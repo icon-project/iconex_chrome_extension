@@ -10,7 +10,9 @@ function mapStateToProps(state) {
     selectedAccount: state.wallet.selectedWallet.account,
     tokenInfo: state.wallet._07_tokenInfo,
     tokenInfoLoading: state.wallet._07_tokenInfoLoading,
-    error: state.wallet._07_tokenInfoError
+    error: state.wallet._07_tokenInfoError,
+    isLedger: state.ledger.isLedger,
+    ledgerWallet: state.ledger.ledgerWallet
   };
 }
 

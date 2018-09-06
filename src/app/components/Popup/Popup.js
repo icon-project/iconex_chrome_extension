@@ -100,10 +100,8 @@ class Popup extends Component {
           return <DeleteTokenContainer />
         case 'updateToken':
           return <UpdateTokenContainer />
-        case 'address_exchange':
-        case 'history_exchange':
-        case 'address_transaction':
-        case 'history_transaction':
+        case 'addressBook':
+        case 'myWallet':
           return <AddressListContainer type={type}/>
         case 'sendTransaction_exchange':
         case 'sendTransaction_transaction':

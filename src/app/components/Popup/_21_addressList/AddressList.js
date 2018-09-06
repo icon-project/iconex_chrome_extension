@@ -1,89 +1,14 @@
 /* eslint-disable array-callback-return */
 
 import React, { Component } from 'react';
-import { AddressTable, SmallPopup } from 'app/components';
-import { makeWalletArray, check0xPrefix } from 'utils'
+import { AddressTable } from 'app/components';
+import { makeWalletArray } from 'utils'
 import withLanguageProps from 'HOC/withLanguageProps';
 import { Alert } from 'app/components/';
-import { ETH_SCAN } from 'constants/config.js'
-
 
 @withLanguageProps
 class AddressList extends Component {
-  constructor(props) {
-    super(props);
 
-    const {
-      type,
-      wallets,
-      selectedAccount,
-      selectedTokenId,
-      txHistory,
-      isToken,
-      isLedger,
-      ledgerWallet
-    } = props;
-
-    this.state = {
-      addressArr: []
-    };
-
-    const currentWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
-
-    switch (type) {
-      case 'address_transaction':
-        let addressArr;
-        const walletsArr = makeWalletArray(wallets);
-        if (!isToken) {
-          addressArr = walletsArr;
-        } else {
-          addressArr = walletsArr.map((wallet) => {
-            return Object.assign({}, wallet, {
-              'balance': wallet['tokens'][selectedTokenId] ? wallet['tokens'][selectedTokenId]['balance'] : '0',
-              'unit': wallet['tokens'][selectedTokenId] ? wallet['tokens'][selectedTokenId]['symbol'] : ' ',
-            })
-          })
-        }
-        addressArr = addressArr
-                    .filter(l => l.account !== selectedAccount)
-                    .filter(l => l.type === currentWallet.type)
-
-        this.state = {
-          addressArr
-        }
-        break;
-
-      case 'history_transaction':
-        const txHistoryFilter = txHistory.filter(l => l.toAddr !== selectedAccount)
-        this.state = {
-          addressArr: txHistoryFilter
-        }
-        break;
-//
-// -      case 'history_transaction':
-//   -        if (!isToken) {
-//   -          coin = wallets[selectedAccount];
-//   -        } else {
-//   -          coin = wallets[selectedAccount].tokens[selectedTokenId];
-//   -          tokenSymbol = coin.symbol;
-//   +        this.state = {
-//   +          addressArr
-//            }
-//   -        let { recent } = coin;
-//   -        recent = recent.sort((a, b) => b.time - a.time)
-//   -        recent = recent.map((item) => {
-//   -          const addressStr = makeAddressStr(item.to, item.type)
-//   -          return Object.assign({}, item, {
-//   -            'name': wallets[addressStr] ? wallets[addressStr].name : '-',
-//   -            'unit': !isToken ? item.type : tokenSymbol,
-//   -          })
-//   -        });
-//   -        return recent;
-
-      default:
-        break;
-    }
-  }
 
   componentWillUnmount() {
     this.props.resetReducer();
@@ -92,17 +17,8 @@ class AddressList extends Component {
   noResultError = () => {
     let alertError = '';
     switch (this.props.type) {
-      case 'address_exchange':
-        alertError = 'alertAddressExchange'
-        break;
-      case 'address_transaction':
+      case 'myWallet':
         alertError = 'alertAddressTransaction'
-        break;
-      case 'history_exchange':
-        alertError = 'alertHistoryExchange'
-        break;
-      case 'history_transaction':
-        alertError = 'alertHistoryTransaction'
         break;
       default:
         alertError = ''
@@ -115,65 +31,84 @@ class AddressList extends Component {
     this.props.closePopup();
   }
 
+  getAddressArr = () => {
+    const {
+      type,
+      wallets,
+      selectedAccount,
+      selectedTokenId,
+      isToken,
+      isLedger,
+      ledgerWallet
+    } = this.props;
+
+    const currentWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
+
+    switch (type) {
+      case 'myWallet':
+        let addressArr;
+        const walletsArr = makeWalletArray(wallets);
+        if (!isToken) {
+          addressArr = walletsArr;
+        } else {
+          addressArr = walletsArr.map((wallet) => {
+            return Object.assign({}, wallet, {
+              'balance': wallet['tokens'][selectedTokenId] ? wallet['tokens'][selectedTokenId]['balance'] : '0',
+              'unit': wallet['tokens'][selectedTokenId] ? wallet['tokens'][selectedTokenId]['symbol'] : '',
+            })
+          })
+        }
+        addressArr = addressArr
+                    .filter(l => l.account !== selectedAccount)
+                    .filter(l => l.type === currentWallet.type)
+        return addressArr
+      case 'addressBook':
+        return this.props[`${currentWallet.type}AddressBook`]
+      default:
+        break;
+    }
+  }
+
   render() {
     const { I18n, isLedger, wallets, ledgerWallet, selectedAccount } = this.props;
-    const { addressArr } = this.state;
-
+    const addressArr = this.getAddressArr();
     const currentWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
 
     let title = ''
     switch (this.props.type) {
-      case 'address_exchange':
-      case 'address_transaction':
+      case 'myWallet':
         title = I18n.addressList.myAddress
+        if (addressArr.length < 1) {
+          const alertError = this.noResultError();
+          return (
+            <Alert
+              handleCancel={this.closeAlert}
+              text={I18n.error[alertError]}
+              cancelText={I18n.button.confirm}
+            />
+          )
+        }
         break;
-      case 'history_exchange':
-      case 'history_transaction':
-        title = I18n.addressList.recentHistory
+      case 'addressBook':
+        title = I18n.addressList.addressBook
         break;
       default:
-    }
-
-    if (this.props.type === 'history_transaction' && currentWallet.type === 'eth') {
-      return (
-        <div>
-          <div className="dimmed"></div>
-          <div className="popup-wrap home">
-            <SmallPopup
-              handleCancel={this.closeAlert}
-              text={`${I18n.coinDetailHistoryNoTransactionEth}<br/><a href=${ETH_SCAN()}/address/${check0xPrefix(selectedAccount)} target="_blank">https://etherscan.io/</a>`}
-              cancelText={I18n.button.close}
-              submitText={undefined}
-            />
-          </div>
-        </div>
-      )
-    }
-
-    if (addressArr.length < 1) {
-      const alertError = this.noResultError();
-      return (
-        <Alert
-          handleCancel={this.closeAlert}
-          text={I18n.error[alertError]}
-          cancelText={I18n.button.confirm}
-        />
-      )
+        break;
     }
 
     return (
       <div>
         <div className="dimmed"></div>
-    		<div className="popup address">
-    			<span className="close" onClick={this.props.closePopup}><em className="_img"></em></span>
-    			<h1 className="title">{title}</h1>
+        <div className="popup address">
+          <span className="close" onClick={this.props.closePopup}><em className="_img"></em></span>
+          <h1 className="title">{title}</h1>
           <AddressTable
-            selectAddress={(address) => this.props.setRecipientAddress(address)}
+            selectAddress={(address) => this.props.setRecipientAddress(address, true)}
             listArr={addressArr}
-            currentWallet={isLedger ? ledgerWallet : wallets[selectedAccount]}
+            currentWallet={currentWallet}
             {...this.props}/>
-    		</div>
-    	</div>
+        </div>
+      </div>
     );
   }
 }

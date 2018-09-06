@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { ContractExecuteSectionContainer } from 'app/containers/';
 import withClickOut from 'HOC/withClickOut';
+import withLanguageProps from 'HOC/withLanguageProps';
 import isEqual from 'lodash.isequal';
 
 const INIT_STATE = {
   showFuncList: false
 }
 
+@withLanguageProps
 class ContractRunSection extends Component {
 
   constructor(props) {
@@ -22,13 +24,13 @@ class ContractRunSection extends Component {
   }
 
   render() {
-    const { funcList, selectedFuncIndex } = this.props;
+    const { I18n, funcList, selectedFuncIndex } = this.props;
     const { showFuncList } = this.state;
     if (funcList.length > 0) {
       return (
         <div className="search-holder" style={{minHeight: 420}}>
           <div className="group">
-            <span className="label">조회 / 실행하기</span>
+            <span className="label">{I18n.contractReadPage}</span>
             <span className="money-group" onClick={this.toggleFuncList}>{funcList[selectedFuncIndex].name}<em className="_img"></em>
             {
               showFuncList && (

@@ -9,6 +9,7 @@ import { historyReducer } from 'redux/reducers/historyReducer'
 import { contractReducer } from 'redux/reducers/contractReducer'
 import { rateReducer } from 'redux/reducers/rateReducer'
 import { ledgerReducer } from 'redux/reducers/ledgerReducer'
+import { addressBookReducer } from 'redux/reducers/addressBookReducer'
 
 const rootReducer = combineReducers({
   global: globalReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   history: historyReducer,
   contract: contractReducer,
   rate: rateReducer,
-  ledger: ledgerReducer
+  ledger: ledgerReducer,
+  addressBook: addressBookReducer
 });
 
 export default rootReducer;

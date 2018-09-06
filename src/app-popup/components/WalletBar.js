@@ -54,15 +54,18 @@ class WalletBar extends Component {
   }
 
   render() {
-    const { wallet, index, I18n, isRequestedStatus, transaction, password, error, loading } = this.props
+    const { wallet, index, I18n, isRequestedStatus, transaction, password, error, loading, score } = this.props
+
     const { onCellClick, handleChange, onCancelClick, onConfirmClick} = this.props
     const { addressHoverState, addressClickState } = this.state;
     const balanceText = convertNumberToText(wallet.balance, wallet.type, true);
+    const _isScore = this.props.isScore()
+    const isPwInput = (_isScore && wallet.account === score.from) || (!_isScore && wallet.account === transaction.from)
 
     return (
       <li className={isRequestedStatus ? 'requested' : ''} onClick={()=>{onCellClick(wallet.account)}}>
         <span className="name">{wallet.name}<em>{Object.keys(wallet.tokens).length + 1}</em></span>
-        <span className="coin">{balanceText}<em>{wallet.type.toUpperCase()}</em></span>
+        <span className="coin">{wallet.isError ? '-' : balanceText}<em>{wallet.type.toUpperCase()}</em></span>
         {
           addressClickState !== 'complete' ? (
             <p onMouseEnter={() => this.handleAddressMouseOver('copy')} onMouseLeave={() => this.handleAddressMouseOver('address')} onClick={this.handleCopy} className={addressHoverState}>{wallet.account}
@@ -74,7 +77,7 @@ class WalletBar extends Component {
         }
         <span className={`copyKey copyKey${index}`}>{wallet.account}</span>
 
-        {!isEmpty(transaction) && wallet.account === transaction.from &&
+        {isPwInput &&
           <div className="pass-holder">
             <div className="name-group">
               <input type="password" className={`txt-type-normal ${error ? 'error' : ''}`} spellCheck="false"
@@ -89,7 +92,6 @@ class WalletBar extends Component {
                         : (<button className="btn-type-ok" onClick={onConfirmClick}><span>{I18n.button.confirm}</span></button>)}
           </div>
         }
-
       </li>
     )
   }

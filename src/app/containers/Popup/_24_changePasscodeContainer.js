@@ -8,7 +8,8 @@ import { getWallet } from 'redux/actions/walletActions';
 function mapStateToProps(state) {
   return {
     wallets: state.wallet.wallets,
-    language: state.global.language
+    language: state.global.language,
+    passcodeHash: state.global.passcodeHash
   };
 }
 

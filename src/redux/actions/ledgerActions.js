@@ -19,3 +19,9 @@ export function resetLedgerReducer() {
     type: actionTypes.resetLedgerReducer
   }
 }
+
+export function updateLedgerWalletBalance() {
+  return {
+    type: actionTypes.updateLedgerWalletBalance
+  }
+}

@@ -4,6 +4,8 @@ import { LoadingComponent } from 'app/components/';
 import withLanguageProps from 'HOC/withLanguageProps'
 
 const INIT_STATE = {
+  currentWallet: {},
+  ownTokens: [],
   address: '',
   name: '',
   symbol: '',
@@ -26,8 +28,11 @@ class AddToken2 extends Component {
   }
 
   componentWillMount() {
+    const { isLedger, ledgerWallet, wallets, selectedAccount } = this.props;
+    const currentWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
     this.setState({
-      ownTokens: Object.keys(this.props.wallets[this.props.selectedAccount].tokens)
+      currentWallet: currentWallet,
+      ownTokens: Object.keys(currentWallet.tokens)
     });
   }
 
@@ -48,7 +53,7 @@ class AddToken2 extends Component {
               defaultSymbol: tokenInfo.defaultSymbol || this.state.symbol,
               defaultDecimals: tokenInfo.defaultDecimals || this.state.decimals,
             }],
-            nextProps.wallets[nextProps.selectedAccount].type
+            this.state.currentWallet.type
           );
         } else {
           const result = {
@@ -79,12 +84,14 @@ class AddToken2 extends Component {
   }
 
   closePopup = () => {
+    const { isLedger } = this.props;
     this.props.closePopup();
-    this.props.resetSelectedWallet();
+    if (!isLedger) this.props.resetSelectedWallet();
   }
 
   validateForm = (e, state = '') => {
     let {
+      currentWallet,
       address,
       addressError,
       name,
@@ -95,7 +102,7 @@ class AddToken2 extends Component {
       decimalsError
     } = this.state;
 
-    const walletCoinType = this.props.wallets[this.props.selectedAccount].type;
+    const walletCoinType = currentWallet.type;
 
     let targetArr = [];
 
@@ -146,7 +153,8 @@ class AddToken2 extends Component {
   handleSubmit = () => {
     const {
       address,
-      ownTokens
+      ownTokens,
+      currentWallet
     } = this.state;
 
     if (ownTokens.includes(address)) {
@@ -162,7 +170,7 @@ class AddToken2 extends Component {
       isSubmit: true,
       addressError: ''
     }, () => {
-      this.props.getTokenInfo(address, this.props.wallets[this.props.selectedAccount].type)
+      this.props.getTokenInfo(address, currentWallet.type)
     })
 
     // initialize timeout
@@ -174,7 +182,7 @@ class AddToken2 extends Component {
       return
     }
 
-    const walletCoinType = this.props.wallets[this.props.selectedAccount].type;
+    const walletCoinType = this.state.currentWallet.type;
     const target = e.target.getAttribute('data-type');
     const value = target === 'address' ? e.target.value.trim() : e.target.value
     const state = this.state;
@@ -190,7 +198,7 @@ class AddToken2 extends Component {
           isLoading: true
         }, () => {
           this.timeout = setTimeout(()=>{
-            this.props.getTokenInfo(value, this.props.wallets[this.props.selectedAccount].type)
+            this.props.getTokenInfo(value, walletCoinType)
           }, 500)
         });
       }

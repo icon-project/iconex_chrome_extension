@@ -1,22 +1,26 @@
 import {
   eth_sendCoinApi,
   eth_sendTokenApi,
-  eth_getGasInfoApi
+  eth_getTxFeeInfoApi
 } from './walletEthApi'
 
 import {
   icx_sendCoinApi,
-  icx_sendTokenApi
+  icx_sendTokenApi,
+  icx_getTxFeeInfoApi
 } from './walletIcxApi'
 
-export function getGasInfoApi(type, param) {
+export function getTxFeeInfoApi(type, param) {
   switch(type) {
     case 'icx':
-      return 0
+      return new Promise(resolve => {
+        const result = icx_getTxFeeInfoApi(param);
+        resolve(result);
+      });
     case 'eth':
     default:
       return new Promise(resolve => {
-        const result = eth_getGasInfoApi(param);
+        const result = eth_getTxFeeInfoApi(param);
         resolve(result);
       });
   }

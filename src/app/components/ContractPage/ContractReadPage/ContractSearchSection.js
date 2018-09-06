@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { LoadingComponent } from 'app/components/';
 import { isIcxContractAddress } from 'utils';
+import withLanguageProps from 'HOC/withLanguageProps'
 
 const INIT_STATE = {
 }
 
+@withLanguageProps
 class ContractSearchSection extends Component {
 
   constructor(props) {
@@ -41,16 +43,23 @@ class ContractSearchSection extends Component {
   }
 
   render() {
-    const { contractAddress, contractAddressError, abi, abiLoading } = this.props;
+    const { I18n, contractAddress, contractAddressError, abi, abiLoading } = this.props;
     return (
       <div>
         <div className="address-holder">
           <div className="group">
-            <span className="label">컨트랙트 주소</span>
-            <input type="text" onChange={this.handleContractAddressChange} onBlur={this.handleContractAddressBlur} className={`txt-type-normal ${contractAddressError ? 'error' : ''}`} placeholder="컨트랙트 주소 입력" value={contractAddress} spellCheck="false" />
-            <p className="error">{contractAddressError}</p>
+            <span className="label">{I18n.contractList.contractAddress}</span>
+            <input
+              type="text"
+              onChange={this.handleContractAddressChange}
+              onBlur={this.handleContractAddressBlur}
+              className={`txt-type-normal ${contractAddressError ? 'error' : ''}`}
+              placeholder={I18n.contractReadPageAddressInputPlaceHolder}
+              value={contractAddress}
+              spellCheck="false" />
+            <p className="error">{I18n.error[contractAddressError]}</p>
             <div className="-holder">
-              <button className="btn-type-copy" onClick={this.handleButtonClick}><span>컨트랙트 목록</span></button>
+              <button className="btn-type-copy" onClick={this.handleButtonClick}><span>{I18n.contractList.contractList}</span></button>
             </div>
           </div>
         </div>
@@ -59,7 +68,7 @@ class ContractSearchSection extends Component {
             <span className="label">API / JSON Interface</span>
             <textarea
               rows="9"
-              placeholder="컨트랙트 주소를 입력하면 자동으로 작성됩니다."
+              placeholder={I18n.contractAbiPlaceHolder}
               readOnly
               value={abi}
               ></textarea>
@@ -70,7 +79,7 @@ class ContractSearchSection extends Component {
                 </button>
               ) : (
                 <button onClick={this.setFuncList} className="btn-type-fill3">
-                  <span>확인</span>
+                  <span>{I18n.button.confirm}</span>
                 </button>
               )
             }

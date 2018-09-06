@@ -71,17 +71,9 @@ function validateIconexFile(iconexFile) {
 function isIRCTokenFunc(array){
   const compare = (funcObj) => {
     const func = array.filter(e => e.name === funcObj.name)[0];
-    if (funcObj.name === 'fallback') {
-      if (func.hasOwnProperty('payable')) {
-        const funcObjWithPayable = {
-          ...funcObj,
-          payable: '0x1'
-        }
-        return isEqual(func, funcObjWithPayable);
-      }
-    }
     return isEqual(func, funcObj);
   }
+  
   const IRCTokenFunc = [
     {"type":"function","name":"balanceOf","inputs":[{"name":"_owner","type":"Address"}],"outputs":[{"type":"int"}],"readonly":"0x1"},
     {"type":"function","name":"decimals","inputs":[],"outputs":[{"type":"int"}],"readonly":"0x1"},
@@ -90,8 +82,6 @@ function isIRCTokenFunc(array){
     {"type":"function","name":"totalSupply","inputs":[],"outputs":[{"type":"int"}],"readonly":"0x1"},
     {"type":"function","name":"transfer","inputs":[{"name":"_to","type":"Address"},{"name":"_value","type":"int"},{"name":"_data","type":"bytes","default":null}],"outputs":[]}
   ]
-
-//  {"type":"fallback","name":"fallback","inputs":[]},
 
   for (let i=0; i<IRCTokenFunc.length; i++) {
     const isValueExist = compare(IRCTokenFunc[i]);
@@ -117,7 +107,7 @@ function parseError(errorObj, coinType) {
       return errorObj.message
     }
     case (errorObj.hasOwnProperty('code') && errorObj.hasOwnProperty('message')) : {
-      return coinType === 'icx' ? errorObj.code : errorObj.message
+      return errorObj.message
     }
     default:
       return ''

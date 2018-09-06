@@ -81,7 +81,9 @@ class MyWallet extends Component {
 
     if (this.props.score.loading !== nextProps.score.loading && !nextProps.score.loading) {
       window.chrome.tabs.query({ active: true }, (tabs) => {
-        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_SCORE', payload: this.props.score.result });
+        const { error, result } = this.props.score
+        const payload = error || result
+        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_SCORE', payload });
         this.clearPopup()
       });
     }

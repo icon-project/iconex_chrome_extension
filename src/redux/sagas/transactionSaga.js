@@ -137,7 +137,8 @@ export function* callScoreExternallyFunc(action) {
     const payload = yield call(CALL_SCORE_EXTERNALLY_API, param);
     yield put({type: AT.callScoreExternallyFulfilled, payload: payload});
   } catch (e) {
-    alert(e);
+    // alert(e);
+    console.log(e)
     yield put({type: AT.callScoreExternallyRejected, error: e});
   }
 }

@@ -396,13 +396,18 @@ export function icx_callScoreExternally(param) {
     walletApi.post(`/api/v3`, JSON.stringify(param))
       .then(res => {
         if(res.data.result) {
-          resolve(res.data.result);
+          resolve(res.data);
         } else {
           throw new Error(res.data.error);
         }
       })
       .catch(error => {
-        reject(error);
+        if (!!error.response) {
+          reject(error.response.data.error);
+        }
+        else {
+          reject(error)
+        }
       })
   });
 }

@@ -187,7 +187,7 @@ class SendTransaction3 extends Component {
         if (type === 'eth') {
           return `${I18n.sendTransaction.infoSuccess}<br/>${I18n.coinDetailHistoryNoTransactionEth}<br/><a href=${TXID_URL['eth'] + check0xPrefix(tx)} target="_blank">https://etherscan.io/</a>`
         } else {
-          return `${I18n.sendTransaction.infoSuccess}<br/>${I18n.coinDetailHistoryIcx}<br/><a href=${TXID_URL['icx'] + tx} target="_blank">https://tracker.icon.foundation/</a>`
+          return `${I18n.sendTransaction.infoSuccess}<br/>${I18n.coinDetailHistoryIcx}<br/><a href=${TXID_URL['icx'] + tx} target="_blank">${I18n.sendTransaction.openTracker}</a>`
         }
       }
       default:

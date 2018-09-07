@@ -585,7 +585,9 @@ export default {
     walletAddress: 'Wallet Address',
 
     txComplete: 'Request for write contract has been completed.',
-    txHashTracker: 'Tx Hash is trackable on ICON Tracker.'
+    txHashTracker: 'Tx Hash is trackable on ICON Tracker.',
+
+    openTracker: 'Go to ICON Tracker'
   },
 
   connectLedger: {

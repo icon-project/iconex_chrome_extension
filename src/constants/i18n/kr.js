@@ -586,7 +586,9 @@ export default {
     walletAddress: '지갑 주소',
 
     txComplete: '실행이 완료 되었습니다.',
-    txHashTracker: 'TxHash는 ICON Tracker에서 조회 가능합니다.'
+    txHashTracker: 'TxHash는 ICON Tracker에서 조회 가능합니다.',
+
+    openTracker: 'ICON Tracker로 이동'
 
   },
 

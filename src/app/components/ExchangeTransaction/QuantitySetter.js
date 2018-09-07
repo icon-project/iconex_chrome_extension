@@ -139,7 +139,7 @@ class QuantitySetter extends Component {
                 checked={isFullBalance}
               />
               <label htmlFor="quantity-setter-cbox-01" className="_img" onClick={()=>{isLoggedIn && this.toggleCheckBox(calcData.totalBalance)}}></label>
-            {/*  { IS_V3 && isLedger && (<button onClick={() => this.props.openPopup({ popupType: 'addToken', popupNum: 2 })} className="btn-type-copy w104"><span>{I18n.addToken.title1}</span></button>) } */}
+              { IS_V3 && isLedger && (<button onClick={() => this.props.openPopup({ popupType: 'addToken', popupNum: 2 })} className="btn-type-copy w104"><span>{I18n.addToken.title1}</span></button>) }
             </div>
             {!swapPage ? (
                 <ComboBox
@@ -162,7 +162,7 @@ class QuantitySetter extends Component {
           </div>
         </div>
     {
-      !isLedger && (isLoggedIn && !swapPage) && (calcData.coinType === 'icx' ? IS_V3 : true) && (
+      (isLoggedIn && !swapPage) && (calcData.coinType === 'icx' ? IS_V3 : true) && (
         <TxFeeAndDataContainer />
       )
     }

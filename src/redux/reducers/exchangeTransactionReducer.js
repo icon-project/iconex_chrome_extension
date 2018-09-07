@@ -170,7 +170,7 @@ const calcData = (props) => {
   let txFee = txFeePriceCalc.times(txFeeLimitNumber)
   const txFeePriceWithRate = convertNumberToText(txFeePriceCalc.times(usdRate), 'usd', false);
 
-  if((!IS_V3 && walletCoinType === 'icx') || isLedger) {
+  if(!IS_V3 && walletCoinType === 'icx') {
     txFee = new BigNumber(0.01);
   }
 

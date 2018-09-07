@@ -403,7 +403,7 @@ function makeEthRawTx(isToken, data) {
 
 function makeIcxRawTx(isContract, data) {
   let rawTx = {}
-  if (!IS_V3 || data.isLedger) {
+  if (!IS_V3) {
     const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
     rawTx = {
       from: data.from,

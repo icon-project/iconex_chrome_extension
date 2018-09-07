@@ -106,16 +106,20 @@ class ValidationForm extends Component {
               haveThreeSameCharacter = true;
             }
           }
+
           if (!this.state.pw) {
             pwError = I18n.error.pwErrorEnter
             break;
           } else if(this.state.pw.length < 8) {
             pwError = I18n.error.pwErrorEight
             break;
+          } else if(!(/^[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]*$/.test(this.state.pw))) {
+            pwError = I18n.error.pwErrorMix
+            break;
           } else if(!(/^.*(?=.*\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()_+|<>?:{}]).*$/.test(this.state.pw))) {
             pwError = I18n.error.pwErrorMix
             break;
-          } else if((/(.)\1\1/.test(this.state.pw))) {
+          }  else if((/(.)\1\1/.test(this.state.pw))) {
             pwError = I18n.error.pwErrorSame
             break;
           } else if(this.state.pw.indexOf(' ') >= 0) {

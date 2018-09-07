@@ -65,6 +65,17 @@ export const ICX_TRACKER_SERVER = () => {
   return obj[icxServer];
 }
 
+export const ICX_NID = () => {
+  const icxServer = getCurrentServer('icx');
+  const obj = {
+    'test': '0x2',
+    'main': '0x1',
+    'dev': '0x3',
+    'custom': '0x3'
+  }
+  return obj[icxServer];
+}
+
 export const ETH_SERVER = () => {
   const ethServer = getCurrentServer('eth');
   const obj = {

@@ -5,7 +5,7 @@ import i18n from 'constants/i18n'
 import React from 'react';
 import BigNumber from 'bignumber.js';
 import { erc20Abi } from 'constants/index'
-import { CHAIN_ID, IS_V3 } from 'constants/config.js'
+import { IS_V3, ICX_NID } from 'constants/config.js'
 
 function charFreq( string ) {
     let value;
@@ -420,7 +420,7 @@ function makeIcxRawTx(isContract, data) {
       from: data.from,
       to: data.contractAddress,
       version: "0x3",
-      nid: '0x3',
+      nid: ICX_NID(),
       stepLimit: check0xPrefix(new BigNumber(data.txFeeLimit).toString(16)),
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16)),
       dataType: 'call',
@@ -440,7 +440,7 @@ function makeIcxRawTx(isContract, data) {
       to: data.to,
       value: window.web3.toHex(sendAmount),
       version: "0x3",
-      nid: '0x3',
+      nid: ICX_NID(),
       stepLimit: check0xPrefix(new BigNumber(data.txFeeLimit).toString(16)),
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16))
     }

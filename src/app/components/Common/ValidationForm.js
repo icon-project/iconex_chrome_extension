@@ -52,15 +52,16 @@ class ValidationForm extends Component {
   }
 
   handleSuccess = () => {
+    const walletNameTrim = this.state.walletName.trim()
     switch(this.props.type) {
       case 'createWallet':
-        this.props.onSuccess(this.state.walletName, this.state.pw);
+        this.props.onSuccess(walletNameTrim, this.state.pw);
         break;
       case 'importWallet_file':
-        this.props.onSuccess(this.state.walletName);
+        this.props.onSuccess(walletNameTrim);
         break;
       case 'importWallet_privKey':
-        this.props.onSuccess(this.state.walletName, this.state.pw);
+        this.props.onSuccess(walletNameTrim, this.state.pw);
         break;
       case 'exportWallet':
         this.props.onSuccess(this.state.pw);
@@ -90,7 +91,7 @@ class ValidationForm extends Component {
             walletNameError = I18n.error.alertWalletName
             break;
           }
-          else if (isWalletNameExists(this.props.wallets, this.state.walletName)) {
+          else if (isWalletNameExists(this.props.wallets, this.state.walletName.trim())) {
             walletNameError = I18n.error.alertWalletNameSame
             break;
           }

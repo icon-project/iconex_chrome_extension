@@ -357,7 +357,7 @@ function makeAddressStr(address, type) {
 
 function onlyKorEngNum(text) {
   if (text === '') return true
-  const pattern = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9|\s\*]+$/
+  const pattern = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9|~!@#$%^&*()_+|<>?:{}|\s\*]+$/
   return pattern.test(text)
 }
 

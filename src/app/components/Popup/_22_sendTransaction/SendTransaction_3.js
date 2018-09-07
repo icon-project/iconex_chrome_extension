@@ -61,7 +61,7 @@ class SendTransaction3 extends Component {
     fetchWallet[selectedAccount] = sending
     if (receiving) fetchWallet[recipientAddress] = receiving
 
-    this.props.fetchAll(fetchWallet)
+    this.props.updateWalletBalance(fetchWallet)
   }
 
   closePopupAfterTx = () => {
@@ -84,7 +84,8 @@ class SendTransaction3 extends Component {
       case 'transaction': {
         this.props.closePopup();
         if (!isLedger) {
-          this.props.history.push(ROUTE['mywallet']);
+          this.updateWallets();
+          this.props.resetInput();
         } else {
           this.props.updateLedgerWalletBalance();
           this.props.resetInput();

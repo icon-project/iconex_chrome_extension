@@ -178,6 +178,7 @@ const actionTypes = {
   setEXTRLogInStateForLedger: 'SET_EXTR_LOG_IN_STATE_FOR_LEDGER',
   confirmLedger: 'CONFIRM_LEDGER',
   resetLedgerReducer: 'RESET_LEDGER_REDUCER',
+  updateWalletBalance: 'UPDATE_WALLET_BALANCE',
   updateLedgerWalletBalance: 'UPDATE_LEDGER_WALLET_BALANCE',
   updateLedgerWalletBalanceFulfilled: 'UPDATE_LEDGER_WALLET_BALANCE_FULFILLED',
   updateLedgerWalletBalanceRejected: 'UPDATE_LEDGER_WALLET_BALANCE_REJECTED',

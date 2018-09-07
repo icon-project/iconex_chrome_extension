@@ -147,6 +147,30 @@ function* fetchTokenBalanceFunc(action) {
   }
 }
 
+function* updateWalletBalanceFunc(action) {
+  try {
+    yield put({type: AT.totalResultLoading});
+    let keys = Object.keys(action.payload);
+    let values = Object.values(action.payload);
+
+    let fetchDataArr = [];
+    for(let i=0; i<keys.length; i++) {
+      let param = {
+        account: keys[i],
+        tokens: values[i].tokens,
+        coinType: values[i].type
+      }
+      fetchDataArr.push(call(fetchWalletDataFunc, param));
+    }
+    yield all(fetchDataArr);
+    yield put({type: AT.totalResultFulfilled});
+    yield put({type: AT.setCalcData});
+  } catch (e) {
+    yield put({type: AT.totalResultRejected});
+    alert(e);
+  }
+}
+
 function* updateLedgerWalletBalanceFunc(action) {
   try {
     const isToken = yield select(state => state.wallet.selectedWallet.isToken)
@@ -425,6 +449,10 @@ function* watchFetchTokenBalance() {
   yield takeEvery(AT.fetchTokenBalance, fetchTokenBalanceFunc)
 }
 
+function* watchUpdateWalletBalance() {
+  yield takeLatest(AT.updateWalletBalance, updateWalletBalanceFunc)
+}
+
 function* watchUpdateLedgerWalletBalance() {
   yield takeLatest(AT.updateLedgerWalletBalance, updateLedgerWalletBalanceFunc)
 }
@@ -478,6 +506,7 @@ export default function* walletSaga() {
    yield fork(watchFetchAll);
    yield fork(watchFetchWalletData);
    yield fork(watchFetchCoinBalance);
+   yield fork(watchUpdateWalletBalance);
    yield fork(watchUpdateLedgerWalletBalance);
    yield fork(watchFetchTokenBalance);
    yield fork(watchFetchRecentHistory);

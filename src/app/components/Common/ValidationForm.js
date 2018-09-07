@@ -113,10 +113,7 @@ class ValidationForm extends Component {
           } else if(this.state.pw.length < 8) {
             pwError = I18n.error.pwErrorEight
             break;
-          } else if(!(/^[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]*$/.test(this.state.pw))) {
-            pwError = I18n.error.pwErrorMix
-            break;
-          } else if(!(/^.*(?=.*\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()_+|<>?:{}]).*$/.test(this.state.pw))) {
+          } else if(!(/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+{}:<>?]).{8,}$/.test(this.state.pw))) {
             pwError = I18n.error.pwErrorMix
             break;
           }  else if((/(.)\1\1/.test(this.state.pw))) {

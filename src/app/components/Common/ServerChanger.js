@@ -53,9 +53,9 @@ const inputButtonStyle = {
 
 // list constants
 const icxServerList = {
-  'test': 'test',
-  'main': 'main',
-  'dev': 'dev',
+  'mainnet': 'mainnet',
+  'euljiro': 'euljiro',
+  'yeouido': 'yeouido',
   'custom': 'custom'
 }
 const icxApiVersionList = {

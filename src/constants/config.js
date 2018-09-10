@@ -1,6 +1,14 @@
 const isDevVersion = () => process.env.USER === 'developer';
 const isAccessedFromWorker = typeof window === 'undefined';
 
+const isDevModeOn = () => {
+  if (isAccessedFromWorker) {
+    return false
+  } else {
+    return localStorage.getItem('isDev') || false
+  }
+}
+
 export const getCustomIcxServer = () => {
   const initialCustomServer = {
     customWalletURL: '',
@@ -9,7 +17,9 @@ export const getCustomIcxServer = () => {
   if (isAccessedFromWorker) {
     return initialCustomServer
   } else {
-    return localStorage.getItem('customIcxServer') ? JSON.parse(localStorage.getItem('customIcxServer')) : initialCustomServer
+    return localStorage.getItem('customIcxServer')
+              ? JSON.parse(localStorage.getItem('customIcxServer'))
+              : initialCustomServer
   }
 }
 
@@ -17,8 +27,8 @@ export const INITIAL_API_VERSION_ICX = 'v3';
 export const INITIAL_SERVER_ICX = prodDev('mainnet', 'euljiro');
 export const INITIAL_SERVER_ETH = prodDev('main', 'ropsten');
 
-export const HIDE_SERVER = isDevVersion() ? false : true;
-export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://localhost:3000')
+export const HIDE_SERVER = isDevVersion() || isDevModeOn() ? false : true;
+export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://hardwallet.icon.foundation/test.html')
 
 export const getCurrentServer = (coinType) => {
   let server;

@@ -8,10 +8,10 @@
 .content-wrap .wrap-holder.exchange .quantity-holder .controller .b.minus {
   margin-right: 3px;
 }
-.content-wrap .wrap-holder.exchange .quantity-holder .controller ul {
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul#dragBar {
   margin-left: 241px;
 }
-.content-wrap .wrap-holder.exchange .quantity-holder .controller ul li {
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul#dragBar li {
   margin-right: 0px;
 }
 

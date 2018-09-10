@@ -494,9 +494,14 @@ function dataToHex(text) {
   return convertedText;
 }
 
+function bytesToKB(input) {
+  return Math.ceil(input / 1024);
+}
+
 function isObject (value) {
   return value && typeof value === 'object' && value.constructor === Object;
 }
+
 function checkURLSuffix (value) {
   if (!value) return value;
   return value[value.length-1] === '/' ? value.slice(0, -1) : value
@@ -539,7 +544,8 @@ export {
   makeEthRawTx,
   makeIcxRawTx,
   isDevelopment,
-  calcGasPrice
+  calcGasPrice,
+  bytesToKB,
   isObject,
   checkURLSuffix
 }

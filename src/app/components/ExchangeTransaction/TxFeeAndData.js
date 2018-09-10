@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import InputRange from 'react-input-range';
-import { nToBr, convertNumberToText, dataToHex } from 'utils';
-import BigNumber from 'bignumber.js';
+import { nToBr, convertNumberToText, bytesToKB } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -248,12 +247,11 @@ class TxFeeAndData extends Component {
           )
         }
         {
-          !isToken && showDataInput && (
+          !isToken && (
             <div className={`input-group ${dataError && 'error'}`}>
 							<textarea onChange={this.setData} onBlur={this.handleDataBlur} value={data} placeholder={`${I18n.transferPageLabel8} ${I18n.transferPageLabel9}`}></textarea>
               <p className="error data">{I18n.error[dataError]}</p>
-							{/* <p><span>{data.length}</span>/500</p> */}
-							{/* <button className="btn-type-search2 auto"><span>적정 Step 한도 조회</span></button> */}
+              { walletCoinType === 'icx' && (<p><span>≒ {bytesToKB(data.length)}KB</span> / 512KB</p>) }
 						</div>
           )
         }

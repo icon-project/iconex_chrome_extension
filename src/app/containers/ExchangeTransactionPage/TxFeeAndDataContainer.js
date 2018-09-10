@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { TxFeeAndData } from 'app/components/';
-import { setTxFeeLimit, setTxFeePrice, setCalcData, setData, setTxFeeLimitError, setContractTxFeeLimitError, setDataError, getTxFeeInfo } from 'redux/actions/exchangeTransactionActions';
+import { setTxFeeLimit, setTxFeePrice, setCalcData, setData, setDataType, setTxFeeLimitError, setContractTxFeeLimitError, setDataError, getTxFeeInfo } from 'redux/actions/exchangeTransactionActions';
 
 function mapStateToProps(state) {
   return {
@@ -18,6 +18,7 @@ function mapStateToProps(state) {
     txFeeLimit: state.exchangeTransaction.txFeeLimit,
     txFeeLimitError: state.exchangeTransaction.txFeeLimitError,
     data: state.exchangeTransaction.data,
+    dataType: state.exchangeTransaction.dataType,
     dataError: state.exchangeTransaction.dataError,
   };
 }
@@ -29,6 +30,7 @@ function mapDispatchToProps(dispatch) {
     setContractTxFeeLimitError: () => dispatch(setContractTxFeeLimitError()),
     setTxFeePrice: payload => dispatch(setTxFeePrice(payload)),
     setData: payload => dispatch(setData(payload)),
+    setDataType: payload => dispatch(setDataType(payload)),
     setDataError: () => dispatch(setDataError()),
     setCalcData: () => dispatch(setCalcData()),
     getTxFeeInfo: (payload) => dispatch(getTxFeeInfo(payload))

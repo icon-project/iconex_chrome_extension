@@ -1192,6 +1192,9 @@ input[type=checkbox][disabled][checked] + label {background-position: 0px -1000p
 
 .content-wrap .wrap-holder.exchange .quantity-holder div#gasTable .group {display: block; }
 .content-wrap .wrap-holder.exchange .quantity-holder div#gasTable > div > div { display: inline-block; position: relative; }
+.content-wrap .wrap-holder.exchange .quantity-holder div#gasTable > div > div li{display: inline-block; margin-right: 10px; }
+.content-wrap .wrap-holder.exchange .quantity-holder div#gasTable > div > div li label{font-size: 12px; color: #4d4d4d; padding-left:25px }
+
 .content-wrap .wrap-holder.exchange .quantity-holder .change-group .a .help-layer{left: 130px; width: 500px; top: 4px;}
 .content-wrap .wrap-holder.exchange .quantity-holder #gasTable .group:nth-child(1) .help-layer{left: 93px; width: 500px;}
 .content-wrap .wrap-holder.exchange .quantity-holder #gasTable .group:nth-child(2) .help-layer{left: 93px; width: 500px;}

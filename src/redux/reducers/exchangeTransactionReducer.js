@@ -25,6 +25,7 @@ const uiState = {
   txFeePrice: 21,
 
   data: '',
+  dataType: 'utf8',
   dataError: '',
   txFee: 0,
   tx: '',
@@ -294,6 +295,12 @@ export function exchangeTransactionReducer(state = initialState, action) {
         data: action.payload
       })
     }
+    case actionTypes.setDataType: {
+      return Object.assign({}, state, {
+        dataType: action.payload,
+        dataError: ''
+      })
+    }
     case actionTypes.submitCall:
       let submit = false;
       if (!action.payload) {
@@ -304,7 +311,7 @@ export function exchangeTransactionReducer(state = initialState, action) {
         const coinQuantityError = validateCoinQuantityError(state);
         const recipientAddressError = validateRecipientAddressError(state);
         const txFeeLimitError = validateTxFeeLimitError(state);
-        const dataError = state.calcData.walletCoinType === 'icx'
+        const dataError = state.calcData.walletCoinType === 'icx' && state.dataType === 'utf8'
                             ? validateMessageError(state)
                             : validateDataError(state)
         if (!coinQuantityError && !recipientAddressError && !dataError && !txFeeLimitError) {
@@ -359,7 +366,7 @@ export function exchangeTransactionReducer(state = initialState, action) {
       })
     }
     case actionTypes.setDataError: {
-      let error = state.calcData.walletCoinType === 'icx'
+      let error = state.calcData.walletCoinType === 'icx' && state.dataType === 'utf8'
                     ? validateMessageError(state)
                     : validateDataError(state)
       return Object.assign({}, state, {

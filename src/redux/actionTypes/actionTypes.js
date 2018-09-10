@@ -123,6 +123,7 @@ const actionTypes = {
   setTxFeePrice: 'SET_TX_FEE_PRICE',
   setTxFeeLimit: 'SET_TX_FEE_LIMIT',
   setData: 'SET_DATA',
+  setDataType: 'SET_DATA_TYPE',
   setRecipientAddress: 'SET_RECEIVED_ADDRESS',
   checkResultBalanceMinus: 'CHECK_RESULT_BALANCE_MINUS',
   sendCall: 'SEND_CALL',

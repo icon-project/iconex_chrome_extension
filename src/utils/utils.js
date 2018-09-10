@@ -445,7 +445,7 @@ function makeIcxRawTx(isContract, data) {
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16))
     }
     if (data.data) {
-      rawTx['data'] = check0xPrefix(dataToHex(data.data))
+      rawTx['data'] = data.messageType === 'utf8' ? check0xPrefix(dataToHex(data.data)) : data.data;
       rawTx['dataType'] = 'message';
     }
   }

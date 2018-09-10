@@ -21,6 +21,7 @@ function mapStateToProps(state) {
     privKey: state.exchangeTransaction.privKey,
     calcData: state.exchangeTransaction.calcData,
     data: state.exchangeTransaction.data,
+    dataType: state.exchangeTransaction.dataType,
     txFeePrice: state.exchangeTransaction.txFeePrice,
     txFeeLimit: state.exchangeTransaction.txFeeLimit,
     popupNum: state.popup.popupNum,

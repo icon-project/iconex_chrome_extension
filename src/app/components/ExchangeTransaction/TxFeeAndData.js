@@ -7,8 +7,7 @@ import withLanguageProps from 'HOC/withLanguageProps';
 const INIT_STATE = {
   txFeeLimitHelpLayer: false,
   txFeePriceHelpLayer: false,
-  dataHelpLayer: false,
-  showDataInput: false
+  dataHelpLayer: false
 }
 
 @withLanguageProps
@@ -68,26 +67,29 @@ class TxFeeAndData extends Component {
     }
   }
 
-  toggleDataInput = () => {
-    if (this.state.showDataInput) {
-      this.props.setData('');
-      this.props.setDataError();
-    }
-    this.setState({
-      showDataInput: !this.state.showDataInput
-    })
+  setDataType = (e) => {
+    const selectedDataType = e.currentTarget.getAttribute('data-type')
+    this.props.setDataType(selectedDataType);
   }
 
   render() {
     const {
       txFeeLimitHelpLayer,
       txFeePriceHelpLayer,
-      dataHelpLayer,
-      showDataInput
+      dataHelpLayer
     } = this.state;
 
     const {
-      txFeePrice, txFeeLimit, data, isToken, dataError, txFeeLimitError, I18n, calcData, isContractPage
+      txFeePrice,
+      txFeeLimit,
+      data,
+      isToken,
+      dataError,
+      txFeeLimitError,
+      I18n,
+      calcData,
+      isContractPage,
+      dataType
     } = this.props;
 
     const { walletCoinType, txFeePriceWithRate } = calcData;
@@ -188,7 +190,7 @@ class TxFeeAndData extends Component {
                   }}
                   onChange={txFeePrice => this.props.setTxFeePrice(txFeePrice)}
                   onChangeComplete={() => this.props.setCalcData()} />
-                <ul>
+                <ul id="dragBar">
                   <li>1</li>
                   <li>10</li>
                   <li>20</li>
@@ -219,9 +221,29 @@ class TxFeeAndData extends Component {
                   )
                 }
 							</span>
-							<div className="-holder">
-								<button onClick={this.toggleDataInput} className="btn-type-copy"><span>{I18n[`dataInput${showDataInput ? 'Close' : 'Open'}`]}</span></button>
-							</div>
+              {
+                walletCoinType === 'icx' ? (
+                  <div className="-holder">
+    								<ul className="coin">
+    									<li onClick={this.setDataType} data-type='utf8'>
+    										<input id="rbox-01" className="rbox-type" type="radio" name="rbox-1" checked={dataType === 'utf8'} />
+    										<label htmlFor="rbox-01" className="_img">UTF-8</label>
+    									</li>
+    									<li onClick={this.setDataType} data-type='hex'>
+    										<input id="rbox-02" className="rbox-type" type="radio" name="rbox-1" checked={dataType === 'hex'} />
+    										<label htmlFor="rbox-02" className="_img">HEX</label>
+    									</li>
+    								</ul>
+    							</div>
+                ) : (
+                  <div className="-holder">
+                    <li data-type='hex'>
+                      <input id="rbox-02" className="rbox-type" type="radio" name="rbox-1" checked={true} />
+                      <label htmlFor="rbox-02" className="_img">HEX</label>
+                    </li>
+    							</div>
+                )
+              }
 						</div>
           )
         }

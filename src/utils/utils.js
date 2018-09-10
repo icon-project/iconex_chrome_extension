@@ -494,6 +494,9 @@ function dataToHex(text) {
   return convertedText;
 }
 
+function isObject (value) {
+  return value && typeof value === 'object' && value.constructor === Object;
+}
 function checkURLSuffix (value) {
   if (!value) return value;
   return value[value.length-1] === '/' ? value.slice(0, -1) : value
@@ -537,5 +540,6 @@ export {
   makeIcxRawTx,
   isDevelopment,
   calcGasPrice
+  isObject,
   checkURLSuffix
 }

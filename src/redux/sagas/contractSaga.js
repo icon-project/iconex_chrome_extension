@@ -62,8 +62,9 @@ export function* executeFuncFunc(action) {
       });
       const rawTxSigned = signRawTx(privKey, rawTx)
       payload = yield call(ICX_SEND_TRANSACTION, rawTxSigned);
+      payload = [ payload ];
     }
-    yield put({type: AT.executeFuncFulfilled, payload: [payload]});
+    yield put({type: AT.executeFuncFulfilled, payload: payload});
   } catch (error) {
     console.log(error)
     yield put({type: AT.executeFuncRejected, errorMsg: error});

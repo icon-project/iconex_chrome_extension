@@ -494,6 +494,11 @@ function dataToHex(text) {
   return convertedText;
 }
 
+function checkURLSuffix (value) {
+  if (!value) return value;
+  return value[value.length-1] === '/' ? value.slice(0, -1) : value
+}
+
 export {
   charFreq,
   isEmpty,
@@ -532,4 +537,5 @@ export {
   makeIcxRawTx,
   isDevelopment,
   calcGasPrice
+  checkURLSuffix
 }

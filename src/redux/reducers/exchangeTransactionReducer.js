@@ -51,9 +51,7 @@ export function validateCoinQuantityError(state) {
   let error = '';
   if (!state.coinQuantity) {
     error = 'coinAmount'
-  } else if (Number(state.coinQuantity) === 0) {
-    error = 'coinAmountZero'
-  } else if (state.calcData.isResultBalanceMinus) {
+  } else if (state.coinQuantity !== '0' && state.calcData.isResultBalanceMinus) {
     error = 'coinAmountBalance'
   } else {
     error = ''
@@ -114,6 +112,8 @@ export function validateTxFeeLimitError(state) {
   const minStepLimit = parseInt(state.txFeeLimitTable.default, 16);
   if (!state.txFeeLimit) {
     error = 'enterGasPrice'
+  } else if (state.coinQuantity === '0' && state.calcData.isResultBalanceMinus) {
+    error = 'notEnoughBalance'
   } else if (state.calcData.walletCoinType === 'icx' && state.txFeeLimit < minStepLimit) {
     error = `stepLimitTooLow`;
   } else if (state.calcData.walletCoinType === 'icx' && new BigNumber(state.txFeeLimit).gt(state.txFeeLimitMax)) {

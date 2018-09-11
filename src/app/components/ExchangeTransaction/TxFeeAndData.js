@@ -232,11 +232,11 @@ class TxFeeAndData extends Component {
                   <div className="-holder">
     								<ul className="coin">
     									<li onClick={this.setDataType} data-type='utf8'>
-    										<input id="rbox-01" className="rbox-type" type="radio" name="rbox-1" checked={dataType === 'utf8'} />
+    										<input id="rbox-01" className="rbox-type" type="radio" name="rbox-1" checked={dataType === 'utf8'} readOnly />
     										<label htmlFor="rbox-01" className="_img">UTF-8</label>
     									</li>
     									<li onClick={this.setDataType} data-type='hex'>
-    										<input id="rbox-02" className="rbox-type" type="radio" name="rbox-1" checked={dataType === 'hex'} />
+    										<input id="rbox-02" className="rbox-type" type="radio" name="rbox-1" checked={dataType === 'hex'} readOnly />
     										<label htmlFor="rbox-02" className="_img">HEX</label>
     									</li>
     								</ul>

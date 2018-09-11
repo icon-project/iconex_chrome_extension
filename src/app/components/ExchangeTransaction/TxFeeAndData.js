@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import InputRange from 'react-input-range';
 import { nToBr, convertNumberToText, bytesToKB } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
+import { MAX_STEP_LIMIT } from 'redux/reducers/exchangeTransactionReducer'
 
 const INIT_STATE = {
   txFeeLimitHelpLayer: false,
@@ -88,10 +89,16 @@ class TxFeeAndData extends Component {
       I18n,
       calcData,
       isContractPage,
+      txFeeLimitTable,
       dataType
     } = this.props;
 
     const { walletCoinType, txFeePriceWithRate } = calcData;
+
+    const txFeeLimitErrorText =
+        txFeeLimitError === 'stepLimitTooLow' ? I18n.error[txFeeLimitError](parseInt(txFeeLimitTable.default, 16)) :
+        txFeeLimitError === 'stepLimitTooHigh' ? I18n.error[txFeeLimitError](MAX_STEP_LIMIT.toString()) :
+        I18n.error[txFeeLimitError];
 
     if (isContractPage) {
       return (
@@ -108,7 +115,7 @@ class TxFeeAndData extends Component {
             }
 					</span>
 				  <input onChange={this.setTxFeeLimit} type="text" className={`txt-type-normal ${txFeeLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={txFeeLimit} onBlur={this.handleTxFeeLimitBlur} />
-          <p className="error">{I18n.error[txFeeLimitError]}</p>
+          <p className="error">{txFeeLimitErrorText}</p>
 				</div>
         <div className="-group price">
 					<span className="title">{I18n[`transferPageLabel10_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeePriceHelpLayer" className="_img"></i>
@@ -145,7 +152,7 @@ class TxFeeAndData extends Component {
               )
             }
           </span>
-          <p className="error gasLimit">{I18n.error[txFeeLimitError]}</p>
+          <p className="error gasLimit">{txFeeLimitErrorText}</p>
           <input onChange={this.setTxFeeLimit} type="text" className={`txt-type-normal ${txFeeLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={txFeeLimit} onBlur={this.handleTxFeeLimitBlur} />
         </div>
         <div className="group money">

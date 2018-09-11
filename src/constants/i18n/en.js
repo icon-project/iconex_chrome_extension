@@ -116,7 +116,13 @@ export default {
 
     checkData: 'Please check your data.',
     dataOverLimit: 'This exceeds input limit 512KB.',
-    enterGasPrice: 'Please enter the gas limit.',
+    enterGasPrice: 'Please enter the limit.',
+    stepLimitTooLow: (stepLimit) => {
+      return `Enter step limit more than ${stepLimit}.`
+    },
+    stepLimitTooHigh: (stepLimit) => {
+      return `Enter step limit less than ${stepLimit}.`
+    },
     notEnoughBalance: 'Insufficient ICX balance for transaction fee.',
 
     alertIcxGetBalanceError: 'An error occurred while checking your balance.',

@@ -116,7 +116,13 @@ export default {
 
     checkData: '데이터를 다시 확인해주세요.',
     dataOverLimit: '입력 한도 512KB를 초과합니다.',
-    enterGasPrice: '가스 한도를 입력해주세요.',
+    enterGasPrice: '한도를 입력해주세요.',
+    stepLimitTooLow: (stepLimit) => {
+      return `${stepLimit}보다 높은 스텝 한도를 입력해주세요.`
+    },
+    stepLimitTooHigh: (stepLimit) => {
+      return `${stepLimit}보다 낮은 스텝 한도를 입력해주세요.`
+    },
     notEnoughBalance: '수수료 지불을 위한 ICX 잔액이 부족합니다.',
 
     alertIcxGetBalanceError: '아이콘 잔고 조회 중 오류가 발생하였습니다.',

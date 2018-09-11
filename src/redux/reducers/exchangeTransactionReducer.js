@@ -4,6 +4,7 @@ import { store } from 'redux/store/store';
 import { IS_V3 } from 'constants/config.js'
 //import { coinRound as ROUND } from 'constants/index';
 import BigNumber from 'bignumber.js';
+export const MAX_STEP_LIMIT = new BigNumber(0x78000000);
 
 const mainState = {
   isLoggedIn: false,
@@ -110,8 +111,13 @@ export function validateDataError(state) {
 
 export function validateTxFeeLimitError(state) {
   let error = '';
+  const minStepLimit = parseInt(state.txFeeLimitTable.default, 16);
   if (!state.txFeeLimit) {
     error = 'enterGasPrice'
+  } else if (state.calcData.walletCoinType === 'icx' && state.txFeeLimit < minStepLimit) {
+    error = `stepLimitTooLow`;
+  } else if (state.calcData.walletCoinType === 'icx' && new BigNumber(state.txFeeLimit).gt(MAX_STEP_LIMIT)) {
+    error = `stepLimitTooHigh`;
   } else {
     error = ''
   }
@@ -120,10 +126,15 @@ export function validateTxFeeLimitError(state) {
 
 export function validateContractTxFeeLimitError(state) {
   let error = '';
+  const minStepLimit = parseInt(state.txFeeLimitTable.default, 16);
   if (!state.txFeeLimit) {
     error = 'enterGasPrice'
   } else if (state.calcData.isResultBalanceMinus) {
     error = 'notEnoughBalance'
+  } else if (state.txFeeLimit < minStepLimit) {
+    error = `stepLimitTooLow`;
+  } else if (new BigNumber(state.txFeeLimit).gt(MAX_STEP_LIMIT)) {
+    error = `stepLimitTooHigh`;
   } else {
     error = ''
   }

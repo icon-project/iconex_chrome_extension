@@ -4,7 +4,6 @@ import { store } from 'redux/store/store';
 import { IS_V3 } from 'constants/config.js'
 //import { coinRound as ROUND } from 'constants/index';
 import BigNumber from 'bignumber.js';
-export const MAX_STEP_LIMIT = new BigNumber(0x78000000);
 
 const mainState = {
   isLoggedIn: false,
@@ -38,7 +37,8 @@ const uiState = {
 
 const txFeeLimitState = {
   txFeePriceStep: '',
-  txFeeLimitTable: {}
+  txFeeLimitTable: {},
+  txFeeLimitMax: ''
 }
 
 const initialState = {
@@ -116,7 +116,7 @@ export function validateTxFeeLimitError(state) {
     error = 'enterGasPrice'
   } else if (state.calcData.walletCoinType === 'icx' && state.txFeeLimit < minStepLimit) {
     error = `stepLimitTooLow`;
-  } else if (state.calcData.walletCoinType === 'icx' && new BigNumber(state.txFeeLimit).gt(MAX_STEP_LIMIT)) {
+  } else if (state.calcData.walletCoinType === 'icx' && new BigNumber(state.txFeeLimit).gt(state.txFeeLimitMax)) {
     error = `stepLimitTooHigh`;
   } else {
     error = ''
@@ -133,7 +133,7 @@ export function validateContractTxFeeLimitError(state) {
     error = 'notEnoughBalance'
   } else if (state.txFeeLimit < minStepLimit) {
     error = `stepLimitTooLow`;
-  } else if (new BigNumber(state.txFeeLimit).gt(MAX_STEP_LIMIT)) {
+  } else if (new BigNumber(state.txFeeLimit).gt(state.txFeeLimitMax)) {
     error = `stepLimitTooHigh`;
   } else {
     error = ''
@@ -416,13 +416,14 @@ export function exchangeTransactionReducer(state = initialState, action) {
           txFeeLoading: true
       })
     case actionTypes.getTxFeeInfoFulfilled:
-      const { txFeePrice, txFeeLimit, txFeePriceStep, txFeeLimitTable } = action.payload
+      const { txFeePrice, txFeeLimit, txFeePriceStep, txFeeLimitTable, txFeeLimitMax } = action.payload
       return Object.assign({}, state, {
         txFeeLoading: false,
         txFeePrice: txFeePrice,
         txFeeLimit: txFeeLimit,
         txFeePriceStep: txFeePriceStep || '',
-        txFeeLimitTable: !isEmpty(txFeeLimitTable) ? txFeeLimitTable : {}
+        txFeeLimitTable: !isEmpty(txFeeLimitTable) ? txFeeLimitTable : {},
+        txFeeLimitMax: txFeeLimitMax
       })
     case actionTypes.getTxFeeInfoRejected:
       return Object.assign({}, state, {

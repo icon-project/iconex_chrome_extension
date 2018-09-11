@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import InputRange from 'react-input-range';
 import { nToBr, convertNumberToText, bytesToKB } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
-import { MAX_STEP_LIMIT } from 'redux/reducers/exchangeTransactionReducer'
 
 const INIT_STATE = {
   txFeeLimitHelpLayer: false,
@@ -90,6 +89,7 @@ class TxFeeAndData extends Component {
       calcData,
       isContractPage,
       txFeeLimitTable,
+      txFeeLimitMax,
       dataType
     } = this.props;
 
@@ -97,7 +97,7 @@ class TxFeeAndData extends Component {
 
     const txFeeLimitErrorText =
         txFeeLimitError === 'stepLimitTooLow' ? I18n.error[txFeeLimitError](parseInt(txFeeLimitTable.default, 16)) :
-        txFeeLimitError === 'stepLimitTooHigh' ? I18n.error[txFeeLimitError](MAX_STEP_LIMIT.toString()) :
+        txFeeLimitError === 'stepLimitTooHigh' ? I18n.error[txFeeLimitError](txFeeLimitMax.toString()) :
         I18n.error[txFeeLimitError];
 
     if (isContractPage) {

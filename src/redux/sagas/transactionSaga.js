@@ -52,16 +52,17 @@ export function* getTxFeeInfoFunc(action) {
       if (IS_V3) {
         let txFeePriceStep = yield select(state => state.exchangeTransaction.txFeePriceStep);
         let txFeeLimitTable = yield select(state => state.exchangeTransaction.txFeeLimitTable);
+        let txFeeLimitMax = '';
 
         if (!txFeePriceStep || isEmpty(txFeeLimitTable)) {
           const payload = yield call(ICX_GET_TX_FEE_INFO)
           txFeePriceStep = payload.txFeePriceStep
           txFeeLimitTable = payload.txFeeLimitTable
+          txFeeLimitMax = payload.txFeeLimitMax
         }
 
         const isTokenSelector = yield select(state => state.wallet.selectedWallet.isToken);
         const contractFuncInput = yield select(state => state.contract.funcInput);
-        //const calcContractCallLimit = (data) => parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['contractCall'], 16) * checkLength(JSON.stringify(data))
         const calcContractCallLimit = (data) => parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['contractCall'], 16) +  parseInt(txFeeLimitTable['input'], 16) * checkLength(JSON.stringify(data)) + 20000
 
         if (!isEmpty(contractFuncInput)) {
@@ -77,9 +78,9 @@ export function* getTxFeeInfoFunc(action) {
             txFeePrice: txFeePriceStep,
             txFeeLimit: calcContractCallLimit(data),
             txFeePriceStep: txFeePriceStep,
-            txFeeLimitTable: txFeeLimitTable
+            txFeeLimitTable: txFeeLimitTable,
+            txFeeLimitMax: txFeeLimitMax
           }});
-
         } else if (isTokenSelector) {
           let data;
           const selectedAccount = yield select(state => state.wallet.selectedWallet.account);
@@ -106,7 +107,8 @@ export function* getTxFeeInfoFunc(action) {
             txFeePrice: txFeePriceStep,
             txFeeLimit: calcContractCallLimit(data),
             txFeePriceStep: txFeePriceStep,
-            txFeeLimitTable: txFeeLimitTable
+            txFeeLimitTable: txFeeLimitTable,
+            txFeeLimitMax: txFeeLimitMax
           }});
 
         } else {
@@ -117,7 +119,8 @@ export function* getTxFeeInfoFunc(action) {
            txFeePrice: txFeePriceStep,
            txFeeLimit: txFeeLimit,
            txFeePriceStep: txFeePriceStep,
-           txFeeLimitTable: txFeeLimitTable
+           txFeeLimitTable: txFeeLimitTable,
+           txFeeLimitMax: txFeeLimitMax
           }});
         }
       }

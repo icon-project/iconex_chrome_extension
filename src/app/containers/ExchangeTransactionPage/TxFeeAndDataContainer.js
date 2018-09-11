@@ -18,6 +18,7 @@ function mapStateToProps(state) {
     txFeeLimit: state.exchangeTransaction.txFeeLimit,
     txFeeLimitError: state.exchangeTransaction.txFeeLimitError,
     txFeeLimitTable: state.exchangeTransaction.txFeeLimitTable,
+    txFeeLimitMax: state.exchangeTransaction.txFeeLimitMax,
     data: state.exchangeTransaction.data,
     dataType: state.exchangeTransaction.dataType,
     dataError: state.exchangeTransaction.dataError,

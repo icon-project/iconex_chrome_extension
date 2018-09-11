@@ -236,6 +236,8 @@ export default {
   contractstrInputPlaceHolder: 'Enter text',
   contractbytesInputPlaceHolder: 'Enter bytes',
 
+  contractBalance: 'Balance',
+
   lockPageDescState: 'Locked.',
   lockPageDescEnter: 'Enter 6-digit screen lock passcode.',
   lockPageInputPlaceholder: 'Enter passcode',

@@ -236,6 +236,8 @@ export default {
   contractstrInputPlaceHolder: '문자 입력',
   contractbytesInputPlaceHolder: '바이트 입력',
 
+  contractBalance: '보유',
+
   lockPageDescState: '잠금 상태입니다.',
   lockPageDescEnter: '설정한 잠금 번호 6자리를 입력해주세요.',
   lockPageInputPlaceholder: '잠금번호 입력',

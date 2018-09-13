@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import InputRange from 'react-input-range';
-import { nToBr, convertNumberToText, bytesToKB } from 'utils';
+import { nToBr, convertNumberToText, bytesToKB, dataToHex, checkLength } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -101,6 +101,8 @@ class TxFeeAndData extends Component {
         txFeeLimitError === 'stepLimitTooHigh' ? I18n.error[txFeeLimitError](txFeeLimitMax.toString()) :
         txFeeLimitError === 'notEnoughBalance' ? I18n.error[txFeeLimitError](calcData.walletCoinType.toUpperCase()) :
         I18n.error[txFeeLimitError];
+
+    const dataKB = dataType === 'utf8' ? bytesToKB(checkLength(dataToHex(data))) : bytesToKB(data.length)
 
     if (isContractPage) {
       return (
@@ -260,7 +262,7 @@ class TxFeeAndData extends Component {
             <div className={`input-group ${dataError && 'error'}`}>
 							<textarea onChange={this.setData} onBlur={this.handleDataBlur} value={data} placeholder={`${I18n.transferPageLabel8} ${I18n.transferPageLabel9}`}></textarea>
               <p className="error data">{I18n.error[dataError]}</p>
-              { walletCoinType === 'icx' && (<p><span>≒ {bytesToKB(data.length)}KB</span> / 512KB</p>) }
+              { walletCoinType === 'icx' && (<p><span>≒ {dataKB}KB</span> / 512KB</p>) }
 						</div>
           )
         }

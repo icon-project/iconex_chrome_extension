@@ -123,6 +123,8 @@ export function validateTxFeeLimitError(state) {
     error = `stepLimitTooLow`;
   } else if (state.calcData.walletCoinType === 'icx' && new BigNumber(state.txFeeLimit).gt(state.txFeeLimitMax)) {
     error = `stepLimitTooHigh`;
+  } else if (state.coinQuantity === '0' && state.calcData.isResultBalanceMinus) {
+    error = 'notEnoughBalance'
   } else {
     error = ''
   }
@@ -134,12 +136,12 @@ export function validateContractTxFeeLimitError(state) {
   const minStepLimit = parseInt(state.txFeeLimitTable.default, 16);
   if (!state.txFeeLimit) {
     error = 'enterGasPrice'
-  } else if (state.calcData.isResultBalanceMinus) {
-    error = 'notEnoughBalance'
   } else if (state.txFeeLimit < minStepLimit) {
     error = `stepLimitTooLow`;
   } else if (new BigNumber(state.txFeeLimit).gt(state.txFeeLimitMax)) {
     error = `stepLimitTooHigh`;
+  } else if (state.calcData.isResultBalanceMinus) {
+    error = 'notEnoughBalance'
   } else {
     error = ''
   }

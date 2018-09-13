@@ -122,7 +122,7 @@ class AddToken2 extends Component {
           else { addressError = ''; }
           break;
         case 'name':
-          if (name.length < 1) { nameError = I18n.error.tokenNameEnter; }
+          if (name.trim().length < 1) { nameError = I18n.error.tokenNameEnter; }
           else { nameError = ''; }
           break;
         case 'symbol':
@@ -182,9 +182,11 @@ class AddToken2 extends Component {
       return
     }
 
-    const walletCoinType = this.state.currentWallet.type;
     const target = e.target.getAttribute('data-type');
-    const value = target === 'address' ? e.target.value.trim() : e.target.value
+    if (target === 'name' && checkLength(e.target.value) > 64) return;
+
+    const walletCoinType = this.state.currentWallet.type;
+    const value = target === 'name' ? e.target.value : e.target.value.trim();
     const state = this.state;
     state[target] = value
     this.setState(state);

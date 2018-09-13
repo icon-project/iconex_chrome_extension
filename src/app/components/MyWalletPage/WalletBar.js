@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { routeConstants as ROUTE, currencyUnit as CURRENCY_UNIT, dateFormat as DATE_FORMAT} from 'constants/index'
 import { ICX_TOKEN_CONTRACT_ADDRESS } from 'constants/config'
 import { LoadingComponent, Alert } from 'app/components/'
-import { convertNumberToText } from 'utils'
+import { convertNumberToText, checkLength } from 'utils'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment';
 import withLanguageProps from 'HOC/withLanguageProps';
@@ -91,6 +91,7 @@ class WalletBar extends Component {
     const { currency, data, I18n } = this.props;
     const { name, balanceLoading = false, isError, symbol, balance, recent, totalResultLoading, balanceWithRate, tokenId } = data;
 
+    const nameText = checkLength(name) > 18 ? name.substring(0, 18) + '...' : name;
     const balanceText = convertNumberToText(balance, symbol, true);
     const isSwapAvailable = tokenId === ICX_TOKEN_CONTRACT_ADDRESS()
 
@@ -105,7 +106,7 @@ class WalletBar extends Component {
     } else {
       return (
         <tr>
-          <td onClick={this.handleClick}>{name}</td>
+          <td onClick={this.handleClick}>{nameText}</td>
           <td onClick={this.handleClick}><em>{isError ? '-' : balanceText}</em><span>{symbol.toUpperCase()}</span></td>
           <td onClick={this.handleClick}>
             {!totalResultLoading ? (

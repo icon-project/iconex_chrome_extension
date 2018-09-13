@@ -322,7 +322,7 @@ export default {
     title: '지갑 비밀번호 확인',
     desc: '지갑의 비밀번호를 입력하여 주세요.',
     input: '비밀번호',
-    placeHolder: '비밀번호 입력',
+    placeholder: '비밀번호 입력',
   },
 
   createWallet: {

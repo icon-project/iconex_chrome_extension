@@ -322,7 +322,7 @@ export default {
     title: 'Confirm wallet password.',
     desc: 'Enter your password.',
     input: 'Password',
-    placeHolder: 'Enter your password',
+    placeholder: 'Enter your password',
   },
 
   createWallet: {

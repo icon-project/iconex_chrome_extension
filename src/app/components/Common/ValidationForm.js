@@ -87,15 +87,16 @@ class ValidationForm extends Component {
     for (let i=0; i<target.length; i++) {
       switch(target[i]) {
         case 'walletName':
-          if (!this.state.walletName.trim()) {
+          if (!this.state.walletName) {
             walletNameError = I18n.error.alertWalletName
             break;
-          }
-          else if (isWalletNameExists(this.props.wallets, this.state.walletName.trim())) {
+          } else if (this.state.walletName.indexOf(' ') >= 0 && !this.state.walletName.trim()) {
+            walletNameError = I18n.error.pwErrorEmpty
+            break;
+          } else if (isWalletNameExists(this.props.wallets, this.state.walletName.trim())) {
             walletNameError = I18n.error.alertWalletNameSame
             break;
-          }
-          else {
+          } else {
             walletNameError = ''
             break;
           }
@@ -110,6 +111,9 @@ class ValidationForm extends Component {
           if (!this.state.pw) {
             pwError = I18n.error.pwErrorEnter
             break;
+          } else if(this.state.pw.indexOf(' ') >= 0) {
+            pwError = I18n.error.pwErrorEmpty
+            break;
           } else if(this.state.pw.length < 8) {
             pwError = I18n.error.pwErrorEight
             break;
@@ -121,9 +125,6 @@ class ValidationForm extends Component {
             break;
           }  else if((/(.)\1\1/.test(this.state.pw))) {
             pwError = I18n.error.pwErrorSame
-            break;
-          } else if(this.state.pw.indexOf(' ') >= 0) {
-            pwError = I18n.error.pwErrorEmpty
             break;
           } else {
             pwError = ''

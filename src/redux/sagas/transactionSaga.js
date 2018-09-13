@@ -52,7 +52,7 @@ export function* getTxFeeInfoFunc(action) {
       if (IS_V3) {
         let txFeePriceStep = yield select(state => state.exchangeTransaction.txFeePriceStep);
         let txFeeLimitTable = yield select(state => state.exchangeTransaction.txFeeLimitTable);
-        let txFeeLimitMax = '';
+        let txFeeLimitMax = yield select(state => state.exchangeTransaction.txFeeLimitMax);
 
         if (!txFeePriceStep || isEmpty(txFeeLimitTable)) {
           const payload = yield call(ICX_GET_TX_FEE_INFO)
@@ -63,7 +63,7 @@ export function* getTxFeeInfoFunc(action) {
 
         const isTokenSelector = yield select(state => state.wallet.selectedWallet.isToken);
         const contractFuncInput = yield select(state => state.contract.funcInput);
-        const calcContractCallLimit = (data) => parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['contractCall'], 16) +  parseInt(txFeeLimitTable['input'], 16) * checkLength(JSON.stringify(data)) + 20000
+        const calcContractCallLimit = (data) => ((parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['contractCall'], 16) +  parseInt(txFeeLimitTable['input'], 16) * checkLength(JSON.stringify(data))) * 2)
 
         if (!isEmpty(contractFuncInput)) {
           let data;
@@ -76,7 +76,8 @@ export function* getTxFeeInfoFunc(action) {
           }
           yield put({type: AT.getTxFeeInfoFulfilled, payload: {
             txFeePrice: txFeePriceStep,
-            txFeeLimit: calcContractCallLimit(data),
+            //txFeeLimit: calcContractCallLimit(data),
+            txFeeLimit: txFeeLimitMax,
             txFeePriceStep: txFeePriceStep,
             txFeeLimitTable: txFeeLimitTable,
             txFeeLimitMax: txFeeLimitMax

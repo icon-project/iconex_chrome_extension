@@ -72,7 +72,7 @@ export function* executeFuncFunc(action) {
 }
 
 export function* checkContractInputErrorFunc(action) {
-  let isLoggedIn, txFeeLimit, calcData, coinQuantity;
+  let isLoggedIn, txFeeLimit, calcData, coinQuantity, txFeeLimitTable;
   const funcList = yield select(state => state.contract.funcList);
   const selectedFuncIndex = yield select(state => state.contract.selectedFuncIndex);
   const funcInput = yield select(state => state.contract.funcInput);
@@ -113,6 +113,7 @@ export function* checkContractInputErrorFunc(action) {
     if (!func.readonly) {
       isLoggedIn = yield select(state => state.exchangeTransaction.isLoggedIn);
       txFeeLimit = yield select(state => state.exchangeTransaction.txFeeLimit);
+      txFeeLimitTable = yield select(state => state.exchangeTransaction.txFeeLimitTable);
       coinQuantity = yield select(state => state.exchangeTransaction.coinQuantity);
       calcData = yield select(state => state.exchangeTransaction.calcData);
       if (!isLoggedIn) {
@@ -121,7 +122,7 @@ export function* checkContractInputErrorFunc(action) {
       } else if (isPayableFunc && validateCoinQuantityError({coinQuantity, calcData})) {
         yield put(setCoinQuantityError());
         errorFlag = true;
-      } else if (validateContractTxFeeLimitError({txFeeLimit, calcData})) {
+      } else if (validateContractTxFeeLimitError({txFeeLimit, calcData, txFeeLimitTable})) {
         yield put(setContractTxFeeLimitError());
         errorFlag = true;
       }
@@ -139,7 +140,7 @@ export function* checkContractInputErrorFunc(action) {
     }
   } catch (error) {
     console.log(error)
-    yield put({type: AT.executeFuncRejected, error});
+    yield put({type: AT.executeFuncRejected, errorMsg: error});
   }
 }
 

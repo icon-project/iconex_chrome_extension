@@ -12,7 +12,8 @@ const isDevModeOn = () => {
 export const getCustomIcxServer = () => {
   const initialCustomServer = {
     customWalletURL: '',
-    customTrackerURL: ''
+    customTrackerURL: '',
+    customNid: ''
   }
   if (isAccessedFromWorker) {
     return initialCustomServer
@@ -70,7 +71,7 @@ export const ICX_TRACKER_SERVER = () => {
     'mainnet': 'https://tracker.icon.foundation',
     'euljiro': 'https://trackerdev.icon.foundation',
     'yeouido': 'https://bicon.tracker.solidwallet.io',
-    'custom': getCustomIcxServer().customWalletURL
+    'custom': getCustomIcxServer().customTrackerURL
   }
   return obj[icxServer];
 }
@@ -81,7 +82,7 @@ export const ICX_NID = () => {
     'mainnet': '0x1',
     'euljiro': '0x2',
     'yeouido': '0x3',
-    'custom': '0x3'
+    'custom': getCustomIcxServer().customNid
   }
   return obj[icxServer];
 }

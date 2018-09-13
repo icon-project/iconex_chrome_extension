@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { getCurrentServer, getCurrentICXApiVersion, getCustomIcxServer } from 'constants/config.js'
 import withClickOut from 'HOC/withClickOut';
-import { checkURLSuffix } from 'utils';
+import { checkURLSuffix, check0xPrefix } from 'utils';
 
 const INIT_STATE = {
   showCustomInput: getCurrentServer('icx') === 'custom',
   customWalletURL: getCustomIcxServer().customWalletURL,
-  customTrackerURL: getCustomIcxServer().customTrackerURL
+  customTrackerURL: getCustomIcxServer().customTrackerURL,
+  customNid: getCustomIcxServer().customNid
 }
 
 // style
@@ -100,10 +101,11 @@ class ServerChanger extends Component {
   }
 
   setCustomURL = () => {
-    const { customWalletURL, customTrackerURL } = this.state;
+    const { customWalletURL, customTrackerURL, customNid } = this.state;
     const customIcxServer = {
       customWalletURL: checkURLSuffix(customWalletURL),
-      customTrackerURL: checkURLSuffix(customTrackerURL)
+      customTrackerURL: checkURLSuffix(customTrackerURL),
+      customNid: customNid
     }
     localStorage.setItem('customIcxServer', JSON.stringify(customIcxServer))
     localStorage.setItem(`icxServer`, 'custom');
@@ -111,7 +113,7 @@ class ServerChanger extends Component {
   }
 
   render() {
-    const { showCustomInput, customWalletURL, customTrackerURL } = this.state;
+    const { showCustomInput, customWalletURL, customTrackerURL, customNid } = this.state;
     return (
       <div>
         {
@@ -119,6 +121,7 @@ class ServerChanger extends Component {
             <ul style={inputUlStyle}>
               <li style={inputLiStyle}><input type="text" placeholder="ex) https://xyz:3000" data-name='customWalletURL' onChange={this.handleChangeInput} value={customWalletURL} /><span style={spanStyle}>Wallet URL</span></li>
               <li style={inputLiStyle}><input type="text" placeholder="ex) https://xyz:3000" data-name='customTrackerURL' onChange={this.handleChangeInput} value={customTrackerURL} /><span style={spanStyle}>Tracker URL</span></li>
+              <li style={inputLiStyle}><input type="text" placeholder="ex) 0x1" data-name='customNid' onChange={this.handleChangeInput} value={customNid} /><span style={spanStyle}>nid</span></li>
               <li style={inputLiStyle}><button style={inputButtonStyle} onClick={this.setCustomURL}>설정</button></li>
             </ul>
           )

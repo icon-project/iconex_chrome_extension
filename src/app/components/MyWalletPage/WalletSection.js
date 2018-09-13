@@ -139,8 +139,8 @@ class WalletSection extends Component {
           </table>
           {
             !isCoinView && (
-              <div onClick={this.toggleExtend} className="extend">
-                <span className={isExtended && "on"}><em className="_img"></em></span>
+              <div className="extend">
+                <span onClick={this.toggleExtend} className={isExtended && "on"}><em className="_img"></em></span>
               </div>
             )
           }

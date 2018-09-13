@@ -170,8 +170,8 @@ class LockContent extends Component {
           }
   			</div>
         {((this.props.passcodeHash !== '' && status === 1)) &&
-          <div className="txt-holder" onClick={this.unlock}>
-            <p className="lock-txt">{I18n.myPageUnlock}<em>{I18n.button.unlock}</em></p>
+          <div className="txt-holder">
+            <p className="lock-txt">{I18n.myPageUnlock}<em onClick={this.unlock}>{I18n.button.unlock}</em></p>
           </div>
         }
       </div>

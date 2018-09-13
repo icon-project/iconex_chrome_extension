@@ -214,6 +214,8 @@ export default {
   coinDetailHistoryColumn3: 'Transaction ID',
   coinDetailHistoryColumn4: 'Amount',
 
+  coinDetailHistoryFail: 'Fail',
+
   coinDetailHistoryPendingInfo: 'Transactions not completed within 10 minutes will be automatically cancelled.',
 
   exchangeTransactionSelectorWallet: 'Transfer wallet',

@@ -214,6 +214,8 @@ export default {
   coinDetailHistoryColumn3: '거래 ID',
   coinDetailHistoryColumn4: '금액',
 
+  coinDetailHistoryFail: '실패',
+
   coinDetailHistoryPendingInfo: 'ICX 출금 신청 후 10분 내에 처리되지 않은 거래는 자동 취소되며 출금액과 수수료는 모두 복구됩니다.',
 
   exchangeTransactionSelectorWallet: '지갑 이름',

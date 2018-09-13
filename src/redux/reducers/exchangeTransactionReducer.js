@@ -48,9 +48,12 @@ const initialState = {
 }
 
 export function validateCoinQuantityError(state) {
+  const isToken = store.getState().wallet.selectedWallet.isToken;
   let error = '';
   if (!state.coinQuantity) {
     error = 'coinAmount'
+  } else if (state.coinQuantity !== '0' && !isToken && !state.calcData.isWalletCoinBalanceMinus && state.calcData.isResultBalanceMinus) {
+    error = 'notEnoughBalance'
   } else if (state.coinQuantity !== '0' && state.calcData.isResultBalanceMinus) {
     error = 'coinAmountBalance'
   } else {
@@ -113,6 +116,8 @@ export function validateTxFeeLimitError(state) {
   if (!state.txFeeLimit) {
     error = 'enterGasPrice'
   } else if (state.coinQuantity === '0' && state.calcData.isResultBalanceMinus) {
+    error = 'notEnoughBalance'
+  } else if (state.calcData.isWalletCoinBalanceMinus) {
     error = 'notEnoughBalance'
   } else if (state.calcData.walletCoinType === 'icx' && state.txFeeLimit < minStepLimit) {
     error = `stepLimitTooLow`;
@@ -213,6 +218,7 @@ const calcData = (props) => {
     resultBalance: resultBalanceText,
     resultBalanceWithRate: resultBalanceWithRateText,
     isResultBalanceMinus: resultBalanceText.includes("-") ? true : false,
+    isWalletCoinBalanceMinus: !isToken ? (new BigNumber(wallet.balance).minus(coinQuantityNumber).lt(0)) : (new BigNumber(wallet.balance).minus(txFee).lt(0)),
     coinType: type,
     walletCoinType: walletCoinType,
     coinTypeObj: coinTypeObj

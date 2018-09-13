@@ -123,7 +123,7 @@ export default {
     stepLimitTooHigh: (stepLimit) => {
       return `Enter step limit less than ${stepLimit}.`
     },
-    notEnoughBalance: 'Insufficient ICX balance for transaction fee.',
+    notEnoughBalance: (coinType) => (`Insufficient ${coinType} balance for transaction fee.`),
 
     alertIcxGetBalanceError: 'An error occurred while checking your balance.',
     buttonChecked: 'Please check this box if you want to proceed.',

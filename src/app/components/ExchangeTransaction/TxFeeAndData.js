@@ -98,6 +98,7 @@ class TxFeeAndData extends Component {
     const txFeeLimitErrorText =
         txFeeLimitError === 'stepLimitTooLow' ? I18n.error[txFeeLimitError](parseInt(txFeeLimitTable.default, 16)) :
         txFeeLimitError === 'stepLimitTooHigh' ? I18n.error[txFeeLimitError](txFeeLimitMax.toString()) :
+        txFeeLimitError === 'notEnoughBalance' ? I18n.error[txFeeLimitError](calcData.walletCoinType.toUpperCase()) :
         I18n.error[txFeeLimitError];
 
     if (isContractPage) {

@@ -123,7 +123,7 @@ export default {
     stepLimitTooHigh: (stepLimit) => {
       return `${stepLimit}보다 낮은 스텝 한도를 입력해주세요.`
     },
-    notEnoughBalance: '수수료 지불을 위한 ICX 잔액이 부족합니다.',
+    notEnoughBalance: (coinType) => (`수수료 지불을 위한 ${coinType} 잔액이 부족합니다.`),
 
     alertIcxGetBalanceError: '아이콘 잔고 조회 중 오류가 발생하였습니다.',
     buttonChecked: '버튼을 체크해주세요.',

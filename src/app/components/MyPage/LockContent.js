@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import hash from 'hash.js'
-import { PasswordSetter } from 'app/components/'
+import { PasswordSetter, Alert } from 'app/components/'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 @withLanguageProps
@@ -15,6 +15,8 @@ class LockContent extends Component {
       firstError: undefined,
       second: '',
       secondError: undefined,
+      showPasscodeSettingSuccess: false,
+      showPasscodeChangingSuccess: false
     }
   }
 
@@ -27,6 +29,13 @@ class LockContent extends Component {
     //   firstError: undefined,
     //   secondError: undefined
     // })
+  }
+
+  closeAlert = () => {
+    this.setState({
+      showPasscodeSettingSuccess: false,
+      showPasscodeChangingSuccess: false
+    })
   }
 
   changePasscode = (changing) => {
@@ -106,7 +115,10 @@ class LockContent extends Component {
   setPasscode = () => {
     const result = this.changePasscode(true)
     if (result) {
-      this.goToChangingStatus(1)
+      this.setState({
+        showPasscodeChangingSuccess: true
+      })
+      this.goToChangingStatus(1);
     }
   }
 
@@ -133,7 +145,8 @@ class LockContent extends Component {
       first: '',
       firstError: undefined,
       second: '',
-      secondError: undefined
+      secondError: undefined,
+      showPasscodeSettingSuccess: true
     })
 
     window.chrome.tabs.getCurrent((tab) => {
@@ -142,7 +155,7 @@ class LockContent extends Component {
   }
 
   render() {
-    const { status } = this.state
+    const { status, showPasscodeSettingSuccess, showPasscodeChangingSuccess } = this.state
     const { I18n } = this.props;
 
     return (
@@ -174,6 +187,20 @@ class LockContent extends Component {
             <p className="lock-txt">{I18n.myPageUnlock}<em onClick={this.unlock}>{I18n.button.unlock}</em></p>
           </div>
         }
+        { showPasscodeSettingSuccess && (
+          <Alert
+            handleSubmit={this.closeAlert}
+            text={I18n.myPageLockSuccess}
+            submitText={I18n.button.yes}
+          />
+        )}
+        { showPasscodeChangingSuccess && (
+          <Alert
+            handleSubmit={this.closeAlert}
+            text={I18n.myPageLockChangeSuccess}
+            submitText={I18n.button.yes}
+          />
+        )}
       </div>
     );
   }

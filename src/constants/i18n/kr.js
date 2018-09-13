@@ -266,6 +266,8 @@ export default {
   myPageLabel3: '현재 잠금 번호',
   myPagePlaceholder1: '숫자 6자리 입력',
   myPagePlaceholder2: '비밀번호 입력',
+  myPageLockSuccess: '잠금번호가 설정되었습니다.',
+  myPageLockChangeSuccess: '잠금번호가 재설정되었습니다.',
 
   transferPageInfo1: '송금 버튼을 누른 후에는 취소할 방법이 없습니다. 수량과 받는 주소를 한번 더 확인해주세요.',
   transferPageLabel1: '송금할 코인 수량',

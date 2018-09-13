@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { isEmpty, isIcxContractAddress, isAddress } from 'utils';
+import { isEmpty, isIcxContractAddress, isAddress, checkLength } from 'utils';
 import { LoadingComponent } from 'app/components/';
 import withLanguageProps from 'HOC/withLanguageProps'
 
 const INIT_STATE = {
   currentWallet: {},
+  currentWalletAccount: '',
   ownTokens: [],
   address: '',
   name: '',
@@ -32,6 +33,7 @@ class AddToken2 extends Component {
     const currentWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
     this.setState({
       currentWallet: currentWallet,
+      currentWalletAccount: isLedger ? ledgerWallet.account : selectedAccount,
       ownTokens: Object.keys(currentWallet.tokens)
     });
   }
@@ -154,8 +156,17 @@ class AddToken2 extends Component {
     const {
       address,
       ownTokens,
-      currentWallet
+      currentWallet,
+      currentWalletAccount
     } = this.state;
+
+    if (currentWalletAccount === address) {
+      const { I18n } = this.props;
+      this.setState({
+        addressError: I18n.error.addressNotValid
+      })
+      return false;
+    }
 
     if (ownTokens.includes(address)) {
       const { I18n } = this.props;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ComboBox } from 'app/components/'
 import { TxFeeAndDataContainer, CalculationTableContainer } from 'app/containers/'
-import { isEmpty, checkValueLength, trimLeftZero } from 'utils/utils'
+import { isEmpty, checkValueLength, trimLeftZero, makeEthRawTx } from 'utils/utils'
 import withLanguageProps from 'HOC/withLanguageProps';
 import { IS_V3 } from 'constants/config'
 
@@ -60,6 +60,7 @@ class QuantitySetter extends Component {
       this.props.toggleFullBalance(true);
     }
     else {
+      this.setCoinQuantity(0)
       this.props.toggleFullBalance(false);
     }
   }
@@ -162,8 +163,9 @@ class QuantitySetter extends Component {
                 noArrow={true}
               />
             )}
-            {isLoggedIn && (<span className="won">{calcData.sendQuantityWithRate !== '-' && <i className="_img"></i>}<em>{calcData.sendQuantityWithRate || 0 }</em> <em>USD</em></span>)}
-            <p className="error">{coinQuantityErrorText}</p>
+            { isLoggedIn && (<span className="won">{calcData.sendQuantityWithRate !== '-' && <i className="_img"></i>}<em>{calcData.sendQuantityWithRate || 0 }</em> <em>USD</em></span>)}
+            { isLoggedIn && (<p className="have">{I18n.contractBalance} {calcData.currentBalance.toString()} ICX</p>) }
+            <p className="error">{I18n.error[coinQuantityError]}</p>
           </div>
         </div>
     {

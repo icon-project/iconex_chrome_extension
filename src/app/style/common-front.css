@@ -157,3 +157,7 @@
 .en .content-wrap .wrap-holder.contract .search-holder .change-group .a .help-layer{left: 192px; width: 446px; top: 4px;}
 .en .content-wrap .wrap-holder.contract .search-holder .help-layer{left: 96px; width: 500px; top: 4px;}
 .en .content-wrap .wrap-holder.contract .search-holder .price .help-layer{left: 96px; width: 500px; top: 4px;}
+
+/* transfer page 'balance' position */
+.content-wrap .wrap-holder.exchange .quantity-holder .won-group p.have{text-align: right; font-size: 14px; color: rgba(38, 38, 38, 0.5); margin-top: 7px;}
+.content-wrap .wrap-holder.exchange .quantity-holder .won-group p.have{width: 610px;}

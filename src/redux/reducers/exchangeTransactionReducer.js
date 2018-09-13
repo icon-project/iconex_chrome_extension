@@ -209,6 +209,7 @@ const calcData = (props) => {
   }
 
   return {
+    currentBalance: balance,
     totalBalance: totalBalance.toFixed(18),
     txFeePriceWithRate: txFeePriceWithRate,
     txFee: txFeeText,

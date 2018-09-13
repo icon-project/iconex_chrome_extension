@@ -24,8 +24,9 @@ class QuantitySetter extends Component {
   }
 
   handleInputChange = (e) => {
-    if (!isNaN(e.target.value) && checkValueLength(e.target.value) && !e.target.value.includes("+") && !e.target.value.includes("-")) {
-      this.setCoinQuantity(e.target.value);
+    const value = e.target.value.replace(/\s+/g, '');
+    if (!isNaN(value) && checkValueLength(value) && !value.includes("+") && !value.includes("-")) {
+      this.setCoinQuantity(value);
       this.props.toggleFullBalance(false);
     }
   }

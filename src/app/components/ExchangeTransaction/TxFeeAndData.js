@@ -37,8 +37,9 @@ class TxFeeAndData extends Component {
   }
 
   setTxFeeLimit = (e) => {
-    if (!isNaN(e.target.value)) {
-      this.props.setTxFeeLimit(e.target.value);
+    const value = e.target.value.replace(/\s+/g, '');
+    if (!isNaN(value)) {
+      this.props.setTxFeeLimit(value);
     }
   }
 

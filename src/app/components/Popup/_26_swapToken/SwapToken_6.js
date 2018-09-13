@@ -16,8 +16,6 @@ class SwapToken6 extends Component {
   }
 
   componentDidMount() {
-    this.props.setTxFeeLimit(0);
-    this.props.setTxFeePrice(0);
     this.props.setRecipientAddress(ICX_TOKEN_DISCARD_ADDRESS());
     this.props.setCalcData()
   }
@@ -36,6 +34,9 @@ class SwapToken6 extends Component {
       return
     }
     if (this.props.txFeeLimit * this.props.txFeePrice === 0) {
+      return
+    }
+    if (!this.props.coinQuantity) {
       return
     }
     this.props.submitCall(true);
@@ -95,7 +96,7 @@ class SwapToken6 extends Component {
 						</div>
 					</div>
           <div className="btn-holder">
-            <button onClick={this.handleSubmit} type="submit" className={`btn-type-normal ${(this.props.gasLoading || this.props.txFeeLimit * this.props.txFeePrice === 0)  && 'disabled'}`}><span>{I18n.button.complete}</span></button>
+            <button onClick={this.handleSubmit} type="submit" className={`btn-type-normal ${(!this.props.coinQuantity || this.props.gasLoading || this.props.txFeeLimit * this.props.txFeePrice === 0) && 'disabled'}`}><span>{I18n.button.complete}</span></button>
 					</div>
         </li>
       </ul>

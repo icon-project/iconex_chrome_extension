@@ -79,13 +79,9 @@ class Routes extends Component {
         break;
       case 'CHECK_POPUP_LOCK_STATE_FULFILLED':
         this.props.setLockState(message.payload);
-        // if locked
-        if (payload) {
-          this.props.checkAuth();
-        } else {
-          this.props.checkAuth();
-          this.props.getWallet();
-        }
+        this.props.checkAuth();
+        this.props.getWallet();
+
         break;
       default:
     }

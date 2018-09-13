@@ -189,12 +189,9 @@ class CoinDetailContent extends Component {
     } = this.state;
 
     const {
-      wallets,
       currency,
       rate,
       rateLoading,
-      txHistory,
-      txHistoryLoading,
       I18n
     } = this.props;
 

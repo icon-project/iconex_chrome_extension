@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { AddressTable } from 'app/components/';
-import { isIcxContractAddress, checkCxPrefix } from 'utils';
 import { icxContract } from 'constants/icxContract'
 
 const INIT_STATE = {

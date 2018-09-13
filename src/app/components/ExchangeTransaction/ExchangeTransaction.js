@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { HeaderTitle, LoadingComponent, ExchangePanel, Alert } from 'app/components/'
+import { HeaderTitle, LoadingComponent, Alert } from 'app/components/'
 import { WalletSelectorContainer, QuantitySetterContainer, RecipientAddressContainer, } from 'app/containers/'
-import { isEmpty } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ComboBox } from 'app/components/'
 import { TxFeeAndDataContainer, CalculationTableContainer } from 'app/containers/'
-import { isEmpty, checkValueLength, trimLeftZero, makeEthRawTx } from 'utils/utils'
+import { isEmpty, checkValueLength, trimLeftZero } from 'utils/utils'
 import withLanguageProps from 'HOC/withLanguageProps';
 import { IS_V3 } from 'constants/config'
 

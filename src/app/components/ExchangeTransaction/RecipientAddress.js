@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
-import { Alert, LoadingComponent } from 'app/components/'
-import { makeEthRawTx } from 'utils/utils'
+import { Alert } from 'app/components/'
 
 const INIT_STATE = {
   recipientAddressError: '',

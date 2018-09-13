@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { convertNumberToText, isEmpty } from 'utils'
+import { convertNumberToText } from 'utils'
 import withLanguageProps from 'HOC/withLanguageProps';
 import { LoadingComponent } from 'app/components/'
 

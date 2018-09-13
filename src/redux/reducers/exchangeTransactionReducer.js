@@ -1,5 +1,5 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
-import { isAddress, isEmpty, dataToHex, customValueToTokenValue, isIcxWalletAddress, checkLength, isIcxContractAddress, getTypeText, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
+import { isAddress, isEmpty, dataToHex, isIcxWalletAddress, checkLength, isIcxContractAddress, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
 import { store } from 'redux/store/store';
 import { IS_V3 } from 'constants/config.js'
 //import { coinRound as ROUND } from 'constants/index';

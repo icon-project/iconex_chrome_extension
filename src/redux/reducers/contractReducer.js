@@ -1,6 +1,5 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
-import { isIcxContractAddress, parseError, isIcxWalletAddress, isEmpty, isHex } from 'utils'
-import BigNumber from 'bignumber.js';
+import { isIcxContractAddress, parseError, isIcxWalletAddress, isHex } from 'utils'
 import update from 'react-addons-update';
 import { store } from 'redux/store/store';
 

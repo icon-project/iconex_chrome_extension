@@ -66,14 +66,13 @@ export function* getTxFeeInfoFunc(action) {
         const calcContractCallLimit = (data) => ((parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['contractCall'], 16) +  parseInt(txFeeLimitTable['input'], 16) * checkLength(JSON.stringify(data))) * 2)
 
         if (!isEmpty(contractFuncInput)) {
-          let data;
-          const funcList = yield select(state => state.contract.funcList);
-          const selectedFuncIndex = yield select(state => state.contract.selectedFuncIndex);
-
-          data = {
-             "method": funcList[selectedFuncIndex].name,
-             "params": contractFuncInput
-          }
+          //let data;
+          // const funcList = yield select(state => state.contract.funcList);
+          // const selectedFuncIndex = yield select(state => state.contract.selectedFuncIndex);
+          // data = {
+          //    "method": funcList[selectedFuncIndex].name,
+          //    "params": contractFuncInput
+          // }
           yield put({type: AT.getTxFeeInfoFulfilled, payload: {
             txFeePrice: txFeePriceStep,
             //txFeeLimit: calcContractCallLimit(data),

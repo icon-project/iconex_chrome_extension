@@ -4,7 +4,6 @@ import WalletBar from './WalletBar'
 import { makeWalletArray, openApp, isEmpty } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 import Worker from 'workers/wallet.worker.js';
-import queryString from 'query-string'
 
 const INIT_STATE = {
   tab: 'icx',

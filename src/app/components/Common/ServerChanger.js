@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { getCurrentServer, getCurrentICXApiVersion, getCustomIcxServer } from 'constants/config.js'
+import { getCurrentServer, getCustomIcxServer } from 'constants/config.js'
 import withClickOut from 'HOC/withClickOut';
-import { checkURLSuffix, check0xPrefix } from 'utils';
+import { checkURLSuffix } from 'utils';
 
 const INIT_STATE = {
   showCustomInput: getCurrentServer('icx') === 'custom',
@@ -59,10 +59,6 @@ const icxServerList = {
   'euljiro': 'euljiro',
   'yeouido': 'yeouido',
   'custom': 'custom'
-}
-const icxApiVersionList = {
-  'v2': 'v2',
-  'v3': 'v3'
 }
 const ethServerList = {
   'ropsten': 'ropsten',

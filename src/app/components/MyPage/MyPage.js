@@ -14,12 +14,6 @@ class MyPage extends Component {
     this.state = INIT_STATE
   }
 
-  unlock = () => {
-    this.props.openPopup({
-      popupType: 'unlockPopup'
-    })
-  }
-
   setTab = (e) => {
     const target = e.target.getAttribute('data-name');
     this.setState({

@@ -1,5 +1,4 @@
 import { fork, put, takeLatest, call, select, all } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
 import AT from 'redux/actionTypes/actionTypes';
 import {
   icx_getScoreApi as GET_SCORE,

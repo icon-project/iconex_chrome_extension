@@ -507,6 +507,13 @@ function checkURLSuffix (value) {
   return value[value.length-1] === '/' ? value.slice(0, -1) : value
 }
 
+function calcIcxMessageKB({
+  dataType,
+  data
+}) {
+  return dataType === 'utf8' ? bytesToKB(checkLength(dataToHex(data))) : bytesToKB(data.length)
+}
+
 export {
   charFreq,
   isEmpty,
@@ -547,5 +554,6 @@ export {
   calcGasPrice,
   bytesToKB,
   isObject,
-  checkURLSuffix
+  checkURLSuffix,
+  calcIcxMessageKB
 }

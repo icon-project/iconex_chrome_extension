@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import InputRange from 'react-input-range';
-import { nToBr, convertNumberToText, bytesToKB, dataToHex, checkLength } from 'utils';
+import { nToBr, convertNumberToText, calcIcxMessageKB } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -52,6 +52,12 @@ class TxFeeAndData extends Component {
   }
 
   setData = (e) => {
+    if (this.props.calcData.walletCoinType === 'icx' && calcIcxMessageKB({
+      data: e.target.value,
+      dataType: this.props.dataType
+    }) > 512) {
+      return;
+    }
     this.props.setData(e.target.value);
   }
 
@@ -102,7 +108,10 @@ class TxFeeAndData extends Component {
         txFeeLimitError === 'notEnoughBalance' ? I18n.error[txFeeLimitError](calcData.walletCoinType.toUpperCase()) :
         I18n.error[txFeeLimitError];
 
-    const dataKB = dataType === 'utf8' ? bytesToKB(checkLength(dataToHex(data))) : bytesToKB(data.length)
+    const dataKB = calcIcxMessageKB({
+      data,
+      dataType
+    });
 
     if (isContractPage) {
       return (
@@ -232,7 +241,7 @@ class TxFeeAndData extends Component {
                 }
 							</span>
               {
-                walletCoinType === 'icx' ? (
+                walletCoinType === 'icx' && (
                   <div className="-holder">
     								<ul className="coin">
     									<li onClick={this.setDataType} data-type='utf8'>
@@ -245,13 +254,6 @@ class TxFeeAndData extends Component {
     									</li>
     								</ul>
     							</div>
-                ) : (
-                  <div className="-holder">
-                    <li data-type='hex'>
-                      <input id="rbox-02" className="rbox-type" type="radio" name="rbox-1" checked={true} />
-                      <label htmlFor="rbox-02" className="_img">HEX</label>
-                    </li>
-    							</div>
                 )
               }
 						</div>
@@ -260,7 +262,7 @@ class TxFeeAndData extends Component {
         {
           !isToken && (
             <div className={`input-group ${dataError && 'error'}`}>
-							<textarea onChange={this.setData} onBlur={this.handleDataBlur} value={data} placeholder={`${I18n.transferPageLabel8} ${I18n.transferPageLabel9}`}></textarea>
+							<textarea style={walletCoinType === 'eth' ? {marginTop: '-40px', resize: 'none'} : {resize: 'none'}} onChange={this.setData} onBlur={this.handleDataBlur} value={data} placeholder={`${I18n.transferPageLabel8} ${I18n.transferPageLabel9}`}></textarea>
               <p className="error data">{I18n.error[dataError]}</p>
               { walletCoinType === 'icx' && (<p><span>≒ {dataKB}KB</span> / 512KB</p>) }
 						</div>

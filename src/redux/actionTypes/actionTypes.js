@@ -182,8 +182,9 @@ const actionTypes = {
   setScoreData: 'SET_SCORE_DATA',
   callScoreExternally: 'CALL_SCORE_EXTERNALLY',
   callScoreExternallyFulfilled: 'CALL_SCORE_EXTERNALLY_FULFILLED',
-  callScoreExternallyRejected: 'CALL_SCORE_EXTERNALLY_REJECTED'
-
+  callScoreExternallyRejected: 'CALL_SCORE_EXTERNALLY_REJECTED',
+  
+  setSigningData: 'SET_SIGNING_DATA'
 };
 
 export default actionTypes;

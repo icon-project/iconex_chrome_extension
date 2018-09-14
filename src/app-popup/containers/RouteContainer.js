@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { isLoggedIn, setLockState } from 'redux/actions/authActions';
 import { getWallet } from 'redux/actions/walletActions';
-import { setShowNotice, setIsRequestedStatus, setTransactionStatus, setScoreData } from 'redux/actions/globalActions';
+import { setShowNotice, setIsRequestedStatus, setTransactionStatus, setScoreData, setSigningData } from 'redux/actions/globalActions';
 import Routes from 'app-popup/Routes.js';
 
 function mapStateToProps(state) {
@@ -15,7 +15,7 @@ function mapStateToProps(state) {
     isRequestedStatus: state.global.message ? state.global.message.isRequestedStatus : undefined,
     transaction: state.global.message ? state.global.message.transaction : undefined,
     score: state.global.message && state.global.message.score ? state.global.message.score : {},
-
+    signing: state.global.message && state.global.message.signing ? state.global.message.signing : {},
   };
 }
 
@@ -27,7 +27,8 @@ function mapDispatchToProps(dispatch) {
     setShowNotice: () => dispatch(setShowNotice()),
     setIsRequestedStatus: (requested) => dispatch(setIsRequestedStatus(requested)),
     setTransactionStatus: (transaction) => dispatch(setTransactionStatus(transaction)),
-    setScoreData: (transaction) => dispatch(setScoreData(transaction)),
+    setScoreData: score => dispatch(setScoreData(score)),
+    setSigningData: hash => dispatch(setSigningData(hash)),
   };
 }
 

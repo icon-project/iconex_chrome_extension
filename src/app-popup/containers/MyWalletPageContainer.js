@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import MyWallet from 'app-popup/components/MyWallet';
 import { getWallet, fetchAll, setSelectedWallet } from 'redux/actions/walletActions';
 import { sendCall } from 'redux/actions/exchangeTransactionActions'
-import { setIsRequestedStatus, setTransactionStatus, setScoreData, callScoreExternally } from 'redux/actions/globalActions';
+import { setIsRequestedStatus, setTransactionStatus, setScoreData, callScoreExternally, setSigningData } from 'redux/actions/globalActions';
 
 function mapStateToProps(state) {
   return {
@@ -14,6 +14,7 @@ function mapStateToProps(state) {
     isRequestedStatus: state.global.message ? state.global.message.isRequestedStatus : undefined,
     transaction: state.global.message ? state.global.message.transaction : undefined,
     score: state.global.message && state.global.message.score ? state.global.message.score : {},
+    signing: state.global.message && state.global.message.signing ? state.global.message.signing : {},
   };
 }
 
@@ -26,6 +27,7 @@ function mapDispatchToProps(dispatch) {
     setIsRequestedStatus: (requested) => dispatch(setIsRequestedStatus(requested)),
     setTransactionStatus: (transaction) => dispatch(setTransactionStatus(transaction)),
     setScoreData: (score) => dispatch(setScoreData(score)),
+    setSigningData: (hash) => dispatch(setSigningData(hash)),    
     callScoreExternally: (payload) => dispatch(callScoreExternally(payload)),
   };
 }

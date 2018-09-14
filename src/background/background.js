@@ -1,5 +1,6 @@
 import NotificationManager from 'lib/notification-manager.js'
 import { icx_callScoreExternally } from 'redux/api/walletIcxApi'
+import { getWalletApi } from 'redux/api/walletApi'
 
 const notificationManager = new NotificationManager();
 let TAB_ARR = [];
@@ -11,20 +12,48 @@ let TIMER_TIME = 60000 * 10;
 window.chrome.browserAction.setPopup({ popup: './popup.html' })
 
 window.chrome.runtime.onConnect.addListener(portFrom => {
+	console.log(portFrom)
 	if (portFrom.name === 'iconex-background-content') {
 		portFrom.onMessage.addListener(async (message) => {
+			console.log(message)
 			const { type } = message
 			const popupId = notificationManager.getPopupId()
-			let payload
+			const isShown = await notificationManager.isShown(popupId)
+			let payload, wallets, id
 			switch (type) {
+				case 'REQUEST_HAS_ACCOUNT':
+					wallets = await getWalletApi()
+					id = portFrom.sender.tab.id
+					const hasAccount = Object.keys(wallets).some(address => (wallets[address].type === 'icx'))
+					window.chrome.tabs.sendMessage(id, {
+						type: 'RESPONSE_HAS_ACCOUNT', payload: {
+							hasAccount
+						}
+					});
+					break;
+
+				case 'REQUEST_HAS_ADDRESS':
+					console.log('REQUEST_HAS_ADDRESS')
+					payload = message.payload
+					wallets = await getWalletApi()
+					id = portFrom.sender.tab.id
+					const hasAddress = Object.keys(wallets).some(address => (address === payload.address))
+					console.log(hasAddress)
+					window.chrome.tabs.sendMessage(id, {
+						type: 'RESPONSE_HAS_ADDRESS', payload: {
+							hasAddress
+						}
+					});
+					break;
+
 				case 'REQUEST_ADDRESS':
-					if (popupId) window.chrome.extension.sendMessage({ type })
+					if (isShown) window.chrome.extension.sendMessage({ type })
 					else notificationManager.showPopup({ type })
 					break;
 
 				case 'REQUEST_TRANSACTION':
 					payload = message.payload
-					if (popupId) window.chrome.extension.sendMessage({ type, payload })
+					if (isShown) window.chrome.extension.sendMessage({ type, payload })
 					else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
 					break;
 
@@ -33,7 +62,7 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 					const { param } = payload
 					switch (param.method) {
 						case 'icx_sendTransaction':
-							if (popupId) window.chrome.extension.sendMessage({ type, payload })
+							if (isShown) window.chrome.extension.sendMessage({ type, payload })
 							else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
 							break;
 						case 'icx_getScoreApi':
@@ -43,6 +72,12 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 							const { id } = portFrom.sender.tab
 							window.chrome.tabs.sendMessage(id, { type: 'RESPONSE_SCORE', payload: result });
 					}
+					break;
+
+				case 'REQUEST_SIGNING':
+					payload = message.payload
+					if (isShown) window.chrome.extension.sendMessage({ type, payload })
+					else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
 					break;
 
 				default:
@@ -55,7 +90,7 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 window.chrome.tabs.onRemoved.addListener((tabId) => {
 	// remove tab id
 	const index = TAB_ARR.indexOf(tabId);
-  if (index !== -1) TAB_ARR.splice(index, 1);
+	if (index !== -1) TAB_ARR.splice(index, 1);
 	// if tabArr empty, lock the app
 	if (TAB_ARR.length < 1) {
 		_setLockState(true);
@@ -67,7 +102,7 @@ window.chrome.runtime.onMessage.addListener(message => {
 	console.log(message)
 	switch (type) {
 		case 'ADD_TAB_ID':
-			if(TAB_ARR.indexOf(message.payload) === -1) {
+			if (TAB_ARR.indexOf(message.payload) === -1) {
 				TAB_ARR.push(message.payload);
 			}
 			break;
@@ -111,8 +146,8 @@ window.chrome.runtime.onMessage.addListener(message => {
 
 function _setTimer() {
 	let end = false;
-	let timer = setInterval(function() {
-	  if (end) {
+	let timer = setInterval(function () {
+		if (end) {
 			_setLockState(true);
 			clearInterval(timer);
 		}
@@ -128,7 +163,7 @@ function _initIsAppLocked() {
 
 function _checkIsAppLocked() {
 	const passcodeHash = localStorage.getItem('redux') ? JSON.parse(localStorage.getItem('redux')).global.passcodeHash : false;
-	const isLocked = passcodeHash	? IS_LOCKED : false
+	const isLocked = passcodeHash ? IS_LOCKED : false
 	console.log(passcodeHash, TAB_ARR, isLocked)
 	return isLocked
 }

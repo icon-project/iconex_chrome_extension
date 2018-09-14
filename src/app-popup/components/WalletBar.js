@@ -53,14 +53,33 @@ class WalletBar extends Component {
     }
   }
 
+  isPwInput() {
+    const { wallet } = this.props
+    const walletAccount = wallet.account
+
+    const _isScore = this.props.isScore()
+    if (_isScore) {
+      const { score } = this.props
+      return walletAccount === score.from
+    }
+
+    const _isSigning = this.props.isSigning()
+    if (_isSigning) {
+      const { signing } = this.props
+      return walletAccount === signing.from
+    }
+
+    const { transaction } = this.props
+    return walletAccount === transaction.from
+  }
+
   render() {
-    const { wallet, index, I18n, isRequestedStatus, transaction, password, error, loading, score } = this.props
+    const { wallet, index, I18n, isRequestedStatus, password, error, loading } = this.props
 
     const { onCellClick, handleChange, onCancelClick, onConfirmClick} = this.props
     const { addressHoverState, addressClickState } = this.state;
     const balanceText = convertNumberToText(wallet.balance, wallet.type, true);
-    const _isScore = this.props.isScore()
-    const isPwInput = (_isScore && wallet.account === score.from) || (!_isScore && wallet.account === transaction.from)
+    const isPwInput = this.isPwInput()
 
     return (
       <li className={isRequestedStatus ? 'requested' : ''} onClick={()=>{onCellClick(wallet.account)}}>

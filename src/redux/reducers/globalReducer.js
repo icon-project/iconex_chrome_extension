@@ -15,34 +15,34 @@ export function globalReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.setLanguage:
       return Object.assign({}, state, {
-          language: action.payload
+        language: action.payload
       })
     case actionTypes.setLockFulfilled:
       return Object.assign({}, state, {
-          passcodeHash: action.payload,
+        passcodeHash: action.payload,
       })
     case actionTypes.setShowChangePasscodePopup: {
       const message = Object.assign({}, state.message, {
-          showChangePasscodePopup: action.payload
+        showChangePasscodePopup: action.payload
       });
       return Object.assign({}, state, {
-          message: message
+        message: message
       })
     }
     case actionTypes.setIsRequestedStatus: {
       const message = Object.assign({}, state.message, {
-          isRequestedStatus: action.payload
+        isRequestedStatus: action.payload
       });
       return Object.assign({}, state, {
-          message: message
+        message: message
       })
     }
     case actionTypes.setTransactionStatus: {
       const message = Object.assign({}, state.message, {
-          transaction: action.payload || {}
+        transaction: action.payload || {}
       });
       return Object.assign({}, state, {
-          message: message
+        message: message
       })
     }
     case actionTypes.setLockRejected:
@@ -51,7 +51,7 @@ export function globalReducer(state = initialState, action) {
       return state
     case actionTypes.setShowNotice:
       return Object.assign({}, state, {
-          showNotice: !state.showNotice
+        showNotice: !state.showNotice
       })
     case actionTypes.setScoreData:
       return {
@@ -99,6 +99,19 @@ export function globalReducer(state = initialState, action) {
             ...state.message.score,
             loading: false,
             error: action.error
+          }
+        }
+      }
+
+    case actionTypes.setSigningData:
+      return {
+        ...state,
+        message: {
+          ...state.message,
+          signing: {
+            ...state.message.signing,
+            from: action.payload ? action.payload.from : '',
+            hash: action.payload ? action.payload.hash : ''
           }
         }
       }

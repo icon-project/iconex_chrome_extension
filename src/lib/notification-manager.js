@@ -29,31 +29,30 @@ class NotificationManager {
    *
    */
 
-  popupId = undefined
+  popupId = null
 
 	getPopupId () {
 		return this.popupId
-	}
+  }
+  
+  isShown (popupId) {
+    return new Promise(resolve => {
+      extension.windows.getAll( wins => {
+        console.log(wins)
+        resolve(!!wins.filter(win => win.id === popupId).length)
+      })
+    })
+  }
 
   showPopup (query) {
-    this._getPopup((err, popup) => {
-      if (err) throw err
-
-      // Bring focus to chrome popup
-      if (popup) {
-        // bring focus to existing chrome popup
-        // extension.windows.update(popup.id, { focused: true })
-				extension.windows.switch(popup.id, { focused: true })
-
-      } else {
-        // create new notification popup
-        extension.windows.create({
-          url: `./popup.html?context=notification&${(!!query && typeof query === 'object') ? objectToQuery(query) : ''}`,
-          type: 'popup',
-          width,
-          height,
-        }, popup => {this.popupId = popup.id})
-      }
+    this.popupId = null
+    extension.windows.create({
+      url: `./popup.html?context=notification&${(!!query && typeof query === 'object') ? objectToQuery(query) : ''}`,
+      type: 'popup',
+      width,
+      height,
+    }, popup => {
+      this.popupId = popup.id
     })
   }
 
@@ -67,7 +66,9 @@ class NotificationManager {
       if (err) throw err
       if (!popup) return
 
-      extension.windows.remove(popup.id, () => {this.popupId = null})
+      extension.windows.remove(popup.id, () => {
+        this.popupId = null
+      })
     })
   }
 

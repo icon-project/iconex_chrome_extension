@@ -5,6 +5,7 @@ import { makeWalletArray, openApp, isEmpty } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 import Worker from 'workers/wallet.worker.js';
 import queryString from 'query-string'
+import { signHashcode } from 'utils/iconex'
 
 const INIT_STATE = {
   tab: 'icx',
@@ -24,7 +25,7 @@ class MyWallet extends Component {
     this.state = INIT_STATE;
     this.worker = new Worker();
     this.worker.onmessage = (m) => {
-      const { transaction, score, I18n } = this.props;
+      const { transaction, score, signing, I18n } = this.props;
       if (!m.data) {
         this.setState({
           loading: false,
@@ -33,24 +34,54 @@ class MyWallet extends Component {
       } else {
         const _isScore = this.isScore()
         if (_isScore) {
-          this.props.callScoreExternally({privKey:m.data, param:score.param})
+          this.props.callScoreExternally({ privKey: m.data, param: score.param })
+          return
         }
-        else {
-          const { stepLimit } = transaction
-          const sendData = Object.assign({}, transaction, {
-            txFeeLimit: stepLimit || '4000',
-            coinType: 'icx'
-          });
-          this.props.sendCall(m.data, sendData);
+
+        const _isSigning = this.isSigning()
+        if (_isSigning) {
+          this.signAndSendResponse(m.data, signing.hash)
+          return
         }
+        
+        const { stepLimit } = transaction
+        const sendData = Object.assign({}, transaction, {
+          txFeeLimit: stepLimit || '4000',
+          coinType: 'icx'
+        });
+        this.props.sendCall(m.data, sendData);  
       }
     }
   }
 
+  signAndSendResponse(privKey, hash) {
+    let signature
+    if (Array.isArray(hash)) {
+      signature = []
+      hash.forEach(h => {
+        signature.push(signHashcode(privKey, h))
+      })
+    }
+    else {
+      signature = signHashcode(privKey, hash)
+    }
+
+    console.log(signature)
+    window.chrome.tabs.query({ active: true }, (tabs) => {
+      window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_SIGNING', payload: signature });
+      this.clearPopup()
+    });
+  }
+
   componentWillMount() {
-    if(!this.props.walletsLoading) {
+    if (!this.props.walletsLoading) {
       this.props.fetchAll(this.props.wallets);
     }
+  }
+
+  isSigning = () => {
+    const { hash } = this.props.signing
+    return !!hash
   }
 
   isScore = () => {
@@ -63,12 +94,13 @@ class MyWallet extends Component {
     }
   }
 
+
   componentWillUpdate(nextProps, nextState) {
-    if(this.props.walletsLoading !== nextProps.walletsLoading && nextProps.walletsLoading) {
+    if (this.props.walletsLoading !== nextProps.walletsLoading && nextProps.walletsLoading) {
       this.setState(INIT_STATE);
     }
 
-    if(this.props.totalResultLoading !== nextProps.totalResultLoading && !nextProps.totalResultLoading) {
+    if (this.props.totalResultLoading !== nextProps.totalResultLoading && !nextProps.totalResultLoading) {
       this.calcData();
     }
 
@@ -91,6 +123,7 @@ class MyWallet extends Component {
 
   componentWillUnmount() {
     this.setState(INIT_STATE);
+    this.clearPopup()
   }
 
   calcData = () => {
@@ -115,7 +148,7 @@ class MyWallet extends Component {
 
   goApp = () => {
     openApp();
-    window.chrome.runtime.sendMessage({type: 'CLOSE_POPUP'});
+    window.chrome.runtime.sendMessage({ type: 'CLOSE_POPUP' });
   }
 
   handleTabChange = (e) => {
@@ -134,20 +167,44 @@ class MyWallet extends Component {
     if (isRequestedStatus) {
       this.props.setIsRequestedStatus(false)
       window.chrome.tabs.query({ active: true }, (tabs) => {
-        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_ADDRESS', payload: address});
+        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_ADDRESS', payload: address });
         this.clearPopup()
       });
     }
   }
 
-  onCancelClick = () => {
+  getCancelType = () => {
     const _isScore = this.isScore()
-    const type = `CANCEL_${_isScore ? 'SCORE' : 'TRANSACTION'}`
+    if (_isScore) {
+      return 'CANCEL_SCORE'
+    }
+    const _isSigning = this.isSigning()
+    if (_isSigning) {
+      return 'CANCEL_SIGNING'
+    }
+    return 'CANCEL_TRANSACTION'
+  }
+
+  onCancelClick = () => {
+    const type = this.getCancelType()
     window.chrome.tabs.query({ active: true }, (tabs) => {
       window.chrome.tabs.sendMessage(tabs[0].id, { type });
       this.clearPopup()
     });
   }
+
+  getFromAddress = () => {
+    const _isScore = this.isScore()
+    if (_isScore) {
+      return this.props.score.from
+    }
+    const _isSigning = this.isSigning()
+    if (_isSigning) {
+      return this.props.signing.from
+    }
+    return this.props.transaction.from
+  }
+
 
   onConfirmClick = () => {
     const { password } = this.state;
@@ -158,9 +215,9 @@ class MyWallet extends Component {
     }
 
     this.setState({ loading: true, pwError: '' }, () => {
-      const { wallets, transaction, score } = this.props;
-      console.log(this.isScore(), score.from, transaction.from)
-      const { priv } = wallets[this.isScore() ? score.from : transaction.from];
+      const { wallets } = this.props;
+      const address = this.getFromAddress()
+      const { priv } = wallets[address];
       const data = {
         priv, pw: password, type: 'sendTransaction'
       };
@@ -169,9 +226,10 @@ class MyWallet extends Component {
   }
 
   clearPopup = () => {
-    window.chrome.runtime.sendMessage({type: 'CLOSE_POPUP'});
+    window.chrome.runtime.sendMessage({ type: 'CLOSE_POPUP' });
     this.props.setTransactionStatus()
     this.props.setScoreData()
+    this.props.setSigningData()
     this.setState({
       password: '',
       pwError: ''
@@ -180,58 +238,60 @@ class MyWallet extends Component {
 
   render() {
     const { tab, data, password, pwError, loading } = this.state;
-    const { I18n, totalResultLoading, transaction, isRequestedStatus, score } = this.props;
+    const { I18n, totalResultLoading, transaction, isRequestedStatus, score, signing } = this.props;
 
     return (
       <div className="wrap">
         {
           (totalResultLoading || data.length < 1) ? (
-            <div style={{height: '100%'}}>
+            <div style={{ height: '100%' }}>
               <LoadingComponent type="black" />
             </div>
           ) : (
-            <div>
-              <div className="tab-holder">
-        				<ul className={data['icx'].length > 0 && data['eth'].length > 0 ? 'two' : 'one'}>
-        					{ data['icx'].length > 0 && (<li onClick={this.handleTabChange} data-name={'icx'} className={data['icx'].length > 0 && data['eth'].length > 0 && tab === "icx" ? "on" : ''}>ICX</li>)}
-        					{ data['eth'].length > 0 && (<li onClick={this.handleTabChange} data-name={'eth'} className={data['icx'].length > 0 && data['eth'].length > 0 && tab === "eth" ? "on" : ''}>ETH</li>)}
-        				</ul>
-        			</div>
+              <div>
+                <div className="tab-holder">
+                  <ul className={data['icx'].length > 0 && data['eth'].length > 0 ? 'two' : 'one'}>
+                    {data['icx'].length > 0 && (<li onClick={this.handleTabChange} data-name={'icx'} className={data['icx'].length > 0 && data['eth'].length > 0 && tab === "icx" ? "on" : ''}>ICX</li>)}
+                    {data['eth'].length > 0 && (<li onClick={this.handleTabChange} data-name={'eth'} className={data['icx'].length > 0 && data['eth'].length > 0 && tab === "eth" ? "on" : ''}>ETH</li>)}
+                  </ul>
+                </div>
 
-              <div className="content-wrap">
-                <div className="scroll">
-                  <ul className="list-holder">
-                    {
-                      data[tab].map((wallet, i) => {
-                        return (
-                          <WalletBar key={i}
-                            index={i}
-                            wallet={wallet}
-                            transaction={transaction}
-                            score={score}
-                            isScore = {this.isScore}
-                            isRequestedStatus={isRequestedStatus}
-                            password={password}
-                            error={pwError}
-                            loading={loading}
-                            handleChange={this.handleChange}
-                            onCellClick={this.onCellClick}
-                            onCancelClick={this.onCancelClick}
-                            onConfirmClick={this.onConfirmClick}
-                          />
-                        )
-                      })
-                    }
-          				</ul>
-          			</div>
-          		</div>
-            </div>
-          )
+                <div className="content-wrap">
+                  <div className="scroll">
+                    <ul className="list-holder">
+                      {
+                        data[tab].map((wallet, i) => {
+                          return (
+                            <WalletBar key={i}
+                              index={i}
+                              wallet={wallet}
+                              transaction={transaction}
+                              score={score}
+                              isScore={this.isScore}
+                              signing={signing}
+                              isSigning={this.isSigning}
+                              isRequestedStatus={isRequestedStatus}
+                              password={password}
+                              error={pwError}
+                              loading={loading}
+                              handleChange={this.handleChange}
+                              onCellClick={this.onCellClick}
+                              onCancelClick={this.onCancelClick}
+                              onConfirmClick={this.onConfirmClick}
+                            />
+                          )
+                        })
+                      }
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )
         }
-    		<div onClick={this.goApp} className="footer">
-    			<p>{I18n.button.goToWallet}<em className="_img"></em></p>
-    		</div>
-    	</div>
+        <div onClick={this.goApp} className="footer">
+          <p>{I18n.button.goToWallet}<em className="_img"></em></p>
+        </div>
+      </div>
     );
   }
 }

@@ -68,3 +68,10 @@ export function callScoreExternally(payload) {
     payload
   }
 }
+
+export function setSigningData(payload) {
+  return {
+    type: actionTypes.setSigningData,
+    payload
+  };
+}

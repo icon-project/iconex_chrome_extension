@@ -9,17 +9,17 @@ import queryString from 'query-string'
 const PrivateRoute = ({ component: Component, isLocked, ...rest }) => (
   <Route exact {...rest} render={props => (
     isLocked
-      ? (<Redirect to={ROUTE['lock']}/>)
-      : (<Component {...props}/>)
-  )}/>
+      ? (<Redirect to={ROUTE['lock']} />)
+      : (<Component {...props} />)
+  )} />
 )
 
 const LoginRoute = ({ component: Component, isLoggedIn, isLocked, ...rest }) => (
   <Route {...rest} render={props => (
     isLocked
-      ? (<Component {...props}/>)
-      : (<Redirect to={ROUTE['home']}/>)
-  )}/>
+      ? (<Component {...props} />)
+      : (<Redirect to={ROUTE['home']} />)
+  )} />
 )
 
 class Routes extends Component {
@@ -30,8 +30,8 @@ class Routes extends Component {
     }
   }
 
-  componentWillMount(){
-    (async ()=>{
+  componentWillMount() {
+    (async () => {
       await new Promise(function (resolve, reject) {
         chromeStorageLocal.get(null, result => {
           chromeStorage.set(result, () => {
@@ -67,15 +67,29 @@ class Routes extends Component {
       case 'REQUEST_ADDRESS':
         this.props.setIsRequestedStatus(true)
         this.props.setTransactionStatus()
+        this.props.setScoreData()
+        this.props.setSigningData()
         break;
       case 'REQUEST_TRANSACTION':
+        this.props.setIsRequestedStatus(false)
         this.props.setTransactionStatus(payload)
+        this.props.setScoreData()
+        this.props.setSigningData()
         break;
       case 'REQUEST_SCORE':
         const { param } = payload
         if (param.method === 'icx_sendTransaction') {
+          this.props.setIsRequestedStatus(false)
+          this.props.setTransactionStatus()
           this.props.setScoreData(payload)
+          this.props.setSigningData()
         }
+        break;
+      case 'REQUEST_SIGNING':
+        this.props.setIsRequestedStatus(false)
+        this.props.setTransactionStatus()
+        this.props.setScoreData()
+        this.props.setSigningData(payload)
         break;
       case 'CHECK_POPUP_LOCK_STATE_FULFILLED':
         this.props.setLockState(message.payload);
@@ -95,15 +109,15 @@ class Routes extends Component {
     const { initLoading, isLocked, language } = this.props;
     return (
       <div className={`${navigator.platform.indexOf('Mac') > -1 ? 'isMac' : ''} empty`}>
-        { !initLoading && (
-        <HashRouter>
-          <div>
-            <div className={`${language}`}>
-              <PrivateRoute path={ROUTE['home']} isLocked={isLocked} component={MyWalletPage} />
-              <LoginRoute path={ROUTE['lock']} isLocked={isLocked} component={LockPage} />
+        {!initLoading && (
+          <HashRouter>
+            <div>
+              <div className={`${language}`}>
+                <PrivateRoute path={ROUTE['home']} isLocked={isLocked} component={MyWalletPage} />
+                <LoginRoute path={ROUTE['lock']} isLocked={isLocked} component={LockPage} />
+              </div>
             </div>
-          </div>
-        </HashRouter>
+          </HashRouter>
         )}
       </div>
     );

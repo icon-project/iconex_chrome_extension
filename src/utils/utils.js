@@ -436,7 +436,7 @@ function makeIcxRawTx(isContract, data) {
       to: data.to,
       value: window.web3.toHex(sendAmount),
       version: "0x3",
-      nid: '0x3',
+      nid: '0x2',
       stepLimit: check0xPrefix(new BigNumber(data.txFeeLimit).toString(16)),
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16))
     }

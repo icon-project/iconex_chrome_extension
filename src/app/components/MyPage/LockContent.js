@@ -191,14 +191,14 @@ class LockContent extends Component {
           <Alert
             handleSubmit={this.closeAlert}
             text={I18n.myPageLockSuccess}
-            submitText={I18n.button.yes}
+            submitText={I18n.button.confirm}
           />
         )}
         { showPasscodeChangingSuccess && (
           <Alert
             handleSubmit={this.closeAlert}
             text={I18n.myPageLockChangeSuccess}
-            submitText={I18n.button.yes}
+            submitText={I18n.button.confirm}
           />
         )}
       </div>

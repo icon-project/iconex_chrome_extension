@@ -39,7 +39,7 @@ class Footer extends Component {
           			<div className="wrap-holder">
           				<p className="txt-copy"><span>©2018 ICON Foundation</span><em></em><span onClick={this.handleImmunityClick} className="noti">{I18n.disclaimerPage.header}</span></p>
                     {
-                      process.env.NODE_ENV === 'development' && !HIDE_SERVER && (
+                      !HIDE_SERVER && (
                         <ServerChanger {...this.props} />
                       )
                     }

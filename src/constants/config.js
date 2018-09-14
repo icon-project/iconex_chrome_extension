@@ -34,7 +34,7 @@ export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.h
 export const getCurrentServer = (coinType) => {
   let server;
   const initialServer = coinType === 'icx' ? INITIAL_SERVER_ICX : INITIAL_SERVER_ETH;
-  if (process.env.NODE_ENV === 'development' && !isAccessedFromWorker) {
+  if (!isAccessedFromWorker) {
     server = localStorage.getItem(`${coinType}Server`) || initialServer
   } else {
     server = initialServer
@@ -44,7 +44,7 @@ export const getCurrentServer = (coinType) => {
 
 export const getCurrentICXApiVersion = () => {
   let apiVersion;
-  if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
+  if (!isAccessedFromWorker) {
     apiVersion = localStorage.getItem(`icxApiVersion`) || INITIAL_API_VERSION_ICX
   } else {
     apiVersion = INITIAL_API_VERSION_ICX

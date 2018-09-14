@@ -160,4 +160,4 @@
 
 /* transfer page 'balance' position */
 .content-wrap .wrap-holder.exchange .quantity-holder .won-group p.have{text-align: right; font-size: 14px; color: rgba(38, 38, 38, 0.5); margin-top: 7px;}
-.content-wrap .wrap-holder.exchange .quantity-holder .won-group p.have{width: 610px;}
+.content-wrap .wrap-holder.exchange .quantity-holder .won-group p.have{width: 610px; position: absolute;}

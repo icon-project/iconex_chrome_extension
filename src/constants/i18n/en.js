@@ -533,9 +533,9 @@ export default {
     desc1: 'You can reset your passcode using your wallet password.',
     desc2: 'You can reset your passcode.',
     inputLabel1: 'New passcode',
-    inputLabel2: 'Confirm new passcode.',
-    inputPlaceHolder1: 'Enter your password',
-    inputPlaceHolder: 'Enter a 6-digit number',
+    inputLabel2: 'Confirm new passcode',
+    inputPlaceHolder1: 'Enter your passcode',
+    inputPlaceHolder2: 'Enter a 6-digit number',
   },
 
   printPage: {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NewPasscodeInput } from 'app/components/'
+import { NewPasscodeInput, Alert } from 'app/components/'
 import hash from 'hash.js'
 
 import withLanguageProps from 'HOC/withLanguageProps';
@@ -13,6 +13,7 @@ class ChangePasscode2 extends Component {
       second: '',
       firstError: undefined,
       secondError: undefined,
+      showPasscodeChangingSuccess: false
     }
   }
 
@@ -58,10 +59,17 @@ class ChangePasscode2 extends Component {
     }
     const passcodeHash = hash.sha256().update(first).digest('hex')
     this.props.setLock(passcodeHash)
-    this.closePopup()
+    this.setState({
+      showPasscodeChangingSuccess: true
+    });
+  }
+
+  closeAlert = () => {
+    this.closePopup();
   }
 
   render() {
+    const { showPasscodeChangingSuccess } = this.state;
     const { I18n } = this.props;
     return (
       <div className="popup-wrap">
@@ -96,6 +104,13 @@ class ChangePasscode2 extends Component {
             <button type="submit" className="btn-type-normal" onClick={this.changePasscode}><span>{I18n.button.reset}</span></button>
           </div>
         </div>
+        { showPasscodeChangingSuccess && (
+          <Alert
+            handleSubmit={this.closeAlert}
+            text={I18n.myPageLockChangeSuccess}
+            submitText={I18n.button.confirm}
+          />
+        )}
       </div>
     );
   }

@@ -535,7 +535,7 @@ export default {
     desc2: '잠금 번호를 재설정할 수 있습니다.',
     inputLabel1: '새 잠금 번호',
     inputLabel2: '새 잠금 번호 확인',
-    inputPlaceHolder1: '비밀번호 입력',
+    inputPlaceHolder1: '잠금 번호 입력',
     inputPlaceHolder2: '숫자 6자리 입력',
   },
 

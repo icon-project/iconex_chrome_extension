@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import InputRange from 'react-input-range';
 import { nToBr, convertNumberToText, calcIcxMessageKB } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
+import { initialStepLimit } from 'redux/reducers/exchangeTransactionReducer'
 
 const INIT_STATE = {
   txFeeLimitHelpLayer: false,
@@ -103,7 +104,7 @@ class TxFeeAndData extends Component {
     const { walletCoinType, txFeePriceWithRate } = calcData;
 
     const txFeeLimitErrorText =
-        txFeeLimitError === 'stepLimitTooLow' ? I18n.error[txFeeLimitError](parseInt(txFeeLimitTable.default, 16)) :
+        txFeeLimitError === 'stepLimitTooLow' ? I18n.error[txFeeLimitError](initialStepLimit(isToken, txFeeLimitTable)) :
         txFeeLimitError === 'stepLimitTooHigh' ? I18n.error[txFeeLimitError](txFeeLimitMax.toString()) :
         txFeeLimitError === 'notEnoughBalance' ? I18n.error[txFeeLimitError](calcData.walletCoinType.toUpperCase()) :
         I18n.error[txFeeLimitError];

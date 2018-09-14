@@ -99,8 +99,8 @@ class QuantitySetter extends Component {
     } = this.props;
 
     const coinQuantityErrorText =
-        coinQuantityError === 'notEnoughBalance' ? I18n.error[coinQuantityError](calcData.walletCoinType.toUpperCase()) :
-        I18n.error[coinQuantityError];
+        coinQuantityError === 'notEnoughBalance' ? I18n.error[coinQuantityError](calcData.walletCoinType.toUpperCase())
+                                                 : I18n.error[coinQuantityError];
 
     if (isContractPage) {
       return (
@@ -165,7 +165,7 @@ class QuantitySetter extends Component {
             )}
             { isLoggedIn && (<span className="won">{calcData.sendQuantityWithRate !== '-' && <i className="_img"></i>}<em>{calcData.sendQuantityWithRate || 0 }</em> <em>USD</em></span>)}
             { isLoggedIn && (<p className="have">{I18n.contractBalance} {calcData.currentBalance.toString()} ICX</p>) }
-            <p className="error">{I18n.error[coinQuantityError]}</p>
+            <p className="error">{coinQuantityErrorText}</p>
           </div>
         </div>
     {

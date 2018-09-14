@@ -112,19 +112,18 @@ export function validateDataError(state) {
 
 export function validateTxFeeLimitError(state) {
   let error = '';
-  const minStepLimit = parseInt(state.txFeeLimitTable.default, 16);
+  const isToken = store.getState().wallet.selectedWallet.isToken;
+  const minStepLimit = initialStepLimit(isToken, state.txFeeLimitTable);
   if (!state.txFeeLimit) {
     error = 'enterGasPrice'
-  } else if (state.coinQuantity === '0' && state.calcData.isResultBalanceMinus) {
-    error = 'notEnoughBalance'
-  } else if (state.calcData.isWalletCoinBalanceMinus) {
-    error = 'notEnoughBalance'
   } else if (state.calcData.walletCoinType === 'icx' && state.txFeeLimit < minStepLimit) {
     error = `stepLimitTooLow`;
   } else if (state.calcData.walletCoinType === 'icx' && new BigNumber(state.txFeeLimit).gt(state.txFeeLimitMax)) {
     error = `stepLimitTooHigh`;
-  } else if (state.coinQuantity === '0' && state.calcData.isResultBalanceMinus) {
+  } else if (state.calcData.isWalletCoinBalanceMinus) {
     error = 'notEnoughBalance'
+  } else if (state.calcData.isResultBalanceMinus) {
+    error = 'notEnoughBalance';
   } else {
     error = ''
   }
@@ -133,13 +132,16 @@ export function validateTxFeeLimitError(state) {
 
 export function validateContractTxFeeLimitError(state) {
   let error = '';
-  const minStepLimit = parseInt(state.txFeeLimitTable.default, 16);
+  const isToken = store.getState().wallet.selectedWallet.isToken;
+  const minStepLimit = initialStepLimit(isToken, state.txFeeLimitTable);
   if (!state.txFeeLimit) {
     error = 'enterGasPrice'
   } else if (state.txFeeLimit < minStepLimit) {
     error = `stepLimitTooLow`;
   } else if (new BigNumber(state.txFeeLimit).gt(state.txFeeLimitMax)) {
     error = `stepLimitTooHigh`;
+  } else if (state.calcData.isWalletCoinBalanceMinus) {
+    error = 'notEnoughBalance'
   } else if (state.calcData.isResultBalanceMinus) {
     error = 'notEnoughBalance'
   } else {
@@ -228,9 +230,16 @@ const calcData = (props) => {
   }
 };
 
+export const initialStepLimit = (isToken, txFeeLimitTable) => {
+  return !isToken ? parseInt(txFeeLimitTable['default'], 16)
+                  : (parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['contractCall'], 16)) * 2
+}
+
 const initializeTxFeeLimit = (isToken, walletCoinType, txFeeLimitTable) => {
   if (walletCoinType === 'icx') {
-    return !isEmpty(txFeeLimitTable) ? parseInt(txFeeLimitTable['default'], 16) : 4000
+    return !isEmpty(txFeeLimitTable)
+            ? initialStepLimit(isToken, txFeeLimitTable)
+            : 1000000
   } else {
     return isToken ? 55000 : 21000
   }

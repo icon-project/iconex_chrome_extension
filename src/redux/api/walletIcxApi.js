@@ -112,7 +112,7 @@ export function icx_fetchTransactionHistoryApi(data) {
     const _pageId = data.page || 1;
     return new Promise(resolve => {
       if (IS_V3) {
-        const url = data.contractAddress ? `/v3/token/txList?tokenAddr=${_addressId}&page=${_pageId}&contractAddr=${data.contractAddress}`
+        const url = data.contractAddress ? `/v3/token/txList?tokenAddr=${_addressId}&count=10&page=${_pageId}&contractAddr=${data.contractAddress}`
                                          : `/v3/address/txListForWallet?address=${_addressId}&page=${_pageId}&type=0`
         trackerApi.get(url)
           .then(res => {

@@ -379,7 +379,7 @@ export function icx_getTxFeeInfoApi(data) {
           contractAddress: GOVERNANCE_ADDRESS,
           methodName: 'getMaxStepLimit',
           inputObj: {
-            "context_type": "invoke"
+            "contextType": "invoke"
           }
         });
         return {

@@ -3,7 +3,7 @@ module.exports = {
     "name": prodDev("ICONex", "ICONex Testnet", "ICONex Developer"),
     "short_name": "ICX Wallet",
     "description": prodDev("ICONex", "ICONex Testnet", "ICONex Developer"),
-    "version": process.env.APP_VERSION,
+    "version": prodDev("1." + process.env.APP_VERSION, "0." + process.env.APP_VERSION),
     "background": {
       "scripts": [
         "static/js/store.bundle.js"

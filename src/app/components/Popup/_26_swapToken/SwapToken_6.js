@@ -34,10 +34,9 @@ class SwapToken6 extends Component {
     if (this.props.txFeeLoading) {
       return
     }
-    if (this.props.txFeeLimit * this.props.txFeePrice === 0) {
-      return
-    }
-    this.props.submitCall(true);
+    this.props.submitCall(true, {
+      isSwap: true
+    });
   }
 
   render() {

@@ -22,7 +22,7 @@ function mapDispatchToProps(dispatch) {
     setCoinQuantityError: () => dispatch(setCoinQuantityError()),
     setRecipientAddressError: () => dispatch(setRecipientAddressError()),
     fetchAll: (wallets) => dispatch(fetchAll(wallets)),
-    submitCall: (payload) => dispatch(submitCall(payload)),
+    submitCall: (payload, options) => dispatch(submitCall(payload, options)),
     openPopup: (s) => dispatch(openPopup(s)),
     setPopupNum: (s) => dispatch(setPopupNum(s)),
     resetReducer: () => dispatch(resetEXTRPageReducer())

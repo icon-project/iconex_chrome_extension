@@ -109,10 +109,11 @@ export function sendCall(privKey, data, isLedger = false) {
   };
 }
 
-export function submitCall(payload) {
+export function submitCall(payload, options = {}) {
   return {
     type: actionTypes.submitCall,
-    payload
+    payload,
+    options
   };
 }
 

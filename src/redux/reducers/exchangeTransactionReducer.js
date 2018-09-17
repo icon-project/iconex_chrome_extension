@@ -339,7 +339,7 @@ export function exchangeTransactionReducer(state = initialState, action) {
       } else {
         const coinQuantityError = validateCoinQuantityError(state);
         const recipientAddressError = validateRecipientAddressError(state);
-        const txFeeLimitError = validateTxFeeLimitError(state);
+        const txFeeLimitError = action.options['isSwap'] ? '' : validateTxFeeLimitError(state);
         const dataError = state.calcData.walletCoinType === 'icx' && state.dataType === 'utf8'
                             ? validateMessageError(state)
                             : validateDataError(state)

@@ -54,7 +54,7 @@ function mapDispatchToProps(dispatch) {
     setPopupNum: (n) => dispatch(setPopupNum(n)),
     sendCall: (privKey, data, isLedger) => dispatch(sendCall(privKey, data, isLedger)),
     setEXTRLogInState: (payload) => dispatch(setEXTRLogInState(payload)),
-    submitCall: (payload) => dispatch(submitCall(payload)),
+    submitCall: (payload, options) => dispatch(submitCall(payload, options)),
     resetEXTRPageReducer: () => dispatch(resetEXTRPageReducer()),
     resetInput: () => dispatch(resetEXTRInputReducer()),
     fetchAll: (wallets) => dispatch(fetchAll(wallets)),

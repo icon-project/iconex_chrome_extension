@@ -115,7 +115,7 @@ export default {
     transferAddressSame: 'Sending and receiving address are the same.',
 
     checkData: 'Please check your data.',
-    dataOverLimit: 'This exceeds input limit 512KB.',
+    dataOverLimit: 'This exceeds input limit 250KB.',
     enterGasPrice: 'Please enter the limit.',
     stepLimitTooLow: (stepLimit) => {
       return `Enter step limit more than ${stepLimit}.`

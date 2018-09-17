@@ -82,10 +82,10 @@ export function* checkContractInputErrorFunc(action) {
     let errorFlag = false;
     // Input Error Handling
     if (func.inputs.length > 0) {
-      // If funcInput exceeds 512 * 1024
+      // If funcInput exceeds 250 * 1024
       const funcInputHex = funcInputToHexData(funcInput, func.inputs)
       const funcInputHexData = Object.keys(funcInputHex).join("") + Object.values(funcInputHex).join("")
-      if (checkLength(funcInputHexData) > (512 * 1024)) {
+      if (checkLength(funcInputHexData) > (250 * 1024)) {
         errorFlag = true;
         yield put(setFuncInputDataExceedError(true))
       } else {

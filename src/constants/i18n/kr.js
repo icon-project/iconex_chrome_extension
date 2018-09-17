@@ -115,7 +115,7 @@ export default {
     transferAddressSame: '보내는 주소와 받는 주소가 동일합니다.',
 
     checkData: '데이터를 다시 확인해주세요.',
-    dataOverLimit: '입력 한도 512KB를 초과합니다.',
+    dataOverLimit: '입력 한도 250KB를 초과합니다.',
     enterGasPrice: '한도를 입력해주세요.',
     stepLimitTooLow: (stepLimit) => {
       return `${stepLimit}보다 높은 스텝 한도를 입력해주세요.`

@@ -56,7 +56,7 @@ class TxFeeAndData extends Component {
     if (this.props.calcData.walletCoinType === 'icx' && calcIcxMessageKB({
       data: e.target.value,
       dataType: this.props.dataType
-    }) > 512) {
+    }) > 250) {
       return;
     }
     this.props.setData(e.target.value);
@@ -265,7 +265,7 @@ class TxFeeAndData extends Component {
             <div className={`input-group ${dataError && 'error'}`}>
 							<textarea style={walletCoinType === 'eth' ? {marginTop: '-40px', resize: 'none'} : {resize: 'none'}} onChange={this.setData} onBlur={this.handleDataBlur} value={data} placeholder={`${I18n.transferPageLabel8} ${I18n.transferPageLabel9}`}></textarea>
               <p className="error data">{I18n.error[dataError]}</p>
-              { walletCoinType === 'icx' && (<p><span>≒ {dataKB}KB</span> / 512KB</p>) }
+              { walletCoinType === 'icx' && (<p><span>≒ {dataKB}KB</span> / 250KB</p>) }
 						</div>
           )
         }

@@ -498,6 +498,10 @@ function bytesToKB(input) {
   return Math.ceil(input / 1024);
 }
 
+function getHexByteLength(input) {
+  return input / 2;
+}
+
 function isObject (value) {
   return value && typeof value === 'object' && value.constructor === Object;
 }
@@ -511,7 +515,7 @@ function calcIcxMessageKB({
   dataType,
   data
 }) {
-  return dataType === 'utf8' ? bytesToKB(checkLength(dataToHex(data))) : bytesToKB(data.length)
+  return dataType === 'utf8' ? bytesToKB(getHexByteLength(checkLength(dataToHex(data)))) : bytesToKB(getHexByteLength(data.length))
 }
 
 export {
@@ -555,5 +559,6 @@ export {
   bytesToKB,
   isObject,
   checkURLSuffix,
-  calcIcxMessageKB
+  calcIcxMessageKB,
+  getHexByteLength
 }

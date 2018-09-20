@@ -57,7 +57,7 @@ export const IS_V3 = getCurrentICXApiVersion() === 'v3';
 export const ICX_WALLET_SERVER = () => {
   const icxServer = getCurrentServer('icx');
   const obj = {
-    'mainnet': 'https://ctz.solidwallet.io',
+    'mainnet': 'https://wallet.icon.foundation',
     'euljiro': 'https://test-ctz.solidwallet.io',
     'yeouido': 'https://bicon.net.solidwallet.io',
     'custom': getCustomIcxServer().customWalletURL

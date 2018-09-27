@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getCurrentServer, getCurrentICXApiVersion, getCustomIcxServer } from 'constants/config.js'
 import withClickOut from 'HOC/withClickOut';
+import { checkURLSuffix } from 'utils';
 
 const INIT_STATE = {
   showCustomInput: getCurrentServer('icx') === 'custom',
@@ -31,7 +32,7 @@ const emStyle = {color: '#666'}
 
 const inputUlStyle = {
   position: 'absolute',
-  right: '415px',
+  right: '353px',
   top: '20px'
 }
 
@@ -53,9 +54,9 @@ const inputButtonStyle = {
 
 // list constants
 const icxServerList = {
-  'test': 'test',
-  'main': 'main',
-  'dev': 'dev',
+  'mainnet': 'mainnet',
+  'euljiro': 'euljiro',
+  'yeouido': 'yeouido',
   'custom': 'custom'
 }
 const icxApiVersionList = {
@@ -101,8 +102,8 @@ class ServerChanger extends Component {
   setCustomURL = () => {
     const { customWalletURL, customTrackerURL } = this.state;
     const customIcxServer = {
-      customWalletURL,
-      customTrackerURL
+      customWalletURL: checkURLSuffix(customWalletURL),
+      customTrackerURL: checkURLSuffix(customTrackerURL)
     }
     localStorage.setItem('customIcxServer', JSON.stringify(customIcxServer))
     localStorage.setItem(`icxServer`, 'custom');
@@ -116,8 +117,8 @@ class ServerChanger extends Component {
         {
           showCustomInput && (
             <ul style={inputUlStyle}>
-              <li style={inputLiStyle}><input type="text" placeholder="ex) http://xyz:3000" data-name='customWalletURL' onChange={this.handleChangeInput} value={customWalletURL} /><span style={spanStyle}>Wallet URL</span></li>
-              <li style={inputLiStyle}><input type="text" placeholder="ex) http://xyz:3000" data-name='customTrackerURL' onChange={this.handleChangeInput} value={customTrackerURL} /><span style={spanStyle}>Tracker URL</span></li>
+              <li style={inputLiStyle}><input type="text" placeholder="ex) https://xyz:3000" data-name='customWalletURL' onChange={this.handleChangeInput} value={customWalletURL} /><span style={spanStyle}>Wallet URL</span></li>
+              <li style={inputLiStyle}><input type="text" placeholder="ex) https://xyz:3000" data-name='customTrackerURL' onChange={this.handleChangeInput} value={customTrackerURL} /><span style={spanStyle}>Tracker URL</span></li>
               <li style={inputLiStyle}><button style={inputButtonStyle} onClick={this.setCustomURL}>설정</button></li>
             </ul>
           )
@@ -133,6 +134,7 @@ class ServerChanger extends Component {
             <span
               style={spanStyle}>ICX <em style={emStyle}>(SERVER)</em></span>
           </li>
+          {/*
           <li
             style={liStyle}>
             <ComboBox
@@ -143,6 +145,7 @@ class ServerChanger extends Component {
             <span
               style={spanStyle}>ICX <em style={emStyle}>(API VER)</em></span>
           </li>
+          */}
           <li style={borderStyle}></li>
           <li style={liStyle}>
             <ComboBox

@@ -52,15 +52,16 @@ class ValidationForm extends Component {
   }
 
   handleSuccess = () => {
+    const walletNameTrim = this.state.walletName.trim()
     switch(this.props.type) {
       case 'createWallet':
-        this.props.onSuccess(this.state.walletName, this.state.pw);
+        this.props.onSuccess(walletNameTrim, this.state.pw);
         break;
       case 'importWallet_file':
-        this.props.onSuccess(this.state.walletName);
+        this.props.onSuccess(walletNameTrim);
         break;
       case 'importWallet_privKey':
-        this.props.onSuccess(this.state.walletName, this.state.pw);
+        this.props.onSuccess(walletNameTrim, this.state.pw);
         break;
       case 'exportWallet':
         this.props.onSuccess(this.state.pw);
@@ -90,7 +91,7 @@ class ValidationForm extends Component {
             walletNameError = I18n.error.alertWalletName
             break;
           }
-          else if (isWalletNameExists(this.props.wallets, this.state.walletName)) {
+          else if (isWalletNameExists(this.props.wallets, this.state.walletName.trim())) {
             walletNameError = I18n.error.alertWalletNameSame
             break;
           }
@@ -105,16 +106,20 @@ class ValidationForm extends Component {
               haveThreeSameCharacter = true;
             }
           }
+
           if (!this.state.pw) {
             pwError = I18n.error.pwErrorEnter
             break;
           } else if(this.state.pw.length < 8) {
             pwError = I18n.error.pwErrorEight
             break;
+          } else if(!(/^[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]*$/.test(this.state.pw))) {
+            pwError = I18n.error.pwErrorMix
+            break;
           } else if(!(/^.*(?=.*\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()_+|<>?:{}]).*$/.test(this.state.pw))) {
             pwError = I18n.error.pwErrorMix
             break;
-          } else if((/(.)\1\1/.test(this.state.pw))) {
+          }  else if((/(.)\1\1/.test(this.state.pw))) {
             pwError = I18n.error.pwErrorSame
             break;
           } else if(this.state.pw.indexOf(' ') >= 0) {

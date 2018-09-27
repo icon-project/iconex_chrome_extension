@@ -14,6 +14,7 @@ function mapStateToProps(state) {
     totalResultLoading: state.wallet.totalResultLoading,
     isLedger: state.ledger.isLedger,
     ledgerWallet: state.ledger.ledgerWallet,
+    isLoggedIn: state.exchangeTransaction.isLoggedIn
   };
 }
 

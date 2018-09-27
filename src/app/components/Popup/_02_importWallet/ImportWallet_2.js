@@ -132,7 +132,8 @@ class ImportWallet2 extends Component {
       isDropped: false,
       file: '',
       fileType: '',
-      fileTitle: ''
+      fileTitle: '',
+      dropzoneError: ''
     })
   }
 
@@ -165,8 +166,7 @@ class ImportWallet2 extends Component {
     if(!this.state.isDropped) {
       if (this.state.fileTitle !== '') {
         dropzoneError = I18n.error.dropzoneFormat
-      }
-      else {
+      } else {
         dropzoneError = I18n.error.dropzoneAttachment
       }
     } else {
@@ -252,6 +252,7 @@ class ImportWallet2 extends Component {
                   ) : (
                     <div>
                       <span>{I18n.importWallet.inputPlaceHolder2_1}</span>
+                      <p className="error">{dropzoneError}</p>
                     </div>
                   )}
                 </Dropzone>

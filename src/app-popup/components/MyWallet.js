@@ -14,7 +14,9 @@ const INIT_STATE = {
     'eth': []
   },
   password: '',
-  pwError: ''
+  pwError: '',
+  tabId: '',
+  loading: false
 }
 
 @withLanguageProps
@@ -43,13 +45,13 @@ class MyWallet extends Component {
           this.signAndSendResponse(m.data, signing.hash)
           return
         }
-        
+
         const { stepLimit } = transaction
         const sendData = Object.assign({}, transaction, {
           txFeeLimit: stepLimit || '4000',
           coinType: 'icx'
         });
-        this.props.sendCall(m.data, sendData);  
+        this.props.sendCall(m.data, sendData);
       }
     }
   }
@@ -66,11 +68,9 @@ class MyWallet extends Component {
       signature = signHashcode(privKey, hash)
     }
 
-    console.log(signature)
-    window.chrome.tabs.query({ active: true }, (tabs) => {
-      window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_SIGNING', payload: signature });
-      this.clearPopup()
-    });
+    const { tabId } = this.state
+    window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_SIGNING', payload: signature });
+    this.clearPopup()
   }
 
   componentWillMount() {
@@ -105,19 +105,17 @@ class MyWallet extends Component {
     }
 
     if (this.props.txLoading !== nextProps.txLoading && !nextProps.txLoading) {
-      window.chrome.tabs.query({ active: true }, (tabs) => {
-        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_TRANSACTION', payload: this.props.tx });
-        this.clearPopup()
-      });
+      const { tabId } = this.state
+      window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_TRANSACTION', payload: this.props.tx });
+      this.clearPopup()
     }
 
     if (this.props.score.loading !== nextProps.score.loading && !nextProps.score.loading) {
-      window.chrome.tabs.query({ active: true }, (tabs) => {
-        const { error, result } = this.props.score
-        const payload = error || result
-        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_SCORE', payload });
-        this.clearPopup()
-      });
+      const { error, result } = this.props.score
+      const { tabId } = this.state
+      const payload = error || result
+      window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_SCORE', payload });
+      this.clearPopup()
     }
   }
 
@@ -165,11 +163,10 @@ class MyWallet extends Component {
   onCellClick = (address) => {
     const { isRequestedStatus } = this.props
     if (isRequestedStatus) {
-      this.props.setIsRequestedStatus(false)
-      window.chrome.tabs.query({ active: true }, (tabs) => {
-        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_ADDRESS', payload: address });
-        this.clearPopup()
-      });
+      const { tabId } = isRequestedStatus
+      window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_ADDRESS', payload: address });
+      this.clearPopup()
+      this.props.setIsRequestedStatus()
     }
   }
 
@@ -185,12 +182,11 @@ class MyWallet extends Component {
     return 'CANCEL_TRANSACTION'
   }
 
-  onCancelClick = () => {
+  onCancelClick = tabId => {
+    console.log(tabId)
     const type = this.getCancelType()
-    window.chrome.tabs.query({ active: true }, (tabs) => {
-      window.chrome.tabs.sendMessage(tabs[0].id, { type });
-      this.clearPopup()
-    });
+    window.chrome.tabs.sendMessage(tabId, { type });
+    this.clearPopup()
   }
 
   getFromAddress = () => {
@@ -206,7 +202,7 @@ class MyWallet extends Component {
   }
 
 
-  onConfirmClick = () => {
+  onConfirmClick = tabId => {
     const { password } = this.state;
     if (!password) {
       const { I18n } = this.props;
@@ -214,7 +210,7 @@ class MyWallet extends Component {
       return
     }
 
-    this.setState({ loading: true, pwError: '' }, () => {
+    this.setState({ tabId, loading: true, pwError: '' }, () => {
       const { wallets } = this.props;
       const address = this.getFromAddress()
       const { priv } = wallets[address];
@@ -227,12 +223,15 @@ class MyWallet extends Component {
 
   clearPopup = () => {
     window.chrome.runtime.sendMessage({ type: 'CLOSE_POPUP' });
+    this.props.setIsRequestedStatus()
     this.props.setTransactionStatus()
     this.props.setScoreData()
     this.props.setSigningData()
     this.setState({
       password: '',
-      pwError: ''
+      pwError: '',
+      tabId: '',
+      loading: false
     })
   }
 

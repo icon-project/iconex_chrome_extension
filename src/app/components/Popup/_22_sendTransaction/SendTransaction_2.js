@@ -46,6 +46,7 @@ class SendTransaction2 extends Component {
        txFeePrice,
        wallets,
        data,
+       dataType,
        privKey,
        loading,
        isLedger,
@@ -71,6 +72,7 @@ class SendTransaction2 extends Component {
              tokenDecimal: !isToken ? 18 : wallets[selectedAccount].tokens[selectedTokenId].decimals,
              value: coinQuantity,
              data: data,
+             messageType: dataType,
              txFeeLimit: txFeeLimit,
              txFeePrice: txFeePrice,
              coinType: wallets[selectedAccount].type

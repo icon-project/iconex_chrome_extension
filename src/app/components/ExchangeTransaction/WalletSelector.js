@@ -73,6 +73,7 @@ class WalletSelector extends Component {
   render() {
     const {
       wallets,
+      isLoggedIn,
       selectedAccount,
       I18n,
       isContractPage,
@@ -102,6 +103,7 @@ class WalletSelector extends Component {
                 />
               }
             </span>
+            { isLoggedIn && (<p className="have">{I18n.contractBalance} {wallets[selectedAccount].balance.toString()} ICX</p>) }
             <p className="error">{I18n.error[walletSelectorError]}</p>
 				</div>
       )

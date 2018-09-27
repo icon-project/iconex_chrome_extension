@@ -63,7 +63,7 @@ class LedgerIframe extends Component {
             height: '0px',
           } : {
             width: '960px',
-            height: '363px',
+            height: '387px',
           }
         }
       />

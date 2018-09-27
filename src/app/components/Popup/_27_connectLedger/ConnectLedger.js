@@ -121,7 +121,7 @@ class ConnectLedger extends Component {
       <div>
         <div className="dimmed"></div>
         <div
-          style={popupNum === 2 ? {height: 520} : {}}
+          style={popupNum === 2 ? {height: 535} : {}}
           className={`
             popup
             ${popupNum === 2 ? 'address wallet' : ''}

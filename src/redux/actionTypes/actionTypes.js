@@ -19,6 +19,10 @@ const actionTypes = {
   setLockRejected: 'SET_LOCK_REJECTED',
   changePasscodeHash: 'CHANGE_PASSCODE_HASH',
   setShowNotice: 'SET_SHOW_NOTICE',
+  setScoreData: 'SET_SCORE_DATA',
+  callScoreExternally: 'CALL_SCORE_EXTERNALLY',
+  callScoreExternallyFulfilled: 'CALL_SCORE_EXTERNALLY_FULFILLED',
+  callScoreExternallyRejected: 'CALL_SCORE_EXTERNALLY_REJECTED',
 
   // signupActions
   setWalletName: 'SET_WALLET_NAME',
@@ -119,6 +123,7 @@ const actionTypes = {
   setTxFeePrice: 'SET_TX_FEE_PRICE',
   setTxFeeLimit: 'SET_TX_FEE_LIMIT',
   setData: 'SET_DATA',
+  setDataType: 'SET_DATA_TYPE',
   setRecipientAddress: 'SET_RECEIVED_ADDRESS',
   checkResultBalanceMinus: 'CHECK_RESULT_BALANCE_MINUS',
   sendCall: 'SEND_CALL',
@@ -162,6 +167,7 @@ const actionTypes = {
   setFuncIndex: 'SET_FUNC_INDEX',
   handleFuncInputChange: 'HANDLE_FUNC_INPUT_CHANGE',
   setFuncInputError: 'SET_FUNC_INPUT_ERROR',
+  setFuncInputDataExceedError: 'SET_FUNC_INPUT_DATA_EXCEED_ERROR',
   checkContractInputError: 'CHECK_CONTRACT_INPUT_ERROR',
   executeFunc: 'EXECUTE_FUNC',
   executeFuncFulfilled: 'EXECUTE_FUNC_FULFILLED',
@@ -173,6 +179,7 @@ const actionTypes = {
   setEXTRLogInStateForLedger: 'SET_EXTR_LOG_IN_STATE_FOR_LEDGER',
   confirmLedger: 'CONFIRM_LEDGER',
   resetLedgerReducer: 'RESET_LEDGER_REDUCER',
+  updateWalletBalance: 'UPDATE_WALLET_BALANCE',
   updateLedgerWalletBalance: 'UPDATE_LEDGER_WALLET_BALANCE',
   updateLedgerWalletBalanceFulfilled: 'UPDATE_LEDGER_WALLET_BALANCE_FULFILLED',
   updateLedgerWalletBalanceRejected: 'UPDATE_LEDGER_WALLET_BALANCE_REJECTED',
@@ -184,7 +191,11 @@ const actionTypes = {
   callScoreExternallyFulfilled: 'CALL_SCORE_EXTERNALLY_FULFILLED',
   callScoreExternallyRejected: 'CALL_SCORE_EXTERNALLY_REJECTED',
   
-  setSigningData: 'SET_SIGNING_DATA'
+  setSigningData: 'SET_SIGNING_DATA',
+  
+  //addressBookActions
+  addAddressInAddressBook: 'ADD_ADDRESS_IN_ADDRESS_BOOK',
+  deleteAddressInAddressBook: 'DELETE_ADDRESS_IN_ADDRESS_BOOK',
 };
 
 export default actionTypes;

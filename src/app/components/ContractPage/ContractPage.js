@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ContractReadPage} from 'app/components/';
+import { ContractReadPage, Alert } from 'app/components/';
 import withLanguageProps from 'HOC/withLanguageProps'
 
 
@@ -26,8 +26,12 @@ class ContractPage extends Component {
     })
   }
 
+  closeErrorPopup = () => {
+    this.props.setFuncInputDataExceedError(false);
+  }
+
   render() {
-    const { I18n } = this.props;
+    const { I18n, funcInputDataExceedError } = this.props;
     const { tab } = this.state;
     return (
       <div>
@@ -44,6 +48,16 @@ class ContractPage extends Component {
           { tab === 'read' && (<ContractReadPage />)}
 
     		</div>
+
+        {
+          funcInputDataExceedError && (
+            <Alert
+              handleCancel={this.closeErrorPopup}
+              text={I18n.error.dataOverLimit}
+              cancelText={I18n.button.close}
+            />
+          )
+        }
       </div>
     );
   }

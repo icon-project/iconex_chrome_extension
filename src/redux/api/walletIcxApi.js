@@ -32,7 +32,6 @@ export function icx_fetchCoinBalanceApi(account) {
       })
       .catch(error => {
         resolve('error')
-        //resolve(window.web3.fromWei(new BigNumber(0), 'ether'));
       })
   })
 }
@@ -59,7 +58,6 @@ export function icx_fetchTokenBalanceApi(tokenAddress, customDecimal, account) {
 
       } catch (e) {
         return 'error'
-        //return window.web3.fromWei(new BigNumber(0), 'ether')
       }
     })();
 }
@@ -377,9 +375,17 @@ export function icx_getTxFeeInfoApi(data) {
           contractAddress: GOVERNANCE_ADDRESS,
           methodName: 'getStepCosts'
         });
+        const stepLimitMax = await icx_call({
+          contractAddress: GOVERNANCE_ADDRESS,
+          methodName: 'getMaxStepLimit',
+          inputObj: {
+            "context_type": "invoke"
+          }
+        });
         return {
           txFeePriceStep: new BigNumber(stepPrice[0]),
-          txFeeLimitTable: stepLimitTable[0]
+          txFeeLimitTable: stepLimitTable[0],
+          txFeeLimitMax: new BigNumber(stepLimitMax[0])
         }
       } catch (error) {
         return {

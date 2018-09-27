@@ -5,7 +5,7 @@ import i18n from 'constants/i18n'
 import React from 'react';
 import BigNumber from 'bignumber.js';
 import { erc20Abi } from 'constants/index'
-import { CHAIN_ID, IS_V3 } from 'constants/config.js'
+import { IS_V3, ICX_NID } from 'constants/config.js'
 
 function charFreq( string ) {
     let value;
@@ -69,6 +69,11 @@ function trimLeftZero(str) {
   if(!str) return str;
   if (str.startsWith("0.")) {
     return str;
+  }
+
+  // if string is a single 0 repeating character
+  if (str === '0' || (str.startsWith("0") && /^(.)\1+$/.test(str))) {
+    return str.replace(/(^0+)/, "0");
   }
 
   if (str.startsWith("0") && str.indexOf("0.") !== -1) {
@@ -352,7 +357,7 @@ function makeAddressStr(address, type) {
 
 function onlyKorEngNum(text) {
   if (text === '') return true
-  const pattern = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9|\s\*]+$/
+  const pattern = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9|~!@#$%^&*()_+|<>?:{}|\s\*]+$/
   return pattern.test(text)
 }
 
@@ -415,7 +420,7 @@ function makeIcxRawTx(isContract, data) {
       from: data.from,
       to: data.contractAddress,
       version: "0x3",
-      nid: '0x3',
+      nid: ICX_NID(),
       stepLimit: check0xPrefix(new BigNumber(data.txFeeLimit).toString(16)),
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16)),
       dataType: 'call',
@@ -428,20 +433,19 @@ function makeIcxRawTx(isContract, data) {
       const sendAmount = window.web3.toWei(new BigNumber(data.payableValue), "ether");
       rawTx['value'] = window.web3.toHex(sendAmount)
     }
-  }
-  else {
+  } else {
     const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
     rawTx = {
       from: data.from,
       to: data.to,
       value: window.web3.toHex(sendAmount),
       version: "0x3",
-      nid: '0x2',
+      nid: ICX_NID(),
       stepLimit: check0xPrefix(new BigNumber(data.txFeeLimit).toString(16)),
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16))
     }
     if (data.data) {
-      rawTx['data'] = data.data;
+      rawTx['data'] = data.messageType === 'utf8' ? check0xPrefix(dataToHex(data.data)) : data.data;
       rawTx['dataType'] = 'message';
     }
   }
@@ -490,6 +494,19 @@ function dataToHex(text) {
   return convertedText;
 }
 
+function bytesToKB(input) {
+  return Math.ceil(input / 1024);
+}
+
+function isObject (value) {
+  return value && typeof value === 'object' && value.constructor === Object;
+}
+
+function checkURLSuffix (value) {
+  if (!value) return value;
+  return value[value.length-1] === '/' ? value.slice(0, -1) : value
+}
+
 export {
   charFreq,
   isEmpty,
@@ -527,5 +544,8 @@ export {
   makeEthRawTx,
   makeIcxRawTx,
   isDevelopment,
-  calcGasPrice
+  calcGasPrice,
+  bytesToKB,
+  isObject,
+  checkURLSuffix
 }

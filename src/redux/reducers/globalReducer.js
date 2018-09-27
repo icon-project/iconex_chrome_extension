@@ -6,7 +6,7 @@ const initialState = {
   showNotice: true,
   message: {
     showChangePasscodePopup: false,
-    isRequestedStatus: false,
+    isRequestedStatus: undefined,
     transaction: {}
   },
 }
@@ -29,6 +29,15 @@ export function globalReducer(state = initialState, action) {
         message: message
       })
     }
+    case actionTypes.setLockRejected:
+      return state
+    case actionTypes.changePasscodeHash:
+      return state
+    case actionTypes.setShowNotice:
+      return Object.assign({}, state, {
+        showNotice: !state.showNotice
+      })
+      
     case actionTypes.setIsRequestedStatus: {
       const message = Object.assign({}, state.message, {
         isRequestedStatus: action.payload
@@ -45,14 +54,6 @@ export function globalReducer(state = initialState, action) {
         message: message
       })
     }
-    case actionTypes.setLockRejected:
-      return state
-    case actionTypes.changePasscodeHash:
-      return state
-    case actionTypes.setShowNotice:
-      return Object.assign({}, state, {
-        showNotice: !state.showNotice
-      })
     case actionTypes.setScoreData:
       return {
         ...state,
@@ -61,7 +62,8 @@ export function globalReducer(state = initialState, action) {
           score: {
             ...state.message.score,
             from: action.payload ? action.payload.from : '',
-            param: action.payload ? action.payload.param : {}
+            param: action.payload ? action.payload.param : {},
+            tabId: action.payload ? action.payload.tabId : ''
           }
         }
       }
@@ -111,7 +113,8 @@ export function globalReducer(state = initialState, action) {
           signing: {
             ...state.message.signing,
             from: action.payload ? action.payload.from : '',
-            hash: action.payload ? action.payload.hash : ''
+            hash: action.payload ? action.payload.hash : '',
+            tabId: action.payload ? action.payload.tabId : ''
           }
         }
       }

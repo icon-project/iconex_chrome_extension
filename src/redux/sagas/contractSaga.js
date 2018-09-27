@@ -9,9 +9,23 @@ import {
 import { validateInputError } from 'redux/reducers/contractReducer'
 import { validateCoinQuantityError, validateContractTxFeeLimitError } from 'redux/reducers/exchangeTransactionReducer'
 import { openPopup } from 'redux/actions/popupActions'
-import { executeFunc, setFuncInputError } from 'redux/actions/contractActions'
+import { executeFunc, setFuncInputError, setFuncInputDataExceedError } from 'redux/actions/contractActions'
 import { setWalletSelectorError, setCoinQuantityError, setContractTxFeeLimitError } from 'redux/actions/exchangeTransactionActions'
-import { makeIcxRawTx, signRawTx } from 'utils'
+import { makeIcxRawTx, signRawTx, checkLength } from 'utils'
+
+function funcInputToHexData(input, inputType) {
+  return inputType.reduce((acc, cur) => {
+    if (cur.hasOwnProperty('default') && !input[cur.name]) {
+      return acc
+    }
+    if (cur.type === 'int') {
+      acc[cur.name] = window.web3.toHex(input[cur.name])
+    } else {
+      acc[cur.name] = input[cur.name]
+    }
+    return acc
+  }, {});
+}
 
 export function* executeFuncFunc(action) {
   let payload, funcInputHex;
@@ -25,17 +39,7 @@ export function* executeFuncFunc(action) {
   try {
     if (func.inputs.length > 0) {
       /* delete null value & convert int to hex */
-      funcInputHex = func.inputs.reduce((acc, cur) => {
-        if (cur.hasOwnProperty('default') && !funcInput[cur.name]) {
-          return acc
-        }
-        if (cur.type === 'int') {
-          acc[cur.name] = window.web3.toHex(funcInput[cur.name])
-        } else {
-          acc[cur.name] = funcInput[cur.name]
-        }
-        return acc
-      }, {});
+      funcInputHex = funcInputToHexData(funcInput, func.inputs)
     }
 
     if (func.readonly) {
@@ -58,11 +62,12 @@ export function* executeFuncFunc(action) {
       });
       const rawTxSigned = signRawTx(privKey, rawTx)
       payload = yield call(ICX_SEND_TRANSACTION, rawTxSigned);
+      payload = [ payload ];
     }
-    yield put({type: AT.executeFuncFulfilled, payload: [payload]});
+    yield put({type: AT.executeFuncFulfilled, payload: payload});
   } catch (error) {
     console.log(error)
-    yield put({type: AT.executeFuncRejected, error});
+    yield put({type: AT.executeFuncRejected, errorMsg: error});
   }
 }
 
@@ -70,29 +75,39 @@ export function* checkContractInputErrorFunc(action) {
   let isLoggedIn, txFeeLimit, calcData, coinQuantity;
   const funcList = yield select(state => state.contract.funcList);
   const selectedFuncIndex = yield select(state => state.contract.selectedFuncIndex);
+  const funcInput = yield select(state => state.contract.funcInput);
   const func = funcList[selectedFuncIndex]
   const isPayableFunc = func.hasOwnProperty('payable')
 
   try {
     let errorFlag = false;
-    /* Input Error Handling */
+    // Input Error Handling
     if (func.inputs.length > 0) {
-      const errorArr = yield all(func.inputs.map(input => {
-        const inputObj = {
-          name: input.name,
-          type: input.type,
-          optional: input.hasOwnProperty('default') ? true : false
-        }
-        const error = validateInputError(inputObj)
-        if (error) errorFlag = true;
-        return {
-          ...inputObj,
-          error: error
-        }
-      }));
-      yield all(errorArr.map((errorObj) =>
-        put(setFuncInputError(errorObj))
-      ))
+      // If funcInput exceeds 512 * 1024
+      const funcInputHex = funcInputToHexData(funcInput, func.inputs)
+      const funcInputHexData = Object.keys(funcInputHex).join("") + Object.values(funcInputHex).join("")
+      if (checkLength(funcInputHexData) > (512 * 1024)) {
+        errorFlag = true;
+        yield put(setFuncInputDataExceedError(true))
+      } else {
+        // Else some input have error
+        const errorArr = yield all(func.inputs.map(input => {
+          const inputObj = {
+            name: input.name,
+            type: input.type,
+            optional: input.hasOwnProperty('default') ? true : false
+          }
+          const error = validateInputError(inputObj)
+          if (error) errorFlag = true;
+          return {
+            ...inputObj,
+            error: error
+          }
+        }));
+        yield all(errorArr.map((errorObj) =>
+          put(setFuncInputError(errorObj))
+        ))
+      }
     }
 
     if (!func.readonly) {

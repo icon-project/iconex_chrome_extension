@@ -14,18 +14,18 @@ window.chrome.browserAction.setPopup({ popup: './popup.html' })
 window.chrome.runtime.onConnect.addListener(portFrom => {
 	console.log(portFrom)
 	if (portFrom.name === 'iconex-background-content') {
-		portFrom.onMessage.addListener(async (message) => {
-			console.log(message)
+		portFrom.onMessage.addListener(async (message, sender, sendResponse) => {
+			console.log(message, sender, sendResponse)
 			const { type } = message
 			const popupId = notificationManager.getPopupId()
 			const isShown = await notificationManager.isShown(popupId)
-			let payload, wallets, id
+			let payload, wallets, tabId
+			tabId = portFrom.sender.tab.id
 			switch (type) {
 				case 'REQUEST_HAS_ACCOUNT':
 					wallets = await getWalletApi()
-					id = portFrom.sender.tab.id
 					const hasAccount = Object.keys(wallets).some(address => (wallets[address].type === 'icx'))
-					window.chrome.tabs.sendMessage(id, {
+					window.chrome.tabs.sendMessage(tabId, {
 						type: 'RESPONSE_HAS_ACCOUNT', payload: {
 							hasAccount
 						}
@@ -33,13 +33,10 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 					break;
 
 				case 'REQUEST_HAS_ADDRESS':
-					console.log('REQUEST_HAS_ADDRESS')
 					payload = message.payload
 					wallets = await getWalletApi()
-					id = portFrom.sender.tab.id
 					const hasAddress = Object.keys(wallets).some(address => (address === payload.address))
-					console.log(hasAddress)
-					window.chrome.tabs.sendMessage(id, {
+					window.chrome.tabs.sendMessage(tabId, {
 						type: 'RESPONSE_HAS_ADDRESS', payload: {
 							hasAddress
 						}
@@ -47,18 +44,21 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 					break;
 
 				case 'REQUEST_ADDRESS':
-					if (isShown) window.chrome.extension.sendMessage({ type })
-					else notificationManager.showPopup({ type })
+					payload = { tabId }
+					if (isShown) window.chrome.extension.sendMessage({ type, payload })
+					else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
 					break;
 
 				case 'REQUEST_TRANSACTION':
 					payload = message.payload
+					payload.tabId = tabId
 					if (isShown) window.chrome.extension.sendMessage({ type, payload })
 					else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
 					break;
 
 				case 'REQUEST_SCORE':
 					payload = message.payload
+					payload.tabId = tabId
 					const { param } = payload
 					switch (param.method) {
 						case 'icx_sendTransaction':
@@ -76,6 +76,7 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 
 				case 'REQUEST_SIGNING':
 					payload = message.payload
+					payload.tabId = tabId
 					if (isShown) window.chrome.extension.sendMessage({ type, payload })
 					else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
 					break;

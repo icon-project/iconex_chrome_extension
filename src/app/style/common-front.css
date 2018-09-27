@@ -8,10 +8,10 @@
 .content-wrap .wrap-holder.exchange .quantity-holder .controller .b.minus {
   margin-right: 3px;
 }
-.content-wrap .wrap-holder.exchange .quantity-holder .controller ul {
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul#dragBar {
   margin-left: 241px;
 }
-.content-wrap .wrap-holder.exchange .quantity-holder .controller ul li {
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul#dragBar li {
   margin-right: 0px;
 }
 
@@ -151,3 +151,9 @@
 .btn-type-copy2{width: 110px; height: 26px; border: 1px solid #262626; background: #262626; font-size: 12px; border-radius: 3px; color: #fff;}
 .btn-type-copy2:hover{background: #808080; color: #fff; border: 1px solid #808080;}
 .btn-type-copy2-fill { width: 110px; height: 26px; border: 1px solid #1aaaba; background: #1aaaba; font-size: 12px; border-radius: 3px; color: #fff;}
+
+
+/* contract page tooltip position */
+.en .content-wrap .wrap-holder.contract .search-holder .change-group .a .help-layer{left: 192px; width: 446px; top: 4px;}
+.en .content-wrap .wrap-holder.contract .search-holder .help-layer{left: 96px; width: 500px; top: 4px;}
+.en .content-wrap .wrap-holder.contract .search-holder .price .help-layer{left: 96px; width: 500px; top: 4px;}

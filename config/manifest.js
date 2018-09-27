@@ -30,8 +30,9 @@ module.exports = {
     },
     "permissions": [
         "storage",
-        "https://wallet.icon.foundation/*",
-        "https://testwallet.icon.foundation/*"
+        "https://ctz.solidwallet.io/*",
+        "https://test-ctz.solidwallet.io/*",
+        "https://bicon.net.solidwallet.io/*"
     ]
 };
 

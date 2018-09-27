@@ -65,13 +65,13 @@ class Routes extends Component {
         this.props.setLockState(message.payload);
         break;
       case 'REQUEST_ADDRESS':
-        this.props.setIsRequestedStatus(true)
+        this.props.setIsRequestedStatus(payload)
         this.props.setTransactionStatus()
         this.props.setScoreData()
         this.props.setSigningData()
         break;
       case 'REQUEST_TRANSACTION':
-        this.props.setIsRequestedStatus(false)
+        this.props.setIsRequestedStatus()
         this.props.setTransactionStatus(payload)
         this.props.setScoreData()
         this.props.setSigningData()
@@ -79,14 +79,14 @@ class Routes extends Component {
       case 'REQUEST_SCORE':
         const { param } = payload
         if (param.method === 'icx_sendTransaction') {
-          this.props.setIsRequestedStatus(false)
+          this.props.setIsRequestedStatus()
           this.props.setTransactionStatus()
           this.props.setScoreData(payload)
           this.props.setSigningData()
         }
         break;
       case 'REQUEST_SIGNING':
-        this.props.setIsRequestedStatus(false)
+        this.props.setIsRequestedStatus()
         this.props.setTransactionStatus()
         this.props.setScoreData()
         this.props.setSigningData(payload)

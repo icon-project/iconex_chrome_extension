@@ -1,6 +1,14 @@
 const isDevVersion = () => process.env.USER === 'developer';
 const isAccessedFromWorker = typeof window === 'undefined';
 
+const isDevModeOn = () => {
+  if (isAccessedFromWorker) {
+    return false
+  } else {
+    return localStorage.getItem('isDev') || false
+  }
+}
+
 export const getCustomIcxServer = () => {
   const initialCustomServer = {
     customWalletURL: '',
@@ -9,15 +17,17 @@ export const getCustomIcxServer = () => {
   if (isAccessedFromWorker) {
     return initialCustomServer
   } else {
-    return localStorage.getItem('customIcxServer') ? JSON.parse(localStorage.getItem('customIcxServer')) : initialCustomServer
+    return localStorage.getItem('customIcxServer')
+              ? JSON.parse(localStorage.getItem('customIcxServer'))
+              : initialCustomServer
   }
 }
 
-export const INITIAL_API_VERSION_ICX = prodDev('v2', 'v3');
-export const INITIAL_SERVER_ICX = prodDev('main', 'test');
+export const INITIAL_API_VERSION_ICX = 'v3';
+export const INITIAL_SERVER_ICX = prodDev('mainnet', 'euljiro');
 export const INITIAL_SERVER_ETH = prodDev('main', 'ropsten');
 
-export const HIDE_SERVER = isDevVersion() ? false : true;
+export const HIDE_SERVER = (isDevVersion() || isDevModeOn()) ? false : true;
 export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://hardwallet.icon.foundation/test.html')
 
 export const getCurrentServer = (coinType) => {
@@ -46,9 +56,9 @@ export const IS_V3 = getCurrentICXApiVersion() === 'v3';
 export const ICX_WALLET_SERVER = () => {
   const icxServer = getCurrentServer('icx');
   const obj = {
-    'test': 'https://testwallet.icon.foundation',
-    'main': 'https://wallet.icon.foundation',
-    'dev': 'http://52.79.233.89:9000',
+    'mainnet': 'https://ctz.solidwallet.io',
+    'euljiro': 'https://test-ctz.solidwallet.io',
+    'yeouido': 'https://bicon.net.solidwallet.io',
     'custom': getCustomIcxServer().customWalletURL
   }
   return obj[icxServer];
@@ -57,10 +67,21 @@ export const ICX_WALLET_SERVER = () => {
 export const ICX_TRACKER_SERVER = () => {
   const icxServer = getCurrentServer('icx');
   const obj = {
-    'test': 'https://trackerdev.icon.foundation',
-    'main': 'https://tracker.icon.foundation',
-    'dev': 'http://trackerlocaldev.icon.foundation',
-    'custom': getCustomIcxServer().customTrackerURL
+    'mainnet': 'https://tracker.icon.foundation',
+    'euljiro': 'https://trackerdev.icon.foundation',
+    'yeouido': 'https://bicon.tracker.solidwallet.io',
+    'custom': getCustomIcxServer().customWalletURL
+  }
+  return obj[icxServer];
+}
+
+export const ICX_NID = () => {
+  const icxServer = getCurrentServer('icx');
+  const obj = {
+    'mainnet': '0x1',
+    'euljiro': '0x2',
+    'yeouido': '0x3',
+    'custom': '0x3'
   }
   return obj[icxServer];
 }
@@ -68,8 +89,8 @@ export const ICX_TRACKER_SERVER = () => {
 export const ETH_SERVER = () => {
   const ethServer = getCurrentServer('eth');
   const obj = {
-    'ropsten': 'https://ropsten.infura.io/',
-    'main': 'https://mainnet.infura.io/'
+    'ropsten': 'https://ropsten.infura.io',
+    'main': 'https://eth.solidwallet.io'
   }
   return obj[ethServer];
 }

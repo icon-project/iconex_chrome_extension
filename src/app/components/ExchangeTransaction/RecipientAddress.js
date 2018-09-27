@@ -69,7 +69,9 @@ class RecipientAddress extends Component {
           />
           <p className="error">{I18n.error[recipientAddressError]}</p>
           <div className="-holder">
-            <button className="btn-type-copy" onClick={() => {this.openPopup(`address_transaction`)}}><span>{I18n.button.myAddress}</span></button>
+            <button className="btn-type-copy w104" onClick={() => {this.openPopup(`myWallet`)}}><span>{I18n.button.myAddress}</span></button>
+            <button className="btn-type-copy w104" onClick={() => {this.openPopup(`addressBook`)}}><span>{I18n.addressList.addressBook}</span></button>
+
             {/*
               !hideRecentAddressButton && (historyLoading ? (<button disabled style={{paddingBottom: 8, paddingTop: 3, background: '#fff'}} className="btn-type-copy"><span><LoadingComponent type="black"/></span></button>)
                                                           : (<button className="btn-type-copy" onClick={() => {this.openPopup(`history_transaction`)}}><span>{I18n.button.recentTransactionAddress}</span></button>))

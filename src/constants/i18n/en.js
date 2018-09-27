@@ -37,7 +37,10 @@ export default {
     connectLedger: 'Connect to Ledger',
     retry: 'Retry',
     read: 'Read',
-    write: 'Write'
+    write: 'Write',
+    edit: 'Edit',
+    editComplete: 'Complete',
+    delete: 'Delete'
   },
 
   error: {
@@ -48,7 +51,7 @@ export default {
     pwErrorSame: 'Password must not have more than 2 consecutive identical characters.',
     pwErrorEmpty: 'Please do not leave blank.',
     pwConfirmError: 'Please check your password.',
-    pwConfirmErrorSame: 'Password does not match the confirm password.',
+    pwConfirmErrorSame: 'Passwords do not match. Please check again.',
     addressNotCorrect: 'Keystore file address is unexpectedly modified. Please check your file.',
 
     alertWalletFirst: 'Please select wallet.',
@@ -78,6 +81,16 @@ export default {
     alertWalletNameSame: 'This wallet name already exists.',
     alertAccountSame: 'This wallet account already exists.',
 
+    alertAddressName: 'Enter address name.',
+    alertAddressNameSame: 'This address name already exists.',
+    alertAddress: 'Enter address.',
+    alertAddressNotCorrect_icx: 'Incorrect icx address.',
+    alertAddressNotCorrect_eth: 'Incorrect eth address.',
+    alertAddressSame_icx:  'This icx account already exists.',
+    alertAddressSame_eth: 'This eth account already exists.',
+
+    noAddress: 'No registered address.',
+
     alertAddToken: 'Please select a token to add.',
     addressNotValid: 'Incorrect address. Please check again.',
     addressEnter: 'Enter transaction address.',
@@ -102,7 +115,14 @@ export default {
     transferAddressSame: 'Sending and receiving address are the same.',
 
     checkData: 'Please check your data.',
-    enterGasPrice: 'Please enter the gas limit.',
+    dataOverLimit: 'This exceeds input limit 512KB.',
+    enterGasPrice: 'Please enter the limit.',
+    stepLimitTooLow: (stepLimit) => {
+      return `Enter step limit more than ${stepLimit}.`
+    },
+    stepLimitTooHigh: (stepLimit) => {
+      return `Enter step limit less than ${stepLimit}.`
+    },
     notEnoughBalance: 'Insufficient ICX balance for transaction fee.',
 
     alertIcxGetBalanceError: 'An error occurred while checking your balance.',
@@ -216,6 +236,8 @@ export default {
   contractstrInputPlaceHolder: 'Enter text',
   contractbytesInputPlaceHolder: 'Enter bytes',
 
+  contractBalance: 'Balance',
+
   lockPageDescState: 'Locked.',
   lockPageDescEnter: 'Enter 6-digit screen lock passcode.',
   lockPageInputPlaceholder: 'Enter passcode',
@@ -282,8 +304,8 @@ export default {
   transferPageHelperDesc1_icx: '',
   transferPageHelperTitle2_icx: 'Step limit is the amount of step to send with your transaction.',
   transferPageHelperDesc2_icx: 'Unnecessary step is refunded to you at the end of transaction. In other words, you can set the maximum amount of step but the actual step consumption is not fixed.',
-  transferPageHelperTitle3_icx: 'Step price is an unit of step. 1 Gloop equals 0.000000001 ICX.',
-  transferPageHelperDesc3_icx: '',
+  transferPageHelperTitle3_icx: 'Step price is the amount you pay per unit of step.',
+  transferPageHelperDesc3_icx: 'Step price is paid in loop and 1 loop is fixed to 0.000000000000000001(10<sup>-18</sup>) ICX. ICON transaction fee is imposed according to various factors such as the number of smart contract usage, the amount of blockchain database used and the size of transaction data, etc.',
   transferPageHelperTitle4_icx: 'If you do not enter the data when required, the transaction will fail.',
   transferPageHelperDesc4_icx: "You will still have to pay the transaction fees. You don't have to enter data if it is not required in the transaction.",
 
@@ -480,6 +502,12 @@ export default {
     quantityTransaction: 'Transfer Amount',
     columnName: 'Wallet Name',
     columnAddress: 'Wallet Address',
+
+    addressBook: 'Address Book',
+    addressName: 'Address Name',
+    walletNamePlaceHolder: 'Enter wallet name',
+    walletAddressPlaceHolder: 'Enter wallet address',
+
   },
 
   contractList: {
@@ -547,7 +575,7 @@ export default {
     txFeeEth: 'Max Fee',
     address: 'Address',
 
-    icxFailure: 'ICX transaction has been cancelled.',
+    icxFailure: 'An error occurred while sending transaction.',
     infoFailure: 'Your transaction has been canceled.<br/>Please try again with a higher gas price.',
     knownFailure: 'Your transaction has been canceled.<br/>The transaction is being processed.',
     anotherFailure: 'Your transaction has been canceled.<br/>Another transaction is being processed.',
@@ -565,7 +593,9 @@ export default {
     walletAddress: 'Wallet Address',
 
     txComplete: 'Request for write contract has been completed.',
-    txHashTracker: 'Tx Hash is trackable on ICON Tracker.'
+    txHashTracker: 'Tx Hash is trackable on ICON Tracker.',
+
+    openTracker: 'Go to ICON Tracker'
   },
 
   connectLedger: {

@@ -45,6 +45,12 @@ export function setData(payload) {
   };
 }
 
+export function setDataType(payload) {
+  return {
+    type: actionTypes.setDataType,
+    payload
+  };
+}
 
 export function setDataError() {
   return {

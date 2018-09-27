@@ -16,6 +16,11 @@ class WalletBar extends Component {
   }
 
   handleAddressMouseOver = (addressHoverState) => {
+    const { isRequestedStatus } = this.props
+    if (isRequestedStatus) {
+      return
+    }
+    
     this.setState({
       addressHoverState: addressHoverState
     })
@@ -73,27 +78,6 @@ class WalletBar extends Component {
     return walletAccount === transaction.from
   }
 
-  getTabId() {
-    console.log(this.props)
-    const _isScore = this.props.isScore()
-    if (_isScore) {
-      const { score } = this.props
-      const { tabId } = score
-      return tabId
-    }
-
-    const _isSigning = this.props.isSigning()
-    if (_isSigning) {
-      const { signing } = this.props
-      const { tabId } = signing
-      return tabId
-    }
-
-    const { transaction } = this.props
-    const { tabId } = transaction
-    return tabId
-  }
-
   render() {
     const { wallet, index, I18n, isRequestedStatus, password, error, loading } = this.props
 
@@ -101,12 +85,9 @@ class WalletBar extends Component {
     const { addressHoverState, addressClickState } = this.state;
     const balanceText = convertNumberToText(wallet.balance, wallet.type, true);
     const isPwInput = this.isPwInput()
-    const tabId = this.getTabId()
-
-    console.log(tabId)
 
     return (
-      <li className={isRequestedStatus ? 'requested' : ''} onClick={() => { onCellClick(wallet.account) }}>
+      <li className={isRequestedStatus ? 'link' : ''} onClick={() => { onCellClick(wallet.account) }}>
         <span className="name">{wallet.name}<em>{Object.keys(wallet.tokens).length + 1}</em></span>
         <span className="coin">{wallet.isError ? '-' : balanceText}<em>{wallet.type.toUpperCase()}</em></span>
         {
@@ -130,9 +111,9 @@ class WalletBar extends Component {
               />
               {error && <p className="error">{error}</p>}
             </div>
-            <button className="btn-type-normal" onClick={() => { onCancelClick(tabId) }}><span>{I18n.button.cancel}</span></button>
+            <button className="btn-type-normal" onClick={onCancelClick}><span>{I18n.button.cancel}</span></button>
             {loading ? (<button className="btn-type-ok load"><span><LoadingComponent type="black" /></span></button>)
-              : (<button className="btn-type-ok" onClick={() => { onConfirmClick(tabId) }}><span>{I18n.button.confirm}</span></button>)}
+              : (<button className="btn-type-ok" onClick={onConfirmClick}><span>{I18n.button.confirm}</span></button>)}
           </div>
         }
       </li>

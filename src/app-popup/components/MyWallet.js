@@ -25,6 +25,7 @@ class MyWallet extends Component {
   constructor(props) {
     super(props);
     this.state = INIT_STATE;
+    this.cancelClicked = false
     this.worker = new Worker();
     this.worker.onmessage = (m) => {
       const { transaction, score, signing, I18n } = this.props;
@@ -56,44 +57,19 @@ class MyWallet extends Component {
     }
   }
 
-  signAndSendResponse(privKey, hash) {
-    let signature
-    if (Array.isArray(hash)) {
-      signature = []
-      hash.forEach(h => {
-        signature.push(signHashcode(privKey, h))
-      })
-    }
-    else {
-      signature = signHashcode(privKey, hash)
-    }
-
-    const { tabId } = this.state
-    window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_SIGNING', payload: signature });
-    this.clearPopup()
-  }
-
   componentWillMount() {
     if (!this.props.walletsLoading) {
       this.props.fetchAll(this.props.wallets);
     }
   }
 
-  isSigning = () => {
-    const { hash } = this.props.signing
-    return !!hash
-  }
-
-  isScore = () => {
-    const { param } = this.props.score
-    if (!!param && !isEmpty(param)) {
-      return true
-    }
-    else {
-      return false
+  componentDidMount() {
+    window.onunload = () => {
+      if (!this.cancelClicked) {
+        this.onCancelClick()
+      }
     }
   }
-
 
   componentWillUpdate(nextProps, nextState) {
     if (this.props.walletsLoading !== nextProps.walletsLoading && nextProps.walletsLoading) {
@@ -119,9 +95,36 @@ class MyWallet extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.setState(INIT_STATE);
+  signAndSendResponse(privKey, hash) {
+    let signature
+    if (Array.isArray(hash)) {
+      signature = []
+      hash.forEach(h => {
+        signature.push(signHashcode(privKey, h))
+      })
+    }
+    else {
+      signature = signHashcode(privKey, hash)
+    }
+
+    const { tabId } = this.state
+    window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_SIGNING', payload: signature });
     this.clearPopup()
+  }
+
+  isSigning = () => {
+    const { hash } = this.props.signing
+    return !!hash
+  }
+
+  isScore = () => {
+    const { param } = this.props.score
+    if (!!param && !isEmpty(param)) {
+      return true
+    }
+    else {
+      return false
+    }
   }
 
   calcData = () => {
@@ -182,13 +185,6 @@ class MyWallet extends Component {
     return 'CANCEL_TRANSACTION'
   }
 
-  onCancelClick = tabId => {
-    console.log(tabId)
-    const type = this.getCancelType()
-    window.chrome.tabs.sendMessage(tabId, { type });
-    this.clearPopup()
-  }
-
   getFromAddress = () => {
     const _isScore = this.isScore()
     if (_isScore) {
@@ -201,15 +197,46 @@ class MyWallet extends Component {
     return this.props.transaction.from
   }
 
+  getTabId = () => {
+    const _isScore = this.isScore()
+    if (_isScore) {
+      const { score } = this.props
+      const { tabId } = score
+      return tabId
+    }
 
-  onConfirmClick = tabId => {
+    const _isSigning = this.isSigning()
+    if (_isSigning) {
+      const { signing } = this.props
+      const { tabId } = signing
+      return tabId
+    }
+
+    const { transaction } = this.props
+    if (transaction) {
+      const { tabId } = transaction
+      return tabId
+    }
+
+    const { isRequestedStatus } = this.props
+    if (isRequestedStatus) {
+      const { tabId } = isRequestedStatus
+      return tabId    
+    }
+    else {
+      return ''
+    }
+  }
+
+  onConfirmClick = () => {
     const { password } = this.state;
     if (!password) {
       const { I18n } = this.props;
       this.setState({ pwError: I18n.error.pwErrorEnter })
       return
     }
-
+    
+    const tabId = this.getTabId()
     this.setState({ tabId, loading: true, pwError: '' }, () => {
       const { wallets } = this.props;
       const address = this.getFromAddress()
@@ -221,18 +248,21 @@ class MyWallet extends Component {
     })
   }
 
+  onCancelClick = () => {
+    this.cancelClicked = true
+    const tabId = this.getTabId()
+    const type = this.getCancelType()
+    window.chrome.tabs.sendMessage(tabId, { type });
+    this.clearPopup()
+  }
+
   clearPopup = () => {
     window.chrome.runtime.sendMessage({ type: 'CLOSE_POPUP' });
     this.props.setIsRequestedStatus()
     this.props.setTransactionStatus()
     this.props.setScoreData()
     this.props.setSigningData()
-    this.setState({
-      password: '',
-      pwError: '',
-      tabId: '',
-      loading: false
-    })
+    this.setState(INIT_STATE)
   }
 
   render() {
@@ -277,6 +307,7 @@ class MyWallet extends Component {
                               onCellClick={this.onCellClick}
                               onCancelClick={this.onCancelClick}
                               onConfirmClick={this.onConfirmClick}
+                              getTabId={this.getTabId}
                             />
                           )
                         })

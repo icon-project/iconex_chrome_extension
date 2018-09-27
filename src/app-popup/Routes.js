@@ -29,7 +29,7 @@ class Routes extends Component {
 
     }
   }
-
+  
   componentWillMount() {
     (async () => {
       await new Promise(function (resolve, reject) {

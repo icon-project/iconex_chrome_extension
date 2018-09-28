@@ -57,6 +57,7 @@ class Routes extends Component {
   }
 
   listenerHandler(message) {
+    console.log('listenerHandler', message)
     const { type } = message
     let { payload } = message
     payload = typeof payload === 'string' ? JSON.parse(payload) : payload
@@ -65,31 +66,19 @@ class Routes extends Component {
         this.props.setLockState(message.payload);
         break;
       case 'REQUEST_ADDRESS':
-        this.props.setIsRequestedStatus(payload)
-        this.props.setTransactionStatus()
-        this.props.setScoreData()
-        this.props.setSigningData()
+        this.props.setAddressRequest(payload)
         break;
       case 'REQUEST_TRANSACTION':
-        this.props.setIsRequestedStatus()
-        this.props.setTransactionStatus(payload)
-        this.props.setScoreData()
-        this.props.setSigningData()
+        this.props.setTransaction(payload)
         break;
       case 'REQUEST_SCORE':
         const { param } = payload
         if (param.method === 'icx_sendTransaction') {
-          this.props.setIsRequestedStatus()
-          this.props.setTransactionStatus()
-          this.props.setScoreData(payload)
-          this.props.setSigningData()
+          this.props.setScore(payload)
         }
         break;
       case 'REQUEST_SIGNING':
-        this.props.setIsRequestedStatus()
-        this.props.setTransactionStatus()
-        this.props.setScoreData()
-        this.props.setSigningData(payload)
+        this.props.setSigning(payload)
         break;
       case 'CHECK_POPUP_LOCK_STATE_FULFILLED':
         this.props.setLockState(message.payload);

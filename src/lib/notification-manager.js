@@ -3,15 +3,21 @@ const width = 420
 const height = 510
 
 function objectToQuery(obj) {
-	if (!obj) return ''
-	const keys = Object.keys(obj)
-	const length = keys.length
-	let result = ''
-	keys.forEach((key, index) => {
-		const last = index === (length - 1)
-		result += `${key}=${obj[key]}${last ? '' : '&'}`
-	})
-	return result
+  if (!obj) return ''
+  // const keys = Object.keys(obj)
+  // const length = keys.length
+  // let result = ''
+  // keys.forEach((key, index) => {
+  //   const last = index === (length - 1)
+  //   result += `${key}=${obj[key]}${last ? '' : '&'}`
+  // })
+  // return result
+
+  let result = ''
+  const { type, payload } = obj
+  result += 'type=' + type + '&'
+  result += 'payload=' + JSON.stringify(payload)
+  return result
 }
 
 class NotificationManager {
@@ -31,20 +37,20 @@ class NotificationManager {
 
   popupId = null
 
-	getPopupId () {
-		return this.popupId
+  getPopupId() {
+    return this.popupId
   }
-  
-  isShown (popupId) {
+
+  isShown(popupId) {
     return new Promise(resolve => {
-      extension.windows.getAll( wins => {
+      extension.windows.getAll(wins => {
         console.log(wins)
         resolve(!!wins.filter(win => win.id === popupId).length)
       })
     })
   }
 
-  showPopup (query) {
+  showPopup(query) {
     this.popupId = null
     extension.windows.create({
       url: `./popup.html?context=notification&${(!!query && typeof query === 'object') ? objectToQuery(query) : ''}`,
@@ -60,7 +66,7 @@ class NotificationManager {
    * Closes a MetaMask notification if it window exists.
    *
    */
-  closePopup () {
+  closePopup() {
     // closes notification popup
     this._getPopup((err, popup) => {
       if (err) throw err
@@ -80,7 +86,7 @@ class NotificationManager {
    * @param {Function} cb A node style callback that to whcih the found notification window will be passed.
    *
    */
-  _getPopup (cb) {
+  _getPopup(cb) {
     this._getWindows((err, windows) => {
       if (err) throw err
       cb(null, this._getPopupIn(windows))
@@ -94,7 +100,7 @@ class NotificationManager {
    * @param {Function} cb A node style callback that to which the windows will be passed.
    *
    */
-  _getWindows (cb) {
+  _getWindows(cb) {
     // Ignore in test environment
     if (!extension.windows) {
       return cb()
@@ -112,7 +118,7 @@ class NotificationManager {
    * @param {array} windows An array of objects containing data about the open MetaMask extension windows.
    *
    */
-  _getPopupIn (windows) {
+  _getPopupIn(windows) {
     return windows ? windows.find((win) => {
       // Returns notification popup
       return (win && win.type === 'popup')

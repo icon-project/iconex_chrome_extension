@@ -14,73 +14,53 @@ window.chrome.browserAction.setPopup({ popup: './popup.html' })
 window.chrome.runtime.onConnect.addListener(portFrom => {
 	console.log(portFrom)
 	if (portFrom.name === 'iconex-background-content') {
-		portFrom.onMessage.addListener(async (message, sender, sendResponse) => {
-			const { type } = message
+		portFrom.onMessage.addListener(async message => {
 			const popupId = notificationManager.getPopupId()
 			const isShown = await notificationManager.isShown(popupId)
-			console.log(message, sender, sendResponse, popupId, isShown)
-			let payload, wallets, tabId
-			tabId = portFrom.sender.tab.id
+			const tabId = portFrom.sender.tab.id
+			const { type } = message
+			const payload = message.payload ? message.payload : {}
+			let wallets
 			switch (type) {
-				case 'REQUEST_HAS_ACCOUNT':
+				case 'REQUEST_HAS_ACCOUNT': {
 					wallets = await getWalletApi()
-					const hasAccount = Object.keys(wallets).some(address => (wallets[address].type === 'icx'))
-					window.chrome.tabs.sendMessage(tabId, {
-						type: 'RESPONSE_HAS_ACCOUNT', payload: {
-							hasAccount
-						}
-					});
+					const hasAccount = Object.keys(wallets).some(address => wallets[address].type === 'icx')
+					window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_HAS_ACCOUNT', payload: { hasAccount } });
 					break;
-
-				case 'REQUEST_HAS_ADDRESS':
-					payload = message.payload
+				}
+				case 'REQUEST_HAS_ADDRESS': {
 					wallets = await getWalletApi()
-					const hasAddress = Object.keys(wallets).some(address => (address === payload.address))
-					window.chrome.tabs.sendMessage(tabId, {
-						type: 'RESPONSE_HAS_ADDRESS', payload: {
-							hasAddress
-						}
-					});
+					const hasAddress = Object.keys(wallets).some(address => address === payload.address)
+					window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_HAS_ADDRESS', payload: { hasAddress } });
 					break;
-
-				case 'REQUEST_ADDRESS':
-					payload = { tabId }
-					if (isShown) window.chrome.extension.sendMessage({ type, payload })
-					else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
-					break;
-
-				case 'REQUEST_TRANSACTION':
-					payload = message.payload
-					payload.tabId = tabId
-					if (isShown) window.chrome.extension.sendMessage({ type, payload })
-					else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
-					break;
-
-				case 'REQUEST_SCORE':
-					payload = message.payload
-					payload.tabId = tabId
+				}
+				case 'REQUEST_SCORE': {
 					const { param } = payload
-					switch (param.method) {
-						case 'icx_sendTransaction':
-							if (isShown) window.chrome.extension.sendMessage({ type, payload })
-							else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
-							break;
-						case 'icx_getScoreApi':
-						case 'icx_call':
-						default:
+					let responsePayload
+					if (param.method !== 'icx_sendTransaction') {
+						try {
 							const result = await icx_callScoreExternally(param)
-							const { id } = portFrom.sender.tab
-							window.chrome.tabs.sendMessage(id, { type: 'RESPONSE_SCORE', payload: result });
+							responsePayload = result
+						}
+						catch (e) {
+							responsePayload = e
+						}
+						window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_SCORE', payload: responsePayload });
+						break;
+					}
+				}
+				case 'REQUEST_ADDRESS':
+				case 'REQUEST_TRANSACTION':
+				case 'REQUEST_SIGNING': {
+					payload.tabId = tabId
+					if (isShown) {
+						window.chrome.extension.sendMessage({ type, payload })
+					}
+					else {
+						notificationManager.showPopup({ type, payload })
 					}
 					break;
-
-				case 'REQUEST_SIGNING':
-					payload = message.payload
-					payload.tabId = tabId
-					if (isShown) window.chrome.extension.sendMessage({ type, payload })
-					else notificationManager.showPopup({ type, payload: JSON.stringify(payload) })
-					break;
-
+				}
 				default:
 			}
 		});

@@ -16,11 +16,10 @@ class WalletBar extends Component {
   }
 
   handleAddressMouseOver = (addressHoverState) => {
-    const { isRequestedStatus } = this.props
-    if (isRequestedStatus) {
+    if (this.props.addressRequest) {
       return
     }
-    
+
     this.setState({
       addressHoverState: addressHoverState
     })
@@ -58,36 +57,33 @@ class WalletBar extends Component {
     }
   }
 
-  isPwInput() {
-    const { wallet } = this.props
-    const walletAccount = wallet.account
-
-    const _isScore = this.props.isScore()
-    if (_isScore) {
-      const { score } = this.props
-      return walletAccount === score.from
+  onCellClick = () => {
+    if (this.props.addressRequest) {
+      this.props.sendAddress(this.props.wallet.account)
     }
-
-    const _isSigning = this.props.isSigning()
-    if (_isSigning) {
-      const { signing } = this.props
-      return walletAccount === signing.from
-    }
-
-    const { transaction } = this.props
-    return walletAccount === transaction.from
   }
 
-  render() {
-    const { wallet, index, I18n, isRequestedStatus, password, error, loading } = this.props
+  onConfirmClick = () => {
+    this.props.confirmPassword(this.props.wallet.account)
+  }
 
-    const { onCellClick, handleChange, onCancelClick, onConfirmClick } = this.props
+  onCancelClick = () => {
+    this.props.cancelPassword()
+  }
+
+  handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this.onConfirmClick();
+    }
+  }
+  
+  render() {
+    const { wallet, index, I18n, password, handleChange, pwError, confirmLoading, isPwInput, addressRequest } = this.props
     const { addressHoverState, addressClickState } = this.state;
     const balanceText = convertNumberToText(wallet.balance, wallet.type, true);
-    const isPwInput = this.isPwInput()
 
     return (
-      <li className={isRequestedStatus ? 'link' : ''} onClick={() => { onCellClick(wallet.account) }}>
+      <li className={addressRequest ? 'link' : ''} onClick={this.onCellClick}>
         <span className="name">{wallet.name}<em>{Object.keys(wallet.tokens).length + 1}</em></span>
         <span className="coin">{wallet.isError ? '-' : balanceText}<em>{wallet.type.toUpperCase()}</em></span>
         {
@@ -104,16 +100,26 @@ class WalletBar extends Component {
         {isPwInput &&
           <div className="pass-holder">
             <div className="name-group">
-              <input type="password" className={`txt-type-normal ${error ? 'error' : ''}`} spellCheck="false"
+              <input type="password" className={`txt-type-normal ${pwError ? 'error' : ''}`} spellCheck="false"
                 placeholder={I18n.checkPassword.placeHolder}
                 value={password}
                 onChange={handleChange}
+                onKeyPress={this.handleKeyPress}
               />
-              {error && <p className="error">{error}</p>}
+              {pwError && <p className="error">{pwError}</p>}
             </div>
-            <button className="btn-type-normal" onClick={onCancelClick}><span>{I18n.button.cancel}</span></button>
-            {loading ? (<button className="btn-type-ok load"><span><LoadingComponent type="black" /></span></button>)
-              : (<button className="btn-type-ok" onClick={onConfirmClick}><span>{I18n.button.confirm}</span></button>)}
+            <button className="btn-type-normal" onClick={this.onCancelClick}>
+              <span>{I18n.button.cancel}</span>
+            </button>
+            {confirmLoading ?
+              <button className="btn-type-ok load">
+                <span><LoadingComponent type="black" /></span>
+              </button>
+              :
+              <button className="btn-type-ok" onClick={this.onConfirmClick}>
+                <span>{I18n.button.confirm}</span>
+              </button>
+            }
           </div>
         }
       </li>

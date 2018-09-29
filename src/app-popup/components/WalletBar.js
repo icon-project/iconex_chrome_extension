@@ -78,10 +78,9 @@ class WalletBar extends Component {
   }
   
   render() {
-    const { wallet, index, I18n, password, handleChange, pwError, confirmLoading, isPwInput, addressRequest } = this.props
+    const { wallet, index, I18n, password, handleChange, pwError, confirmLoading, txHash, addressRequest } = this.props
     const { addressHoverState, addressClickState } = this.state;
     const balanceText = convertNumberToText(wallet.balance, wallet.type, true);
-
     return (
       <li className={addressRequest ? 'link' : ''} onClick={this.onCellClick}>
         <span className="name">{wallet.name}<em>{Object.keys(wallet.tokens).length + 1}</em></span>
@@ -97,7 +96,7 @@ class WalletBar extends Component {
         }
         <span className={`copyKey copyKey${index}`}>{wallet.account}</span>
 
-        {isPwInput &&
+        {txHash &&
           <div className="pass-holder">
             <div className="name-group">
               <input type="password" className={`txt-type-normal ${pwError ? 'error' : ''}`} spellCheck="false"
@@ -120,6 +119,18 @@ class WalletBar extends Component {
                 <span>{I18n.button.confirm}</span>
               </button>
             }
+          </div>
+        }
+        {txHash &&
+          <div className={`hash-holder ${!pwError ? 'no-error' : ''}`}>
+            <div>
+              <span>TxHash</span>
+              {Array.isArray(txHash) ?
+                txHash.map(t => <p className="address">{t}</p>)
+                :
+                <p className="address">{txHash}</p>
+              }
+            </div>
           </div>
         }
       </li>

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { LoadingComponent } from 'app/components/'
 import WalletBar from './WalletBar'
-import { makeWalletArray, openApp, isEmpty } from 'utils';
+import { makeWalletArray, openApp } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 import Worker from 'workers/wallet.worker.js';
-import queryString from 'query-string'
-import { signHashcode } from 'utils/iconex'
+import { makeTxHash } from 'utils/iconex'
+import { makeIcxRawTx } from 'utils'
 
 const INIT_STATE = {
 	tab: 'icx',
@@ -88,7 +88,7 @@ class MyWallet extends Component {
 		if (this.props.totalResultLoading !== nextProps.totalResultLoading && !nextProps.totalResultLoading) {
 			this.calcData();
 		}
-	}	
+	}
 
 	closePopup = () => {
 		this.props.initExternalState()
@@ -123,7 +123,7 @@ class MyWallet extends Component {
 
 	cancelPassword = () => {
 		this.cancelClicked = true
-		
+
 		const { transaction, score, signing } = this.props;
 		let type = 'CANCEL'
 		if (transaction.raw) {
@@ -176,10 +176,33 @@ class MyWallet extends Component {
 		this.setState({ password: e.target.value })
 	}
 
+	getTxHash = (wallet) => {
+		const { transaction, score, signing } = this.props
+		const from = transaction.from || score.from || signing.from
+		const isTargetWallet = wallet.account === from
+		if (!isTargetWallet) {
+			return ''
+		}
+
+		if (transaction.raw) {
+			const icxRawTx = makeIcxRawTx(false, transaction.raw)
+			return makeTxHash(icxRawTx)
+		}
+		else if (score.param) {
+			return makeTxHash(score.param.params)
+		}
+		else if (signing.hash) {
+			return signing.hash
+		}
+		else {
+			return ''
+		}
+	}
+
 	render() {
 		const { tab, data, password, pwError, confirmLoading } = this.state;
 		const { I18n, totalResultLoading } = this.props;
-		const { addressRequest, transaction, score, signing } = this.props
+		const { addressRequest } = this.props
 		return (
 			<div className="wrap">
 				{
@@ -201,8 +224,6 @@ class MyWallet extends Component {
 										<ul className="list-holder">
 											{
 												data[tab].map((wallet, i) => {
-													const from = transaction.from || score.from || signing.from
-													const isPwInput = wallet.account === from
 													return (
 														<WalletBar key={i}
 															index={i}
@@ -212,7 +233,7 @@ class MyWallet extends Component {
 															pwError={pwError}
 															confirmLoading={confirmLoading}
 
-															isPwInput={isPwInput}
+															txHash={this.getTxHash(wallet)}
 															sendAddress={this.sendAddress}
 															confirmPassword={this.confirmPassword}
 															cancelPassword={this.cancelPassword}

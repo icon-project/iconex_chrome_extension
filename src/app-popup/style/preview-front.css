@@ -1,1 +1,3 @@
 .content-wrap .list-holder li.link:hover:after{cursor: pointer;}
+.content-wrap .hash-holder .address{text-overflow: ellipsis; overflow: hidden;}
+.content-wrap .hash-holder.no-error{margin-top: -4px;}

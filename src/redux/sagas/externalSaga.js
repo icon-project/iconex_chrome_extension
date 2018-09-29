@@ -12,12 +12,10 @@ import {
 } from 'utils/iconex'
 
 export function* callSendTransactionFunc(action) {
-    const { tabId } = action.payload
+    const { tabId, privKey, raw } = action.payload
     let payload
     try {
-        const { privKey, raw } = action.payload
-        const result = yield call(SEND_COIN_API, privKey, raw);
-        payload = result
+        payload = yield call(SEND_COIN_API, privKey, raw)
     }
     catch (e) {
         payload = e
@@ -26,14 +24,12 @@ export function* callSendTransactionFunc(action) {
     window.chrome.runtime.sendMessage({ type: 'CLOSE_POPUP' });
 }
 export function* callScoreFunc(action) {
-    const { tabId } = action.payload
+    const { tabId, privKey, param } = action.payload
     let payload
     try {
-        const { privKey, param } = action.payload
         const { params } = param
         param.params = signRawTx(privKey, params)
-        const result = yield call(CALL_SCORE_EXTERNALLY, param);
-        payload = result
+        payload = yield call(CALL_SCORE_EXTERNALLY, param)
     }
     catch (e) {
         payload = e

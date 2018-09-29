@@ -120,6 +120,11 @@ function openApp() {
   }, function(tab){});
 }
 
+function makeTxHash(rawTx) {
+  const phraseToSign = generateHashKey(rawTx);
+  return sha3_256.update(phraseToSign).hex();
+}
+
 function signHashcode(privKey, hashcode) {
   console.log('signHashcode', hashcode)
   const message = new Buffer(hashcode, 'hex');
@@ -268,5 +273,6 @@ export {
   parseError,
   openApp,
   signRawTx,
-  signHashcode
+  signHashcode,
+  makeTxHash
 }

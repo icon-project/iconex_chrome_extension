@@ -32,7 +32,7 @@ export function externalReducer(state = initialState, action) {
                         from,
                         to,
                         value,
-                        txFeeLimit: '0x186a0'
+                        txFeeLimit: '0x186a0' // 100000
                     }
                 },
             }
@@ -50,7 +50,7 @@ export function externalReducer(state = initialState, action) {
             return {
                 ...initialState,
                 tabId,
-                signing: { hash, from }
+                signing: { from, hash }
             }
         }
         default: {

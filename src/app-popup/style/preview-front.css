@@ -1,3 +1,7 @@
-.content-wrap .list-holder li.link:hover:after{cursor: pointer;}
 .content-wrap .hash-holder .address{text-overflow: ellipsis; overflow: hidden;}
 .content-wrap .hash-holder.no-error{margin-top: -4px;}
+.footer.cols-2:hover{background: #fff;}
+.footer.cols-2 button{width: 48%;}
+.content-wrap .list-holder li.link i:hover{cursor: pointer;}
+.remittance .footer button{width: 48%;}
+

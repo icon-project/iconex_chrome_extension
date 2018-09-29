@@ -35,7 +35,10 @@ export const routeConstants = {
   'transaction': '/transaction',
   'contract': '/contract',
   'mypage': '/mypage',
-  'lock': '/lock'
+  'lock': '/lock',
+  'send': '/send',
+  'check': '/check',
+  'complete': '/complete'
 }
 
 export const dateFormat = "YYYY-MM-DD HH:mm:ss"

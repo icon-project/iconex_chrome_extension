@@ -417,3 +417,16 @@ export function icx_callScoreExternally(param) {
       })
   });
 }
+
+export async function icx_getStepPrice() {
+  try {
+    const stepPrice = await icx_call({
+      contractAddress: GOVERNANCE_ADDRESS,
+      methodName: 'getStepPrice'
+    });
+    return new BigNumber(stepPrice[0])
+  } 
+  catch (error) {
+    return new BigNumber(0)
+  } 
+}

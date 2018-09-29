@@ -2,7 +2,9 @@ import { connect } from 'react-redux';
 import MyWallet from 'app-popup/components/MyWallet';
 import { getWallet, fetchAll, setSelectedWallet } from 'redux/actions/walletActions';
 import { sendCall } from 'redux/actions/exchangeTransactionActions'
-import { initExternalState, callSendTransaction, callScore, callSigning } from 'redux/actions/externalActions';
+import { getRate } from 'redux/actions/rateActions';
+import { initExternalState, setTransactionWallet, callScore, callSigning } from 'redux/actions/externalActions';
+import { withRouter } from 'react-router-dom';
 
 function mapStateToProps(state) {
   return {
@@ -26,7 +28,7 @@ function mapDispatchToProps(dispatch) {
     fetchAll: (o) => dispatch(fetchAll(o)),
 
     initExternalState: () => dispatch(initExternalState()),
-    callSendTransaction: (payload) => dispatch(callSendTransaction(payload)),
+    setTransactionWallet: (payload) => dispatch(setTransactionWallet(payload)),
     callScore: (payload) => dispatch(callScore(payload)),
     callSigning: (payload) => dispatch(callSigning(payload)),
   };
@@ -34,4 +36,4 @@ function mapDispatchToProps(dispatch) {
 
 const MyWalletPageContainer = connect(mapStateToProps, mapDispatchToProps)(MyWallet);
 
-export default MyWalletPageContainer;
+export default withRouter(MyWalletPageContainer);

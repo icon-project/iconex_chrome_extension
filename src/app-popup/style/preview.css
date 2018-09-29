@@ -83,7 +83,14 @@ html, body, .wrap, .wrap .content-wrap{height: 100%;}
 .content-wrap {padding-top: 70px;}
 .content-wrap .list-holder{padding: 0 24px;}
 .content-wrap .list-holder li{border-bottom: 1px solid #ededed; padding: 15px 0; position: relative;}
-.content-wrap .list-holder li.link:hover:after{content: ""; position: absolute; width: calc(100% + 48px); height: 100%; background: rgba(0, 0, 0, 0.04); left: -24px; top: 0;}
+.content-wrap .list-holder li.link{padding-left: 28px;}
+.content-wrap .list-holder li.link i{width:18px; height: 18px; display: inline-block; background-position: 0 -85px; position: absolute; left: 0; top: 32px; }
+.content-wrap .list-holder li.link.on{}
+.content-wrap .list-holder li.link.on .name{color: #1daab9;}
+.content-wrap .list-holder li.link.on .address{color: #1daab9;}
+.content-wrap .list-holder li.link.on i{ background-position: 0 -110px;}
+
+/*.content-wrap .list-holder li.link:hover:after{content: ""; position: absolute; width: calc(100% + 48px); height: 100%; background: rgba(0, 0, 0, 0.04); left: -24px; top: 0;}*/
 .content-wrap .list-holder .name{font-size: 14px;font-weight: 400;}
 .content-wrap .list-holder .name em{font-size: 11px; color: #fff; background: #262626; border-radius: 10px; padding: 1px 10px; margin-left: 8px;}
 .content-wrap .list-holder .coin{font-size: 12px; float: right;}
@@ -121,8 +128,6 @@ input.error{    border-bottom: 2px solid #ff3344;}
 [class ^="btn-type"] {display: inline-block; color: #fff; background-color: #262626 ; cursor: pointer; font-size: 12px; border-radius: 3px;width: 70px; height: 28px;     padding-top: 0px; border: transparent;}
 .btn-type-normal {width: 70px;}
 .btn-type-ok{width: 70px; height: 28px; border: transparent; background-color: #1aaaba;     margin-right: 4px;}
-
-
 
 .remittance{}
 .remittance .content-wrap .list-holder{padding: 17px 24px 16px;}
@@ -167,4 +172,9 @@ input.error{    border-bottom: 2px solid #ff3344;}
 .remittance.complete p{font-size: 14px; color: #262626; font-weight: 500; padding: 28px 0px 9px; }
 .remittance.complete .content-wrap span{ font-size: 12px; color: #1daab9; text-decoration: underline;}
 .remittance.complete ._img{width: 81px; height: 78px; background-position: -50px 0;}
+
+
+.footer.cols-2{height: 50px; border-top: none; cursor: default; padding: 11px 12px;}
+.footer.cols-2 button{width: 49%;}
+
 

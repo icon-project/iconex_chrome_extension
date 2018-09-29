@@ -69,7 +69,6 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 
 // if every tab closed, lock the app
 window.chrome.tabs.onRemoved.addListener((tabId) => {
-	console.log(tabId)
 	// remove tab id
 	const index = TAB_ARR.indexOf(tabId);
 	if (index !== -1) TAB_ARR.splice(index, 1);

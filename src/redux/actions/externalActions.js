@@ -20,6 +20,20 @@ export function setTransaction(payload) {
     }
 }
 
+export function setTransactionWallet(payload) {
+    return {
+        type: actionTypes.setTransactionWallet,
+        payload
+    }
+}
+
+export function setTransactionStep(payload) {
+    return {
+        type: actionTypes.setTransactionStep,
+        payload
+    }
+}
+
 export function callSendTransaction(payload) {
     return {
         type: actionTypes.callSendTransaction,

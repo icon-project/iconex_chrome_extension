@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { convertNumberToText, isEmpty } from 'utils'
+import { convertNumberToText } from 'utils'
 import withLanguageProps from 'HOC/withLanguageProps';
 import { LoadingComponent } from 'app/components/'
 
@@ -26,6 +26,10 @@ class WalletBar extends Component {
   }
 
   handleCopy = () => {
+    if (this.props.addressRequest) {
+      return
+    }
+
     const key = document.querySelector(`span.copyKey${this.props.index}`);
     if (this.state.addressClickState === 'complete') {
       return false;
@@ -57,32 +61,33 @@ class WalletBar extends Component {
     }
   }
 
-  onCellClick = () => {
-    if (this.props.addressRequest) {
-      this.props.sendAddress(this.props.wallet.account)
-    }
+  onRadioClick = () => {
+    this.props.selectAddress(this.props.wallet.account)
   }
 
   onConfirmClick = () => {
-    this.props.confirmPassword(this.props.wallet.account)
+    if (this.props.password) {
+      this.props.confirmPassword(this.props.wallet.account)
+    }
   }
 
   onCancelClick = () => {
-    this.props.cancelPassword()
+    this.props.cancelEvent()
   }
 
   handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (this.props.password && e.key === 'Enter') {
       this.onConfirmClick();
     }
   }
-  
+
   render() {
-    const { wallet, index, I18n, password, handleChange, pwError, confirmLoading, txHash, addressRequest } = this.props
+    const { wallet, index, I18n, password, handleChange, pwError, confirmLoading, isInput, txHash, addressRequest, selected, isTransaction } = this.props
     const { addressHoverState, addressClickState } = this.state;
     const balanceText = convertNumberToText(wallet.balance, wallet.type, true);
     return (
-      <li className={addressRequest ? 'link' : ''} onClick={this.onCellClick}>
+      <li className={(addressRequest ? 'link' : '') + (selected === wallet.account ? ' on' : '')}>
+        {addressRequest && <i className="_img" onClick={this.onRadioClick}></i>}
         <span className="name">{wallet.name}<em>{Object.keys(wallet.tokens).length + 1}</em></span>
         <span className="coin">{wallet.isError ? '-' : balanceText}<em>{wallet.type.toUpperCase()}</em></span>
         {
@@ -96,7 +101,7 @@ class WalletBar extends Component {
         }
         <span className={`copyKey copyKey${index}`}>{wallet.account}</span>
 
-        {txHash &&
+        {isInput &&
           <div className="pass-holder">
             <div className="name-group">
               <input type="password" className={`txt-type-normal ${pwError ? 'error' : ''}`} spellCheck="false"
@@ -115,8 +120,8 @@ class WalletBar extends Component {
                 <span><LoadingComponent type="black" /></span>
               </button>
               :
-              <button className="btn-type-ok" onClick={this.onConfirmClick}>
-                <span>{I18n.button.confirm}</span>
+              <button className="btn-type-ok" disabled={!password} onClick={this.onConfirmClick}>
+                <span>{isTransaction ? I18n.button.transfer : I18n.button.confirm}</span>
               </button>
             }
           </div>
@@ -126,7 +131,7 @@ class WalletBar extends Component {
             <div>
               <span>TxHash</span>
               {Array.isArray(txHash) ?
-                txHash.map(t => <p className="address">{t}</p>)
+                txHash.map((t, i) => <p key={i} className="address">{t}</p>)
                 :
                 <p className="address">{txHash}</p>
               }

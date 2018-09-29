@@ -183,6 +183,8 @@ const actionTypes = {
   initExternalState: 'INIT_EXTERNAL_STATE',
   setAddressRequest: 'SET_ADDRESS_REQUEST',
   setTransaction: 'SET_TRANSACTION',
+  setTransactionWallet: 'SET_TRANSACTION_WALLET',
+  setTransactionStep: 'SET_TRANSACTION_STEP',
   callSendTransaction: 'CALL_SEND_TRANSACTION',
   setScore: 'SET_SCORE',
   callScore: 'CALL_SCORE',

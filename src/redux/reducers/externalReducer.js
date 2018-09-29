@@ -1,4 +1,5 @@
 import actionTypes from 'redux/actionTypes/actionTypes';
+import { BigNumber } from 'bignumber.js';
 
 const initialState = {
     tabId: '',
@@ -23,19 +24,27 @@ export function externalReducer(state = initialState, action) {
         }
         case actionTypes.setTransaction: {
             const { tabId, from, to, value } = action.payload
+            const raw = { from, to, value }
             return {
                 ...initialState,
                 tabId,
-                transaction: { 
-                    from, 
-                    raw: {
-                        from,
-                        to,
-                        value,
-                        txFeeLimit: '0x186a0' // 100000
-                    }
-                },
+                transaction: { from, raw },
             }
+        }
+        case actionTypes.setTransactionWallet: {
+            const { wallet, privKey } = action.payload
+            const newState = { ...state }
+            newState.transaction.wallet = wallet
+            newState.transaction.privKey = privKey
+            return newState
+        }        
+        case actionTypes.setTransactionStep: {
+            const { stepLimit, maxStepIcx } = action.payload
+            const newState = { ...state }
+            newState.transaction.stepLimit = stepLimit
+            newState.transaction.maxStepIcx = maxStepIcx
+            newState.transaction.raw.txFeeLimit = '0x' + (new BigNumber(stepLimit)).toString(16)
+            return newState
         }
         case actionTypes.setScore: {
             const { tabId, from, param } = action.payload

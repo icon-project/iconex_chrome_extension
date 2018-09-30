@@ -186,6 +186,8 @@ const actionTypes = {
   setTransactionWallet: 'SET_TRANSACTION_WALLET',
   setTransactionStep: 'SET_TRANSACTION_STEP',
   callSendTransaction: 'CALL_SEND_TRANSACTION',
+  callSendTransactionFulfilled: 'CALL_SEND_TRANSACTION_FULFILLED',
+  callSendTransactionRejected: 'CALL_SEND_TRANSACTION_REJECTED',
   setScore: 'SET_SCORE',
   callScore: 'CALL_SCORE',
   setSigning: 'SET_SIGNING',

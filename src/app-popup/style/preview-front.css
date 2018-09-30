@@ -4,4 +4,8 @@
 .footer.cols-2 button{width: 48%;}
 .content-wrap .list-holder li.link i:hover{cursor: pointer;}
 .remittance .footer button{width: 48%;}
+.tab-holder.no-pointer li{cursor: default !important;}
+.remittance.complete .scroll{width:100%;}
+
+
 

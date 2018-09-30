@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { convertNumberToText } from 'utils'
 import { routeConstants as ROUTE } from 'constants/index.js';
+import { LoadingComponent } from 'app/components/'
 
 @withLanguageProps
 class CheckTransaction extends Component {
@@ -19,6 +20,15 @@ class CheckTransaction extends Component {
 		}
 	}
 
+	componentWillReceiveProps(nextProps) {
+		const { transactionLoading: currentLoading } = this.props
+		const { transactionLoading: nextLoading, transaction } = nextProps
+		const { txHash, error } = transaction
+		if (currentLoading && !nextLoading && (txHash || error)) {
+			this.props.history.push(ROUTE['complete'])
+		}
+	}
+
 	revertTransaction = () => {
 		this.props.history.push(ROUTE['send'])
 	}
@@ -32,38 +42,38 @@ class CheckTransaction extends Component {
 	}
 
 	render() {
-		const { transaction } = this.props
+		const { I18n, transaction, transactionLoading } = this.props
 		const { raw, maxStepIcx } = transaction
 		const { from, to, value } = raw
 		return (
 			<div className="wrap remittance">
-				<div className="tab-holder">
+				<div className="tab-holder no-pointer">
 					<ul className="one">
-						<li>수량과 주소를 한 번 더 확인해 주세요.</li>
+						<li>{I18n.sendTransaction.titleInfo}</li>
 					</ul>
 				</div>
 				<div className="content-wrap">
 					<div className="scroll">
 						<div className="list-holder">
-							<span className="name">보내는 주소</span>
+							<span className="name">{I18n.sendTransaction.sendingAddress}</span>
 							<div className="align-r">
 								<p>{from}</p>
 							</div>
 						</div>
 						<div className="list-holder coin-num">
-							<span className="name">송금 수량</span>
+							<span className="name">{I18n.sendTransaction.quantity}</span>
 							<div className="align-r">
 								<p>{convertNumberToText(value, 'icx', true)}<em>ICX</em></p>
 							</div>
 						</div>
 						<div className="list-holder coin-num">
-							<span className="name">예상 최대 수수료</span>
+							<span className="name">{I18n.sendTransaction.txFeeIcx}</span>
 							<div className="align-r">
 								<p>{convertNumberToText(maxStepIcx, 'icx', true)}<em>ICX</em></p>
 							</div>
 						</div>
 						<div className="list-holder">
-							<span className="name">받는 주소</span>
+							<span className="name">{I18n.sendTransaction.receivingAddress}</span>
 							<div className="align-r">
 								<p>{to}</p>
 							</div>
@@ -71,8 +81,16 @@ class CheckTransaction extends Component {
 					</div>
 				</div>
 				<div className="footer cols-2">
-					<button className="btn-type-normal" onClick={this.revertTransaction}><span>이전</span></button>
-					<button className="btn-type-ok" onClick={this.confirmTransaction}><span>송금</span></button>
+					<button className="btn-type-normal" onClick={this.revertTransaction} disabled={transactionLoading}><span>{I18n.button.back}</span></button>
+					{transactionLoading ?
+						<button className="btn-type-ok load">
+							<span><LoadingComponent type="black" style={{height: '8px', display: '-webkit-inline-box'}}/></span>
+						</button>
+						:
+						<button className="btn-type-ok" onClick={this.confirmTransaction}>
+							<span>{I18n.button.transfer}</span>
+						</button>
+					}
 				</div>
 			</div>
 		);

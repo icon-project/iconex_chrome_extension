@@ -6,7 +6,8 @@ import { initExternalState, callSendTransaction } from 'redux/actions/externalAc
 function mapStateToProps(state) {
     return {
         tabId: state.external.tabId,
-        transaction: state.external.transaction
+        transaction: state.external.transaction,
+        transactionLoading: state.external.transactionLoading,
     };
 }
 

@@ -203,6 +203,7 @@ class MyWallet extends Component {
 		const { tab, data, password, pwError, confirmLoading, selected } = this.state;
 		const { I18n, totalResultLoading } = this.props;
 		const { addressRequest, transaction } = this.props
+		const isTwoItem = data['icx'].length > 0 && data['eth'].length > 0
 		return (
 			<div className="wrap">
 				{(totalResultLoading || data.length < 1) ?
@@ -211,8 +212,8 @@ class MyWallet extends Component {
 					</div>
 					:
 					<div>
-						<div className="tab-holder">
-							<ul className={data['icx'].length > 0 && data['eth'].length > 0 ? 'two' : 'one'}>
+						<div className={`tab-holder${!isTwoItem? ' no-pointer' : ''}`}>
+							<ul className={isTwoItem ? 'two' : 'one'}>
 								{data['icx'].length > 0 && (<li onClick={this.handleTabChange} data-name={'icx'} className={data['icx'].length > 0 && data['eth'].length > 0 && tab === "icx" ? "on" : ''}>ICX</li>)}
 								{data['eth'].length > 0 && (<li onClick={this.handleTabChange} data-name={'eth'} className={data['icx'].length > 0 && data['eth'].length > 0 && tab === "eth" ? "on" : ''}>ETH</li>)}
 							</ul>

@@ -42,8 +42,8 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 							const result = await icx_callScoreExternally(param)
 							responsePayload = result
 						}
-						catch (e) {
-							responsePayload = e
+						catch (error) {
+							responsePayload = error
 						}
 						window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_SCORE', payload: responsePayload });
 						break;

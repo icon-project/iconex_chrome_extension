@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getCurrentServer, getCurrentICXApiVersion, getCustomIcxServer } from 'constants/config.js'
 import withClickOut from 'HOC/withClickOut';
 import { checkURLSuffix } from 'utils';
+import { icxServerList, icxApiVersionList, ethServerList } from 'constants/config'
 
 const INIT_STATE = {
   showCustomInput: getCurrentServer('icx') === 'custom',
@@ -50,22 +51,6 @@ const inputButtonStyle = {
   fontSize: '11px',
   color: '#888',
   padding: 0
-}
-
-// list constants
-const icxServerList = {
-  'mainnet': 'mainnet',
-  'euljiro': 'euljiro',
-  'yeouido': 'yeouido',
-  'custom': 'custom'
-}
-const icxApiVersionList = {
-  'v2': 'v2',
-  'v3': 'v3'
-}
-const ethServerList = {
-  'ropsten': 'ropsten',
-  'main': 'main'
 }
 
 class ServerChanger extends Component {

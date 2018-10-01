@@ -112,18 +112,16 @@ class WalletBar extends Component {
               />
               {pwError && <p className="error">{pwError}</p>}
             </div>
-            <button className="btn-type-normal" onClick={this.onCancelClick}>
-              <span>{I18n.button.cancel}</span>
-            </button>
             {confirmLoading ?
               <button className="btn-type-ok load">
-                <span><LoadingComponent type="black" /></span>
+                <span><LoadingComponent type="black" style={{height: '8px', display: '-webkit-inline-box'}}/></span>
               </button>
               :
               <button className="btn-type-ok" disabled={!password} onClick={this.onConfirmClick}>
                 <span>{isTransaction ? I18n.button.transfer : I18n.button.confirm}</span>
               </button>
             }
+            <button className="btn-type-normal" onClick={this.onCancelClick}><span>{I18n.button.cancel}</span></button>
           </div>
         }
         {txHash &&
@@ -131,9 +129,9 @@ class WalletBar extends Component {
             <div>
               <span>TxHash</span>
               {Array.isArray(txHash) ?
-                txHash.map((t, i) => <p key={i} className="address">{t}</p>)
+                txHash.map((t, i) => <p key={i} className="address" title={t}>{t}</p>)
                 :
-                <p className="address">{txHash}</p>
+                <p className="address" title={txHash}>{txHash}</p>
               }
             </div>
           </div>

@@ -47,9 +47,9 @@ class CheckTransaction extends Component {
 		const { from, to, value } = raw
 		return (
 			<div className="wrap remittance">
-				<div className="tab-holder no-pointer">
-					<ul className="one">
-						<li>{I18n.sendTransaction.titleInfo}</li>
+				<div className="tab-holder">
+					<ul className="one no-pointer">
+						<li>{I18n.sendTransaction.titleInfoShort}</li>
 					</ul>
 				</div>
 				<div className="content-wrap">

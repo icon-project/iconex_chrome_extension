@@ -1,11 +1,13 @@
+button:disabled{cursor: default;}
 .content-wrap .hash-holder .address{text-overflow: ellipsis; overflow: hidden;}
-.content-wrap .hash-holder.no-error{margin-top: -4px;}
+.content-wrap .hash-holder.no-error{margin-top: 0px;}
 .footer.cols-2:hover{background: #fff;}
 .footer.cols-2 button{width: 48%;}
 .content-wrap .list-holder li.link i:hover{cursor: pointer;}
 .remittance .footer button{width: 48%;}
-.tab-holder.no-pointer li{cursor: default !important;}
+.tab-holder ul.no-pointer li{cursor: default !important;}
 .remittance.complete .scroll{width:100%;}
-
-
-
+.remittance .mainnet{top: 32px; width: 90px;}
+.remittance .layer{top: 37px;}
+.remittance .layer li{cursor: pointer;}
+.content-wrap .scroll{height: calc(100% - 72px);}

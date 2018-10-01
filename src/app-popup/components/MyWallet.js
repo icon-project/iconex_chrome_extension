@@ -212,8 +212,8 @@ class MyWallet extends Component {
 					</div>
 					:
 					<div>
-						<div className={`tab-holder${!isTwoItem? ' no-pointer' : ''}`}>
-							<ul className={isTwoItem ? 'two' : 'one'}>
+						<div className="tab-holder">
+							<ul className={isTwoItem ? 'two' : 'one no-pointer'}>
 								{data['icx'].length > 0 && (<li onClick={this.handleTabChange} data-name={'icx'} className={data['icx'].length > 0 && data['eth'].length > 0 && tab === "icx" ? "on" : ''}>ICX</li>)}
 								{data['eth'].length > 0 && (<li onClick={this.handleTabChange} data-name={'eth'} className={data['icx'].length > 0 && data['eth'].length > 0 && tab === "eth" ? "on" : ''}>ETH</li>)}
 							</ul>

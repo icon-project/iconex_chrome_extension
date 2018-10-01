@@ -577,6 +577,7 @@ export default {
     address: '받는 주소',
     sendingAddress: '보내는 주소',
     receivingAddress: '받는 주소',
+    titleInfoShort: '수량과 주소를 한번 더 확인해 주세요.',
 
     icxFailure: '오류로 인해 트랜잭션이 실패하였습니다.',
     infoFailure: '송금이 취소되었습니다.<br/>가스 가격을 높게 설정하여<br/>다시 한번 시도해 주세요.',

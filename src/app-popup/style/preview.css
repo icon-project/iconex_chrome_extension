@@ -70,7 +70,7 @@ html, body, .wrap, .wrap .content-wrap{height: 100%;}
 .wrap.home .content-wrap.lock .content-holder .guide-holder .forget{ font-size: 12px; color: rgba(255,255,255,0.5); cursor: pointer; font-weight: 300;}
 .wrap.home .content-wrap.lock .content-holder .guide-holder .forget:hover{ color: rgba(255,255,255,1);text-decoration: underline; }
 
-.tab-holder{ margin: 0 auto 0px; position: fixed; width: 100%; background: #fff; height: 70px; top: 0;   }
+.tab-holder{ margin: 0 auto 0px; position: fixed; width: 100%; background: #fff; height: 70px; top: 0; z-index: 1;  }
 .tab-holder ul{border-bottom: 2px solid #262626; font-size: 0; margin-top: 20px;}
 .tab-holder ul.one li{width: 100%;}
 .tab-holder ul.two li{width: 50%;}
@@ -147,10 +147,11 @@ input.error{    border-bottom: 2px solid #ff3344;}
 .remittance .content-wrap .change-holder{ border-radius: 6px; background-color: #edf0f2; font-size: 12px;}
 .remittance .content-wrap .change-holder{padding: 10px 15px; }
 .remittance .content-wrap .change-holder li{padding: 5px 0;}
-.remittance .content-wrap .change-holder li em{color:#929292; margin-left: 4px;}
-.remittance .content-wrap .change-holder .a{display: inline-block; width: 100px;}
-.remittance .content-wrap .change-holder .b{display: inline-block; width: calc(100% - 200px); text-align: right;}
-.remittance .content-wrap .change-holder .c{float: right;}
+.remittance .content-wrap .change-holder li em{color:#929292; margin-left: 4px; font-size: 12px;}
+.remittance .content-wrap .change-holder p{text-align: right; margin-top: 9px;}
+.remittance .content-wrap .change-holder .a{display: block; }
+.remittance .content-wrap .change-holder .b{display: inline-block;  text-align: right; font-size: 14px;}
+/*.remittance .content-wrap .change-holder .c{float: right;}*/
 .remittance .footer{height: 50px; border-top: none; cursor: default; padding: 11px 12px;}
 .remittance .footer button{width: 49%;}
 .remittance .content-wrap .scroll{padding: 30px  0 14px;}

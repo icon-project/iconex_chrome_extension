@@ -142,6 +142,25 @@ export const trackerAccountUrl = {
     'eth': `${ETH_SCAN()}/address/`
 }
 
+// list constants
+export const icxServerList = {
+  'mainnet': 'mainnet',
+  'euljiro': 'euljiro',
+  'yeouido': 'yeouido',
+  'custom': 'custom'
+}
+
+export const icxApiVersionList = {
+  'v2': 'v2',
+  'v3': 'v3'
+}
+export const ethServerList = {
+  'ropsten': 'ropsten',
+  'main': 'main'
+}
+
+
 function prodDev(prod, dev) {
   return process.env.NODE_ENV === 'production' ? prod : dev;
 }
+

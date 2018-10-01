@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { convertNumberToText } from 'utils'
-import { icx_getStepPrice } from 'redux/api/walletIcxApi'
+import { setIcxWalletServer, icx_getStepPrice, icx_fetchCoinBalanceApi } from 'redux/api/walletIcxApi'
 import { routeConstants as ROUTE } from 'constants/index.js';
+import { getCurrentServer, icxServerList } from 'constants/config'
+import withClickOut from 'HOC/withClickOut'
 
 @withLanguageProps
 class SendTransaction extends Component {
 
 	constructor(props) {
 		super(props)
+		const { wallet, stepLimit } = this.props.transaction
+		const { account, name, balance } = wallet || {}
 		this.state = {
-			stepLimit: this.props.transaction.stepLimit || '',
+			account,
+			name,
+			balance,
+			stepLimit: stepLimit || '',
 			stepLimitError: '',
 			stepPrice: '',
+			showServerList: false
 		}
 		this.cancelClicked = false
 	}
@@ -33,10 +41,30 @@ class SendTransaction extends Component {
 		this.setState({ stepPrice })
 	}
 
+	updateBalance = async () => {
+		const { account } = this.state
+		const balance = await icx_fetchCoinBalanceApi(account)
+		this.setState({ balance })
+	}
+
 	handleChange = (e) => {
 		if (!isNaN(e.target.value)) {
 			this.setState({ stepLimit: e.target.value })
 		}
+	}
+
+	handleKeyPress = (e) => {
+		if (this.state.stepLimit && e.key === 'Enter') {
+			this.confirmTransaction();
+		}
+	}
+
+	listClick = () => {
+		this.setState({ showServerList: true })
+	}
+
+	listClickOut = () => {
+		this.setState({ showServerList: false })
 	}
 
 	closePopup = () => {
@@ -46,17 +74,17 @@ class SendTransaction extends Component {
 
 	confirmTransaction = () => {
 		const { stepLimit } = this.state
-		if (!stepLimit) {
-			this.setState({ stepLimitError: 'Step 한도를 입력해주세요.' })
-			return
+		if (stepLimit) {
+			this.cancelClicked = true
+			const { stepPrice } = this.state
+			const stepPriceIcx = window.web3.fromWei(stepPrice, 'ether')
+			const maxStepIcx = stepLimit * stepPriceIcx
+			this.props.setTransactionStep({ stepLimit, maxStepIcx })
+			this.props.history.push(ROUTE['check'])
 		}
-
-		this.cancelClicked = true
-		const { stepPrice } = this.state
-		const stepPriceIcx = window.web3.fromWei(stepPrice, 'ether')
-		const maxStepIcx = stepLimit * stepPriceIcx
-		this.props.setTransactionStep({ stepLimit, maxStepIcx })
-		this.props.history.push(ROUTE['check'])
+		else {
+			this.setState({ stepLimitError: 'Step 한도를 입력해주세요.' })
+		}
 	}
 
 	cancelTransaction = closed => {
@@ -68,38 +96,47 @@ class SendTransaction extends Component {
 	}
 
 	render() {
-		const { stepLimit, stepLimitError, stepPrice } = this.state
+		const { name, balance, stepLimit, stepLimitError, stepPrice, showServerList } = this.state
 		const { I18n, rate, transaction } = this.props
 		const { icx: icxRate } = rate
-		const { wallet, raw } = transaction
+		const { raw } = transaction
 		const { to, value } = raw
 
-		const walletName = wallet ? wallet.name : ''
-		const walletBalance = wallet ? wallet.balance : 0
-
-		const stepPriceIcx = window.web3.fromWei(stepPrice, 'ether')
-		const stepPriceGloop = window.web3.fromWei(stepPrice, 'Gwei')
+		const stepPriceNum = !isNaN(stepPrice) ? stepPrice : 0
+		const stepPriceIcx = window.web3.fromWei(stepPriceNum, 'ether')
+		const stepPriceGloop = window.web3.fromWei(stepPriceNum, 'Gwei')
 		const stepPriceUsd = stepPriceIcx * icxRate
 		const maxStepIcx = stepLimit * stepPriceIcx
 		const maxStepUsd = maxStepIcx * icxRate
-		const balanceIcx = walletBalance - maxStepIcx
+		const balanceNum = !isNaN(balance) ? balance : 0
+		const balanceIcx = balanceNum - maxStepIcx
 		const balanceUsd = balanceIcx * icxRate
+
+		const currentServer = getCurrentServer('icx')
 
 		return (
 			<div className="wrap remittance">
-				<div className="tab-holder no-pointer">
-					<ul className="one">
+				<div className="tab-holder">
+					<ul className="one no-pointer">
 						<li>{I18n.transfer}</li>
 					</ul>
+					<p className="mainnet b-none" onClick={this.listClick}>{currentServer.toUpperCase()}<em className="_img"></em></p>
+					{showServerList &&
+						<ServerList
+							currentServer={currentServer}
+							onClickOut={this.listClickOut}
+							getStepPrice={this.getStepPrice}
+							updateBalance={this.updateBalance}
+						/>
+					}
 				</div>
 				<div className="content-wrap">
 					<div className="scroll">
 						<div className="list-holder">
 							<span className="name">{I18n.transferPageLabel4}</span>
 							<div className="align-r">
-								<input type="text" className="txt-type-normal" placeholder={walletName} value="" spellCheck="false" disabled />
+								<input type="text" className="txt-type-normal" placeholder={name} value="" spellCheck="false" disabled />
 							</div>
-
 						</div>
 						<div className="list-holder coin-num">
 							<span className="name">{I18n.transferPageLabel1}</span>
@@ -122,6 +159,7 @@ class SendTransaction extends Component {
 									placeholder={I18n.transferPagePlaceholder5_icx}
 									value={stepLimit}
 									onChange={this.handleChange}
+									onKeyPress={this.handleKeyPress}
 								/>
 								{stepLimitError && <p className="error">{stepLimitError}</p>}
 							</div>
@@ -141,13 +179,17 @@ class SendTransaction extends Component {
 							<ul className="change-holder">
 								<li>
 									<span className="a">{I18n.transferPageLabel5_2}</span>
-									<span className="b">{convertNumberToText(maxStepIcx, 'icx', true)}<em>ICX</em></span>
-									<span className="c"><i className="_img"></i><em>{convertNumberToText(maxStepUsd, 'usd', false)}</em><em>USD</em></span>
+									<p>
+										<span className="b">{convertNumberToText(maxStepIcx, 'icx', true)}<em>ICX</em></span>
+										<span className="c"><i className="_img"></i><em>{convertNumberToText(maxStepUsd, 'usd', false)}</em><em>USD</em></span>
+									</p>
 								</li>
 								<li>
 									<span className="a">{I18n.transferPageLabel6_2}</span>
-									<span className="b">{convertNumberToText(balanceIcx, 'icx', true)}<em>ICX</em></span>
-									<span className="c"><i className="_img"></i><em>{convertNumberToText(balanceUsd, 'usd', false)}</em><em>USD</em></span>
+									<p>
+										<span className="b">{convertNumberToText(balanceIcx, 'icx', true)}<em>ICX</em></span>
+										<span className="c"><i className="_img"></i><em>{convertNumberToText(balanceUsd, 'usd', false)}</em><em>USD</em></span>
+									</p>
 								</li>
 							</ul>
 						</div>
@@ -162,6 +204,31 @@ class SendTransaction extends Component {
 
 			</div>
 		);
+	}
+}
+
+@withClickOut
+class ServerList extends Component {
+	handleClick = server => {
+		this.props.onClickOut()
+		if (this.props.currentServer !== server) {
+			localStorage.setItem(`icxServer`, server);
+			setIcxWalletServer()
+			this.props.getStepPrice()
+			this.props.updateBalance()	
+		}
+	}
+	render() {
+		return (
+			<ul className="layer">
+				{Object.keys(icxServerList).map(
+					(key, index) => {
+						const server = icxServerList[key]
+						return <li key={index} onClick={() => { this.handleClick(server) }}><span>{server.toUpperCase()}</span></li>
+					}
+				)}
+			</ul>
+		)
 	}
 }
 

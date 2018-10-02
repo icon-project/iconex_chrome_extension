@@ -78,7 +78,7 @@ class SendTransaction extends Component {
 		if (stepLimit) {
 			this.cancelClicked = true
 			const { stepPrice } = this.state
-			this.props.setSendTransactionStep({ stepLimit, stepPrice })
+			this.props.setScoreStep({ stepLimit, stepPrice })
 			this.props.history.push(ROUTE['check'])
 		}
 		else {

@@ -9,7 +9,6 @@ window.addEventListener('message', event => {
     case 'REQUEST_HAS_ACCOUNT':
     case 'REQUEST_HAS_ADDRESS':
     case 'REQUEST_ADDRESS':
-    case 'REQUEST_TRANSACTION':
     case 'REQUEST_SCORE':
     case 'REQUEST_SIGNING':
       contentPort.postMessage(event.data);

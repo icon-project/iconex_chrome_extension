@@ -36,21 +36,18 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 				}
 				case 'REQUEST_SCORE': {
 					const { param } = payload
-					let responsePayload
 					if (param.method !== 'icx_sendTransaction') {
 						try {
 							const result = await icx_callScoreExternally(param)
-							responsePayload = result
+							window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_SCORE', payload: result });
 						}
 						catch (error) {
-							responsePayload = error
+							window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_SCORE', payload: error });
 						}
-						window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_SCORE', payload: responsePayload });
 						break;
 					}
 				}
 				case 'REQUEST_ADDRESS':
-				case 'REQUEST_TRANSACTION':
 				case 'REQUEST_SIGNING': {
 					payload.tabId = tabId
 					if (isShown) {

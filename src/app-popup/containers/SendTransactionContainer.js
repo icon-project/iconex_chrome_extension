@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import SendTransaction from 'app-popup/components/SendTransaction';
 import { getRate } from 'redux/actions/rateActions';
-import { initExternalState, setTransactionStep } from 'redux/actions/externalActions';
+import { initExternalState, setScoreStep } from 'redux/actions/externalActions';
 import { withRouter } from 'react-router-dom';
 
 function mapStateToProps(state) {
@@ -17,7 +17,7 @@ function mapDispatchToProps(dispatch) {
     return {
         getRate: payload => dispatch(getRate(payload)),
         initExternalState: () => dispatch(initExternalState()),
-        setTransactionStep: payload => dispatch(setTransactionStep(payload))
+        setScoreStep: payload => dispatch(setScoreStep(payload))
     };
 }
 

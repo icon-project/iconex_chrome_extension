@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import CheckTransaction from 'app-popup/components/CheckTransaction';
 import { withRouter } from 'react-router-dom';
-import { initExternalState, callSendTransaction } from 'redux/actions/externalActions';
+import { initExternalState, callScore } from 'redux/actions/externalActions';
 
 function mapStateToProps(state) {
     return {
@@ -14,7 +14,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         initExternalState: () => dispatch(initExternalState()),
-        callSendTransaction: payload => dispatch(callSendTransaction(payload)),
+        callScore: payload => dispatch(callScore(payload)),
     };
 }
 

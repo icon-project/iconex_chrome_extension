@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
-import { convertNumberToText } from 'utils'
+import { convertNumberToText, fromHexToDec } from 'utils'
 import { routeConstants as ROUTE } from 'constants/index.js';
 import { LoadingComponent } from 'app/components/'
 
@@ -14,7 +14,7 @@ class CheckTransaction extends Component {
 	componentWillMount() {
 		window.onunload = () => {
 			if (!this.cancelClicked) {
-				window.chrome.tabs.sendMessage(this.props.tabId, { type: 'CANCEL_TRANSACTION' });
+				window.chrome.tabs.sendMessage(this.props.tabId, { type: 'CANCEL_SCORE' });
 				this.props.initExternalState()
 			}
 		}
@@ -36,15 +36,19 @@ class CheckTransaction extends Component {
 	confirmTransaction = () => {
 		this.cancelClicked = true
 		const { tabId, transaction } = this.props
-		const { raw, privKey } = transaction
-		this.props.callSendTransaction({ tabId, privKey, raw })
-		// this.props.history.push(ROUTE['complete'])
+		const { param, privKey } = transaction
+		this.props.callScore({ tabId, privKey, param })
 	}
 
 	render() {
 		const { I18n, transaction, transactionLoading } = this.props
-		const { raw, maxStepIcx } = transaction
-		const { from, to, value } = raw
+		const { param, stepLimit, stepPrice } = transaction
+		const { params } = param
+		const { from, to, value } = params
+		const valueIcx = window.web3.fromWei(fromHexToDec(value), 'ether')
+		const stepPriceIcx = window.web3.fromWei(stepPrice, 'ether')
+		const maxStepIcx = stepLimit * stepPriceIcx
+
 		return (
 			<div className="wrap remittance">
 				<div className="tab-holder">
@@ -63,7 +67,7 @@ class CheckTransaction extends Component {
 						<div className="list-holder coin-num">
 							<span className="name">{I18n.sendTransaction.quantity}</span>
 							<div className="align-r">
-								<p>{convertNumberToText(value, 'icx', true)}<em>ICX</em></p>
+								<p>{convertNumberToText(valueIcx, 'icx', true)}<em>ICX</em></p>
 							</div>
 						</div>
 						<div className="list-holder coin-num">
@@ -84,7 +88,7 @@ class CheckTransaction extends Component {
 					<button className="btn-type-normal" onClick={this.revertTransaction} disabled={transactionLoading}><span>{I18n.button.back}</span></button>
 					{transactionLoading ?
 						<button className="btn-type-ok load">
-							<span><LoadingComponent type="black" style={{height: '8px', display: '-webkit-inline-box'}}/></span>
+							<span><LoadingComponent type="black" style={{ height: '8px', display: '-webkit-inline-box' }} /></span>
 						</button>
 						:
 						<button className="btn-type-ok" onClick={this.confirmTransaction}>

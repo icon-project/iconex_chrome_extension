@@ -1,5 +1,5 @@
 import actionTypes from 'redux/actionTypes/actionTypes';
-import { BigNumber } from 'bignumber.js';
+import { fromHexToDec, fromDecToHex } from 'utils/utils'
 
 const initialState = {
     tabId: '',
@@ -7,7 +7,7 @@ const initialState = {
     transaction: {},
     transactionLoading: false,
     score: {},
-    signing: {}
+    signing: {},
 }
 
 export function externalReducer(state = initialState, action) {
@@ -23,56 +23,50 @@ export function externalReducer(state = initialState, action) {
                 addressRequest: true,
             }
         }
-        case actionTypes.setTransaction: {
-            const { tabId, from, to, value } = action.payload
-            const raw = { from, to, value }
+        case actionTypes.setScore: {
+            const { tabId, param } = action.payload
+            const { params } = param
+            const from = params.from
+            const stepLimit = fromHexToDec(params.stepLimit)
             return {
                 ...initialState,
                 tabId,
-                transaction: { from, raw },
+                transaction: { from, stepLimit, param },
             }
         }
-        case actionTypes.setTransactionWallet: {
+        case actionTypes.setScoreWallet: {
             const { wallet, privKey } = action.payload
             const newState = { ...state }
             newState.transaction.wallet = wallet
             newState.transaction.privKey = privKey
             return newState
-        }        
-        case actionTypes.setTransactionStep: {
-            const { stepLimit, maxStepIcx } = action.payload
+        }
+        case actionTypes.setScoreStep: {
+            const { stepLimit, stepPrice } = action.payload
             const newState = { ...state }
             newState.transaction.stepLimit = stepLimit
-            newState.transaction.maxStepIcx = maxStepIcx
-            newState.transaction.raw.txFeeLimit = '0x' + (new BigNumber(stepLimit)).toString(16)
+            newState.transaction.stepPrice = stepPrice
+            newState.transaction.param.params.stepLimit = fromDecToHex(stepLimit)
             return newState
         }
-        case actionTypes.callSendTransaction: {
+        case actionTypes.callScore: {
             const newState = { ...state }
             newState.transactionLoading = true
             return newState
         }
-        case actionTypes.callSendTransactionFulfilled: {
+        case actionTypes.callScoreFulfilled: {
             const { txHash } = action.payload
-            const newState = { ...state, a:1 }
+            const newState = { ...state, a: 1 }
             newState.transactionLoading = false
             newState.transaction.txHash = txHash
             return newState
         }
-        case actionTypes.callSendTransactionRejected: {
+        case actionTypes.callScoreRejected: {
             const { error } = action.payload
             const newState = { ...state }
             newState.transactionLoading = false
             newState.transaction.error = error
             return newState
-        }
-        case actionTypes.setScore: {
-            const { tabId, from, param } = action.payload
-            return {
-                ...initialState,
-                tabId,
-                score: { from, param },
-            }
         }
         case actionTypes.setSigning: {
             const { tabId, from, hash } = action.payload

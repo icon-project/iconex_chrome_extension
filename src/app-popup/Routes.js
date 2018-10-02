@@ -67,9 +67,6 @@ class Routes extends Component {
       case 'REQUEST_ADDRESS':
         this.props.setAddressRequest(payload)
         break;
-      case 'REQUEST_TRANSACTION':
-        this.props.setTransaction(payload)
-        break;
       case 'REQUEST_SCORE':
         const { param } = payload
         if (param.method === 'icx_sendTransaction') {

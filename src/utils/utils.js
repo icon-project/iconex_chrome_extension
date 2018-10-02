@@ -7,34 +7,34 @@ import BigNumber from 'bignumber.js';
 import { erc20Abi } from 'constants/index'
 import { IS_V3, ICX_NID } from 'constants/config.js'
 
-function charFreq( string ) {
-    let value;
-    let array_lengths = {}; // object
-    // compute frequencies of each value
-    for(let i = 0; i < string.length; i++) {
-        value = string[i];
-        if(value in array_lengths) {
-            array_lengths[value]++;
-        } else {
-            array_lengths[value] = 1;
-        }
+function charFreq(string) {
+  let value;
+  let array_lengths = {}; // object
+  // compute frequencies of each value
+  for (let i = 0; i < string.length; i++) {
+    value = string[i];
+    if (value in array_lengths) {
+      array_lengths[value]++;
+    } else {
+      array_lengths[value] = 1;
     }
-    return array_lengths;
+  }
+  return array_lengths;
 }
 
 function isEmpty(obj) {
-    for(var key in obj) {
-        if(obj.hasOwnProperty(key))
-            return false;
-    }
-    return true;
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key))
+      return false;
+  }
+  return true;
 }
 
 function numberWithCommas(x) {
   x = removeTrailingZeros(x)
-	let parts = x.toString().split('.');
-	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-	return parts.join('.');
+  let parts = x.toString().split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return parts.join('.');
 }
 
 function convertNumberToText(num, unit, isCoin) {
@@ -66,7 +66,7 @@ function convertNumberToText(num, unit, isCoin) {
 }
 
 function trimLeftZero(str) {
-  if(!str) return str;
+  if (!str) return str;
   if (str.startsWith("0.")) {
     return str;
   }
@@ -92,16 +92,16 @@ function trimLeftZero(str) {
 }
 
 function removeTrailingZeros(value) {
-    value = value.toString();
+  value = value.toString();
 
-    if (value.indexOf('.') === -1) {
-        return value;
-    }
-
-    while((value.slice(-1) === '0' || value.slice(-1) === '.') && value.indexOf('.') !== -1) {
-        value = value.substr(0, value.length - 1);
-    }
+  if (value.indexOf('.') === -1) {
     return value;
+  }
+
+  while ((value.slice(-1) === '0' || value.slice(-1) === '.') && value.indexOf('.') !== -1) {
+    value = value.substr(0, value.length - 1);
+  }
+  return value;
 }
 
 function checkValueLength(value) {
@@ -111,7 +111,7 @@ function checkValueLength(value) {
     if (value.split('.')[0].length > round || value.split('.')[1].length > point) {
       return false;
     } else {
-        return true;
+      return true;
     }
   } else {
     if (value.length > round) {
@@ -124,34 +124,34 @@ function checkValueLength(value) {
 
 function customValueToTokenValue(balance, defaultDecimals, decimals) {
   if (typeof balance === 'object') {
-    return balance.div(Math.pow(10, defaultDecimals-decimals))
+    return balance.div(Math.pow(10, defaultDecimals - decimals))
   }
-  return Number(balance) / Math.pow(10, defaultDecimals-decimals);
+  return Number(balance) / Math.pow(10, defaultDecimals - decimals);
 }
 
 function tokenValueToCustomValue(balance, defaultDecimals, decimals) {
   if (typeof balance === 'object') {
-    return balance.times(Math.pow(10, defaultDecimals-decimals)).toNumber();
+    return balance.times(Math.pow(10, defaultDecimals - decimals)).toNumber();
   }
-  return Number(balance) * Math.pow(10, defaultDecimals-decimals);
+  return Number(balance) * Math.pow(10, defaultDecimals - decimals);
 }
 
 function calcTokenBalanceWithRate(balance, rate, defaultDecimals, decimals) {
   if (!rate) return null;
   if (typeof balance === 'object') {
-    return balance.times(rate).div(Math.pow(10, defaultDecimals-decimals)).toNumber();
+    return balance.times(rate).div(Math.pow(10, defaultDecimals - decimals)).toNumber();
   }
-  return balance * rate / Math.pow(10, defaultDecimals-decimals);
+  return balance * rate / Math.pow(10, defaultDecimals - decimals);
 }
 
 // https://ethereum.stackexchange.com/questions/12867/how-to-check-for-valid-contract-address-using-web3
 function isAddress(address) {
-    // function isAddress(address) {
-    if (!/^(0x)[0-9a-f]{40}$/i.test(address)) {
-        return false;
-    } else {
-        return true;
-    }
+  // function isAddress(address) {
+  if (!/^(0x)[0-9a-f]{40}$/i.test(address)) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 // let isChecksumAddress = function (address) {
@@ -168,21 +168,21 @@ function isAddress(address) {
 // }
 
 function isIcxWalletAddress(address) {
-    const addressLowerCase = address.toLowerCase();
-    if (/^(hx)[0-9a-f]{40}$/.test(addressLowerCase)) {
-        return true;
-    } else {
-        return false;
-    }
+  const addressLowerCase = address.toLowerCase();
+  if (/^(hx)[0-9a-f]{40}$/.test(addressLowerCase)) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function isIcxContractAddress(address) {
-    const addressLowerCase = address.toLowerCase();
-    if (/^(cx)[0-9a-f]{40}$/.test(addressLowerCase)) {
-        return true;
-    } else {
-        return false;
-    }
+  const addressLowerCase = address.toLowerCase();
+  if (/^(cx)[0-9a-f]{40}$/.test(addressLowerCase)) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function isHex(hex) {
@@ -220,7 +220,7 @@ function getTypeText(type, language) {
 function check0xPrefix(string) {
   if (!string) return;
   string = string.toLowerCase();
-  if(string.startsWith('0x')) {
+  if (string.startsWith('0x')) {
     return string;
   } else {
     return '0x' + string;
@@ -230,7 +230,7 @@ function check0xPrefix(string) {
 function checkHxPrefix(string) {
   if (!string) return;
   string = string.toLowerCase();
-  if(string.startsWith('hx')) {
+  if (string.startsWith('hx')) {
     return string;
   } else {
     return 'hx' + string;
@@ -240,7 +240,7 @@ function checkHxPrefix(string) {
 function checkCxPrefix(string) {
   if (!string) return;
   string = string.toLowerCase();
-  if(string.startsWith('cx')) {
+  if (string.startsWith('cx')) {
     return string;
   } else {
     return 'cx' + string;
@@ -252,7 +252,7 @@ function delete0xPrefix(string) {
     return string;
   }
   string = string.toLowerCase();
-  if(string.startsWith('0x')) {
+  if (string.startsWith('0x')) {
     return string.slice(2);
   } else {
     return string;
@@ -260,12 +260,12 @@ function delete0xPrefix(string) {
 }
 
 function decimalToHex(d, padding) {
-    var hex = Number(d).toString(16);
-    padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;
-    while (hex.length < padding) {
-        hex = "0" + hex;
-    }
-    return hex;
+  var hex = Number(d).toString(16);
+  padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;
+  while (hex.length < padding) {
+    hex = "0" + hex;
+  }
+  return hex;
 }
 
 function formatDate() { var d = new Date(), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear(); if (month.length < 2) month = '0' + month; if (day.length < 2) day = '0' + day; return [year, month, day].join('-'); }
@@ -274,24 +274,24 @@ function formatDate() { var d = new Date(), month = '' + (d.getMonth() + 1), day
 /* https://gist.github.com/RHavar/a6511dea4d4c41aeb1eb */
 function randomUint32() {
   if (window && window.crypto && window.crypto.getRandomValues && Uint32Array) {
-      var o = new Uint32Array(1);
-      window.crypto.getRandomValues(o);
-      return o[0];
+    var o = new Uint32Array(1);
+    window.crypto.getRandomValues(o);
+    return o[0];
   } else {
-      console.warn('Falling back to pseudo-random client seed');
-      return Math.floor(Math.random() * Math.pow(2, 32));
+    console.warn('Falling back to pseudo-random client seed');
+    return Math.floor(Math.random() * Math.pow(2, 32));
   }
 }
 
 function calcMaxPageNum(total, rowNum) {
-  if(!Number(total)) return 1;
+  if (!Number(total)) return 1;
   return Math.ceil(total / rowNum);
 }
 
 function makeWalletNameArr(wallets) {
   let result = []
   if (Array.isArray(wallets)) {
-    Object.keys(wallets).forEach(key => {result.push(wallets[key].name)});
+    Object.keys(wallets).forEach(key => { result.push(wallets[key].name) });
   }
   return result
 }
@@ -299,9 +299,9 @@ function makeWalletNameArr(wallets) {
 function isWalletNameExists(wallets, name) {
   let nameArr = []
   if (wallets) {
-    Object.keys(wallets).forEach(key => {nameArr.push(wallets[key].name)});
+    Object.keys(wallets).forEach(key => { nameArr.push(wallets[key].name) });
   }
-  if (nameArr.indexOf(name) !== -1){
+  if (nameArr.indexOf(name) !== -1) {
     return true
   }
   else {
@@ -310,37 +310,37 @@ function isWalletNameExists(wallets, name) {
 }
 
 function nToBr(str) {
-  const arr = str.split('\n').map( (line, i) => {
-      return (<span style={{position: 'relative'}} key={i}>{line}<br/></span>);
+  const arr = str.split('\n').map((line, i) => {
+    return (<span style={{ position: 'relative' }} key={i}>{line}<br /></span>);
   });
   return arr;
 }
 
 function checkLength(message) {
-    if(!message) return 0
+  if (!message) return 0
 
-    let tmpStr;
-    let tcount = 0;
-    tmpStr = String(message);
+  let tmpStr;
+  let tcount = 0;
+  tmpStr = String(message);
 
-    for (var k = 0; k < tmpStr.length; k++) {
-        // [=91     \=92    ]=93    ^=94    {=123    |=124    }=125    ~=126 A~Z 65 ~ 90     a~z 97~122
-        if (tmpStr.charCodeAt(k) === 91 || tmpStr.charCodeAt(k) === 92 ||
-            tmpStr.charCodeAt(k) === 93 || tmpStr.charCodeAt(k) === 94 ||
-            tmpStr.charCodeAt(k) === 123 || tmpStr.charCodeAt(k) === 124 ||
-            tmpStr.charCodeAt(k) === 125 || tmpStr.charCodeAt(k) === 126 ||
-            tmpStr.charCodeAt(k) >= 128) {
-            tcount += 2;
-        } else if (tmpStr.charCodeAt(k) !== 13) {
-            tcount++;
-        }
+  for (var k = 0; k < tmpStr.length; k++) {
+    // [=91     \=92    ]=93    ^=94    {=123    |=124    }=125    ~=126 A~Z 65 ~ 90     a~z 97~122
+    if (tmpStr.charCodeAt(k) === 91 || tmpStr.charCodeAt(k) === 92 ||
+      tmpStr.charCodeAt(k) === 93 || tmpStr.charCodeAt(k) === 94 ||
+      tmpStr.charCodeAt(k) === 123 || tmpStr.charCodeAt(k) === 124 ||
+      tmpStr.charCodeAt(k) === 125 || tmpStr.charCodeAt(k) === 126 ||
+      tmpStr.charCodeAt(k) >= 128) {
+      tcount += 2;
+    } else if (tmpStr.charCodeAt(k) !== 13) {
+      tcount++;
     }
+  }
 
-    let tempArr = tmpStr.match(/\r?\n/g)
-    if(tempArr){
-        tcount += tempArr.length
-    }
-    return tcount
+  let tempArr = tmpStr.match(/\r?\n/g)
+  if (tempArr) {
+    tcount += tempArr.length
+  }
+  return tcount
 }
 
 function makeAddressStr(address, type) {
@@ -416,7 +416,7 @@ function makeIcxRawTx(isContract, data) {
   }
 
   if (isContract) {
-    rawTx =  {
+    rawTx = {
       from: data.from,
       to: data.contractAddress,
       version: "0x3",
@@ -425,8 +425,8 @@ function makeIcxRawTx(isContract, data) {
       timestamp: check0xPrefix(((new Date()).getTime() * 1000).toString(16)),
       dataType: 'call',
       data: {
-          "method": data.methodName,
-          "params": data.inputObj || {}
+        "method": data.methodName,
+        "params": data.inputObj || {}
       }
     };
     if (data.payableValue) {
@@ -473,22 +473,22 @@ function dataToHex(text) {
   let convertedText = '';
 
   for (let i = 0; i < text.length; i++) {
-      let originBytes = unescape(encodeURIComponent(text[i]));
-      for (let j = 0; j < originBytes.length; j++) {
-          bytes.push(originBytes[j].charCodeAt(0));
-      }
+    let originBytes = unescape(encodeURIComponent(text[i]));
+    for (let j = 0; j < originBytes.length; j++) {
+      bytes.push(originBytes[j].charCodeAt(0));
+    }
   }
 
   let textToHexFormat = '%x'
   for (var i = 0; i < bytes.length; i++) {
-      let byte = bytes[i];
-      let hexByte = byte.toString(16);
-      if (hexByte.length === 1) {
-          hexByte = '0' + hexByte;
-      }
-      let char = textToHexFormat;
-      char = char.replace(/%x/g, hexByte);
-      convertedText += char;
+    let byte = bytes[i];
+    let hexByte = byte.toString(16);
+    if (hexByte.length === 1) {
+      hexByte = '0' + hexByte;
+    }
+    let char = textToHexFormat;
+    char = char.replace(/%x/g, hexByte);
+    convertedText += char;
   }
 
   return convertedText;
@@ -502,13 +502,13 @@ function getHexByteLength(input) {
   return input / 2;
 }
 
-function isObject (value) {
+function isObject(value) {
   return value && typeof value === 'object' && value.constructor === Object;
 }
 
-function checkURLSuffix (value) {
+function checkURLSuffix(value) {
   if (!value) return value;
-  return value[value.length-1] === '/' ? value.slice(0, -1) : value
+  return value[value.length - 1] === '/' ? value.slice(0, -1) : value
 }
 
 function calcIcxMessageKB({
@@ -516,6 +516,18 @@ function calcIcxMessageKB({
   data
 }) {
   return dataType === 'utf8' ? bytesToKB(getHexByteLength(checkLength(dataToHex(data)))) : bytesToKB(getHexByteLength(data.length))
+}
+
+function fromHexToDec(num) {
+  if (!num) return 0
+  else if ((String(num)).startsWith('0x')) return (new BigNumber(num)).toString(10)
+  else return num
+}
+
+function fromDecToHex(num) {
+  if (!num) return 0x0 
+  else if ((String(num)).startsWith('0x')) return num
+  else return '0x' + (new BigNumber(num)).toString(16)
 }
 
 export {
@@ -560,5 +572,7 @@ export {
   isObject,
   checkURLSuffix,
   calcIcxMessageKB,
-  getHexByteLength
+  getHexByteLength,
+  fromHexToDec,
+  fromDecToHex
 }

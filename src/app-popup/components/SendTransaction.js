@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
-import { convertNumberToText } from 'utils'
+import { convertNumberToText, fromHexToDec } from 'utils'
 import { setIcxWalletServer, icx_getStepPrice, icx_fetchCoinBalanceApi } from 'redux/api/walletIcxApi'
 import { routeConstants as ROUTE } from 'constants/index.js';
 import { getCurrentServer, icxServerList } from 'constants/config'
@@ -73,23 +73,22 @@ class SendTransaction extends Component {
 	}
 
 	confirmTransaction = () => {
+		const { I18n } = this.props
 		const { stepLimit } = this.state
 		if (stepLimit) {
 			this.cancelClicked = true
 			const { stepPrice } = this.state
-			const stepPriceIcx = window.web3.fromWei(stepPrice, 'ether')
-			const maxStepIcx = stepLimit * stepPriceIcx
-			this.props.setTransactionStep({ stepLimit, maxStepIcx })
+			this.props.setScoreStep({ stepLimit, stepPrice })
 			this.props.history.push(ROUTE['check'])
 		}
 		else {
-			this.setState({ stepLimitError: 'Step 한도를 입력해주세요.' })
+			this.setState({ stepLimitError: I18n.error.enterGasPrice })
 		}
 	}
 
 	cancelTransaction = closed => {
 		this.cancelClicked = true
-		window.chrome.tabs.sendMessage(this.props.tabId, { type: 'CANCEL_TRANSACTION' });
+		window.chrome.tabs.sendMessage(this.props.tabId, { type: 'CANCEL_SCORE' });
 		if (!closed) {
 			this.closePopup()
 		}
@@ -99,9 +98,12 @@ class SendTransaction extends Component {
 		const { name, balance, stepLimit, stepLimitError, stepPrice, showServerList } = this.state
 		const { I18n, rate, transaction } = this.props
 		const { icx: icxRate } = rate
-		const { raw } = transaction
-		const { to, value } = raw
+		const { param } = transaction
+		const { params } = param
+		const { to, value } = params
 
+		const valueIcx = window.web3.fromWei(fromHexToDec(value), 'ether')
+		const valueUsd = valueIcx * icxRate
 		const stepPriceNum = !isNaN(stepPrice) ? stepPrice : 0
 		const stepPriceIcx = window.web3.fromWei(stepPriceNum, 'ether')
 		const stepPriceGloop = window.web3.fromWei(stepPriceNum, 'Gwei')
@@ -141,9 +143,9 @@ class SendTransaction extends Component {
 						<div className="list-holder coin-num">
 							<span className="name">{I18n.transferPageLabel1}</span>
 							<div className="align-r">
-								<p>{convertNumberToText(value, 'icx', true)}<em>ICX</em></p>
+								<p>{convertNumberToText(valueIcx, 'icx', true)}<em>ICX</em></p>
 								<p className="zero">{convertNumberToText(icxRate, 'usd', false)}<em>USD</em></p>
-								<p>{convertNumberToText(value * icxRate, 'usd', false)}<em>USD</em></p>
+								<p>{convertNumberToText(valueUsd, 'usd', false)}<em>USD</em></p>
 							</div>
 						</div>
 						<div className="list-holder">

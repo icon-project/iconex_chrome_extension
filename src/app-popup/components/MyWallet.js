@@ -40,14 +40,11 @@ class MyWallet extends Component {
 			}
 			else {
 				this.cancelClicked = true
-				const { wallets, tabId, transaction, score, signing } = this.props;
-				if (transaction.raw) {
+				const { wallets, tabId, transaction, signing } = this.props;
+				if (transaction.param) {
 					const wallet = wallets[transaction.from]
-					this.props.setTransactionWallet({ wallet, privKey })
+					this.props.setScoreWallet({ wallet, privKey })
 					this.props.history.push(ROUTE['send'])
-				}
-				else if (score.param) {
-					this.props.callScore({ tabId, privKey, param: score.param })
 				}
 				else if (signing.hash) {
 					this.props.callSigning({ tabId,	privKey, hash: signing.hash })
@@ -128,10 +125,7 @@ class MyWallet extends Component {
 		}
 
 		let type = 'CANCEL'
-		if (this.props.transaction.raw) {
-			type += '_TRANSACTION'
-		}
-		else if (this.props.score.param) {
+ 		if (this.props.transaction.param) {
 			type += '_SCORE'
 		}
 		else if (this.props.signing.hash) {
@@ -145,17 +139,14 @@ class MyWallet extends Component {
 	}
 
 	getIsInput = (wallet) => {
-		const { transaction, score, signing } = this.props
-		const from = transaction.from || score.from || signing.from
+		const { transaction, signing } = this.props
+		const from = transaction.from || signing.from
 		return wallet.account === from
 	}
 
 	getTxHash = () => {
-		const { score, signing } = this.props
-		if (score.param) {
-			return makeTxHash(score.param.params)
-		}
-		else if (signing.hash) {
+		const { signing } = this.props
+		if (signing.hash) {
 			return signing.hash
 		}
 		else {
@@ -236,7 +227,7 @@ class MyWallet extends Component {
 													selected={selected}
 													selectAddress={this.selectAddress}
 
-													isTransaction={!!transaction.raw}
+													isTransaction={!!transaction.param}
 													isInput={isInput}
 													txHash={txHash}
 													confirmPassword={this.confirmPassword}

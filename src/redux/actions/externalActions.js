@@ -13,34 +13,6 @@ export function setAddressRequest(payload) {
     }
 }
 
-export function setTransaction(payload) {
-    return {
-        type: actionTypes.setTransaction,
-        payload
-    }
-}
-
-export function setTransactionWallet(payload) {
-    return {
-        type: actionTypes.setTransactionWallet,
-        payload
-    }
-}
-
-export function setTransactionStep(payload) {
-    return {
-        type: actionTypes.setTransactionStep,
-        payload
-    }
-}
-
-export function callSendTransaction(payload) {
-    return {
-        type: actionTypes.callSendTransaction,
-        payload
-    }
-}
-
 export function setScore(payload) {
     return {
         type: actionTypes.setScore,
@@ -48,10 +20,24 @@ export function setScore(payload) {
     }
 }
 
+export function setScoreWallet(payload) {
+    return {
+        type: actionTypes.setScoreWallet,
+        payload
+    }
+}
+
+export function setScoreStep(payload) {
+    return {
+        type: actionTypes.setScoreStep,
+        payload
+    }
+}
+
 export function callScore(payload) {
     return {
         type: actionTypes.callScore,
-        payload,
+        payload
     }
 }
 

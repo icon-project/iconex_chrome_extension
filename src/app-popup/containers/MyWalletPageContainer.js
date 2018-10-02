@@ -2,8 +2,7 @@ import { connect } from 'react-redux';
 import MyWallet from 'app-popup/components/MyWallet';
 import { getWallet, fetchAll, setSelectedWallet } from 'redux/actions/walletActions';
 import { sendCall } from 'redux/actions/exchangeTransactionActions'
-import { getRate } from 'redux/actions/rateActions';
-import { initExternalState, setTransactionWallet, callScore, callSigning } from 'redux/actions/externalActions';
+import { initExternalState, setScoreWallet, callSigning } from 'redux/actions/externalActions';
 import { withRouter } from 'react-router-dom';
 
 function mapStateToProps(state) {
@@ -15,7 +14,6 @@ function mapStateToProps(state) {
     tabId: state.external.tabId,
     addressRequest: state.external.addressRequest,
     transaction: state.external.transaction,
-    score: state.external.score,
     signing: state.external.signing,
   };
 }
@@ -28,8 +26,7 @@ function mapDispatchToProps(dispatch) {
     fetchAll: (o) => dispatch(fetchAll(o)),
 
     initExternalState: () => dispatch(initExternalState()),
-    setTransactionWallet: (payload) => dispatch(setTransactionWallet(payload)),
-    callScore: (payload) => dispatch(callScore(payload)),
+    setScoreWallet: (payload) => dispatch(setScoreWallet(payload)),
     callSigning: (payload) => dispatch(callSigning(payload)),
   };
 }

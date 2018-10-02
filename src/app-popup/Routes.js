@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Redirect, HashRouter } from 'react-router-dom';
 import MyWalletPage from 'app-popup/pages/MyWalletPage';
+import SendTransactionPage from 'app-popup/pages/SendTransactionPage';
+import CheckTransactionPage from 'app-popup/pages/CheckTransactionPage';
+import CompleteTransactionPage from 'app-popup/pages/CompleteTransactionPage';
 import LockPage from 'app-popup/pages/LockPage';
 import { routeConstants as ROUTE } from 'constants/index';
 import { chromeStorage, chromeStorageLocal } from 'utils'
@@ -9,17 +12,17 @@ import queryString from 'query-string'
 const PrivateRoute = ({ component: Component, isLocked, ...rest }) => (
   <Route exact {...rest} render={props => (
     isLocked
-      ? (<Redirect to={ROUTE['lock']}/>)
-      : (<Component {...props}/>)
-  )}/>
+      ? (<Redirect to={ROUTE['lock']} />)
+      : (<Component {...props} />)
+  )} />
 )
 
 const LoginRoute = ({ component: Component, isLoggedIn, isLocked, ...rest }) => (
   <Route {...rest} render={props => (
     isLocked
-      ? (<Component {...props}/>)
-      : (<Redirect to={ROUTE['home']}/>)
-  )}/>
+      ? (<Component {...props} />)
+      : (<Redirect to={ROUTE['home']} />)
+  )} />
 )
 
 class Routes extends Component {
@@ -30,8 +33,8 @@ class Routes extends Component {
     }
   }
 
-  componentWillMount(){
-    (async ()=>{
+  componentWillMount() {
+    (async () => {
       await new Promise(function (resolve, reject) {
         chromeStorageLocal.get(null, result => {
           chromeStorage.set(result, () => {
@@ -61,27 +64,28 @@ class Routes extends Component {
     let { payload } = message
     payload = typeof payload === 'string' ? JSON.parse(payload) : payload
     switch (type) {
-      case 'SET_LOCK_STATE':
-        this.props.setLockState(message.payload);
-        break;
       case 'REQUEST_ADDRESS':
-        this.props.setIsRequestedStatus(true)
-        this.props.setTransactionStatus()
+        this.props.setAddressRequest(payload)
         break;
       case 'REQUEST_TRANSACTION':
-        this.props.setTransactionStatus(payload)
+        this.props.setTransaction(payload)
         break;
       case 'REQUEST_SCORE':
         const { param } = payload
         if (param.method === 'icx_sendTransaction') {
-          this.props.setScoreData(payload)
+          this.props.setScore(payload)
         }
+        break;
+      case 'REQUEST_SIGNING':
+        this.props.setSigning(payload)
+        break;
+      case 'SET_LOCK_STATE':
+        this.props.setLockState(message.payload);
         break;
       case 'CHECK_POPUP_LOCK_STATE_FULFILLED':
         this.props.setLockState(message.payload);
         this.props.checkAuth();
         this.props.getWallet();
-
         break;
       default:
     }
@@ -91,15 +95,18 @@ class Routes extends Component {
     const { initLoading, isLocked, language } = this.props;
     return (
       <div className={`${navigator.platform.indexOf('Mac') > -1 ? 'isMac' : ''} empty`}>
-        { !initLoading && (
-        <HashRouter>
-          <div>
-            <div className={`${language}`}>
-              <PrivateRoute path={ROUTE['home']} isLocked={isLocked} component={MyWalletPage} />
-              <LoginRoute path={ROUTE['lock']} isLocked={isLocked} component={LockPage} />
+        {!initLoading && (
+          <HashRouter>
+            <div>
+              <div className={`${language}`}>
+                <PrivateRoute path={ROUTE['home']} isLocked={isLocked} component={MyWalletPage} />
+                <PrivateRoute path={ROUTE['send']} isLocked={isLocked} component={SendTransactionPage} />
+                <PrivateRoute path={ROUTE['check']} isLocked={isLocked} component={CheckTransactionPage} />
+                <PrivateRoute path={ROUTE['complete']} isLocked={isLocked} component={CompleteTransactionPage} />
+                <LoginRoute path={ROUTE['lock']} isLocked={isLocked} component={LockPage} />
+              </div>
             </div>
-          </div>
-        </HashRouter>
+          </HashRouter>
         )}
       </div>
     );

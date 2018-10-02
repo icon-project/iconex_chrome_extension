@@ -30,3 +30,7 @@ yarn-error.log*
 
 # zip
 *.zip
+
+# package
+*.crx
+*.pem

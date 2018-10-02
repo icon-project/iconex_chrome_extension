@@ -578,6 +578,9 @@ export default {
     txFeeIcx: 'Max Fee',
     txFeeEth: 'Max Fee',
     address: 'Address',
+    sendingAddress: 'Sending Address',
+    receivingAddress: 'Receiving Address',
+    titleInfoShort: 'Check the amount and the address once again.',
 
     icxFailure: 'An error occurred while sending transaction.',
     infoFailure: 'Your transaction has been canceled.<br/>Please try again with a higher gas price.',

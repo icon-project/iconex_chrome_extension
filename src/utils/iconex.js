@@ -120,9 +120,27 @@ function openApp() {
   }, function(tab){});
 }
 
+function makeTxHash(rawTx) {
+  const phraseToSign = generateHashKey(rawTx);
+  return sha3_256.update(phraseToSign).hex();
+}
+
+function signHashcode(privKey, hashcode) {
+  console.log('signHashcode', hashcode)
+  const message = new Buffer(hashcode, 'hex');
+  const privateKey = new Buffer(privKey, 'hex');
+  const sign = secp256k1.sign(message, privateKey);
+  const recovery = new Uint8Array(1);
+  recovery[0] = sign.recovery;
+  const signature = concatTypedArrays(sign.signature, recovery);
+  const b64encoded = btoa(String.fromCharCode.apply(null, signature));
+  return b64encoded
+}
+
 function signRawTx(privKey, rawTx) {
   const phraseToSign = generateHashKey(rawTx);
   const hashcode = sha3_256.update(phraseToSign).hex();
+  console.log('signRawTx', hashcode)
   const message = new Buffer(hashcode, 'hex');
   const privateKey = new Buffer(privKey, 'hex');
   const sign = secp256k1.sign(message, privateKey);
@@ -254,5 +272,7 @@ export {
   isIRCTokenFunc,
   parseError,
   openApp,
-  signRawTx
+  signRawTx,
+  signHashcode,
+  makeTxHash
 }

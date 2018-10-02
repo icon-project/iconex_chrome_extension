@@ -14,7 +14,7 @@ const generateStore = (port) => {
       persistState(null, {
         slicer: (paths) => (state) => {
           return {
-            global: state['global']
+            global: state['global'],
           }
         }
       }),

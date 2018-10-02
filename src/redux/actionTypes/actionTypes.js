@@ -19,10 +19,6 @@ const actionTypes = {
   setLockRejected: 'SET_LOCK_REJECTED',
   changePasscodeHash: 'CHANGE_PASSCODE_HASH',
   setShowNotice: 'SET_SHOW_NOTICE',
-  setScoreData: 'SET_SCORE_DATA',
-  callScoreExternally: 'CALL_SCORE_EXTERNALLY',
-  callScoreExternallyFulfilled: 'CALL_SCORE_EXTERNALLY_FULFILLED',
-  callScoreExternallyRejected: 'CALL_SCORE_EXTERNALLY_REJECTED',
 
   // signupActions
   setWalletName: 'SET_WALLET_NAME',
@@ -153,9 +149,6 @@ const actionTypes = {
   fetchTransactionHistoryRejected: 'FETCH_TRANSACTION_HISTORY_REJECTED',
   resetHistoryReducer: 'RESET_HISTORY_REDUCER',
 
-  setIsRequestedStatus: 'SET_IS_REQUESTED_STATUS',
-  setTransactionStatus: 'SET_TRANSACTION_STATUS',
-
   // contractActions
   setContractAddress: 'SET_CONTRACT_ADDRESS',
   setContractAddressError: 'SET_CONTRACT_ADDRESS_ERROR',
@@ -186,6 +179,20 @@ const actionTypes = {
   addTokenFulfilledForLedger: 'ADD_TOKEN_FULFILLED_FOR_LEDGER',
   fetchTokenBalanceFulfilledForLedger: 'FETCH_TOKEN_BALANCE_FULFILLED_FOR_LEDGER',
 
+  //externalActions
+  initExternalState: 'INIT_EXTERNAL_STATE',
+  setAddressRequest: 'SET_ADDRESS_REQUEST',
+  setTransaction: 'SET_TRANSACTION',
+  setTransactionWallet: 'SET_TRANSACTION_WALLET',
+  setTransactionStep: 'SET_TRANSACTION_STEP',
+  callSendTransaction: 'CALL_SEND_TRANSACTION',
+  callSendTransactionFulfilled: 'CALL_SEND_TRANSACTION_FULFILLED',
+  callSendTransactionRejected: 'CALL_SEND_TRANSACTION_REJECTED',
+  setScore: 'SET_SCORE',
+  callScore: 'CALL_SCORE',
+  setSigning: 'SET_SIGNING',
+  callSigning: 'CALL_SIGNING',
+  
   //addressBookActions
   addAddressInAddressBook: 'ADD_ADDRESS_IN_ADDRESS_BOOK',
   deleteAddressInAddressBook: 'DELETE_ADDRESS_IN_ADDRESS_BOOK',

@@ -169,12 +169,13 @@ input.error{    border-bottom: 2px solid #ff3344;}
 
 .remittance.complete{}
 .remittance.complete .content-wrap{padding: 0;}
-.remittance.complete .scroll{text-align: center; padding: 0px 50px 26px; display: table; height: auto; position: absolute; top: 0; bottom: 0; margin: auto;}
+.remittance.complete .scroll{text-align: center; padding: 0px 50px 26px; display: table; height: auto; position: absolute; top: 0; bottom: 0; margin: auto; width: 100%;}
 .remittance.complete p{font-size: 14px; color: #262626; font-weight: 500; padding: 28px 0px 9px; }
 .remittance.complete .content-wrap span{ font-size: 12px; color: #1daab9; text-decoration: underline;}
 .remittance.complete ._img{width: 81px; height: 78px; background-position: -50px 0;}
-
-
+.remittance.fail .scroll{text-align: center; padding: 0px 0px 26px; display: table; height: auto; position: absolute; top: 0; bottom: 0; margin: auto; width: 100%;}
+.remittance.fail ._img{width: 75px; height: 65px; background-position: -50px -85px; margin-bottom: 44px;}
+.remittance.fail .footer button{width: 100%;}
 .footer.cols-2{height: 50px; border-top: none; cursor: default; padding: 11px 12px;}
 .footer.cols-2 button{width: 49%;}
 

@@ -712,5 +712,10 @@ export default {
     walletFinish: 'Wallet has been created.',
 
     manualFileName: '[Manual]_How_to_create_ICONex_ETH_wallet',
+  },
+
+  completeTransaction: {
+    success: 'Transfer Request Complete.<br/>You can check the transaction history<br/>on ICON Tracker.',
+    fail: 'Transfer Request Failed.<br/>Please try again.'
   }
 };

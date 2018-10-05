@@ -578,6 +578,9 @@ export default {
     txFeeIcx: 'Max Fee',
     txFeeEth: 'Max Fee',
     address: 'Address',
+    sendingAddress: 'Sending Address',
+    receivingAddress: 'Receiving Address',
+    titleInfoShort: 'Check the amount and the address once again.',
 
     icxFailure: 'An error occurred while sending transaction.',
     infoFailure: 'Your transaction has been canceled.<br/>Please try again with a higher gas price.',
@@ -709,5 +712,10 @@ export default {
     walletFinish: 'Wallet has been created.',
 
     manualFileName: '[Manual]_How_to_create_ICONex_ETH_wallet',
+  },
+
+  completeTransaction: {
+    success: 'Transfer Request Complete.<br/>You can check the transaction history<br/>on ICON Tracker.',
+    fail: 'Transfer Request Failed.<br/>Please try again.'
   }
 };

@@ -579,6 +579,9 @@ export default {
     txFeeEth: '예상 최대 수수료',
     quantity: '송금 수량',
     address: '받는 주소',
+    sendingAddress: '보내는 주소',
+    receivingAddress: '받는 주소',
+    titleInfoShort: '수량과 주소를 한번 더 확인해 주세요.',
 
     icxFailure: '오류로 인해 트랜잭션이 실패하였습니다.',
     infoFailure: '송금이 취소되었습니다.<br/>가스 가격을 높게 설정하여<br/>다시 한번 시도해 주세요.',
@@ -711,5 +714,10 @@ export default {
     walletFinish: '지갑 만들기 완료',
 
     manualFileName: '[Manual]_How_to_create_ICONex_ETH_wallet_kr',
+  },
+
+  completeTransaction: {
+    success: '송금 요청이 완료되었습니다.<br/>거래 내역은 ICON Tracker에서<br/>조회 가능합니다.',
+    fail: '송금 요청을 실패했습니다.<br/>다시 시도해 주세요.'
   }
 };

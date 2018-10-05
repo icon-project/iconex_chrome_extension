@@ -160,37 +160,41 @@ function objTraverse(obj){
   let keys;
   keys = Object.keys(obj);
   keys.sort();
-  for(let i=0;i<keys.length;i++){
-    const key = keys[i]
-    const value = obj[key];
-    switch(true) {
-      case (value === null) : {
-        result +=`${key}.`;
-        result += String.raw`\0`;
-        break;
+  if (keys.length > 0) {
+    for(let i=0;i<keys.length;i++){
+      const key = keys[i]
+      const value = obj[key];
+      switch(true) {
+        case (value === null) : {
+          result +=`${key}.`;
+          result += String.raw`\0`;
+          break;
+        }
+        case (typeof value === 'string') : {
+          result += `${key}.`
+          result += escapeString(value)
+          break;
+        }
+        case (Array.isArray(value)) : {
+          result+= `${key}.`
+          result += arrTraverse(value)
+          break;
+        }
+        case (typeof value === 'object') : {
+          result+= `${key}.`
+          result += objTraverse(value);
+          break;
+        }
+        default:
+          break;
       }
-      case (typeof value === 'string') : {
-        result += `${key}.`
-        result += escapeString(value)
-        break;
-      }
-      case (Array.isArray(value)) : {
-        result+= `${key}.`
-        result += arrTraverse(value)
-        break;
-      }
-      case (typeof value === 'object') : {
-        result+= `${key}.`
-        result += objTraverse(value);
-        break;
-      }
-      default:
-        break;
+      result += '.'
     }
-    result += '.'
+    result = result.slice(0, -1);
+    result += '}';
+  } else {
+    result += '}';
   }
-  result = result.slice(0, -1);
-  result += '}';
   return result;
 }
 

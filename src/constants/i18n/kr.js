@@ -67,7 +67,7 @@ export default {
 
     currentPasscodeEnter: '현재 잠금 번호를 입력해주세요.',
     passcodeEnter: '잠금 번호를 입력해주세요.',
-    currentPasscodeFail: '잠금 번호가 올바르지 않습니다.',
+    currentPasscodeFail: '잠금번호를 다시 확인해주세요.',
     passcodeSix: '숫자 6자리를 입력해주세요.',
     passcodeSame: '잠금 번호가 일치하지 않습니다.',
     currentPasscodeSame: '현재 잠금 번호와 일치합니다.',
@@ -266,7 +266,7 @@ export default {
   myPageLabel3: '현재 잠금 번호',
   myPagePlaceholder1: '숫자 6자리 입력',
   myPagePlaceholder2: '비밀번호 입력',
-  myPageLockSuccess: '잠금번호가 설정되었습니다.',
+  myPageLockSuccess: '지갑 비밀번호와 잠금번호를 기억해주세요.<br/>잠금 설정을 하시겠습니까?',
   myPageLockChangeSuccess: '잠금번호가 재설정되었습니다.',
 
   transferPageInfo1: '송금 버튼을 누른 후에는 취소할 방법이 없습니다. 수량과 받는 주소를 한번 더 확인해주세요.',

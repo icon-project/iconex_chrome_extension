@@ -29,39 +29,65 @@ class ChangePasscode2 extends Component {
   }
 
   setValue = (valueObject) => {
-    this.setState(valueObject)
+    const { I18n } = this.props;
+    const key = Object.keys(valueObject)[0]
+    const value = valueObject[key]
+
+    valueObject[`${key}Error`] = undefined
+
+    if (value === '') {
+      valueObject[`${key}Error`] = I18n.error.passcodeEnter
+    } else if (value.length !== 6) {
+      valueObject[`${key}Error`] = I18n.error.passcodeSix
+    }
+
+    this.setState(valueObject, () => {
+      const { first, second, firstError, secondError } = this.state;
+      if (first && second && !firstError && !secondError) this.validatePasscode();
+    })
   }
 
-  changePasscode = () => {
+  validatePasscode = () => {
     const { first, second } = this.state
     const { I18n } = this.props;
 
     if (first === '') {
       this.setState({firstError: I18n.error.passcodeEnter})
-      return
+      return false
     }
     if (first.length !== 6) {
       this.setState({firstError: I18n.error.passcodeSix})
-      return
+      return false
+    }
+    if (second === '') {
+      this.setState({secondError: I18n.error.passcodeEnter})
+      return false
+    }
+    if (second.length !== 6) {
+      this.setState({secondError: I18n.error.passcodeSix})
+      return false
     }
     const newPasscodeHash = hash.sha256().update(first).digest('hex')
     if (this.props.passcodeHash === newPasscodeHash) {
       this.setState({firstError: I18n.error.currentPasscodeSame})
-      return
-    }
-    if (second === '') {
-      this.setState({secondError: I18n.error.passcodeEnter})
-      return
+      return false
     }
     if (first !== second) {
       this.setState({secondError: I18n.error.passcodeSame})
-      return
+      return false
     }
-    const passcodeHash = hash.sha256().update(first).digest('hex')
-    this.props.setLock(passcodeHash)
-    this.setState({
-      showPasscodeChangingSuccess: true
-    });
+    return true;
+  }
+
+  changePasscode = () => {
+    const result = this.validatePasscode();
+    if (result) {
+      const passcodeHash = hash.sha256().update(this.state.first).digest('hex')
+      this.props.setLock(passcodeHash)
+      this.setState({
+        showPasscodeChangingSuccess: true
+      });
+    }
   }
 
   closeAlert = () => {

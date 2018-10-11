@@ -266,7 +266,7 @@ export default {
   myPageLabel3: 'Current Passcode',
   myPagePlaceholder1: 'Enter 6-digit number',
   myPagePlaceholder2: 'Enter password',
-  myPageLockSuccess: 'Screen is locked.',
+  myPageLockSuccess: 'Do you want to lock?',
   myPageLockChangeSuccess: 'Your passcode has been changed.',
 
   transferPageInfo1: 'Please check the amount and the address. You CANNOT cancel the transaction after you confirm.',

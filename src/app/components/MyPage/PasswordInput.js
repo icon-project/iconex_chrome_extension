@@ -26,7 +26,7 @@ class PasswordInput extends Component{
 
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      this.props.setInputValue(this.state.value, ()=>{
+      this.props.setInputValue(this.state.value, () => {
         this.props.handleKeyPress();
       })
     }

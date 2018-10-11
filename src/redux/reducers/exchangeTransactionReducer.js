@@ -47,6 +47,23 @@ const initialState = {
   ...txFeeLimitState
 }
 
+export function validateSwapCoinQuantityError(state) {
+  const isToken = store.getState().wallet.selectedWallet.isToken;
+  let error = '';
+  if (!state.coinQuantity) {
+    error = 'coinAmount'
+  } else if (state.coinQuantity === '0') {
+    error = 'coinAmountZero'
+  } else if (state.coinQuantity !== '0' && !isToken && !state.calcData.isWalletCoinBalanceMinus && state.calcData.isResultBalanceMinus) {
+    error = 'notEnoughBalance'
+  } else if (state.coinQuantity !== '0' && state.calcData.isResultBalanceMinus) {
+    error = 'coinAmountBalance'
+  } else {
+    error = ''
+  }
+  return error
+}
+
 export function validateCoinQuantityError(state) {
   const isToken = store.getState().wallet.selectedWallet.isToken;
   let error = '';
@@ -337,7 +354,7 @@ export function exchangeTransactionReducer(state = initialState, action) {
           submit: submit
         })
       } else {
-        const coinQuantityError = validateCoinQuantityError(state);
+        const coinQuantityError = action.options['isSwap'] ? validateSwapCoinQuantityError(state) : validateCoinQuantityError(state);
         const recipientAddressError = validateRecipientAddressError(state);
         const txFeeLimitError = action.options['isSwap'] ? '' : validateTxFeeLimitError(state);
         const dataError = state.calcData.walletCoinType === 'icx' && state.dataType === 'utf8'
@@ -374,6 +391,12 @@ export function exchangeTransactionReducer(state = initialState, action) {
       })
     case actionTypes.setCoinQuantityError: {
       let error = validateCoinQuantityError(state);
+      return Object.assign({}, state, {
+          coinQuantityError: error
+      })
+    }
+    case actionTypes.setSwapCoinQuantityError: {
+      let error = validateSwapCoinQuantityError(state);
       return Object.assign({}, state, {
           coinQuantityError: error
       })

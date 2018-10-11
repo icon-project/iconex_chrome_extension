@@ -37,7 +37,11 @@ class QuantitySetter extends Component {
 
   handleInputBlur = () => {
     this.props.setCoinQuantity(trimLeftZero(this.props.coinQuantity), false);
-    this.props.setCoinQuantityError();
+    if (this.props.swapPage) {
+      this.props.setSwapCoinQuantityError();
+    } else {
+      this.props.setCoinQuantityError();
+    }
   }
 
   toggleCheckBox = (balance) => {

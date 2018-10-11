@@ -107,7 +107,7 @@ export default {
     alertHistoryTransaction: '송금 받을 수 있는 최근 거래 주소가 없습니다.',
 
     coinAmount: '코인 수량을 입력해주세요.',
-    coinAmountZero: '0보다 많은 코인 수량을 입력해주세요.',
+    coinAmountZero: '스왑할 수량을 입력해 주세요.',
     coinAmountBalance: '보유 수량보다 적게 입력해주세요.',
 
     transferAddressEnter: '송금 받는 주소를 입력해주세요.',

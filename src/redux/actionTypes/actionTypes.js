@@ -129,6 +129,7 @@ const actionTypes = {
   setCalcData: 'SET_CALC_DATA',
   setWalletSelectorError: 'SET_WALLET_SELECTOR_ERROR',
   setCoinQuantityError: 'SEND_COIN_QUANTITY_ERROR',
+  setSwapCoinQuantityError: 'SET_SWAP_COIN_QUANTITY_ERROR',
   setRecipientAddressError: 'SEND_RECIPIENT_ADDRESS_ERROR',
   setDataError: 'SEND_DATA_ERROR',
   setTxFeeLimitError: 'SET_TX_FEE_LIMIT_ERROR',

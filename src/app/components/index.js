@@ -52,6 +52,8 @@ import AddToken from './Popup/_07_addToken/AddToken';
 import AddToken1 from './Popup/_07_addToken/AddToken_1';
 import AddToken2 from './Popup/_07_addToken/AddToken_2';
 import DeleteWallet from './Popup/_08_deleteWallet/DeleteWallet';
+import DeleteWallet1 from './Popup/_08_deleteWallet/DeleteWallet_1';
+import DeleteWallet2 from './Popup/_08_deleteWallet/DeleteWallet_2';
 import ExportWallet from './Popup/_09_exportWallet/ExportWallet';
 import ExportWallet1 from './Popup/_09_exportWallet/ExportWallet_1';
 import ExportWallet2 from './Popup/_09_exportWallet/ExportWallet_2';
@@ -163,7 +165,7 @@ export {
   SwapToken5,
   SwapToken6,
   ConnectLedger,
-  
+
   // *** MY WALLET PAGE *** //
   MyWallet,
   MyWalletHeader,
@@ -187,6 +189,8 @@ export {
   AddToken1,
   AddToken2,
   DeleteWallet,
+  DeleteWallet1,
+  DeleteWallet2,
   ExportWallet,
   ExportWallet1,
   ExportWallet2,

@@ -19,37 +19,37 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 			const isShown = await notificationManager.isShown(popupId)
 			const tabId = portFrom.sender.tab.id
 			const { type } = message
-			const payload = message.payload ? message.payload : {}
-			let wallets
 			switch (type) {
 				case 'REQUEST_HAS_ACCOUNT': {
-					wallets = await getWalletApi()
+					const wallets = await getWalletApi()
 					const hasAccount = Object.keys(wallets).some(address => wallets[address].type === 'icx')
 					window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_HAS_ACCOUNT', payload: { hasAccount } });
 					break;
 				}
 				case 'REQUEST_HAS_ADDRESS': {
-					wallets = await getWalletApi()
-					const hasAddress = Object.keys(wallets).some(address => address === payload.address)
+					const { payload } = message
+					const wallets = await getWalletApi()
+					const hasAddress = Object.keys(wallets).some(address => address === payload)
 					window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_HAS_ADDRESS', payload: { hasAddress } });
 					break;
 				}
-				case 'REQUEST_SCORE': {
-					const { param } = payload
+				case 'REQUEST_JSON-RPC': {
+					const { payload: param } = message
 					if (param.method !== 'icx_sendTransaction') {
 						try {
 							const result = await icx_callScoreExternally(param)
-							window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_SCORE', payload: result });
+							window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_JSON-RPC', payload: result });
 						}
 						catch (error) {
-							window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_SCORE', payload: error });
+							window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_JSON-RPC', payload: error });
 						}
 						break;
 					}
 				}
 				case 'REQUEST_ADDRESS':
 				case 'REQUEST_SIGNING': {
-					payload.tabId = tabId
+					const { payload: data } = message
+					const payload = { tabId, data }
 					if (isShown) {
 						window.chrome.extension.sendMessage({ type, payload })
 					}

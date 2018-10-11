@@ -13,11 +13,11 @@ export function* callScoreFunc(action) {
         const payload = yield call(CALL_SCORE_EXTERNALLY, param)
         const txHash = payload.result
         yield put({ type: AT.callScoreFulfilled, payload: { txHash } });
-        window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_SCORE', payload });
+        window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_JSON-RPC', payload });
     }
     catch (error) {
         yield put({ type: AT.callScoreRejected, payload: { error } });
-        window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_SCORE', payload: error });
+        window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_JSON-RPC', payload: error });
     }
 }
 export function* callSigningFunc(action) {

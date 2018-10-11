@@ -88,7 +88,7 @@ class SendTransaction extends Component {
 
 	cancelTransaction = closed => {
 		this.cancelClicked = true
-		window.chrome.tabs.sendMessage(this.props.tabId, { type: 'CANCEL_SCORE' });
+		window.chrome.tabs.sendMessage(this.props.tabId, { type: 'CANCEL_JSON-RPC' });
 		if (!closed) {
 			this.closePopup()
 		}

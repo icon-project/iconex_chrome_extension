@@ -362,6 +362,8 @@ function onlyKorEngNum(text) {
 }
 
 function isValidWalletName(name) {
+  if (/\s\s+/g.test(name)) return false;
+  if (name.charAt(0) === " ") return false;
   return onlyKorEngNum(name) && checkLength(name) <= 16
 }
 

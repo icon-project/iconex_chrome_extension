@@ -33,6 +33,8 @@ class ImportWallet3 extends Component {
 
   changeInput = (e) => {
     const target = e.target.name
+    if (e.target.value.charAt(0) === " ") return;
+    if (e.target.value !== '' && !(/^\S+$/.test(e.target.value))) return;
     this.setState({
       [target]: e.target.value,
       privateKeyError: ''

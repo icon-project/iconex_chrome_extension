@@ -86,6 +86,9 @@ class Routes extends Component {
     window.chrome.extension.onMessage.addListener(message => {
       this.listenerHandler(message)
     })
+    window.onpopstate = (e) => {
+      this.props.closePopup();
+    }
   }
 
   componentWillUpdate() {

@@ -27,6 +27,13 @@ export function setShowNotice() {
   }
 }
 
+export function setScrollToNewWallet(payload) {
+  return {
+    type: actionTypes.setScrollToNewWallet,
+    payload
+  }
+}
+
 export function setShowChangePasscodePopup(payload) {
   return {
     type: actionTypes.setShowChangePasscodePopup,

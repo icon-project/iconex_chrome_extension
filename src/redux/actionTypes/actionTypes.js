@@ -8,6 +8,7 @@ const actionTypes = {
   logOut: 'LOG_OUT',
   setLockState: 'SET_LOCK_STATE',
   setUnlock: 'SET_UNLOCK',
+  setScrollToNewWallet: 'SET_SCROLL_TO_NEW_WALLET',
   setShowChangePasscodePopup: 'SET_SHOW_CHANGE_PASSCODE_POPUP',
 
   // globalActions
@@ -190,7 +191,7 @@ const actionTypes = {
   callScoreRejected: 'CALL_SCORE_REJECTED',
   setSigning: 'SET_SIGNING',
   callSigning: 'CALL_SIGNING',
-  
+
   //addressBookActions
   addAddressInAddressBook: 'ADD_ADDRESS_IN_ADDRESS_BOOK',
   deleteAddressInAddressBook: 'DELETE_ADDRESS_IN_ADDRESS_BOOK',

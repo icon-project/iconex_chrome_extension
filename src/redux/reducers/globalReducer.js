@@ -5,6 +5,7 @@ const initialState = {
   passcodeHash: '',
   showNotice: true,
   message: {
+    scrollToNewWallet: false,
     showChangePasscodePopup: false,
   },
 }
@@ -19,6 +20,14 @@ export function globalReducer(state = initialState, action) {
       return Object.assign({}, state, {
         passcodeHash: action.payload,
       })
+    case actionTypes.setScrollToNewWallet: {
+      const message = Object.assign({}, state.message, {
+        scrollToNewWallet: action.payload
+      });
+      return Object.assign({}, state, {
+        message: message
+      })
+    }
     case actionTypes.setShowChangePasscodePopup: {
       const message = Object.assign({}, state.message, {
         showChangePasscodePopup: action.payload

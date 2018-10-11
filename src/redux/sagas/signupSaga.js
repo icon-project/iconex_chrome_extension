@@ -24,6 +24,7 @@ function* generateWalletFunc(action) {
 function* createWalletFunc(action) {
   try {
     yield call(CREATE_WALLET, action.walletObject);
+    yield put({type: AT.setScrollToNewWallet, payload: true});
     yield put({type: AT.createWalletFulfilled});
   } catch (e) {
     alert(e);
@@ -38,6 +39,7 @@ function* createWalletsFunc(action) {
       arr.push(call(CREATE_WALLET, action.walletObjects[i]))
     }
     yield all(arr);
+    yield put({type: AT.setScrollToNewWallet, payload: true});
     yield put({type: AT.createWalletsFulfilled});
   } catch (e) {
     alert(e);

@@ -228,6 +228,11 @@ class MyWallet extends Component {
       graphData: graphData,
       dataSortedByWallet: dataSortedByWallet,
       dataSortedByCoin: dataSortedByCoin
+    }, () => {
+      if (this.props.scrollToNewWallet) {
+        this.props.setScrollToNewWallet(false);
+        window.scrollTo(0,document.body.scrollHeight);
+      }
     })
   }
 

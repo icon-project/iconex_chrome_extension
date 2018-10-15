@@ -46,7 +46,7 @@ export default {
   error: {
     pwErrorEnter: '비밀번호를 입력해주세요.',
     pwErrorEight: '8자 이상으로 입력해주세요.',
-    pwErrorMix: '영문, 숫자, 특수문자( ~ ! @ # $ % ^ & * ( ) _ + | < > ? : { } )를 혼용하여 입력해주세요.',
+    pwErrorMix: '영문, 숫자, 특수문자( ? ! : . , % + - / * < > { } ( ) [ ]  \` \" \' ~ _ ^ \\ | @ # $ & )를 혼용하여 입력해주세요.',
     pwErrorContinuous: '3자 이상 연속되지 않게 입력해주세요.',
     pwErrorSame: '동일한 문자를 3자 이상 반복해서 입력할 수 없습니다.',
     pwErrorEmpty: '공백 없이 입력해주세요.',

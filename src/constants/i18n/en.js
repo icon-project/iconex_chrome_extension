@@ -46,7 +46,7 @@ export default {
   error: {
     pwErrorEnter: 'Please enter your password.',
     pwErrorEight: 'Password must contain at least 8 characters.',
-    pwErrorMix: 'Password must contain a combination of letters, numbers, and special characters. ( ~ ! @ # $ % ^ & * ( ) _ + | < > ? : { } )',
+    pwErrorMix: 'Password must contain a combination of letters, numbers, and special characters. ( ? ! : . , % + - / * < > { } ( ) [ ]  \` \" \' ~ _ ^ \\ | @ # $ & )',
     pwErrorContinuous: 'Password must not have more than 2 consecutive identical characters.',
     pwErrorSame: 'Password must not have more than 2 consecutive identical characters.',
     pwErrorEmpty: 'Please do not leave blank.',

@@ -33,6 +33,7 @@ class ValidationForm extends Component {
     const target = e.target.name
     const { value } = e.target
     if (target === 'walletName' && !isValidWalletName(value)) return
+    if ((target === 'pw' || target === 'pwConfirm') && !(/^[a-zA-Z0-9?!:\.,%+-/*<>{}\(\)\[\]`"'~_^\\|@#$&]*$/.test(e.target.value))) return
     this.setState({
       [target]: value
     })

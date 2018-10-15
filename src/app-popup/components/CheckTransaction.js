@@ -14,7 +14,7 @@ class CheckTransaction extends Component {
 	componentWillMount() {
 		window.onunload = () => {
 			if (!this.cancelClicked) {
-				window.chrome.tabs.sendMessage(this.props.tabId, { type: 'CANCEL_SCORE' });
+				window.chrome.tabs.sendMessage(this.props.tabId, { type: 'CANCEL_JSON-RPC' });
 				this.props.initExternalState()
 			}
 		}

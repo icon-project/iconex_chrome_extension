@@ -67,9 +67,9 @@ class Routes extends Component {
       case 'REQUEST_ADDRESS':
         this.props.setAddressRequest(payload)
         break;
-      case 'REQUEST_SCORE':
-        const { param } = payload
-        if (param.method === 'icx_sendTransaction') {
+      case 'REQUEST_JSON-RPC':
+      const { data } = payload        
+        if (data.method === 'icx_sendTransaction') {
           this.props.setScore(payload)
         }
         break;

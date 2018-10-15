@@ -24,7 +24,7 @@ export function externalReducer(state = initialState, action) {
             }
         }
         case actionTypes.setScore: {
-            const { tabId, param } = action.payload
+            const { tabId, data: param } = action.payload
             const { params } = param
             const from = params.from
             const stepLimit = fromHexToDec(params.stepLimit)
@@ -69,11 +69,11 @@ export function externalReducer(state = initialState, action) {
             return newState
         }
         case actionTypes.setSigning: {
-            const { tabId, from, hash } = action.payload
+            const { tabId, data: signing } = action.payload
             return {
                 ...initialState,
                 tabId,
-                signing: { from, hash }
+                signing
             }
         }
         default: {

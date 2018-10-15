@@ -126,7 +126,7 @@ class MyWallet extends Component {
 
 		let type = 'CANCEL'
  		if (this.props.transaction.param) {
-			type += '_SCORE'
+			type += '_JSON-RPC'
 		}
 		else if (this.props.signing.hash) {
 			type += '_SIGNING'

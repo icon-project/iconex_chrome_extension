@@ -190,10 +190,19 @@ class MyWallet extends Component {
 		this.setState({ password: e.target.value })
 	}
 
+	onlyIcxTab = () => {
+		const { addressRequest, transaction, signing } = this.props
+		return addressRequest || transaction.param || signing.hash
+	}
+
 	render() {
 		const { tab, data, password, pwError, confirmLoading, selected } = this.state;
 		const { I18n, totalResultLoading } = this.props;
 		const { addressRequest, transaction } = this.props
+		const _onlyIcxTab = this.onlyIcxTab()
+		if (_onlyIcxTab) {
+			data['eth'] = []
+		}
 		const isTwoItem = data['icx'].length > 0 && data['eth'].length > 0
 		return (
 			<div className="wrap">

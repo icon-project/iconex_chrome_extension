@@ -249,7 +249,7 @@ const calcData = (props) => {
 
 export const initialStepLimit = (isToken, txFeeLimitTable) => {
   return !isToken ? parseInt(txFeeLimitTable['default'], 16)
-                  : (parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['contractCall'], 16)) * 2
+                  : (parseInt(txFeeLimitTable['default'], 16)) * 2
 }
 
 const initializeTxFeeLimit = (isToken, walletCoinType, txFeeLimitTable) => {

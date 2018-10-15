@@ -63,7 +63,7 @@ export function* getTxFeeInfoFunc(action) {
         const isTokenSelector = yield select(state => state.wallet.selectedWallet.isToken);
         const contractFuncInput = yield select(state => state.contract.funcInput);
         const contractFuncList = yield select(state => state.contract.funcList);
-        const calcContractCallLimit = (data) => ((parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['contractCall'], 16) +  parseInt(txFeeLimitTable['input'], 16) * checkLength(JSON.stringify(data))) * 2)
+        const calcContractCallLimit = (data) => ((parseInt(txFeeLimitTable['default'], 16)) * 2)
 
         if (contractFuncList.length > 0) {
           //let data;

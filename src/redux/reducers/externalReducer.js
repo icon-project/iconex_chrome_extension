@@ -6,7 +6,6 @@ const initialState = {
     addressRequest: false,
     transaction: {},
     transactionLoading: false,
-    score: {},
     signing: {},
 }
 

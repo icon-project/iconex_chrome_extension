@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { txidUrl as TXID_URL } from 'constants/config.js'
-import { nToBr } from 'utils/utils'
 
 @withLanguageProps
 class CompleteTransaction extends Component {

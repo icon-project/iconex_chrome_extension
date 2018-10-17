@@ -59,6 +59,7 @@ export default {
     alertNoBalance: 'You have 0 balance. Please deposit and transfer.',
     alertNoSwapBalance: 'You have 0 ICX tokens available for token swap. Please check your balance.',
     alertNoSwapGasBalance: 'Please check your ETH balance. ETH is needed for token swap transaction fee.',
+    alertNoTxFeeBalance: (walletCoinType) => `Please check your ${walletCoinType.toUpperCase()} balance. ${walletCoinType.toUpperCase()} is needed for transaction fee.`,
     alertBalanceRemove: 'You may remove it only when you have 0 balance.',
     alertDownloadAfterBackup: "Click 'Next' button after downloading the Keystore file.",
 

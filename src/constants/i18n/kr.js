@@ -59,6 +59,7 @@ export default {
     alertNoBalance: '코인 보유량이 없습니다. 입금 후 송금해주세요.',
     alertNoSwapBalance: '스왑 가능한 ICX 토큰이 없습니다.',
     alertNoSwapGasBalance: '스왑 수수료 지불을 위한 ETH 잔액이 없습니다. 입금 후 진행해 주세요.',
+    alertNoTxFeeBalance: (walletCoinType) => `${walletCoinType.toUpperCase()} 계좌 잔액이 부족하여 토큰을 송금할 수 없습니다.`,
     alertBalanceRemove: '코인 보유량이 없는 경우에만 삭제할 수 있습니다.',
     alertDownloadAfterBackup: '지갑 백업 파일(Keystore 파일) 다운로드 후 다음 버튼을 클릭해주세요.',
 

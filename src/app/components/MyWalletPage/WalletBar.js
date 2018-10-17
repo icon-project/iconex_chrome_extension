@@ -17,7 +17,8 @@ class WalletBar extends Component {
     this.state = {
       showAlertNoBalance: false,
       showAlertNoSwapBalance: false,
-      showAlertNoSwapGasBalance: false
+      showAlertNoSwapGasBalance: false,
+      showAlertNoTxFeeBalance: false
     }
   }
 
@@ -30,13 +31,33 @@ class WalletBar extends Component {
 
   handleTransactionClick = () => {
     const { data, history } = this.props;
-    const { account, balance, tokenId } = data;
-    if (balance.eq(0)) {
-      this.setState({
-        showAlertNoBalance: true
-      })
-      return false;
+    const { account, balance, tokenId, isError, walletBalance } = data;
+
+    if (!isError) {
+      if (tokenId) {
+        if (walletBalance.eq(0)) {
+          this.setState({
+            showAlertNoTxFeeBalance: true
+          });
+          return false;
+        }
+
+        if (balance.eq(0)) {
+          this.setState({
+            showAlertNoBalance: true
+          });
+          return false;
+        }
+      } else {
+        if (balance.eq(0)) {
+          this.setState({
+            showAlertNoBalance: true
+          });
+          return false;
+        }
+      }
     }
+
     this.props.setSelectedWallet({
       account,
       tokenId
@@ -68,7 +89,7 @@ class WalletBar extends Component {
         return false;
       }
     }
-    
+
     this.props.setSelectedWallet({
       account,
       tokenId
@@ -82,13 +103,14 @@ class WalletBar extends Component {
     this.setState({
       showAlertNoBalance: false,
       showAlertNoSwapBalance: false,
-      showAlertNoSwapGasBalance: false
+      showAlertNoSwapGasBalance: false,
+      showAlertNoTxFeeBalance: false
     })
   }
 
   render() {
-    const { showAlertNoBalance, showAlertNoSwapBalance, showAlertNoSwapGasBalance } = this.state;
-    const { currency, data, I18n } = this.props;
+    const { showAlertNoBalance, showAlertNoSwapBalance, showAlertNoSwapGasBalance, showAlertNoTxFeeBalance } = this.state;
+    const { currency, data, I18n, walletCoinType } = this.props;
     const { name, balanceLoading = false, isError, symbol, balance, recent, totalResultLoading, balanceWithRate, tokenId } = data;
 
     const nameText = checkLength(name) > 18 ? name.substring(0, 18) + '...' : name;
@@ -149,6 +171,15 @@ class WalletBar extends Component {
               <Alert
                 handleCancel={this.closeAlert}
                 text={I18n.error.alertNoSwapGasBalance}
+                cancelText={I18n.button.confirm}
+              />
+            )
+          }
+          {
+            showAlertNoTxFeeBalance && (
+              <Alert
+                handleCancel={this.closeAlert}
+                text={I18n.error.alertNoTxFeeBalance(walletCoinType)}
                 cancelText={I18n.button.confirm}
               />
             )

@@ -155,6 +155,10 @@ class ValidationForm extends Component {
     });
   }
 
+  getPassword = () => {
+    return this.state.pw
+  }
+
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       const { handleSubmit } = this.props

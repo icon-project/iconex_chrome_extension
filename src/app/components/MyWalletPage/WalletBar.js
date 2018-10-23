@@ -115,7 +115,7 @@ class WalletBar extends Component {
 
     const nameText = checkLength(name) > 18 ? name.substring(0, 18) + '...' : name;
     const balanceText = convertNumberToText(balance, symbol, true);
-    const isSwapAvailable = tokenId === ICX_TOKEN_CONTRACT_ADDRESS()
+    const isSwapAvailable = false;
 
     if (balanceLoading) {
       return (

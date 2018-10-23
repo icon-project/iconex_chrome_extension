@@ -82,7 +82,7 @@ class SendTransaction extends Component {
 			this.props.history.push(ROUTE['check'])
 		}
 		else {
-			this.setState({ stepLimitError: I18n.error.enterGasPrice })
+			this.setState({ stepLimitError: I18n.error.enterGasPrice_step })
 		}
 	}
 

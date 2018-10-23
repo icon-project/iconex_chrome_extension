@@ -132,13 +132,13 @@ export function validateTxFeeLimitError(state) {
   const isToken = store.getState().wallet.selectedWallet.isToken;
   const minStepLimit = initialStepLimit(isToken, state.txFeeLimitTable);
   if (!state.txFeeLimit) {
-    error = 'enterGasPrice'
+    error = `enterGasPrice_${state.calcData.walletCoinType === 'icx' ? 'step' : 'gas'}`;
   } else if (state.calcData.walletCoinType === 'icx' && state.txFeeLimit < minStepLimit) {
     error = `stepLimitTooLow`;
   } else if (state.calcData.walletCoinType === 'icx' && new BigNumber(state.txFeeLimit).gt(state.txFeeLimitMax)) {
     error = `stepLimitTooHigh`;
   } else if (state.calcData.isWalletCoinBalanceMinus) {
-    error = 'notEnoughBalance'
+    error = 'notEnoughBalance';
   } else if (state.calcData.isResultBalanceMinus) {
     error = 'notEnoughBalance';
   } else {
@@ -152,7 +152,7 @@ export function validateContractTxFeeLimitError(state) {
   const isToken = store.getState().wallet.selectedWallet.isToken;
   const minStepLimit = initialStepLimit(isToken, state.txFeeLimitTable);
   if (!state.txFeeLimit) {
-    error = 'enterGasPrice'
+    error = 'enterGasPrice_step'
   } else if (state.txFeeLimit < minStepLimit) {
     error = `stepLimitTooLow`;
   } else if (new BigNumber(state.txFeeLimit).gt(state.txFeeLimitMax)) {

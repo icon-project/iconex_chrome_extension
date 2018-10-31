@@ -1,13 +1,13 @@
-##Simple Summary
+## Simple Summary
 A protocol defined for ICONex to message with external web page.
 
-##Abstract
+## Abstract
 This document descirbes a way for external web page to request and response for about icon account such as getting icx address, authority for transaction and signature.
 
-##Motivation
+## Motivation
 This protocol allows third-party developer to use ICON network through ICONex
 
-##Specification
+## Specification
 You need to implement two part of dispatching event to ICONex and listening event from ICONex using CustomEvent. The type and payload of events is assigned to detail field in CustomEvent.
  
 *Data in detail field:*
@@ -17,7 +17,7 @@ You need to implement two part of dispatching event to ICONex and listening even
 | type | string | Pre-defined type of events |
 | payload | any | Data required for the request or response. |
 
-###Dispatch Event for Requset
+### Dispatch Event for Requset
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', detail: { 
@@ -27,7 +27,7 @@ const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', detail: {
 window.dispatchEvent(customEvent);
 ```
 
-###Listen Event for Response
+### Listen Event for Response
 
 ```javascript
 const eventHandler = event => {
@@ -37,7 +37,7 @@ const eventHandler = event => {
 window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 ```
 
-###Methods
+### Methods
 
 **HAS_ACCOUNT**
 

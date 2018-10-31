@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ICONex Widget Messaging Tester</title>
+</head>
+
+<body>
+    <h1>ICONex Widget Messaging Tester</h1>
+
+    <p>--------------------</p>
+    <p><b>HAS_ACCOUNT</b> - Requests for whether iconex has any icon wallet.</p>
+    <button id="request-has-account">REQUEST_HAS_ACCOUNT</button>
+    <p id="response-has-account">> Result : </p>
+
+    <p>--------------------</p>
+    <p><b>HAS_ADDRESS</b> - Requests for whether iconex has the icon wallet with specific address.</p>
+    <p>ICX Address : <input id="request-has-address-data" type="text" placeholder="hx23ada4a4b444acf8706a6f50bbc9149be1781e13" /></p>
+    <button id="request-has-address">REQUEST_HAS_ADDRESS</button>
+    <p id="response-has-address">> Result : </p>
+
+    <p>--------------------</p>
+    <p><b>ADDRESS</b> - Requests for the address to use for service.</p>
+    <button id="request-address">REQUEST_ADDRESS</button>
+    <p id="response-address">> Selected ICX Address : </p>
+
+    <p>--------------------</p>
+    <p><b>JSON-RPC</b> - Requests for calling standard ICON JSON-RPC API.</p>
+    <p>* User confirmation is required.</p>
+    <form id="request-score-form">
+        <p>
+            <input type="radio" id="json-rpc-0" name="json-rpc" value="custom" onclick="setRequestScoreForm()" checked
+                disabled>
+            <label for="json-rpc-0">Custom</label>
+            <input type="radio" id="json-rpc-1" name="json-rpc" value="read-only" onclick="setRequestScoreForm()"
+                disabled>
+            <label for="json-rpc-1">Read Only</label>
+            <input type="radio" id="json-rpc-2" name="json-rpc" value="send-transaction" onclick="setRequestScoreForm()"
+                disabled>
+            <label for="json-rpc-2">Send Transaction *</label>
+            <input type="radio" id="json-rpc-3" name="json-rpc" value="icx-transfer" onclick="setRequestScoreForm()"
+                disabled>
+            <label for="json-rpc-3">ICX Transfer *</label>
+        </p>
+    </form>
+    <p>Param Data: <br><textarea id="score-data" rows="10"></textarea></p>
+    <button id="request-score">REQUEST_JSON-RPC</button>
+    <p>> Result : <br><textarea id="response-score" rows="10"></textarea></p>
+
+    <p>--------------------</p>
+    <p><b>Signing</b> - Request for only signing tx hash. (User confirmation is always required.)</p>
+    <p>Tx Hash : <input id="signing-data" type="text" placeholder="9babe5d2911e8e42dfad72a589202767f95c6fab49523cdc16279a7b8f82eab2" /></p>
+    <button id="request-signing">REQUEST_SIGNING</button>
+    <p id="response-signing">> Signature : </p>
+
+    <script src="http://localhost:2999/icon-sdk-js.min.js"></script>
+    <script>
+        var iconService = window['icon-sdk-js']
+        var IconWallet = iconService.IconWallet
+        var IconAmount = iconService.IconAmount
+        var IconConverter = iconService.IconConverter
+        var IconBuilder = iconService.IconBuilder
+
+        var requestHasAccount = document.getElementById("request-has-account")
+        var responseHasAccount = document.getElementById("response-has-account")
+
+        var requestHasAddress = document.getElementById("request-has-address")
+        var requestHasAddressData = document.getElementById("request-has-address-data")
+        var responseHasAddress = document.getElementById("response-has-address")
+
+        var requestAddress = document.getElementById("request-address")
+        var responseAddress = document.getElementById("response-address")
+
+        var requestScore = document.getElementById("request-score")
+        var requestScoreForm = document.getElementById("request-score-form")
+        var responseScore = document.getElementById("response-score")
+
+        var requestSigning = document.getElementById("request-signing")
+        var responseSigning = document.getElementById("response-signing")
+
+        var sendAddress = document.getElementById("send-address")
+        var sendAmount = document.getElementById("send-amount")
+        var scoreData = document.getElementById("score-data")
+        var signingData = document.getElementById("signing-data")
+
+        var jsonRpc0 = document.getElementById("json-rpc-0")
+        var jsonRpc1 = document.getElementById("json-rpc-1")
+        var jsonRpc2 = document.getElementById("json-rpc-2")
+        var jsonRpc3 = document.getElementById("json-rpc-3")
+
+        window.addEventListener("ICONEX_RELAY_RESPONSE", eventHandler, false);
+        function eventHandler(event) {
+            var type = event.detail.type
+            var payload = event.detail.payload
+            switch (type) {
+                case "RESPONSE_HAS_ACCOUNT":
+                    responseHasAccount.innerHTML = "> Result : " + payload.hasAccount + " (" + typeof payload.hasAccount + ")";
+                    break
+                case "RESPONSE_HAS_ADDRESS":
+                    responseHasAddress.innerHTML = "> Result : " + payload.hasAddress + " (" + typeof payload.hasAddress + ")";
+                    break
+                case "RESPONSE_ADDRESS":
+                    fromAddress = payload
+                    responseAddress.innerHTML = "> Selected ICX Address : " + payload;
+                    jsonRpc0.disabled = false
+                    jsonRpc1.disabled = false
+                    jsonRpc2.disabled = false
+                    jsonRpc3.disabled = false
+                    break
+                case "RESPONSE_JSON-RPC":
+                    responseScore.value = JSON.stringify(payload);
+                    break
+                case "CANCEL_JSON-RPC":
+                    responseScore.value = null;
+                    break
+                case "RESPONSE_SIGNING":
+                    signingData.value = null
+                    responseSigning.innerHTML = "> Signature : " + JSON.stringify(payload);
+                    break
+                case "CANCEL_SIGNING":
+                    signingData.value = null
+                    responseSigning.value = "> Signature : ";
+                    break
+
+                default:
+            }
+        }
+
+        function setRequestScoreForm() {
+            var data = new FormData(requestScoreForm);
+            var type = '';
+            for (const entry of data) { type = entry[1] };
+            switch (type) {
+                case 'read-only':
+                    var callBuilder = new IconBuilder.CallBuilder;
+                    var readOnlyData = callBuilder
+                        .from(fromAddress)
+                        .to('cx43f59485bd34d0c7e9312835d65cb399f6d29651')
+                        .method("hello")
+                        .build()
+                    scoreData.value = JSON.stringify({
+                        "jsonrpc": "2.0",
+                        "method": "icx_call",
+                        "params": readOnlyData,
+                        "id": 50889
+                    })
+                    break;
+
+                case 'send-transaction':
+                    var callTransactionBuilder = new IconBuilder.CallTransactionBuilder;
+                    var callTransactionData = callTransactionBuilder
+                        .from(fromAddress)
+                        .to("cxb20b5ff06ba50aef42c7832958af59f9ae0651e7")
+                        .nid(IconConverter.toBigNumber(3))
+                        .timestamp((new Date()).getTime() * 1000)
+                        .stepLimit(IconConverter.toBigNumber(1000000))
+                        .version(IconConverter.toBigNumber(3))
+                        .method('createToken')
+                        .params({
+                            "price": IconConverter.toHex(10000),
+                            "tokenType": IconConverter.toHex(2)
+                        })
+                        .build()
+                    scoreData.value = JSON.stringify({
+                        "jsonrpc": "2.0",
+                        "method": "icx_sendTransaction",
+                        "params": IconConverter.toRawTransaction(callTransactionData),
+                        "id": 50889
+                    })
+                    break;
+
+                case 'icx-transfer':
+                    var icxTransactionBuilder = new IconBuilder.IcxTransactionBuilder;
+                    var icxTransferData = icxTransactionBuilder
+                        .from(fromAddress)
+                        .to("hx04d669879227bb24fc32312c408b0d5503362ef0")
+                        .nid(IconConverter.toBigNumber(3))
+                        .value(IconAmount.of(1, IconAmount.Unit.ICX).toLoop())
+                        .timestamp((new Date()).getTime() * 1000)
+                        .version(IconConverter.toBigNumber(3))
+                        .stepLimit(IconConverter.toBigNumber(100000))
+                        .build();
+                    scoreData.value = JSON.stringify({
+                        "jsonrpc": "2.0",
+                        "method": "icx_sendTransaction",
+                        "params": IconConverter.toRawTransaction(icxTransferData),
+                        "id": 50889
+                    })
+                    break;
+                default:
+            }
+        }
+
+        requestHasAccount.onclick = function () {
+            window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
+                detail: {
+                    type: "REQUEST_HAS_ACCOUNT"
+                }
+            }))
+        }
+
+        requestHasAddress.onclick = function () {
+            window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
+                detail: {
+                    type: 'REQUEST_HAS_ADDRESS',
+                    payload: requestHasAddressData.value || requestHasAddressData.placeholder
+                }
+            }))
+        }
+
+        requestAddress.onclick = function () {
+            window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
+                detail: {
+                    type: 'REQUEST_ADDRESS'
+                }
+            }))
+        }
+
+        requestScore.onclick = function () {
+            responseScore.value = null;
+
+            if (!scoreData.value) {
+                alert('Check the param data')
+                return
+            }
+
+            var parsed = JSON.parse(scoreData.value)
+            if (parsed.method === "icx_sendTransaction" && !fromAddress) {
+                alert('Select the ICX Address')
+                return
+            }
+
+            window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
+                detail: {
+                    type: 'REQUEST_JSON-RPC',
+                    payload: parsed
+                }
+            }))
+        }
+
+        requestSigning.onclick = function () {
+            if (!fromAddress) {
+                alert('Select the ICX Address')
+                return
+            }
+
+            window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
+                detail: {
+                    type: 'REQUEST_SIGNING',
+                    payload: {
+                        from: fromAddress,
+                        hash: signingData.value || signingData.placeholder,
+                    }
+                }
+            }))
+        }
+
+    </script>
+</body>
+</html>

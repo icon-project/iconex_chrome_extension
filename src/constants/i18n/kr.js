@@ -4,7 +4,7 @@ export default {
     submit: '완료',
     back: '이전',
     next: '다음',
-    yes: '예',
+    yes: '네',
     no: '아니요',
     import: '가져오기',
     change: '변경',
@@ -48,9 +48,9 @@ export default {
     pwErrorEight: '8자 이상으로 입력해주세요.',
     pwErrorMix: '영문, 숫자, 특수문자( ? ! : . , % + - / * < > { } ( ) [ ]  \` \" \' ~ _ ^ \\ | @ # $ & )를 혼용하여 입력해주세요.',
     pwErrorContinuous: '3자 이상 연속되지 않게 입력해주세요.',
-    pwErrorSame: '동일한 문자를 3자 이상 반복해서 입력할 수 없습니다.',
+    pwErrorSame: '동일한 문자를 3자 이상 연속해서 입력할 수 없습니다.',
     pwErrorEmpty: '공백 없이 입력해주세요.',
-    pwConfirmError: '비밀번호를 확인해주세요.',
+    pwConfirmError: '비밀번호를 입력해주세요.',
     pwConfirmErrorSame: '비밀번호가 일치하지 않습니다.',
     addressNotCorrect: '지갑 백업 파일(Keystore 파일)의 주소가 임의적으로 변경되었습니다. 파일을 확인해주세요.',
 
@@ -59,6 +59,7 @@ export default {
     alertNoBalance: '코인 보유량이 없습니다. 입금 후 송금해주세요.',
     alertNoSwapBalance: '스왑 가능한 ICX 토큰이 없습니다.',
     alertNoSwapGasBalance: '스왑 수수료 지불을 위한 ETH 잔액이 없습니다. 입금 후 진행해 주세요.',
+    alertNoTxFeeBalance: (walletCoinType) => `${walletCoinType.toUpperCase()} 계좌 잔액이 부족하여 토큰을 송금할 수 없습니다.`,
     alertBalanceRemove: '코인 보유량이 없는 경우에만 삭제할 수 있습니다.',
     alertDownloadAfterBackup: '지갑 백업 파일(Keystore 파일) 다운로드 후 다음 버튼을 클릭해주세요.',
 
@@ -116,14 +117,15 @@ export default {
 
     checkData: '데이터를 다시 확인해주세요.',
     dataOverLimit: '입력 한도 250KB를 초과합니다.',
-    enterGasPrice: '한도를 입력해주세요.',
+    enterGasPrice_gas: '가스 한도를 입력해주세요.',
+    enterGasPrice_step: '스텝 한도를 입력해주세요.',
     stepLimitTooLow: (stepLimit) => {
       return `${stepLimit}보다 높은 스텝 한도를 입력해주세요.`
     },
     stepLimitTooHigh: (stepLimit) => {
       return `${stepLimit}보다 낮은 스텝 한도를 입력해주세요.`
     },
-    notEnoughBalance: (coinType) => (`수수료 지불을 위한 ${coinType} 잔액이 부족합니다.`),
+    notEnoughBalance: (coinType) => (`수수료를 지불할 ${coinType} 잔액이 부족합니다.`),
 
     alertIcxGetBalanceError: '아이콘 잔고 조회 중 오류가 발생하였습니다.',
     buttonChecked: '버튼을 체크해주세요.',
@@ -216,7 +218,7 @@ export default {
 
   coinDetailHistoryFail: '실패',
 
-  coinDetailHistoryPendingInfo: 'ICX 출금 신청 후 10분 내에 처리되지 않은 거래는 자동 취소되며 출금액과 수수료는 모두 복구됩니다.',
+  coinDetailHistoryPendingInfo: 'ICX 출금 신청 후 처리되지 않은 거래는 자동 취소되며 출금액과 수수료는 모두 복구됩니다.',
 
   exchangeTransactionSelectorWallet: '지갑 이름',
   exchangeTransactionSelectorPlaceholder: '지갑 선택',
@@ -462,8 +464,7 @@ export default {
   },
 
   exportWallet: {
-    caution: '선택하신 모든 지갑들의 비밀번호는,<br/>지금 설정하는 묶음 지갑 비밀번호로 변경됩니다.',
-
+    caution: '묶어서 내보낼 때, 묶음 지갑 비밀번호를 새로 만들어야 합니다. <br/>기존 지갑들의 비밀번호는 묶음 지갑의 비밀번호로 바뀝니다. 계속 진행하시겠습니까?',
     title: '지갑 묶어서 내보내기',
     desc1: '묶어서 백업할 지갑들을 선택해주세요. 지갑마다 비밀번호 확인이 필요합니다.',
     desc2: '묶어서 내보낼 지갑의 비밀번호를 만들어주세요.',

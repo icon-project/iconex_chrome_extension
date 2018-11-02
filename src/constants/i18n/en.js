@@ -59,6 +59,7 @@ export default {
     alertNoBalance: 'You have 0 balance. Please deposit and transfer.',
     alertNoSwapBalance: 'You have 0 ICX tokens available for token swap. Please check your balance.',
     alertNoSwapGasBalance: 'Please check your ETH balance. ETH is needed for token swap transaction fee.',
+    alertNoTxFeeBalance: (walletCoinType) => `Please check your ${walletCoinType.toUpperCase()} balance. ${walletCoinType.toUpperCase()} is needed for transaction fee.`,
     alertBalanceRemove: 'You may remove it only when you have 0 balance.',
     alertDownloadAfterBackup: "Click 'Next' button after downloading the Keystore file.",
 
@@ -84,8 +85,8 @@ export default {
     alertAddressName: 'Enter address name.',
     alertAddressNameSame: 'This address name already exists.',
     alertAddress: 'Enter address.',
-    alertAddressNotCorrect_icx: 'Incorrect icx address.',
-    alertAddressNotCorrect_eth: 'Incorrect eth address.',
+    alertAddressNotCorrect_icx: 'Incorrect ICX address.',
+    alertAddressNotCorrect_eth: 'Incorrect ETH address.',
     alertAddressSame_icx:  'This icx account already exists.',
     alertAddressSame_eth: 'This eth account already exists.',
 
@@ -116,7 +117,8 @@ export default {
 
     checkData: 'Please check your data.',
     dataOverLimit: 'This exceeds input limit 250KB.',
-    enterGasPrice: 'Please enter the limit.',
+    enterGasPrice_gas: 'Please enter the gas limit.',
+    enterGasPrice_step: 'Please enter the step limit.',
     stepLimitTooLow: (stepLimit) => {
       return `Enter step limit more than ${stepLimit}.`
     },
@@ -216,7 +218,7 @@ export default {
 
   coinDetailHistoryFail: 'Fail',
 
-  coinDetailHistoryPendingInfo: 'Transactions not completed within 10 minutes will be automatically cancelled.',
+  coinDetailHistoryPendingInfo: 'ICX transfer transactions not proceeded will be cancelled automatically, restoring any transfer amount and transaction fees.',
 
   exchangeTransactionSelectorWallet: 'Transfer wallet',
   exchangeTransactionSelectorPlaceholder: 'Wallet Name',
@@ -462,7 +464,7 @@ export default {
   },
 
   exportWallet: {
-    caution: 'Each wallet password that is bundled will be replaced with a new bundle password',
+    caution: 'If you back up your wallets using the \'Wallet bundle\' function the password of each wallet will be changed into the wallet bundle password. Are you sure you want to proceed?',
 
     title: 'Export Wallet Bundle',
     desc1: 'Select the wallets to send as a bundle. Password verification is required for each wallet.',

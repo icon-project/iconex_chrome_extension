@@ -196,7 +196,7 @@ class CoinDetailContent extends Component {
     } = this.props;
 
     const data = this.setData();
-    const isSwapAvailable = data.contractAddress === ICX_TOKEN_CONTRACT_ADDRESS()
+    const isSwapAvailable = false
 
     return (
       <div>

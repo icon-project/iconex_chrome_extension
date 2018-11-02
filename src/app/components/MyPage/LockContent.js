@@ -111,7 +111,7 @@ class LockContent extends Component {
         if (status === 0) {
           if (first && second && !firstError && !secondError) this.validatePasscode(false);
         } else {
-          if (first && second & current && !firstError && !secondError && !currentError) this.validatePasscode(true);
+          if (first && second && current && !firstError && !secondError && !currentError) this.validatePasscode(true);
         }
       }
     })

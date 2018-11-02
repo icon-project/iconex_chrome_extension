@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { SmallPopup } from 'app/components/';
-
+import { CheckPassword } from 'app/components/';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 @withLanguageProps
@@ -11,29 +10,27 @@ class DeleteWallet2 extends Component {
     this.props.resetSelectedWallet();
   }
 
-  handleSubmit = () => {
+  handleSuccess = (data) => {
     this.props.closePopup();
     this.props.deleteWallet(this.props.selectedAccount);
   }
 
   render() {
-    const { wallets, selectedAccount } = this.props
-    const wallet = wallets[selectedAccount]
-    const balance = wallet ? wallet.balance : 0
-    const { I18n } = this.props;
-    const text = balance.eq(0) ? I18n.deleteWallet.info1 : I18n.deleteWallet.info2
+    const {
+      wallets, selectedAccount
+    } = this.props;
+
+    const name = wallets[selectedAccount].name;
+    const priv = wallets[selectedAccount].priv;
+    const coinType = wallets[selectedAccount].type;
+
     return (
-      <div className='popup-wrap home'>
-        <SmallPopup
-          handleCancel={this.closePopup}
-          handleSubmit={this.handleSubmit}
-          text={text}
-          cancelText={I18n.button.cancel}
-          submitText={I18n.button.confirm}
-        />
+      <div className="popup size-medium2">
+        <CheckPassword type="backupWallet" coinType={coinType} walletName={name} priv={priv} onCancel={this.closePopup} onSuccess={this.handleSuccess} />
       </div>
     );
   }
 }
+
 
 export default DeleteWallet2;

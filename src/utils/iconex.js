@@ -13,19 +13,6 @@ function generateIconexObject(key, coinType, walletName, v3) {
     'createdAt': Date.now().toString(),
     'recent': []
   }
-  if (coinType === 'eth') {
-    value['tokens'][ICX_TOKEN_CONTRACT_ADDRESS()] = {
-      "address": ICX_TOKEN_CONTRACT_ADDRESS(),
-			"createdAt": Date.now().toString(),
-			"decimals": 18,
-			"defaultDecimals": 18,
-			"defaultName": "ICON",
-			"defaultSymbol": "ICX",
-			"name": "ICON",
-			"recent": [],
-			"symbol": "ICX"
-    }
-  }
   if (coinType === 'icx') value['pendingTransaction'] = [];
   const iconexObj = {};
   iconexObj[key] = value;
@@ -73,7 +60,7 @@ function isIRCTokenFunc(array){
     const func = array.filter(e => e.name === funcObj.name)[0];
     return isEqual(func, funcObj);
   }
-  
+
   const IRCTokenFunc = [
     {"type":"function","name":"balanceOf","inputs":[{"name":"_owner","type":"Address"}],"outputs":[{"type":"int"}],"readonly":"0x1"},
     {"type":"function","name":"decimals","inputs":[],"outputs":[{"type":"int"}],"readonly":"0x1"},

@@ -92,8 +92,10 @@ class Popup extends Component {
           return <BackupWalletContainer />
         case 'addToken':
           return <AddTokenContainer />
+        case 'deleteWallet_hasBalance':
+          return <DeleteWalletContainer hasBalance={true} />
         case 'deleteWallet':
-          return <DeleteWalletContainer />
+          return <DeleteWalletContainer hasBalance={false} />
         case 'exportWallet':
           return <ExportWalletContainer />
         case 'deleteToken':

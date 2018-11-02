@@ -65,6 +65,7 @@ class WalletSection extends Component {
       walletSectionBalance,
       walletSectionBalanceWithRate,
       coinType,
+      walletCoinType,
       account
     } = walletSectionData;
 
@@ -131,6 +132,7 @@ class WalletSection extends Component {
                       isCoinView={isCoinView}
                       setPopupNum={setPopupNum}
                       setSelectedWallet={setSelectedWallet}
+                      walletCoinType={walletCoinType || coinType}
                       />
                   ))
                 }

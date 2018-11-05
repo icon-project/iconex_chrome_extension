@@ -206,7 +206,7 @@ class MyWallet extends Component {
 		const isTwoItem = data['icx'].length > 0 && data['eth'].length > 0
 		return (
 			<div className="wrap">
-				{!(totalResultLoading || data.length < 1) ?
+				{(totalResultLoading || data.length < 1) ?
 					<LoadingComponent type="black" style={{height: '100vh'}}/>
 					:
 					<div>

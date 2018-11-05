@@ -13,7 +13,7 @@ function mapStateToProps(state) {
     rate: state.rate.rate,
     rateLoading: state.rate.rateLoading,
     totalResultLoading: state.wallet.totalResultLoading,
-    scrollToNewWallet: state.global.message.scrollToNewWallet
+    scrollToNewWallet: state.global.message.scrollToNewWallet !== undefined ? state.global.message.scrollToNewWallet : false
   };
 }
 

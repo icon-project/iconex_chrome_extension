@@ -1,3 +1,4 @@
+
 ## Simple Summary
 A protocol defined for ICONex to message with external web page.
 
@@ -20,7 +21,7 @@ You need to implement two part of dispatching event to ICONex and listening even
 ### Dispatch Event for Requset
 
 ```javascript
-const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', detail: { 
+const customEvent = new CustomEvent('ICONEX_CONNECT_REQUEST', detail: { 
 	type: '...',
 	payload: {...}
 });
@@ -34,7 +35,7 @@ const eventHandler = event => {
 	const { type, payload } = event.detail;
 	switch (type) { ...	}
 }
-window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
+window.addEventListener('ICONEX_CONNECT_RESPONSE', eventHandler);
 ```
 
 ### Methods
@@ -46,7 +47,7 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 `RESPONSE_HAS_ACCOUNT` Returns boolean-typed result.
 
 ```javascript
-const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', detail: { 
+const customEvent = new CustomEvent('ICONEX_CONNECT_REQUEST', detail: { 
 	type: 'REQEUST_HAS_ACCOUNT'
 });
 window.dispatchEvent(customEvent);
@@ -57,7 +58,7 @@ const eventHandler = event => {
 		console.log(payload); // true or false
 	}
 }
-window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
+window.addEventListener('ICONEX_CONNECT_RESPONSE', eventHandler);
 ```
 
 **HAS_ADDRESS**
@@ -67,7 +68,7 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 `RESPONSE_HAS_ADDRESS` Returns boolean-typed result.
 
 ```javascript
-const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', detail: { 
+const customEvent = new CustomEvent('ICONEX_CONNECT_REQUEST', detail: { 
  	type: 'REQUEST_HAS_ADDRESS',
  	payload: 'hx19870922...'
 });
@@ -79,7 +80,7 @@ const eventHandler = event => {
 		console.log(payload); // true or false
 	}
 }
-window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
+window.addEventListener('ICONEX_CONNECT_RESPONSE', eventHandler);
 ```
 
 **ADDRESS**
@@ -89,7 +90,7 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 `RESPONSE_HAS_ADDRESS` Returns the icx address selected by user.
 
 ```javascript
-const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', detail: { 
+const customEvent = new CustomEvent('ICONEX_CONNECT_REQUEST', detail: { 
  	type: 'REQUEST_ADDRESS' 
 });
 window.dispatchEvent(customEvent);
@@ -100,7 +101,7 @@ const eventHandler = event => {
 		console.log(payload); // e.g., hx19870922...
 	}	
 }
-window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
+window.addEventListener('ICONEX_CONNECT_RESPONSE', eventHandler);
 ```
 
 **JSON-RPC**
@@ -110,7 +111,7 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 `RESPONSE_JSON-RPC` Returns the JSON-RPC response.
 
 ```javascript
-const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', detail: { 
+const customEvent = new CustomEvent('ICONEX_CONNECT_REQUEST', detail: { 
  	type: 'REQUEST_JSON-RPC',
  	payload: {
 		jsonrpc: "2.0",
@@ -130,7 +131,7 @@ const eventHandler = event => {
 		console.log(payload); // e.g., {"jsonrpc": "2.0", "id": 6339, "result": { ... }}
 	}
 }
-window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
+window.addEventListener('ICONEX_CONNECT_RESPONSE', eventHandler);
 ```
 
 **SIGNING**
@@ -140,7 +141,7 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 `RESPONSE_SIGNING` Returns signature.
 
 ```javascript
-const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', detail: { 
+const customEvent = new CustomEvent('ICONEX_CONNECT_REQUEST', detail: { 
     type: 'REQUEST_SIGNING',
     payload: {
     	from: 'hx19870922...',
@@ -155,5 +156,5 @@ const eventHandler = event => {
         console.log(payload) // e.g., 'q/dVc3qj4En0GN+...'
     }
 }
-window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
+window.addEventListener('ICONEX_CONNECT_RESPONSE', eventHandler);
 ```

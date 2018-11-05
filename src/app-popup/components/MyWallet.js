@@ -206,10 +206,8 @@ class MyWallet extends Component {
 		const isTwoItem = data['icx'].length > 0 && data['eth'].length > 0
 		return (
 			<div className="wrap">
-				{(totalResultLoading || data.length < 1) ?
-					<div style={{ height: '100%' }}>
-						<LoadingComponent type="black" />
-					</div>
+				{!(totalResultLoading || data.length < 1) ?
+					<LoadingComponent type="black" style={{height: '100vh'}}/>
 					:
 					<div>
 						<div className="tab-holder">

@@ -25,6 +25,13 @@ export function setTxFeeLimitError() {
   };
 }
 
+export function setTxFeeModified(payload) {
+  return {
+    type: actionTypes.setTxFeeModified,
+    payload
+  };
+}
+
 export function setContractTxFeeLimitError() {
   return {
     type: actionTypes.setContractTxFeeLimitError

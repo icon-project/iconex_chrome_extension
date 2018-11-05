@@ -23,6 +23,7 @@ const uiState = {
   txFeeLimitError: '',
   txFeeLimit: 21000,
   txFeePrice: 21,
+  isTxFeeModified: false,
 
   data: '',
   dataType: 'utf8',
@@ -435,6 +436,11 @@ export function exchangeTransactionReducer(state = initialState, action) {
       let error = validateContractTxFeeLimitError(state);
       return Object.assign({}, state, {
           txFeeLimitError: error
+      })
+    }
+    case actionTypes.setTxFeeModified: {
+      return Object.assign({}, state, {
+          isTxFeeModified: action.payload
       })
     }
     case actionTypes.resetContractInputOutput:

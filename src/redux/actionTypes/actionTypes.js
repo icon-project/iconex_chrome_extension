@@ -119,6 +119,7 @@ const actionTypes = {
   toggleFullBalance: 'TOGGLE_FULL_BALANCE',
   setTxFeePrice: 'SET_TX_FEE_PRICE',
   setTxFeeLimit: 'SET_TX_FEE_LIMIT',
+  setTxFeeModified: 'SET_TX_FEE_MODIFIED',
   setData: 'SET_DATA',
   setDataType: 'SET_DATA_TYPE',
   setRecipientAddress: 'SET_RECEIVED_ADDRESS',

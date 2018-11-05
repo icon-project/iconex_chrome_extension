@@ -23,6 +23,10 @@ export function* getTxFeeInfoFunc(action) {
   try {
     const walletCoinType = yield select(state => state.exchangeTransaction.calcData.walletCoinType);
     const isTokenSelector = yield select(state => state.wallet.selectedWallet.isToken);
+    const isTxFeeModified = yield select(state => state.exchangeTransaction.isTxFeeModified);
+    if (isTxFeeModified) {
+      return;
+    }
     if (walletCoinType === 'eth') {
       if (isTokenSelector) {
         const walletsSelector = yield select(state => state.wallet.wallets);

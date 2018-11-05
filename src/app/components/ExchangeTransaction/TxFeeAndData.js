@@ -41,6 +41,7 @@ class TxFeeAndData extends Component {
     const value = e.target.value.replace(/\s+/g, '');
     if (!isNaN(value)) {
       this.props.setTxFeeLimit(value);
+      this.props.setTxFeeModified(true);
     }
   }
 
@@ -49,6 +50,7 @@ class TxFeeAndData extends Component {
       return false;
     }
     this.props.setTxFeePrice(gasPrice)
+    this.props.setTxFeeModified(true);
     this.props.setCalcData()
   }
 
@@ -208,7 +210,10 @@ class TxFeeAndData extends Component {
                     sliderContainer: 'drag-wrap',
                     slider: 'drag'
                   }}
-                  onChange={txFeePrice => this.props.setTxFeePrice(txFeePrice)}
+                  onChange={txFeePrice => {
+                    this.props.setTxFeePrice(txFeePrice);
+                    this.props.setTxFeeModified(true);
+                  }}
                   onChangeComplete={() => this.props.setCalcData()} />
                 <ul id="dragBar">
                   <li>1</li>

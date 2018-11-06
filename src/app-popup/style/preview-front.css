@@ -12,4 +12,5 @@ button:disabled{cursor: default;}
 .remittance .mainnet{top: 32px; width: 90px;}
 .remittance .layer{top: 37px;}
 .remittance .layer li{cursor: pointer;}
-.content-wrap .scroll{height: calc(100% - 72px);}
+.content-wrap .scroll{height: calc(100vh - 120px);}
+.footer{height: 50px !important;}

@@ -1,6 +1,6 @@
 {
   "name": "ICONex",
-  "version": "0.2.46",
+  "version": "0.2.47",
   "private": true,
   "dependencies": {
     "autoprefixer": "7.1.2",

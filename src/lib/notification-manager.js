@@ -1,5 +1,5 @@
 const extension = require('extensionizer')
-const width = 420
+const width = 460
 const height = 510
 
 function objectToQuery(obj) {

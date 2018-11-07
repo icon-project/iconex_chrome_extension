@@ -1,4 +1,4 @@
-html, body, #root-popup, .wrap, .wrap .content-wrap {min-width: 420px!important; min-height: 510px!important;}
+html, body, #root-popup, .wrap, .wrap .content-wrap {min-width: 460px!important; min-height: 510px!important;}
 html, body, #root-popup {overflow: hidden;}
 button:disabled{cursor: default;}
 .content-wrap .hash-holder .address{text-overflow: ellipsis; overflow: hidden;}

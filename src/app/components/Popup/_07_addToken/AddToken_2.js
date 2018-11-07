@@ -53,7 +53,7 @@ class AddToken2 extends Component {
               decimals: this.state.decimals,
               defaultName: tokenInfo.defaultName || this.state.name,
               defaultSymbol: tokenInfo.defaultSymbol || this.state.symbol,
-              defaultDecimals: tokenInfo.defaultDecimals || this.state.decimals,
+              defaultDecimals: !isNaN(tokenInfo.defaultDecimals) ? tokenInfo.defaultDecimals : this.state.decimals,
             }],
             this.state.currentWallet.type
           );
@@ -62,7 +62,7 @@ class AddToken2 extends Component {
             address: this.state.address,
             name: tokenInfo.defaultName || this.state.name,
             symbol: tokenInfo.defaultSymbol || this.state.symbol,
-            decimals: tokenInfo.defaultDecimals || this.state.decimals,
+            decimals: !isNaN(tokenInfo.defaultDecimals) ? tokenInfo.defaultDecimals : this.state.decimals,
             addressError: ''
           };
           this.setState({

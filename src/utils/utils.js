@@ -55,13 +55,13 @@ function convertNumberToText(num, unit, isCoin) {
     if (num.eq(0)) {
       return '0'
     }
-    return numberWithCommas(num.toFixed(roundNum))
+    return numberWithCommas(num.toFixed(roundNum, 1))
   } else {
     num = new BigNumber(num);
     if (num.eq(0)) {
       return '0'
     }
-    return numberWithCommas(num.toFixed(roundNum))
+    return numberWithCommas(num.toFixed(roundNum, 1))
   }
 }
 

@@ -41,7 +41,6 @@ class AddToken2 extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.tokenInfoLoading !== nextProps.tokenInfoLoading && !nextProps.tokenInfoLoading) {
       const { tokenInfo, error } = nextProps
-      console.log(tokenInfo, error)
       if (!isEmpty(tokenInfo) && !error) {
         if (this.state.isSubmit) {
           nextProps.addToken(
@@ -53,7 +52,7 @@ class AddToken2 extends Component {
               decimals: this.state.decimals,
               defaultName: tokenInfo.defaultName || this.state.name,
               defaultSymbol: tokenInfo.defaultSymbol || this.state.symbol,
-              defaultDecimals: !isNaN(tokenInfo.defaultDecimals) ? tokenInfo.defaultDecimals : this.state.decimals,
+              defaultDecimals: tokenInfo.defaultDecimals !== "" ? tokenInfo.defaultDecimals : this.state.decimals,
             }],
             this.state.currentWallet.type
           );
@@ -62,7 +61,7 @@ class AddToken2 extends Component {
             address: this.state.address,
             name: tokenInfo.defaultName || this.state.name,
             symbol: tokenInfo.defaultSymbol || this.state.symbol,
-            decimals: !isNaN(tokenInfo.defaultDecimals) ? tokenInfo.defaultDecimals : this.state.decimals,
+            decimals: tokenInfo.defaultDecimals !== "" ? tokenInfo.defaultDecimals : this.state.decimals,
             addressError: ''
           };
           this.setState({

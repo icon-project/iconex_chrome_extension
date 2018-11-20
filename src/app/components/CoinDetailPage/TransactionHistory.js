@@ -148,7 +148,7 @@ class TransactionHistory extends Component {
                   <table className="table-typeB">
                     <thead>
                       <tr>
-                        <th>{I18n.coinDetailHistoryColumn1}</th>
+                        <th>{isPending ? I18n.coinDetailHistoryColumn0 : I18n.coinDetailHistoryColumn1}</th>
                         <th>{I18n.coinDetailHistoryColumn2}</th>
                         <th>{I18n.coinDetailHistoryColumn3}</th>
                         <th>{I18n.coinDetailHistoryColumn4}</th>
@@ -165,7 +165,7 @@ class TransactionHistory extends Component {
                   <table className="table-typeB">
                     <thead>
                       <tr>
-                        <th>{I18n.coinDetailHistoryColumn1}</th>
+                        <th>{isPending ? I18n.coinDetailHistoryColumn0 : I18n.coinDetailHistoryColumn1}</th>
                         <th>{I18n.coinDetailHistoryColumn2}</th>
                         <th>{I18n.coinDetailHistoryColumn3}</th>
                         <th>{I18n.coinDetailHistoryColumn4}</th>

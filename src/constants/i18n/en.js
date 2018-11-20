@@ -211,7 +211,8 @@ export default {
   coinDetailHistoryIcx: 'You can check the transaction history on ICON Tracker',
   coinDetailHistoryNoTransactionDefault: 'No transaction',
 
-  coinDetailHistoryColumn1: 'Requested Time',
+  coinDetailHistoryColumn0: 'Requested Time',
+  coinDetailHistoryColumn1: 'Completed Time',
   coinDetailHistoryColumn2: 'Transaction Type',
   coinDetailHistoryColumn3: 'Transaction ID',
   coinDetailHistoryColumn4: 'Amount',

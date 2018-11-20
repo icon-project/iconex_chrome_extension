@@ -50,7 +50,7 @@ export default {
     pwErrorContinuous: '3자 이상 연속되지 않게 입력해주세요.',
     pwErrorSame: '동일한 문자를 3자 이상 연속해서 입력할 수 없습니다.',
     pwErrorEmpty: '공백 없이 입력해주세요.',
-    pwConfirmError: '비밀번호를 입력해주세요.',
+    pwConfirmError: '비밀번호를 다시 확인해주세요.',
     pwConfirmErrorSame: '비밀번호가 일치하지 않습니다.',
     addressNotCorrect: '지갑 백업 파일(Keystore 파일)의 주소가 임의적으로 변경되었습니다. 파일을 확인해주세요.',
 
@@ -211,6 +211,7 @@ export default {
   coinDetailHistoryIcx: '거래내역은 ICON Tracker에서 조회 가능합니다.',
   coinDetailHistoryNoTransactionDefault: '내역이 없습니다.',
 
+  coinDetailHistoryColumn0: '요청 시각',
   coinDetailHistoryColumn1: '완료 시각',
   coinDetailHistoryColumn2: '거래 유형',
   coinDetailHistoryColumn3: '거래 ID',

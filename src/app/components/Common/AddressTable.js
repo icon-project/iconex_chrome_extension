@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { convertNumberToText, isValidWalletName, isAddress, isIcxWalletAddress } from 'utils'
+import { convertNumberToText, isValidWalletName, isAddress, isIcxWalletAddress, isIcxContractAddress } from 'utils'
 
 
 class AddressTable extends Component {
@@ -81,7 +81,7 @@ class AddressTable extends Component {
     const { currentWallet } = this.props;
     const isCorrectAddress = (address) => {
       if (currentWallet.type === 'icx') {
-        return isIcxWalletAddress(address)
+        return isIcxWalletAddress(address) || isIcxContractAddress(address)
       } else {
         return isAddress(address)
       }

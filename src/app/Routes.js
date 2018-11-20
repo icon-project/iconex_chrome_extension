@@ -87,7 +87,10 @@ class Routes extends Component {
       this.listenerHandler(message)
     })
     window.onpopstate = (e) => {
-      this.props.closePopup();
+      // prevent triggered by a page load
+      if (document.location.hash !== '#/lock') {
+        this.props.closePopup();
+      }
     }
   }
 

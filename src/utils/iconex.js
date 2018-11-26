@@ -200,6 +200,7 @@ function objTraverse(obj){
   } else {
     result += '}';
   }
+
   return result;
 }
 
@@ -237,12 +238,12 @@ function arrTraverse(arr){
 
 function escapeString(value) {
   let newString = String.raw`${value}`;
-  newString = newString.replace('\\', '\\\\');
-  newString = newString.replace('.', '\\.');
-  newString = newString.replace('{', '\\{');
-  newString = newString.replace('}', '\\}');
-  newString = newString.replace('[', '\\[');
-  newString = newString.replace(']', '\\]');
+  newString = newString.split('\\').join('\\\\');
+  newString = newString.split('\.').join('\\.');
+  newString = newString.split('\{').join('\\{');
+  newString = newString.split('\}').join('\\}');
+  newString = newString.split('\[').join('\\[');
+  newString = newString.split('\]').join('\\]');
   return newString
 }
 

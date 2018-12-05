@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Wallet from 'ethereumjs-wallet';
 import withLanguageProps from 'HOC/withLanguageProps';
+import { isPrivateKey } from 'utils/utils';
 
 const CoinTypes = [{
   label: 'ICON (ICX)',
@@ -47,8 +48,9 @@ class ImportWallet3 extends Component {
   }
 
   handleSubmit = () => {
-    new Promise(resolve => {
-      const wallet = Wallet.fromPrivateKey(Buffer(this.state.privateKey, 'hex'));
+    new Promise((resolve, reject) => {
+      if (!isPrivateKey(this.state.privateKey)) reject();
+      const wallet = Wallet.fromPrivateKey(Buffer.from(this.state.privateKey, 'hex'));
       resolve(wallet);
     }).then((result) => {
       this.setState({

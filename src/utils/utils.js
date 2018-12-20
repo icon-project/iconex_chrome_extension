@@ -190,6 +190,11 @@ function isHex(hex) {
   return /^0x[0-9A-F]+$/i.test(hex)
 }
 
+function isPrivateKey(value) {
+  if (value === '') return false;
+  return /^([0-9A-F]){64}$/i.test(value);
+}
+
 function getCoinName(type) {
   if (!type) {
     return '코인'
@@ -576,5 +581,6 @@ export {
   calcIcxMessageKB,
   getHexByteLength,
   fromHexToDec,
-  fromDecToHex
+  fromDecToHex,
+  isPrivateKey
 }

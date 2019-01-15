@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
-import { convertNumberToText, fromHexToDec } from 'utils'
+import { convertNumberToText, fromHexToDec, beautifyJson } from 'utils'
 import { setIcxWalletServer, icx_getStepPrice, icx_fetchCoinBalanceApi } from 'redux/api/walletIcxApi'
 import { routeConstants as ROUTE } from 'constants/index.js';
 import { getCurrentServer, icxServerList } from 'constants/config'
 import withClickOut from 'HOC/withClickOut'
+import { HIDE_SERVER } from 'constants/config.js'
 
 @withLanguageProps
 class SendTransaction extends Component {
@@ -20,7 +21,8 @@ class SendTransaction extends Component {
 			stepLimit: stepLimit || '',
 			stepLimitError: '',
 			stepPrice: '',
-			showServerList: false
+			showServerList: false,
+			viewData: false
 		}
 		this.cancelClicked = false
 	}
@@ -94,13 +96,17 @@ class SendTransaction extends Component {
 		}
 	}
 
+	toggleViewData = () => {
+		this.setState({ viewData: !this.state.viewData })
+	}
+
 	render() {
-		const { name, balance, stepLimit, stepLimitError, stepPrice, showServerList } = this.state
+		const { name, balance, stepLimit, stepLimitError, stepPrice, showServerList, viewData } = this.state
 		const { I18n, rate, transaction } = this.props
 		const { icx: icxRate } = rate
 		const { param } = transaction
 		const { params } = param
-		const { to, value } = params
+		const { to, value, dataType, data } = params
 
 		const valueIcx = window.web3.fromWei(fromHexToDec(value), 'ether')
 		const valueUsd = valueIcx * icxRate
@@ -122,7 +128,7 @@ class SendTransaction extends Component {
 					<ul className="one no-pointer">
 						<li>{I18n.transfer}</li>
 					</ul>
-					<p className="mainnet b-none" onClick={this.listClick}>{currentServer.toUpperCase()}<em className="_img"></em></p>
+					{!HIDE_SERVER && <p className="mainnet b-none" onClick={this.listClick}>{currentServer.toUpperCase()}<em className="_img"></em></p>}					
 					{showServerList &&
 						<ServerList
 							currentServer={currentServer}
@@ -195,6 +201,23 @@ class SendTransaction extends Component {
 								</li>
 							</ul>
 						</div>
+						{dataType && data &&
+							<div className="code-holder">
+								<span className="name">Data</span>
+								{viewData ?
+									<span className="view on" onClick={this.toggleViewData}>접기<i className="_img"></i></span>
+									:
+									<span className="view" onClick={this.toggleViewData}>보기<i className="_img"></i></span>
+								}
+								{viewData &&
+									<div>
+										<p>
+											{beautifyJson({ dataType, data }, '\t')}
+										</p>
+									</div>
+								}
+							</div>
+						}
 					</div>
 
 
@@ -217,7 +240,7 @@ class ServerList extends Component {
 			localStorage.setItem(`icxServer`, server);
 			setIcxWalletServer()
 			this.props.getStepPrice()
-			this.props.updateBalance()	
+			this.props.updateBalance()
 		}
 	}
 	render() {

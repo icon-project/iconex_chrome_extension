@@ -55,7 +55,7 @@ export function externalReducer(state = initialState, action) {
         }
         case actionTypes.callScoreFulfilled: {
             const { txHash } = action.payload
-            const newState = { ...state, a: 1 }
+            const newState = { ...state }
             newState.transactionLoading = false
             newState.transaction.txHash = txHash
             return newState

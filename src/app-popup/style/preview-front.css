@@ -2,7 +2,7 @@ html, body, #root-popup, .wrap, .wrap .content-wrap {min-width: 460px!important;
 html, body, #root-popup {overflow: hidden;}
 button:disabled{cursor: default;}
 .content-wrap .hash-holder .address{text-overflow: ellipsis; overflow: hidden;}
-.content-wrap .hash-holder.no-error{margin-top: 0px;}
+.content-wrap .hash-holder.no-error{margin-top: -4px;}
 .footer.cols-2:hover{background: #fff;}
 .footer.cols-2 button{width: 48%;}
 .content-wrap .list-holder li.link i:hover{cursor: pointer;}
@@ -14,3 +14,7 @@ button:disabled{cursor: default;}
 .remittance .layer li{cursor: pointer;}
 .content-wrap .scroll{height: calc(100vh - 120px);}
 .footer{height: 50px !important;}
+.content-wrap .tx.down{margin: 14px 0 0 0 !important;}
+.popup-wrap .btn-holder {left: auto; padding: 0;}
+.popup-wrap .scroll{white-space: pre;}
+

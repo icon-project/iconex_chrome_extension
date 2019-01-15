@@ -4,6 +4,7 @@ import MyWalletPage from 'app-popup/pages/MyWalletPage';
 import SendTransactionPage from 'app-popup/pages/SendTransactionPage';
 import CheckTransactionPage from 'app-popup/pages/CheckTransactionPage';
 import CompleteTransactionPage from 'app-popup/pages/CompleteTransactionPage';
+import TxDataPage from 'app-popup/pages/TxDataPage';
 import LockPage from 'app-popup/pages/LockPage';
 import { routeConstants as ROUTE } from 'constants/index';
 import { chromeStorage, chromeStorageLocal } from 'utils'
@@ -100,6 +101,7 @@ class Routes extends Component {
                 <PrivateRoute path={ROUTE['send']} isLocked={isLocked} component={SendTransactionPage} />
                 <PrivateRoute path={ROUTE['check']} isLocked={isLocked} component={CheckTransactionPage} />
                 <PrivateRoute path={ROUTE['complete']} isLocked={isLocked} component={CompleteTransactionPage} />
+                <PrivateRoute path={ROUTE['txdata']} isLocked={isLocked} component={TxDataPage} />
                 <LoginRoute path={ROUTE['lock']} isLocked={isLocked} component={LockPage} />
               </div>
             </div>

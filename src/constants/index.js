@@ -38,7 +38,8 @@ export const routeConstants = {
   'lock': '/lock',
   'send': '/send',
   'check': '/check',
-  'complete': '/complete'
+  'complete': '/complete',
+  'txdata': '/txdata'
 }
 
 export const dateFormat = "YYYY-MM-DD HH:mm:ss"

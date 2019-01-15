@@ -720,5 +720,9 @@ export default {
   completeTransaction: {
     success: '송금 요청이 완료되었습니다.<br/>거래 내역은 ICON Tracker에서<br/>조회 가능합니다.',
     fail: '송금 요청을 실패했습니다.<br/>다시 시도해 주세요.'
+  },
+
+  widget: {
+    checkTxHash: 'TxHash를 다시 한번 확인해 주세요.'
   }
 };

@@ -43,23 +43,38 @@
             <label for="json-rpc-3">ICX Transfer *</label>
         </p>
     </form>
-    <p>Param Data: <br><textarea id="score-data" rows="10"></textarea></p>
+    <p>Param Data : <br><textarea id="score-data" rows="10"></textarea></p>
     <button id="request-score">REQUEST_JSON-RPC</button>
     <p>> Result : <br><textarea id="response-score" rows="10"></textarea></p>
 
     <p>--------------------</p>
     <p><b>Signing</b> - Request for only signing tx hash. (User confirmation is always required.)</p>
+    <form id="request-signing-form">
+        <p>
+            <input type="radio" id="signing-0" name="signing" value="only-txhash" onclick="setRequestSigningForm()"
+                checked disabled>
+            <label for="signing-0">Only TxHash</label>
+            <input type="radio" id="signing-1" name="signing" value="txhash-with-params" onclick="setRequestSigningForm()"
+                disabled>
+            <label for="signing-1">TxHash with params</label>
+        </p>
+    </form>
+
     <p>Tx Hash : <input id="signing-data" type="text" placeholder="9babe5d2911e8e42dfad72a589202767f95c6fab49523cdc16279a7b8f82eab2" /></p>
+    <p>Params : <br><textarea id="signing-params" rows="10"></textarea></p>
     <button id="request-signing">REQUEST_SIGNING</button>
     <p id="response-signing">> Signature : </p>
 
     <script src="http://cdn.jsdelivr.net/gh/icon-project/icon-sdk-js@latest/build/icon-sdk-js.min.js"></script>
+
     <script>
-        var iconService = window['icon-sdk-js']
-        var IconWallet = iconService.IconWallet
-        var IconAmount = iconService.IconAmount
-        var IconConverter = iconService.IconConverter
-        var IconBuilder = iconService.IconBuilder
+        var IconService = window['icon-sdk-js']
+        var IconWallet = IconService.IconWallet
+        var IconAmount = IconService.IconAmount
+        var IconConverter = IconService.IconConverter
+        var IconBuilder = IconService.IconBuilder
+        var IconUtil = IconService.IconUtil
+        var SignedTransaction = IconService.SignedTransaction
 
         var requestHasAccount = document.getElementById("request-has-account")
         var responseHasAccount = document.getElementById("response-has-account")
@@ -76,17 +91,22 @@
         var responseScore = document.getElementById("response-score")
 
         var requestSigning = document.getElementById("request-signing")
+        var requestSigningForm = document.getElementById("request-signing-form")
         var responseSigning = document.getElementById("response-signing")
 
         var sendAddress = document.getElementById("send-address")
         var sendAmount = document.getElementById("send-amount")
         var scoreData = document.getElementById("score-data")
         var signingData = document.getElementById("signing-data")
+        var signingParams = document.getElementById("signing-params")
 
         var jsonRpc0 = document.getElementById("json-rpc-0")
         var jsonRpc1 = document.getElementById("json-rpc-1")
         var jsonRpc2 = document.getElementById("json-rpc-2")
         var jsonRpc3 = document.getElementById("json-rpc-3")
+
+        var signing0 = document.getElementById("signing-0")
+        var signing1 = document.getElementById("signing-1")
 
         window.addEventListener("ICONEX_RELAY_RESPONSE", eventHandler, false);
         function eventHandler(event) {
@@ -106,6 +126,8 @@
                     jsonRpc1.disabled = false
                     jsonRpc2.disabled = false
                     jsonRpc3.disabled = false
+                    signing0.disabled = false
+                    signing1.disabled = false
                     break
                 case "RESPONSE_JSON-RPC":
                     responseScore.value = JSON.stringify(payload);
@@ -119,6 +141,7 @@
                     break
                 case "CANCEL_SIGNING":
                     signingData.value = null
+                    signingParams.value = null
                     responseSigning.value = "> Signature : ";
                     break
 
@@ -191,6 +214,37 @@
             }
         }
 
+        function setRequestSigningForm() {
+            var data = new FormData(requestSigningForm);
+            var type = '';
+            for (const entry of data) { type = entry[1] };
+            switch (type) {
+                case 'only-txhash':
+                    signingParams.value = null
+                    signingParams.disabled = true
+                    break;
+
+                case 'txhash-with-params':
+                    signingData.value = '8b9637cc4936dc7dc427557bc13c44f5977851d6d0cda3272c8554995e5b6877'
+                    var icxTransactionBuilder = new IconBuilder.IcxTransactionBuilder;
+                    var icxTransferData = icxTransactionBuilder
+                        .from(fromAddress)
+                        .to("hx04d669879227bb24fc32312c408b0d5503362ef0")
+                        .nid(IconConverter.toBigNumber(3))
+                        .value(IconAmount.of(1, IconAmount.Unit.ICX).toLoop())
+                        // .timestamp((new Date()).getTime() * 1000)
+                        .timestamp(1542095585938000)
+                        .version(IconConverter.toBigNumber(3))
+                        .stepLimit(IconConverter.toBigNumber(100000))
+                        .build();
+                    signingParams.value = JSON.stringify(IconConverter.toRawTransaction(icxTransferData))
+                    signingParams.disabled = false
+                    break;
+
+                default:
+            }
+        }
+
         requestHasAccount.onclick = function () {
             window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
                 detail: {
@@ -244,17 +298,27 @@
                 return
             }
 
-            window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
-                detail: {
-                    type: 'REQUEST_SIGNING',
-                    payload: {
-                        from: fromAddress,
-                        hash: signingData.value || signingData.placeholder,
-                    }
+            var detail = {
+                type: 'REQUEST_SIGNING',
+                payload: {
+                    from: fromAddress,
                 }
+            }
+
+            var hash = signingData.value || signingData.placeholder
+            detail.payload.hash = hash
+
+            if (signingParams.value) {
+                var params = signingParams.value
+                detail.payload.params = params
+            }
+
+            window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
+                detail: detail
             }))
         }
 
     </script>
 </body>
+
 </html>

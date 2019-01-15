@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { LoadingComponent } from 'app/components/'
 import WalletBar from './WalletBar'
-import { makeWalletArray, openApp } from 'utils';
+import { makeWalletArray, openApp, beautifyJson } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 import Worker from 'workers/wallet.worker.js';
 import { makeTxHash } from 'utils/iconex'
@@ -18,7 +18,11 @@ const INIT_STATE = {
 	tabId: '',
 	error: '',
 	confirmLoading: false,
-	selected: ''
+	selected: '',
+	popup: {
+		show: false,
+		data: {}
+	}
 }
 
 @withLanguageProps
@@ -46,8 +50,11 @@ class MyWallet extends Component {
 					this.props.setScoreWallet({ wallet, privKey })
 					this.props.history.push(ROUTE['send'])
 				}
+				else if (signing.params) {
+					this.props.callSigning({ tabId, privKey, hash: makeTxHash(signing.params) })
+				}
 				else if (signing.hash) {
-					this.props.callSigning({ tabId,	privKey, hash: signing.hash })
+					this.props.callSigning({ tabId, privKey, hash: signing.hash })
 				}
 			}
 		}
@@ -125,7 +132,7 @@ class MyWallet extends Component {
 		}
 
 		let type = 'CANCEL'
- 		if (this.props.transaction.param) {
+		if (this.props.transaction.param) {
 			type += '_JSON-RPC'
 		}
 		else if (this.props.signing.hash) {
@@ -154,13 +161,27 @@ class MyWallet extends Component {
 		}
 	}
 
+	getParams = () => {
+		const { signing } = this.props
+		if (signing.params) {
+			return signing.params
+		}
+		else {
+			return ''
+		}
+	}
+
 	calcData = () => {
 		const { wallets } = this.props;
 		let { data, tab } = this.state;
 		let walletArr = makeWalletArray(wallets);
 
 		walletArr.map((wallet) => {
-			data[wallet.type].push(wallet)
+			const index = data[wallet.type].findIndex(element => wallet.account === element.account)
+			if (index === -1) {
+				data[wallet.type].push(wallet)
+			}
+
 			return true
 		})
 
@@ -195,8 +216,12 @@ class MyWallet extends Component {
 		return addressRequest || transaction.param || signing.hash
 	}
 
+	setPopup = (show, data) => {
+		this.setState({ popup: { show, data } })
+	}
+
 	render() {
-		const { tab, data, password, pwError, confirmLoading, selected } = this.state;
+		const { tab, data, password, pwError, confirmLoading, selected, popup } = this.state;
 		const { I18n, totalResultLoading } = this.props;
 		const { addressRequest, transaction } = this.props
 		const _onlyIcxTab = this.onlyIcxTab()
@@ -204,10 +229,11 @@ class MyWallet extends Component {
 			data['eth'] = []
 		}
 		const isTwoItem = data['icx'].length > 0 && data['eth'].length > 0
+		console.log(data['icx'])
 		return (
 			<div className="wrap">
 				{(totalResultLoading || data.length < 1) ?
-					<LoadingComponent type="black" style={{height: '100vh'}}/>
+					<LoadingComponent type="black" style={{ height: '100vh' }} />
 					:
 					<div>
 						<div className="tab-holder">
@@ -223,6 +249,7 @@ class MyWallet extends Component {
 										data[tab].map((wallet, i) => {
 											const isInput = this.getIsInput(wallet)
 											const txHash = isInput ? this.getTxHash() : ''
+											const params = isInput ? this.getParams() : ''
 											return (
 												<WalletBar key={i}
 													index={i}
@@ -233,10 +260,12 @@ class MyWallet extends Component {
 													confirmLoading={confirmLoading}
 													selected={selected}
 													selectAddress={this.selectAddress}
+													setPopup={this.setPopup}
 
 													isTransaction={!!transaction.param}
 													isInput={isInput}
 													txHash={txHash}
+													params={params}
 													confirmPassword={this.confirmPassword}
 													cancelEvent={this.cancelEvent}
 													addressRequest={addressRequest}
@@ -257,6 +286,19 @@ class MyWallet extends Component {
 					:
 					<div onClick={this.goApp} className="footer">
 						<p>{I18n.button.goToWallet}<em className="_img"></em></p>
+					</div>
+				}
+				{popup.show &&
+					<div className="popup-wrap">
+						<div className="dimmed"></div>
+						<div className="popup">
+							<div className="table-holder scroll">
+								{beautifyJson(popup.data, '\t')}
+							</div>
+							<div className="btn-holder">
+								<button type="submit" className="btn-type-normal full" onClick={() => { this.setPopup() }}><span>{I18n.button.confirm}</span></button>
+							</div>
+						</div>
 					</div>
 				}
 			</div>

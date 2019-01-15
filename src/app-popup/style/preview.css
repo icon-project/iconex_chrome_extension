@@ -5,7 +5,7 @@ body { margin:0; padding:0; background-color:#fff; color:#202020; font-size:12px
 html, body {/*width:100%; height:100%; *//*min-width:1024px; */}
 html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address,big, cite, code, del, dfn, em,
 img, ins, kbd, q, s, samp, small, strike,strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset,form, label, legend, table,
-caption, tbody, tfoot, thead, tr, th, article, aside, canvas, footer, header, menu, nav, section, summary, video {z-index: inherit;padding: 0;border: 0;margin: 0;vertical-align: baseline;font: inherit;font-size: 100%; font-family:'Noto Sans KR', sans-serif,arial;}
+caption, tbody, tfoot, thead, tr, th, article, aside, canvas, footer, header, menu, nav, section, summary, video {z-index: inherit;padding: 0;border: 0;margin: 0;vertical-align: baseline;font: inherit;font-size: 100%; font-family:'Noto Sans KR',arial,Microsoft YaHei,sans-serif;}
 
 input[type=button], input[type=text], input[type=image],
 input[type=submit],input[type=tel],
@@ -16,7 +16,7 @@ input[type=number], textarea {
 	outline: 0;
 	vertical-align:middle;
 	font-weight: 300;
-	font-family: NanumSquare,arial,sans-serif;
+	font-family: 'Noto Sans KR',arial,Microsoft YaHei,sans-serif;
 }
 input[type=password]{
 	-webkit-appearance: none;
@@ -100,11 +100,14 @@ html, body, .wrap, .wrap .content-wrap{height: 100%;}
 .content-wrap .list-holder .complete{background: #ededed;border-radius: 10px;     padding: 2px 28px; margin-top: 7px; text-align: center;}
 .content-wrap .list-holder .copy{background: #ededed;border-radius: 10px;     padding: 2px 14px;  margin-top: 7px; cursor: pointer;     font-weight: 300;}
 .content-wrap .list-holder .copy em{float: right;}
-.content-wrap .scroll{overflow-y: auto; height: calc(100% - 47px); margin: 0px 0 47px;}
+.content-wrap .scroll{overflow-y: auto; height: calc(100% - 50px); margin: 0px 0 47px;}
 .content-wrap .scroll button{float: right;}
 .content-wrap .name-group{width: calc(100% - 160px); display: inline-block; position: relative;}
 .content-wrap .name-group p.error{position: absolute; margin-left: 16px; font-size: 11px; padding-top: 4px; color: #ff3344;}
 .content-wrap .pass-holder{margin: 10px 0 18px;}
+.content-wrap .tx{text-align: center; padding: 0; margin: 5px 0 0 0;}
+.content-wrap .tx p{background: transparent; color: #808080; font-size: 12px; width: auto; padding: 5px 10px;}
+.content-wrap .tx p:hover {text-decoration: underline;}
 input.error{    border-bottom: 2px solid #ff3344;}
 
 .content-wrap .hash-holder span{font-size: 10px; opacity: 0.5;}
@@ -128,6 +131,7 @@ input.error{    border-bottom: 2px solid #ff3344;}
 [class ^="btn-type"] {display: inline-block; color: #fff; background-color: #262626 ; cursor: pointer; font-size: 12px; border-radius: 3px;width: 70px; height: 28px;     padding-top: 0px; border: transparent;}
 .btn-type-normal {width: 70px;}
 .btn-type-ok{width: 70px; height: 28px; border: transparent; background-color: #1aaaba;     margin-right: 4px;}
+.full{width: 100%;}
 
 .remittance{}
 .remittance .content-wrap .list-holder{padding: 17px 24px 16px;}
@@ -176,7 +180,30 @@ input.error{    border-bottom: 2px solid #ff3344;}
 .remittance.fail .scroll{text-align: center; padding: 0px 0px 26px; display: table; height: auto; position: absolute; top: 0; bottom: 0; margin: auto; width: 100%;}
 .remittance.fail ._img{width: 75px; height: 65px; background-position: -50px -85px; margin-bottom: 44px;}
 .remittance.fail .footer button{width: 100%;}
+.remittance .code-holder {padding:8px 24px 6px }
+.remittance .code-holder .name{display: inline-block;}
+.remittance .code-holder .view{color: #929292; font-size: 12px;float: right; cursor: pointer;}
+.remittance .code-holder .view i{width: 9px; height: 6px; background-position:-50px -169px; margin-left: 15px; }
+.remittance .code-holder .view.on i{background-position:-75px -169px;}
+.remittance .code-holder > div{color: #929292; font-size: 12px;white-space: pre;overflow-x: auto; padding-top: 5px;}
+
+.code-holder div::-webkit-scrollbar {width: 4px;height: 4px;background-color: rgba(0,0,0,0); -webkit-border-radius: 8px; border-radius: 8px;}
+.code-holder div::-webkit-scrollbar-thumb {background: #d4d4d4; -webkit-border-radius: 8px; border-radius: 8px;}
+
+.code div{padding: 27px 24px;}
+.code div{white-space: pre; overflow-x: auto; font-size: 10px; color: #262626;}
+
+.footer.cols-1{height: 50px; border-top: none; cursor: default; padding: 11px 12px;}
+.footer.cols-1 button{width: 100%;}
 .footer.cols-2{height: 50px; border-top: none; cursor: default; padding: 11px 12px;}
 .footer.cols-2 button{width: 49%;}
 
 
+/*popup*/
+.popup-wrap { z-index: 20; position: absolute; left: 0; right: 0; top: 0; bottom: 0;}
+.popup-wrap .dimmed {width: 100%; height: 100%; background: rgba(0,0,0, 0.8); position:  fixed; left: 0; right: 0; top: 0; bottom: 0;  }
+.popup-wrap .popup { background: #fff; position:  absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto; border-radius: 3px; height: calc(100% - 150px); width: calc(100% - 120px); padding: 12px;}
+.popup-wrap .btn-holder{position: absolute; width:calc(100% - 24px); bottom: 12px;}
+.popup-wrap .scroll{height:calc(100% - 96px); overflow-y: auto;     margin: 33px -8px 0 28px; font-size: 14px; padding-right: 28px;}
+.scroll::-webkit-scrollbar {width: 6px; height: 6px; border: 3px solid #fff; }
+.scroll::-webkit-scrollbar-thumb {height: 50px; width: 50px; background: #d4d4d4; -webkit-border-radius: 8px; border-radius: 8px; }

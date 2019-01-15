@@ -532,6 +532,26 @@ function fromDecToHex(num) {
   else return '0x' + (new BigNumber(num)).toString(16)
 }
 
+function beautifyJson(data, tab) {
+  if (!data) {
+    return ''
+  }
+  try {
+    let _data = {}
+    if (typeof data === 'object') {
+      _data = data
+    }
+    else if (typeof data === 'string') {
+      _data = JSON.parse(data)
+    }
+    return JSON.stringify(_data, null, tab)
+  }
+  catch (e) {
+    console.log(e)
+    return ''
+  }
+}
+
 export {
   charFreq,
   isEmpty,
@@ -576,5 +596,6 @@ export {
   calcIcxMessageKB,
   getHexByteLength,
   fromHexToDec,
-  fromDecToHex
+  fromDecToHex,
+  beautifyJson  
 }

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { convertNumberToText } from 'utils'
+import { convertNumberToText, makeTxHash } from 'utils'
 import withLanguageProps from 'HOC/withLanguageProps';
 import { LoadingComponent } from 'app/components/'
+import { routeConstants as ROUTE } from 'constants/index.js';
+import { withRouter } from 'react-router-dom';
+import { IconUtil } from 'icon-sdk-js'
 
 @withLanguageProps
 class WalletBar extends Component {
@@ -80,11 +83,17 @@ class WalletBar extends Component {
       this.onConfirmClick();
     }
   }
+  
+  goTxData = () => {
+    this.props.history.push(ROUTE['txdata'])
+  }
 
   render() {
-    const { wallet, index, I18n, password, handleChange, pwError, confirmLoading, isInput, txHash, addressRequest, selected, isTransaction } = this.props
+    const { wallet, index, I18n, password, handleChange, pwError, confirmLoading, isInput, txHash, params, addressRequest, selected, isTransaction } = this.props
     const { addressHoverState, addressClickState } = this.state;
     const balanceText = convertNumberToText(wallet.balance, wallet.type, true);
+    console.log(IconUtil.makeTxHash(params))
+    const isError = txHash !== IconUtil.makeTxHash(params)
     return (
       <li className={(addressRequest ? 'link' : '') + (selected === wallet.account ? ' on' : '')}>
         {addressRequest && <i className="_img" onClick={this.onRadioClick}></i>}
@@ -134,7 +143,13 @@ class WalletBar extends Component {
                 <p className="address" title={txHash}>{txHash}</p>
               }
             </div>
+            {params && isError && <p className="error">{I18n.widget.checkTxHash}</p>}
           </div>
+        }
+        {params &&
+          <dir className={`tx${isError ? '' : ' down'}`}>
+            <p className="btn-type-tx" onClick={this.goTxData}><span>TxData</span></p>
+          </dir>
         }
       </li>
     )
@@ -142,4 +157,4 @@ class WalletBar extends Component {
 
 }
 
-export default WalletBar;
+export default withRouter(WalletBar);

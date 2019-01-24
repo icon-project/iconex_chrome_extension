@@ -19,6 +19,8 @@ function funcInputToHexData(input, inputType) {
     }
     if (cur.type === 'int') {
       acc[cur.name] = window.web3.toHex(input[cur.name])
+    } else if (cur.type === 'bool') {
+      acc[cur.name] = input[cur.name] ? '0x1' : '0x0'
     } else {
       acc[cur.name] = input[cur.name]
     }

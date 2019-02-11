@@ -57,7 +57,8 @@ class AddToken1 extends Component {
           defaultSymbol: selectedTokensFiltered[i].symbol,
           defaultDecimals: selectedTokensFiltered[i].decimals,
           createdAt: Date.now().toString(),
-          recent: []
+          recent: [],
+          pendingTransaction: []
         });
         selectedTokensFiltered[i] = tokenObj;
       }
@@ -101,7 +102,7 @@ class AddToken1 extends Component {
         <h1 className="title">{I18n.addToken.title1}</h1>
         <h2>{I18n.addToken.desc1}</h2>
         <div className="scroll-holder">
-  				<div className=" token-list scroll">
+  				<div className="scroll line tokenAdd">
             <div className="tabbox-holder">
               <div className="wallet-group">
                 <ul>
@@ -133,11 +134,11 @@ class AddToken1 extends Component {
             </div>
           </div>
         </div>
-        <div className="token-input-holder">
-          <span>{I18n.addToken.info}</span><button onClick={() => this.props.setPopupNum(2)} type="submit" className="btn-type-copy2"><span>{I18n.button.tokenInfo}</span></button>
+        <div className="txt-holder">
+          <h3 className='addtxt'>{I18n.addToken.info}</h3><button onClick={() => this.props.setPopupNum(2)} type="submit" className="btn-type-search2 auto"><span>{I18n.button.tokenInfo}</span></button>
         </div>
         <div className="btn-holder">
-          <button disabled={isLoading} onClick={this.handleSubmit} type="submit" className="btn-type-fill"><span>{I18n.button.add}</span></button>
+          <button disabled={isLoading} onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.button.add}</span></button>
         </div>
         {
           showAlertAddToken && (
@@ -184,7 +185,8 @@ class TokenBar extends Component {
     return (
       <li>
         <input onChange={this.toggleCheckbox} checked={isChecked} data-checked={disabled} disabled={disabled} id={'cbox-' + index} className="cbox-type" type="checkbox"/>
-        <label htmlFor={'cbox-' + index} className="label _img">{token.symbol}</label>
+        <label htmlFor={'cbox-' + index} className="label _img">{`${token.name} (${token.symbol})`}</label>
+        <span>{token.address}</span>
       </li>
     )
   }

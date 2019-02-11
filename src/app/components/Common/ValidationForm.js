@@ -33,6 +33,7 @@ class ValidationForm extends Component {
     const target = e.target.name
     const { value } = e.target
     if (target === 'walletName' && !isValidWalletName(value)) return
+    if ((target === 'pw' || target === 'pwConfirm') && !(/^[a-zA-Z0-9?!:\.,%+-/*<>{}\(\)\[\]`"'~_^\\|@#$&]*$/.test(e.target.value))) return
     this.setState({
       [target]: value
     })
@@ -52,15 +53,16 @@ class ValidationForm extends Component {
   }
 
   handleSuccess = () => {
+    const walletNameTrim = this.state.walletName.trim()
     switch(this.props.type) {
       case 'createWallet':
-        this.props.onSuccess(this.state.walletName, this.state.pw);
+        this.props.onSuccess(walletNameTrim, this.state.pw);
         break;
       case 'importWallet_file':
-        this.props.onSuccess(this.state.walletName);
+        this.props.onSuccess(walletNameTrim);
         break;
       case 'importWallet_privKey':
-        this.props.onSuccess(this.state.walletName, this.state.pw);
+        this.props.onSuccess(walletNameTrim, this.state.pw);
         break;
       case 'exportWallet':
         this.props.onSuccess(this.state.pw);
@@ -86,15 +88,16 @@ class ValidationForm extends Component {
     for (let i=0; i<target.length; i++) {
       switch(target[i]) {
         case 'walletName':
-          if (!this.state.walletName.trim()) {
+          if (!this.state.walletName) {
             walletNameError = I18n.error.alertWalletName
             break;
-          }
-          else if (isWalletNameExists(this.props.wallets, this.state.walletName)) {
+          } else if (this.state.walletName.indexOf(' ') >= 0 && !this.state.walletName.trim()) {
+            walletNameError = I18n.error.pwErrorEmpty
+            break;
+          } else if (isWalletNameExists(this.props.wallets, this.state.walletName.trim())) {
             walletNameError = I18n.error.alertWalletNameSame
             break;
-          }
-          else {
+          } else {
             walletNameError = ''
             break;
           }
@@ -105,20 +108,21 @@ class ValidationForm extends Component {
               haveThreeSameCharacter = true;
             }
           }
+
           if (!this.state.pw) {
             pwError = I18n.error.pwErrorEnter
+            break;
+          } else if(this.state.pw.indexOf(' ') >= 0) {
+            pwError = I18n.error.pwErrorEmpty
             break;
           } else if(this.state.pw.length < 8) {
             pwError = I18n.error.pwErrorEight
             break;
-          } else if(!(/^.*(?=.*\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()_+|<>?:{}]).*$/.test(this.state.pw))) {
+          } else if(!(/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[?!:\.,%+-/*<>{}\(\)\[\]`"'~_^\\|@#$&]).{8,}$/.test(this.state.pw))) {
             pwError = I18n.error.pwErrorMix
             break;
-          } else if((/(.)\1\1/.test(this.state.pw))) {
+          }  else if((/(.)\1\1/.test(this.state.pw))) {
             pwError = I18n.error.pwErrorSame
-            break;
-          } else if(this.state.pw.indexOf(' ') >= 0) {
-            pwError = I18n.error.pwErrorEmpty
             break;
           } else {
             pwError = ''
@@ -149,6 +153,10 @@ class ValidationForm extends Component {
         this.handleSuccess();
       }
     });
+  }
+
+  getPassword = () => {
+    return this.state.pw
   }
 
   handleKeyPress = (e) => {

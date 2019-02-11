@@ -1,29 +1,40 @@
 const isDevVersion = () => process.env.USER === 'developer';
 const isAccessedFromWorker = typeof window === 'undefined';
 
+const isDevModeOn = () => {
+  if (isAccessedFromWorker) {
+    return false
+  } else {
+    return localStorage.getItem('isDev') || false
+  }
+}
+
 export const getCustomIcxServer = () => {
   const initialCustomServer = {
     customWalletURL: '',
-    customTrackerURL: ''
+    customTrackerURL: '',
+    customNid: ''
   }
   if (isAccessedFromWorker) {
     return initialCustomServer
   } else {
-    return localStorage.getItem('customIcxServer') ? JSON.parse(localStorage.getItem('customIcxServer')) : initialCustomServer
+    return localStorage.getItem('customIcxServer')
+              ? JSON.parse(localStorage.getItem('customIcxServer'))
+              : initialCustomServer
   }
 }
 
-export const INITIAL_API_VERSION_ICX = prodDev('v2', 'v3');
-export const INITIAL_SERVER_ICX = prodDev('main', 'test');
+export const INITIAL_API_VERSION_ICX = 'v3';
+export const INITIAL_SERVER_ICX = prodDev('mainnet', 'euljiro');
 export const INITIAL_SERVER_ETH = prodDev('main', 'ropsten');
 
-export const HIDE_SERVER = isDevVersion() ? false : true;
+export const HIDE_SERVER = (isDevVersion() || isDevModeOn()) ? false : true;
 export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://hardwallet.icon.foundation/test.html')
 
 export const getCurrentServer = (coinType) => {
   let server;
   const initialServer = coinType === 'icx' ? INITIAL_SERVER_ICX : INITIAL_SERVER_ETH;
-  if (process.env.NODE_ENV === 'development' && !isAccessedFromWorker) {
+  if (!isAccessedFromWorker) {
     server = localStorage.getItem(`${coinType}Server`) || initialServer
   } else {
     server = initialServer
@@ -33,7 +44,7 @@ export const getCurrentServer = (coinType) => {
 
 export const getCurrentICXApiVersion = () => {
   let apiVersion;
-  if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
+  if (!isAccessedFromWorker) {
     apiVersion = localStorage.getItem(`icxApiVersion`) || INITIAL_API_VERSION_ICX
   } else {
     apiVersion = INITIAL_API_VERSION_ICX
@@ -46,9 +57,9 @@ export const IS_V3 = getCurrentICXApiVersion() === 'v3';
 export const ICX_WALLET_SERVER = () => {
   const icxServer = getCurrentServer('icx');
   const obj = {
-    'test': 'https://testwallet.icon.foundation',
-    'main': 'https://wallet.icon.foundation',
-    'dev': 'http://13.209.103.183:9000',
+    'mainnet': 'https://wallet.icon.foundation',
+    'euljiro': 'https://test-ctz.solidwallet.io',
+    'yeouido': 'https://bicon.net.solidwallet.io',
     'custom': getCustomIcxServer().customWalletURL
   }
   return obj[icxServer];
@@ -57,10 +68,21 @@ export const ICX_WALLET_SERVER = () => {
 export const ICX_TRACKER_SERVER = () => {
   const icxServer = getCurrentServer('icx');
   const obj = {
-    'test': 'https://trackerdev.icon.foundation',
-    'main': 'https://tracker.icon.foundation',
-    'dev': 'http://trackerlocaldev.icon.foundation',
+    'mainnet': 'https://tracker.icon.foundation',
+    'euljiro': 'https://trackerdev.icon.foundation',
+    'yeouido': 'https://bicon.tracker.solidwallet.io',
     'custom': getCustomIcxServer().customTrackerURL
+  }
+  return obj[icxServer];
+}
+
+export const ICX_NID = () => {
+  const icxServer = getCurrentServer('icx');
+  const obj = {
+    'mainnet': '0x1',
+    'euljiro': '0x2',
+    'yeouido': '0x3',
+    'custom': getCustomIcxServer().customNid
   }
   return obj[icxServer];
 }
@@ -68,8 +90,8 @@ export const ICX_TRACKER_SERVER = () => {
 export const ETH_SERVER = () => {
   const ethServer = getCurrentServer('eth');
   const obj = {
-    'ropsten': 'https://ropsten.infura.io/',
-    'main': 'https://mainnet.infura.io/'
+    'ropsten': 'https://ropsten.infura.io',
+    'main': 'https://eth.solidwallet.io'
   }
   return obj[ethServer];
 }
@@ -121,6 +143,25 @@ export const trackerAccountUrl = {
     'eth': `${ETH_SCAN()}/address/`
 }
 
+// list constants
+export const icxServerList = {
+  'mainnet': 'mainnet',
+  'euljiro': 'euljiro',
+  'yeouido': 'yeouido',
+  'custom': 'custom'
+}
+
+export const icxApiVersionList = {
+  'v2': 'v2',
+  'v3': 'v3'
+}
+export const ethServerList = {
+  'ropsten': 'ropsten',
+  'main': 'main'
+}
+
+
 function prodDev(prod, dev) {
   return process.env.NODE_ENV === 'production' ? prod : dev;
 }
+

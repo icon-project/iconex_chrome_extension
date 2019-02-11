@@ -40,8 +40,13 @@ class WalletMenuBar extends Component {
         <li onClick={() => this.handleMenuClick('updateWalletName')} className="name"><span><em className="_img"></em>{I18n.walletMenuBarUpdateWalletName}</span></li>
         <li onClick={() => this.handleMenuClick('updatePassword')} className="pw"><span><em className="_img"></em>{I18n.walletMenuBarUpdatePassword}</span></li>
         <li onClick={() => this.handleMenuClick('backupWallet')} className="backup"><span><em className="_img"></em>{I18n.walletMenuBarBackupWallet}</span></li>
-        {(IS_V3 || walletSectionData.coinType === 'eth') && (<li onClick={() => this.handleMenuClick('addToken', 2)} className="add"><span><em className="_img"></em>{I18n.walletMenuBarAddToken}</span></li>)}
-        <li onClick={() => this.handleMenuClick('deleteWallet')} className="del"><span><em className="_img"></em>{I18n.walletMenuBarDeleteWallet}</span></li>
+        <li onClick={() => this.handleMenuClick('addToken', walletSectionData.coinType === 'eth' ? 2 : 1)} className="add"><span><em className="_img"></em>{I18n.walletMenuBarAddToken}</span></li>
+        <li onClick={() => {
+            if (walletSectionData.walletSectionBalanceWithRate === 0) {
+              return this.handleMenuClick('deleteWallet')
+            }
+            return this.handleMenuClick('deleteWallet_hasBalance')
+          }} className="del"><span><em className="_img"></em>{I18n.walletMenuBarDeleteWallet}</span></li>
       </ul>
     )
   }

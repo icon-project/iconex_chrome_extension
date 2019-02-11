@@ -9,9 +9,6 @@ import {
 import {
   setLock
 } from 'redux/actions/globalActions';
-import {
-  setCalcData
-} from 'redux/actions/exchangeTransactionActions';
 import { logOut } from 'redux/actions/authActions';
 import { getRate as GET_RATE_API } from 'redux/api/rateApi'
 import BigNumber from 'bignumber.js';
@@ -27,12 +24,9 @@ import {
   fetchCoinBalanceApi as FETCH_COIN_BALANCE,
   fetchTokenBalanceApi as FETCH_TOKEN_BALANCE,
   fetchTransactionHistoryApi as FETCH_TRANSACTION_HISTORY_API,
-  getTransactionReceiptApi as GET_TRANSACTION_RECEIPT_API,
-  getBlockNumberApi as GET_BLOCK_NUMBER,
   addRecentTransactionApi as ADD_RECENT_TRANSACTION
 } from 'redux/api/walletApi';
 import { icx_checkIcxTransactionExist as CHECK_ICX_TRANSACTION_EXIST } from 'redux/api/walletIcxApi';
-import { blockSearchNum as BLOCK_SEARCH_NUM } from 'constants/index'
 
 function* getWalletFunc(action) {
   try {
@@ -144,6 +138,30 @@ function* fetchTokenBalanceFunc(action) {
       index: action.index,
       error: e
     });
+  }
+}
+
+function* updateWalletBalanceFunc(action) {
+  try {
+    yield put({type: AT.totalResultLoading});
+    let keys = Object.keys(action.payload);
+    let values = Object.values(action.payload);
+
+    let fetchDataArr = [];
+    for(let i=0; i<keys.length; i++) {
+      let param = {
+        account: keys[i],
+        tokens: values[i].tokens,
+        coinType: values[i].type
+      }
+      fetchDataArr.push(call(fetchWalletDataFunc, param));
+    }
+    yield all(fetchDataArr);
+    yield put({type: AT.totalResultFulfilled});
+    yield put({type: AT.setCalcData});
+  } catch (e) {
+    yield put({type: AT.totalResultRejected});
+    alert(e);
   }
 }
 
@@ -425,6 +443,10 @@ function* watchFetchTokenBalance() {
   yield takeEvery(AT.fetchTokenBalance, fetchTokenBalanceFunc)
 }
 
+function* watchUpdateWalletBalance() {
+  yield takeLatest(AT.updateWalletBalance, updateWalletBalanceFunc)
+}
+
 function* watchUpdateLedgerWalletBalance() {
   yield takeLatest(AT.updateLedgerWalletBalance, updateLedgerWalletBalanceFunc)
 }
@@ -478,6 +500,7 @@ export default function* walletSaga() {
    yield fork(watchFetchAll);
    yield fork(watchFetchWalletData);
    yield fork(watchFetchCoinBalance);
+   yield fork(watchUpdateWalletBalance);
    yield fork(watchUpdateLedgerWalletBalance);
    yield fork(watchFetchTokenBalance);
    yield fork(watchFetchRecentHistory);

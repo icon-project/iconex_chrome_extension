@@ -1,8 +1,10 @@
 import { connect } from 'react-redux';
 import { isLoggedIn, setLockState } from 'redux/actions/authActions';
 import { getWallet } from 'redux/actions/walletActions';
-import { setShowNotice, setIsRequestedStatus, setTransactionStatus, setScoreData } from 'redux/actions/globalActions';
+import { setShowNotice } from 'redux/actions/globalActions';
+import { setAddressRequest, setScore, setSigning } from 'redux/actions/externalActions';
 import Routes from 'app-popup/Routes.js';
+import { closePopup } from 'redux/actions/popupActions';
 
 function mapStateToProps(state) {
   return {
@@ -12,10 +14,7 @@ function mapStateToProps(state) {
     isLocked: state.auth.isLocked,
     language: state.global.language,
     showNotice: state.global.showNotice,
-    isRequestedStatus: state.global.message ? state.global.message.isRequestedStatus : undefined,
-    transaction: state.global.message ? state.global.message.transaction : undefined,
-    score: state.global.message && state.global.message.score ? state.global.message.score : {},
-
+    popupType: state.popup.popupType
   };
 }
 
@@ -25,9 +24,11 @@ function mapDispatchToProps(dispatch) {
     getWallet: () => dispatch(getWallet()),
     setLockState: (isLocked) => dispatch(setLockState(isLocked)),
     setShowNotice: () => dispatch(setShowNotice()),
-    setIsRequestedStatus: (requested) => dispatch(setIsRequestedStatus(requested)),
-    setTransactionStatus: (transaction) => dispatch(setTransactionStatus(transaction)),
-    setScoreData: (transaction) => dispatch(setScoreData(transaction)),
+    closePopup: () => dispatch(closePopup()),
+
+    setAddressRequest: payload => dispatch(setAddressRequest(payload)),
+    setScore: payload => dispatch(setScore(payload)),
+    setSigning: payload => dispatch(setSigning(payload)),
   };
 }
 

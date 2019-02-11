@@ -32,7 +32,7 @@ class PasswordSetter extends Component {
                                setInputValue={(value, callback)=>{this.props.setValue({first:value}, callback)}}
                                error={I18n.error[this.props.firstError]}
                                clearError={this.props.clearError}
-                               handleKeyPress={this.props.setPasscodeEmail}
+                               handleKeyPress={this.props.setNewPasscode}
                 />
                 <br/>
                 <p className="label">{I18n.myPageLabel2}</p>
@@ -40,7 +40,7 @@ class PasswordSetter extends Component {
                                setInputValue={(value, callback)=>{this.props.setValue({second:value}, callback)}}
                                error={I18n.error[this.props.secondError]}
                                clearError={this.props.clearError}
-                               handleKeyPress={this.props.setPasscodeEmail}
+                               handleKeyPress={this.props.setNewPasscode}
                 />
               </div>
             </div>
@@ -63,7 +63,7 @@ class PasswordSetter extends Component {
                                setInputValue={(value, callback)=>{this.props.setValue({current:value}, callback)}}
                                error={I18n.error[this.props.currentError]}
                                clearError={this.props.clearError}
-                               handleKeyPress={this.props.setPasscode}
+                               handleKeyPress={this.props.changeToNewPasscode}
                 />
                 <br/>
                 <p className="label">{I18n.myPageLabel1}</p>
@@ -71,7 +71,7 @@ class PasswordSetter extends Component {
                                setInputValue={(value, callback)=>{this.props.setValue({first:value}, callback)}}
                                error={I18n.error[this.props.firstError]}
                                clearError={this.props.clearError}
-                               handleKeyPress={this.props.setPasscode}
+                               handleKeyPress={this.props.changeToNewPasscode}
                 />
                 <br/>
                 <p className="label">{I18n.myPageLabel2}</p>
@@ -79,7 +79,7 @@ class PasswordSetter extends Component {
                                setInputValue={(value, callback)=>{this.props.setValue({second:value}, callback)}}
                                error={I18n.error[this.props.secondError]}
                                clearError={this.props.clearError}
-                               handleKeyPress={this.props.setPasscode}
+                               handleKeyPress={this.props.changeToNewPasscode}
                 />
               </div>
             </div>

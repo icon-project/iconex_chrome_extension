@@ -25,6 +25,13 @@ export function setTxFeeLimitError() {
   };
 }
 
+export function setTxFeeModified(payload) {
+  return {
+    type: actionTypes.setTxFeeModified,
+    payload
+  };
+}
+
 export function setContractTxFeeLimitError() {
   return {
     type: actionTypes.setContractTxFeeLimitError
@@ -45,6 +52,12 @@ export function setData(payload) {
   };
 }
 
+export function setDataType(payload) {
+  return {
+    type: actionTypes.setDataType,
+    payload
+  };
+}
 
 export function setDataError() {
   return {
@@ -70,6 +83,12 @@ export function setCoinQuantity(payload, isTxFeeNeeded) {
 export function setCoinQuantityError() {
   return {
     type: actionTypes.setCoinQuantityError
+  };
+}
+
+export function setSwapCoinQuantityError() {
+  return {
+    type: actionTypes.setSwapCoinQuantityError
   };
 }
 
@@ -103,10 +122,11 @@ export function sendCall(privKey, data, isLedger = false) {
   };
 }
 
-export function submitCall(payload) {
+export function submitCall(payload, options = {}) {
   return {
     type: actionTypes.submitCall,
-    payload
+    payload,
+    options
   };
 }
 

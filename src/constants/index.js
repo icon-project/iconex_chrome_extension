@@ -35,7 +35,10 @@ export const routeConstants = {
   'transaction': '/transaction',
   'contract': '/contract',
   'mypage': '/mypage',
-  'lock': '/lock'
+  'lock': '/lock',
+  'send': '/send',
+  'check': '/check',
+  'complete': '/complete'
 }
 
 export const dateFormat = "YYYY-MM-DD HH:mm:ss"
@@ -88,23 +91,29 @@ export const currencyRound = {
 }
 
 export const tokenList = {
-  '1STT': {
-    address: '40aade55175aaeed9c88612c3ed2ff91d8943964',
+  'AC3': {
+    address: 'cx9ab3078e72c8d9017194d17b34b1a47b661945ca',
     decimals: 18,
-    name: 'FirstBlood Test Token',
-    symbol: '1STT'
+    name: 'AC3',
+    symbol: 'AC3'
   },
-  'STT': {
-    address: 'c55cf4b03948d7ebc8b9e8bad92643703811d162',
-    decimals: 18,
-    name: 'Status Test Token',
-    symbol: 'STT'
+  'MCA': {
+    address: 'cxf9148db4f8ec78823a50cb06c4fed83660af38d0',
+    decimals: 0,
+    name: 'MECA Coin',
+    symbol: 'MCA'
   },
-  'BOKKY': {
-    address: '583cbbb8a8443b38abcc0c956bece47340ea1367',
+  'WOK': {
+    address: 'cx921205acb7c51e16d5b7cbc37539a4357d929d20',
     decimals: 18,
-    name: 'BokkyPooBah Test Token',
-    symbol: 'BOKKY'
+    name: 'weBloc',
+    symbol: 'WOK'
+  },
+  'SPORT': {
+    address: 'cx3ec2814520c0096715159b8fc55fa1f385be038c',
+    decimals: 18,
+    name: 'SportToken',
+    symbol: 'SPORT'
   }
 }
 

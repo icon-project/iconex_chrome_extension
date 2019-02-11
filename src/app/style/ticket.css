@@ -34,8 +34,6 @@ a:hover {  color:#fff;}*/
 *{-webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;}
-
-
 .wrap.ticket{width: 1040px; height: 420px; margin: 60px 10px; position: relative;}
 .wrap.ticket .back img{width: 100%; position: absolute; height: 420px;}
 .wrap.ticket .header-wrapper{width: 100%;z-index: 9; height: 120px; color: #fff; position: absolute;}
@@ -43,7 +41,7 @@ a:hover {  color:#fff;}*/
 .wrap.ticket .label-group p:not(:first-child){font-size: 13px; position: absolute; bottom: 40px;}
 .wrap.ticket .label-group p:nth-child(2){left: 40px;}
 .wrap.ticket .label-group p:nth-child(3){right: 40px;}
-.wrap.ticket .label-group .name{display: table-cell; vertical-align: middle; font-weight: 700;}
+.wrap.ticket .label-group .name{display: table-cell; vertical-align: middle; font-weight: 700; font-family:'Noto Sans KR',arial,Microsoft YaHei,sans-serif;}
 
 .wrap.ticket .header-wrapper .url{float: right; margin: 44px 50px 0 0; font-size: 25px; color: #fff;}
 .wrap.ticket .content-wrapper {position: absolute; z-index: 10; top: 0px; margin:0; width: 100%;}

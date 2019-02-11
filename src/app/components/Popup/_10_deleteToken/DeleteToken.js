@@ -26,8 +26,8 @@ class DeleteToken extends Component {
           handleCancel={this.closePopup}
           handleSubmit={this.handleSubmit}
           text={I18n.deleteToken.info}
-          cancelText={I18n.button.cancel}
-          submitText={I18n.button.confirm}
+          cancelText={I18n.button.no}
+          submitText={I18n.button.yes}
         />
       </div>
     );

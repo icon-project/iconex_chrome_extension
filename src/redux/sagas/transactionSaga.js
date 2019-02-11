@@ -12,9 +12,8 @@ import {
 import {
   icx_sendTransaction as ICX_SEND_TRANSACTION,
   icx_getTxFeeInfoApi as ICX_GET_TX_FEE_INFO,
-  icx_callScoreExternally as CALL_SCORE_EXTERNALLY_API
 } from 'redux/api/walletIcxApi';
-import { check0xPrefix, signRawTx, customValueToTokenValue, makeEthRawTx, isEmpty, checkLength } from 'utils'
+import { check0xPrefix, signRawTx, customValueToTokenValue, makeEthRawTx, isEmpty, checkLength, dataToHex, getHexByteLength } from 'utils'
 import {
   addRecentTransaction
 } from 'redux/actions/walletActions';
@@ -24,6 +23,10 @@ export function* getTxFeeInfoFunc(action) {
   try {
     const walletCoinType = yield select(state => state.exchangeTransaction.calcData.walletCoinType);
     const isTokenSelector = yield select(state => state.wallet.selectedWallet.isToken);
+    const isTxFeeModified = yield select(state => state.exchangeTransaction.isTxFeeModified);
+    if (isTxFeeModified) {
+      return;
+    }
     if (walletCoinType === 'eth') {
       if (isTokenSelector) {
         const walletsSelector = yield select(state => state.wallet.wallets);
@@ -52,34 +55,36 @@ export function* getTxFeeInfoFunc(action) {
       if (IS_V3) {
         let txFeePriceStep = yield select(state => state.exchangeTransaction.txFeePriceStep);
         let txFeeLimitTable = yield select(state => state.exchangeTransaction.txFeeLimitTable);
+        let txFeeLimitMax = yield select(state => state.exchangeTransaction.txFeeLimitMax);
 
         if (!txFeePriceStep || isEmpty(txFeeLimitTable)) {
           const payload = yield call(ICX_GET_TX_FEE_INFO)
           txFeePriceStep = payload.txFeePriceStep
           txFeeLimitTable = payload.txFeeLimitTable
+          txFeeLimitMax = payload.txFeeLimitMax
         }
 
         const isTokenSelector = yield select(state => state.wallet.selectedWallet.isToken);
         const contractFuncInput = yield select(state => state.contract.funcInput);
-        //const calcContractCallLimit = (data) => parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['contractCall'], 16) * checkLength(JSON.stringify(data))
-        const calcContractCallLimit = (data) => parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['contractCall'], 16) +  parseInt(txFeeLimitTable['input'], 16) * checkLength(JSON.stringify(data)) + 20000
+        const contractFuncList = yield select(state => state.contract.funcList);
+        const calcContractCallLimit = (data) => ((parseInt(txFeeLimitTable['default'], 16)) * 2)
 
-        if (!isEmpty(contractFuncInput)) {
-          let data;
-          const funcList = yield select(state => state.contract.funcList);
-          const selectedFuncIndex = yield select(state => state.contract.selectedFuncIndex);
-
-          data = {
-             "method": funcList[selectedFuncIndex].name,
-             "params": contractFuncInput
-          }
+        if (contractFuncList.length > 0) {
+          //let data;
+          // const funcList = yield select(state => state.contract.funcList);
+          // const selectedFuncIndex = yield select(state => state.contract.selectedFuncIndex);
+          // data = {
+          //    "method": funcList[selectedFuncIndex].name,
+          //    "params": contractFuncInput
+          // }
           yield put({type: AT.getTxFeeInfoFulfilled, payload: {
             txFeePrice: txFeePriceStep,
-            txFeeLimit: calcContractCallLimit(data),
+            //txFeeLimit: calcContractCallLimit(data),
+            txFeeLimit: txFeeLimitMax,
             txFeePriceStep: txFeePriceStep,
-            txFeeLimitTable: txFeeLimitTable
+            txFeeLimitTable: txFeeLimitTable,
+            txFeeLimitMax: txFeeLimitMax
           }});
-
         } else if (isTokenSelector) {
           let data;
           const selectedAccount = yield select(state => state.wallet.selectedWallet.account);
@@ -106,18 +111,21 @@ export function* getTxFeeInfoFunc(action) {
             txFeePrice: txFeePriceStep,
             txFeeLimit: calcContractCallLimit(data),
             txFeePriceStep: txFeePriceStep,
-            txFeeLimitTable: txFeeLimitTable
+            txFeeLimitTable: txFeeLimitTable,
+            txFeeLimitMax: txFeeLimitMax
           }});
 
         } else {
           const data = yield select(state => state.exchangeTransaction.data);
-          const txFeeLimit = data.length > 0 ? parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['input'], 16) * checkLength(data)
+          const dataType = yield select(state => state.exchangeTransaction.dataType);
+          const txFeeLimit = data.length > 0 ? parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['input'], 16) * (dataType === 'utf8' ? (getHexByteLength(checkLength(dataToHex(data)))) : getHexByteLength(data.length))
                                              : parseInt(txFeeLimitTable['default'], 16)
           yield put({type: AT.getTxFeeInfoFulfilled, payload: {
            txFeePrice: txFeePriceStep,
            txFeeLimit: txFeeLimit,
            txFeePriceStep: txFeePriceStep,
-           txFeeLimitTable: txFeeLimitTable
+           txFeeLimitTable: txFeeLimitTable,
+           txFeeLimitMax: txFeeLimitMax
           }});
         }
       }
@@ -126,20 +134,6 @@ export function* getTxFeeInfoFunc(action) {
   } catch (e) {
     console.log(e)
     yield put({type: AT.getTxFeeInfoRejected, error: e});
-  }
-}
-
-export function* callScoreExternallyFunc(action) {
-  try {
-    const { privKey, param } = action.payload
-    const { params } = param
-    param.params = signRawTx(privKey, params)
-    const payload = yield call(CALL_SCORE_EXTERNALLY_API, param);
-    yield put({type: AT.callScoreExternallyFulfilled, payload: payload});
-  } catch (e) {
-    // alert(e);
-    console.log(e)
-    yield put({type: AT.callScoreExternallyRejected, error: e});
   }
 }
 
@@ -182,7 +176,7 @@ export function* sendTransactionCallFunc(action) {
   try {
     let response;
     if (action.isLedger) {
-      response = yield call(ICX_SEND_TRANSACTION, action.data, action.isLedger);
+      response = yield call(ICX_SEND_TRANSACTION, action.data);
       yield put({type: AT.sendCallFulfilled, payload: response});
     } else {
       if (!action.data.contractAddress) {
@@ -240,16 +234,10 @@ function* watchSendTransactionCall() {
   yield takeLatest(AT.sendCall, sendTransactionCallFunc)
 }
 
-function* watchCallScoreExternally() {
-  yield takeLatest(AT.callScoreExternally, callScoreExternallyFunc)
-}
-
-
 export default function* walletSaga() {
   yield fork(watchSetCoinQuantity);
   yield fork(watchSetRecipientAddress);
   yield fork(watchSetData);
   yield fork(watchGetTxFeeInfo);
   yield fork(watchSendTransactionCall);
-  yield fork(watchCallScoreExternally)
 }

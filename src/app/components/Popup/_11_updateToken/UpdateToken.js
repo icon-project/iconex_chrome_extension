@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { isIcxContractAddress, isAddress, checkLength } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -54,6 +54,8 @@ class UpdateToken extends Component {
       decimalsError
     } = this.state;
 
+    const currentWallet = this.props.wallets[this.props.selectedAccount];
+
     let targetArr = [];
 
     if (state === 'submit') {
@@ -68,10 +70,11 @@ class UpdateToken extends Component {
       switch (target) {
         case 'address':
           if (address.length < 1) { addressError = I18n.error.addressEnter; }
+          else if ((currentWallet.type === 'icx' && !isIcxContractAddress(address)) || (currentWallet.type === 'eth' && !isAddress(address))) { addressError = I18n.error.addressNotValid }
           else { addressError = ''; }
           break;
         case 'name':
-          if (name.length < 1) { nameError = I18n.error.tokenNameEnter; }
+          if (name.trim().length < 1) { nameError = I18n.error.tokenNameEnter; }
           else { nameError = ''; }
           break;
         case 'symbol':
@@ -122,6 +125,8 @@ class UpdateToken extends Component {
 
   changeInput = (e) => {
     const target = e.target.getAttribute('data-type');
+    if (target === 'name' && checkLength(e.target.value) > 64) return;
+
     const state = this.state;
     state[target] = e.target.validity.valid ? e.target.value : state[target];
     this.setState(state);

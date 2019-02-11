@@ -1,5 +1,5 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
-import { isAddress, isEmpty, customValueToTokenValue, isIcxWalletAddress, checkLength, isIcxContractAddress, getTypeText, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
+import { isAddress, isEmpty, dataToHex, getHexByteLength, isIcxWalletAddress, checkLength, isIcxContractAddress, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
 import { store } from 'redux/store/store';
 import { IS_V3 } from 'constants/config.js'
 //import { coinRound as ROUND } from 'constants/index';
@@ -23,8 +23,10 @@ const uiState = {
   txFeeLimitError: '',
   txFeeLimit: 21000,
   txFeePrice: 21,
+  isTxFeeModified: false,
 
   data: '',
+  dataType: 'utf8',
   dataError: '',
   txFee: 0,
   tx: '',
@@ -36,7 +38,8 @@ const uiState = {
 
 const txFeeLimitState = {
   txFeePriceStep: '',
-  txFeeLimitTable: {}
+  txFeeLimitTable: {},
+  txFeeLimitMax: ''
 }
 
 const initialState = {
@@ -45,13 +48,31 @@ const initialState = {
   ...txFeeLimitState
 }
 
-export function validateCoinQuantityError(state) {
+export function validateSwapCoinQuantityError(state) {
+  const isToken = store.getState().wallet.selectedWallet.isToken;
   let error = '';
   if (!state.coinQuantity) {
     error = 'coinAmount'
-  } else if (Number(state.coinQuantity) === 0) {
+  } else if (state.coinQuantity === '0') {
     error = 'coinAmountZero'
-  } else if (state.calcData.isResultBalanceMinus) {
+  } else if (state.coinQuantity !== '0' && !isToken && !state.calcData.isWalletCoinBalanceMinus && state.calcData.isResultBalanceMinus) {
+    error = 'notEnoughBalance'
+  } else if (state.coinQuantity !== '0' && state.calcData.isResultBalanceMinus) {
+    error = 'coinAmountBalance'
+  } else {
+    error = ''
+  }
+  return error
+}
+
+export function validateCoinQuantityError(state) {
+  const isToken = store.getState().wallet.selectedWallet.isToken;
+  let error = '';
+  if (!state.coinQuantity) {
+    error = 'coinAmount'
+  } else if (state.coinQuantity !== '0' && !isToken && !state.calcData.isWalletCoinBalanceMinus && state.calcData.isResultBalanceMinus) {
+    error = 'notEnoughBalance'
+  } else if (state.coinQuantity !== '0' && state.calcData.isResultBalanceMinus) {
     error = 'coinAmountBalance'
   } else {
     error = ''
@@ -85,11 +106,21 @@ export function validateRecipientAddressError(state) {
   return error;
 }
 
+export function validateMessageError(state) {
+  let error = '';
+  if (getHexByteLength(checkLength(dataToHex(state.data))) > (250 * 1024)) {
+    error = 'dataOverLimit'
+  } else {
+    error = ''
+  }
+  return error;
+}
+
 export function validateDataError(state) {
   let error = '';
   if (!isHex(state.data)) {
     error = 'checkData'
-  } else if (checkLength(state.data) > (512 * 1024)) {
+  } else if (getHexByteLength(checkLength(state.data)) > (250 * 1024)) {
     error = 'dataOverLimit'
   } else {
     error = ''
@@ -99,8 +130,18 @@ export function validateDataError(state) {
 
 export function validateTxFeeLimitError(state) {
   let error = '';
+  const isToken = store.getState().wallet.selectedWallet.isToken;
+  const minStepLimit = initialStepLimit(isToken, state.txFeeLimitTable);
   if (!state.txFeeLimit) {
-    error = 'enterGasPrice'
+    error = `enterGasPrice_${state.calcData.walletCoinType === 'icx' ? 'step' : 'gas'}`;
+  } else if (state.calcData.walletCoinType === 'icx' && state.txFeeLimit < minStepLimit) {
+    error = `stepLimitTooLow`;
+  } else if (state.calcData.walletCoinType === 'icx' && new BigNumber(state.txFeeLimit).gt(state.txFeeLimitMax)) {
+    error = `stepLimitTooHigh`;
+  } else if (state.calcData.isWalletCoinBalanceMinus) {
+    error = 'notEnoughBalance';
+  } else if (state.calcData.isResultBalanceMinus) {
+    error = 'notEnoughBalance';
   } else {
     error = ''
   }
@@ -109,8 +150,16 @@ export function validateTxFeeLimitError(state) {
 
 export function validateContractTxFeeLimitError(state) {
   let error = '';
+  const isToken = store.getState().wallet.selectedWallet.isToken;
+  const minStepLimit = initialStepLimit(isToken, state.txFeeLimitTable);
   if (!state.txFeeLimit) {
-    error = 'enterGasPrice'
+    error = 'enterGasPrice_step'
+  } else if (state.txFeeLimit < minStepLimit) {
+    error = `stepLimitTooLow`;
+  } else if (new BigNumber(state.txFeeLimit).gt(state.txFeeLimitMax)) {
+    error = `stepLimitTooHigh`;
+  } else if (state.calcData.isWalletCoinBalanceMinus) {
+    error = 'notEnoughBalance'
   } else if (state.calcData.isResultBalanceMinus) {
     error = 'notEnoughBalance'
   } else {
@@ -160,7 +209,7 @@ const calcData = (props) => {
   let txFee = txFeePriceCalc.times(txFeeLimitNumber)
   const txFeePriceWithRate = convertNumberToText(txFeePriceCalc.times(usdRate), 'usd', false);
 
-  if((!IS_V3 && walletCoinType === 'icx') || isLedger) {
+  if(!IS_V3 && walletCoinType === 'icx') {
     txFee = new BigNumber(0.01);
   }
 
@@ -182,6 +231,7 @@ const calcData = (props) => {
   }
 
   return {
+    currentBalance: balance,
     totalBalance: totalBalance.toFixed(18),
     txFeePriceWithRate: txFeePriceWithRate,
     txFee: txFeeText,
@@ -191,15 +241,23 @@ const calcData = (props) => {
     resultBalance: resultBalanceText,
     resultBalanceWithRate: resultBalanceWithRateText,
     isResultBalanceMinus: resultBalanceText.includes("-") ? true : false,
+    isWalletCoinBalanceMinus: !isToken ? (new BigNumber(wallet.balance).minus(coinQuantityNumber).lt(0)) : (new BigNumber(wallet.balance).minus(txFee).lt(0)),
     coinType: type,
     walletCoinType: walletCoinType,
     coinTypeObj: coinTypeObj
   }
 };
 
+export const initialStepLimit = (isToken, txFeeLimitTable) => {
+  return !isToken ? parseInt(txFeeLimitTable['default'], 16)
+                  : (parseInt(txFeeLimitTable['default'], 16)) * 2
+}
+
 const initializeTxFeeLimit = (isToken, walletCoinType, txFeeLimitTable) => {
   if (walletCoinType === 'icx') {
-    return !isEmpty(txFeeLimitTable) ? parseInt(txFeeLimitTable['default'], 16) : 4000
+    return !isEmpty(txFeeLimitTable)
+            ? initialStepLimit(isToken, txFeeLimitTable)
+            : 100000
   } else {
     return isToken ? 55000 : 21000
   }
@@ -207,7 +265,7 @@ const initializeTxFeeLimit = (isToken, walletCoinType, txFeeLimitTable) => {
 
 const initializeTxFeePrice = (isToken, walletCoinType, txFeePriceStep) => {
   if (walletCoinType === 'icx') {
-    return txFeePriceStep || new BigNumber(1000000000000)
+    return txFeePriceStep || new BigNumber(10000000000)
   } else {
     return 21
   }
@@ -284,6 +342,12 @@ export function exchangeTransactionReducer(state = initialState, action) {
         data: action.payload
       })
     }
+    case actionTypes.setDataType: {
+      return Object.assign({}, state, {
+        dataType: action.payload,
+        dataError: ''
+      })
+    }
     case actionTypes.submitCall:
       let submit = false;
       if (!action.payload) {
@@ -291,10 +355,12 @@ export function exchangeTransactionReducer(state = initialState, action) {
           submit: submit
         })
       } else {
-        const coinQuantityError = validateCoinQuantityError(state);
+        const coinQuantityError = action.options['isSwap'] ? validateSwapCoinQuantityError(state) : validateCoinQuantityError(state);
         const recipientAddressError = validateRecipientAddressError(state);
-        const txFeeLimitError = validateTxFeeLimitError(state);
-        const dataError = validateDataError(state);
+        const txFeeLimitError = action.options['isSwap'] ? '' : validateTxFeeLimitError(state);
+        const dataError = state.calcData.walletCoinType === 'icx' && state.dataType === 'utf8'
+                            ? validateMessageError(state)
+                            : validateDataError(state)
         if (!coinQuantityError && !recipientAddressError && !dataError && !txFeeLimitError) {
           submit = true;
         }
@@ -330,6 +396,12 @@ export function exchangeTransactionReducer(state = initialState, action) {
           coinQuantityError: error
       })
     }
+    case actionTypes.setSwapCoinQuantityError: {
+      let error = validateSwapCoinQuantityError(state);
+      return Object.assign({}, state, {
+          coinQuantityError: error
+      })
+    }
     case actionTypes.toggleFullBalance: {
       return Object.assign({}, state, {
           isFullBalance: action.payload
@@ -347,7 +419,9 @@ export function exchangeTransactionReducer(state = initialState, action) {
       })
     }
     case actionTypes.setDataError: {
-      let error = validateDataError(state);
+      let error = state.calcData.walletCoinType === 'icx' && state.dataType === 'utf8'
+                    ? validateMessageError(state)
+                    : validateDataError(state)
       return Object.assign({}, state, {
           dataError: error
       })
@@ -362,6 +436,11 @@ export function exchangeTransactionReducer(state = initialState, action) {
       let error = validateContractTxFeeLimitError(state);
       return Object.assign({}, state, {
           txFeeLimitError: error
+      })
+    }
+    case actionTypes.setTxFeeModified: {
+      return Object.assign({}, state, {
+          isTxFeeModified: action.payload
       })
     }
     case actionTypes.resetContractInputOutput:
@@ -384,13 +463,14 @@ export function exchangeTransactionReducer(state = initialState, action) {
           txFeeLoading: true
       })
     case actionTypes.getTxFeeInfoFulfilled:
-      const { txFeePrice, txFeeLimit, txFeePriceStep, txFeeLimitTable } = action.payload
+      const { txFeePrice, txFeeLimit, txFeePriceStep, txFeeLimitTable, txFeeLimitMax } = action.payload
       return Object.assign({}, state, {
         txFeeLoading: false,
         txFeePrice: txFeePrice,
         txFeeLimit: txFeeLimit,
         txFeePriceStep: txFeePriceStep || '',
-        txFeeLimitTable: !isEmpty(txFeeLimitTable) ? txFeeLimitTable : {}
+        txFeeLimitTable: !isEmpty(txFeeLimitTable) ? txFeeLimitTable : {},
+        txFeeLimitMax: txFeeLimitMax
       })
     case actionTypes.getTxFeeInfoRejected:
       return Object.assign({}, state, {

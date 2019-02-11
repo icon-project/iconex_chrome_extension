@@ -4,7 +4,7 @@ export default {
     submit: '완료',
     back: '이전',
     next: '다음',
-    yes: '예',
+    yes: '네',
     no: '아니요',
     import: '가져오기',
     change: '변경',
@@ -46,11 +46,11 @@ export default {
   error: {
     pwErrorEnter: '비밀번호를 입력해주세요.',
     pwErrorEight: '8자 이상으로 입력해주세요.',
-    pwErrorMix: '영문, 숫자, 특수문자를 혼용하여 입력해주세요.',
+    pwErrorMix: '영문, 숫자, 특수문자( ? ! : . , % + - / * < > { } ( ) [ ]  \` \" \' ~ _ ^ \\ | @ # $ & )를 혼용하여 입력해주세요.',
     pwErrorContinuous: '3자 이상 연속되지 않게 입력해주세요.',
-    pwErrorSame: '동일한 문자를 3자 이상 반복해서 입력할 수 없습니다.',
+    pwErrorSame: '동일한 문자를 3자 이상 연속해서 입력할 수 없습니다.',
     pwErrorEmpty: '공백 없이 입력해주세요.',
-    pwConfirmError: '비밀번호를 확인해주세요.',
+    pwConfirmError: '비밀번호를 다시 확인해주세요.',
     pwConfirmErrorSame: '비밀번호가 일치하지 않습니다.',
     addressNotCorrect: '지갑 백업 파일(Keystore 파일)의 주소가 임의적으로 변경되었습니다. 파일을 확인해주세요.',
 
@@ -59,6 +59,7 @@ export default {
     alertNoBalance: '코인 보유량이 없습니다. 입금 후 송금해주세요.',
     alertNoSwapBalance: '스왑 가능한 ICX 토큰이 없습니다.',
     alertNoSwapGasBalance: '스왑 수수료 지불을 위한 ETH 잔액이 없습니다. 입금 후 진행해 주세요.',
+    alertNoTxFeeBalance: (walletCoinType) => `${walletCoinType.toUpperCase()} 계좌 잔액이 부족하여 토큰을 송금할 수 없습니다.`,
     alertBalanceRemove: '코인 보유량이 없는 경우에만 삭제할 수 있습니다.',
     alertDownloadAfterBackup: '지갑 백업 파일(Keystore 파일) 다운로드 후 다음 버튼을 클릭해주세요.',
 
@@ -67,7 +68,7 @@ export default {
 
     currentPasscodeEnter: '현재 잠금 번호를 입력해주세요.',
     passcodeEnter: '잠금 번호를 입력해주세요.',
-    currentPasscodeFail: '잠금 번호가 올바르지 않습니다.',
+    currentPasscodeFail: '잠금번호를 다시 확인해주세요.',
     passcodeSix: '숫자 6자리를 입력해주세요.',
     passcodeSame: '잠금 번호가 일치하지 않습니다.',
     currentPasscodeSame: '현재 잠금 번호와 일치합니다.',
@@ -107,7 +108,7 @@ export default {
     alertHistoryTransaction: '송금 받을 수 있는 최근 거래 주소가 없습니다.',
 
     coinAmount: '코인 수량을 입력해주세요.',
-    coinAmountZero: '0보다 많은 코인 수량을 입력해주세요.',
+    coinAmountZero: '스왑할 수량을 입력해 주세요.',
     coinAmountBalance: '보유 수량보다 적게 입력해주세요.',
 
     transferAddressEnter: '송금 받는 주소를 입력해주세요.',
@@ -115,9 +116,16 @@ export default {
     transferAddressSame: '보내는 주소와 받는 주소가 동일합니다.',
 
     checkData: '데이터를 다시 확인해주세요.',
-    dataOverLimit: '입력 한도 512KB를 초과합니다.',
-    enterGasPrice: '가스 한도를 입력해주세요.',
-    notEnoughBalance: '수수료 지불을 위한 ICX 잔액이 부족합니다.',
+    dataOverLimit: '입력 한도 250KB를 초과합니다.',
+    enterGasPrice_gas: '가스 한도를 입력해주세요.',
+    enterGasPrice_step: '스텝 한도를 입력해주세요.',
+    stepLimitTooLow: (stepLimit) => {
+      return `${stepLimit}보다 높은 스텝 한도를 입력해주세요.`
+    },
+    stepLimitTooHigh: (stepLimit) => {
+      return `${stepLimit}보다 낮은 스텝 한도를 입력해주세요.`
+    },
+    notEnoughBalance: (coinType) => (`수수료를 지불할 ${coinType} 잔액이 부족합니다.`),
 
     alertIcxGetBalanceError: '아이콘 잔고 조회 중 오류가 발생하였습니다.',
     buttonChecked: '버튼을 체크해주세요.',
@@ -203,12 +211,15 @@ export default {
   coinDetailHistoryIcx: '거래내역은 ICON Tracker에서 조회 가능합니다.',
   coinDetailHistoryNoTransactionDefault: '내역이 없습니다.',
 
+  coinDetailHistoryColumn0: '요청 시각',
   coinDetailHistoryColumn1: '완료 시각',
   coinDetailHistoryColumn2: '거래 유형',
   coinDetailHistoryColumn3: '거래 ID',
   coinDetailHistoryColumn4: '금액',
 
-  coinDetailHistoryPendingInfo: 'ICX 출금 신청 후 10분 내에 처리되지 않은 거래는 자동 취소되며 출금액과 수수료는 모두 복구됩니다.',
+  coinDetailHistoryFail: '실패',
+
+  coinDetailHistoryPendingInfo: 'ICX 출금 신청 후 처리되지 않은 거래는 자동 취소되며 출금액과 수수료는 모두 복구됩니다.',
 
   exchangeTransactionSelectorWallet: '지갑 이름',
   exchangeTransactionSelectorPlaceholder: '지갑 선택',
@@ -229,6 +240,8 @@ export default {
   contractintInputPlaceHolder: '숫자 입력',
   contractstrInputPlaceHolder: '문자 입력',
   contractbytesInputPlaceHolder: '바이트 입력',
+
+  contractBalance: '보유',
 
   lockPageDescState: '잠금 상태입니다.',
   lockPageDescEnter: '설정한 잠금 번호 6자리를 입력해주세요.',
@@ -256,6 +269,8 @@ export default {
   myPageLabel3: '현재 잠금 번호',
   myPagePlaceholder1: '숫자 6자리 입력',
   myPagePlaceholder2: '비밀번호 입력',
+  myPageLockSuccess: '지갑 비밀번호와 잠금번호를 기억해주세요.<br/>잠금 설정을 하시겠습니까?',
+  myPageLockChangeSuccess: '잠금번호가 재설정되었습니다.',
 
   transferPageInfo1: '송금 버튼을 누른 후에는 취소할 방법이 없습니다. 수량과 받는 주소를 한번 더 확인해주세요.',
   transferPageLabel1: '송금할 코인 수량',
@@ -312,7 +327,7 @@ export default {
     title: '지갑 비밀번호 확인',
     desc: '지갑의 비밀번호를 입력하여 주세요.',
     input: '비밀번호',
-    placeHolder: '비밀번호 입력',
+    placeholder: '비밀번호 입력',
   },
 
   createWallet: {
@@ -450,8 +465,7 @@ export default {
   },
 
   exportWallet: {
-    caution: '선택하신 모든 지갑들의 비밀번호는,<br/>지금 설정하는 묶음 지갑 비밀번호로 변경됩니다.',
-
+    caution: '묶어서 내보낼 때, 묶음 지갑 비밀번호를 새로 만들어야 합니다. <br/>기존 지갑들의 비밀번호는 묶음 지갑의 비밀번호로 바뀝니다. 계속 진행하시겠습니까?',
     title: '지갑 묶어서 내보내기',
     desc1: '묶어서 백업할 지갑들을 선택해주세요. 지갑마다 비밀번호 확인이 필요합니다.',
     desc2: '묶어서 내보낼 지갑의 비밀번호를 만들어주세요.',
@@ -523,7 +537,7 @@ export default {
     desc2: '잠금 번호를 재설정할 수 있습니다.',
     inputLabel1: '새 잠금 번호',
     inputLabel2: '새 잠금 번호 확인',
-    inputPlaceHolder1: '비밀번호 입력',
+    inputPlaceHolder1: '잠금 번호 입력',
     inputPlaceHolder2: '숫자 6자리 입력',
   },
 
@@ -567,6 +581,9 @@ export default {
     txFeeEth: '예상 최대 수수료',
     quantity: '송금 수량',
     address: '받는 주소',
+    sendingAddress: '보내는 주소',
+    receivingAddress: '받는 주소',
+    titleInfoShort: '수량과 주소를 한번 더 확인해 주세요.',
 
     icxFailure: '오류로 인해 트랜잭션이 실패하였습니다.',
     infoFailure: '송금이 취소되었습니다.<br/>가스 가격을 높게 설정하여<br/>다시 한번 시도해 주세요.',
@@ -586,7 +603,9 @@ export default {
     walletAddress: '지갑 주소',
 
     txComplete: '실행이 완료 되었습니다.',
-    txHashTracker: 'TxHash는 ICON Tracker에서 조회 가능합니다.'
+    txHashTracker: 'TxHash는 ICON Tracker에서 조회 가능합니다.',
+
+    openTracker: 'ICON Tracker로 이동'
 
   },
 
@@ -697,5 +716,10 @@ export default {
     walletFinish: '지갑 만들기 완료',
 
     manualFileName: '[Manual]_How_to_create_ICONex_ETH_wallet_kr',
+  },
+
+  completeTransaction: {
+    success: '송금 요청이 완료되었습니다.<br/>거래 내역은 ICON Tracker에서<br/>조회 가능합니다.',
+    fail: '송금 요청을 실패했습니다.<br/>다시 시도해 주세요.'
   }
 };

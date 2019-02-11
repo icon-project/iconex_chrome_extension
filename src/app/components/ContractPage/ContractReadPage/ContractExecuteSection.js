@@ -21,6 +21,10 @@ class ContractExecuteSection extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.resetEXTRPageReducer();
+  }
+
   componentWillReceiveProps(nextProps) {
     const { funcList, selectedFuncIndex } = nextProps;
     if (this.props.selectedFuncIndex !== selectedFuncIndex) {

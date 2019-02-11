@@ -9,7 +9,7 @@ class NewPasscodeInput extends Component {
   }
 
   handleChange = (e) => {
-    const value = e.target.value
+    const value = e.target.value.replace(/\s+/g, '');
     if (isNaN(value) || value.length > 6) {
       return
     }

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { QuantitySetter } from 'app/components/';
 import { setSelectedWallet } from 'redux/actions/walletActions';
-import { setCalcData, setCoinQuantity, setCoinQuantityError, setTxFeeLimit, setTxFeePrice, getTxFeeInfo, toggleFullBalance } from 'redux/actions/exchangeTransactionActions';
+import { setCalcData, setCoinQuantity, setSwapCoinQuantityError, setCoinQuantityError, setTxFeeLimit, setTxFeePrice, getTxFeeInfo, toggleFullBalance } from 'redux/actions/exchangeTransactionActions';
 import { openPopup } from 'redux/actions/popupActions'
 
 function mapStateToProps(state) {
@@ -32,6 +32,7 @@ function mapDispatchToProps(dispatch) {
     setSelectedWallet: (payload) => dispatch(setSelectedWallet(payload)),
     setCoinQuantity: (quantity, isTxFeeNeeded) => dispatch(setCoinQuantity(quantity, isTxFeeNeeded)),
     setCoinQuantityError: () => dispatch(setCoinQuantityError()),
+    setSwapCoinQuantityError: () => dispatch(setSwapCoinQuantityError()),
     toggleFullBalance: (payload) => dispatch(toggleFullBalance(payload)),
     setTxFeeLimit: payload => dispatch(setTxFeeLimit(payload)),
     setTxFeePrice: payload => dispatch(setTxFeePrice(payload)),

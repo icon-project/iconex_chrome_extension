@@ -8,6 +8,7 @@ const actionTypes = {
   logOut: 'LOG_OUT',
   setLockState: 'SET_LOCK_STATE',
   setUnlock: 'SET_UNLOCK',
+  setScrollToNewWallet: 'SET_SCROLL_TO_NEW_WALLET',
   setShowChangePasscodePopup: 'SET_SHOW_CHANGE_PASSCODE_POPUP',
 
   // globalActions
@@ -19,10 +20,6 @@ const actionTypes = {
   setLockRejected: 'SET_LOCK_REJECTED',
   changePasscodeHash: 'CHANGE_PASSCODE_HASH',
   setShowNotice: 'SET_SHOW_NOTICE',
-  setScoreData: 'SET_SCORE_DATA',
-  callScoreExternally: 'CALL_SCORE_EXTERNALLY',
-  callScoreExternallyFulfilled: 'CALL_SCORE_EXTERNALLY_FULFILLED',
-  callScoreExternallyRejected: 'CALL_SCORE_EXTERNALLY_REJECTED',
 
   // signupActions
   setWalletName: 'SET_WALLET_NAME',
@@ -122,7 +119,9 @@ const actionTypes = {
   toggleFullBalance: 'TOGGLE_FULL_BALANCE',
   setTxFeePrice: 'SET_TX_FEE_PRICE',
   setTxFeeLimit: 'SET_TX_FEE_LIMIT',
+  setTxFeeModified: 'SET_TX_FEE_MODIFIED',
   setData: 'SET_DATA',
+  setDataType: 'SET_DATA_TYPE',
   setRecipientAddress: 'SET_RECEIVED_ADDRESS',
   checkResultBalanceMinus: 'CHECK_RESULT_BALANCE_MINUS',
   sendCall: 'SEND_CALL',
@@ -131,6 +130,7 @@ const actionTypes = {
   setCalcData: 'SET_CALC_DATA',
   setWalletSelectorError: 'SET_WALLET_SELECTOR_ERROR',
   setCoinQuantityError: 'SEND_COIN_QUANTITY_ERROR',
+  setSwapCoinQuantityError: 'SET_SWAP_COIN_QUANTITY_ERROR',
   setRecipientAddressError: 'SEND_RECIPIENT_ADDRESS_ERROR',
   setDataError: 'SEND_DATA_ERROR',
   setTxFeeLimitError: 'SET_TX_FEE_LIMIT_ERROR',
@@ -151,9 +151,6 @@ const actionTypes = {
   fetchTransactionHistoryFulfilled: 'FETCH_TRANSACTION_HISTORY_FULFILLED',
   fetchTransactionHistoryRejected: 'FETCH_TRANSACTION_HISTORY_REJECTED',
   resetHistoryReducer: 'RESET_HISTORY_REDUCER',
-
-  setIsRequestedStatus: 'SET_IS_REQUESTED_STATUS',
-  setTransactionStatus: 'SET_TRANSACTION_STATUS',
 
   // contractActions
   setContractAddress: 'SET_CONTRACT_ADDRESS',
@@ -178,11 +175,24 @@ const actionTypes = {
   setEXTRLogInStateForLedger: 'SET_EXTR_LOG_IN_STATE_FOR_LEDGER',
   confirmLedger: 'CONFIRM_LEDGER',
   resetLedgerReducer: 'RESET_LEDGER_REDUCER',
+  updateWalletBalance: 'UPDATE_WALLET_BALANCE',
   updateLedgerWalletBalance: 'UPDATE_LEDGER_WALLET_BALANCE',
   updateLedgerWalletBalanceFulfilled: 'UPDATE_LEDGER_WALLET_BALANCE_FULFILLED',
   updateLedgerWalletBalanceRejected: 'UPDATE_LEDGER_WALLET_BALANCE_REJECTED',
   addTokenFulfilledForLedger: 'ADD_TOKEN_FULFILLED_FOR_LEDGER',
   fetchTokenBalanceFulfilledForLedger: 'FETCH_TOKEN_BALANCE_FULFILLED_FOR_LEDGER',
+
+  //externalActions
+  initExternalState: 'INIT_EXTERNAL_STATE',
+  setAddressRequest: 'SET_ADDRESS_REQUEST',
+  setScore: 'SET_SCORE',
+  setScoreWallet: 'SET_SCORE_WALLET',
+  setScoreStep: 'SET_SCORE_STEP',
+  callScore: 'CALL_SCORE',
+  callScoreFulfilled: 'CALL_SCORE_FULFILLED',
+  callScoreRejected: 'CALL_SCORE_REJECTED',
+  setSigning: 'SET_SIGNING',
+  callSigning: 'CALL_SIGNING',
 
   //addressBookActions
   addAddressInAddressBook: 'ADD_ADDRESS_IN_ADDRESS_BOOK',

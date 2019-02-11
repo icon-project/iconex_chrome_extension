@@ -6,7 +6,8 @@ import { Alert } from 'app/components/'
 const INIT_STATE = {
   newWalletName: '',
   showAlertWalletName: false,
-  showAlertWalletNameSame: false
+  showAlertWalletNameSame: false,
+  walletNameError: ''
 }
 
 @withLanguageProps
@@ -26,6 +27,7 @@ class UpdateWalletName extends Component {
   changeWalletName = (e) => {
     const { value } = e.target
     if (!isValidWalletName(value)) return
+
     this.setState({
       newWalletName: value
     })
@@ -38,17 +40,11 @@ class UpdateWalletName extends Component {
   }
 
   handleSubmit = () => {
-    const { newWalletName } = this.state;
-    const trimedNewWalletName = newWalletName.trim();
-    if (trimedNewWalletName.length < 1) {
-      this.setState({ showAlertWalletName: true });
-      return;
+    const error = this.validateForm();
+    if (!error) {
+      const trimedNewWalletName = this.state.newWalletName.trim();
+      this.props.updateWalletName(this.props.selectedAccount, trimedNewWalletName);
     }
-    else if (isWalletNameExists(this.props.wallets, trimedNewWalletName)) {
-      this.setState({ showAlertWalletNameSame: true });
-      return;
-    }
-    this.props.updateWalletName(this.props.selectedAccount, trimedNewWalletName);
   }
 
   handleKeyPress = (e) => {
@@ -64,8 +60,31 @@ class UpdateWalletName extends Component {
     })
   }
 
+  handleBlur = (e) => {
+    this.validateForm(e.target.value);
+  }
+
+  validateForm = (e, state="") => {
+    let walletNameError = this.state.walletNameError;
+    const { I18n } = this.props;
+    if (!this.state.newWalletName) {
+      walletNameError = I18n.error.alertWalletName
+    } else if (this.state.newWalletName.indexOf(' ') >= 0 && !this.state.newWalletName.trim()) {
+      walletNameError = I18n.error.pwErrorEmpty
+    } else if (isWalletNameExists(this.props.wallets, this.state.newWalletName.trim())) {
+      walletNameError = I18n.error.alertWalletNameSame
+    } else {
+      walletNameError = ''
+    }
+    this.setState({
+      walletNameError
+    })
+    return walletNameError
+  }
+
   render() {
     const {
+      walletNameError,
       newWalletName,
       showAlertWalletName,
       showAlertWalletNameSame
@@ -85,7 +104,8 @@ class UpdateWalletName extends Component {
               <div className="tabbox-holder">
                 <div>
                   <p className="title">{I18n.updateWalletName.inputLabel}</p>
-                  <input onChange={this.changeWalletName} type="text" className="txt-type-normal" placeholder={I18n.updateWalletName.inputPlaceHolder} value={newWalletName} onKeyPress={this.handleKeyPress} spellCheck="false" />
+                  <input onBlur={this.handleBlur} onChange={this.changeWalletName} type="text" className={`txt-type-normal ${walletNameError && 'error'}`} placeholder={I18n.updateWalletName.inputPlaceHolder} value={newWalletName} onKeyPress={this.handleKeyPress} spellCheck="false" />
+                  <p className='error'>{walletNameError}</p>
                 </div>
               </div>
             </div>

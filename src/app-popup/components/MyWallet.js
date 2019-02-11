@@ -1,239 +1,267 @@
 import React, { Component } from 'react';
 import { LoadingComponent } from 'app/components/'
 import WalletBar from './WalletBar'
-import { makeWalletArray, openApp, isEmpty } from 'utils';
+import { makeWalletArray, openApp } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 import Worker from 'workers/wallet.worker.js';
-import queryString from 'query-string'
+import { makeTxHash } from 'utils/iconex'
+import { routeConstants as ROUTE } from 'constants/index.js';
 
 const INIT_STATE = {
-  tab: 'icx',
-  data: {
-    'icx': [],
-    'eth': []
-  },
-  password: '',
-  pwError: ''
+	tab: 'icx',
+	data: {
+		'icx': [],
+		'eth': []
+	},
+	password: '',
+	pwError: '',
+	tabId: '',
+	error: '',
+	confirmLoading: false,
+	selected: ''
 }
 
 @withLanguageProps
 class MyWallet extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = INIT_STATE;
-    this.worker = new Worker();
-    this.worker.onmessage = (m) => {
-      const { transaction, score, I18n } = this.props;
-      if (!m.data) {
-        this.setState({
-          loading: false,
-          pwError: I18n.error.pwConfirmError
-        })
-      } else {
-        const _isScore = this.isScore()
-        if (_isScore) {
-          this.props.callScoreExternally({privKey:m.data, param:score.param})
-        }
-        else {
-          const { stepLimit } = transaction
-          const sendData = Object.assign({}, transaction, {
-            txFeeLimit: stepLimit || '4000',
-            coinType: 'icx'
-          });
-          this.props.sendCall(m.data, sendData);
-        }
-      }
-    }
-  }
+	constructor(props) {
+		super(props);
+		this.state = INIT_STATE;
+		this.cancelClicked = false
+		this.worker = new Worker();
+		this.worker.onmessage = (m) => {
+			const { I18n } = this.props;
+			const privKey = m.data
+			if (!privKey) {
+				this.setState({
+					confirmLoading: false,
+					pwError: I18n.error.pwConfirmError
+				})
+			}
+			else {
+				this.cancelClicked = true
+				const { wallets, tabId, transaction, signing } = this.props;
+				if (transaction.param) {
+					const wallet = wallets[transaction.from]
+					this.props.setScoreWallet({ wallet, privKey })
+					this.props.history.push(ROUTE['send'])
+				}
+				else if (signing.hash) {
+					this.props.callSigning({ tabId,	privKey, hash: signing.hash })
+				}
+			}
+		}
+	}
 
-  componentWillMount() {
-    if(!this.props.walletsLoading) {
-      this.props.fetchAll(this.props.wallets);
-    }
-  }
+	componentWillMount() {
+		if (!this.props.walletsLoading) {
+			this.props.fetchAll(this.props.wallets);
+		}
 
-  isScore = () => {
-    const { param } = this.props.score
-    if (!!param && !isEmpty(param)) {
-      return true
-    }
-    else {
-      return false
-    }
-  }
+		window.onunload = () => {
+			if (!this.cancelClicked) {
+				this.cancelEvent(true)
+			}
+		}
+	}
 
-  componentWillUpdate(nextProps, nextState) {
-    if(this.props.walletsLoading !== nextProps.walletsLoading && nextProps.walletsLoading) {
-      this.setState(INIT_STATE);
-    }
+	componentWillUnmount() {
+		this.worker.terminate()
+	}
 
-    if(this.props.totalResultLoading !== nextProps.totalResultLoading && !nextProps.totalResultLoading) {
-      this.calcData();
-    }
+	componentWillUpdate(nextProps) {
+		if (this.props.walletsLoading !== nextProps.walletsLoading && nextProps.walletsLoading) {
+			this.setState(INIT_STATE);
+		}
 
-    if (this.props.txLoading !== nextProps.txLoading && !nextProps.txLoading) {
-      window.chrome.tabs.query({ active: true }, (tabs) => {
-        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_TRANSACTION', payload: this.props.tx });
-        this.clearPopup()
-      });
-    }
+		if (this.props.totalResultLoading !== nextProps.totalResultLoading && !nextProps.totalResultLoading) {
+			this.calcData();
+		}
+	}
 
-    if (this.props.score.loading !== nextProps.score.loading && !nextProps.score.loading) {
-      window.chrome.tabs.query({ active: true }, (tabs) => {
-        const { error, result } = this.props.score
-        const payload = error || result
-        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_SCORE', payload });
-        this.clearPopup()
-      });
-    }
-  }
+	closePopup = () => {
+		this.props.initExternalState()
+		window.chrome.runtime.sendMessage({ type: 'CLOSE_POPUP' });
+	}
 
-  componentWillUnmount() {
-    this.setState(INIT_STATE);
-  }
+	selectAddress = selected => {
+		this.setState({ selected })
+	}
 
-  calcData = () => {
-    const { wallets } = this.props;
-    let { data, tab } = this.state;
-    let walletArr = makeWalletArray(wallets);
+	confirmAddress = () => {
+		const { selected: payload } = this.state
+		if (payload) {
+			window.chrome.tabs.sendMessage(this.props.tabId, { type: 'RESPONSE_ADDRESS', payload });
+			this.closePopup()
+		}
+	}
 
-    walletArr.map((wallet) => {
-      data[wallet.type].push(wallet)
-      return true
-    })
+	confirmPassword = fromAddress => {
+		const { password } = this.state;
+		if (!password) {
+			const { I18n } = this.props;
+			this.setState({ pwError: I18n.error.pwErrorEnter })
+			return
+		}
 
-    if (data['icx'].length < 1) {
-      tab = 'eth'
-    }
+		this.setState({
+			confirmLoading: true,
+			pwError: ''
+		}, () => {
+			const { wallets } = this.props;
+			const { priv } = wallets[fromAddress];
+			this.worker.postMessage({
+				priv, pw: password, type: 'sendTransaction'
+			});
+		})
+	}
 
-    this.setState({
-      tab: tab,
-      data: data
-    })
-  }
+	cancelEvent = closed => {
+		this.cancelClicked = true
 
-  goApp = () => {
-    openApp();
-    window.chrome.runtime.sendMessage({type: 'CLOSE_POPUP'});
-  }
+		if (this.props.addressRequest && !closed) {
+			this.closePopup()
+			return
+		}
 
-  handleTabChange = (e) => {
-    const newTab = e.target.getAttribute('data-name');
-    this.setState({
-      tab: newTab
-    });
-  }
+		let type = 'CANCEL'
+ 		if (this.props.transaction.param) {
+			type += '_JSON-RPC'
+		}
+		else if (this.props.signing.hash) {
+			type += '_SIGNING'
+		}
 
-  handleChange = (e) => {
-    this.setState({ password: e.target.value })
-  }
+		window.chrome.tabs.sendMessage(this.props.tabId, { type });
+		if (!closed) {
+			this.closePopup()
+		}
+	}
 
-  onCellClick = (address) => {
-    const { isRequestedStatus } = this.props
-    if (isRequestedStatus) {
-      this.props.setIsRequestedStatus(false)
-      window.chrome.tabs.query({ active: true }, (tabs) => {
-        window.chrome.tabs.sendMessage(tabs[0].id, { type: 'RESPONSE_ADDRESS', payload: address});
-        this.clearPopup()
-      });
-    }
-  }
+	getIsInput = (wallet) => {
+		const { transaction, signing } = this.props
+		const from = transaction.from || signing.from
+		return wallet.account === from
+	}
 
-  onCancelClick = () => {
-    const _isScore = this.isScore()
-    const type = `CANCEL_${_isScore ? 'SCORE' : 'TRANSACTION'}`
-    window.chrome.tabs.query({ active: true }, (tabs) => {
-      window.chrome.tabs.sendMessage(tabs[0].id, { type });
-      this.clearPopup()
-    });
-  }
+	getTxHash = () => {
+		const { signing } = this.props
+		if (signing.hash) {
+			return signing.hash
+		}
+		else {
+			return ''
+		}
+	}
 
-  onConfirmClick = () => {
-    const { password } = this.state;
-    if (!password) {
-      const { I18n } = this.props;
-      this.setState({ pwError: I18n.error.pwErrorEnter })
-      return
-    }
+	calcData = () => {
+		const { wallets } = this.props;
+		let { data, tab } = this.state;
+		let walletArr = makeWalletArray(wallets);
 
-    this.setState({ loading: true, pwError: '' }, () => {
-      const { wallets, transaction, score } = this.props;
-      console.log(this.isScore(), score.from, transaction.from)
-      const { priv } = wallets[this.isScore() ? score.from : transaction.from];
-      const data = {
-        priv, pw: password, type: 'sendTransaction'
-      };
-      this.worker.postMessage(data);
-    })
-  }
+		walletArr.map((wallet) => {
+			data[wallet.type].push(wallet)
+			return true
+		})
 
-  clearPopup = () => {
-    window.chrome.runtime.sendMessage({type: 'CLOSE_POPUP'});
-    this.props.setTransactionStatus()
-    this.props.setScoreData()
-    this.setState({
-      password: '',
-      pwError: ''
-    })
-  }
+		if (data['icx'].length < 1) {
+			tab = 'eth'
+		}
 
-  render() {
-    const { tab, data, password, pwError, loading } = this.state;
-    const { I18n, totalResultLoading, transaction, isRequestedStatus, score } = this.props;
+		this.setState({
+			tab: tab,
+			data: data
+		})
+	}
 
-    return (
-      <div className="wrap">
-        {
-          (totalResultLoading || data.length < 1) ? (
-            <div style={{height: '100%'}}>
-              <LoadingComponent type="black" />
-            </div>
-          ) : (
-            <div>
-              <div className="tab-holder">
-        				<ul className={data['icx'].length > 0 && data['eth'].length > 0 ? 'two' : 'one'}>
-        					{ data['icx'].length > 0 && (<li onClick={this.handleTabChange} data-name={'icx'} className={data['icx'].length > 0 && data['eth'].length > 0 && tab === "icx" ? "on" : ''}>ICX</li>)}
-        					{ data['eth'].length > 0 && (<li onClick={this.handleTabChange} data-name={'eth'} className={data['icx'].length > 0 && data['eth'].length > 0 && tab === "eth" ? "on" : ''}>ETH</li>)}
-        				</ul>
-        			</div>
+	goApp = () => {
+		openApp();
+		window.chrome.runtime.sendMessage({ type: 'CLOSE_POPUP' });
+	}
 
-              <div className="content-wrap">
-                <div className="scroll">
-                  <ul className="list-holder">
-                    {
-                      data[tab].map((wallet, i) => {
-                        return (
-                          <WalletBar key={i}
-                            index={i}
-                            wallet={wallet}
-                            transaction={transaction}
-                            score={score}
-                            isScore = {this.isScore}
-                            isRequestedStatus={isRequestedStatus}
-                            password={password}
-                            error={pwError}
-                            loading={loading}
-                            handleChange={this.handleChange}
-                            onCellClick={this.onCellClick}
-                            onCancelClick={this.onCancelClick}
-                            onConfirmClick={this.onConfirmClick}
-                          />
-                        )
-                      })
-                    }
-          				</ul>
-          			</div>
-          		</div>
-            </div>
-          )
-        }
-    		<div onClick={this.goApp} className="footer">
-    			<p>{I18n.button.goToWallet}<em className="_img"></em></p>
-    		</div>
-    	</div>
-    );
-  }
+	handleTabChange = (e) => {
+		const newTab = e.target.getAttribute('data-name');
+		this.setState({
+			tab: newTab
+		});
+	}
+
+	handleChange = (e) => {
+		this.setState({ password: e.target.value })
+	}
+
+	onlyIcxTab = () => {
+		const { addressRequest, transaction, signing } = this.props
+		return addressRequest || transaction.param || signing.hash
+	}
+
+	render() {
+		const { tab, data, password, pwError, confirmLoading, selected } = this.state;
+		const { I18n, totalResultLoading } = this.props;
+		const { addressRequest, transaction } = this.props
+		const _onlyIcxTab = this.onlyIcxTab()
+		if (_onlyIcxTab) {
+			data['eth'] = []
+		}
+		const isTwoItem = data['icx'].length > 0 && data['eth'].length > 0
+		return (
+			<div className="wrap">
+				{(totalResultLoading || data.length < 1) ?
+					<LoadingComponent type="black" style={{height: '100vh'}}/>
+					:
+					<div>
+						<div className="tab-holder">
+							<ul className={isTwoItem ? 'two' : 'one no-pointer'}>
+								{data['icx'].length > 0 && (<li onClick={this.handleTabChange} data-name={'icx'} className={data['icx'].length > 0 && data['eth'].length > 0 && tab === "icx" ? "on" : ''}>ICX</li>)}
+								{data['eth'].length > 0 && (<li onClick={this.handleTabChange} data-name={'eth'} className={data['icx'].length > 0 && data['eth'].length > 0 && tab === "eth" ? "on" : ''}>ETH</li>)}
+							</ul>
+						</div>
+						<div className="content-wrap">
+							<div className="scroll">
+								<ul className="list-holder">
+									{
+										data[tab].map((wallet, i) => {
+											const isInput = this.getIsInput(wallet)
+											const txHash = isInput ? this.getTxHash() : ''
+											return (
+												<WalletBar key={i}
+													index={i}
+													wallet={wallet}
+													password={password}
+													handleChange={this.handleChange}
+													pwError={pwError}
+													confirmLoading={confirmLoading}
+													selected={selected}
+													selectAddress={this.selectAddress}
+
+													isTransaction={!!transaction.param}
+													isInput={isInput}
+													txHash={txHash}
+													confirmPassword={this.confirmPassword}
+													cancelEvent={this.cancelEvent}
+													addressRequest={addressRequest}
+												/>
+											)
+										})
+									}
+								</ul>
+							</div>
+						</div>
+					</div>
+				}
+				{addressRequest ?
+					<div className="footer cols-2">
+						<button className="btn-type-normal" onClick={() => { this.cancelEvent() }}><span>{I18n.button.cancel}</span></button>
+						<button className="btn-type-ok" onClick={this.confirmAddress} disabled={!selected}><span>{I18n.button.confirm}</span></button>
+					</div>
+					:
+					<div onClick={this.goApp} className="footer">
+						<p>{I18n.button.goToWallet}<em className="_img"></em></p>
+					</div>
+				}
+			</div>
+		);
+	}
 }
 
 export default MyWallet;

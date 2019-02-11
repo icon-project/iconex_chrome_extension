@@ -13,19 +13,6 @@ function generateIconexObject(key, coinType, walletName, v3) {
     'createdAt': Date.now().toString(),
     'recent': []
   }
-  if (coinType === 'eth') {
-    value['tokens'][ICX_TOKEN_CONTRACT_ADDRESS()] = {
-      "address": ICX_TOKEN_CONTRACT_ADDRESS(),
-			"createdAt": Date.now().toString(),
-			"decimals": 18,
-			"defaultDecimals": 18,
-			"defaultName": "ICON",
-			"defaultSymbol": "ICX",
-			"name": "ICON",
-			"recent": [],
-			"symbol": "ICX"
-    }
-  }
   if (coinType === 'icx') value['pendingTransaction'] = [];
   const iconexObj = {};
   iconexObj[key] = value;
@@ -73,7 +60,7 @@ function isIRCTokenFunc(array){
     const func = array.filter(e => e.name === funcObj.name)[0];
     return isEqual(func, funcObj);
   }
-  
+
   const IRCTokenFunc = [
     {"type":"function","name":"balanceOf","inputs":[{"name":"_owner","type":"Address"}],"outputs":[{"type":"int"}],"readonly":"0x1"},
     {"type":"function","name":"decimals","inputs":[],"outputs":[{"type":"int"}],"readonly":"0x1"},
@@ -120,9 +107,27 @@ function openApp() {
   }, function(tab){});
 }
 
+function makeTxHash(rawTx) {
+  const phraseToSign = generateHashKey(rawTx);
+  return sha3_256.update(phraseToSign).hex();
+}
+
+function signHashcode(privKey, hashcode) {
+  console.log('signHashcode', hashcode)
+  const message = new Buffer(hashcode, 'hex');
+  const privateKey = new Buffer(privKey, 'hex');
+  const sign = secp256k1.sign(message, privateKey);
+  const recovery = new Uint8Array(1);
+  recovery[0] = sign.recovery;
+  const signature = concatTypedArrays(sign.signature, recovery);
+  const b64encoded = btoa(String.fromCharCode.apply(null, signature));
+  return b64encoded
+}
+
 function signRawTx(privKey, rawTx) {
   const phraseToSign = generateHashKey(rawTx);
   const hashcode = sha3_256.update(phraseToSign).hex();
+  console.log('signRawTx', hashcode)
   const message = new Buffer(hashcode, 'hex');
   const privateKey = new Buffer(privKey, 'hex');
   const sign = secp256k1.sign(message, privateKey);
@@ -160,37 +165,42 @@ function objTraverse(obj){
   let keys;
   keys = Object.keys(obj);
   keys.sort();
-  for(let i=0;i<keys.length;i++){
-    const key = keys[i]
-    const value = obj[key];
-    switch(true) {
-      case (value === null) : {
-        result +=`${key}.`;
-        result += String.raw`\0`;
-        break;
+  if (keys.length > 0) {
+    for(let i=0;i<keys.length;i++){
+      const key = keys[i]
+      const value = obj[key];
+      switch(true) {
+        case (value === null) : {
+          result +=`${key}.`;
+          result += String.raw`\0`;
+          break;
+        }
+        case (typeof value === 'string') : {
+          result += `${key}.`
+          result += escapeString(value)
+          break;
+        }
+        case (Array.isArray(value)) : {
+          result+= `${key}.`
+          result += arrTraverse(value)
+          break;
+        }
+        case (typeof value === 'object') : {
+          result+= `${key}.`
+          result += objTraverse(value);
+          break;
+        }
+        default:
+          break;
       }
-      case (typeof value === 'string') : {
-        result += `${key}.`
-        result += escapeString(value)
-        break;
-      }
-      case (Array.isArray(value)) : {
-        result+= `${key}.`
-        result += arrTraverse(value)
-        break;
-      }
-      case (typeof value === 'object') : {
-        result+= `${key}.`
-        result += objTraverse(value);
-        break;
-      }
-      default:
-        break;
+      result += '.'
     }
-    result += '.'
+    result = result.slice(0, -1);
+    result += '}';
+  } else {
+    result += '}';
   }
-  result = result.slice(0, -1);
-  result += '}';
+
   return result;
 }
 
@@ -228,12 +238,12 @@ function arrTraverse(arr){
 
 function escapeString(value) {
   let newString = String.raw`${value}`;
-  newString = newString.replace('\\', '\\\\');
-  newString = newString.replace('.', '\\.');
-  newString = newString.replace('{', '\\{');
-  newString = newString.replace('}', '\\}');
-  newString = newString.replace('[', '\\[');
-  newString = newString.replace(']', '\\]');
+  newString = newString.split('\\').join('\\\\');
+  newString = newString.split('\.').join('\\.');
+  newString = newString.split('\{').join('\\{');
+  newString = newString.split('\}').join('\\}');
+  newString = newString.split('\[').join('\\[');
+  newString = newString.split('\]').join('\\]');
   return newString
 }
 
@@ -254,5 +264,7 @@ export {
   isIRCTokenFunc,
   parseError,
   openApp,
-  signRawTx
+  signRawTx,
+  signHashcode,
+  makeTxHash
 }

@@ -61,7 +61,7 @@ class SendTransaction3 extends Component {
     fetchWallet[selectedAccount] = sending
     if (receiving) fetchWallet[recipientAddress] = receiving
 
-    this.props.fetchAll(fetchWallet)
+    this.props.updateWalletBalance(fetchWallet)
   }
 
   closePopupAfterTx = () => {
@@ -84,7 +84,8 @@ class SendTransaction3 extends Component {
       case 'transaction': {
         this.props.closePopup();
         if (!isLedger) {
-          this.props.history.push(ROUTE['mywallet']);
+          this.updateWallets();
+          this.props.resetInput();
         } else {
           this.props.updateLedgerWalletBalance();
           this.props.resetInput();
@@ -126,7 +127,7 @@ class SendTransaction3 extends Component {
       }
       default:
         break;
-    }note
+    }
   }
 
   getErrorText = () => {
@@ -186,7 +187,7 @@ class SendTransaction3 extends Component {
         if (type === 'eth') {
           return `${I18n.sendTransaction.infoSuccess}<br/>${I18n.coinDetailHistoryNoTransactionEth}<br/><a href=${TXID_URL['eth'] + check0xPrefix(tx)} target="_blank">https://etherscan.io/</a>`
         } else {
-          return `${I18n.sendTransaction.infoSuccess}<br/>${I18n.coinDetailHistoryIcx}<br/><a href=${TXID_URL['icx'] + tx} target="_blank">https://tracker.icon.foundation/</a>`
+          return `${I18n.sendTransaction.infoSuccess}<br/>${I18n.coinDetailHistoryIcx}<br/><a href=${TXID_URL['icx'] + tx} target="_blank">${I18n.sendTransaction.openTracker}</a>`
         }
       }
       default:

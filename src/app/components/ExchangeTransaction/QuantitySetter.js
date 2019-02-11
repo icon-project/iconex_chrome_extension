@@ -24,8 +24,9 @@ class QuantitySetter extends Component {
   }
 
   handleInputChange = (e) => {
-    if (!isNaN(e.target.value) && checkValueLength(e.target.value) && !e.target.value.includes("+") && !e.target.value.includes("-")) {
-      this.setCoinQuantity(e.target.value);
+    const value = e.target.value.replace(/\s+/g, '');
+    if (!isNaN(value) && checkValueLength(value) && !value.includes("+") && !value.includes("-")) {
+      this.setCoinQuantity(value);
       this.props.toggleFullBalance(false);
     }
   }
@@ -36,7 +37,11 @@ class QuantitySetter extends Component {
 
   handleInputBlur = () => {
     this.props.setCoinQuantity(trimLeftZero(this.props.coinQuantity), false);
-    this.props.setCoinQuantityError();
+    if (this.props.swapPage) {
+      this.props.setSwapCoinQuantityError();
+    } else {
+      this.props.setCoinQuantityError();
+    }
   }
 
   toggleCheckBox = (balance) => {
@@ -59,6 +64,7 @@ class QuantitySetter extends Component {
       this.props.toggleFullBalance(true);
     }
     else {
+      this.setCoinQuantity(0)
       this.props.toggleFullBalance(false);
     }
   }
@@ -96,6 +102,10 @@ class QuantitySetter extends Component {
       isLedger
     } = this.props;
 
+    const coinQuantityErrorText =
+        coinQuantityError === 'notEnoughBalance' ? I18n.error[coinQuantityError](calcData.walletCoinType.toUpperCase())
+                                                 : I18n.error[coinQuantityError];
+
     if (isContractPage) {
       return (
         <div className="-group">
@@ -109,7 +119,7 @@ class QuantitySetter extends Component {
           	onChange={this.handleInputChange}
           	onBlur={() => this.handleInputBlur()}
           />
-          <p className="error">{I18n.error[coinQuantityError]}</p>
+          <p className="error">{coinQuantityErrorText}</p>
         </div>
       )
     }
@@ -139,7 +149,7 @@ class QuantitySetter extends Component {
                 checked={isFullBalance}
               />
               <label htmlFor="quantity-setter-cbox-01" className="_img" onClick={()=>{isLoggedIn && this.toggleCheckBox(calcData.totalBalance)}}></label>
-            {/*  { IS_V3 && isLedger && (<button onClick={() => this.props.openPopup({ popupType: 'addToken', popupNum: 2 })} className="btn-type-copy w104"><span>{I18n.addToken.title1}</span></button>) } */}
+              { IS_V3 && isLedger && (<button onClick={() => this.props.openPopup({ popupType: 'addToken', popupNum: 1 })} className="btn-type-copy w104"><span>{I18n.addToken.title1}</span></button>) }
             </div>
             {!swapPage ? (
                 <ComboBox
@@ -157,12 +167,13 @@ class QuantitySetter extends Component {
                 noArrow={true}
               />
             )}
-            {isLoggedIn && (<span className="won">{calcData.sendQuantityWithRate !== '-' && <i className="_img"></i>}<em>{calcData.sendQuantityWithRate || 0 }</em> <em>USD</em></span>)}
-            <p className="error">{I18n.error[coinQuantityError]}</p>
+            { isLoggedIn && (<span className="won">{calcData.sendQuantityWithRate !== '-' && <i className="_img"></i>}<em>{calcData.sendQuantityWithRate || 0 }</em> <em>USD</em></span>)}
+            { isLoggedIn && (<p className="have">{I18n.contractBalance} {calcData.currentBalance.toString()} {calcData.coinTypeObj[selectedTokenId || selectedAccount].toUpperCase()}</p>) }
+            <p className="error">{coinQuantityErrorText}</p>
           </div>
         </div>
     {
-      !isLedger && (isLoggedIn && !swapPage) && (calcData.coinType === 'icx' ? IS_V3 : true) && (
+      (isLoggedIn && !swapPage) && (calcData.coinType === 'icx' ? IS_V3 : true) && (
         <TxFeeAndDataContainer />
       )
     }

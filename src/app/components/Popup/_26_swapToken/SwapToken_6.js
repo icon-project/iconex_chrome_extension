@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { nToBr } from 'utils';
 import { QuantitySetterContainer } from 'app/containers/'
+import { LoadingComponent } from 'app/components'
 import { ICX_TOKEN_DISCARD_ADDRESS } from 'constants/config'
 
 const INIT_STATE = {
@@ -16,8 +17,6 @@ class SwapToken6 extends Component {
   }
 
   componentDidMount() {
-    this.props.setTxFeeLimit(0);
-    this.props.setTxFeePrice(0);
     this.props.setRecipientAddress(ICX_TOKEN_DISCARD_ADDRESS());
     this.props.setCalcData()
   }
@@ -32,17 +31,16 @@ class SwapToken6 extends Component {
   }
 
   handleSubmit = (e) => {
-    if (this.props.gasLoading) {
+    if (this.props.txFeeLoading) {
       return
     }
-    if (this.props.txFeeLimit * this.props.txFeePrice === 0) {
-      return
-    }
-    this.props.submitCall(true);
+    this.props.submitCall(true, {
+      isSwap: true
+    });
   }
 
   render() {
-    const { I18n, isSwapWalletExist } = this.props;
+    const { I18n, isSwapWalletExist, txFeeLoading } = this.props;
     return (
       <ul className="layout">
         <li className={`swap ${isSwapWalletExist ? 'twostep' : ''}`}>
@@ -95,7 +93,22 @@ class SwapToken6 extends Component {
 						</div>
 					</div>
           <div className="btn-holder">
-            <button onClick={this.handleSubmit} type="submit" className={`btn-type-normal ${(this.props.gasLoading || this.props.txFeeLimit * this.props.txFeePrice === 0)  && 'disabled'}`}><span>{I18n.button.complete}</span></button>
+            {
+              txFeeLoading ? (
+                <button
+                  type="submit"
+                  className={`btn-type-normal load2`}>
+                    <span><LoadingComponent type="black" /></span>
+                </button>
+              ) : (
+                <button
+                  onClick={this.handleSubmit}
+                  type="submit"
+                  className={`btn-type-normal`}>
+                    <span>{I18n.button.complete}</span>
+                </button>
+              )
+            }
 					</div>
         </li>
       </ul>

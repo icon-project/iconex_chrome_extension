@@ -1,6 +1,6 @@
 import { chromeStorage } from 'utils';
 import Wallet from 'lib/ethjs-wallet';
-import { isEmpty, check0xPrefix, checkCxPrefix, checkHxPrefix } from 'utils';
+import { isEmpty, check0xPrefix, checkCxPrefix } from 'utils';
 import {
   eth_fetchCoinBalanceApi,
   eth_fetchTokenBalanceApi,

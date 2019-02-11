@@ -148,7 +148,7 @@ class TransactionHistory extends Component {
                   <table className="table-typeB">
                     <thead>
                       <tr>
-                        <th>{I18n.coinDetailHistoryColumn1}</th>
+                        <th>{isPending ? I18n.coinDetailHistoryColumn0 : I18n.coinDetailHistoryColumn1}</th>
                         <th>{I18n.coinDetailHistoryColumn2}</th>
                         <th>{I18n.coinDetailHistoryColumn3}</th>
                         <th>{I18n.coinDetailHistoryColumn4}</th>
@@ -165,7 +165,7 @@ class TransactionHistory extends Component {
                   <table className="table-typeB">
                     <thead>
                       <tr>
-                        <th>{I18n.coinDetailHistoryColumn1}</th>
+                        <th>{isPending ? I18n.coinDetailHistoryColumn0 : I18n.coinDetailHistoryColumn1}</th>
                         <th>{I18n.coinDetailHistoryColumn2}</th>
                         <th>{I18n.coinDetailHistoryColumn3}</th>
                         <th>{I18n.coinDetailHistoryColumn4}</th>
@@ -192,6 +192,7 @@ class TransactionHistory extends Component {
                                         type={isUp ? I18n.deposit : I18n.withdraw}
                                         txid={newRow.txid}
                                         isFail={newRow.isFail}
+                                        failText={I18n.coinDetailHistoryFail}
                                         isUp={isUp}
                                         value={convertNumberToText(newRow.value, 'transaction', true)}
                                         walletCoinType={walletCoinType}
@@ -334,14 +335,14 @@ class HistoryRow extends Component {
   }
 
   render() {
-    const { time, type, txid, isUp, value, unit, isFail } = this.props;
+    const { time, type, txid, isUp, value, unit, isFail, failText } = this.props;
     return (
       <tr>
         <td>{time}</td>
         <td>{type}</td>
         <td onClick={this.handleTxidClick}><span>{txid}</span><em className="_img"></em></td>
         { isFail ? (
-          <td className={'down'}>실패</td>
+          <td className={'down'}>{failText}</td>
         ) : (
           <td className={isUp ? 'up' : 'down'}>{`${isUp ? '' : '-'} ${value} ${unit.toUpperCase()}`}</td>
         )}

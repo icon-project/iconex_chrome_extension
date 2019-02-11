@@ -27,23 +27,16 @@ export function setShowNotice() {
   }
 }
 
+export function setScrollToNewWallet(payload) {
+  return {
+    type: actionTypes.setScrollToNewWallet,
+    payload
+  }
+}
+
 export function setShowChangePasscodePopup(payload) {
   return {
     type: actionTypes.setShowChangePasscodePopup,
-    payload
-  }
-}
-
-export function setIsRequestedStatus(payload) {
-  return {
-    type: actionTypes.setIsRequestedStatus,
-    payload
-  }
-}
-
-export function setTransactionStatus(payload) {
-  return {
-    type: actionTypes.setTransactionStatus,
     payload
   }
 }
@@ -53,18 +46,4 @@ export function changeServer(payload) {
     type: actionTypes.changeServer,
     payload
   };
-}
-
-export function setScoreData(payload) {
-  return {
-    type: actionTypes.setScoreData,
-    payload
-  };
-}
-
-export function callScoreExternally(payload) {
-  return {
-    type: actionTypes.callScoreExternally,
-    payload
-  }
 }

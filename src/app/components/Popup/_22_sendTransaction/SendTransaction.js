@@ -58,6 +58,7 @@ class SendTransaction extends Component {
       txFeePrice,
       wallets,
       data,
+      dataType,
       isLedger,
       ledgerWallet
     } = this.props;
@@ -73,10 +74,10 @@ class SendTransaction extends Component {
       tokenDecimal: !isToken ? 18 : selectedWallet.tokens[selectedTokenId].decimals,
       value: coinQuantity,
       data: data,
+      messageType: dataType,
       txFeeLimit: txFeeLimit,
       txFeePrice: txFeePrice,
-      coinType: selectedWallet.type,
-      isLedger: isLedger
+      coinType: selectedWallet.type
     }
 
     if (isToken) {

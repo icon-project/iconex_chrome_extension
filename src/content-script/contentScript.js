@@ -1,20 +1,44 @@
 console.log("Hello ICONex!")
 
-const contentPort = window.chrome.runtime.connect({
-    name: 'iconex-background-content'
-});
+let contentPort
 
-window.addEventListener('message', event => {
-  switch (event.data.type) {
-    case 'REQUEST_ADDRESS':
-    case 'REQUEST_TRANSACTION':
-    case 'REQUEST_SCORE':
-      contentPort.postMessage(event.data);
-      break;
-    default:
+startIconexRelay()
+
+window.addEventListener('ICONEX_RELAY_REQUEST', event => {
+  const { detail: data } = event
+  try {
+    sendPostMessage(contentPort, data)
   }
-}, false);
+  catch (e) {
+    console.log(e)
+    startIconexRelay()
+    sendPostMessage(contentPort, data)
+  }
+})
 
-window.chrome.runtime.onMessage.addListener(event => {
-  window.postMessage(event, '*')
-});
+function startIconexRelay() {
+  contentPort = window.chrome.runtime.connect({
+    name: 'iconex-background-content'
+  });
+}
+
+function sendPostMessage(port, data) {
+  if (!!port && typeof port.postMessage === 'function') {
+    const { type } = data
+    switch (type) {
+      case 'REQUEST_HAS_ACCOUNT':
+      case 'REQUEST_HAS_ADDRESS':
+      case 'REQUEST_ADDRESS':
+      case 'REQUEST_JSON-RPC':
+      case 'REQUEST_SIGNING':
+        port.postMessage(data)
+        break;
+      default:
+    }
+  }
+}
+
+window.chrome.runtime.onMessage.addListener(detail => {
+  const customEvent = new CustomEvent('ICONEX_RELAY_RESPONSE', { detail })
+  window.dispatchEvent(customEvent)
+})

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import InputRange from 'react-input-range';
-import { nToBr, convertNumberToText, dataToHex } from 'utils';
-import BigNumber from 'bignumber.js';
+import { nToBr, convertNumberToText, calcIcxMessageKB } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
+import { initialStepLimit } from 'redux/reducers/exchangeTransactionReducer'
 
 const INIT_STATE = {
   txFeeLimitHelpLayer: false,
   txFeePriceHelpLayer: false,
-  dataHelpLayer: false,
-  showDataInput: false
+  dataHelpLayer: false
 }
 
 @withLanguageProps
@@ -39,8 +38,10 @@ class TxFeeAndData extends Component {
   }
 
   setTxFeeLimit = (e) => {
-    if (!isNaN(e.target.value)) {
-      this.props.setTxFeeLimit(e.target.value);
+    const value = e.target.value.replace(/\s+/g, '');
+    if (!isNaN(value)) {
+      this.props.setTxFeeLimit(value);
+      this.props.setTxFeeModified(true);
     }
   }
 
@@ -49,10 +50,17 @@ class TxFeeAndData extends Component {
       return false;
     }
     this.props.setTxFeePrice(gasPrice)
+    this.props.setTxFeeModified(true);
     this.props.setCalcData()
   }
 
   setData = (e) => {
+    if (this.props.calcData.walletCoinType === 'icx' && calcIcxMessageKB({
+      data: e.target.value,
+      dataType: this.props.dataType
+    }) > 250) {
+      return;
+    }
     this.props.setData(e.target.value);
   }
 
@@ -68,29 +76,45 @@ class TxFeeAndData extends Component {
     }
   }
 
-  toggleDataInput = () => {
-    if (this.state.showDataInput) {
-      this.props.setData('');
-      this.props.setDataError();
-    }
-    this.setState({
-      showDataInput: !this.state.showDataInput
-    })
+  setDataType = (e) => {
+    const selectedDataType = e.currentTarget.getAttribute('data-type')
+    this.props.setDataType(selectedDataType);
   }
 
   render() {
     const {
       txFeeLimitHelpLayer,
       txFeePriceHelpLayer,
-      dataHelpLayer,
-      showDataInput
+      dataHelpLayer
     } = this.state;
 
     const {
-      txFeePrice, txFeeLimit, data, isToken, dataError, txFeeLimitError, I18n, calcData, isContractPage
+      txFeePrice,
+      txFeeLimit,
+      data,
+      isToken,
+      dataError,
+      txFeeLimitError,
+      I18n,
+      calcData,
+      isContractPage,
+      txFeeLimitTable,
+      txFeeLimitMax,
+      dataType
     } = this.props;
 
     const { walletCoinType, txFeePriceWithRate } = calcData;
+
+    const txFeeLimitErrorText =
+        txFeeLimitError === 'stepLimitTooLow' ? I18n.error[txFeeLimitError](initialStepLimit(isToken, txFeeLimitTable)) :
+        txFeeLimitError === 'stepLimitTooHigh' ? I18n.error[txFeeLimitError](txFeeLimitMax.toString()) :
+        txFeeLimitError === 'notEnoughBalance' ? I18n.error[txFeeLimitError](calcData.walletCoinType.toUpperCase()) :
+        I18n.error[txFeeLimitError];
+
+    const dataKB = calcIcxMessageKB({
+      data,
+      dataType
+    });
 
     if (isContractPage) {
       return (
@@ -107,7 +131,7 @@ class TxFeeAndData extends Component {
             }
 					</span>
 				  <input onChange={this.setTxFeeLimit} type="text" className={`txt-type-normal ${txFeeLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={txFeeLimit} onBlur={this.handleTxFeeLimitBlur} />
-          <p className="error">{I18n.error[txFeeLimitError]}</p>
+          <p className="error">{txFeeLimitErrorText}</p>
 				</div>
         <div className="-group price">
 					<span className="title">{I18n[`transferPageLabel10_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeePriceHelpLayer" className="_img"></i>
@@ -144,7 +168,7 @@ class TxFeeAndData extends Component {
               )
             }
           </span>
-          <p className="error gasLimit">{I18n.error[txFeeLimitError]}</p>
+          <p className="error gasLimit">{txFeeLimitErrorText}</p>
           <input onChange={this.setTxFeeLimit} type="text" className={`txt-type-normal ${txFeeLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={txFeeLimit} onBlur={this.handleTxFeeLimitBlur} />
         </div>
         <div className="group money">
@@ -186,9 +210,12 @@ class TxFeeAndData extends Component {
                     sliderContainer: 'drag-wrap',
                     slider: 'drag'
                   }}
-                  onChange={txFeePrice => this.props.setTxFeePrice(txFeePrice)}
+                  onChange={txFeePrice => {
+                    this.props.setTxFeePrice(txFeePrice);
+                    this.props.setTxFeeModified(true);
+                  }}
                   onChangeComplete={() => this.props.setCalcData()} />
-                <ul>
+                <ul id="dragBar">
                   <li>1</li>
                   <li>10</li>
                   <li>20</li>
@@ -219,19 +246,31 @@ class TxFeeAndData extends Component {
                   )
                 }
 							</span>
-							<div className="-holder">
-								<button onClick={this.toggleDataInput} className="btn-type-copy"><span>{I18n[`dataInput${showDataInput ? 'Close' : 'Open'}`]}</span></button>
-							</div>
+              {
+                walletCoinType === 'icx' && (
+                  <div className="-holder">
+    								<ul className="coin">
+    									<li onClick={this.setDataType} data-type='utf8'>
+    										<input id="rbox-01" className="rbox-type" type="radio" name="rbox-1" checked={dataType === 'utf8'} readOnly />
+    										<label htmlFor="rbox-01" className="_img">UTF-8</label>
+    									</li>
+    									<li onClick={this.setDataType} data-type='hex'>
+    										<input id="rbox-02" className="rbox-type" type="radio" name="rbox-1" checked={dataType === 'hex'} readOnly />
+    										<label htmlFor="rbox-02" className="_img">HEX</label>
+    									</li>
+    								</ul>
+    							</div>
+                )
+              }
 						</div>
           )
         }
         {
-          !isToken && showDataInput && (
+          !isToken && (
             <div className={`input-group ${dataError && 'error'}`}>
-							<textarea onChange={this.setData} onBlur={this.handleDataBlur} value={data} placeholder={`${I18n.transferPageLabel8} ${I18n.transferPageLabel9}`}></textarea>
+							<textarea style={walletCoinType === 'eth' ? {marginTop: '-40px', resize: 'none'} : {resize: 'none'}} onChange={this.setData} onBlur={this.handleDataBlur} value={data} placeholder={`${I18n.transferPageLabel8} ${I18n.transferPageLabel9}`}></textarea>
               <p className="error data">{I18n.error[dataError]}</p>
-							{/* <p><span>{data.length}</span>/500</p> */}
-							{/* <button className="btn-type-search2 auto"><span>적정 Step 한도 조회</span></button> */}
+              { walletCoinType === 'icx' && (<p><span>≒ {dataKB}KB</span> / 250KB</p>) }
 						</div>
           )
         }

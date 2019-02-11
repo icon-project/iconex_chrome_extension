@@ -138,3 +138,10 @@ export function addRecentTransaction(transactionData) {
     transactionData
   };
 }
+
+export function updateWalletBalance(payload) {
+  return {
+    type: actionTypes.updateWalletBalance,
+    payload
+  };
+}

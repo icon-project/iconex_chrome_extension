@@ -8,7 +8,9 @@ import withLanguageProps from 'HOC/withLanguageProps';
 const INIT_STATE = {
   curPw: '',
   curPwError: '',
-  loading: false
+  newV3: {},
+  loading: false,
+  isFail: false
 }
 
 @withLanguageProps
@@ -23,14 +25,19 @@ class UpdatePassword extends Component {
       if (!m.data) {
         this.setState({
           loading: false,
-          curPwError: I18n.error.pwConfirmError
+          curPwError: I18n.error.pwConfirmError,
+          newV3: {},
+          isFail: true
+        }, () => {
+          this.validationForm.validateForm(['pw', 'pwConfirm'], 'submit');
         })
       } else {
         this.setState({
           loading: false,
-          showAlertChanged: true
+          newV3: m.data,
+          isFail: false
         }, () => {
-          props.updatePassword(props.selectedAccount, m.data);
+          this.validationForm.validateForm(['pw', 'pwConfirm'], 'submit');
         });
       }
     }
@@ -42,7 +49,7 @@ class UpdatePassword extends Component {
     })
   }
 
-  validateCurPwForm = (e) => {
+  validateCurPwFormOnBlur = (e) => {
     let pwError = this.state.curPwError;
     if (!this.state.curPw) {
       const { I18n } = this.props;
@@ -57,6 +64,22 @@ class UpdatePassword extends Component {
     }
   }
 
+  validateCurPwForm = (e) => {
+    const { wallets, selectedAccount } = this.props;
+    console.log(this.validationForm.getPassword())
+    this.setState({
+      loading: true
+    }, () => {
+      this.worker.postMessage({
+        coinType: wallets[selectedAccount].type,
+        priv: wallets[selectedAccount].priv,
+        curPw: this.state.curPw,
+        newPw: this.validationForm.getPassword(),
+        type: 'updatePassword'
+      });
+    })
+  }
+
   closePopup = () => {
     this.worker.terminate();
     this.setState(INIT_STATE);
@@ -66,25 +89,19 @@ class UpdatePassword extends Component {
 
   handleSubmit = () => {
     if (!this.state.curPw) {
-      this.validateCurPwForm();
+      this.validateCurPwFormOnBlur();
       return false;
     }
-    this.validationForm.validateForm(['pw', 'pwConfirm'], 'submit');
+    this.validateCurPwForm();
   }
 
   handleSuccess = (newPw) => {
-    const { wallets, selectedAccount } = this.props;
-    this.setState({
-      loading: true
-    }, () => {
-      this.worker.postMessage({
-        coinType: wallets[selectedAccount].type,
-        priv: wallets[selectedAccount].priv,
-        curPw: this.state.curPw,
-        newPw: newPw,
-        type: 'updatePassword'
+    if (!this.state.isFail) {
+      this.setState({
+        showAlertChanged: true
       });
-    })
+      this.props.updatePassword(this.props.selectedAccount, this.state.newV3);
+    }
   }
 
   logIn = () => {
@@ -113,7 +130,7 @@ class UpdatePassword extends Component {
               <div className="tabbox-holder">
                 <div className="name-group">
                   <p className="title">{I18n.updatePassword.inputLabel1}</p>
-                  <input onChange={this.changeCurPw} onBlur={this.validateCurPwForm} type="password" className={`txt-type-normal ${curPwError && 'error'}`} placeholder={I18n.updatePassword.inputPlaceHolder1} value={curPw} />
+                  <input onChange={this.changeCurPw} onBlur={this.validateCurPwFormOnBlur} type="password" className={`txt-type-normal ${curPwError && 'error'}`} placeholder={I18n.updatePassword.inputPlaceHolder1} value={curPw} />
                   <p className='error'>{curPwError}</p>
                 </div>
                 <ValidationForm

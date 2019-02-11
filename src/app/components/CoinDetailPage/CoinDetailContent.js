@@ -189,17 +189,14 @@ class CoinDetailContent extends Component {
     } = this.state;
 
     const {
-      wallets,
       currency,
       rate,
       rateLoading,
-      txHistory,
-      txHistoryLoading,
       I18n
     } = this.props;
 
     const data = this.setData();
-    const isSwapAvailable = data.contractAddress && data.contractAddress.toLowerCase() === ICX_TOKEN_CONTRACT_ADDRESS().toLowerCase()
+    const isSwapAvailable = false
 
     return (
       <div>

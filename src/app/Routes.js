@@ -86,6 +86,12 @@ class Routes extends Component {
     window.chrome.extension.onMessage.addListener(message => {
       this.listenerHandler(message)
     })
+    window.onpopstate = (e) => {
+      // prevent triggered by a page load
+      if (document.location.hash !== '#/lock') {
+        this.props.closePopup();
+      }
+    }
   }
 
   componentWillUpdate() {

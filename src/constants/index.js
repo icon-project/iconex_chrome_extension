@@ -114,6 +114,12 @@ export const tokenList = {
     decimals: 18,
     name: 'SportToken',
     symbol: 'SPORT'
+  },
+  'VCX': {
+    address: 'cxbc264e6279ec971f11ebe3939fc88d05b243eba7',
+    decimals: 18,
+    name: 'VELICX',
+    symbol: 'VCX'
   }
 }
 

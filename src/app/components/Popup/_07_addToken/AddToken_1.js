@@ -21,8 +21,10 @@ class AddToken1 extends Component {
 
   componentWillMount() {
     const tokenListArr = Object.keys(TOKEN_LIST).map((k) => TOKEN_LIST[k]);
+    const { isLedger, ledgerWallet, wallets, selectedAccount } = this.props;
+    const currentWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
     this.setState({
-      ownTokens: Object.keys(this.props.wallets[this.props.selectedAccount].tokens),
+      ownTokens: Object.keys(currentWallet.tokens),
       tokenListArr: tokenListArr,
       selectedTokens: Array(tokenListArr.length).fill({})
     })
@@ -34,6 +36,9 @@ class AddToken1 extends Component {
   }
 
   handleSubmit = () => {
+    const { isLedger, ledgerWallet, wallets, selectedAccount } = this.props;
+    const currentWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
+
     const selectedTokensFiltered = this.state.selectedTokens.filter((item) => {
       return !isEmpty(item)
     })
@@ -63,7 +68,7 @@ class AddToken1 extends Component {
         selectedTokensFiltered[i] = tokenObj;
       }
 
-      this.props.addToken(this.props.selectedAccount, selectedTokensFiltered, this.props.wallets[this.props.selectedAccount].type);
+      this.props.addToken(selectedAccount, selectedTokensFiltered, currentWallet.type);
     })
   }
 

@@ -41,11 +41,10 @@ export function ledgerReducer(state = initialState, action) {
           ledgerWallet: newLedgerWallet
       })
     case actionTypes.addTokenFulfilledForLedger:
+      const tokenObj = Object.assign({}, state.ledgerWallet.tokens, action.payload)
       return update(state, {
         ledgerWallet: {
-          tokens: {
-            [action.payload.address]: {$set: action.payload}
-          }
+          tokens: { $set: tokenObj }
         }
       })
     case actionTypes.fetchTokenBalanceFulfilledForLedger:

@@ -316,15 +316,31 @@ function* addTokenFunc(action) {
     const isLedger = yield select(state => state.ledger.isLedger);
     const ledgerWallet = yield select(state => state.ledger.ledgerWallet);
     if (isLedger) {
-      yield put({type: AT.addTokenFulfilledForLedger, payload: action.tokenArr[0]});
-      const balance = yield call(FETCH_TOKEN_BALANCE, action.tokenArr[0].address, action.tokenArr[0].decimals, ledgerWallet.account, ledgerWallet.type);
-      const isError = balance === 'error';
-      yield put({
-        type: AT.fetchTokenBalanceFulfilledForLedger,
-        address: action.tokenArr[0].address,
-        balance: isError ? new BigNumber(0) : balance,
-        isError: isError
-      });
+      const fetchArr = [];
+      const setArr = [];
+      const tokenObj = action.tokenArr.reduce((acc, cur) => {
+          acc[cur.address] = cur
+          return acc
+      }, {});
+      
+      yield put({type: AT.addTokenFulfilledForLedger, payload: tokenObj});
+
+      for (let i=0; i<action.tokenArr.length; i++) {
+        fetchArr.push(call(FETCH_TOKEN_BALANCE, action.tokenArr[0].address, action.tokenArr[0].decimals, ledgerWallet.account, ledgerWallet.type));
+      }
+      const resultArr = yield all(fetchArr);
+      console.log(resultArr)
+      for (let i=0; i<action.tokenArr.length; i++) {
+        const isError = resultArr[i] === 'error'
+        setArr.push(put({
+          type: AT.fetchTokenBalanceFulfilledForLedger,
+          address: action.tokenArr[i].address,
+          balance: isError ? new BigNumber(0) : resultArr[i],
+          isError: isError
+        }));
+      }
+      yield all(setArr);
+
       yield put({
         type: AT.setSelectedWallet,
         payload: {

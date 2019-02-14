@@ -168,7 +168,7 @@ class QuantitySetter extends Component {
               />
             )}
             { isLoggedIn && (<span className="won">{calcData.sendQuantityWithRate !== '-' && <i className="_img"></i>}<em>{calcData.sendQuantityWithRate || 0 }</em> <em>USD</em></span>)}
-            { isLoggedIn && (<p className="have">{I18n.contractBalance} {calcData.currentBalance.toString()} {calcData.coinTypeObj[selectedTokenId || selectedAccount].toUpperCase()}</p>) }
+            { isLoggedIn && !isEmpty(calcData) && (<p className="have">{I18n.contractBalance} {calcData.currentBalance.toString()} {calcData.coinTypeObj[selectedTokenId || selectedAccount].toUpperCase()}</p>) }
             <p className="error">{coinQuantityErrorText}</p>
           </div>
         </div>

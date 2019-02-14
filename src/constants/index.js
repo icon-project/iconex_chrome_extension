@@ -103,12 +103,6 @@ export const tokenList = {
     name: 'MECA Coin',
     symbol: 'MCA'
   },
-  'WOK': {
-    address: 'cx921205acb7c51e16d5b7cbc37539a4357d929d20',
-    decimals: 18,
-    name: 'weBloc',
-    symbol: 'WOK'
-  },
   'SPORT': {
     address: 'cx3ec2814520c0096715159b8fc55fa1f385be038c',
     decimals: 18,
@@ -120,6 +114,12 @@ export const tokenList = {
     decimals: 18,
     name: 'VELICX',
     symbol: 'VCX'
+  },
+  'WOK': {
+    address: 'cx921205acb7c51e16d5b7cbc37539a4357d929d20',
+    decimals: 18,
+    name: 'weBloc',
+    symbol: 'WOK'
   }
 }
 

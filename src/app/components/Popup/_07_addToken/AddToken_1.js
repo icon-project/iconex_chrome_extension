@@ -190,7 +190,7 @@ class TokenBar extends Component {
     return (
       <li>
         <input onChange={this.toggleCheckbox} checked={isChecked} data-checked={disabled} disabled={disabled} id={'cbox-' + index} className="cbox-type" type="checkbox"/>
-        <label htmlFor={'cbox-' + index} className="label _img">{`${token.name} (${token.symbol})`}</label>
+        <label htmlFor={'cbox-' + index} className="label _img">{`${token.symbol}`}</label>
         <span>{token.address}</span>
       </li>
     )

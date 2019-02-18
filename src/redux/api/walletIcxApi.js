@@ -119,7 +119,7 @@ export function icx_fetchTransactionHistoryApi(data) {
     return new Promise(resolve => {
       if (IS_V3) {
         const url = data.contractAddress ? `/v3/token/txList?tokenAddr=${_addressId}&count=10&page=${_pageId}&contractAddr=${data.contractAddress}`
-                                         : `/v3/address/txListForWallet?address=${_addressId}&page=${_pageId}&type=0`
+          : `/v3/address/txListForWallet?address=${_addressId}&page=${_pageId}&type=0`
         trackerApi.get(url)
           .then(res => {
             resolve({
@@ -402,9 +402,9 @@ export function icx_getTxFeeInfoApi(data) {
 }
 
 export function icx_callScoreExternally(param) {
+  setIcxWalletServer()
+  console.log(ICX_WALLET_SERVER(), param, JSON.stringify(param))
   return new Promise((resolve, reject) => {
-    console.log(param, JSON.stringify(param)
-    )
     walletApi.post(`/api/v3`, JSON.stringify(param))
       .then(res => {
         if (res.data.result) {

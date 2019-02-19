@@ -1,4 +1,3 @@
-const isDevVersion = () => process.env.USER === 'developer';
 const isAccessedFromWorker = typeof window === 'undefined';
 
 const isDevModeOn = () => {
@@ -28,7 +27,7 @@ export const INITIAL_API_VERSION_ICX = 'v3';
 export const INITIAL_SERVER_ICX = prodDev('mainnet', 'euljiro');
 export const INITIAL_SERVER_ETH = prodDev('main', 'ropsten');
 
-export const HIDE_SERVER = (isDevVersion() || isDevModeOn()) ? false : true;
+export const HIDE_SERVER = isDevModeOn() ? false : true;
 export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://hardwallet.icon.foundation/test.html')
 
 export const getCurrentServer = (coinType) => {

@@ -77,8 +77,8 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "build": "USER=developer node scripts/dev.js & USER=qa node scripts/dev.js & USER=qa node scripts/build.js",
-    "dev": "USER=developer node scripts/dev.js",
+    "build": "node scripts/dev.js & node scripts/build.js",
+    "dev": "node scripts/dev.js",
     "test": "node scripts/test.js --env=jsdom",
     "remotedev": "remotedev --hostname=localhost --port=8000",
     "remotedev-popup": "remotedev --hostname=localhost --port=9000"

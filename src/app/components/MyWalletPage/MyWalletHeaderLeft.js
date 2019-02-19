@@ -56,7 +56,7 @@ class MyWalletHeaderLeft extends Component {
           <span>{I18n.myWalletHeaderTotalValue}<em onMouseOver={this.showInfo} onMouseLeave={this.hideInfo} className="_img"></em></span>
         </div>
         <div className="b small">
-          <span>{!!this.props.totalBalance && <i className="_img"></i>}<em className={(this.props.totalBalance === 0 ? 'zero' : '')}>{convertNumberToText(this.props.totalBalance, this.props.currency, false)}</em></span>
+          <span><em className={(this.props.totalBalance === 0 ? 'zero' : '')}>{convertNumberToText(this.props.totalBalance, this.props.currency, false)}</em></span>
           <span onClick={this.toggleCurrencyList} className="unit">{CURRENCY_UNIT[this.props.currency]}<em className="_img"></em>
             {this.state.showCurrencyList && (
               <CurrencyMenuBar type="default" onClickOut={this.toggleCurrencyList} setCurrencyList={this.setCurrencyList} />

@@ -139,11 +139,11 @@ class WalletBar extends Component {
               </div>
             )}
           </td>
-          {
+          {/* {
             recent.length > 0
               ? (<td onClick={this.handleClick}>{I18n.myWalletBarRecentTransaction}<span>{moment(recent[0].time).format(DATE_FORMAT)}</span></td>)
               : (<td className="no" onClick={this.handleClick}>{I18n.myWalletBarNoTransaction}</td>)
-          }
+          } */}
           <td>
             {isSwapAvailable && <button onClick={this.handleSwapClick} className="btn-type-exchange"><span>{I18n.button.swap}</span></button>}
             <button onClick={this.handleTransactionClick} className="btn-type-exchange"><span>{I18n.button.transfer}</span></button>

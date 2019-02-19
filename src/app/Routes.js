@@ -142,7 +142,7 @@ class Routes extends Component {
     const { initLoading, isLoggedIn, isLocked, isLedger, language } = this.props;
     const isShowNotice = (isLoggedIn && !isLocked) && this.state.showNotice
     return (
-      <div className={`${navigator.platform.indexOf('Mac') > -1 ? 'isMac' : ''} empty`}>
+      <div className='empty'>
       {
         !initLoading && (
           <HashRouter>

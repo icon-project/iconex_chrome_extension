@@ -91,7 +91,7 @@ class Routes extends Component {
   render() {
     const { initLoading, isLocked, language } = this.props;
     return (
-      <div className={`${navigator.platform.indexOf('Mac') > -1 ? 'isMac' : ''} empty`}>
+      <div className='empty'>
         {!initLoading && (
           <HashRouter>
             <div>

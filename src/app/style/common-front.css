@@ -35,13 +35,13 @@
   left: 0px;
 }
 
-.loading {background: url(../image/loadingL.png) left top no-repeat; background-size: auto 60px;width: 60px; height: 60px;}
+.loading {background: url(../image/loading-L.png) left top no-repeat; background-size: auto 60px;width: 60px; height: 60px;}
 
-.loading.black {background: url(../image/loadingB.png) left top no-repeat; background-size: auto 18px; width: 18px; height: 18px;
+.loading.black {background: url(../image/loading-B.png) left top no-repeat; background-size: auto 18px; width: 18px; height: 18px;
   animation: animateLoading 1s steps(26) forwards;
   animation-iteration-count: infinite;
 }
-.loading.white {background: url(../image/loadingW.png) left top no-repeat; background-size: auto 18px; width: 18px; height: 18px;
+.loading.white {background: url(../image/loading-W.png) left top no-repeat; background-size: auto 18px; width: 18px; height: 18px;
   animation: animateLoading 1s steps(26) forwards;
   animation-iteration-count: infinite;
 }

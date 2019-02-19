@@ -178,7 +178,7 @@ export default {
   myWalletHeaderTotalValue: '전체 자산 평가금액',
   myWalletHeaderCoinNum: '코인 종류',
   myWalletHeaderTokenNum: '토큰 종류',
-  myWalletHeaderNumUnit: ' 개',
+  myWalletHeaderNumUnit: '',
   graphNoData: '보유코인 없음',
   myWalletHeaderInfo_1: '전체 자산 평가금액은 Coinmarketcap 기준으로 표시되며 USD 환산금액이',
   myWalletHeaderInfo_2: '표시되지 않은 토큰은 전체 자산 평가금액에서 제외됩니다.',

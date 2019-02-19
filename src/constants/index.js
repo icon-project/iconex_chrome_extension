@@ -120,7 +120,7 @@ export const tokenList = {
     decimals: 18,
     name: 'weBloc',
     symbol: 'WOK'
-  }
+  },
 }
 
 export const erc20Abi = [

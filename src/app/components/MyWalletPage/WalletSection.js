@@ -94,7 +94,7 @@ class WalletSection extends Component {
                   <em className={`${isExtended && iconClass(coinType)} ${COIN_IMAGE[coinType] && 'icon'}`}>
                     {COIN_IMAGE[coinType] && (<img alt={coinType} src={COIN_IMAGE[coinType]} />)}
                   </em>{walletSectionName}
-                  {!isCoinView && (<span><em className="token_num">{walletSectionData.data.length}</em></span>)}
+                  {!isCoinView && (<em className="token_num">{walletSectionData.data.length}</em>)}
                 </th>
                 <th className={`b ${isCoinView ? 'coin' : ''}`}>
                 </th>
@@ -147,11 +147,11 @@ class WalletSection extends Component {
             )
           }
         </div>
-        <div className="layer-wallet">
         { this.state.showMenuBar && (
+          <div className="layer-wallet">
             <WalletMenuBar account={account} onClickOut={this.toggleMenuBar} {...this.props} />
+          </div>
         )}
-        </div>
       </div>
     );
   }

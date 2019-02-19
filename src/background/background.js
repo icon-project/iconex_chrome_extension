@@ -51,7 +51,7 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 					const { payload: data } = message
 					const payload = { tabId, data }
 					if (isShown) {
-						window.chrome.extension.sendMessage({ type, payload })
+						notificationManager.updatePopup({ type, payload })
 					}
 					else {
 						notificationManager.showPopup({ type, payload })

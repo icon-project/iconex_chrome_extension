@@ -50,6 +50,12 @@ class NotificationManager {
     })
   }
 
+  updatePopup(query) {
+    this.closePopup(() => {
+      this.showPopup(query)
+    })
+  }
+
   showPopup(query) {
     this.popupId = null
     extension.windows.create({
@@ -66,7 +72,7 @@ class NotificationManager {
    * Closes a MetaMask notification if it window exists.
    *
    */
-  closePopup() {
+  closePopup(callback) {
     // closes notification popup
     this._getPopup((err, popup) => {
       if (err) throw err
@@ -74,6 +80,9 @@ class NotificationManager {
 
       extension.windows.remove(popup.id, () => {
         this.popupId = null
+        if (typeof callback === 'function') {
+          callback()
+        }
       })
     })
   }

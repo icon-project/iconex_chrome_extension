@@ -4,7 +4,7 @@ import { coinRound as COIN_ROUND, currencyRound as CURRENCY_ROUND } from 'consta
 import i18n from 'constants/i18n'
 import React from 'react';
 import BigNumber from 'bignumber.js';
-import { erc20Abi } from 'constants/index'
+import { erc20Abi, copyState as COPY_STATE } from 'constants/index'
 import { IS_V3, ICX_NID } from 'constants/config.js'
 
 function charFreq(string) {
@@ -537,6 +537,37 @@ function fromDecToHex(num) {
   else return '0x' + (new BigNumber(num)).toString(16)
 }
 
+function handleCopy(selector, copyState, setState) {
+  const key = document.querySelector(selector);
+    if (copyState === COPY_STATE['on']) {
+      return false;
+    } else {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(key);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        selection.removeAllRanges();
+        setState({
+          copyState: COPY_STATE['on']
+        }, () => {
+          const self = this;
+          window.setTimeout(function(){
+              setState({
+                copyState: COPY_STATE['off']
+              })
+            },
+            1000)
+          }
+        )
+      } catch(e) {
+        alert(e);
+      }
+    }
+}
+
 export {
   charFreq,
   isEmpty,
@@ -582,5 +613,7 @@ export {
   getHexByteLength,
   fromHexToDec,
   fromDecToHex,
-  isPrivateKey
+  isPrivateKey,
+
+  handleCopy
 }

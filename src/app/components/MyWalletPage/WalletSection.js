@@ -3,14 +3,17 @@ import { WalletBar, WalletMenuBar } from 'app/components/'
 import {
   currencyUnit as CURRENCY_UNIT,
   coinImage as COIN_IMAGE,
+  copyState as COPY_STATE,
 } from 'constants/index';
-import { convertNumberToText } from 'utils'
+import { convertNumberToText, handleCopy } from 'utils/utils'
+import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
-  showMenuBar: false,
-  isExtended: true
+  isExtended: true,
+  copyState: COPY_STATE['off']
 }
 
+@withLanguageProps
 class WalletSection extends Component {
 
   constructor(props) {
@@ -37,10 +40,22 @@ class WalletSection extends Component {
     this.setState(INIT_STATE);
   }
 
-  toggleMenuBar = () => {
-    this.setState({
-      showMenuBar: !this.state.showMenuBar
-    })
+  showMenuBar = (e) => {
+    e.stopPropagation()
+    const { index, showMenuBar } = this.props
+    showMenuBar(index)
+  }
+
+  closeMenuBar = () => {
+    const { closeMenuBar } = this.props
+    closeMenuBar()
+  }
+
+  handleCopy = (e) => {
+    e.stopPropagation()
+    const { index } = this.props
+    const { copyState } = this.state
+    handleCopy(`span.copyKey${index}`, copyState, this.setState.bind(this))
   }
 
   toggleExtend = () => {
@@ -57,7 +72,10 @@ class WalletSection extends Component {
       openPopup,
       currency,
       setPopupNum,
-      setSelectedWallet
+      setSelectedWallet,
+      showMenuIndex,
+      index,
+      I18n
     } = this.props;
 
     const {
@@ -70,7 +88,8 @@ class WalletSection extends Component {
     } = walletSectionData;
 
     const {
-      isExtended
+      isExtended,
+      copyState
     } = this.state;
 
     const iconClass = (coinType) => {
@@ -84,17 +103,44 @@ class WalletSection extends Component {
       }
     }
 
+    const wrapSelectClass = (showMenuIndex, index) => {
+      if (showMenuIndex !== -1) {
+        if (showMenuIndex === index) {
+          return 'select'
+        } else {
+          return 'no-select'
+        }
+      } else {
+        return ''
+      }
+    }
+
     return (
-      <div className="wrap-holder">
+      <div 
+        onClick={!isExtended && this.toggleExtend}
+        className={`${wrapSelectClass(showMenuIndex, index)} wrap-holder`}
+        >
         <div>
           <table className={`table-typeC ${isCoinView ? 'coin' : ''} ${isExtended ? 'open' : ''}`}>
+            <colgroup>
+              <col />
+              <col />
+              <col />
+              <col />
+            </colgroup>
             <thead>
               <tr>
-                <th className="a">
+                <th className="a" colSpan="2">
                   <em className={`${isExtended && iconClass(coinType)} ${COIN_IMAGE[coinType] && 'icon'}`}>
                     {COIN_IMAGE[coinType] && (<img alt={coinType} src={COIN_IMAGE[coinType]} />)}
                   </em>{walletSectionName}
-                  {!isCoinView && (<em className="token_num">{walletSectionData.data.length}</em>)}
+                  {!isCoinView && (<span><em className="token_num">{walletSectionData.data.length}</em></span>)}
+                  {!isCoinView && (
+                    <p className={copyState === COPY_STATE['on'] ? 'complete' : ''} onClick={this.handleCopy}>
+                      <span className={`copyKey${index}`}>{account}</span>
+                      {copyState === COPY_STATE['on'] ? (<em>{I18n.button.copyFinish}</em>) : (<em>{I18n.button.copyDepositAddress}</em>)}
+                    </p>
+                  )}
                 </th>
                 <th className={`b ${isCoinView ? 'coin' : ''}`}>
                 </th>
@@ -116,8 +162,8 @@ class WalletSection extends Component {
                     </th>
                   )
                 }
-                <th className="d"></th>
-                <th className="e">{!isCoinView && (<span onClick={this.toggleMenuBar}><em className="_img"></em></span>)}</th>
+                {/* <th className="d"></th> */}
+                <th className="e">{!isCoinView && (<span onClick={this.showMenuBar}><em className="_img"></em></span>)}</th>
               </tr>
             </thead>
             { isExtended && (
@@ -140,16 +186,16 @@ class WalletSection extends Component {
             )}
           </table>
           {
-            !isCoinView && (
+            !isCoinView && isExtended && (
               <div className="extend">
                 <span onClick={this.toggleExtend} className={isExtended && "on"}><em className="_img"></em></span>
               </div>
             )
           }
         </div>
-        { this.state.showMenuBar && (
+        { showMenuIndex === index && (
           <div className="layer-wallet">
-            <WalletMenuBar account={account} onClickOut={this.toggleMenuBar} {...this.props} />
+            <WalletMenuBar account={account} onClickOut={this.closeMenuBar} {...this.props} />
           </div>
         )}
       </div>

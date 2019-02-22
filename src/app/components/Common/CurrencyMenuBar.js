@@ -17,11 +17,13 @@ class CurrencyMenuBar extends Component {
     const { coinType } = this.props
     const last = !coinType ? 'eth' : coinType === 'eth' ? 'icx' : 'eth'
     return (
-      <ul className={`layer ${this.props.type}`}>
-        <li data-currency="usd" onClick={this.props.setCurrencyList}>{CURRENCY_NAME['usd']}</li>
-        <li data-currency="btc" onClick={this.props.setCurrencyList}>{CURRENCY_NAME['btc']}</li>
-        <li data-currency={last} onClick={this.props.setCurrencyList}>{CURRENCY_NAME[last]}</li>
-      </ul>
+      <div className="drop-layer">
+        <ul>
+          <li data-currency="usd" onClick={this.props.setCurrencyList}><span>{CURRENCY_NAME['usd']}</span></li>
+          <li data-currency="btc" onClick={this.props.setCurrencyList}><span>{CURRENCY_NAME['btc']}</span></li>
+          <li data-currency={last} onClick={this.props.setCurrencyList}><span>{CURRENCY_NAME[last]}</span></li>
+        </ul>
+      </div>
     )
   }
 }

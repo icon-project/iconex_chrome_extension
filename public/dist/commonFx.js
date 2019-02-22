@@ -39,6 +39,13 @@ function loginChkFx($isLogin){
 	}
 }
 
+function coinLengthFx(){
+	var _width = $(".content-wrap .wrap-holder .coin-holder .c div").width();
+	var _scale = 500/(_width - $(".content-wrap .wrap-holder .coin-holder .c em").width() );
+	_scale = Math.min(Math.max(_scale, 0.4), 1);
+	$(".content-wrap .wrap-holder .coin-holder .c div").css({"font-size":_scale*46+"px", "display":"block"});
+}
+
 $(document).ready(function(){
 	$(window).scroll(function(){
 		scrollFx();

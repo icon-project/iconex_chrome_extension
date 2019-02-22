@@ -32,12 +32,12 @@ class CopyButton extends Component {
     } = this.props;
 
     return (
-      <button onClick={this.handleCopy} className={`${
+      <button onClick={this.handleCopy} className={`auto ${
         copyState === COPY_STATE['off'] ? (
-          type === 'small'  ? 'btn-type-copy2'
+          type === 'small'  ? 'btn-type-search2'
                             : 'btn-type-normal'
         ) : (
-          type === 'small'  ? 'btn-type-copy2-fill'
+          type === 'small'  ? 'btn-type-search2'
                             : 'btn-type-fill'
         )
       } ${!defaultSize && 'copy'}`}>

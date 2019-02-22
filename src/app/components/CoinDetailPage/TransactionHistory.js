@@ -129,21 +129,29 @@ class TransactionHistory extends Component {
       }
     }
 
-    return (
-      <div className={`wrap-holder ${walletCoinType === "eth" ? 'nodata' : ''}`}>
-        <h2>{I18n.coinDetailHistoryTitle}</h2>
-        {
-          walletCoinType === 'icx' && (
-            <p className="listsort">
-              <span data-id="pending" onClick={this.changeTab} className={tab === 'pending' && 'on'}>{I18n.coinDetailHistoryPending}</span>
-              <span className="gap">|</span>
-              <span data-id="complete" onClick={this.changeTab} className={tab === 'complete' && 'on'}>{I18n.coinDetailHistoryCompleted}</span>
-            </p>
-          )
-        }
-        {
-          walletCoinType === 'icx' &&
-            (txHistoryLoading
+    return walletCoinType === 'eth' ? (
+      <div className={`wrap-holder nodata`}>
+        <h2></h2>
+        <table className="table-typeB">
+          <tbody>
+            <tr>
+              <td colSpan="4" className="nodata"><p>{I18n.coinDetailHistoryNoTransactionEth}</p><br/>
+                <p><a href={`${ETH_SCAN()}/address/${check0xPrefix(account)}`} target="_blank">{`https://etherscan.io/`}</a></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <div>
+        <div className="tab-holder">
+          <ul>
+            <li data-id="pending" onClick={this.changeTab} className={tab === 'pending' && 'on'}>{I18n.coinDetailHistoryPending}</li>
+            <li data-id="complete" onClick={this.changeTab} className={tab === 'complete' && 'on'}>{I18n.coinDetailHistoryCompleted}</li>
+          </ul>
+        </div>
+        <div className={`wrap-holder`}>
+          { (txHistoryLoading
               ? (
                   <table className="table-typeB">
                     <thead>
@@ -204,36 +212,22 @@ class TransactionHistory extends Component {
                         }
                     </tbody>
                   </table>
+                )
+              ) 
+            }
+            {
+              tab === "pending" && (
+                <div className="">
+                  <p className="lock-txt">· {I18n.coinDetailHistoryPendingInfo}</p>
+                </div>
               )
-            )
-        }
-        {
-          (tab === "pending" && walletCoinType === 'icx') && (
-            <div className="">
-              <p className="lock-txt"><em className="_img"></em>{I18n.coinDetailHistoryPendingInfo}</p>
-            </div>
-          )
-        }
-        {
-          walletCoinType === 'eth' && (
-            <table className="table-typeB">
-              <tbody>
-    						<tr>
-      						<td colSpan="4" className="nodata"><p>{I18n.coinDetailHistoryNoTransactionEth}</p><br/>
-      							<p><a href={`${ETH_SCAN()}/address/${check0xPrefix(account)}`} target="_blank">{`https://etherscan.io/`}</a></p>
-      						</td>
-    						</tr>
-    					</tbody>
-            </table>
-          )
-        }
-
-        {
-          (tab === "complete" && txHistory.length > 0) && <Pagination walletCoinType={walletCoinType} totalData={totalData} page={page} changePage={this.changePage}/>
-        }
+            }
+            {
+              (tab === "complete" && txHistory.length > 0) && <Pagination walletCoinType={walletCoinType} totalData={totalData} page={page} changePage={this.changePage}/>
+            }
+        </div>
       </div>
-    );
-  }
+    )}
 }
 
 class Pagination extends Component {
@@ -340,7 +334,7 @@ class HistoryRow extends Component {
       <tr>
         <td>{time}</td>
         <td>{type}</td>
-        <td onClick={this.handleTxidClick}><span>{txid}</span><em className="_img"></em></td>
+        <td onClick={this.handleTxidClick}><span>{txid}</span></td>
         { isFail ? (
           <td className={'down'}>{failText}</td>
         ) : (

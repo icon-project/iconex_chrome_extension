@@ -220,21 +220,20 @@ class ImportWallet2 extends Component {
 
     let dropzoneRef;
 
-    const ButtonClassName = `btn-type-fill size-full`
+    const ButtonClassName = `btn-type-next size-full`
     const DropzoneClassName = `drag ${fileTitle !== '' ? (isDropped ? 'on' : 'error') : ''}`
 
     return (
       <div>
+        <div className="header">
           <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
           <h1 className="title">{I18n.importWallet.title}</h1>
           <h2>{I18n.importWallet.desc2}</h2>
+        </div>
           <div className="scroll-holder">
     				<div className="scroll">
-    					<div className="tabbox-holder">
+    					<div className="tabbox-holder token">
     						<p className="title">{I18n.importWallet.inputLabel2_1}</p>
-    						<div className="choice">
-                  <button onClick={() => { dropzoneRef.open() }} type="submit" className={ButtonClassName}><span>{I18n.button.upload}</span></button>
-    						</div>
                 <Dropzone
                   onDropAccepted={this.acceptDrop}
                   onDropRejected={this.rejectDrop}
@@ -246,7 +245,7 @@ class ImportWallet2 extends Component {
                 >
                   {fileTitle !== '' ? (
                     <div>
-                      <p className="list" title={fileTitle}>{fileTitle}<em onClick={this.resetDropzone} className="_img"></em></p>
+                      <p className="list" title={fileTitle}><i className="_img"></i>{fileTitle}<em onClick={this.resetDropzone} className="_img"></em></p>
                       <p className="error">{dropzoneError}</p>
                     </div>
                   ) : (
@@ -256,6 +255,9 @@ class ImportWallet2 extends Component {
                     </div>
                   )}
                 </Dropzone>
+                <div className="choice">
+                  <button onClick={() => { dropzoneRef.open() }} type="submit" className={ButtonClassName}><span>{I18n.button.upload}</span></button>
+    						</div>
                 <div className="pw-group">
                   <p className="title">{I18n.importWallet.inputLabel2_2}</p>
                   <input onKeyPress={this.handleKeyPress} onChange={this.changeInput} type="password" className={`txt-type-normal ${pwError && 'error'}`} name="pw" placeholder={I18n.importWallet.inputPlaceHolder2_2} value={pw} />
@@ -266,7 +268,7 @@ class ImportWallet2 extends Component {
     			</div>
           <div className="btn-holder">
             { loading ? (<button type="submit" className="btn-type-normal load"><span><LoadingComponent type="black"/></span></button>)
-                      : (<button onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{this.state.fileType === 'ks' ? I18n.button.next : I18n.button.import}</span></button>)}
+                      : (<button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{this.state.fileType === 'ks' ? I18n.button.next : I18n.button.import}</span></button>)}
           </div>
           {
             showAlertImportSuccessAlert && (

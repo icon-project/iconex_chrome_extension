@@ -44,12 +44,15 @@ class AddWallet extends Component {
     const { I18n } = this.props;
 
     return (
-      <div>
-        <div className="dimmed"></div>
-    		<div className="popup">
-          <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
-    			<h1 className="title">{I18n.addWallet.title}</h1>
-    			<h2>{I18n.addWallet.desc}</h2>
+      <div className="popup-wrap">
+        <div className="dimmed fade-in"></div>
+    		<div className="popup moving-down">
+          <div className="header">
+            <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
+            <h1 className="title">{I18n.addWallet.title}</h1>
+            <h2>{I18n.addWallet.desc}</h2>
+          </div>
+
     			<div className="scroll-holder">
     				<div className="scroll">
     					<div className="tabbox-holder">
@@ -69,7 +72,7 @@ class AddWallet extends Component {
     				</div>
     			</div>
     			<div className="btn-holder">
-            <button onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.button.next}</span></button>
+            <button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.next}</span></button>
     			</div>
     		</div>
       </div>

@@ -162,3 +162,6 @@
 .popup-wrap .popup .layout .content .exchange .group .won-group p.have, .content-wrap .wrap-holder.exchange .quantity-holder .won-group p.have{text-align: right; font-size: 14px; color: rgba(38, 38, 38, 0.5); margin-top: 7px;}
 .content-wrap .wrap-holder.exchange .quantity-holder .won-group p.have{width: 610px; position: absolute;}
 .popup-wrap .popup .layout .content .exchange .group .won-group p.have{width: 445px; position: absolute;}
+
+/* CreateWallet STEP2/STEP3 buttons */
+.size-next{width: 307px !important;}

@@ -13,7 +13,7 @@ export default {
     modify: 'Change',
     download: 'Download Keystore file (wallet backup file)',
     upload: 'Select Keystore File (wallet backup file)',
-    copy: 'Copy',
+    copy: 'Copy Address',
     copyFinish: 'Copy Complete',
     print: 'Print Wallet',
     checkTransction: 'Check Transaction',

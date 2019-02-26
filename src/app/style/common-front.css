@@ -16,7 +16,7 @@
 }
 
 .btn-type-copy { width: 104px; }
-[class ^="btn-type"]:nth-child(2) {margin-left: 5px;}
+/* [class ^="btn-type"]:nth-child(2) {margin-left: 5px;} */
 
 .content-wrap .wrap-holder.exchange .won-group p.error {
   padding-top: 33px;
@@ -163,5 +163,12 @@
 .content-wrap .wrap-holder.exchange .quantity-holder .won-group p.have{width: 610px; position: absolute;}
 .popup-wrap .popup .layout .content .exchange .group .won-group p.have{width: 445px; position: absolute;}
 
-/* button hover background color */
-[class ^="btn-type"]:hover {background: transparent;}
+/* chrome extension popup, button hover color */
+.btn-type-line:hover {border: 1px solid #808080; background: transparent;}
+
+/* 'Change Wallet Name/Password' modal, 'cancel' and 'confirm' buttons */
+[class ^="btn-type"]:nth-child(2) {margin-left: 0px;}
+
+/* 'Backup Wallet' modal, 'Print Wallet' button */
+.popup-wrap .tabbox-holder.end button:last-child{margin-left: 4px;}
+

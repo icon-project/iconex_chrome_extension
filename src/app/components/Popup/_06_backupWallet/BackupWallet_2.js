@@ -95,7 +95,7 @@ class BackupWallet2 extends Component {
     					</div>
               <div className="tabbox-holder ">
                 <div className="key-group">
-                  <p className={`key ${toggleKey}`}>{toggleKey === '' ? privKey : '*'.repeat(64)}<em className="_img on"></em></p>
+                  <p className={`key ${toggleKey}`}>{toggleKey === '' ? privKey : '*'.repeat(64)}<em onClick={this.toggleKey} className={`_img ${toggleKey}`}></em></p>
                 </div>
               </div>
 

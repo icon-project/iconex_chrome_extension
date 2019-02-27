@@ -130,8 +130,7 @@ class CreateWallet4 extends Component {
 							<div className="tabbox-holder ">
 								<div className="key-group">
 									<p className="title">{I18n.createWallet.privateKey}</p>
-                  {/* {toggleKey === '' ? privateKey : '*'.repeat(64)} */}
-                  <p className="key">{privateKey}<em onClick={this.toggleKey} className={`_img ${toggleKey}`}></em></p>
+                  <p className="key">{toggleKey === '' ? privateKey : '*'.repeat(64)}<em onClick={this.toggleKey} className={`_img ${toggleKey}`}></em></p>
 								</div>
 								<div className="btn-group">
                   <CopyButton target={privateKey} text={I18n.button.copyPrivateKey} type="small" defaultSize={true} copyFinish={I18n.button.copyFinish}/>
@@ -141,7 +140,7 @@ class CreateWallet4 extends Component {
 						</div>
 					</div>
           <div className="btn-holder">
-            {loading ? (<button type="submit" className="btn-type-normal load"><span><LoadingComponent type="black" /></span></button>): (<button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.submit}</span></button>)}
+            {loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="black" /></span></button>): (<button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.submit}</span></button>)}
           </div>
         </li>
         {

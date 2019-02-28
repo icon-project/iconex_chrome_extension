@@ -200,6 +200,7 @@ class AddToken2 extends Component {
     const state = this.state;
     state[target] = value
     this.setState(state);
+    console.log('value length:', value.length)
 
     // check whether address exists
     if (target === 'address' && ((walletCoinType === 'icx' && isIcxContractAddress(value)) || (walletCoinType === 'eth' && isAddress(value)))) {
@@ -230,11 +231,13 @@ class AddToken2 extends Component {
       isLoading
     } = this.state;
     const { tokenInfoLoading, I18n } = this.props
+    console.log('tokenInfoLoading', tokenInfoLoading)
     return (
       <div>
-        <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
-        <h1 className="title">{I18n.addToken.title2}</h1>
-        <h2>{I18n.addToken.desc2.split('\n').map((item, key) => {return <span key={key}>{item}<br/></span>})}</h2>
+        <div className="header-white">
+          <h1 className="title">{I18n.addToken.title2}</h1>
+          <h2>{I18n.addToken.desc2.split('\n').map((item, key) => {return <span key={key}>{item}<br/></span>})}</h2>
+        </div>
         <div className="scroll-holder">
   				<div className="scroll">
             <div className="tabbox-holder token">
@@ -262,9 +265,10 @@ class AddToken2 extends Component {
             </div>
           </div>
         </div>
-        <div className="btn-holder">
-          { isLoading ? <button type="submit" className="btn-type-fill load"><span><LoadingComponent type="white" /></span></button>
-                      : <button onClick={() => this.validateForm(null, 'submit')} type="submit" className="btn-type-fill"><span>{I18n.button.add}</span></button>}
+        <div className="btn-holder full">
+          <button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.cancel}</span></button>
+          { isLoading ? <button type="submit" className="btn-type-normal size-half load"><span><LoadingComponent type="white" /></span></button>
+                      : <button onClick={() => this.validateForm(null, 'submit')} type="submit" className="btn-type-normal size-half"><span>{I18n.button.add}</span></button>}
         </div>
 
       </div>

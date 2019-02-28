@@ -172,3 +172,5 @@
 /* 'Backup Wallet' modal, 'Print Wallet' button */
 .popup-wrap .tabbox-holder.end button:last-child{margin-left: 4px;}
 
+/* 'Add Token' modal, display checkbox checked when disabled */
+input[type=checkbox]:disabled+ label {background-position: 0px -900px;}

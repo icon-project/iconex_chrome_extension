@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { HeaderTitle, LoadingComponent, Alert } from 'app/components/'
 import { WalletSelectorContainer, QuantitySetterContainer, RecipientAddressContainer, } from 'app/containers/'
+import { TxFeeAndDataContainer, CalculationTableContainer } from 'app/containers/'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -64,7 +65,7 @@ class ExchangeTransaction extends Component {
   }
 
   render() {
-    const { walletsLoading, I18n } = this.props;
+    const { walletsLoading, I18n, isLoggedIn } = this.props;
     const { showAlertWalletFirst } = this.state;
 
     if (walletsLoading) {
@@ -80,8 +81,12 @@ class ExchangeTransaction extends Component {
         <HeaderTitle title={I18n.transfer}/>
         <div className="wrap-holder exchange">
           <WalletSelectorContainer />
-          <QuantitySetterContainer />
-          <RecipientAddressContainer />
+          <div className='quantity-holder'>
+            <QuantitySetterContainer />
+            <RecipientAddressContainer />
+            { isLoggedIn && (<TxFeeAndDataContainer />) }
+            { isLoggedIn && (<CalculationTableContainer />) }
+          </div>
           <p className="lock-txt"><em className="_img"></em>{I18n.transferPageInfo1}</p>
           <div className="btn-holder in">
             <button className="btn-type-normal size-medium" onClick={this.handleSubmit}><span>{I18n.transfer}</span></button>

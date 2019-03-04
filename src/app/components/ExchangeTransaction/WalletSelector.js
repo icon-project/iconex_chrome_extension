@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { coinNameKorean as COIN_NAME_KOREAN, coinName as COIN_NAME } from 'constants/index';
-import { makeWalletArray, convertNumberToText, calcTokenBalanceWithRate } from 'utils'
+import { makeWalletArray, convertNumberToText, isEmpty } from 'utils'
 import withClickOut from 'HOC/withClickOut';
 import { LoadingComponent  } from 'app/components/'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
-  showWalletList: false,
-  walletBalanceWithRateArr: []
+  showWalletList: false
 }
 
 @withLanguageProps
@@ -18,36 +17,6 @@ class WalletSelector extends Component {
     this.state = INIT_STATE;
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if(this.props.totalResultLoading !== nextProps.totalResultLoading && !nextProps.totalResultLoading) {
-      this.calcBalanceWithRate(nextProps.rate);
-    }
-  }
-
-  calcBalanceWithRate = (rate) => {
-    let resultArr = []
-    let walletArr = makeWalletArray(this.props.wallets);
-    for(let i=0; i<walletArr.length; i++) {
-      let coinBalanceWithRate = walletArr[i].balance * rate[walletArr[i].type]
-      let tokenBalanceWithRateArrSum = 0;
-      const tokens = Object.values(walletArr[i].tokens);
-      if(tokens.length > 0) {
-        for(let v=0; v<tokens.length; v++){
-          let tokenBalanceWithRate = calcTokenBalanceWithRate(tokens[v].balance, rate[walletArr[i].type], tokens[v].defaultDecimals, tokens[v].decimals)
-          if (!tokenBalanceWithRate) {
-            tokenBalanceWithRateArrSum += tokenBalanceWithRate;
-          }
-        }
-      }
-      let walletBalanceWithRate = coinBalanceWithRate + tokenBalanceWithRateArrSum;
-      resultArr.push(walletBalanceWithRate)
-    }
-
-    this.setState({
-      walletBalanceWithRateArr: resultArr
-    })
-  }
-
   toggleWalletList = () => {
     this.setState({
       showWalletList: !this.state.showWalletList
@@ -55,9 +24,6 @@ class WalletSelector extends Component {
   }
 
   setWallet = (account) => {
-    // this.props.setSelectedWallet({
-    //   account: address
-    // })
     this.props.setEXTRLogInState({
       isLoggedIn: false
     })
@@ -79,11 +45,13 @@ class WalletSelector extends Component {
       isContractPage,
       walletSelectorError,
       isLedger,
-      ledgerWallet
+      ledgerWallet,
+      totalResultLoading
     } = this.props
 
-    const walletName = wallets[selectedAccount] ? wallets[selectedAccount].name : I18n.transferPagePlaceholder3
     const walletsArr = makeWalletArray(wallets);
+    const walletName = wallets[selectedAccount] ? wallets[selectedAccount].name : I18n.transferPagePlaceholder3
+    const walletIcon = wallets[selectedAccount] ? `${wallets[selectedAccount].type === 'eth' ? 'ethereum' : '' } ${!isEmpty(wallets[selectedAccount].tokens) ? 'three' : '' } _icon` : ''
 
     if (isContractPage) {
       return (
@@ -96,9 +64,7 @@ class WalletSelector extends Component {
                   selectedAccount={selectedAccount}
                   setWallet={this.setWallet}
                   onClickOut={this.toggleWalletList}
-                  rate={this.props.rate}
-                  rateLoading={this.props.rateLoading}
-                  walletBalanceWithRateArr={this.state.walletBalanceWithRateArr}
+                  totalResultLoading={totalResultLoading}
                   isContractPage
                 />
               }
@@ -116,16 +82,17 @@ class WalletSelector extends Component {
           { isLedger ? (
   					<span className="money-group connect">{`${ledgerWallet.account} (${ledgerWallet.path})`}</span>
           ) : (
-            <span className="money-group" onClick={this.toggleWalletList}>{walletName}<em className="_img"></em>
+            <span className="money-group" onClick={this.toggleWalletList}>
+              <i className={walletIcon}></i>
+              {` ${walletName}`}
+              <em className="_img"></em>
               {this.state.showWalletList &&
                 <WalletList
                   walletsArr={walletsArr}
                   selectedAccount={selectedAccount}
                   setWallet={this.setWallet}
                   onClickOut={this.toggleWalletList}
-                  rate={this.props.rate}
-                  rateLoading={this.props.rateLoading}
-                  walletBalanceWithRateArr={this.state.walletBalanceWithRateArr}
+                  totalResultLoading={totalResultLoading}
                 />
               }
             </span>
@@ -137,7 +104,7 @@ class WalletSelector extends Component {
                   onClick={() => this.props.openPopup({
                     popupType: 'connectLedger'
                   })}
-                  className="btn-type-copy auto">
+                  className="btn-type-copy size-ledger">
                   <span>{I18n.button.connectLedger}</span>
                 </button>
     					</div>
@@ -152,44 +119,50 @@ class WalletSelector extends Component {
 @withClickOut
 @withLanguageProps
 class WalletList extends Component {
-  setWallet = (isEmpty, account) => {
-    if (!(isEmpty)) {
-      this.props.setWallet(account);
-    }
+
+  setWallet = (account) => {
+    this.props.setWallet(account);
   }
+
   render() {
     const {
-      walletBalanceWithRateArr,
       selectedAccount,
       isContractPage,
-      I18n
+      totalResultLoading
     } = this.props;
 
-    const loading = walletBalanceWithRateArr.length < 1 ? true : false;
-    const coinNameObj = this.props.language === 'kr' ? COIN_NAME_KOREAN : COIN_NAME
-
     return (
-      <div className="layer">
-        <ul>
-          {this.props.walletsArr.map((w, i) => {
-            const isEmpty = false;
-            const tokens = Object.values(w.tokens);
-            return(
-              <li key={i} disabled={w.account === selectedAccount} className={w.account === selectedAccount ? "on" : ""} onClick={() => this.setWallet(isEmpty, w.account)}>
-                <span className="a">{w.name}</span>
-                {
-                  !isContractPage && (
-                    loading
-                      ? (<span className="c load"><LoadingComponent type="white"/></span>)
-                      : isEmpty
-                        ? (<span className="c"><i className="zero">{`≈ ${convertNumberToText(walletBalanceWithRateArr[i], 'usd', false)} USD `}</i>{`/ ${coinNameObj[w.type]} ${tokens.length > 0 ? I18n.transferPageAndCoin + tokens.length : ''}`}</span>)
-                        : (<span className="c">{`≈ ${convertNumberToText(walletBalanceWithRateArr[i], 'usd', false)} USD / ${coinNameObj[w.type]} ${tokens.length > 0 ? I18n.transferPageAndCoin + tokens.length : ''}`}</span>)
-                  )
-                }
-              </li>
-            )
-          })}
-        </ul>
+      <div className="drop-box">
+        <div className="drop-layer">
+          <ul>
+            {this.props.walletsArr.map((w, i) => {
+              const tokens = Object.values(w.tokens);
+              return(
+                <li key={i} disabled={w.account === selectedAccount} className={w.account === selectedAccount ? "on" : ""} onClick={() => this.setWallet(w.account)}>
+                  <i className={`_icon ${w.type === 'icx' ? "" : "ethereum"} ${tokens.length > 0 ? 'three' : ''}`}></i>
+                  <span className="a">{`${w.name}`}</span>
+                  {
+                    !isContractPage && (
+                      totalResultLoading
+                        ? (<span className="b load"><LoadingComponent type="black"/></span>)
+                        : (<span className="b">{`${convertNumberToText(w.balance, 'transaction', true)}`}</span>)
+                    )
+                  }
+                  { !isContractPage && (<span className="c">{`${w.type.toUpperCase()}`}</span>) }
+                  { !isContractPage && tokens.length > 0 && !totalResultLoading && (
+                    <div className="tag-group">
+                      {
+                        tokens.map((token, i) => (
+                          <em key={i}>{convertNumberToText(token.balance, 'transaction', true)} {token.symbol.toUpperCase()}</em>
+                        ))
+                      }
+                    </div>
+                    ) }
+                </li>
+              )
+            })}
+          </ul>
+        </div>
       </div>
     )
   }

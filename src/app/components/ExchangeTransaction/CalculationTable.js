@@ -6,8 +6,7 @@ const INIT_STATE = {
   currencyIndex: 0,
   data: {},
   coinQuantity: '0',
-  coinQuantityError: '',
-  txFeeHelpLayer: false
+  coinQuantityError: ''
 }
 
 @withLanguageProps
@@ -26,60 +25,60 @@ class CalculationTable extends Component {
   }
 
   render() {
-    const { calcData: data, I18n, swapPage, txFeeLimit, txFeePrice, isContractPage } = this.props;
+    const { calcData: data, I18n, isContractPage } = this.props;
     const { walletCoinType } = data;
     const { txFeeHelpLayer } = this.state;
     return (
-      <ul className="change-group">
-        {/* if swap page */}
-        {swapPage &&
-        <li>
-          {/* TODO loadingComponent */}
-          <span className="a">{I18n.swapToken.gasLimit}</span>
-          <span className="b num">{txFeeLimit === 0 ? '-' : txFeeLimit}</span>
-        </li>
-        }
-        {swapPage &&
-        <li>
-          {/* TODO loadingComponent */}
-          <span className="a">{I18n.swapToken.gasPrice}</span>
-          <span className="b num">{txFeePrice === 0 ? '-': txFeePrice}<em>Gwei</em></span>
-        </li>
-        }
-        <li style={isContractPage && {marginTop: 40}}>
-          <span className="a">
-            {I18n.transferPageLabel5_2}
-            <i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeeHelpLayer" className="_img"></i>
-            {
-              txFeeHelpLayer && (
+      <div className="table-holder common">
+        <table>
+          <colgroup>
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+          </colgroup>
+          <thead>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{I18n.transferPageLabel5_2}<i className="_img"></i>
                 <div className="help-layer">
                   <p className="title">{I18n[`transferPageHelperTitle1_${walletCoinType}`]}</p>
                   <p className="txt">{I18n[`transferPageHelperDesc1_${walletCoinType}`]}</p>
                 </div>
-              )
-            }
-          </span>
-          {
-            data.txFee ? (<span className={`b`}>{ swapPage && data.txFee === "0" ? '-' : data.txFee }<em>{`${data.walletCoinType === 'icx' ? 'ICX' : 'ETH'}`}</em></span>)
-                       : (<span className={`load b`}><LoadingComponent type="black"/></span>)
-          }
-          {
-            data.txFeeWithRate ? <span className={`c`}><em>{ !(swapPage && data.txFeeWithRate === "0") && <i className="_img"></i>}{ swapPage && data.txFeeWithRate === "0" ? '-' : data.txFeeWithRate }</em> <em>USD</em></span>
-                               : swapPage ? (<span className='c'></span>) : (<span className={`load c`}><LoadingComponent type="black"/></span>)
-          }
-        </li>
-        <li>
-          <span className={`${data.resultBalance && data.resultBalance.includes("-") && 'minus'} a`}>{I18n.transferPageLabel6_2}</span>
-          {
-            data.resultBalance ? <span className={`${data.resultBalance.includes("-") && 'minus'} b`}>{ data.resultBalance }<em>{data.coinType.toUpperCase()}</em></span>
-                               : <span className={`load b`}><LoadingComponent type="black"/></span>
-          }
-          {
-            data.resultBalanceWithRate ? <span className={`${data.resultBalanceWithRate && data.resultBalance.includes("-") && 'minus'} c`}><em>{data.resultBalanceWithRate !== '-' && <i className="_img"></i>}{data.resultBalanceWithRate}</em> <em>USD</em></span>
-                                       : swapPage ? (<span className='c'></span>) : (<span className={`load c`}><LoadingComponent type="black"/></span>)
-          }
-        </li>
-      </ul>
+              </td>
+              {
+                data.txFee 
+                  ? (<td>{ data.txFee }</td>)
+                  : (<td><LoadingComponent type="black"/></td>)
+              }
+              <td>{`${data.walletCoinType === 'icx' ? 'ICX' : 'ETH'}`}</td>
+              {
+                data.txFeeWithRate 
+                  ? (<td>{ data.txFeeWithRate }</td>)
+                  : (<td><LoadingComponent type="black"/></td>)
+              }
+              <td>USD</td>
+            </tr>
+            <tr>
+              <td>{I18n.transferPageLabel6_2}</td>
+              {
+                data.resultBalance 
+                  ? (<td>{ data.resultBalance }</td>)
+                  : (<td><LoadingComponent type="black"/></td>)
+              }
+              <td>{data.coinType.toUpperCase()}</td>
+              {
+                data.resultBalanceWithRate 
+                  ? (<td>{ data.resultBalanceWithRate }</td>)
+                  : (<td><LoadingComponent type="black"/></td>)
+              }
+              <td>USD</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     )
   }
 }

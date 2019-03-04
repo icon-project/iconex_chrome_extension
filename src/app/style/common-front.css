@@ -6,14 +6,20 @@
   margin-left: 46px;
 }
 .content-wrap .wrap-holder.exchange .quantity-holder .controller .b.minus {
-  margin-right: 3px;
+  margin-right: 4px;
 }
 .content-wrap .wrap-holder.exchange .quantity-holder .controller ul#dragBar {
-  margin-left: 241px;
+  font-size: 12px;
+  margin-left: 156px;
+  width: 435px;
 }
 .content-wrap .wrap-holder.exchange .quantity-holder .controller ul#dragBar li {
-  margin-right: 0px;
+  width: 50%; 
+  margin: 0;
 }
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul#dragBar li:first-child{margin-left: 0;}
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul#dragBar li:last-child{text-align: right;}
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul#dragBar em { color:#b3b3b3; margin-left: 4px; }
 
 .btn-type-copy { width: 104px; }
 [class ^="btn-type"]:nth-child(2) {margin-left: 5px;}
@@ -24,14 +30,18 @@
 }
 
 .content-wrap .wrap-holder.exchange p.error.gasLimit {
-  padding-top: 4px;
+  padding-top: 8px;
+  margin: 0px;
 }
 
 .content-wrap .wrap-holder.exchange p.error.data {
   padding-top: 4px;
+  color: #f24130;
+  text-align: left;
+  left: 0px;
 }
 
-.content-wrap .wrap-holder.exchange p.error {
+.content-wrap .wrap-holder.exchange .won-group p.error {
   left: 0px;
 }
 
@@ -58,10 +68,6 @@
   height: 40px;
   width: 180px;
   padding-bottom: 17px;
-}
-
-.help-layer{
-  display: block;
 }
 
 .content-wrap .main-holder .b-group ul li {
@@ -154,9 +160,9 @@
 
 
 /* contract page tooltip position */
-.en .content-wrap .wrap-holder.contract .search-holder .change-group .a .help-layer{left: 192px; width: 446px; top: 4px;}
+/* .en .content-wrap .wrap-holder.contract .search-holder .change-group .a .help-layer{left: 192px; width: 446px; top: 4px;}
 .en .content-wrap .wrap-holder.contract .search-holder .help-layer{left: 96px; width: 500px; top: 4px;}
-.en .content-wrap .wrap-holder.contract .search-holder .price .help-layer{left: 96px; width: 500px; top: 4px;}
+.en .content-wrap .wrap-holder.contract .search-holder .price .help-layer{left: 96px; width: 500px; top: 4px;} */
 
 /* transfer page 'balance' position */
 .popup-wrap .popup .layout .content .exchange .group .won-group p.have, .content-wrap .wrap-holder.exchange .quantity-holder .won-group p.have{text-align: right; font-size: 14px; color: rgba(38, 38, 38, 0.5); margin-top: 7px;}

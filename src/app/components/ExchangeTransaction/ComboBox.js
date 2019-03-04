@@ -28,23 +28,25 @@ class ComboBox extends Component {
 
   render() {
     return (
-      <span className={`money-group ${this.props.disabled ? 'disabled' : ''}`} onClick={this.toggleList}>
+      <div className={`money-group ${this.props.disabled ? 'disabled' : ''}`} onClick={this.toggleList}>
         {this.props.index ? this.props.list[this.props.index].toUpperCase() : '    '}
         {
           !this.props.noArrow && (
             <em className="_img"></em>
           )
         }
-        <div className="layer typeB">
         {this.state.showList &&
-          <CurrencyList
-            {...this.props}
-            onClickOut={this.toggleList}
-            setIndex={this.setIndex}
-          />
-        }
-        </div>
-      </span>
+          <div className="drop-box addtoken">
+            <div className="drop-layer">
+              <CurrencyList
+                {...this.props}
+                onClickOut={this.toggleList}
+                setIndex={this.setIndex}
+              />
+            </div>
+          </div>
+        }       
+      </div>
     )
   }
 }

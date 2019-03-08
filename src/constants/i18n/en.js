@@ -254,13 +254,14 @@ export default {
   noticeNotAgain: 'Do not show this again.',
 
   myPageExportDesc: 'Select the wallets to bundle. Passwords are required.',
-  myPageExportCaution: '[CAUTION] If you back up your wallets using the ‘Wallet bundle’ function, the password of each wallet will be changed into the bundle wallet password.',
-  myPageWalletChecked: 'Selected Wallets',
+  myPageExportCaution: '· [CAUTION] If you back up your wallets using the ‘Wallet bundle’ function, the password of each wallet will be changed into the bundle wallet password.',
+  myPageExportSelectedWallets: 'Wallets',
+  myPageWalletChecked: '· Selected Wallets',
   myPageSubTitle1: 'Screen Lock',
   myPageSubTitle2: 'Export Wallet Bundle',
-  myPageInfo1: 'By activating the screen lock function, a 6-digit passcode is required every time you open ICONex in a new chrome window.\nIf you forget your screen lock passcode, you can reset the passcode using your wallet password.',
+  myPageInfo1: 'By activating the screen lock function, a 6-digit passcode is required every time you open ICONex in a new chrome window.\n ·If you forget your screen lock passcode, you can reset the passcode using your wallet password.',
   myPageInfo2: 'If you activate the screen lock, a 6-digit passcode is required every time you open your ICONex. It can protect your assets from others.',
-  myPageInfo3: 'Wallet bundle backs up your wallets in one file.\nYou can easily manage different wallets at once.',
+  myPageInfo3: '· Wallet bundle backs up your wallets in one file.\n · You can easily manage different wallets at once.',
   myPageUnlock: '· Do you want to unlock?',
   myPageLockNumber: 'Screen Lock',
   myPageLockNumberUsing: 'Screen lock activated',
@@ -474,10 +475,11 @@ export default {
 
     inputPlaceholder1: 'Please enter your password',
 
-    infoBoxTitle1: 'Set a wallet bundle password that is strong and secure. You are responsible for safeguarding your password. DO NOT forget to save this. If you lose your password, you cannot restore it.',
+    infoBoxTitle1: '· Set a wallet bundle password that is strong and secure. You are responsible for safeguarding your password. DO NOT forget to save this. If you lose your password, you cannot restore it.',
     infoBoxDesc1: '· Anyone holding the backup file and the password can access or transfer from the wallets. Please be careful not to expose them to others.',
 
-    infoBoxTitle2: 'This backup file is the encrypted file of the selected wallets and requires the wallet bundle password which you created when exporting your wallet bundle.',
+    infoTitle: 'Wallet Backup File',
+    infoBoxTitle2: '· This backup file is the encrypted file of the selected wallets and requires the wallet bundle password which you created when exporting your wallet bundle.',
     infoBoxDesc2_1: '· You will need the wallet bundle password to load your wallet bundle in other devices.',
     infoBoxDesc2_2: '· Anyone who can access to the backup file and the password can transfer assets from the wallets without your permission. Please be careful not to expose your backup file.',
   },

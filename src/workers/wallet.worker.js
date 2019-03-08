@@ -180,6 +180,7 @@ onmessage = function(m) {
           return '';
         }
         try {
+          // get info about pk and public key of a wallet
           const wallet = Wallet.fromV3(val.priv, val.pw, V3_OPTIONS);
           let key = '';
           switch (val.type) {
@@ -221,6 +222,7 @@ onmessage = function(m) {
 
     case 'exportWallet_3':
       const exportWalletObjects = m.data.exportWalletObjects
+      console.log('from walletworker exportWallet_3', exportWalletObjects)
       for(let i=0; i<exportWalletObjects.length; i++) {
         const key = Object.keys(exportWalletObjects[i])[0];
         const priv = new Wallet(new Buffer(exportWalletObjects[i][key].priv._privKey));

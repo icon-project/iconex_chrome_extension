@@ -96,7 +96,6 @@ class UpdateWalletName extends Component {
       <div>
         <div className="dimmed"></div>
         <div className="popup size-medium2">
-          <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
           <h1 className="title">{I18n.updateWalletName.title}</h1>
           <h2>{I18n.updateWalletName.desc}</h2>
           <div className="scroll-holder">
@@ -110,8 +109,9 @@ class UpdateWalletName extends Component {
               </div>
             </div>
           </div>
-          <div className="btn-holder">
-            <button onClick={this.handleSubmit} type="submit" className={newWalletName.length < 1 ? 'btn-type-fill' : 'btn-type-normal'}><span>{I18n.button.change}</span></button>
+          <div className="btn-holder full">
+            <button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.cancel}</span></button>
+            <button onClick={this.handleSubmit} type="submit" className="btn-type-normal size-half"><span>{I18n.button.change}</span></button>
           </div>
         </div>
         {

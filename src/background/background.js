@@ -12,7 +12,6 @@ let TIMER_TIME = 60000 * 10;
 window.chrome.browserAction.setPopup({ popup: './popup.html' })
 
 window.chrome.runtime.onConnect.addListener(portFrom => {
-	console.log(portFrom)
 	if (portFrom.name === 'iconex-background-content') {
 		portFrom.onMessage.addListener(async message => {
 			const popupId = notificationManager.getPopupId()
@@ -77,7 +76,6 @@ window.chrome.tabs.onRemoved.addListener((tabId) => {
 
 window.chrome.runtime.onMessage.addListener(message => {
 	const { type } = message
-	console.log(message)
 	switch (type) {
 		case 'ADD_TAB_ID':
 			if (TAB_ARR.indexOf(message.payload) === -1) {
@@ -113,7 +111,6 @@ window.chrome.runtime.onMessage.addListener(message => {
 			notificationManager.closePopup()
 			break;
 		case 'REFRESH_LOCK_STATE':
-			console.log(type, message.payload)
 			window.chrome.extension.sendMessage({ type: type + '_FULFILLED', payload: message.payload });
 			break;
 		default:

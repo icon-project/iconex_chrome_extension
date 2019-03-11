@@ -100,10 +100,8 @@ class Routes extends Component {
 
   listenerHandler = (message) => {
     const { type, payload } = message
-    console.log(message)
     switch (type) {
       case 'REFRESH_LOCK_STATE_FULFILLED':
-      console.log(payload, this.tabId)
         if (payload !== this.tabId) {
           window.chrome.tabs.reload(this.tabId)
         }

@@ -23,7 +23,7 @@ class AddToken extends Component {
     return (
       <div>
         <div className="dimmed"></div>
-        <div className="popup">
+        <div className="popup tokenAdd">
           { content(popupNum) }
         </div>
       </div>

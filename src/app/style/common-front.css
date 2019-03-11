@@ -22,7 +22,7 @@
 .content-wrap .wrap-holder.exchange .quantity-holder .controller ul#dragBar em { color:#b3b3b3; margin-left: 4px; }
 
 .btn-type-copy { width: 104px; }
-[class ^="btn-type"]:nth-child(2) {margin-left: 5px;}
+/* [class ^="btn-type"]:nth-child(2) {margin-left: 5px;} */
 
 .content-wrap .wrap-holder.exchange .won-group p.error {
   padding-top: 33px;
@@ -173,3 +173,14 @@
 .content-wrap .wrap-holder .coin-holder .exchange-holder { margin-top: -50px; }
 .content-wrap .wrap-holder .coin-holder .c div{ display: block; visibility: hidden; }
 
+/* chrome extension popup, button hover color */
+.btn-type-line:hover {border: 1px solid #808080; background: transparent;}
+
+/* 'Change Wallet Name/Password' modal, 'cancel' and 'confirm' buttons */
+[class ^="btn-type"]:nth-child(2) {margin-left: 0px;}
+
+/* 'Backup Wallet' modal, 'Print Wallet' button */
+.popup-wrap .tabbox-holder.end button:last-child{margin-left: 4px;}
+
+/* 'Add Token' modal, display checkbox checked when disabled */
+input[type=checkbox]:disabled+ label {background-position: 0px -900px;}

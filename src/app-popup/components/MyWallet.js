@@ -198,7 +198,7 @@ class MyWallet extends Component {
 	render() {
 		const { tab, data, password, pwError, confirmLoading, selected } = this.state;
 		const { I18n, totalResultLoading } = this.props;
-		const { addressRequest, transaction } = this.props
+		const { addressRequest, transaction } = this.props;
 		const _onlyIcxTab = this.onlyIcxTab()
 		if (_onlyIcxTab) {
 			data['eth'] = []
@@ -221,8 +221,10 @@ class MyWallet extends Component {
 								<ul className="list-holder">
 									{
 										data[tab].map((wallet, i) => {
-											const isInput = this.getIsInput(wallet)
-											const txHash = isInput ? this.getTxHash() : ''
+											const isInput = this.getIsInput(wallet);
+											// const isInput = true;
+											const txHash = isInput ? this.getTxHash() : '';
+											// const txHash = '3H3svYGqXxAAHSAJy2Eu1TGagC3H3svYGqXxAAHSbU2kz5KR';
 											return (
 												<WalletBar key={i}
 													index={i}
@@ -251,12 +253,12 @@ class MyWallet extends Component {
 				}
 				{addressRequest ?
 					<div className="footer cols-2">
-						<button className="btn-type-normal" onClick={() => { this.cancelEvent() }}><span>{I18n.button.cancel}</span></button>
-						<button className="btn-type-ok" onClick={this.confirmAddress} disabled={!selected}><span>{I18n.button.confirm}</span></button>
+						<button className="btn-type-cancel" onClick={() => { this.cancelEvent() }}><span>{I18n.button.cancel}</span></button>
+						<button className="btn-type-normal" onClick={this.confirmAddress} disabled={!selected}><span>{I18n.button.confirm}</span></button>
 					</div>
 					:
 					<div onClick={this.goApp} className="footer">
-						<p>{I18n.button.goToWallet}<em className="_img"></em></p>
+						<p>{I18n.button.goToWallet}</p>
 					</div>
 				}
 			</div>

@@ -35,7 +35,7 @@ class MyPage extends Component {
   						<li onClick={this.setTab} data-name={'export'} className={tab === 'export' ? 'on' : ''}>{I18n.myPageSubTitle2}</li>
   					</ul>
   				</div>
-          <p className="lock-txt"><em className="_img"></em>{myPageInfo.split('\n').map((item, key) => {return <span key={key}>{item}<br/></span>})}</p>
+          {/* <p className="lock-txt"><em className="_img"></em>{myPageInfo.split('\n').map((item, key) => {return <span key={key}>{item}<br/></span>})}</p> */}
         </div>
         {
           tab === 'lock' ? (<LockContent {...this.props} />)

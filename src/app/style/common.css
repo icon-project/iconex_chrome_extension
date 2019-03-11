@@ -47,7 +47,8 @@ textarea{resize: none;}
 
 *{-webkit-box-sizing: border-box;
 	 -moz-box-sizing: border-box;
-		box-sizing: border-box;}
+		box-sizing: border-box;
+	 -webkit-font-smoothing: antialiased;}
 
 .scroll::-webkit-scrollbar {width: 10px;   }
 .scroll::-webkit-scrollbar-thumb {width: 50px; background: #d4d4d4; -webkit-border-radius: 10px; border-radius: 10px; border: 2px solid #fff; }
@@ -170,17 +171,17 @@ sup{top: -.5em; position: relative;font-size: 75%;line-height: 0;vertical-align:
 .lock-wrap .content-holder .pw-group li.no span{background: transparent;}
 
 .lock-wrap .content-holder .logo{display: inline-block; width: 100px; height: 100px; position: relative; opacity: 0.4;}
-.lock-wrap .content-holder .logo.chk{opacity: 1;}
+.lock-wrap .content-holder .logo.chk{opacity: 1; -webkit-transition-duration: 0.1s; transition-duration: 0.1s;}
 .lock-wrap .content-holder .logo em{width:100px; height: 100px; background-position:-300px -1250px;  }
 .lock-wrap .content-holder .logo em:last-child{background-position-x:-400px; position: absolute; left:0; top: 0;}
-.lock-wrap .dimmed{background: rgba(26, 170, 186, 0.6); width: 100%; height: 100%; position:  fixed; left: 0; right: 0; top: 0; bottom: 0; z-index: -1;}
+.lock-wrap .dimmed{background-image: linear-gradient(to top, rgba(0, 161, 179, 0.6), rgba(0, 161, 179, 0.8)); width: 100%; height: 100%; position:  fixed; left: 0; right: 0; top: 0; bottom: 0; z-index: -1;}
 .lock-wrap .footer-wrap { position: fixed; bottom: 0; width: 400px; background: transparent; height: 100px; text-align: center; color: rgba(255,255,255,0.7); min-width: auto; font-size: 14px; }
 .lock-wrap .footer-wrap .forget{ cursor: pointer;}
 .lock-wrap .footer-wrap .forget:hover{color: #fff; text-decoration: underline;}
 
 .lock-wrap.new .footer-wrap {position: fixed; bottom: 0; width: 100%; background: transparent; height: 50px; text-align: left;  font-size: 12px;padding: 16px 40px; left: 0;}
 .lock-wrap.new .footer-wrap .ver{position: relative; top: 0; float: right;}
-
+.lock .disabled{ -webkit-transition-duration: 0.1s; transition-duration: 0.1s; }
 
 /*lock popup*/
 .popup-wrap.home .popup{width: 484px; height: 300px; text-align: center; padding: 40px; font-size: 20px; border-radius: 5px;}
@@ -222,8 +223,8 @@ sup{top: -.5em; position: relative;font-size: 75%;line-height: 0;vertical-align:
 .content-wrap .title-holder h1 ._icon{ width: 36px; height: 36px; margin-right:16px; vertical-align: top; margin-top: 0px;}
 .content-wrap .title-holder h1.no{border:none; padding-bottom: 22px;}
 .content-wrap .title-holder.icx h1 ._icon{background-position:0px 0;}
-.content-wrap .title-holder.omg h1 ._icon{background-position:0px -90px;}
-.content-wrap .title-holder.eth h1 ._icon{background-position:0px -45px;}
+.content-wrap .title-holder.omg h1 ._icon{background-position:0px -100px;}
+.content-wrap .title-holder.eth h1 ._icon{background-position:0px -50px;}
 .content-wrap .title-holder .tab-holder{width: 1160px;}
 .content-wrap .title-holder h1 span{font-size: 16px; color: #808080;}
 .content-wrap .title-holder span{font-size: 12px; float: right; margin-top: -27px; color: #666;}
@@ -311,7 +312,7 @@ sup{top: -.5em; position: relative;font-size: 75%;line-height: 0;vertical-align:
 .content-wrap .main-holder .a-group .a span{position: relative;  color: rgba(255,255,255,0.8);}
 .content-wrap .main-holder .a-group .a ._img{background-position: -450px -200px; width: 14px; height: 14px; vertical-align: baseline;    margin-left: 10px; position: absolute;top:4px; }
 .content-wrap .main-holder .a-group .a ._img:hover{background-position: -500px -200px;  }
-.content-wrap .main-holder .a-group .a .layer{opacity: 0; }
+.content-wrap .main-holder .a-group .a .layer{opacity: 0;display: inline-table; }
 .content-wrap .main-holder .a-group .a ._img:hover+.layer{display: inline-table; opacity: 1; transition: all 0.5s;}
 
 .content-wrap .main-holder .a-group .b{ font-size: 46px;margin: 7px 0 0 70px; border-bottom: 1px solid rgba(255, 255, 255, 0.5);  width: 695px;     text-align: right; padding-right: 62px; position: relative;     height: 70px;letter-spacing: -1.5px;}
@@ -1125,6 +1126,8 @@ input.error{    border-bottom: 1px solid #f24130;}
 
 .wallet-group.floor li{border:1px solid #d9d9d9;  border-radius: 4px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05); font-size: 16px; margin: 24px 0; padding: 35px 30px 25px 20px; height: 96px; }
 .wallet-group.floor li ._icon{width: 36px; height: 36px; margin-right: 16px; vertical-align: top; margin-top: -10px; }
+.wallet-group li ._icon.eth{background-position-y: -50px;  }
+
 .tabbox-holder .wallet-group.floor li{ -webkit-transition-duration: 0.3s; transition-duration: 0.3s;}
 .tabbox-holder .wallet-group.floor li:hover{-webkit-transform: translateY(-5px); transform: translateY(-5px);box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.1);}
 .content-wrap .wallet-group.floor li label{font-size: 16px !important; padding: 0 0 0 50px; margin-top: 0; color: #333; width: auto !important;}
@@ -1433,7 +1436,7 @@ div#gasTable .datainput .-holder span{font-size: 12px;}
 .en .content-wrap .wrap-holder .edit-token{ right: 144px;}
 
 .rotaion em{
-    animation: rotaion 0.3s linear forwards;
+    animation: rotaion 0.4s 0.45s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
 }
 .rotaion em:nth-child(1){
     animation-name: rotaion;
@@ -1443,15 +1446,20 @@ div#gasTable .datainput .-holder span{font-size: 12px;}
 }
 @keyframes rotaion {
     0% {transform: rotate(0deg);}
+    90% {transform: rotate(190deg);}
     100% {transform: rotate(180deg);}
 }
 @keyframes rotaion-r {
     0% {transform: rotate(0deg);}
+    90% {transform: rotate(-190deg);}
     100% {transform: rotate(-180deg);}
 }
-
+.destroy .lock-wrap .footer-wrap,
+.destroy .lock-wrap .content-holder{
+	animation: destroy 0.1s 1.25s linear forwards;
+}
 .destroy .lock-wrap{
-    animation: destroy 0.2s 0.28s linear forwards;
+    animation: destroy 0.2s 1.65s linear forwards;
 }
 @keyframes destroy {
     0% { opacity: 1; }
@@ -1460,7 +1468,7 @@ div#gasTable .datainput .-holder span{font-size: 12px;}
 
 .destroy > .footer-wrap,
 .destroy > .wrap{
-    animation: destroy-blur 0.2s 0.28s linear forwards;
+    animation: destroy-blur 0.2s 1.65s linear forwards;
 }
 @keyframes destroy-blur {
     0% {     filter: blur(50px); }
@@ -1496,13 +1504,59 @@ div#gasTable .datainput .-holder span{font-size: 12px;}
     animation: zigzag 0.3s ease forwards;
 }
 @keyframes zigzag {
-    0% { transform: translateX(0px);}
-    25% { transform: translateX(-50px);}
-    50% { transform: translateX(30px);}
-    75% { transform: translateX(-10px);}
-    100% { transform: translateX(0px);}
+    0% { transform: translate(0px, 0);}
+    20% { transform: translate(-10px, -10px);}
+    40% { transform: translate(10px, 10px);}
+    60% { transform: translate(-10px, -10px);}
+    80% { transform: translate(10px, 10px);}
+    100% { transform: translate(0px, 0);}
 }
 
+/*banner*/
+.isBanner [class ^="cbox-type"] + label{ background-color: transparent;background-position: -550px -850px; vertical-align: top;}
+.isBanner input[type=checkbox]:checked + label {color: #fff; background-position: -550px -900px;}
+.isBanner .root{margin: 0 auto -132px;}
+.isBanner .footer-wrap{margin-bottom: 80px;}
+.isBanner .blank{height: 234px;}
+.banner-wrap{height: 80px; width: 100%; bottom: 0; background-image: linear-gradient(to bottom, #1a1a1a, #212121); position: fixed; text-align: center; z-index: 1; color: #fff; }
+.banner-wrap .banner{width: 900px; display: inline-block; text-align: left; position: relative; background: url(../image/banner.png) 380px bottom no-repeat; background-size: auto 80px; height: 100%;  }
+.banner-wrap .banner .link{ display: inline-block; height: 80px; width: 660px; position: absolute; top: 0; left: 0; cursor: pointer;}
+.banner-wrap .banner img{width: 314px; height: 44px;  margin-top: 18px;}
+.banner-wrap .banner .close{width:16px; height: 16px;     background-position: -50px -150px; cursor: pointer; vertical-align: top; margin-top: 2px;  }
+.banner-wrap .banner .view{position: absolute; display: inline-block; right: 0; top: 30px;}
+.banner-wrap .banner >i {position: absolute; background: url(../image/banner_b.png) left top no-repeat; background-size: auto 50px; opacity: 0; }
+.banner-wrap .banner >i:nth-of-type(1){animation-delay:0.3s; animation-duration: 3s;left: 472px; top: 40px; width: 24px; height: 22px; background-position-x:0; }
+.banner-wrap .banner >i:nth-of-type(2){animation-delay:0.8s; animation-duration: 3s; left: 656px; top: 44px; width: 36px; height: 30px; background-position-x:-35px; }
+.banner-wrap .banner >i:nth-of-type(3){animation-delay:1.5s; animation-duration: 2.5s; left: 510px; top: 16px; width: 42px; height: 42px; background-position-x: -80px;}
+.bubble {
+    -webkit-animation: bubble 2s ease infinite;
+    -moz-animation: bubble 2s ease infinite;
+    animation: bubble 2s ease infinite;
+}
+
+@-webkit-keyframes bubble {
+    0% { -webkit-transform: translateY(5px); opacity: 0; }
+    10% { -webkit-transform: translateY(0px); opacity: 1; }
+    70% { -webkit-transform: translateY(0px); opacity: 1; }
+    80% { -webkit-transform: translateY(5px); opacity: 0; }
+    100% { -webkit-transform: translateY(5px); opacity: 0; }    
+}
+
+@-moz-keyframes bubble {
+    0% { -moz-transform: translateY(5px); opacity: 0; }
+    10% { -moz-transform: translateY(0px); opacity: 1; }
+    70% { -moz-transform: translateY(0px); opacity: 1; }
+    80% { -moz-transform: translateY(5px); opacity: 0; }
+    100% { -moz-transform: translateY(5px); opacity: 0; }
+}
+
+@keyframes bubble {
+    0% { transform: translateY(5px); opacity: 0; }
+    10% { transform: translateY(0px); opacity: 1; }
+    70% { transform: translateY(0px); opacity: 1; }
+    80% { transform: translateY(5px); opacity: 0; }
+    100% { transform: translateY(5px); opacity: 0; }
+}
 
 /* ******************* */
 /* 그래프 관련 CSS 시작 */

@@ -60,6 +60,7 @@ class Routes extends Component {
   }
 
   listenerHandler(message) {
+    console.log('click make a json-rpc call', message)
     const { type } = message
     let { payload } = message
     payload = typeof payload === 'string' ? JSON.parse(payload) : payload

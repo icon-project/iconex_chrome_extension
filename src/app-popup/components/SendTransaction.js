@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
-import { convertNumberToText, fromHexToDec } from 'utils'
-import { setIcxWalletServer, icx_getStepPrice, icx_fetchCoinBalanceApi } from 'redux/api/walletIcxApi'
+import { convertNumberToText, fromHexToDec, beautifyJson } from 'utils'
+import { setIcxWalletServer, icx_getStepPrice, icx_fetchCoinBalanceApi, icx_getTxFeeInfoApi } from 'redux/api/walletIcxApi'
+import { initialStepLimit } from 'redux/reducers/exchangeTransactionReducer'
 import { routeConstants as ROUTE } from 'constants/index.js';
 import { getCurrentServer, icxServerList } from 'constants/config'
 import withClickOut from 'HOC/withClickOut'
@@ -20,7 +21,9 @@ class SendTransaction extends Component {
 			stepLimit: stepLimit || '',
 			stepLimitError: '',
 			stepPrice: '',
-			showServerList: false
+			showServerList: false,
+			viewData: false,
+			isDisabled: false
 		}
 		this.cancelClicked = false
 	}
@@ -47,10 +50,88 @@ class SendTransaction extends Component {
 		this.setState({ balance })
 	}
 
-	handleChange = (e) => {
+	handleChange = async (e) => {
 		if (!isNaN(e.target.value)) {
 			this.setState({ stepLimit: e.target.value })
 		}
+		const validateValue = await this.validateForm(e)
+		if(validateValue !== false) {
+			console.log('no error')
+			this.setState({ 
+				stepLimitError: '',
+				isDisabled: false 
+			})
+		}
+
+	}
+
+	validateBalance = () => {
+		const { stepLimit, stepPrice, balance } = this.state
+		const { I18n } = this.props
+
+		const stepLimitNum = Number(stepLimit)
+		const stepPriceNum = !isNaN(stepPrice) ? stepPrice : 0
+		const stepPriceIcx = window.web3.fromWei(stepPriceNum, 'ether')
+		const _maxStepIcx = stepLimitNum * stepPriceIcx
+		const balanceNum = !isNaN(balance) ? balance : 0
+		const _balanceIcx = balanceNum - _maxStepIcx
+		if(_balanceIcx < 0) {
+			const notEnoughBalance = I18n.error['notEnoughBalance']('icx')
+			this.setState({
+				stepLimitError: notEnoughBalance,
+				isDisabled: true
+			})
+			return false
+		} else {
+			this.setState({
+				stepLimitError: '',
+				isDisabled: false
+			})
+			return true
+		}
+
+	}
+
+	validateForm = async (e) => {
+		const inputValue = e.target.value
+		const { I18n } = this.props
+
+		// 1. check if inputValue is empty
+		if (!inputValue) {
+		  this.setState({
+			stepLimitError: I18n.error.enterGasPrice_step,
+			isDisabled: true
+		  })
+		  return false
+		} 
+
+		const { stepLimit } = this.state
+
+		// 2. check if stepLimit > max or stepLimit < min
+		const txFee = await icx_getTxFeeInfoApi()
+		const maxStepLimit = Number(txFee.txFeeLimitMax.toString())
+		const minStepLimit = initialStepLimit(false, txFee.txFeeLimitTable)
+		const stepLimitNum = Number(stepLimit)
+
+		if(stepLimitNum > maxStepLimit) {
+			const stepLimitTooHigh = I18n.error['stepLimitTooHigh'](maxStepLimit)
+			this.setState({
+				stepLimitError: stepLimitTooHigh,
+				isDisabled: true
+			})
+			return false
+		} else if (stepLimitNum < minStepLimit) {
+			const stepLimitTooLow = I18n.error['stepLimitTooLow'](minStepLimit)
+			this.setState({
+				stepLimitError: stepLimitTooLow,
+				isDisabled: true
+			})
+			return false
+		}
+
+		// 3. check if balance < max fee
+		this.validateBalance()
+
 	}
 
 	handleKeyPress = (e) => {
@@ -72,7 +153,13 @@ class SendTransaction extends Component {
 		window.chrome.runtime.sendMessage({ type: 'CLOSE_POPUP' });
 	}
 
-	confirmTransaction = () => {
+	confirmTransaction = async () => {
+		const validateBalance = await this.validateBalance()
+		if(!validateBalance) {
+			console.log('balance error')
+			return;
+		}
+
 		const { I18n } = this.props
 		const { stepLimit } = this.state
 		if (stepLimit) {
@@ -94,21 +181,31 @@ class SendTransaction extends Component {
 		}
 	}
 
+	toggleViewData = () => {
+		this.setState({ viewData: !this.state.viewData })
+	}
+
+
 	render() {
-		const { name, balance, stepLimit, stepLimitError, stepPrice, showServerList } = this.state
+		const { name, balance, stepLimit, stepLimitError, stepPrice, showServerList, viewData } = this.state
 		const { I18n, rate, transaction } = this.props
 		const { icx: icxRate } = rate
 		const { param } = transaction
 		const { params } = param
-		const { to, value } = params
+		const { to, value, dataType, data } = params
+		const dataParams = data.params
+		const price = dataParams.price
 
-		const valueIcx = window.web3.fromWei(fromHexToDec(value), 'ether')
+		// const valueIcx = window.web3.fromWei(fromHexToDec(value), 'ether')
+		const valueIcx = window.web3.fromWei(fromHexToDec(price), 'ether')
 		const valueUsd = valueIcx * icxRate
+
 		const stepPriceNum = !isNaN(stepPrice) ? stepPrice : 0
 		const stepPriceIcx = window.web3.fromWei(stepPriceNum, 'ether')
 		const stepPriceGloop = window.web3.fromWei(stepPriceNum, 'Gwei')
-		const stepPriceUsd = stepPriceIcx * icxRate
-		const maxStepIcx = stepLimit * stepPriceIcx
+		const stepPriceUsd = stepPriceIcx * icxRate 
+		const maxStepIcx = stepLimit * stepPriceIcx // 예상 최대 수수료
+
 		const maxStepUsd = maxStepIcx * icxRate
 		const balanceNum = !isNaN(balance) ? balance : 0
 		const balanceIcx = balanceNum - maxStepIcx
@@ -118,11 +215,11 @@ class SendTransaction extends Component {
 
 		return (
 			<div className="wrap remittance">
-				<div className="tab-holder">
-					<ul className="one no-pointer">
+				<div className="tab-holder on">
+					<ul className="one">
 						<li>{I18n.transfer}</li>
 					</ul>
-					<p className="mainnet b-none" onClick={this.listClick}>{currentServer.toUpperCase()}<em className="_img"></em></p>
+					<p className="mainnet" onClick={this.listClick}>{currentServer}<em className="_img"></em></p>
 					{showServerList &&
 						<ServerList
 							currentServer={currentServer}
@@ -144,7 +241,7 @@ class SendTransaction extends Component {
 							<span className="name">{I18n.transferPageLabel1}</span>
 							<div className="align-r">
 								<p>{convertNumberToText(valueIcx, 'icx', true)}<em>ICX</em></p>
-								<p className="zero">{convertNumberToText(icxRate, 'usd', false)}<em>USD</em></p>
+								{/* <p className="zero">{convertNumberToText(icxRate, 'usd', false)}<em>USD</em></p> */}
 								<p>{convertNumberToText(valueUsd, 'usd', false)}<em>USD</em></p>
 							</div>
 						</div>
@@ -161,6 +258,7 @@ class SendTransaction extends Component {
 									placeholder={I18n.transferPagePlaceholder5_icx}
 									value={stepLimit}
 									onChange={this.handleChange}
+									onBlur={this.validateForm}
 									onKeyPress={this.handleKeyPress}
 								/>
 								{stepLimitError && <p className="error">{stepLimitError}</p>}
@@ -169,12 +267,12 @@ class SendTransaction extends Component {
 						<div className="list-holder price">
 							<span className="name">{I18n.transferPageLabel10_icx}</span>
 							<div className="align-r">
-								<p>
-									{convertNumberToText(stepPriceIcx, 'icx', true)}
-									<em>ICX ({convertNumberToText(stepPriceGloop, 'icx', true)} Gloop)</em>
-									<i className="_img"></i>
-									<em>{convertNumberToText(stepPriceUsd, 'usd', false)} USD</em>
-								</p>
+							<span>{convertNumberToText(stepPriceIcx, 'icx', true)}
+								<em>ICX ({convertNumberToText(stepPriceGloop, 'icx', true)} Gloop)</em>
+							</span>
+							<span>
+								{convertNumberToText(stepPriceUsd, 'usd', false)}<em>USD</em>
+							</span>
 							</div>
 						</div>
 						<div className="list-holder">
@@ -195,13 +293,32 @@ class SendTransaction extends Component {
 								</li>
 							</ul>
 						</div>
+
+						{dataType && data && 
+						<div className="code-holder">
+							<span className="name">Tx Data</span>
+							{viewData ?
+									<span className="view on" onClick={this.toggleViewData}>{I18n.transferCollapseData}<i className="_img"></i></span>
+									:
+									<span className="view" onClick={this.toggleViewData}>{I18n.transferViewData}<i className="_img"></i></span>
+							}
+							{viewData &&
+								<div>
+									<p>
+										{beautifyJson({ dataType, data }, '\t')}
+									</p>
+								</div>
+							}
+						</div>
+						}
+
 					</div>
 
 
 				</div>
 				<div className="footer cols-2">
-					<button className="btn-type-normal" onClick={() => { this.cancelTransaction() }}><span>{I18n.button.cancel}</span></button>
-					<button className="btn-type-ok" onClick={this.confirmTransaction} disabled={!stepLimit || !stepPrice}><span>{I18n.button.transfer}</span></button>
+					<button className="btn-type-cancel" onClick={() => { this.cancelTransaction() }}><span>{I18n.button.cancel}</span></button>
+					<button className="btn-type-ok" onClick={this.confirmTransaction} disabled={stepLimitError === '' ? false : true}><span>{I18n.button.transfer}</span></button>
 				</div>
 
 			</div>
@@ -220,18 +337,21 @@ class ServerList extends Component {
 			this.props.updateBalance()	
 		}
 	}
+
 	render() {
+		const serverList = Object.keys(icxServerList).filter(server => server !== this.props.currentServer)
 		return (
 			<ul className="layer">
-				{Object.keys(icxServerList).map(
+				{serverList.map(
 					(key, index) => {
-						const server = icxServerList[key]
-						return <li key={index} onClick={() => { this.handleClick(server) }}><span>{server.toUpperCase()}</span></li>
+						const server = serverList[index]
+						return <li key={index} onClick={() => { this.handleClick(server) }}><span>{server}</span></li>
 					}
 				)}
 			</ul>
 		)
 	}
+
 }
 
 export default SendTransaction;

@@ -165,3 +165,5 @@
 
 /* CreateWallet STEP2/STEP3 buttons */
 .size-next{width: 307px !important;}
+/* CreateWallet STEP3 'x' button */
+.size-del{width: 179px !important;}

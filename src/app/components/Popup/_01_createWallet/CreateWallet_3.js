@@ -132,7 +132,8 @@ class CreateWallet3 extends Component {
 						<div className="scroll">
 							<div className="tabbox-holder">
                 <div className="download">
-                  { loading ? (<button type="submit" className="btn-type-fill size-full load"><span><LoadingComponent type="white" /></span></button>)
+                {/* btn-type-fill */}
+                  { loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="white" /></span></button>)
                             : (<button onClick={this.handleDownload} type="submit" className="btn-type-next size-full"><span>{I18n.button.download}</span></button>)}
     						</div>
 							</div>

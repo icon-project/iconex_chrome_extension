@@ -103,7 +103,7 @@ class CreateWallet4 extends Component {
       <ul className="layout">
         <li className="step">
 					<div className="tab-holder">
-						<h1 className="title">Step 4</h1>
+						<h1 className="title">STEP 4</h1>
 						<span className="img"><em className="_img step4"></em></span>
 						<ul>
               <li>{I18n.createWallet.step1}</li>
@@ -117,6 +117,7 @@ class CreateWallet4 extends Component {
 							<li>{I18n.createWallet.leftInfoTitle4_1}</li>
 							<li className="dot space">{I18n.createWallet.leftInfoDesc4_1}</li>
 							<li className="dot">{I18n.createWallet.leftInfoDesc4_2}</li>
+							<li className="dot">{I18n.createWallet.leftInfoDesc4_3}</li>
 						</ul>
 					</div>
 				</li>{/*
@@ -133,13 +134,13 @@ class CreateWallet4 extends Component {
 								</div>
 								<div className="btn-group">
                   <CopyButton target={privateKey} text={I18n.button.copyPrivateKey} type="small" defaultSize={true} copyFinish={I18n.button.copyFinish}/>
-									<button className="btn-type-copy2" onClick={() => this.handlePrint(walletName, coinType, address, privateKey)}><span>{I18n.button.print}</span></button>
+									<button className="btn-type-copy" onClick={() => this.handlePrint(walletName, coinType, address, privateKey)}><span>{I18n.button.print}</span></button>
 								</div>
 							</div>
 						</div>
 					</div>
           <div className="btn-holder">
-            {loading ? (<button type="submit" className="btn-type-normal load"><span><LoadingComponent type="black" /></span></button>): (<button onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.button.submit}</span></button>)}
+            {loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="black" /></span></button>): (<button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.submit}</span></button>)}
           </div>
         </li>
         {

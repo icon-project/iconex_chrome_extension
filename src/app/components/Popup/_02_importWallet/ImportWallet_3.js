@@ -125,9 +125,11 @@ class ImportWallet3 extends Component {
 
     return (
       <div>
+        <div className="header">
           <span className="close"><em onClick={this.closePopup} className="_img"></em></span>
           <h1 className="title">{I18n.importWallet.title}</h1>
           <h2>{I18n.importWallet.desc3}</h2>
+        </div>
           <div className="scroll-holder">
     				<div className="scroll">
     					<div className="tabbox-holder">
@@ -141,13 +143,13 @@ class ImportWallet3 extends Component {
                   <p className="error">{privateKeyError}</p>
     						</div>
     					</div>
-              <div className="message-holder"><i className="_img"></i>
-    						{I18n.importWallet.infoBox3_1}
+              <div className="message-holder">
+                · {I18n.importWallet.infoBox3_1}
     					</div>
     				</div>
     			</div>
           <div className="btn-holder">
-            <button onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.button.next}</span></button>
+            <button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.import}</span></button>
           </div>
       </div>
     );
@@ -173,16 +175,19 @@ class MoneyGroup extends Component {
     return(
       <span className="money-group" onClick={()=>{this.onClick()}}>{types[index].label}<em className="_img"></em>
         {this.state.showLayer &&
-          <div className="layer">
-            <ul>
-              {types.map((t, i) => {
-                return (
-                  <li key={i} className={(index === i) && 'on'} onClick={()=>{selectCoinType(i)}}>
-                    <span>{t.label}</span>
-                  </li>
-                )
-              })}
-            </ul>
+        // className="layer"
+          <div className="drop-box">
+            <div className="drop-layer">
+              <ul>
+                {types.map((t, i) => {
+                  return (
+                    <li key={i} className={(index === i) && 'on'} onClick={()=>{selectCoinType(i)}}>
+                      <span>{t.label}</span>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
           </div>
         }
       </span>

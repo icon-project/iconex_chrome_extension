@@ -65,9 +65,11 @@ class ImportWallet5 extends Component {
     const { I18n } = this.props;
     return (
       <div>
+        <div className="header">
           <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
           <h1 className="title">{I18n.importWallet.title}</h1>
           <h2>{I18n.importWallet.desc5}</h2>
+        </div>
           <ValidationForm
             type="importWallet_file"
             initialName={''}
@@ -77,7 +79,7 @@ class ImportWallet5 extends Component {
             handleSubmit={this.handleSubmit}
             />
           <div className="btn-holder">
-            <button onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.button.import}</span></button>
+            <button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.import}</span></button>
           </div>
           {
             showAlertAccountSame && (

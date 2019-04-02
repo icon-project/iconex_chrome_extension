@@ -184,3 +184,7 @@
 
 /* 'Add Token' modal, display checkbox checked when disabled */
 input[type=checkbox]:disabled+ label {background-position: 0px -900px;}
+/* CreateWallet STEP2/STEP3 buttons */
+.size-next{width: 307px !important;}
+/* CreateWallet STEP3 'x' button */
+.size-del{width: 179px !important;}

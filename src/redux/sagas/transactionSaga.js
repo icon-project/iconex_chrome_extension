@@ -17,7 +17,6 @@ import { check0xPrefix, signRawTx, customValueToTokenValue, makeEthRawTx, isEmpt
 import {
   addRecentTransaction
 } from 'redux/actions/walletActions';
-import { IS_V3 } from 'constants/config'
 
 export function* getTxFeeInfoFunc(action) {
   try {
@@ -52,82 +51,81 @@ export function* getTxFeeInfoFunc(action) {
         yield put({type: AT.getTxFeeInfoFulfilled, payload: payload});
       }
     } else {
-      if (IS_V3) {
-        let txFeePriceStep = yield select(state => state.exchangeTransaction.txFeePriceStep);
-        let txFeeLimitTable = yield select(state => state.exchangeTransaction.txFeeLimitTable);
-        let txFeeLimitMax = yield select(state => state.exchangeTransaction.txFeeLimitMax);
 
-        if (!txFeePriceStep || isEmpty(txFeeLimitTable)) {
-          const payload = yield call(ICX_GET_TX_FEE_INFO)
-          txFeePriceStep = payload.txFeePriceStep
-          txFeeLimitTable = payload.txFeeLimitTable
-          txFeeLimitMax = payload.txFeeLimitMax
+      let txFeePriceStep = yield select(state => state.exchangeTransaction.txFeePriceStep);
+      let txFeeLimitTable = yield select(state => state.exchangeTransaction.txFeeLimitTable);
+      let txFeeLimitMax = yield select(state => state.exchangeTransaction.txFeeLimitMax);
+
+      if (!txFeePriceStep || isEmpty(txFeeLimitTable)) {
+        const payload = yield call(ICX_GET_TX_FEE_INFO)
+        txFeePriceStep = payload.txFeePriceStep
+        txFeeLimitTable = payload.txFeeLimitTable
+        txFeeLimitMax = payload.txFeeLimitMax
+      }
+
+      const isTokenSelector = yield select(state => state.wallet.selectedWallet.isToken);
+      const contractFuncInput = yield select(state => state.contract.funcInput);
+      const contractFuncList = yield select(state => state.contract.funcList);
+      const calcContractCallLimit = (data) => ((parseInt(txFeeLimitTable['default'], 16)) * 2)
+
+      if (contractFuncList.length > 0) {
+        //let data;
+        // const funcList = yield select(state => state.contract.funcList);
+        // const selectedFuncIndex = yield select(state => state.contract.selectedFuncIndex);
+        // data = {
+        //    "method": funcList[selectedFuncIndex].name,
+        //    "params": contractFuncInput
+        // }
+        yield put({type: AT.getTxFeeInfoFulfilled, payload: {
+          txFeePrice: txFeePriceStep,
+          //txFeeLimit: calcContractCallLimit(data),
+          txFeeLimit: txFeeLimitMax,
+          txFeePriceStep: txFeePriceStep,
+          txFeeLimitTable: txFeeLimitTable,
+          txFeeLimitMax: txFeeLimitMax
+        }});
+      } else if (isTokenSelector) {
+        let data;
+        const selectedAccount = yield select(state => state.wallet.selectedWallet.account);
+        const selectedTokenId = yield select(state => state.wallet.selectedWallet.tokenId);
+        const isLedger = yield select(state => state.ledger.isLedger);
+        const ledgerWallet = yield select(state => state.ledger.ledgerWallet);
+        const wallets = yield select(state => state.wallet.wallets);
+        const currentWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
+        const defaultDecimals = currentWallet.tokens[selectedTokenId].defaultDecimals
+        const decimals = currentWallet.tokens[selectedTokenId].decimals
+        const recipientAddress = yield select(state => state.exchangeTransaction.recipientAddress);
+        const coinQuantity = yield select(state => state.exchangeTransaction.coinQuantity);
+        const sendAmount = customValueToTokenValue(new BigNumber(coinQuantity || 0), defaultDecimals, decimals).times(Math.pow(10, defaultDecimals)).toString()
+
+        data = {
+            "method": 'transfer',
+            "params": {
+              "_to": recipientAddress,
+              "_value": window.web3.toHex(sendAmount)
+            }
         }
 
-        const isTokenSelector = yield select(state => state.wallet.selectedWallet.isToken);
-        const contractFuncInput = yield select(state => state.contract.funcInput);
-        const contractFuncList = yield select(state => state.contract.funcList);
-        const calcContractCallLimit = (data) => ((parseInt(txFeeLimitTable['default'], 16)) * 2)
+        yield put({type: AT.getTxFeeInfoFulfilled, payload: {
+          txFeePrice: txFeePriceStep,
+          txFeeLimit: calcContractCallLimit(data),
+          txFeePriceStep: txFeePriceStep,
+          txFeeLimitTable: txFeeLimitTable,
+          txFeeLimitMax: txFeeLimitMax
+        }});
 
-        if (contractFuncList.length > 0) {
-          //let data;
-          // const funcList = yield select(state => state.contract.funcList);
-          // const selectedFuncIndex = yield select(state => state.contract.selectedFuncIndex);
-          // data = {
-          //    "method": funcList[selectedFuncIndex].name,
-          //    "params": contractFuncInput
-          // }
-          yield put({type: AT.getTxFeeInfoFulfilled, payload: {
-            txFeePrice: txFeePriceStep,
-            //txFeeLimit: calcContractCallLimit(data),
-            txFeeLimit: txFeeLimitMax,
-            txFeePriceStep: txFeePriceStep,
-            txFeeLimitTable: txFeeLimitTable,
-            txFeeLimitMax: txFeeLimitMax
-          }});
-        } else if (isTokenSelector) {
-          let data;
-          const selectedAccount = yield select(state => state.wallet.selectedWallet.account);
-          const selectedTokenId = yield select(state => state.wallet.selectedWallet.tokenId);
-          const isLedger = yield select(state => state.ledger.isLedger);
-          const ledgerWallet = yield select(state => state.ledger.ledgerWallet);
-          const wallets = yield select(state => state.wallet.wallets);
-          const currentWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
-          const defaultDecimals = currentWallet.tokens[selectedTokenId].defaultDecimals
-          const decimals = currentWallet.tokens[selectedTokenId].decimals
-          const recipientAddress = yield select(state => state.exchangeTransaction.recipientAddress);
-          const coinQuantity = yield select(state => state.exchangeTransaction.coinQuantity);
-          const sendAmount = customValueToTokenValue(new BigNumber(coinQuantity || 0), defaultDecimals, decimals).times(Math.pow(10, defaultDecimals)).toString()
-
-          data = {
-             "method": 'transfer',
-             "params": {
-               "_to": recipientAddress,
-               "_value": window.web3.toHex(sendAmount)
-             }
-          }
-
-          yield put({type: AT.getTxFeeInfoFulfilled, payload: {
-            txFeePrice: txFeePriceStep,
-            txFeeLimit: calcContractCallLimit(data),
-            txFeePriceStep: txFeePriceStep,
-            txFeeLimitTable: txFeeLimitTable,
-            txFeeLimitMax: txFeeLimitMax
-          }});
-
-        } else {
-          const data = yield select(state => state.exchangeTransaction.data);
-          const dataType = yield select(state => state.exchangeTransaction.dataType);
-          const txFeeLimit = data.length > 0 ? parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['input'], 16) * (dataType === 'utf8' ? (getHexByteLength(checkLength(dataToHex(data)))) : getHexByteLength(data.length))
-                                             : parseInt(txFeeLimitTable['default'], 16)
-          yield put({type: AT.getTxFeeInfoFulfilled, payload: {
-           txFeePrice: txFeePriceStep,
-           txFeeLimit: txFeeLimit,
-           txFeePriceStep: txFeePriceStep,
-           txFeeLimitTable: txFeeLimitTable,
-           txFeeLimitMax: txFeeLimitMax
-          }});
-        }
+      } else {
+        const data = yield select(state => state.exchangeTransaction.data);
+        const dataType = yield select(state => state.exchangeTransaction.dataType);
+        const txFeeLimit = data.length > 0 ? parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['input'], 16) * (dataType === 'utf8' ? (getHexByteLength(checkLength(dataToHex(data)))) : getHexByteLength(data.length))
+                                            : parseInt(txFeeLimitTable['default'], 16)
+        yield put({type: AT.getTxFeeInfoFulfilled, payload: {
+          txFeePrice: txFeePriceStep,
+          txFeeLimit: txFeeLimit,
+          txFeePriceStep: txFeePriceStep,
+          txFeeLimitTable: txFeeLimitTable,
+          txFeeLimitMax: txFeeLimitMax
+        }});
       }
     }
     yield put({type: AT.setCalcData});

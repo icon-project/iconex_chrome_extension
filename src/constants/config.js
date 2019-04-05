@@ -41,18 +41,6 @@ export const getCurrentServer = (coinType) => {
   return server;
 }
 
-export const getCurrentICXApiVersion = () => {
-  let apiVersion;
-  if (!isAccessedFromWorker) {
-    apiVersion = localStorage.getItem(`icxApiVersion`) || INITIAL_API_VERSION_ICX
-  } else {
-    apiVersion = INITIAL_API_VERSION_ICX
-  }
-  return apiVersion;
-}
-
-export const IS_V3 = getCurrentICXApiVersion() === 'v3';
-
 export const ICX_WALLET_SERVER = () => {
   const icxServer = getCurrentServer('icx');
   const obj = {

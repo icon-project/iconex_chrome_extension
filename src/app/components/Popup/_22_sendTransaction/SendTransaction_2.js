@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { convertNumberToText } from 'utils';
-import { IS_V3 } from 'constants/config.js'
 import { LoadingComponent } from 'app/components/'
 
 
@@ -175,9 +174,7 @@ class SendTransaction2 extends Component {
                      : I18n.sendTransaction.txFeeEth
                  } :
                </span>
-               <em>{`${calcData.walletCoinType === 'icx'
-                       ? (!IS_V3 ? 0.01 : txFee)
-                       : txFee }`}
+               <em>{`${txFee}`}
                        <i>{`${calcData.walletCoinType.toUpperCase()}`}</i>
                </em>
              </p>

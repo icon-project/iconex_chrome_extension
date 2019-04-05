@@ -5,7 +5,6 @@ import { ETH_SCAN, txidUrl as TXID_URL } from 'constants/config.js'
 import { convertNumberToText, check0xPrefix, calcMaxPageNum } from 'utils'
 import moment from 'moment';
 import withLanguageProps from 'HOC/withLanguageProps';
-import { IS_V3 } from 'constants/config.js';
 
 @withLanguageProps
 class TransactionHistory extends Component {
@@ -325,7 +324,7 @@ class HistoryRow extends Component {
 
   handleTxidClick = () => {
       const txidUrl = TXID_URL[this.props.walletCoinType];
-      window.open(IS_V3 ? `${txidUrl}${check0xPrefix(this.props.txid)}` : `${txidUrl}${this.props.txid}`, '_blank');
+      window.open(`${txidUrl}${check0xPrefix(this.props.txid)}`, '_blank');
   }
 
   render() {

@@ -5,8 +5,6 @@ import {
 import { Link, withRouter } from 'react-router-dom';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { isEmpty } from 'utils';
-import { IS_V3 } from 'constants/config.js';
-
 
 const INIT_STATE = {
   showInfo: false,
@@ -79,9 +77,7 @@ class Header extends Component {
     					<Link to="/mywallet"><span className={`wallet ${location.pathname.includes('/mywallet') && 'on'}`}>{I18n.myWallet}</span></Link>
     					{/* <span onClick={this.disableExchange} className={`exchange ${location.pathname === '/exchange' && 'on'}`}>{I18n.exchange}</span> */}
     					<Link to="/transaction"><span onClick={this.goToTransactionPage} className={`remittance ${location.pathname === '/transaction' && 'on'}`}>{I18n.transfer}</span></Link>
-              {
-                IS_V3 && (<Link to="/contract"><span className={`contract ${location.pathname === '/contract' && 'on'}`}>{I18n.contract}</span></Link>)
-              }
+              <Link to="/contract"><span className={`contract ${location.pathname === '/contract' && 'on'}`}>{I18n.contract}</span></Link>
               <Link to="/mypage"><span className={`mypage ${location.pathname === '/mypage' && 'on'}`}>{I18n.myPage}</span></Link>
             </div>
           )}

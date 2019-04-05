@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { ComboBox } from 'app/components/'
 import { isEmpty, checkValueLength, trimLeftZero, makeEthRawTx } from 'utils/utils'
 import withLanguageProps from 'HOC/withLanguageProps';
-import { IS_V3 } from 'constants/config'
 
 const INIT_STATE = {
 //  currencyIndex: 0,
@@ -146,7 +145,7 @@ class QuantitySetter extends Component {
               checked={isFullBalance}
             />
             <label htmlFor="cbox-01" className="_img" onClick={()=>{isLoggedIn && this.toggleCheckBox(calcData.totalBalance)}}>{I18n.transferPageAllCheckBtn}</label>
-            { IS_V3 && isLedger && (<button onClick={() => this.props.openPopup({ popupType: 'addToken', popupNum: 1 })} className="btn-type-copy w104"><span>{I18n.addToken.title1}</span></button>) }
+            { isLedger && (<button onClick={() => this.props.openPopup({ popupType: 'addToken', popupNum: 1 })} className="btn-type-copy w104"><span>{I18n.addToken.title1}</span></button>) }
           </div>
           <ComboBox
             disabled={!isLoggedIn}

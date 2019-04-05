@@ -5,7 +5,7 @@ import i18n from 'constants/i18n'
 import React from 'react';
 import BigNumber from 'bignumber.js';
 import { erc20Abi, copyState as COPY_STATE } from 'constants/index'
-import { IS_V3, ICX_NID } from 'constants/config.js'
+import { ICX_NID } from 'constants/config.js'
 
 function charFreq(string) {
   let value;
@@ -410,17 +410,6 @@ function makeEthRawTx(isToken, data) {
 
 function makeIcxRawTx(isContract, data) {
   let rawTx = {}
-  if (!IS_V3) {
-    const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
-    rawTx = {
-      from: data.from,
-      to: data.to,
-      value: window.web3.toHex(sendAmount),
-      fee: "0x2386f26fc10000",
-      timestamp: (new Date()).getTime().toString() + '000'
-    }
-    return rawTx
-  }
 
   if (isContract) {
     rawTx = {

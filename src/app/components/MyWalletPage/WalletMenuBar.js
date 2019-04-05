@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import withClickOut from 'HOC/withClickOut'
 import withLanguageProps from 'HOC/withLanguageProps';
-import { IS_V3 } from 'constants/config.js'
 
 const INIT_STATE = {
 

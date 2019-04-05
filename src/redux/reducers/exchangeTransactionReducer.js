@@ -1,7 +1,6 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
 import { isAddress, isEmpty, dataToHex, getHexByteLength, isIcxWalletAddress, checkLength, isIcxContractAddress, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
 import { store } from 'redux/store/store';
-import { IS_V3 } from 'constants/config.js'
 //import { coinRound as ROUND } from 'constants/index';
 import BigNumber from 'bignumber.js';
 
@@ -208,11 +207,6 @@ const calcData = (props) => {
   let txFeePriceCalc = new BigNumber(window.web3.fromWei(window.web3.toWei(txFeePrice, walletCoinType === 'icx' ? 'wei' : 'gwei'), 'ether'))
   let txFee = txFeePriceCalc.times(txFeeLimitNumber)
   const txFeePriceWithRate = convertNumberToText(txFeePriceCalc.times(usdRate), 'usd', false);
-
-  if(!IS_V3 && walletCoinType === 'icx') {
-    txFee = new BigNumber(0.01);
-  }
-
   const totalBalance = !isToken
                           ? balance.minus(txFee)
                           : balance;

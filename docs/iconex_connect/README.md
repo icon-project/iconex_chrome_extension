@@ -42,13 +42,13 @@ window.addEventListener('ICONEX_CONNECT_RESPONSE', eventHandler);
 
 **HAS_ACCOUNT**
 
-`REQEUST_HAS_ACCOUNT` Requests for whether iconex has any icon wallet.
+`REQUEST_HAS_ACCOUNT` Requests for whether iconex has any icon wallet.
 
 `RESPONSE_HAS_ACCOUNT` Returns boolean-typed result.
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_CONNECT_REQUEST', detail: { 
-	type: 'REQEUST_HAS_ACCOUNT'
+	type: 'REQUEST_HAS_ACCOUNT'
 });
 window.dispatchEvent(customEvent);
 

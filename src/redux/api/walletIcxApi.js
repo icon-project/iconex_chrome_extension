@@ -252,7 +252,7 @@ export function icx_call({
         }
       })
       .catch(error => {
-        reject(error);
+        reject(error.response.data.error);
       })
   });
 }

@@ -82,6 +82,7 @@ class ContractExecuteSection extends Component {
       selectedFuncIndex,
       funcLoading,
       funcResult,
+      contractError
     } = this.props;
 
     const { inputs, outputs, readonly } = funcList[selectedFuncIndex];
@@ -106,7 +107,7 @@ class ContractExecuteSection extends Component {
           }
         </span>
         {
-          readonly && funcResult.length > 0 && (
+          readonly && (funcResult.length > 0 || contractError) && (
             <span className="result-group">
               <ul>
                 {
@@ -118,6 +119,7 @@ class ContractExecuteSection extends Component {
                         }}
                         key={i}
                         value={funcResult[i]}
+                        error={contractError}
                         />
                     );
                   })

@@ -188,3 +188,8 @@ input[type=checkbox]:disabled+ label {background-position: 0px -900px;}
 .size-next{width: 307px !important;}
 /* CreateWallet STEP3 'x' button */
 .size-del{width: 179px !important;}
+
+/* contract result error section fontcolor and icon */
+.content-wrap .wrap-holder.contract .search-holder .result-group .a.error {
+  color: #f24130;
+}

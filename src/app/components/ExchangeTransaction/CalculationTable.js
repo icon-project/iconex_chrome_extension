@@ -25,7 +25,7 @@ class CalculationTable extends Component {
   }
 
   render() {
-    const { calcData: data, I18n, isContractPage } = this.props;
+    const { calcData: data, I18n } = this.props;
     const { walletCoinType } = data;
     const { txFeeHelpLayer } = this.state;
     return (

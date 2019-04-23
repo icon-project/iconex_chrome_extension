@@ -67,7 +67,6 @@ export function* executeFuncFunc(action) {
     }
     yield put({type: AT.executeFuncFulfilled, payload: payload});
   } catch (error) {
-    console.log(error)
     yield put({type: AT.executeFuncRejected, errorMsg: error});
   }
 }
@@ -130,7 +129,7 @@ export function* checkContractInputErrorFunc(action) {
       }
     }
 
-    if (errorFlag) throw new Error('errorExist');
+    if (errorFlag) throw new Error();
 
     if (func.readonly) {
       yield put(executeFunc())

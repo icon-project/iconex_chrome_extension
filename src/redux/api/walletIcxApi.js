@@ -244,9 +244,9 @@ export function icx_call({
 
     walletApi.post(`/api/v3`, JSON.stringify(param))
       .then(res => {
-        if (res.data.result) {
+        if (res.data.hasOwnProperty('result')) {
           let result = res.data.result;
-          resolve(!Array.isArray(result) ? [result] : result)
+          resolve([result])
         } else {
           throw new Error(res.data.error);
         }

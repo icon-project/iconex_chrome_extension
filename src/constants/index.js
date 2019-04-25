@@ -97,6 +97,12 @@ export const tokenList = {
     name: 'AC3',
     symbol: 'AC3'
   },
+  'IGA': {
+    address: 'cx81fe20ac9a8ed7387b8d17be878c1d0ccb01aabf',
+    decimals: 18,
+    name: 'IconGameAllience',
+    symbol: 'IGA'
+  },
   'MCA': {
     address: 'cxf9148db4f8ec78823a50cb06c4fed83660af38d0',
     decimals: 0,

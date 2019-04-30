@@ -13,8 +13,8 @@ class ImmunityPopup extends Component {
     const { I18n } = this.props;
     return (
       <div className="popup-wrap">
-        <div className="dimmed"></div>
-        <div className="popup">
+        <div className="dimmed fade-in"></div>
+        <div className="popup moving-down terms">
           <span className="close" onClick={this.closePopup}><em className="_img"></em></span>
           <h1 className="title">{I18n.disclaimerPage.header}</h1>
           <div className="scroll-holder terms">

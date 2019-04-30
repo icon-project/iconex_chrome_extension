@@ -148,8 +148,8 @@ class UpdateToken extends Component {
 
     return (
       <div>
-        <div className="dimmed"></div>
-        <div className={`popup`}>
+        <div className="dimmed fade-in"></div>
+        <div className="popup moving-down">
             <div className="header-white">
               <h1 className="title">{I18n.updateToken.title}</h1>
               <h2>{I18n.updateToken.desc}</h2>

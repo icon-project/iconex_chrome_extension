@@ -173,7 +173,7 @@ class SendTransaction extends Component {
 
     return (
       <div>
-        <div className="dimmed"></div>
+        <div className="dimmed fade-in"></div>
         { content(popupNum) }
         {
           isLedger && !ledgerError && (

@@ -38,7 +38,7 @@ class SendTransaction1 extends Component {
     const priv = wallets[selectedAccount].priv;
 
     return (
-      <div className="popup size-medium2">
+      <div className="popup size-medium2 moving-down">
         <CheckPassword
           type="sendTransaction"
           walletName={name}

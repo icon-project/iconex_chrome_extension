@@ -120,8 +120,8 @@ class UpdatePassword extends Component {
 
     return (
       <div>
-        <div className="dimmed"></div>
-        <div className="popup">
+        <div className="dimmed fade-in"></div>
+        <div className="popup moving-down">
           <h1 className="title">{I18n.updatePassword.title}</h1>
           <h2>{I18n.updatePassword.desc}</h2>
           <div className="scroll-holder">

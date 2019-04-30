@@ -119,13 +119,14 @@ class ConnectLedger extends Component {
 
     return (
       <div>
-        <div className="dimmed"></div>
+        <div className="dimmed fade-in"></div>
         <div
           style={popupNum === 2 ? {height: 535} : {}}
           className={`
             popup
             ${popupNum === 2 ? 'address wallet' : ''}
             ${error ? 'fail' : ''}
+            moving-down
             `}>
               {
                 popupNum === 1 && (

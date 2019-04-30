@@ -98,8 +98,8 @@ class AddressList extends Component {
 
     return (
       <div>
-        <div className="dimmed"></div>
-        <div className="popup address">
+        <div className="dimmed fade-in"></div>
+        <div className="popup address moving-down">
           <span className="close" onClick={this.props.closePopup}><em className="_img"></em></span>
           <h1 className="title">{title}</h1>
           <AddressTable

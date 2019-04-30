@@ -28,8 +28,8 @@ class ImportWallet extends Component {
 
     return (
       <div className="popup-wrap">
-        <div className="dimmed fade-in"></div>
-        <div className={`popup ${popupNum === 5 ? "size-medium2" : "moving-down"}`}>
+        <div className="dimmed"></div>
+        <div className={`popup ${popupNum === 5 ? "size-medium2" : ""}`}>
           { content(popupNum) }
         </div>
       </div>

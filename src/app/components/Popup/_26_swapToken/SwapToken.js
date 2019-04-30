@@ -63,11 +63,11 @@ class SwapToken extends Component {
 
     return (
       <div>
-        <div className="dimmed"></div>
+        <div className="dimmed fade-in"></div>
         {popupNum === 0 || popupNum === 1 ?
           content(popupNum)
           :
-          <div className="popup typeA">
+          <div className="popup typeA moving-down">
             { content(popupNum) }
           </div>
         }

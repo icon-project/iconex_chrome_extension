@@ -21,7 +21,7 @@ class DeleteToken extends Component {
     const { I18n } = this.props;
     return (
       <div className='popup-wrap home'>
-        <div className="dimmed"></div>
+        <div className="dimmed fade-in"></div>
         <SmallPopup
           handleCancel={this.closePopup}
           handleSubmit={this.handleSubmit}

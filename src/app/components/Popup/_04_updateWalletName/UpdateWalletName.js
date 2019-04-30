@@ -94,8 +94,8 @@ class UpdateWalletName extends Component {
 
     return (
       <div>
-        <div className="dimmed"></div>
-        <div className="popup size-medium2">
+        <div className="dimmed fade-in"></div>
+        <div className="popup size-medium2 moving-down">
           <h1 className="title">{I18n.updateWalletName.title}</h1>
           <h2>{I18n.updateWalletName.desc}</h2>
           <div className="scroll-holder">

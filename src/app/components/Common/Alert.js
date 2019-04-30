@@ -17,9 +17,9 @@ class Alert extends Component {
 
   render() {
     return (
-        <div id="alert" className='popup-wrap home alert'>
+        <div id="alert" className='popup-wrap ledger alert'>
           <div>
-            <div className="dimmed"></div>
+            <div className="dimmed fade-in"></div>
             <SmallPopup
               handleSubmit={this.props.handleSubmit}
               handleCancel={this.props.handleCancel}

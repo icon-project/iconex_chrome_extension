@@ -55,10 +55,10 @@ class Popup extends Component {
           return 'send'
         }
         case (pageType === 'contract' && popupNum === 3 && !isSuccess) : {
-          return ''
+          return 'ledger'
         }
-        case (pageType === 'contract' && (popupNum === 2 || popupNum === 3)) : {
-          return 'contract'
+        case (pageType === 'contract' && popupNum === 3) : {
+          return 'ledger'
         }
         default:
           return ''

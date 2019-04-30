@@ -25,8 +25,8 @@ class ContractList extends Component {
     const { I18n } = this.props;
     return (
       <div>
-        <div className="dimmed"></div>
-    		<div className="popup address">
+        <div className="dimmed fade-in"></div>
+    		<div className="popup address min moving-down">
     			<span className="close" onClick={this.props.closePopup}><em className="_img"></em></span>
     			<h1 className="title">{I18n.contractList.contractList}</h1>
           <AddressTable

@@ -129,12 +129,10 @@ class TxFeeAndData extends Component {
               <p ref={ref => {if (ref) ref.innerHTML = I18n[`transferPageHelperDesc3_${walletCoinType}`]}} className="txt"></p>
             </div>
 					</span>
-          <ul className="change-group">
-						<li className="loop">
-							<span className="b">{convertNumberToText(window.web3.fromWei(txFeePrice, 'ether'), 'transaction', true)}<em>ICX ({convertNumberToText(window.web3.fromWei(txFeePrice, 'gwei'), 'transaction', true)} Gloop)</em></span>
-							<span className="c"><i className="_img"></i><em>{txFeePriceWithRate}</em> <em>USD</em></span>
-						</li>
-					</ul>
+          <div className="controller">
+            <span className="a loop">{convertNumberToText(window.web3.fromWei(txFeePrice, 'ether'), 'transaction', true)}<em>ICX ({convertNumberToText(window.web3.fromWei(txFeePrice, 'gwei'), 'transaction', true)} Gloop)</em></span>
+            <span className="won"><i className="_img"></i><em>{txFeePriceWithRate}</em> <em>USD</em></span>
+					</div>
 				</div>
       </div>
       )

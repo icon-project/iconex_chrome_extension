@@ -179,7 +179,7 @@ class SendTransaction3 extends Component {
         return `${I18n.sendTransaction.swapSuccess}<br/><a href='https://docs.google.com/spreadsheets/d/1HiT98wqEpFgF2d98eJefQfH7xK4KPPxNDiiXg3AcJ7w/edit#gid=0' target="_blank">${I18n.swapToken.rightInfoDesc1_1_3_1}</a>`
       }
       case 'contract': {
-        break;
+        return `${I18n.coinDetailHistoryIcx}`
       }
       case 'transaction': {
         const { tx, selectedWallet } = this.props;
@@ -200,19 +200,15 @@ class SendTransaction3 extends Component {
     const { type } = selectedWallet
     const text = this.getText()
     const { pageType, isLedger } = this.props;
-    switch(pageType) {
+    switch (pageType) {
       case 'contract': {
         return (
-          <div className="popup complete">
-            <p className="txt_box">{I18n.sendTransaction.txComplete}</p>
-            <div className="scroll-holder">
-              <div className="scroll">
-                <p className="title">{I18n.sendTransaction.txHashTracker}</p>
-                <p onClick={this.closePopupAfterTx} className="address">{funcResult[0]}</p>
-              </div>
-            </div>
+          <div className="popup">
+            <p className="txt_box">{I18n.sendTransaction.infoSuccess}</p>
+            <p className="txt" ref={ref => {if (ref) ref.innerHTML = text}}></p>
+            <a href={TXID_URL['icx'] + funcResult[0]} target="_blank" rel="noopener noreferrer"><p className="mint">{ funcResult[0] }</p></a>
             <div className="btn-holder">
-              <button onClick={this.handleSubmit} className="btn-type-fill size-full"><span>{I18n.button.submit}</span></button>
+              <button onClick={this.handleSubmit} className="btn-type-normal size-full"><span>{I18n.button.submit}</span></button>
             </div>
           </div>
         )
@@ -241,15 +237,11 @@ class SendTransaction3 extends Component {
     const { I18n, pageType } = this.props;
     if (pageType === 'contract') {
       return (
-        <div className="popup-wrap contract">
+        <div className="popup-wrap ledger">
           <div className="dimmed"></div>
-          <div className="popup complete">
+          <div className="popup">
             <p className="txt_box">{I18n.sendTransaction.icxFailure}</p>
-            <div className="scroll-holder">
-              <div className="scroll">
-                <p className="errorMsg">{nToBr(this.getErrorText())}</p>
-              </div>
-            </div>
+            <p className="txt">{this.getErrorText()}</p>
             <div className="btn-holder">
               <button onClick={this.closePopup} className="btn-type-fill size-full"><span>{I18n.button.close}</span></button>
             </div>

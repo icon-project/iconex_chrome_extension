@@ -68,19 +68,21 @@ class ContractFuncSelector extends Component {
   render() {
     const { funcList, selectedFuncIndex } = this.props;
     return (
-      <div className="layer">
-        <ul>
-          {
-            funcList.map((func, i) => {
-              const isActive = isEqual(func, funcList[selectedFuncIndex]);
-              return (
-                <li key={i} onClick={() => !isActive && this.setFuncIndex(i)} className={isActive ? 'on' : ''}>
-                  <span className="a">{func.name}</span>
-                </li>
-              )
-            })
-          }
-        </ul>
+      <div className="drop-box">
+        <div className="drop-layer">
+          <ul>
+            {
+              funcList.map((func, i) => {
+                const isActive = isEqual(func, funcList[selectedFuncIndex]);
+                return (
+                  <li key={i} onClick={() => !isActive && this.setFuncIndex(i)} className={isActive ? 'on' : ''}>
+                    <span className="a">{func.name}</span>
+                  </li>
+                )
+              })
+            }
+          </ul>
+        </div>
       </div>
     )
   }

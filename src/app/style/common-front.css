@@ -189,7 +189,47 @@ input[type=checkbox]:disabled+ label {background-position: 0px -900px;}
 /* CreateWallet STEP3 'x' button */
 .size-del{width: 179px !important;}
 
+/* walletList li label padding-left */
+.money-group ul li span.a {
+  padding-left: 5px;
+}
+
+/* contract walletSelector span label padding-left */
+.content-wrap .wrap-holder.contract .search-holder span.money-group {
+  padding-left: 20px;
+}
+
+/* disable contract CalculationTable margin-left */
+.content-wrap .wrap-holder.contract .table-group {
+  margin-left: 0px;
+}
+
+/* contract submit button margin-top */
+.content-wrap .wrap-holder.contract .btn-type-black {
+  margin-top: 46px;
+}
+
+/* remove contract result border-bottom */
+.content-wrap .wrap-holder.contract .search-holder .result-group .type-b .b {
+  border-bottom: none;
+}
+/* contract result section overflow-x */
+.content-wrap .wrap-holder.contract .search-holder .result-group .type-b .b {
+  overflow-x: auto;
+}
+
 /* contract result error section fontcolor and icon */
 .content-wrap .wrap-holder.contract .search-holder .result-group .a.error {
   color: #f24130;
+}
+.content-wrap .wrap-holder.contract .search-holder .result-group .a.error ._img {
+  background-position: -400px -193px;
+  height: 19px;
+  margin-bottom: -2px;
+}
+
+/* popup close button z-index */
+.popup-wrap .close {
+  z-index: 1;
+}
 }

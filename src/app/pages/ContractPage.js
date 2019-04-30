@@ -5,7 +5,7 @@ class ContractPage extends Component {
   render() {
     return (
       <div>
-        <div className="content-wrap lock">
+        <div className="content-wrap">
           <ContractPageContainer />
         </div>
         <div className="blank"></div>

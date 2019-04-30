@@ -118,31 +118,33 @@ class SendTransaction2 extends Component {
              <div className="popup">
          			<p className="txt_box">{I18n.sendTransaction.confirmData}</p>
          			<div className="scroll-holder">
-         				<div className="scroll">
-                  {
-                    funcList[selectedFuncIndex].inputs.map((input) => {
-                      if (funcInput[input.name]) {
-                        return (
-                            <div key={input.name}>
-                              <p className="title">{input.name}<span>{input.type}</span></p>
-                              <p className="address">{funcInput[input.name]}</p>
-                            </div>
-                        )
-                      }
-                    })
-                  }
-                  <p className="title">{I18n.sendTransaction.walletAddress}</p>
-                  <p className="address">{selectedAccount}</p>
-                  { !!coinQuantity && (<p className="title">{I18n.sendTransaction.sendQuantity}</p>)}
-                  { !!coinQuantity && (<p className="address">{`${coinQuantity} ICX`}</p>)}
-                  <p className="title">{I18n.sendTransaction.maximumFee}</p>
-                  <p className="address">{`${txFee} ICX`}</p>
-         				</div>
+                <div className="box">
+                  <div className="scroll">
+                    {
+                      funcList[selectedFuncIndex].inputs.map((input) => {
+                        if (funcInput[input.name]) {
+                          return (
+                              <div key={input.name}>
+                                <p className="title">{input.name}<span>{input.type}</span></p>
+                                <p className="address">{funcInput[input.name]}</p>
+                              </div>
+                          )
+                        }
+                      })
+                    }
+                    <p className="title">{I18n.sendTransaction.walletAddress}</p>
+                    <p className="address">{selectedAccount}</p>
+                    { !!coinQuantity && (<p className="title">{I18n.sendTransaction.sendQuantity}</p>)}
+                    { !!coinQuantity && (<p className="address">{`${coinQuantity} ICX`}</p>)}
+                  </div>
+                </div>
          			</div>
-
-         			<div className="btn-holder">
-         				<button onClick={this.closePopup} className="btn-type-fill size-del"><span>{I18n.button.cancel}</span></button>
-         				<button onClick={this.handleSubmit}  className="btn-type-normal size-del"><span>{I18n.button.write}</span></button>
+              <div className="message-holder">
+				        <p>{I18n.sendTransaction.maximumFee}<span>{`${txFee} ICX`}</span></p>
+			        </div>
+         			<div className="btn-holder full">
+         				<button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.cancel}</span></button>
+         				<button onClick={this.handleSubmit} className="btn-type-normal size-half"><span>{I18n.button.write}</span></button>
          			</div>
          		</div>
          )

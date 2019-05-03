@@ -24,7 +24,7 @@ export const getCustomIcxServer = () => {
 }
 
 export const INITIAL_API_VERSION_ICX = 'v3';
-export const INITIAL_SERVER_ICX = prodDev('Mainnet', 'Euljiro');
+export const INITIAL_SERVER_ICX = prodDev('mainnet', 'euljiro');
 export const INITIAL_SERVER_ETH = prodDev('main', 'ropsten');
 
 export const HIDE_SERVER = isDevModeOn() ? false : true;
@@ -56,10 +56,10 @@ export const IS_V3 = getCurrentICXApiVersion() === 'v3';
 export const ICX_WALLET_SERVER = () => {
   const icxServer = getCurrentServer('icx');
   const obj = {
-    'Mainnet': 'https://wallet.icon.foundation',
-    'Testnet': 'https://test-ctz.solidwallet.io',
-    'Devnet': 'https://bicon.net.solidwallet.io',
-    'Custom 1': getCustomIcxServer().customWalletURL
+    'mainnet': 'https://wallet.icon.foundation',
+    'euljiro': 'https://test-ctz.solidwallet.io',
+    'yeouido': 'https://bicon.net.solidwallet.io',
+    'custom': getCustomIcxServer().customWalletURL
   }
   return obj[icxServer];
 }
@@ -67,10 +67,10 @@ export const ICX_WALLET_SERVER = () => {
 export const ICX_TRACKER_SERVER = () => {
   const icxServer = getCurrentServer('icx');
   const obj = {
-    'Mainnet': 'https://tracker.icon.foundation',
-    'Testnet': 'https://trackerdev.icon.foundation',
-    'Devnet': 'https://bicon.tracker.solidwallet.io',
-    'Custom 1': getCustomIcxServer().customTrackerURL
+    'mainnet': 'https://tracker.icon.foundation',
+    'euljiro': 'https://trackerdev.icon.foundation',
+    'yeouido': 'https://bicon.tracker.solidwallet.io',
+    'custom': getCustomIcxServer().customTrackerURL
   }
   return obj[icxServer];
 }
@@ -78,10 +78,10 @@ export const ICX_TRACKER_SERVER = () => {
 export const ICX_NID = () => {
   const icxServer = getCurrentServer('icx');
   const obj = {
-    'Mainnet': '0x1',
-    'Testnet': '0x2',
-    'Devnet': '0x3',
-    'Custom 1': getCustomIcxServer().customNid
+    'mainnet': '0x1',
+    'euljiro': '0x2',
+    'yeouido': '0x3',
+    'custom': getCustomIcxServer().customNid
   }
   return obj[icxServer];
 }
@@ -144,14 +144,10 @@ export const trackerAccountUrl = {
 
 // list constants
 export const icxServerList = {
-  'Mainnet': 'Mainnet',
-  'Testnet': 'Testnet',
-  'Devnet': 'Devnet',
-  'Custom 1': 'Custom 1'
-  // 'Mainnet': 'Mainnet',
-  // 'Euljiro': 'Testnet',
-  // 'Yeouido': 'Devnet',
-  // 'Custom': 'Custom 1'
+  'mainnet': 'mainnet',
+  'euljiro': 'euljiro',
+  'yeouido': 'yeouido',
+  'custom': 'custom'
 }
 
 export const icxApiVersionList = {

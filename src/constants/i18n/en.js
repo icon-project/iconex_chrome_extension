@@ -613,10 +613,14 @@ export default {
   connectLedger: {
     title: 'Connect to Ledger Wallet',
     connectError: 'Failed to connect',
+    // desc: 'Connect Ledger Wallet to your computer and\n',
+    // desc2: ' click the ', 
+    // desc3: 'button below',
     desc: 'Connect Ledger Wallet to your computer and\nclick the “Connect” button below',
     descError: 'Please check the connection and\nclick the “Retry” button below.',
     info: 'Guide to use Ledger Wallet on ICONex',
     walletAddress: 'Wallet Address',
+    connectWallet: 'Connected Ledger Wallet',
     manualFileName: 'Guide_to_use_Ledger_Wallet_on_ICONex_Ledger_en'
   },
 

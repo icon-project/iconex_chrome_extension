@@ -48,7 +48,6 @@ class LedgerIframe extends Component {
     const { isHidden, method, query, path, language } = this.props;
 
     const queryToString = query ? `&${queryString.stringify(query)}` : ''
-    console.log(query, queryToString)
     const pathString = path ? `&path=${path}` : ''
     const langString = `&lang=${language}`
     const versionString = `&networkVer=${IS_V3 ? 'v3' : 'v2'}`
@@ -57,12 +56,13 @@ class LedgerIframe extends Component {
         title="ICONex Ledger"
         scrolling="no"
         src={`${LEDGER_SERVER}?method=${method}${langString}${versionString}${pathString}${queryToString || ''}`}
+        //src={`https://hardwallet.icon.foundation/index.html?method=${method}${langString}${versionString}${pathString}${queryToString || ''}`}
         style={
           isHidden ? {
             width: '0px',
             height: '0px',
           } : {
-            width: '960px',
+            width: '1160px',
             height: '387px',
           }
         }

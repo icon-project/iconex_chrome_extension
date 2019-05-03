@@ -65,7 +65,7 @@ class Popup extends Component {
       }
     }
     if (popupType === 'connectLedger' && popupNum === 1) {
-      return 'send ledger'
+      return 'ledger'
     }
     return ''
   }

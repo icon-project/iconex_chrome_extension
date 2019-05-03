@@ -28,7 +28,7 @@ export const INITIAL_SERVER_ICX = prodDev('mainnet', 'euljiro');
 export const INITIAL_SERVER_ETH = prodDev('main', 'ropsten');
 
 export const HIDE_SERVER = isDevModeOn() ? false : true;
-export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://hardwallet.icon.foundation/test.html')
+export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://localhost:3000/index.html')
 
 export const getCurrentServer = (coinType) => {
   let server;
@@ -61,7 +61,10 @@ export const ICX_WALLET_SERVER = () => {
     'yeouido': 'https://bicon.net.solidwallet.io',
     'custom': getCustomIcxServer().customWalletURL
   }
-  return obj[icxServer];
+  console.log('ICX_WALLET_SERVER check server..:', icxServer)
+  console.log('ICX_WALLET_SERVER check:', obj[icxServer])
+  // return obj[icxServer];
+  return obj['mainnet'];
 }
 
 export const ICX_TRACKER_SERVER = () => {

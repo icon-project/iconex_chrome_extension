@@ -151,7 +151,6 @@ class CreateWallet4 extends Component {
               text={I18n.createWallet.cancelCreateWalletNotDownload}
               cancelText={I18n.button.no}
               submitText={I18n.button.yes}
-              btnBottom={true}
             />
           )
         }

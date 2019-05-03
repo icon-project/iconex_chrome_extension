@@ -101,7 +101,7 @@ class CreateWallet2 extends Component {
               text={I18n.createWallet.cancelCreateWallet}
               cancelText={I18n.button.no}
               submitText={I18n.button.yes}
-              btnBottom={true}
+              isFullButton={true}
             />
           )
         }

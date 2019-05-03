@@ -207,7 +207,7 @@ class SendTransaction3 extends Component {
             <p className="txt_box">{I18n.sendTransaction.infoSuccess}</p>
             <p className="txt" ref={ref => {if (ref) ref.innerHTML = text}}></p>
             <a href={TXID_URL['icx'] + funcResult[0]} target="_blank" rel="noopener noreferrer"><p className="mint">{ funcResult[0] }</p></a>
-            <div className="btn-holder">
+            <div className="btn-holder full">
               <button onClick={this.handleSubmit} className="btn-type-normal size-full"><span>{I18n.button.submit}</span></button>
             </div>
           </div>

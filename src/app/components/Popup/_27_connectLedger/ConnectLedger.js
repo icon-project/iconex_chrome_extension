@@ -138,10 +138,10 @@ class ConnectLedger extends Component {
                                  : nToBr(I18n.connectLedger.descError) }
                       </p>
          			        <a href={`./resource/${I18n.connectLedger.manualFileName}.pdf`} target="_blank"><p className="mint">{I18n.connectLedger.info}</p></a>
-         			        <div className="btn-holder">
-     				            <button onClick={this.closePopup} className="btn-type-fill size-del"><span>{I18n.button.close}</span></button>
-     				                { ledgerLoading ? (<button style={{paddingBottom: 14, paddingTop: 11}} className="btn-type-normal size-del"><span><LoadingComponent type="white" /></span></button>)
-                                            : (<button onClick={this.handleStartLedger} className="btn-type-normal size-del"><span>{!error ? I18n.button.connect : I18n.button.retry}</span></button>)}
+         			        <div className="btn-holder full">
+     				            <button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.close}</span></button>
+     				                { ledgerLoading ? (<button style={{paddingBottom: 14, paddingTop: 11}} className="btn-type-normal size-half"><span><LoadingComponent type="white" /></span></button>)
+                                            : (<button onClick={this.handleStartLedger} className="btn-type-normal size-half"><span>{!error ? I18n.button.connect : I18n.button.retry}</span></button>)}
          			        </div>
                   </div>
                 )

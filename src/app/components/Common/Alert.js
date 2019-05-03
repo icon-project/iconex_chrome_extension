@@ -26,7 +26,7 @@ class Alert extends Component {
               text={this.props.text}
               submitText={this.props.submitText}
               cancelText={this.props.cancelText}
-              btnBottom={this.props.btnBottom}
+              isFullButton={true}
             />
           </div>
         </div>

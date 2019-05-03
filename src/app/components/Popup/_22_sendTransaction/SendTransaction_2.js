@@ -168,8 +168,8 @@ class SendTransaction2 extends Component {
          return (
            <div className="popup send">
        			<p className="txt_box">{isLedger ? ledgerH1Text() : I18n.sendTransaction.titleInfo}</p>
-       			<p><span>{I18n.sendTransaction.quantity} : </span><em>{`${convertNumberToText(coinQuantity, 'transaction', true)}`}<i>{`${calcData.coinType.toUpperCase()}`}</i></em></p>
-             <p><span>
+       			<p className="send"><span>{I18n.sendTransaction.quantity} : </span><em>{`${convertNumberToText(coinQuantity, 'transaction', true)}`}<i>{`${calcData.coinType.toUpperCase()}`}</i></em></p>
+             <p className="send"><span>
                  {
                    calcData.walletCoinType === 'icx'
                      ? I18n.sendTransaction.txFeeIcx
@@ -177,15 +177,15 @@ class SendTransaction2 extends Component {
                  } :
                </span>
                <em>{`${txFee}`}
-                       <i>{`${calcData.walletCoinType.toUpperCase()}`}</i>
+               <i>{`${calcData.walletCoinType.toUpperCase()}`}</i>
                </em>
              </p>
-       		   <p><span>{I18n.sendTransaction.address} : </span><em>{recipientAddress}</em></p>
-       			<div className="btn-holder">
-       				<button onClick={this.closePopup} className="btn-type-fill size-del"><span>{I18n.button.cancel}</span></button>
+       		   <p className="send"><span>{I18n.sendTransaction.address} : </span><em>{recipientAddress}</em></p>
+       			<div className="btn-holder full">
+       				<button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.cancel}</span></button>
        				{
-                txLoading ? (<button style={{paddingBottom: 14, paddingTop: 11}} className="btn-type-normal size-del"><span><LoadingComponent type="white" /></span></button>)
-                          : (<button disabled={isLedger ? !isLedgerConfirmed : false} onClick={this.handleSubmit} className="btn-type-normal size-del"><span>{I18n.button.transfer}</span></button>)
+                txLoading ? (<button style={{paddingBottom: 14, paddingTop: 11}} className="btn-type-normal size-half"><span><LoadingComponent type="white" /></span></button>)
+                          : (<button disabled={isLedger ? !isLedgerConfirmed : false} onClick={this.handleSubmit} className="btn-type-normal size-half"><span>{I18n.button.transfer}</span></button>)
               }
        			</div>
        		</div>

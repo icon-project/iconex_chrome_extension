@@ -12,16 +12,6 @@ import withLanguageProps from 'HOC/withLanguageProps';
 @withLanguageProps
 class WalletBar extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showAlertNoBalance: false,
-      showAlertNoSwapBalance: false,
-      showAlertNoSwapGasBalance: false,
-      showAlertNoTxFeeBalance: false
-    }
-  }
-
   handleClick = () => {
     const { data, history } = this.props;
     const { tokenId, account } = data;
@@ -30,29 +20,23 @@ class WalletBar extends Component {
   }
 
   handleTransactionClick = () => {
-    const { data, history } = this.props;
+    const { data, history, walletCoinType } = this.props;
     const { account, balance, tokenId, isError, walletBalance } = data;
 
     if (!isError) {
       if (tokenId) {
         if (walletBalance.eq(0)) {
-          this.setState({
-            showAlertNoTxFeeBalance: true
-          });
+          this.props.showAlert('showAlertNoTxFeeBalance', walletCoinType)
           return false;
         }
 
         if (balance.eq(0)) {
-          this.setState({
-            showAlertNoBalance: true
-          });
+          this.props.showAlert('showAlertNoBalance')
           return false;
         }
       } else {
         if (balance.eq(0)) {
-          this.setState({
-            showAlertNoBalance: true
-          });
+          this.props.showAlert('showAlertNoBalance')
           return false;
         }
       }
@@ -76,16 +60,12 @@ class WalletBar extends Component {
 
     if (!isError) {
       if (balance.eq(0)) {
-        this.setState({
-          showAlertNoSwapBalance: true
-        });
+        this.props.showAlert('showAlertNoSwapBalance')
         return false;
       }
 
       if (walletBalance.eq(0)) {
-        this.setState({
-          showAlertNoSwapGasBalance: true
-        });
+        this.props.showAlert('showAlertNoSwapGasBalance')
         return false;
       }
     }
@@ -99,19 +79,9 @@ class WalletBar extends Component {
     });
   }
 
-  closeAlert = () => {
-    this.setState({
-      showAlertNoBalance: false,
-      showAlertNoSwapBalance: false,
-      showAlertNoSwapGasBalance: false,
-      showAlertNoTxFeeBalance: false
-    })
-  }
-
   render() {
-    const { showAlertNoBalance, showAlertNoSwapBalance, showAlertNoSwapGasBalance, showAlertNoTxFeeBalance } = this.state;
-    const { currency, data, I18n, walletCoinType } = this.props;
-    const { name, balanceLoading = false, isError, symbol, balance, recent, totalResultLoading, balanceWithRate, tokenId } = data;
+    const { currency, data, I18n } = this.props;
+    const { name, balanceLoading = false, isError, symbol, balance, totalResultLoading, balanceWithRate } = data;
 
     const nameText = checkLength(name) > 18 ? name.substring(0, 18) + '...' : name;
     const balanceText = convertNumberToText(balance, symbol, true);
@@ -148,42 +118,6 @@ class WalletBar extends Component {
             {isSwapAvailable && <button onClick={this.handleSwapClick} className="btn-type-exchange"><span>{I18n.button.swap}</span></button>}
             <button onClick={this.handleTransactionClick} className="btn-type-exchange"><span>{I18n.button.transfer}</span></button>
           </td>
-          {
-            showAlertNoBalance && (
-              <Alert
-                handleCancel={this.closeAlert}
-                text={I18n.error.alertNoBalance}
-                cancelText={I18n.button.confirm}
-              />
-            )
-          }
-          {
-            showAlertNoSwapBalance && (
-              <Alert
-                handleCancel={this.closeAlert}
-                text={I18n.error.alertNoSwapBalance}
-                cancelText={I18n.button.confirm}
-              />
-            )
-          }
-          {
-            showAlertNoSwapGasBalance && (
-              <Alert
-                handleCancel={this.closeAlert}
-                text={I18n.error.alertNoSwapGasBalance}
-                cancelText={I18n.button.confirm}
-              />
-            )
-          }
-          {
-            showAlertNoTxFeeBalance && (
-              <Alert
-                handleCancel={this.closeAlert}
-                text={I18n.error.alertNoTxFeeBalance(walletCoinType)}
-                cancelText={I18n.button.confirm}
-              />
-            )
-          }
         </tr>
       )
     }

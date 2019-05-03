@@ -10,7 +10,7 @@ import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
   isExtended: true,
-  copyState: COPY_STATE['off']
+  copyState: COPY_STATE['off'],
 }
 
 @withLanguageProps
@@ -75,6 +75,7 @@ class WalletSection extends Component {
       setSelectedWallet,
       showMenuIndex,
       index,
+      showAlert,
       I18n
     } = this.props;
 
@@ -89,7 +90,7 @@ class WalletSection extends Component {
 
     const {
       isExtended,
-      copyState
+      copyState,
     } = this.state;
 
     const iconClass = (coinType) => {
@@ -123,7 +124,6 @@ class WalletSection extends Component {
         <div>
           <table className={`table-typeC ${isCoinView ? 'coin' : ''} ${isExtended ? 'open' : ''}`}>
             <colgroup>
-              <col />
               <col />
               <col />
               <col />
@@ -174,11 +174,12 @@ class WalletSection extends Component {
                       key={i}
                       data={barData}
                       currency={currency}
-                      openPopup={openPopup}
                       isCoinView={isCoinView}
+                      walletCoinType={walletCoinType || coinType}
+                      openPopup={openPopup}
                       setPopupNum={setPopupNum}
                       setSelectedWallet={setSelectedWallet}
-                      walletCoinType={walletCoinType || coinType}
+                      showAlert={showAlert}
                       />
                   ))
                 }

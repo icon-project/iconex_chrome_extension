@@ -18,9 +18,9 @@ class ImmunityPopup extends Component {
           <span className="close" onClick={this.closePopup}><em className="_img"></em></span>
           <h1 className="title">{I18n.disclaimerPage.header}</h1>
           <div className="scroll-holder terms">
-    				<div className="scroll line">
+    				<div className="scroll">
     					<div className="tabbox-holder">
-    						<h2 className="modified-title">{I18n.disclaimerPage.title}</h2>
+    						<h2>{I18n.disclaimerPage.title}</h2>
     						<p className="txt">{I18n.disclaimerPage.desc1}</p>
     						<p className="txt">{I18n.disclaimerPage.desc2}</p>
     						<p className="txt">{I18n.disclaimerPage.desc3}</p>

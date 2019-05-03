@@ -52,7 +52,10 @@ class Popup extends Component {
       const pageType = popupType.split('_')[1];
       switch(true) {
         case ((pageType === 'swap' || pageType === 'transaction') && popupNum === 2) : {
-          return 'send'
+          return 'ledger send'
+        }
+        case (pageType === 'contract' && popupNum === 2) : {
+          return 'contract'
         }
         case (pageType === 'contract' && popupNum === 3 && !isSuccess) : {
           return 'ledger'

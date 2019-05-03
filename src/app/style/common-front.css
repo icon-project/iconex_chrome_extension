@@ -232,4 +232,31 @@ input[type=checkbox]:disabled+ label {background-position: 0px -900px;}
 .popup-wrap .close {
   z-index: 1;
 }
+
+/* smallPopup middle text */
+div.popup-wrap.ledger p.txt_box.middle {
+  display: table-cell;
+  width: 460px;
+  height: 150px;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 32px;
+  word-break: keep-all;
+}
+
+/* smallPopup sendTransaction_2 p tag */
+.popup-wrap.send p.send {
+  text-align: left;
+  font-size: 14px;
+  margin-top: 15px;
+  position: relative;
+}
+.popup-wrap.send p.send span {
+  position: absolute;
+  line-height: 18px;
+}
+.popup-wrap.send.ledger p:nth-child(2) {
+  margin-top: 14px !important;
+}
+
 }

@@ -26,13 +26,14 @@ class ExportWallet1 extends Component {
   render() {
     const { I18n } = this.props;
     return (
-      <div className='popup-wrap home'>
+      <div className='popup-wrap ledger'>
         <SmallPopup
           handleCancel={this.closePopup}
           handleSubmit={this.handleSubmit}
           text={I18n.exportWallet.caution}
           cancelText={I18n.button.cancel}
           submitText={I18n.button.confirm}
+          isFullButton={true}
         />
       </div>
     );

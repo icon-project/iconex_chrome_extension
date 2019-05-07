@@ -20,7 +20,10 @@ class SendTransaction extends Component {
 			stepLimit: stepLimit || '',
 			stepLimitError: '',
 			stepPrice: '',
-			showServerList: false
+			showServerList: false,
+			showTimeList: false,
+			time: 0,
+			timeList: [0, 15, 30, 45, 60]
 		}
 		this.cancelClicked = false
 	}
@@ -94,8 +97,20 @@ class SendTransaction extends Component {
 		}
 	}
 
+	toggleList = () => {
+		this.setState({
+			showTimeList: !this.state.showTimeList
+		})
+	}
+
+	setTime = (t) => {
+		this.setState({
+			time: t
+		})
+	}
+
 	render() {
-		const { name, balance, stepLimit, stepLimitError, stepPrice, showServerList } = this.state
+		const { name, balance, stepLimit, stepLimitError, stepPrice, showServerList, showTimeList, time, timeList } = this.state
 		const { I18n, rate, transaction } = this.props
 		const { icx: icxRate } = rate
 		const { param } = transaction
@@ -177,6 +192,27 @@ class SendTransaction extends Component {
 								</p>
 							</div>
 						</div>
+
+						<div className="signing-holder">
+							<span className="name">Enable auto signing</span>
+							<div className="layer-group" onClick={this.toggleList}>{time === 0 ? 'Don’t automatically sign' : time + ' minutes'}<i className="_img"></i>
+							{
+								showTimeList &&
+								<div className="drop-box">
+									<div className="drop-layer">
+										<ul>
+											{timeList.map((t, i) => {
+												return <li key={i} className={timeList[i] === time ? 'on' : ''} onClick={() => {this.setTime(t)}}><span>{t === 0 ? 'Don’t automatically sign' : t + ' minutes'}</span></li>
+											})}
+										</ul>
+									</div>
+								</div>
+							}    
+							</div>
+
+							<p>This allows to <span>www.abcd.com</span> to automatically sign similar transactions on your behalf. Automatic signing is valid until the given.</p>
+						</div>
+
 						<div className="list-holder">
 							<ul className="change-holder">
 								<li>

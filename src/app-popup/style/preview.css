@@ -242,6 +242,24 @@ input.error{    border-bottom: 1px solid #f24130;}
 .code div{padding: 27px 24px;}
 .code div{white-space: pre; overflow-x: auto; font-size: 12px; color: #333;}
 
+.remittance .signing-holder{ padding: 20px 24px 0px; font-size: 14px;}
+.remittance .signing-holder .name{display: inline-block;}
+.remittance .signing-holder p{font-size: 12px; font-weight: 300; margin-top: 27px; }
+.remittance .signing-holder p span{color: #00a1b3; cursor: pointer; text-decoration: underline;}
+.remittance .signing-holder i{width: 12px; height: 8px; background-position:-75px -150px; position: absolute; right: 0; top: 19px; }
+.remittance .signing-holder .on i{background-position:-75px -200px;}
+.remittance .signing-holder .layer-group.on .drop-box{display: inline-block;}
+
+.remittance .layer-group {display: inline-block; width: 100%; position: relative; border-bottom: 1px solid #808080; padding: 11px 20px; color: #333;}
+.remittance .drop-box{ border-radius: 3px;z-index: 9; top: 40px; right: 0; width: 100%; box-shadow: 0 4px 12px 0 rgba(51, 51, 51, 0.15); background-color: #ffffff;position: absolute;border: 1px solid #1daab9; overflow: hidden; display: none;}
+.remittance .drop-box.one{width:92px; top: 22px; }
+.remittance .drop-box.addtoken{width:122px; top: 22px; }
+.remittance .drop-layer{max-height: 200px; font-size: 14px; overflow-y: auto;}
+.remittance .drop-layer ul{padding: 10px 0;}
+.remittance .drop-layer li{padding: 8px 19px; cursor: pointer;}
+.remittance .drop-layer li:hover{background:#e6f8fa;color: #00a1b3 !important; }
+.remittance .drop-layer li:hover span{color: #00a1b3;}
+
 .footer.cols-1{height: 76px; border-top: none; cursor: default; padding: 20px 20px;}
 .footer.cols-1 button{width: 100%;}
 .footer.cols-2{height: 76px; border-top: none; cursor: default; padding: 20px 20px; font-size: 0;}

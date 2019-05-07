@@ -12,5 +12,7 @@ button:disabled{cursor: default;}
 .remittance .mainnet{top: 32px; width: 90px;}
 .remittance .layer{top: 37px;}
 .remittance .layer li{cursor: pointer;}
+.remittance .layer li{cursor: pointer;}
+.remittance .drop-box{display: inline-block;}
 .content-wrap .scroll{height: calc(100vh - 120px);}
 .footer{height: 50px !important;}

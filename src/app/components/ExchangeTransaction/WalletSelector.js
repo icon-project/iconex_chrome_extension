@@ -69,7 +69,7 @@ class WalletSelector extends Component {
                 />
               }
             </span>
-            { isLoggedIn && (<p className="have">{I18n.contractBalance} {wallets[selectedAccount].balance.toString()} ICX</p>) }
+            { isLoggedIn && (<p className="have">{I18n.contractBalance} {wallets[selectedAccount].balance.toString()}<em>ICX</em></p>) }
             <p className="error">{I18n.error[walletSelectorError]}</p>
 				</div>
       )

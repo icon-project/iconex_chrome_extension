@@ -56,7 +56,7 @@ export default {
 
     alertWalletFirst: '지갑 선택을 먼저 해주세요.',
     alertExchange: '환전 기능은 개발 중입니다.',
-    alertNoBalance: '코인 보유량이 없습니다. 입금 후 송금해주세요.',
+    alertNoBalance: '코인 보유량이 없습니다.<br/>입금 후 송금해주세요.',
     alertNoSwapBalance: '스왑 가능한 ICX 토큰이 없습니다.',
     alertNoSwapGasBalance: '스왑 수수료 지불을 위한 ETH 잔액이 없습니다. 입금 후 진행해 주세요.',
     alertNoTxFeeBalance: (walletCoinType) => `${walletCoinType.toUpperCase()} 계좌 잔액이 부족하여 토큰을 송금할 수 없습니다.`,
@@ -208,7 +208,7 @@ export default {
   coinDetailHistoryPending: '대기 내역',
   coinDetailHistoryCompleted: '완료 내역',
   coinDetailHistoryNoTransactionEth: 'Ethereum 지갑 주소의 거래내역은 Etherscan에서 조회 가능합니다.',
-  coinDetailHistoryIcx: '거래내역은 ICON Tracker에서 조회 가능합니다.',
+  coinDetailHistoryIcx: '거래내역은 <span>ICON Tracker</span>에서 조회 가능합니다.',
   coinDetailHistoryNoTransactionDefault: '내역이 없습니다.',
 
   coinDetailHistoryColumn0: '요청 시각',
@@ -259,8 +259,8 @@ export default {
   myPageWalletChecked: '· 선택된 지갑',
   myPageSubTitle1: '잠금 설정',
   myPageSubTitle2: '지갑 묶어서 내보내기',
-  myPageInfo1: '잠금 설정 시 ICONex를 실행할 때마다 잠금 번호를 확인합니다. 타인에게 내 지갑 정보가 노출되는 것을 방지할 수 있습니다.\n잠금 번호를 잊은 경우, 지갑 비밀번호 확인 후 잠금 번호를 재설정 할 수 있습니다.',
-  myPageInfo2: '잠금 설정 시 ICONex를 실행할 때마다 잠금 번호를 확인합니다. 다른 사람에게 내 자산을 예기치 않게 노출하는 것을 방지할 수 있습니다.',
+  myPageInfo1: '· 잠금 설정 시 ICONex를 실행할 때마다 잠금 번호를 확인합니다. 타인에게 내 지갑 정보가 노출되는 것을 방지할 수 있습니다.\n· 잠금 번호를 잊은 경우, 지갑 비밀번호 확인 후 잠금 번호를 재설정 할 수 있습니다.',
+  myPageInfo2: '· 잠금 설정 시 ICONex를 실행할 때마다 잠금 번호를 확인합니다. 다른 사람에게 내 자산을 예기치 않게 노출하는 것을 방지할 수 있습니다.',
   myPageInfo3: '· 지갑 묶어서 내보내기는 ICONex 지갑 파일들을 모두 묶어서 하나의 파일로 백업하는 기능입니다.\n · 묶음 지갑의 Keystore 파일을 불러오면 여러 개의 지갑을 한번에 불러올 수 있습니다.',
   myPageUnlock: '· 잠금 설정을 해제하시겠습니까?',
   myPageLockNumber: '잠금 번호',
@@ -273,7 +273,7 @@ export default {
   myPageLockSuccess: '지갑 비밀번호와 잠금번호를 기억해주세요.<br/>잠금 설정을 하시겠습니까?',
   myPageLockChangeSuccess: '잠금번호가 재설정되었습니다.',
 
-  transferPageInfo1: '송금 버튼을 누른 후에는 취소할 방법이 없습니다. 수량과 받는 주소를 한번 더 확인해주세요.',
+  transferPageInfo1: '· 송금 버튼을 누른 후에는 취소할 방법이 없습니다. 수량과 받는 주소를 한번 더 확인해주세요.',
   transferPageLabel1: '송금할 코인 수량',
   transferPageLabel2: '송금 받는 코인 수량',
   transferPageLabel3: '송금 받는 주소',

@@ -5,7 +5,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="empty">
+      <div>
         <Web3Container />
         <RouteContainer />
       </div>

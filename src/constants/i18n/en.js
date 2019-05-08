@@ -208,7 +208,7 @@ export default {
   coinDetailHistoryPending: 'Pending',
   coinDetailHistoryCompleted: 'Completed',
   coinDetailHistoryNoTransactionEth: 'Transactions made using the Ethereum wallet can be looked up on Etherscan.',
-  coinDetailHistoryIcx: 'You can check the transaction history on ICON Tracker',
+  coinDetailHistoryIcx: 'You can check the transaction history on <span>ICON Tracker</span>',
   coinDetailHistoryNoTransactionDefault: 'No transaction',
 
   coinDetailHistoryColumn0: 'Requested Time',
@@ -259,8 +259,8 @@ export default {
   myPageWalletChecked: '· Selected Wallets',
   myPageSubTitle1: 'Screen Lock',
   myPageSubTitle2: 'Export Wallet Bundle',
-  myPageInfo1: 'By activating the screen lock function, a 6-digit passcode is required every time you open ICONex in a new chrome window.\n ·If you forget your screen lock passcode, you can reset the passcode using your wallet password.',
-  myPageInfo2: 'If you activate the screen lock, a 6-digit passcode is required every time you open your ICONex. It can protect your assets from others.',
+  myPageInfo1: '· By activating the screen lock function, a 6-digit passcode is required every time you open ICONex in a new chrome window.\n · If you forget your screen lock passcode, you can reset the passcode using your wallet password.',
+  myPageInfo2: '· If you activate the screen lock, a 6-digit passcode is required every time you open your ICONex. It can protect your assets from others.',
   myPageInfo3: '· Wallet bundle backs up your wallets in one file.\n · You can easily manage different wallets at once.',
   myPageUnlock: '· Do you want to unlock?',
   myPageLockNumber: 'Screen Lock',
@@ -273,7 +273,7 @@ export default {
   myPageLockSuccess: 'Do you want to lock?',
   myPageLockChangeSuccess: 'Your passcode has been changed.',
 
-  transferPageInfo1: 'Please check the amount and the address. You CANNOT cancel the transaction after you confirm.',
+  transferPageInfo1: '· Please check the amount and the address. You CANNOT cancel the transaction after you confirm.',
   transferPageLabel1: 'Transfer Amount',
   transferPageLabel2: 'Receiving Amount',
   transferPageLabel3: 'Receiving Address',

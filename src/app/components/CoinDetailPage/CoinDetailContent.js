@@ -90,9 +90,8 @@ class CoinDetailContent extends Component {
     })
   }
 
-  setCurrencyList = (e) => {
-    e.preventDefault()
-    this.props.getRate(e.currentTarget.getAttribute("data-currency"));
+  setCurrencyList = (currencyType) => {
+    this.props.getRate(currencyType);
     this.setState({
       showCurrencyList: false
     })
@@ -256,7 +255,9 @@ class CoinDetailContent extends Component {
                   <div onClick={this.toggleCurrencyList} className={`money-group no ${this.state.showCurrencyList ? 'on' : ''}`}>{CURRENCY_NAME[currency]}<em className="_img"></em>
                     {this.state.showCurrencyList && (
                       <div className="drop-box one">
-                        <CurrencyMenuBar type="sub" onClickOut={this.toggleCurrencyList} setCurrencyList={this.setCurrencyList} coinType={data.coinType} />
+                        <div className="drop-layer">
+                          <CurrencyMenuBar type="sub" onClickOut={this.toggleCurrencyList} setCurrencyList={this.setCurrencyList} coinType={data.coinType} />
+                        </div>
                       </div>
                     )}
                   </div>
@@ -267,7 +268,9 @@ class CoinDetailContent extends Component {
                   <div onClick={this.toggleCurrencyList} className={`money-group no ${this.state.showCurrencyList ? 'on' : ''}`}>{CURRENCY_NAME[currency]}<em className="_img"></em>
                     {this.state.showCurrencyList && (
                       <div className="drop-box one">
-                        <CurrencyMenuBar type="sub" onClickOut={this.toggleCurrencyList} setCurrencyList={this.setCurrencyList} coinType={data.coinType} />
+                        <div className="drop-layer">
+                          <CurrencyMenuBar type="sub" onClickOut={this.toggleCurrencyList} setCurrencyList={this.setCurrencyList} coinType={data.coinType} />
+                        </div>
                       </div>
                     )}
                   </div>

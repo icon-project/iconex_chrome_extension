@@ -20,9 +20,6 @@ class LockContent extends Component {
     }
   }
 
-  componentWillMount() {
-  }
-
   clearError = () => {
     // this.setState({
     //   currentError: undefined,
@@ -142,12 +139,6 @@ class LockContent extends Component {
     }
   }
 
-  unlock = () => {
-    this.props.openPopup({
-      popupType: 'unlockPopup'
-    })
-  }
-
   handleSettingSuccess = () => {
     const { first } = this.state
     this.props.setLock(hash.sha256().update(first).digest('hex'), '')
@@ -182,7 +173,6 @@ class LockContent extends Component {
   render() {
     const { status, showPasscodeSettingSuccess, showPasscodeChangingSuccess } = this.state
     const { I18n } = this.props;
-
     return (
       <div>
         <div className="wrap-holder">
@@ -195,22 +185,18 @@ class LockContent extends Component {
                           setNewPasscode={this.setNewPasscode}
                           changeToNewPasscode={this.changeToNewPasscode}
           />
+          <p className="lock-txt">{I18n.myPageInfo1.split('\n').map((item, key) => {return <i>{item}<br/></i>})}</p>
           {status === 0 &&
           <div className="btn-holder in">
-  					<button className="btn-type-fill2" onClick={this.setNewPasscode}><span>{I18n.button.submit}</span></button>
+  					<button className="btn-type-normal size-medium" onClick={this.setNewPasscode}><span>{I18n.button.submit}</span></button>
   				</div>
           }
           {status === 2 &&
           <div className="btn-holder in">
-  					<button className="btn-type-fill2" onClick={this.changeToNewPasscode}><span>{I18n.button.change}</span></button>
+  					<button className="btn-type-normal size-medium" onClick={this.changeToNewPasscode}><span>{I18n.button.change}</span></button>
   				</div>
           }
   			</div>
-        {((this.props.passcodeHash !== '' && status === 1)) &&
-          <div className="txt-holder">
-            <p className="lock-txt">{I18n.myPageUnlock}<em onClick={this.unlock}>{I18n.button.unlock}</em></p>
-          </div>
-        }
         { showPasscodeSettingSuccess && (
           <Alert
             handleSubmit={this.handleSettingSuccess}

@@ -259,4 +259,14 @@ div.popup-wrap.ledger p.txt_box.middle {
   margin-top: 14px !important;
 }
 
+
+/* lockpage tab-holder margin-top */
+.content-wrap.lock .tab-holder {
+  margin-top: 0px;
+}
+
+/* mainpage tooltip layer left */
+.en .content-wrap .main-holder .layer.left {
+  left: auto;
+}
 }

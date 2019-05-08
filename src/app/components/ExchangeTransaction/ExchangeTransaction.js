@@ -87,7 +87,7 @@ class ExchangeTransaction extends Component {
             { isLoggedIn && (<TxFeeAndDataContainer />) }
             { isLoggedIn && (<CalculationTableContainer />) }
           </div>
-          <p className="lock-txt"><em className="_img"></em>{I18n.transferPageInfo1}</p>
+          <p className="lock-txt">{I18n.transferPageInfo1}</p>
           <div className="btn-holder in">
             <button className="btn-type-normal size-medium" onClick={this.handleSubmit}><span>{I18n.transfer}</span></button>
           </div>

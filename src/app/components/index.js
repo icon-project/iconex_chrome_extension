@@ -95,7 +95,6 @@ import ContractList from './Popup/_27_contractList/ContractList'
 import MyPage from './MyPage/MyPage'
 import LockContent from './MyPage/LockContent'
 import ExportContent from './MyPage/ExportContent'
-import LockSetting from './MyPage/LockSetting'
 import UnlockPopup from './Popup/_23_unlockPopup/UnlockPopup'
 
 import PasswordSetter from './MyPage/PasswordSetter'
@@ -238,7 +237,6 @@ export {
   MyPage,
   LockContent,
   ExportContent,
-  LockSetting,
   UnlockPopup,
   PasswordSetter,
   PasswordInput,

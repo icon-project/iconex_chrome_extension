@@ -31,8 +31,10 @@ class ChangePasscode1 extends Component {
     }
   }
 
-  componentWillMount() {
-    this.props.getWallet();
+  componentDidMount() {
+    this.props.getWallet({
+      fetchWithoutBalance: true
+    });
   }
 
   componentWillUnmount() {

@@ -14,7 +14,7 @@ class DeleteToken extends Component {
 
   handleSubmit = () => {
     this.props.deleteToken(this.props.selectedAccount, this.props.selectedTokenId);
-    this.props.history.push(ROUTE['mywallet']);
+    this.props.history.push(ROUTE['home']);
   }
 
   render() {

@@ -8,6 +8,8 @@ function mapStateToProps(state) {
   return {
     wallets: state.wallet.wallets,
     isLedger: state.ledger.isLedger,
+    isLoggedIn: state.auth.isLoggedIn,
+    isLocked: state.auth.isLocked,
     passcodeHash: state.global.passcodeHash,
   };
 }

@@ -63,7 +63,7 @@ class UnlockPopup extends Component {
 
   closeAlert = () => {
     this.props.closePopup();
-    this.props.history.push(ROUTE['mywallet']);
+    this.props.history.push(ROUTE['home']);
   }
 
   render() {

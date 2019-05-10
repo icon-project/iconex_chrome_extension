@@ -38,7 +38,9 @@ function* getWalletFunc(action) {
       yield put(logOut());
     } else {
       yield put({type: AT.getWalletFulfilled, payload});
-      yield put({type: AT.fetchAll, payload});
+      if (!action.payload.fetchWithoutBalance) {
+        yield put({type: AT.fetchAll, payload});
+      }
     }
   } catch (e) {
     alert(e);

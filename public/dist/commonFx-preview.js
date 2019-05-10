@@ -1,9 +1,13 @@
+/* eslint-disable */
+
 function loginChkFx($isLogin){
 	var _parent = $( ".lock-wrap" );
-	if($isLogin){
+	if ($isLogin) {
 		$("body").addClass("destroy");
+		_parent.find("ul").addClass("disabled");
 		_parent.find(".logo").addClass("chk rotaion");
 	} else {
+		_parent.find(".logo").addClass("zigzag");
 		_parent.find("ul").addClass("zigzag");
 		_parent.find(".gray").removeClass();
 		_parent.css("borderSpacing", 0);
@@ -18,6 +22,7 @@ function loginChkFx($isLogin){
 			},duration:300,
 			easing :'linear',
 			complete: function(){
+				_parent.find(".logo").removeClass("zigzag");
 				_parent.find("ul").removeClass("zigzag");
 			}
 		});
@@ -26,5 +31,4 @@ function loginChkFx($isLogin){
 
 $(document).ready(function(){
 
-	// loginChkFx();
 });

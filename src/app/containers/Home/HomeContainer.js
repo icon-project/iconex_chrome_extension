@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
-import { MainPage } from 'app/components/';
+import { Home } from 'app/components/';
 import {  openPopup } from 'redux/actions/popupActions';
 
 function mapStateToProps(state) {
@@ -16,6 +16,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const MainPageContainer = connect(mapStateToProps, mapDispatchToProps)(MainPage);
+const HomeContainer = connect(mapStateToProps, mapDispatchToProps)(Home);
 
-export default withRouter(MainPageContainer);
+export default withRouter(HomeContainer);

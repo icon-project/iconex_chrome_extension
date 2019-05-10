@@ -1,7 +1,7 @@
 import Web3Container from './Web3/Web3Container'
 import HeaderContainer from './Header/HeaderContainer'
 import PopupContainer from './Popup/PopupContainer'
-import MainPageContainer from './MainPage/MainPageContainer'
+import HomeContainer from './Home/HomeContainer'
 import CreateWalletContainer from './Popup/_01_createWalletContainer'
 import ImportWalletContainer from './Popup/_02_importWalletContainer'
 import AddWalletContainer from './Popup/_03_addWalletContainer'
@@ -29,7 +29,7 @@ import ContractRunSectionContainer from './ContractPage/ContractRunSectionContai
 import ContractExecuteSectionContainer from './ContractPage/ContractExecuteSectionContainer'
 import MyPageContainer from './MyPage/MyPageContainer'
 import UnlockPopupContainer from './Popup/_23_unlockPopupContainer'
-import LockPageContainer from './LockPage/LockPageContainer'
+import LockContainer from './Lock/LockContainer'
 import ChangePasscodeContainer from './Popup/_24_changePasscodeContainer'
 import FooterContainer from './Footer/FooterContainer'
 import ImmunityPopupContainer from './Popup/_25_immunityPopupContainer'
@@ -43,7 +43,7 @@ export {
   Web3Container,
   HeaderContainer,
   PopupContainer,
-  MainPageContainer,
+  HomeContainer,
   CreateWalletContainer,
   ImportWalletContainer,
   MyWalletPageContainer,
@@ -71,7 +71,7 @@ export {
   ContractExecuteSectionContainer,
   MyPageContainer,
   UnlockPopupContainer,
-  LockPageContainer,
+  LockContainer,
   ChangePasscodeContainer,
   FooterContainer,
   ImmunityPopupContainer,

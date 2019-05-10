@@ -60,21 +60,20 @@ class Header extends Component {
   }
 
   render() {
-    const { wallets, isLedger, setLanguage, language, location, I18n } = this.props;
-    const isHome = location.pathname === ROUTE['home'];
-    const isLock = location.pathname === ROUTE['lock']
-    const showHeaderItem = !(isHome || isLock)
+    const { wallets, isLedger, setLanguage, language, location, isLoggedIn, isLocked, I18n } = this.props;
+    const isHome = !isLoggedIn;
+    const showHeaderItem = !(isHome || isLocked)
     const isLedgerAccess = isEmpty(wallets) && isLedger
 
     return (
   		<div className="header-wrap" onClick={this.onHeaderClick}>
   			<div className="wrap-holder">
           {showHeaderItem && (
-  				  <Link to={isHome ? ROUTE['home'] : ROUTE['mywallet']}><p className="logo"><span className="_img"></span></p></Link>
+  				  <Link to={ROUTE['home']}><p className="logo"><span className="_img"></span></p></Link>
           )}
           {showHeaderItem && !isLedgerAccess && (
             <div className="menu-holder">
-    					<Link to="/mywallet"><span className={`wallet ${location.pathname.includes('/mywallet') && 'on'}`}>{I18n.myWallet}</span></Link>
+    					<Link to={ROUTE['home']}><span className={`wallet ${location.pathname === ROUTE['home'] || location.pathname.includes('mywallet') ? 'on' : ''}`}>{I18n.myWallet}</span></Link>
     					{/* <span onClick={this.disableExchange} className={`exchange ${location.pathname === '/exchange' && 'on'}`}>{I18n.exchange}</span> */}
     					<Link to="/transaction"><span onClick={this.goToTransactionPage} className={`remittance ${location.pathname === '/transaction' && 'on'}`}>{I18n.transfer}</span></Link>
               <Link to="/contract"><span className={`contract ${location.pathname === '/contract' && 'on'}`}>{I18n.contract}</span></Link>

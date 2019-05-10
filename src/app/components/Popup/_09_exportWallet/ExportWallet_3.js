@@ -61,7 +61,7 @@ class ExportWallet3 extends Component {
     this.closePopup()
     const { history } = this.props;
     history.push({
-      pathname: ROUTE['mywallet']
+      pathname: ROUTE['home']
     });
 
   }

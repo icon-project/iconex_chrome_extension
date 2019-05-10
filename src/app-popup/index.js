@@ -6,8 +6,6 @@ import App from 'app-popup/App.js';
 import { chromeStorage, isEmpty, openApp } from 'utils';
 
 // style
-import 'app/style/common.css';
-import 'app/style/common-front.css';
 import 'app/style/font.css';
 import 'app-popup/style/preview.css';
 import 'app-popup/style/preview-front.css';

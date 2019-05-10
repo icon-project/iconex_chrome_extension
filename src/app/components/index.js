@@ -14,7 +14,7 @@ import AddressTable from './Common/AddressTable'
 import ServerChanger from './Common/ServerChanger'
 import LedgerIframe from './Common/LedgerIframe'
 
-import MainPage from './MainPage/MainPage'
+import Home from './Home/Home'
 
 import MyWallet from './MyWalletPage/MyWallet'
 import MyWalletHeader from './MyWalletPage/MyWalletHeader'
@@ -100,7 +100,7 @@ import UnlockPopup from './Popup/_23_unlockPopup/UnlockPopup'
 import PasswordSetter from './MyPage/PasswordSetter'
 import PasswordInput from './MyPage/PasswordInput'
 
-import LockPage from './LockPage/LockPage'
+import Lock from './Lock/Lock'
 
 import ChangePasscode from './Popup/_24_changePasscode/ChangePasscode'
 import ChangePasscode1 from './Popup/_24_changePasscode/ChangePasscode_1'
@@ -142,7 +142,7 @@ export {
   LedgerIframe,
 
   // *** MAIN PAGE *** //
-  MainPage,
+  Home,
   // popup //
   CreateWallet,
   CreateWallet1,
@@ -240,7 +240,8 @@ export {
   UnlockPopup,
   PasswordSetter,
   PasswordInput,
-  LockPage,
+
+  Lock,
   ChangePasscode,
   ChangePasscode1,
   ChangePasscode2,

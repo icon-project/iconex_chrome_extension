@@ -5,13 +5,14 @@ import { withRouter } from 'react-router-dom';
 
 function mapStateToProps(state) {
   return {
-    language: state.global.language
+    language: state.global.language,
+    isLoggedIn: state.auth.isLoggedIn,
+    isLocked: state.auth.isLocked,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    
     openPopup: (s) => dispatch(openPopup(s)),
   };
 }

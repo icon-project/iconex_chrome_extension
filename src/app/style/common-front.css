@@ -269,4 +269,25 @@ div.popup-wrap.ledger p.txt_box.middle {
 .en .content-wrap .main-holder .layer.left {
   left: auto;
 }
+
+/* blur wrap div */
+.lock .wrap,
+.lock .wrap + .footer-wrap{
+  filter: blur(50px); 
+}
+
+/* blur wrap div */
+.destroy .wrap,
+.destroy .wrap + .footer-wrap{
+  animation: destroy-blur 0.2s 1.65s linear forwards;
+}
+
+/* popup.typeA btn-holder padding */
+.popup-wrap .popup.typeA #alert .btn-holder {
+  padding: 0;
+}
+
+/* Lock password input circle */ 
+.lock-wrap .content-holder ul#empty li span{
+  background: transparent;
 }

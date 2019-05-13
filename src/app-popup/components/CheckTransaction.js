@@ -34,6 +34,7 @@ class CheckTransaction extends Component {
 	}
 
 	confirmTransaction = () => {
+		console.log('check transfer button')
 		this.cancelClicked = true
 		const { tabId, transaction } = this.props
 		const { param, privKey } = transaction
@@ -50,42 +51,53 @@ class CheckTransaction extends Component {
 		const maxStepIcx = stepLimit * stepPriceIcx
 
 		return (
-			<div className="wrap remittance">
+			<div className="wrap remittance check">
 				<div className="tab-holder">
-					<ul className="one no-pointer">
+				{/* no-pointer */}
+					<ul className="one">
 						<li>{I18n.sendTransaction.titleInfoShort}</li>
 					</ul>
 				</div>
 				<div className="content-wrap">
 					<div className="scroll">
-						<div className="list-holder">
-							<span className="name">{I18n.sendTransaction.sendingAddress}</span>
-							<div className="align-r">
-								<p>{from}</p>
+						<div className="box">
+							<div className="list-holder">
+								<span className="name">{I18n.sendTransaction.sendingAddress}</span>
+								<div className="align-r">
+									<p>{from}</p>
+								</div>
 							</div>
-						</div>
-						<div className="list-holder coin-num">
-							<span className="name">{I18n.sendTransaction.quantity}</span>
-							<div className="align-r">
-								<p>{convertNumberToText(valueIcx, 'icx', true)}<em>ICX</em></p>
+							<div className="list-holder coin-num">
+								<span className="name">{I18n.sendTransaction.quantity} (ICX)</span>
+								<div className="align-r">
+									<p>{convertNumberToText(valueIcx, 'icx', true)}</p>
+								</div>
 							</div>
-						</div>
-						<div className="list-holder coin-num">
-							<span className="name">{I18n.sendTransaction.txFeeIcx}</span>
-							<div className="align-r">
-								<p>{convertNumberToText(maxStepIcx, 'icx', true)}<em>ICX</em></p>
+							<div className="list-holder">
+								<span className="name">{I18n.sendTransaction.receivingAddress}</span>
+								<div className="align-r">
+									<p>{to}</p>
+								</div>
 							</div>
-						</div>
-						<div className="list-holder">
-							<span className="name">{I18n.sendTransaction.receivingAddress}</span>
-							<div className="align-r">
-								<p>{to}</p>
+							{/* <div className="list-holder">
+								<span className="name">{I18n.sendTransaction.txFeeIcx}</span>
+								<div className="align-r">
+									<p>{convertNumberToText(maxStepIcx, 'icx', true)}<em>ICX</em></p>
+								</div>
+							</div> */}
+							<div className="line"></div>
+							<div className="list-holder coin-num">
+								<span className="name">{I18n.sendTransaction.maximumFee} (ICX)</span>
+								<div className="align-r">
+									<p>{convertNumberToText(maxStepIcx, 'icx', true)}</p>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div className="footer cols-2">
-					<button className="btn-type-normal" onClick={this.revertTransaction} disabled={transactionLoading}><span>{I18n.button.back}</span></button>
+				{/* btn-type-normal */}
+					<button className="btn-type-cancel" onClick={this.revertTransaction} disabled={transactionLoading}><span>{I18n.button.back}</span></button>
 					{transactionLoading ?
 						<button className="btn-type-ok load">
 							<span><LoadingComponent type="black" style={{ height: '8px', display: '-webkit-inline-box' }} /></span>

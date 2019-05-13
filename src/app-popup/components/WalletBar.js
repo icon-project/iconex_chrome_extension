@@ -126,7 +126,7 @@ class WalletBar extends Component {
             <button className="btn-type-line" onClick={this.onCancelClick}><span>{I18n.button.cancel}</span></button>
             {confirmLoading ?
               <button className="btn-type-line load">
-                <span><LoadingComponent type="black" style={{height: '8px', display: '-webkit-inline-box'}}/></span>
+                <span><LoadingComponent type="black" /></span>
               </button>
               :
               <button className="btn-type-line" disabled={!password} onClick={this.onConfirmClick}>
@@ -147,7 +147,7 @@ class WalletBar extends Component {
             </div>
           </div>
         }
-        {isInput &&
+        {isInput && txHash &&
         <div className="tx">
           <button className="btn-type-line" onClick={this.onTxDataClick}>
             <span>Tx Data</span>

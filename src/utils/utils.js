@@ -528,33 +528,53 @@ function fromDecToHex(num) {
 
 function handleCopy(selector, copyState, setState) {
   const key = document.querySelector(selector);
-    if (copyState === COPY_STATE['on']) {
-      return false;
-    } else {
-      const selection = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(key);
+  if (copyState === COPY_STATE['on']) {
+    return false;
+  } else {
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(key);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    try {
+      document.execCommand('copy');
       selection.removeAllRanges();
-      selection.addRange(range);
-      try {
-        document.execCommand('copy');
-        selection.removeAllRanges();
-        setState({
-          copyState: COPY_STATE['on']
-        }, () => {
-          const self = this;
-          window.setTimeout(function(){
-              setState({
-                copyState: COPY_STATE['off']
-              })
-            },
-            1000)
-          }
-        )
-      } catch(e) {
-        alert(e);
-      }
+      setState({
+        copyState: COPY_STATE['on']
+      }, () => {
+        const self = this;
+        window.setTimeout(function(){
+            setState({
+              copyState: COPY_STATE['off']
+            })
+          },
+          1000)
+        }
+      )
+    } catch(e) {
+      alert(e);
     }
+  }
+}
+
+function beautifyJson(data, tab) {
+  if (!data) {
+    return ''
+  }
+  try {
+    let _data = {}
+    if (typeof data === 'object') {
+      _data = data
+    }
+    else if (typeof data === 'string') {
+      _data = JSON.parse(data)
+    }
+    return JSON.stringify(_data, null, tab)
+  }
+  catch (e) {
+    console.log(e)
+    return ''
+  }
 }
 
 export {
@@ -603,6 +623,6 @@ export {
   fromHexToDec,
   fromDecToHex,
   isPrivateKey,
-
-  handleCopy
+  handleCopy,
+  beautifyJson
 }

@@ -32,7 +32,7 @@ class CompleteTransaction extends Component {
 						</div>
 						<div className="footer cols-2">
 							<button className="btn-type-normal" onClick={this.closePopup} ><span>{I18n.button.close}</span></button>
-							<button className="btn-type-ok" onClick={() => { this.checkTransaction(txUrl) }}><span>{I18n.button.checkTransction}</span></button>
+							<button className="btn-type-normal" onClick={() => { this.checkTransaction(txUrl) }}><span>{I18n.button.checkTransction}</span></button>
 						</div>
 					</div>
 				)
@@ -46,7 +46,7 @@ class CompleteTransaction extends Component {
 								<p ref={ref => {if (ref) ref.innerHTML = I18n.completeTransaction.fail}}></p>
 							</div>
 						</div>
-						<div className="footer cols-2">
+						<div className="footer cols-1">
 							<button className="btn-type-normal" onClick={this.closePopup} ><span>{I18n.button.close}</span></button>
 						</div>
 					</div>

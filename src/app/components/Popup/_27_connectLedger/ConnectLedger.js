@@ -120,7 +120,7 @@ class ConnectLedger extends Component {
       <div>
         <div className="dimmed fade-in"></div>
         <div
-          style={popupNum === 2 ? {height: 535} : {}}
+          style={popupNum === 2 ? {height: 508} : {}}
           className={`
             popup
             ${popupNum === 2 ? 'address wallet' : ''}

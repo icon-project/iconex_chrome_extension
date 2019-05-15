@@ -321,25 +321,6 @@ function nToBr(str) {
   return arr;
 }
 
-// function nToBr(str) {
-//   const arr = str.split('\n').map((line, i) => {
-//     console.log('line:', line)
-//     const lineToArr = line.split(' ') // ['click', 'the', '"Connect"', ..]
-//     const ark = lineToArr.map((each, i) => {
-//       if(each === "Connect") {
-//         console.log('here?')
-//         return (<span>{each}</span>)
-//       } else {
-//         return ({each})
-//       }
-//     })
-//     console.log('ark:', ark)
-//     return ark
-//     // return (<span style={{ position: 'relative' }} key={i}>{line}<br /></span>);
-//   });
-//   return arr;
-// }
-
 function checkLength(message) {
   if (!message) return 0
 

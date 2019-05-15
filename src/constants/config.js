@@ -61,10 +61,7 @@ export const ICX_WALLET_SERVER = () => {
     'yeouido': 'https://bicon.net.solidwallet.io',
     'custom': getCustomIcxServer().customWalletURL
   }
-  console.log('ICX_WALLET_SERVER check server..:', icxServer)
-  console.log('ICX_WALLET_SERVER check:', obj[icxServer])
-  // return obj[icxServer];
-  return obj['mainnet'];
+  return obj[icxServer];
 }
 
 export const ICX_TRACKER_SERVER = () => {

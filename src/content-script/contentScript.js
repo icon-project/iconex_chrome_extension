@@ -1,3 +1,5 @@
+
+
 console.log("Hello ICONex!")
 
 let contentPort
@@ -31,7 +33,10 @@ function sendPostMessage(port, data) {
       case 'REQUEST_ADDRESS':
       case 'REQUEST_JSON-RPC':
       case 'REQUEST_SIGNING':
-        port.postMessage(data)
+        port.postMessage({
+          ...data,
+          host: window.location.hostname
+        })
         break;
       default:
     }

@@ -6,6 +6,7 @@ import { initExternalState, callScore } from 'redux/actions/externalActions';
 function mapStateToProps(state) {
     return {
         tabId: state.external.tabId,
+        host: state.external.host,
         transaction: state.external.transaction,
         transactionLoading: state.external.transactionLoading,
     };

@@ -3,6 +3,7 @@ import { fromHexToDec, fromDecToHex } from 'utils/utils'
 
 const initialState = {
     tabId: '',
+    host: '',
     addressRequest: false,
     transaction: {},
     transactionLoading: false,
@@ -23,14 +24,16 @@ export function externalReducer(state = initialState, action) {
             }
         }
         case actionTypes.setScore: {
-            const { tabId, data: param } = action.payload
-            const { params } = param
+            const { tabId, payload, host } = action.payload
+            const { params } = payload
             const from = params.from
             const stepLimit = fromHexToDec(params.stepLimit)
+            console.log(action.payload)
             return {
                 ...initialState,
                 tabId,
-                transaction: { from, stepLimit, param },
+                host,
+                transaction: { from, stepLimit, payload },
             }
         }
         case actionTypes.setScoreWallet: {
@@ -45,7 +48,13 @@ export function externalReducer(state = initialState, action) {
             const newState = { ...state }
             newState.transaction.stepLimit = stepLimit
             newState.transaction.stepPrice = stepPrice
-            newState.transaction.param.params.stepLimit = fromDecToHex(stepLimit)
+            newState.transaction.payload.params.stepLimit = fromDecToHex(stepLimit)
+            return newState
+        }
+        case actionTypes.setScoreTime: {
+            const { time } = action.payload
+            const newState = { ...state }
+            newState.transaction.time = time
             return newState
         }
         case actionTypes.callScore: {
@@ -68,7 +77,7 @@ export function externalReducer(state = initialState, action) {
             return newState
         }
         case actionTypes.setSigning: {
-            const { tabId, data: signing } = action.payload
+            const { tabId, payload: signing } = action.payload
             return {
                 ...initialState,
                 tabId,

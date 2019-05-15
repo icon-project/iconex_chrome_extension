@@ -41,7 +41,7 @@ class MyWallet extends Component {
 			else {
 				this.cancelClicked = true
 				const { wallets, tabId, transaction, signing } = this.props;
-				if (transaction.param) {
+				if (transaction.payload) {
 					const wallet = wallets[transaction.from]
 					this.props.setScoreWallet({ wallet, privKey })
 					this.props.history.push(ROUTE['send'])
@@ -125,7 +125,7 @@ class MyWallet extends Component {
 		}
 
 		let type = 'CANCEL'
- 		if (this.props.transaction.param) {
+ 		if (this.props.transaction.payload) {
 			type += '_JSON-RPC'
 		}
 		else if (this.props.signing.hash) {
@@ -192,7 +192,7 @@ class MyWallet extends Component {
 
 	onlyIcxTab = () => {
 		const { addressRequest, transaction, signing } = this.props
-		return addressRequest || transaction.param || signing.hash
+		return addressRequest || transaction.payload || signing.hash
 	}
 
 	render() {
@@ -236,7 +236,7 @@ class MyWallet extends Component {
 													selected={selected}
 													selectAddress={this.selectAddress}
 
-													isTransaction={!!transaction.param}
+													isTransaction={!!transaction.payload}
 													isInput={isInput}
 													txHash={txHash}
 													confirmPassword={this.confirmPassword}

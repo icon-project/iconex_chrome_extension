@@ -114,8 +114,8 @@ html, body, .wrap, .wrap .content-wrap{height: 100%;}
 .content-wrap .list-holder .name em{font-size: 11px; color: #00a1b3; background: rgba(29, 170, 185, 0.1);; border-radius: 10px; padding: 3px 10px 1px; margin-left: 8px; border: 1px solid rgba(29, 170, 185, 0.7); vertical-align: top; margin-top: 4px; display: inline-block;}
 .content-wrap .list-holder .coin{font-size: 12px; float: right;}
 .content-wrap .list-holder .coin em{margin-left: 2px; font-size: 10px; color: #b3b3b3;font-weight: 300;}
-.content-wrap .list-holder .address{padding: 2px 0px; margin-top: 7px;font-size: 10px; color: #b3b3b3; cursor: pointer;}
-.content-wrap .list-holder .address em{display: none; margin-left: 6px; font-weight: 700;}
+.content-wrap .list-holder .address{padding: 2px 0px; margin-top: 7px;font-size: 10px; color: #b3b3b3; cursor: pointer; height: 19px;}
+.content-wrap .list-holder .address em{display: none; margin:-2px 0 0 6px; font-weight: 700; vertical-align: top;}
 .content-wrap .list-holder .address:hover{color: #333; text-decoration: underline;}
 .content-wrap .list-holder .address:hover em{text-decoration: none; display: inline-block;}
 .content-wrap .list-holder .address.complete{color:#1daab9; text-decoration: none; }
@@ -241,6 +241,24 @@ input.error{    border-bottom: 1px solid #f24130;}
 
 .code div{padding: 27px 24px;}
 .code div{white-space: pre; overflow-x: auto; font-size: 12px; color: #333;}
+
+.remittance .signing-holder{ padding: 20px 24px 0px; font-size: 14px;}
+.remittance .signing-holder .name{display: inline-block;}
+.remittance .signing-holder p{font-size: 12px; font-weight: 300; margin-top: 27px; }
+.remittance .signing-holder p span{color: #00a1b3; cursor: pointer; text-decoration: underline;}
+.remittance .signing-holder i{width: 12px; height: 8px; background-position:-75px -150px; position: absolute; right: 0; top: 19px; }
+.remittance .signing-holder .on i{background-position:-75px -200px;}
+.remittance .signing-holder .layer-group.on .drop-box{display: inline-block;}
+
+.remittance .layer-group {display: inline-block; width: 100%; position: relative; border-bottom: 1px solid #808080; padding: 11px 20px; color: #333;}
+.remittance .drop-box{ border-radius: 3px;z-index: 9; top: 40px; right: 0; width: 100%; box-shadow: 0 4px 12px 0 rgba(51, 51, 51, 0.15); background-color: #ffffff;position: absolute;border: 1px solid #1daab9; overflow: hidden; display: none;}
+.remittance .drop-box.one{width:92px; top: 22px; }
+.remittance .drop-box.addtoken{width:122px; top: 22px; }
+.remittance .drop-layer{max-height: 200px; font-size: 14px; overflow-y: auto;}
+.remittance .drop-layer ul{padding: 10px 0;}
+.remittance .drop-layer li{padding: 8px 19px; cursor: pointer;}
+.remittance .drop-layer li:hover{background:#e6f8fa;color: #00a1b3 !important; }
+.remittance .drop-layer li:hover span{color: #00a1b3;}
 
 .footer.cols-1{height: 76px; border-top: none; cursor: default; padding: 20px 20px;}
 .footer.cols-1 button{width: 100%;}

@@ -23,7 +23,10 @@ class SendTransaction extends Component {
 			stepPrice: '',
 			showServerList: false,
 			viewData: false,
-			isDisabled: false
+			isDisabled: false,
+			showTimeList: false,
+			time: 0,
+			timeList: [0, 15, 30, 45, 60, 240, 360, 720, 1440]
 		}
 		this.cancelClicked = false
 	}
@@ -153,23 +156,28 @@ class SendTransaction extends Component {
 	}
 
 	confirmTransaction = async () => {
+		const { I18n } = this.props
+		const { stepLimit, stepPrice, time } = this.state
 		const validateBalance = await this.validateBalance()
+
 		if(!validateBalance) {
 			console.log('balance error')
-			return;
+			return
 		}
 
-		const { I18n } = this.props
-		const { stepLimit } = this.state
-		if (stepLimit) {
-			this.cancelClicked = true
-			const { stepPrice } = this.state
-			this.props.setScoreStep({ stepLimit, stepPrice })
-			this.props.history.push(ROUTE['check'])
-		}
-		else {
+		if (!stepLimit) {
 			this.setState({ stepLimitError: I18n.error.enterGasPrice_step })
+			return
 		}
+
+		if (time) {
+			this.props.setScoreTime({ time })
+		}
+
+		this.cancelClicked = true
+		this.props.setScoreStep({ stepLimit, stepPrice })
+		this.props.history.push(ROUTE['check'])
+	
 	}
 
 	cancelTransaction = closed => {
@@ -181,17 +189,31 @@ class SendTransaction extends Component {
 	}
 
 	toggleViewData = () => {
-		this.setState({ viewData: !this.state.viewData })
+		this.setState({ 
+			viewData: !this.state.viewData 
+		})
 	}
 
+	toggleList = () => {
+		this.setState({
+			showTimeList: !this.state.showTimeList
+		})
+	}
+
+	setTime = (t) => {
+		this.setState({
+			time: t
+		})
+	}
 
 	render() {
-		const { name, balance, stepLimit, stepLimitError, stepPrice, showServerList, viewData } = this.state
+		const { name, balance, stepLimit, stepLimitError, stepPrice, showServerList, showTimeList, time, timeList, viewData } = this.state
 		const { I18n, rate, transaction } = this.props
 		const { icx: icxRate } = rate
-		const { param } = transaction
-		const { params } = param
+		const { payload } = transaction
+		const { params } = payload
 		const { to, value, dataType, data } = params
+		console.log(payload)
 		const dataParams = data.params
 		const price = dataParams.price
 
@@ -291,6 +313,26 @@ class SendTransaction extends Component {
 							}
 						</div>
 						}
+						<div className="signing-holder">
+							<span className="name">Enable auto signing</span>
+							<div className="layer-group" onClick={this.toggleList}>{time === 0 ? 'Don’t automatically sign' : time + ' minutes'}<i className="_img"></i>
+							{
+								showTimeList &&
+								<div className="drop-box">
+									<div className="drop-layer">
+										<ul>
+											{timeList.map((t, i) => {
+												const timeLabel = t % 60 === 0 ? `${t / 60} hour${t !== 60 ? 's' : ''}` : `${t} minutes`
+												return <li key={i} className={timeList[i] === time ? 'on' : ''} onClick={() => {this.setTime(t)}}><span>{t === 0 ? 'Don’t automatically sign' : timeLabel}</span></li>
+											})}
+										</ul>
+									</div>
+								</div>
+							}    
+							</div>
+
+							<p>This allows to <span>www.abcd.com</span> to automatically sign similar transactions on your behalf. Automatic signing is valid until the given.</p>
+						</div>
 						<div className="list-holder">
 							<ul className="change-holder">
 								<li>

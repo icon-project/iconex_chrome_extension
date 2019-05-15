@@ -66,7 +66,6 @@ class Lock extends Component {
     }
     
     window.loginChkFx(true)
-    getWallet()
     window.setTimeout(() => {
       window.chrome.extension.sendMessage({ type: 'UNLOCK' })
     }, 2000)

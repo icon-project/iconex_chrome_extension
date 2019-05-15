@@ -36,15 +36,15 @@ class CheckTransaction extends Component {
 	confirmTransaction = () => {
 		console.log('check transfer button')
 		this.cancelClicked = true
-		const { tabId, transaction } = this.props
-		const { param, privKey } = transaction
-		this.props.callScore({ tabId, privKey, param })
+		const { tabId, transaction, host } = this.props
+		const { payload, privKey, time } = transaction
+		this.props.callScore({ tabId, privKey, host, payload, time })
 	}
 
 	render() {
 		const { I18n, transaction, transactionLoading } = this.props
-		const { param, stepLimit, stepPrice } = transaction
-		const { params } = param
+		const { payload, stepLimit, stepPrice } = transaction
+		const { params } = payload
 		const { from, to, value } = params
 		const valueIcx = window.web3.fromWei(fromHexToDec(value), 'ether')
 		const stepPriceIcx = window.web3.fromWei(stepPrice, 'ether')

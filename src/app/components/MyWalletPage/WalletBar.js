@@ -79,8 +79,13 @@ class WalletBar extends Component {
     });
   }
 
+  getIconColor = (index) => {
+    const { getIconColor } = this.props;
+    return getIconColor(index)
+  }
+
   render() {
-    const { currency, data, I18n } = this.props;
+    const { currency, data, I18n, index, isCoinView } = this.props;
     const { name, balanceLoading = false, isError, symbol, balance, totalResultLoading, balanceWithRate } = data;
 
     const nameText = checkLength(name) > 18 ? name.substring(0, 18) + '...' : name;
@@ -98,17 +103,20 @@ class WalletBar extends Component {
     } else {
       return (
         <tr>
-          <td onClick={this.handleClick}>{nameText}</td>
+          <td onClick={this.handleClick}>{!isCoinView && <i className={`_icon ${name === 'ICON' ? '' : name === 'Ethereum' ?  'ethereum' : this.getIconColor(index)}`}>{name === 'ICON' ? '' : symbol[0]}</i>}{nameText}</td>
           <td onClick={this.handleClick}><em>{isError ? '-' : balanceText}</em><span>{symbol.toUpperCase()}</span></td>
           <td onClick={this.handleClick}>
             {!totalResultLoading ? (
-              <div>{balanceWithRate !== null && <i className="_img"></i>}<em>{balanceWithRate !== null ? convertNumberToText(balanceWithRate, currency, false) : "-"}</em><em>{CURRENCY_UNIT[currency]}</em></div>
+              <div>
+                <em>{balanceWithRate !== null ? convertNumberToText(balanceWithRate, currency, false) : "-"}</em><em>{CURRENCY_UNIT[currency]}</em>
+              </div>
             ) : (
               <div className="load">
                 <LoadingComponent type="black"/>
               </div>
             )}
           </td>
+
           {/* {
             recent.length > 0
               ? (<td onClick={this.handleClick}>{I18n.myWalletBarRecentTransaction}<span>{moment(recent[0].time).format(DATE_FORMAT)}</span></td>)

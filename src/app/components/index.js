@@ -25,6 +25,7 @@ import Graph from './MyWalletPage/Graph';
 import WalletSectionList from './MyWalletPage/WalletSectionList';
 import WalletSection from './MyWalletPage/WalletSection';
 import WalletBar from './MyWalletPage/WalletBar';
+import WalletStakingBar from './MyWalletPage/WalletStakingBar';
 import WalletMenuBar from './MyWalletPage/WalletMenuBar';
 
 import Popup from './Popup/Popup';
@@ -175,6 +176,7 @@ export {
   WalletSectionList,
   WalletSection,
   WalletBar,
+  WalletStakingBar,
   WalletMenuBar,
   CurrencyMenuBar,
   // popup //

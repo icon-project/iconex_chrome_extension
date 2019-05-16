@@ -619,6 +619,7 @@ export default {
     descError: 'Please check the connection and\nclick the “Retry” button below.',
     info: 'Guide to use Ledger Wallet on ICONex',
     walletAddress: 'Wallet Address',
+    connectWallet: 'Connected Ledger Wallet',
     manualFileName: 'Guide_to_use_Ledger_Wallet_on_ICONex_Ledger_en'
   },
 

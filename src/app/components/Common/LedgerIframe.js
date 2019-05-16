@@ -46,9 +46,7 @@ class LedgerIframe extends Component {
 
   render() {
     const { isHidden, method, query, path, language } = this.props;
-
     const queryToString = query ? `&${queryString.stringify(query)}` : ''
-    console.log(query, queryToString)
     const pathString = path ? `&path=${path}` : ''
     const langString = `&lang=${language}`
     const versionString = `&networkVer=v3`
@@ -62,8 +60,8 @@ class LedgerIframe extends Component {
             width: '0px',
             height: '0px',
           } : {
-            width: '960px',
-            height: '387px',
+            width: '1160px',
+            height: '400px',
           }
         }
       />

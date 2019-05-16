@@ -624,6 +624,7 @@ export default {
     descError: 'Ledger Wallet이 컴퓨터에 올바로 연결됐는지\n확인 후 아래 “재시도” 버튼을 클릭해 주세요.',
     info: 'ICONex에서 Ledger Wallet 이용하는 방법',
     walletAddress: '지갑 주소',
+    connectWallet: '연결된 Ledger Wallet',
     manualFileName: 'Guide_to_use_Ledger_Wallet_on_ICONex_Ledger_kr'
   },
 

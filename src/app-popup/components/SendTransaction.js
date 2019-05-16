@@ -208,7 +208,7 @@ class SendTransaction extends Component {
 
 	render() {
 		const { name, balance, stepLimit, stepLimitError, stepPrice, showServerList, showTimeList, time, timeList, viewData } = this.state
-		const { I18n, rate, transaction } = this.props
+		const { I18n, rate, transaction, host } = this.props
 		const { icx: icxRate } = rate
 		const { payload } = transaction
 		const { params } = payload
@@ -331,7 +331,7 @@ class SendTransaction extends Component {
 							}    
 							</div>
 
-							<p>This allows to <span>www.abcd.com</span> to automatically sign similar transactions on your behalf. Automatic signing is valid until the given.</p>
+							<p>This allows to <span>{host}</span> to automatically sign similar transactions on your behalf. Automatic signing is valid until the given.</p>
 						</div>
 						<div className="list-holder">
 							<ul className="change-holder">

@@ -10,6 +10,7 @@ function mapStateToProps(state) {
         rateLoading: state.rate.rateLoading,
         tabId: state.external.tabId,
         transaction: state.external.transaction,
+        host: state.external.host,
     };
 }
 

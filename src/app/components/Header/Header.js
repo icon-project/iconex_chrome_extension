@@ -62,7 +62,7 @@ class Header extends Component {
   render() {
     const { wallets, isLedger, setLanguage, language, location, isLoggedIn, isLocked, I18n } = this.props;
     const isHome = !isLoggedIn;
-    const showHeaderItem = !(isHome || isLocked)
+    const showHeaderItem = !(isHome || isLocked) || isLedger
     const isLedgerAccess = isEmpty(wallets) && isLedger
 
     return (

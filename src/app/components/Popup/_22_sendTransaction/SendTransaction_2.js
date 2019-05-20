@@ -155,13 +155,13 @@ class SendTransaction2 extends Component {
              if (language === 'kr') {
                return `${ledgerTimer}초 내에 Ledger Wallet 제품의 확인 버튼을 누르면 아래 송금 버튼이 활성화 됩니다.`
              } else {
-               return `Please press the “Confirm” button on your Ledger within ${ledgerTimer} seconds to activate the “Transfer” button below.`
+               return `Please press the “Confirm” button on your Ledger within ${ledgerTimer} seconds.`
              }
            } else {
              if (language === 'kr') {
                return `Ledger Wallet 확인이 완료되었습니다. 송금 버튼을 클릭해주세요.`
              } else {
-               return `Ledger Wallet has verified your request. Please press the “Transfer” button.`
+               return `Ledger Wallet has verified your request. Please press the “Transfer”.`
              }
            }
          }

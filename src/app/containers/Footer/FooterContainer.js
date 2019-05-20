@@ -8,6 +8,7 @@ function mapStateToProps(state) {
     language: state.global.language,
     isLoggedIn: state.auth.isLoggedIn,
     isLocked: state.auth.isLocked,
+    isLedger: state.ledger.isLedger,
   };
 }
 

@@ -146,7 +146,7 @@ class Routes extends Component {
               </div>
               <FooterContainer />
               <div>
-                {!isLoggedIn && (<HomeContainer />)}
+                {!isLoggedIn && !isLedger && (<HomeContainer />)}
                 {isLocked && (<LockContainer />)}
               </div>
               <PopupContainer />

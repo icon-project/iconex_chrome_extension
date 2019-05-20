@@ -24,9 +24,9 @@ class Footer extends Component {
 
   render() {
     const { pathname } = this.props.location;
-    const { I18n, isLocked, isLoggedIn } = this.props;
+    const { I18n, isLocked, isLoggedIn, isLedger } = this.props;
     return (
-      (isLocked || !isLoggedIn)
+      (isLocked || !isLoggedIn) && !isLedger
         ? (
             <div className="footer-wrap">
               <span>©2018 ICON Foundation</span>

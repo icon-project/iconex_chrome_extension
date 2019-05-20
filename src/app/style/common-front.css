@@ -253,9 +253,12 @@ div.popup-wrap.ledger p.txt_box.middle {
 }
 .popup-wrap.send p.send span {
   position: absolute;
-  line-height: 18px;
+  /* line-height: 18px; */
 }
-.popup-wrap.send.ledger p:nth-child(2) {
+.popup-wrap.send p.send span + em {
+  line-height: 20px;
+}
+.popup-wrap.send.ledger.num-2 p:nth-child(2) {
   margin-top: 14px !important;
 }
 
@@ -290,4 +293,19 @@ div.popup-wrap.ledger p.txt_box.middle {
 /* Lock password input circle */ 
 .lock-wrap .content-holder ul#empty li span{
   background: transparent;
+}
+
+/* popup.size-medium2 height size */
+.popup-wrap .popup.size-medium2{
+  height: 375px;
+  min-height: 375px;
+}
+
+/* loading button bottom align */
+.popup-wrap .btn-holder button:last-child{
+  vertical-align: bottom;
+} 
+
+.content-wrap .wrap-holder.exchange .quantity-holder .all {
+  left: 638px;
 }

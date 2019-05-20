@@ -105,7 +105,7 @@ class ImportWallet4 extends Component {
             handleSubmit={this.handleSubmit}
             />
           <div className="btn-holder">
-            { buttonLoading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="black" /></span></button>)
+            { buttonLoading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="white" /></span></button>)
                       : (<button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.import}</span></button>)}
           </div>
           {

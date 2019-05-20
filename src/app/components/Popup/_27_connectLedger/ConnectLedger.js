@@ -131,9 +131,11 @@ class ConnectLedger extends Component {
                 popupNum === 1 && (
                   <div>
                     <p className="txt_box">{!error ? I18n.connectLedger.title : I18n.connectLedger.connectError}</p>
-                    { ledgerLoading ? <div className="loading-holder"><i className="loading black"></i></div>
-                                : <p className="txt">{ !error ? nToBr(I18n.connectLedger.desc)
-                                  : nToBr(I18n.connectLedger.descError) }</p>
+                    { ledgerLoading 
+                      ? <div className="loading-holder">
+                          <i className="loading black"></i>
+                        </div>
+                      : <p className="txt" ref={ref => {if (ref) ref.innerHTML = !error ? I18n.connectLedger.desc : I18n.connectLedger.descError}} />
                     }
                     <a href={`./resource/${I18n.connectLedger.manualFileName}.pdf`} target="_blank"><p className="mint">{I18n.connectLedger.info}</p></a>
                     <div className="btn-holder full">

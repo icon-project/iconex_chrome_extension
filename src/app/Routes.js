@@ -79,7 +79,7 @@ class Routes extends Component {
     }
   }
 
-  componentWillUpdate() {
+  componentDidUpdate() {
     window.scroll(0, 0);
   }
 
@@ -88,11 +88,13 @@ class Routes extends Component {
     switch (type) {
       case 'REFRESH_LOCK_STATE_FULFILLED':
         if (payload !== this.tabId) {
+          window.scroll(0, 0);
           window.chrome.tabs.reload(this.tabId)
         }
         break;
       case 'SET_LOCK_STATE':
         if (payload) {
+          window.scroll(0, 0);
           window.chrome.tabs.reload(this.tabId)
         } else {
           this.props.closePopup();

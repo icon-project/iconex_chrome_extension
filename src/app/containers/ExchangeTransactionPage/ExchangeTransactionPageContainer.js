@@ -14,6 +14,7 @@ function mapStateToProps(state) {
     recipientAddressError: state.exchangeTransaction.recipientAddressError,
     coinQuantityError: state.exchangeTransaction.coinQuantityError,
     submit: state.exchangeTransaction.submit,
+    calcData: state.exchangeTransaction.calcData,
   };
 }
 

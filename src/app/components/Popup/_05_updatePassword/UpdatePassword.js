@@ -151,7 +151,7 @@ class UpdatePassword extends Component {
           </div>
           <div className="btn-holder full">
             <button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.cancel}</span></button>
-            { loading ? (<button type="submit" className={'btn-type-normal load'}><span><LoadingComponent type="black" /></span></button>)
+            { loading ? (<button type="submit" className={'btn-type-normal size-half load'}><span><LoadingComponent type="black" /></span></button>)
                       : (<button onClick={this.handleSubmit} type="submit" className={'btn-type-normal size-half'}><span>{I18n.button.change}</span></button>)}
           </div>
         </div>

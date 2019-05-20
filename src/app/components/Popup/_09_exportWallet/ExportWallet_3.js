@@ -95,7 +95,7 @@ class ExportWallet3 extends Component {
           </div>
         </div>
         <div className="btn-holder">
-    					{ loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="black" /></span></button>)
+    					{ loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="white" /></span></button>)
                         : (<button onClick={this.handleDownload} type="submit" className="btn-type-next size-full"><span>{I18n.button.download}</span></button>)}
         </div>
         {

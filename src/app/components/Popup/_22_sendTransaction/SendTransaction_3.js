@@ -175,20 +175,9 @@ class SendTransaction3 extends Component {
     const { I18n } = this.props;
 
     switch(this.props.pageType) {
-      case 'swap': {
-        return `${I18n.sendTransaction.swapSuccess}<br/><a href='https://docs.google.com/spreadsheets/d/1HiT98wqEpFgF2d98eJefQfH7xK4KPPxNDiiXg3AcJ7w/edit#gid=0' target="_blank">${I18n.swapToken.rightInfoDesc1_1_3_1}</a>`
-      }
+      case 'transaction':
       case 'contract': {
         return `${I18n.coinDetailHistoryIcx}`
-      }
-      case 'transaction': {
-        const { tx, selectedWallet } = this.props;
-        const { type } = selectedWallet
-        if (type === 'eth') {
-          return `${I18n.sendTransaction.infoSuccess}<br/>${I18n.coinDetailHistoryNoTransactionEth}<br/><a href=${TXID_URL['eth'] + check0xPrefix(tx)} target="_blank">https://etherscan.io/</a>`
-        } else {
-          return `${I18n.sendTransaction.infoSuccess}<br/>${I18n.coinDetailHistoryIcx}<br/><a href=${TXID_URL['icx'] + tx} target="_blank">${I18n.sendTransaction.openTracker}</a>`
-        }
       }
       default:
         return ''
@@ -196,9 +185,10 @@ class SendTransaction3 extends Component {
   }
 
   renderPageTypeSwitch = () => {
-    const { I18n, funcResult, selectedWallet } = this.props;
+    const { I18n, funcResult, selectedWallet, tx } = this.props;
     const { type } = selectedWallet
     const text = this.getText()
+    const txUrl = type === 'eth' ? TXID_URL['eth'] + check0xPrefix(tx) : TXID_URL['icx'] + tx
     const { pageType, isLedger } = this.props;
     switch (pageType) {
       case 'contract': {
@@ -213,18 +203,25 @@ class SendTransaction3 extends Component {
           </div>
         )
       }
-      case 'swap':
       case 'transaction': {
         const hideSubmit = type === 'eth' || isLedger
         return (
-          <div className="popup-wrap home">
-            <SmallPopup
-              handleCancel={this.closePopupAfterTx}
-              handleSubmit={this.handleSubmit}
-              text={text}
-              cancelText={I18n.button.close}
-              submitText={hideSubmit ? undefined : I18n.button.checkTransction}
-            />
+          <div className="popup">
+            <p className="txt_box">{I18n.sendTransaction.infoSuccess}</p>
+            <p className="txt" ref={ref => {if (ref) ref.innerHTML = text}}></p>
+            <a href={txUrl} target="_blank" rel="noopener noreferrer"><p className="mint">{ tx }</p></a>
+            {
+              hideSubmit ? (
+                <div className="btn-holder full">
+                  <button onClick={this.closePopupAfterTx} className="btn-type-fill size-full"><span>{I18n.button.close}</span></button>
+                </div>
+              ) : (
+                <div className="btn-holder full">
+                  <button onClick={this.closePopupAfterTx} className="btn-type-fill size-half"><span>{I18n.button.close}</span></button>
+                  <button onClick={this.handleSubmit} className="btn-type-normal size-half"><span>{I18n.button.checkTransction}</span></button>
+                </div>
+              )
+            }
           </div>
         )
       }

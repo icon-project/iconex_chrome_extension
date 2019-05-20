@@ -3,6 +3,7 @@ import { HeaderTitle, LoadingComponent, Alert } from 'app/components/'
 import { WalletSelectorContainer, QuantitySetterContainer, RecipientAddressContainer, } from 'app/containers/'
 import { TxFeeAndDataContainer, CalculationTableContainer } from 'app/containers/'
 import withLanguageProps from 'HOC/withLanguageProps';
+import { isEmpty } from 'utils'
 
 const INIT_STATE = {
   isSubmitClicked: false,
@@ -35,7 +36,7 @@ class ExchangeTransaction extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.submit !== nextProps.submit && nextProps.submit) {
+    if (this.props.submit !== nextProps.submit && nextProps.submit) {
       nextProps.openPopup({
         popupType: `sendTransaction_transaction`,
         popupNum: 2
@@ -65,7 +66,7 @@ class ExchangeTransaction extends Component {
   }
 
   render() {
-    const { walletsLoading, I18n, isLoggedIn } = this.props;
+    const { walletsLoading, I18n, isLoggedIn, calcData } = this.props;
     const { showAlertWalletFirst } = this.state;
 
     if (walletsLoading) {
@@ -84,8 +85,8 @@ class ExchangeTransaction extends Component {
           <div className='quantity-holder'>
             <QuantitySetterContainer />
             <RecipientAddressContainer />
-            { isLoggedIn && (<TxFeeAndDataContainer />) }
-            { isLoggedIn && (<CalculationTableContainer />) }
+            { isLoggedIn && !isEmpty(calcData) && (<TxFeeAndDataContainer />) }
+            { isLoggedIn && !isEmpty(calcData) && (<CalculationTableContainer />) }
           </div>
           <p className="lock-txt">{I18n.transferPageInfo1}</p>
           <div className="btn-holder in">

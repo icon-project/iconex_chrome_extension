@@ -76,11 +76,11 @@ class WalletSelector extends Component {
     }
 
     return (
-      <div className="name-holder">
+      <div className={`name-holder ${isLedger ? 'connect' : ''}`}>
         <div className="group">
           <span className="label">{I18n.transferPageLabel4}</span>
           { isLedger ? (
-  					<span className="money-group connect">{`${ledgerWallet.account} (${ledgerWallet.path})`}</span>
+  					<span className="money-group">{`${ledgerWallet.account} (${ledgerWallet.path})`}</span>
           ) : (
             <span className="money-group" onClick={this.toggleWalletList}>
               <i className={walletIcon}></i>

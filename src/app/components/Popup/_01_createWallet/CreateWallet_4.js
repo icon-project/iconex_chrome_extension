@@ -133,7 +133,7 @@ class CreateWallet4 extends Component {
                   <p className="key">{toggleKey === '' ? privateKey : '*'.repeat(64)}<em onClick={this.toggleKey} className={`_img ${toggleKey}`}></em></p>
 								</div>
 								<div className="btn-group">
-                  <CopyButton target={privateKey} text={I18n.button.copyPrivateKey} type="small" defaultSize={true} copyFinish={I18n.button.copyFinish}/>
+                  <CopyButton target={privateKey} text={I18n.button.copyPrivateKey} type="small" defaultSize={true} copyFinish={I18n.button.copyFinish}/>&nbsp;
 									<button className="btn-type-copy" onClick={() => this.handlePrint(walletName, coinType, address, privateKey)}><span>{I18n.button.print}</span></button>
 								</div>
 							</div>

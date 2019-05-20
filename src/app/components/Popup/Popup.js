@@ -51,14 +51,11 @@ class Popup extends Component {
     if (popupType.startsWith('sendTransaction')) {
       const pageType = popupType.split('_')[1];
       switch(true) {
-        case ((pageType === 'swap' || pageType === 'transaction') && popupNum === 2) : {
-          return 'ledger send'
+        case (pageType === 'transaction' && (popupNum === 2 || popupNum === 3)) : {
+          return `ledger send num-${popupNum}`
         }
         case (pageType === 'contract' && popupNum === 2) : {
           return 'contract'
-        }
-        case (pageType === 'contract' && popupNum === 3 && !isSuccess) : {
-          return 'ledger'
         }
         case (pageType === 'contract' && popupNum === 3) : {
           return 'ledger'

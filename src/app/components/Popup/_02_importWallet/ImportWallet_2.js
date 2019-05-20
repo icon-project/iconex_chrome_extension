@@ -267,7 +267,7 @@ class ImportWallet2 extends Component {
     				</div>
     			</div>
           <div className="btn-holder">
-            { loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="black"/></span></button>)
+            { loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="white"/></span></button>)
                       : (<button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{this.state.fileType === 'ks' ? I18n.button.next : I18n.button.import}</span></button>)}
           </div>
           {

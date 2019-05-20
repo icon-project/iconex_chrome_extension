@@ -45,7 +45,7 @@ export const ICX_WALLET_SERVER = () => {
   const icxServer = getCurrentServer('icx');
   const obj = {
     'mainnet': 'https://wallet.icon.foundation',
-    'euljiro': 'https://test-ctz.solidwallet.io',
+    'euljiro': 'https://testwallet.icon.foundation',
     'yeouido': 'https://bicon.net.solidwallet.io',
     'custom': getCustomIcxServer().customWalletURL
   }

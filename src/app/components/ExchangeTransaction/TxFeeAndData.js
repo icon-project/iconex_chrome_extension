@@ -116,7 +116,7 @@ class TxFeeAndData extends Component {
 					<span className="title">{I18n[`transferPageLabel7_${walletCoinType}`]}<i className="_img"></i>
             <div className="help-layer">
               <p className="title">{I18n[`transferPageHelperTitle2_${walletCoinType}`]}</p>
-              <p className="txt">{nToBr(I18n[`transferPageHelperDesc2_${walletCoinType}`])}</p>
+              <p className="txt">{I18n[`transferPageHelperDesc2_${walletCoinType}`]}</p>
             </div>
 					</span>
 				  <input onChange={this.setTxFeeLimit} type="text" className={`txt-type-normal ${txFeeLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={txFeeLimit} onBlur={this.handleTxFeeLimitBlur} />
@@ -144,7 +144,7 @@ class TxFeeAndData extends Component {
           <span className="label">{I18n[`transferPageLabel7_${walletCoinType}`]}<i className="_img"></i>
             <div className="help-layer">
               <p className="title">{I18n[`transferPageHelperTitle2_${walletCoinType}`]}</p>
-              <p className="txt">{nToBr(I18n[`transferPageHelperDesc2_${walletCoinType}`])}</p>
+              <p className="txt">{I18n[`transferPageHelperDesc2_${walletCoinType}`]}</p>
             </div>
           </span>
           <input onChange={this.setTxFeeLimit} type="text" className={`txt-type-normal ${txFeeLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={txFeeLimit} onBlur={this.handleTxFeeLimitBlur} />

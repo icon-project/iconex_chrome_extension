@@ -89,7 +89,7 @@ class CreateWallet2 extends Component {
             handleSubmit={this.handleSubmit}
             />
           <div className="btn-holder">
-            <button onClick={this.goBack} type="submit" className="btn-type-next size-next"><span>{I18n.button.back}</span></button>
+            <button onClick={this.goBack} type="submit" className="btn-type-next size-next"><span>{I18n.button.back}</span></button>&nbsp;
             <button onClick={this.handleSubmit} type="submit" className="btn-type-next size-next"><span>{I18n.button.next}</span></button>
           </div>
         </li>

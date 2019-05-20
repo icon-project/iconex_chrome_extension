@@ -185,7 +185,7 @@ class LockContent extends Component {
                           setNewPasscode={this.setNewPasscode}
                           changeToNewPasscode={this.changeToNewPasscode}
           />
-          <p className="lock-txt">{I18n.myPageInfo1.split('\n').map((item, key) => {return <i>{item}<br/></i>})}</p>
+          <p className="lock-txt">{I18n.myPageInfo1.split('\n').map((item, key) => {return <i key={key}>{item}<br/></i>})}</p>
           {status === 0 &&
           <div className="btn-holder in">
   					<button className="btn-type-normal size-medium" onClick={this.setNewPasscode}><span>{I18n.button.submit}</span></button>

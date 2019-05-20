@@ -620,8 +620,8 @@ export default {
   connectLedger: {
     title: 'Ledger Wallet 연결',
     connectError: '연결에 실패했습니다.',
-    desc: 'Ledger Wallet을 사용중인 컴퓨터에 연결 후\n아래 “연결” 버튼을 클릭해 주세요.',
-    descError: 'Ledger Wallet이 컴퓨터에 올바로 연결됐는지\n확인 후 아래 “재시도” 버튼을 클릭해 주세요.',
+    desc: 'Ledger Wallet을 사용중인 컴퓨터에 연결 후<br />아래 <span>“연결”</span> 버튼을 클릭해 주세요.',
+    descError: 'Ledger Wallet이 컴퓨터에 올바로 연결됐는지<br />확인 후 아래 <span>“재시도”</span> 버튼을 클릭해 주세요.',
     info: 'ICONex에서 Ledger Wallet 이용하는 방법',
     walletAddress: '지갑 주소',
     connectWallet: '연결된 Ledger Wallet',

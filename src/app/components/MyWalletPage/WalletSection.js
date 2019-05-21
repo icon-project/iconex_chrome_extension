@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { WalletBar, WalletMenuBar } from 'app/components/'
+import Fragment from 'react-dot-fragment';
+import { WalletStakingBar, WalletBar, WalletMenuBar } from 'app/components/'
 import {
   currencyUnit as CURRENCY_UNIT,
   coinImage as COIN_IMAGE,
@@ -11,6 +12,7 @@ import withLanguageProps from 'HOC/withLanguageProps';
 const INIT_STATE = {
   isExtended: true,
   copyState: COPY_STATE['off'],
+  tokenList: []
 }
 
 @withLanguageProps
@@ -64,6 +66,49 @@ class WalletSection extends Component {
     })
   }
 
+  getIcon = (isToken, symbol) => {
+    const iconClass = isToken 
+      ? this.getIconColor(symbol[0].toUpperCase().charCodeAt(0))
+      : symbol === 'icx' ? '' : 'ethereum'
+    const iconInitial = isToken
+      ? symbol[0].toUpperCase()
+      : ''
+
+    return <i className={`_icon ${iconClass}`}>{iconInitial}</i>
+  }
+
+  getIconColor = (index) => {
+    const colorNum = Math.abs(index - 65) % 12;
+    switch(colorNum) {
+      case 0:
+        return 'A'
+      case 1:
+        return 'B'
+      case 2:
+        return 'C'
+      case 3:
+        return 'D'
+      case 4:
+        return 'E'
+      case 5:
+        return 'F'
+      case 6:
+        return 'G'
+      case 7:
+        return 'H'
+      case 8:
+        return 'I'
+      case 9:
+        return 'J'
+      case 10:
+        return 'K'
+      case 11:
+        return 'L'
+      default:
+        return ''
+    }
+  }
+
   render() {
 
     const {
@@ -93,17 +138,6 @@ class WalletSection extends Component {
       copyState,
     } = this.state;
 
-    const iconClass = (coinType) => {
-      switch(coinType) {
-        case 'icx':
-          return 'c_icon'
-        case 'eth':
-          return 'c_ethereum'
-        default:
-          return ''
-      }
-    }
-
     const wrapSelectClass = (showMenuIndex, index) => {
       if (showMenuIndex !== -1) {
         if (showMenuIndex === index) {
@@ -115,6 +149,44 @@ class WalletSection extends Component {
         return ''
       }
     }
+     
+    const myWalletBar = walletSectionData.data.map((barData, i) => (
+      <WalletBar
+        key={i}
+        index={i}
+        data={barData}
+        currency={currency}
+        isCoinView={isCoinView}
+        walletCoinType={walletCoinType || coinType}
+        openPopup={openPopup}
+        setPopupNum={setPopupNum}
+        setSelectedWallet={setSelectedWallet}
+        showAlert={showAlert}
+        getIcon={this.getIcon}
+        />
+    ))
+
+    const myWalletStakingBar = walletSectionData.data.map((barData, i) => (
+        <Fragment key={i}>
+          <WalletStakingBar
+          />
+          <WalletBar
+            index={i}
+            data={barData}
+            currency={currency}
+            isCoinView={isCoinView}
+            walletCoinType={walletCoinType || coinType}
+            openPopup={openPopup}
+            setPopupNum={setPopupNum}
+            setSelectedWallet={setSelectedWallet}
+            showAlert={showAlert}
+            getIcon={this.getIcon}
+          />
+        </Fragment>
+    ))
+
+    const isToken = !!walletCoinType
+    const icon = isCoinView && this.getIcon(isToken, coinType)
 
     return (
       <div 
@@ -131,18 +203,17 @@ class WalletSection extends Component {
             <thead>
               <tr>
                 <th className="a" colSpan="2">
-                  <em className={`${isExtended && iconClass(coinType)} ${COIN_IMAGE[coinType] && 'icon'}`}>
-                    {COIN_IMAGE[coinType] && (<img alt={coinType} src={COIN_IMAGE[coinType]} />)}
-                  </em>{walletSectionName}
+                  {icon}
+                  {walletSectionName}      
                   {!isCoinView && (<span><em className="token_num">{walletSectionData.data.length}</em></span>)}
-                  {!isCoinView && (
-                    <p className={copyState === COPY_STATE['on'] ? 'complete' : ''} onClick={this.handleCopy}>
-                      <span className={`copyKey${index}`}>{account}</span>
-                      {copyState === COPY_STATE['on'] ? (<em>{I18n.button.copyFinish}</em>) : (<em>{I18n.button.copyDepositAddress}</em>)}
-                    </p>
-                  )}
                 </th>
-                <th className={`b ${isCoinView ? 'coin' : ''}`}>
+                <th className="c" >
+                  {!isCoinView && (
+                      <p className={copyState === COPY_STATE['on'] ? 'complete' : ''} onClick={this.handleCopy}>
+                        {copyState === COPY_STATE['on'] ? (<em>{I18n.button.copyFinish}</em>) : (<em>{I18n.button.copyDepositAddress}</em>)}
+                        <span className={`copyKey${index}`}>{account}</span>
+                      </p>
+                    )}
                 </th>
                 {
                   isCoinView && (
@@ -152,38 +223,20 @@ class WalletSection extends Component {
                     </th>
                   )
                 }
-                {
-                  !isCoinView && (
-                    <th className="c">
-                       <span>
-                         {!!walletSectionBalanceWithRate && <i className="_img"></i>}
-                         <em>{convertNumberToText(walletSectionBalanceWithRate, currency, false)}</em>{'  '+ CURRENCY_UNIT[currency]}
-                       </span>
-                    </th>
-                  )
-                }
-                {/* <th className="d"></th> */}
                 <th className="e">{!isCoinView && (<span onClick={this.showMenuBar}><em className="_img"></em></span>)}</th>
               </tr>
+
             </thead>
             { isExtended && (
-              <tbody>
-                {
-                  walletSectionData.data.map((barData, i) => (
-                    <WalletBar
-                      key={i}
-                      data={barData}
-                      currency={currency}
-                      isCoinView={isCoinView}
-                      walletCoinType={walletCoinType || coinType}
-                      openPopup={openPopup}
-                      setPopupNum={setPopupNum}
-                      setSelectedWallet={setSelectedWallet}
-                      showAlert={showAlert}
-                      />
-                  ))
-                }
-              </tbody>
+              !isCoinView ?
+                <tbody>
+                  { coinType === 'icx' && <WalletStakingBar /> }
+                  { myWalletBar }
+                </tbody>
+              :
+                <tbody>
+                  { coinType === 'icx' ? myWalletStakingBar : myWalletBar }
+                </tbody>
             )}
           </table>
           {

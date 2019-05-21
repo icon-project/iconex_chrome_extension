@@ -80,12 +80,14 @@ class WalletBar extends Component {
   }
 
   render() {
-    const { currency, data, I18n } = this.props;
-    const { name, balanceLoading = false, isError, symbol, balance, totalResultLoading, balanceWithRate } = data;
+    const { currency, data, I18n, index, isCoinView, getIcon } = this.props;
+    const { name, balanceLoading = false, isError, symbol, balance, totalResultLoading, balanceWithRate, tokenId } = data;
 
     const nameText = checkLength(name) > 18 ? name.substring(0, 18) + '...' : name;
     const balanceText = convertNumberToText(balance, symbol, true);
     const isSwapAvailable = false;
+
+    const icon = !isCoinView && getIcon(!!tokenId, symbol)
 
     if (balanceLoading) {
       return (
@@ -98,22 +100,21 @@ class WalletBar extends Component {
     } else {
       return (
         <tr>
-          <td onClick={this.handleClick}>{nameText}</td>
+          <td onClick={this.handleClick}>
+            {icon} {nameText}
+          </td>
           <td onClick={this.handleClick}><em>{isError ? '-' : balanceText}</em><span>{symbol.toUpperCase()}</span></td>
           <td onClick={this.handleClick}>
             {!totalResultLoading ? (
-              <div>{balanceWithRate !== null && <i className="_img"></i>}<em>{balanceWithRate !== null ? convertNumberToText(balanceWithRate, currency, false) : "-"}</em><em>{CURRENCY_UNIT[currency]}</em></div>
+              <div>
+                <em>{balanceWithRate !== null ? convertNumberToText(balanceWithRate, currency, false) : "-"}</em><em>{CURRENCY_UNIT[currency]}</em>
+              </div>
             ) : (
               <div className="load">
                 <LoadingComponent type="black"/>
               </div>
             )}
           </td>
-          {/* {
-            recent.length > 0
-              ? (<td onClick={this.handleClick}>{I18n.myWalletBarRecentTransaction}<span>{moment(recent[0].time).format(DATE_FORMAT)}</span></td>)
-              : (<td className="no" onClick={this.handleClick}>{I18n.myWalletBarNoTransaction}</td>)
-          } */}
           <td>
             {isSwapAvailable && <button onClick={this.handleSwapClick} className="btn-type-exchange"><span>{I18n.button.swap}</span></button>}
             <button onClick={this.handleTransactionClick} className="btn-type-exchange"><span>{I18n.button.transfer}</span></button>

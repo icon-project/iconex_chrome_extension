@@ -34,6 +34,15 @@ class WalletSectionList extends Component {
     return dataArr;
   }
 
+  makeTokenArr = (data, isCoinView) => {
+    if(!isCoinView) {
+      return;
+    }
+    let tokenListArr = makeWalletArray(data['token']);
+    const tokenList = tokenListArr.map((token) => token.coinType)
+    return tokenList
+  }
+
   showMenuBar = (index) => {
     this.setState({
       showMenuIndex: index
@@ -74,10 +83,13 @@ class WalletSectionList extends Component {
       showAlertNoBalance, 
       showAlertNoSwapBalance, 
       showAlertNoSwapGasBalance, 
-      showAlertNoTxFeeBalance 
+      showAlertNoTxFeeBalance,
     } = this.state
 
     let dataArr = this.walletDataToArr(data, isCoinView);
+
+    // get a list of tokens
+    let tokenArray = this.makeTokenArr(data, isCoinView)
 
     return (
       <div>
@@ -91,6 +103,7 @@ class WalletSectionList extends Component {
                   closeMenuBar={this.closeMenuBar}
                   showAlert={this.showAlert}
                   walletSectionData={data}
+                  tokenArray={tokenArray}
                   {...this.props}
                 />
             ))

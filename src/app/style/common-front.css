@@ -309,3 +309,8 @@ div.popup-wrap.ledger p.txt_box.middle {
 .content-wrap .wrap-holder.exchange .quantity-holder .all {
   left: 638px;
 }
+
+/* WalletSection icon text position */
+.table-typeC tbody td:nth-child(1) i {
+  padding-top: 8px;
+}

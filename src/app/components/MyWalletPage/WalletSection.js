@@ -66,56 +66,47 @@ class WalletSection extends Component {
     })
   }
 
-  getColorNum = (index) => {
-    const colorNum = index % 12;
+  getIcon = (isToken, symbol) => {
+    const iconClass = isToken 
+      ? this.getIconColor(symbol[0].toUpperCase().charCodeAt(0))
+      : symbol === 'icx' ? '' : 'ethereum'
+    const iconInitial = isToken
+      ? symbol[0].toUpperCase()
+      : ''
+
+    return <i className={`_icon ${iconClass}`}>{iconInitial}</i>
+  }
+
+  getIconColor = (index) => {
+    const colorNum = Math.abs(index - 65) % 12;
     switch(colorNum) {
-      case 1:
-        return 'A'
-      case 2:
-        return 'B'
-      case 3:
-        return 'C'
-      case 4:
-        return 'D'
-      case 5:
-        return 'E'
-      case 6:
-        return 'F'
-      case 7:
-        return 'G'
-      case 8:
-        return 'H'
-      case 9:
-        return 'I'
-      case 10:
-        return 'J'
-      case 11:
-        return 'K'
       case 0:
+        return 'A'
+      case 1:
+        return 'B'
+      case 2:
+        return 'C'
+      case 3:
+        return 'D'
+      case 4:
+        return 'E'
+      case 5:
+        return 'F'
+      case 6:
+        return 'G'
+      case 7:
+        return 'H'
+      case 8:
+        return 'I'
+      case 9:
+        return 'J'
+      case 10:
+        return 'K'
+      case 11:
         return 'L'
       default:
         return ''
     }
-  }
-
-  getIconColor = (params) => {
-      // params === index or coinType
-      // if index, !isCoinView
-      if(typeof params === 'number') {
-        const index = params
-        // if Coin, ignore it
-        if(index === 0) {
-          return;
-        }
-        return this.getColorNum(index)
-      } else {
-        // if coinType, isCoinView
-        const { tokenArray } = this.props
-        const coinType = params
-        const tokenIndex = tokenArray.indexOf(coinType) + 1
-        return this.getColorNum(tokenIndex)
-      }
-    
   }
 
   render() {
@@ -147,17 +138,6 @@ class WalletSection extends Component {
       copyState,
     } = this.state;
 
-    const iconClass = (coinType) => {
-      switch(coinType) {
-        case 'icx':
-          return 'c_icon'
-        case 'eth':
-          return 'c_ethereum'
-        default:
-          return ''
-      }
-    }
-
     const wrapSelectClass = (showMenuIndex, index) => {
       if (showMenuIndex !== -1) {
         if (showMenuIndex === index) {
@@ -182,7 +162,7 @@ class WalletSection extends Component {
         setPopupNum={setPopupNum}
         setSelectedWallet={setSelectedWallet}
         showAlert={showAlert}
-        getIconColor={this.getIconColor}
+        getIcon={this.getIcon}
         />
     ))
 
@@ -200,12 +180,13 @@ class WalletSection extends Component {
             setPopupNum={setPopupNum}
             setSelectedWallet={setSelectedWallet}
             showAlert={showAlert}
-            getIconColor={this.getIconColor}
+            getIcon={this.getIcon}
           />
         </Fragment>
     ))
 
-    
+    const isToken = !!walletCoinType
+    const icon = isCoinView && this.getIcon(isToken, coinType)
 
     return (
       <div 
@@ -220,20 +201,12 @@ class WalletSection extends Component {
               <col />
             </colgroup>
             <thead>
-
               <tr>
                 <th className="a" colSpan="2">
-                  {/* <em className={`${isExtended && iconClass(coinType)} ${COIN_IMAGE[coinType] && 'icon'}`}>
-                    {COIN_IMAGE[coinType] && (<img alt={coinType} src={COIN_IMAGE[coinType]} />)}
-                  </em> */}
-                  {isCoinView && (<i className={`_icon ${coinType === 'icx' ? '' : coinType === 'eth' ?  'ethereum' : this.getIconColor(coinType)}`}>{coinType === 'icx' || coinType === 'eth'  ? '' : coinType[0]}</i>)}
-                  {walletSectionName}
-                  
+                  {icon}
+                  {walletSectionName}      
                   {!isCoinView && (<span><em className="token_num">{walletSectionData.data.length}</em></span>)}
                 </th>
-                {/* <th className={`b ${isCoinView ? 'coin' : ''}`}>
-                </th> */}
-                {/* <th class="c" ><p><em>Copy Address</em>hx1234567890123456789012345678901234567890</p></th> */}
                 <th className="c" >
                   {!isCoinView && (
                       <p className={copyState === COPY_STATE['on'] ? 'complete' : ''} onClick={this.handleCopy}>
@@ -250,31 +223,20 @@ class WalletSection extends Component {
                     </th>
                   )
                 }
-                {/* {
-                  !isCoinView && (
-                    <th className="c">
-                       <span>
-                         {!!walletSectionBalanceWithRate && <i className="_img"></i>}
-                         <em>{convertNumberToText(walletSectionBalanceWithRate, currency, false)}</em>{'  '+ CURRENCY_UNIT[currency]}
-                       </span>
-                    </th>
-                  )
-                } */}
-                {/* <th className="d"></th> */}
                 <th className="e">{!isCoinView && (<span onClick={this.showMenuBar}><em className="_img"></em></span>)}</th>
               </tr>
 
             </thead>
             { isExtended && (
               !isCoinView ?
-              <tbody>
-                { coinType === 'icx' && 
-                  <WalletStakingBar />
-                }
-                {myWalletBar}
-              </tbody>
+                <tbody>
+                  { coinType === 'icx' && <WalletStakingBar /> }
+                  { myWalletBar }
+                </tbody>
               :
-              <tbody>{coinType === 'icx' ? myWalletStakingBar : myWalletBar}</tbody>
+                <tbody>
+                  { coinType === 'icx' ? myWalletStakingBar : myWalletBar }
+                </tbody>
             )}
           </table>
           {

@@ -269,3 +269,8 @@ div.popup-wrap.ledger p.txt_box.middle {
 .en .content-wrap .main-holder .layer.left {
   left: auto;
 }
+
+/* WalletSection icon text position */
+.table-typeC tbody td:nth-child(1) i {
+  padding-top: 8px;
+}

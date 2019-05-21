@@ -79,18 +79,15 @@ class WalletBar extends Component {
     });
   }
 
-  getIconColor = (index) => {
-    const { getIconColor } = this.props;
-    return getIconColor(index)
-  }
-
   render() {
-    const { currency, data, I18n, index, isCoinView } = this.props;
-    const { name, balanceLoading = false, isError, symbol, balance, totalResultLoading, balanceWithRate } = data;
+    const { currency, data, I18n, index, isCoinView, getIcon } = this.props;
+    const { name, balanceLoading = false, isError, symbol, balance, totalResultLoading, balanceWithRate, tokenId } = data;
 
     const nameText = checkLength(name) > 18 ? name.substring(0, 18) + '...' : name;
     const balanceText = convertNumberToText(balance, symbol, true);
     const isSwapAvailable = false;
+
+    const icon = !isCoinView && getIcon(!!tokenId, symbol)
 
     if (balanceLoading) {
       return (
@@ -103,7 +100,9 @@ class WalletBar extends Component {
     } else {
       return (
         <tr>
-          <td onClick={this.handleClick}>{!isCoinView && <i className={`_icon ${name === 'ICON' ? '' : name === 'Ethereum' ?  'ethereum' : this.getIconColor(index)}`}>{name === 'ICON' ? '' : symbol[0]}</i>}{nameText}</td>
+          <td onClick={this.handleClick}>
+            {icon} {nameText}
+          </td>
           <td onClick={this.handleClick}><em>{isError ? '-' : balanceText}</em><span>{symbol.toUpperCase()}</span></td>
           <td onClick={this.handleClick}>
             {!totalResultLoading ? (
@@ -116,12 +115,6 @@ class WalletBar extends Component {
               </div>
             )}
           </td>
-
-          {/* {
-            recent.length > 0
-              ? (<td onClick={this.handleClick}>{I18n.myWalletBarRecentTransaction}<span>{moment(recent[0].time).format(DATE_FORMAT)}</span></td>)
-              : (<td className="no" onClick={this.handleClick}>{I18n.myWalletBarNoTransaction}</td>)
-          } */}
           <td>
             {isSwapAvailable && <button onClick={this.handleSwapClick} className="btn-type-exchange"><span>{I18n.button.swap}</span></button>}
             <button onClick={this.handleTransactionClick} className="btn-type-exchange"><span>{I18n.button.transfer}</span></button>

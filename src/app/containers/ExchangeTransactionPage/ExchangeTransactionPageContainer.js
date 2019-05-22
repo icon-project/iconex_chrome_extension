@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { ExchangeTransaction } from 'app/components/';
 import { fetchAll } from 'redux/actions/walletActions'
-import { setCoinQuantityError, setSwapCoinQuantityError, setRecipientAddressError, submitCall, resetEXTRPageReducer } from 'redux/actions/exchangeTransactionActions';
+import { setCoinQuantityError, setRecipientAddressError, submitCall, resetEXTRPageReducer } from 'redux/actions/exchangeTransactionActions';
 import {  openPopup, setPopupNum } from 'redux/actions/popupActions';
 import { withRouter } from 'react-router-dom'
 
@@ -21,7 +21,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setCoinQuantityError: () => dispatch(setCoinQuantityError()),
-    setSwapCoinQuantityError: () => dispatch(setSwapCoinQuantityError()),
     setRecipientAddressError: () => dispatch(setRecipientAddressError()),
     fetchAll: (wallets) => dispatch(fetchAll(wallets)),
     submitCall: (payload, options) => dispatch(submitCall(payload, options)),

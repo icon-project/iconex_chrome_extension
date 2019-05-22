@@ -35,13 +35,6 @@ class SendTransaction3 extends Component {
 
   closePopup = () => {
     switch(this.props.pageType) {
-      case 'swap': {
-        this.props.resetSignupReducer();
-        this.props.resetSelectedWallet();
-        this.props.closePopup();
-        this.props.logIn();
-        break;
-      }
       case 'contract':
       case 'transaction': {
         this.props.closePopup();
@@ -67,13 +60,6 @@ class SendTransaction3 extends Component {
   closePopupAfterTx = () => {
     const { funcResult, isLedger } = this.props;
     switch(this.props.pageType) {
-      case 'swap': {
-        this.props.resetInput();
-        this.props.resetSelectedWallet();
-        this.props.closePopup();
-        this.props.logIn();
-        break;
-      }
       case 'contract': {
         this.updateWallets();
         this.props.resetContractInputOutput();
@@ -102,14 +88,6 @@ class SendTransaction3 extends Component {
     const url = !isToken ? selectedAccount : selectedAccount + '_' + selectedTokenId
 
     switch(this.props.pageType) {
-      case 'swap': {
-        this.props.resetInput();
-        this.props.resetSelectedWallet();
-        this.props.closePopup();
-        this.props.logIn();
-        window.open(TXID_URL['eth'] + check0xPrefix(tx), '_blank');
-        break;
-      }
       case 'contract': {
         this.updateWallets();
         this.props.resetContractInputOutput();

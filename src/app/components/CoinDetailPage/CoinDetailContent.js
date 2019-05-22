@@ -15,8 +15,6 @@ const INIT_STATE = {
   balanceStyle: {},
 
   showAlertNoBalance: false,
-  showAlertNoSwapBalance: false,
-  showAlertNoSwapGasBalance: false
 }
 
 @withRouter
@@ -119,33 +117,6 @@ class CoinDetailContent extends Component {
     });
   }
 
-  handleSwapClick = (balance) => {
-    const { account, tokenId } = this.state;
-    const wallet = this.props.wallets[account];
-
-    if (balance.eq(0)) {
-      this.setState({
-        showAlertNoSwapBalance: true
-      });
-      return false;
-    }
-
-    if (wallet.balance.eq(0)) {
-      this.setState({
-        showAlertNoSwapGasBalance: true
-      });
-      return false;
-    }
-
-    this.props.setSelectedWallet({
-      account,
-      tokenId
-    })
-    this.props.openPopup({
-      popupType: 'swapToken'
-    });
-  }
-
   handleTransactionClick = (balance) => {
     const { account, tokenId } = this.state;
     const { history } = this.props;
@@ -170,8 +141,6 @@ class CoinDetailContent extends Component {
   closeAlert = () => {
     this.setState({
       showAlertNoBalance: false,
-      showAlertNoSwapBalance: false,
-      showAlertNoSwapGasBalance: false
     });
   }
 
@@ -217,8 +186,6 @@ class CoinDetailContent extends Component {
     const {
       isToken,
       showAlertNoBalance,
-      showAlertNoSwapBalance,
-      showAlertNoSwapGasBalance
     } = this.state;
 
     const {
@@ -229,8 +196,6 @@ class CoinDetailContent extends Component {
     } = this.props;
 
     const data = this.setData();
-    const isSwapAvailable = false
-
     return (
       <div>
         <div className={`title-holder ${data.coinType}`}>
@@ -279,7 +244,6 @@ class CoinDetailContent extends Component {
             }
             <div className="exchange-holder">
               {/* !data.balanceLoading && !isToken && (<button disabled={true} className="btn-type-exchange2"><span>{I18n.button.exchange}</span></button>) */}
-              {!data.balanceLoading && isSwapAvailable && (<button onClick={() => this.handleSwapClick(data.balance)} className="btn-type-exchange2"><span>{I18n.button.swap}</span></button>)}
               {!data.balanceLoading && (<button onClick={() => this.handleTransactionClick(data.balance)} className="btn-type-exchange2"><span>{I18n.button.transfer}</span></button>)}
             </div>
           </div>
@@ -313,24 +277,6 @@ class CoinDetailContent extends Component {
             <Alert
               handleCancel={this.closeAlert}
               text={I18n.error.alertNoBalance}
-              cancelText={I18n.button.confirm}
-            />
-          )
-        }
-        {
-          showAlertNoSwapBalance && (
-            <Alert
-              handleCancel={this.closeAlert}
-              text={I18n.error.alertNoSwapBalance}
-              cancelText={I18n.button.confirm}
-            />
-          )
-        }
-        {
-          showAlertNoSwapGasBalance && (
-            <Alert
-              handleCancel={this.closeAlert}
-              text={I18n.error.alertNoSwapGasBalance}
               cancelText={I18n.button.confirm}
             />
           )

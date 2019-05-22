@@ -23,7 +23,6 @@ const actionTypes = {
 
   // signupActions
   setWalletName: 'SET_WALLET_NAME',
-  checkSwapWalletExist: 'CHECK_SWAP_WALLET_EXIST',
   setCoinType: 'SET_COIN_TYPE',
   createWallet: 'CREATE_WALLET', // create one wallet
   createWalletFulfilled: 'CREATE_WALLET_FULFILLED',
@@ -47,10 +46,7 @@ const actionTypes = {
   setV3Object: 'SET_V3_OBJECT',
   resetInfo: 'RESET_INFO', // reset info. when move from CreateWallet_3 to CreateWallet_2
   resetSignupReducer: 'RESET_SIGNUP_REDUCER', // reset all data
-  setIcxSwapAddress: 'SET_ICX_SWAP_ADDRESS',
-  setPrivKeyForSwap: 'SET_PRIV_KEY_FOR_SWAP',
   setAddress: 'SET_ADDRESS',
-  setWalletNameAndPasswordForSwap: 'SET_WALLET_NAME_AND_PASSWORD_FOR_SWAP',
   fetchAll: 'FETCH_ALL', // fetch balance, token data from blockchain network
   getWallet: 'GET_WALLET', // fetch wallet data from storage
   getWalletLoading: 'GET_WALLET_LOADING',
@@ -130,7 +126,6 @@ const actionTypes = {
   setCalcData: 'SET_CALC_DATA',
   setWalletSelectorError: 'SET_WALLET_SELECTOR_ERROR',
   setCoinQuantityError: 'SEND_COIN_QUANTITY_ERROR',
-  setSwapCoinQuantityError: 'SET_SWAP_COIN_QUANTITY_ERROR',
   setRecipientAddressError: 'SEND_RECIPIENT_ADDRESS_ERROR',
   setDataError: 'SEND_DATA_ERROR',
   setTxFeeLimitError: 'SET_TX_FEE_LIMIT_ERROR',

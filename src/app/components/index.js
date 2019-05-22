@@ -110,15 +110,6 @@ import NewPasscodeInput from './Popup/_24_changePasscode/NewPasscodeInput'
 
 import ImmunityPopup from './Popup/_25_immunityPopup/ImmunityPopup'
 
-import SwapToken from './Popup/_26_swapToken/SwapToken'
-import SwapToken0 from './Popup/_26_swapToken/SwapToken_0'
-import SwapToken1 from './Popup/_26_swapToken/SwapToken_1'
-import SwapToken2 from './Popup/_26_swapToken/SwapToken_2'
-import SwapToken3 from './Popup/_26_swapToken/SwapToken_3'
-import SwapToken4 from './Popup/_26_swapToken/SwapToken_4'
-import SwapToken5 from './Popup/_26_swapToken/SwapToken_5'
-import SwapToken6 from './Popup/_26_swapToken/SwapToken_6'
-
 import ConnectLedger from './Popup/_27_connectLedger/ConnectLedger'
 
 
@@ -156,14 +147,6 @@ export {
   ImportWallet3,
   ImportWallet4,
   ImportWallet5,
-  SwapToken,
-  SwapToken0,
-  SwapToken1,
-  SwapToken2,
-  SwapToken3,
-  SwapToken4,
-  SwapToken5,
-  SwapToken6,
   ConnectLedger,
 
   // *** MY WALLET PAGE *** //

@@ -24,7 +24,6 @@ export default {
     recentTransactionAddress: '최근 거래 주소',
     exchange: '환전',
     transfer: '송금',
-    swap: '스왑',
     copyPrivateKey: '개인 키 복사',
     tokenInfo: '토큰 정보 입력',
     select: '선택',
@@ -57,8 +56,6 @@ export default {
     alertWalletFirst: '지갑 선택을 먼저 해주세요.',
     alertExchange: '환전 기능은 개발 중입니다.',
     alertNoBalance: '코인 보유량이 없습니다.<br/>입금 후 송금해주세요.',
-    alertNoSwapBalance: '스왑 가능한 ICX 토큰이 없습니다.',
-    alertNoSwapGasBalance: '스왑 수수료 지불을 위한 ETH 잔액이 없습니다. 입금 후 진행해 주세요.',
     alertNoTxFeeBalance: (walletCoinType) => `${walletCoinType.toUpperCase()} 계좌 잔액이 부족하여 토큰을 송금할 수 없습니다.`,
     alertBalanceRemove: '코인 보유량이 없는 경우에만 삭제할 수 있습니다.',
     alertDownloadAfterBackup: '지갑 백업 파일(Keystore 파일) 다운로드 후 다음 버튼을 클릭해주세요.',
@@ -602,9 +599,6 @@ export default {
     internetFailure: '송금이 취소되었습니다.<br/>인터넷 연결이 해제되어 있습니다.',
     tokenGasFailure: '이더리움 계좌 잔액이 부족하여<br/>토큰을 송금할 수 없습니다.',
 
-    swapSuccess: '스왑 요청이 완료되었습니다.<br/>ICX 지급 날짜 및 시각은 상황에 따라<br/>달라질 수 있으므로 아래 안내를 확인해 주세요.',
-    swapQuantity: '스왑 수량',
-
     confirmData: '실행할 정보를 한번 더 확인해주세요.',
     maximumFee: '예상 최대 수수료',
     sendQuantity: '송금할 ICX 수량',
@@ -626,105 +620,6 @@ export default {
     walletAddress: '지갑 주소',
     connectWallet: '연결된 Ledger Wallet',
     manualFileName: 'Guide_to_use_Ledger_Wallet_on_ICONex_Ledger_kr'
-  },
-
-  swapToken: {
-    title15: '토큰 스왑 안내',
-    title: '토큰 스왑 지갑 만들기',
-
-    step1_0: '스왑 안내\n1/2',
-    step1: '스왑 안내\n2/2',
-    step1_1: '스왑 안내',
-    step2: '정보 입력',
-    step3: 'Keystore 파일\n다운로드',
-    step4: '개인 키\n저장',
-    step5: '스왑 요청',
-
-    cancelWalletAndSwap: '지갑 생성 및 토큰 스왑을 취소하시겠습니까?',
-    cancelSwap: '토큰 스왑을 취소하시겠습니까?<br/>다음에 다시 스왑 버튼을 눌러 나머지 절차를<br/>진행하실 수 있습니다.',
-
-    leftInfoTitle1_1: '현재 이더리움 네트워크 상에 있는 ICX ERC20 토큰들을 ICON의 메인넷으로 스왑할 수 있습니다.',
-    leftInfoDesc1_1: '· 새 ICX 코인 지갑 생성 후 토큰 스왑이 진행됩니다.',
-    leftInfoDesc1_1_1: '· 이전에 스왑용으로 생성한 ICX 지갑이 있습니다. ',
-    leftInfoDesc1_1_2: '(으)로 토큰 스왑이 진행됩니다.',
-    rightHeaderDesc1: '주의 사항을 확인해주세요.',
-    rightHeaderDesc1_1: '주의 사항을 확인해주세요.',
-
-    rightInfoTitle1_1: '토큰 스왑용 ICX 지갑 생성',
-    rightInfoDesc1_1_1: '· 안내를 따라 진행하시면 <b>토큰 스왑용 ICX 지갑이 새로 만들어집니다.</b> (스왑용 지갑의 개인 키는 기존 이더리움 지갑의 개인 키와 동일)',
-    rightInfoDesc1_1_2: '· 지갑의 이름은 토큰 스왑을 위해 생성한 지갑임을 명확하게 알 수 있도록 설정해 주세요.',
-
-    rightInfoTitle1_1_1: '스왑 절차 완료 후 주의 사항',
-    rightInfoDesc1_1_1_1: '· 사용자는 스왑할 ERC20 토큰의 양을 직접 설정할 수 있으며, <b>스왑이 완료된 이후에는 어떠한 경우에도 다시 원상태로 복구할 수 없습니다.</b>',
-    rightInfoDesc1_1_2_1: '· 스왑 요청 후, ICX는 정해진 시각에 자동 지급됩니다. 지급 날짜 및 시각은 상황에 따라 달라질 수 있으므로 아래 링크를 통해 확인해 주세요.',
-    rightInfoDesc1_1_3_1: 'ICX 토큰 스왑 FAQ',
-    rightInfoDesc1_1_4_1: '· ICONex에서 스왑이 완료된 ICX 코인이라도 ICX 코인 지갑을 지원하지 않는 거래소로 송금할 수 없습니다. 거래소로 송금을 원하실 경우, 해당 거래소 지갑이 ICX ERC20 토큰 지갑인지, ICX 코인을 지원하는지 미리 확인해 주세요.',
-
-    rightInfoTitle1_3: '마이이더월렛 또는 거래소 지갑에 토큰 보유 시',
-    rightInfoDesc1_3_1: '· 마이이더월렛 등 개인 지갑에 토큰을 보유하신 경우, Keystore 파일 또는 개인 키로 해당 지갑을 가져오면 자동으로 ICX 토큰이 추가되며 스왑 버튼이 생성됩니다.',
-    rightInfoDesc1_3_2: '[매뉴얼] ICONex ETH 지갑 생성 (다운로드)',
-    rightInfoDesc1_3_3: '· 거래소에 보유한 토큰의 스왑은 거래소 상에서 별도의 절차 없이 진행됩니다. 거래소 지갑의 토큰을 스왑 목적으로 송금하는 일이 없도록 각별히 유의하시기 바랍니다.',
-
-    checkInfo: '주의사항을 확인했습니다.',
-    checkCaution: '주의사항을 확인했습니다.',
-
-    leftInfoTitle2_1: '비밀번호는 강력하고 본인이 확실하게 기억할 수 있는 비밀번호로 설정하세요.',
-    leftInfoTitle2_2: '비밀번호의 백업 및 관리는 전적으로 개인의 책임이며, 분실 시 어떤 방법으로도 복구될 수 없습니다.',
-    leftInfoDesc2_1: '· 모바일이나 다른 PC로 지갑을 옮기는 경우 개인키를 입력하거나, 지갑 백업 파일(Keystore 파일)과 함께 비밀번호를 입력해야 합니다.',
-    rightHeaderDesc2: '새 지갑의 이름과 비밀번호를 입력해주세요.',
-
-    leftInfoTitle3_1: '지갑 백업파일(Keystore 파일)은 개인 키를 암호화하여 저장한 파일이며, 사용을 위해서는 지정한 지갑 비밀번호를 입력해야 합니다.',
-    leftInfoDesc3_1: '· 지갑이 삭제된 경우나 다른 PC 사용 시, Keystore 파일을 가져와서 지갑을 실행할 수 있습니다.',
-    leftInfoDesc3_2: '· 지갑 백업파일(Keystore 파일)은 비밀번호만 알면 지갑을 실행할 수 있는 중요한 정보이므로, 다른 사람에게 노출되지 않도록 안전하게 보관해야 합니다.',
-    leftInfoDesc3_3: '· 안전한 저장 장소가 준비되지 않은 경우 지금 바로 다운로드 하지 않아도 되며, 다음에 ‘지갑 백업’ 메뉴에서 다운로드할 수 있습니다.',
-    rightHeaderDesc3: '지갑 백업 파일을 안전하게 보관하세요.',
-
-    leftInfoTitle4_1: '개인 키는 지갑을 직접 실행할 수 있는 고유 정보입니다. 프린트하거나 적어 두고 보관할 수 있습니다.',
-    leftInfoDesc4_1: '· 개인 키만 보유하면 지갑 실행 및 송금이 가능하니, 누구에게도 노출되지 않도록 각별한 관리가 필요합니다.',
-    leftInfoDesc4_2: '· 지금 즉시 복사 또는 프린트하지 않더라도 ‘지갑 백업’ 메뉴를 선택해 다시 진행할 수 있습니다.',
-    rightHeaderDesc4: '종이 지갑을 프린트하거나 개인 키를 적어두세요.',
-
-    leftInfoTitle5_1: '스왑할 수량을 입력하고 스왑 요청을 완료해주세요.',
-    leftInfoDesc5_1: '· 스왑이 완료된 이후에는 어떠한 경우에도 다시 원상태로 복구할 수 없습니다.',
-
-    alertCompleteInfo: '토큰 스왑용 지갑 만들기가 완료되었습니다.<br/>거래소에서 ICX 코인 지원이 준비되면 바로<br/>완전한 토큰 스왑 기능이 활성화됩니다.',
-    alertSameWallet1: '토큰 스왑용 ICX 지갑이 이미 있습니다.<br/>지갑명:',
-    alertSameWallet2: '<br/>거래소에서 ICX 코인 지원이 준비되면 바로<br/>완전한 토큰 스왑 기능이 활성화됩니다.',
-
-    titleRequestTokenSwap: '토큰 스왑 요청',
-
-    swapQuantity: '스왑할 토큰 수량',
-    inputPlaceholder: '토큰 수량 입력',
-    allCheckBtn: '전액',
-    gasLimit: '적정 가스 한도',
-    gasPrice: '적정 가스 가격',
-    expectedMaximumFee: '예상 최대 수수료',
-    expectedBalacne: '스왑 후 예상 잔액',
-    gasInfo: '· 적정 가스 한도 및 가격은 토큰 스왑에 적합하도록 계산하여 설정된 값입니다.',
-    erc20AddressLabel: '토큰 스왑 주소',
-    erc20AddressInfo1: '· ICON의 ERC20 토큰 스왑 전용 주소이며, 자동으로 입력됩니다.',
-    erc20AddressInfo2: '· ICON 공식 채널에 해당 스왑 주소가 안내되어 있으니, 안전을 위해 입력된 스왑 주소가 정확한지 대조해 주시길 바랍니다.',
-    icxAddressLabel: 'ICX 코인 받는 주소',
-    icxAddressInfo1: '· 새로 생성된 ICX 지갑의 주소입니다.',
-    icxAddressInfo2: '· "토큰 스왑 주소"에 스왑할 토큰을 송금한 후, "ICX 코인 받는 주소"로 ICX가 정해진 시각에 자동 지급됩니다.',
-
-    swapInfoTitle: '토큰 스왑 요청',
-    swapInfoDesc: '토큰 스왑을 위한 ICX 지갑을 만드세요.',
-
-    swapInfoCaution: "[주의!] 거래소의 ‘ICX 코인’ 지원 일정으로 인하여 ICONex에서 토큰 스왑용 ICX 지갑 생성까지만 지원하며, 스왑 요청 기능은 일시적으로 비활성화 됩니다.",
-    swapInfoCautionDesc1: "· ICX가 상장된 거래소들에서는 현재 ICX ERC20 토큰(이하 ‘ICX 토큰’)이 거래되고 있습니다. 토큰 스왑을 완료할 경우, 해당 거래소들에서는 ICX 코인의 송금 및 거래가 불가합니다.",
-    swapInfoCautionDesc2: "· 사용자들의 금전적 손실 방지 및 원활한 거래를 위하여, 거래소에서 ICX 코인 지원이 준비되면 바로 완전한 토큰 스왑 기능이 활성화됩니다.",
-
-    swapInfoExchange: '현재 거래소들과 협의하여 ‘ICX 코인’ 송금 및 거래 지원을 준비하고 있으며, 빠른 시일 내에 가능하도록 최선을 다하겠습니다.',
-    tableExchange: '거래소',
-    tableIcxToken: 'ICX 토큰',
-    tableIcxCoin: 'ICX 코인',
-    tableReady: '준비 중',
-
-    swapProceed: '토큰 스왑용 ICX 지갑을 지금 만드시겠습니까?',
-    walletFinish: '지갑 만들기 완료',
-
-    manualFileName: '[Manual]_How_to_create_ICONex_ETH_wallet_kr',
   },
 
   completeTransaction: {

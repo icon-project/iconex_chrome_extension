@@ -54,38 +54,12 @@ class WalletBar extends Component {
     });
   }
 
-  handleSwapClick = () => {
-    const { data } = this.props;
-    const { tokenId, balance, walletBalance, account, isError } = data;
-
-    if (!isError) {
-      if (balance.eq(0)) {
-        this.props.showAlert('showAlertNoSwapBalance')
-        return false;
-      }
-
-      if (walletBalance.eq(0)) {
-        this.props.showAlert('showAlertNoSwapGasBalance')
-        return false;
-      }
-    }
-
-    this.props.setSelectedWallet({
-      account,
-      tokenId
-    })
-    this.props.openPopup({
-      popupType: 'swapToken'
-    });
-  }
-
   render() {
     const { currency, data, I18n, index, isCoinView, getIcon } = this.props;
     const { name, balanceLoading = false, isError, symbol, balance, totalResultLoading, balanceWithRate, tokenId } = data;
 
     const nameText = checkLength(name) > 18 ? name.substring(0, 18) + '...' : name;
     const balanceText = convertNumberToText(balance, symbol, true);
-    const isSwapAvailable = false;
 
     const icon = !isCoinView && getIcon(!!tokenId, symbol)
 
@@ -116,7 +90,6 @@ class WalletBar extends Component {
             )}
           </td>
           <td>
-            {isSwapAvailable && <button onClick={this.handleSwapClick} className="btn-type-exchange"><span>{I18n.button.swap}</span></button>}
             <button onClick={this.handleTransactionClick} className="btn-type-exchange"><span>{I18n.button.transfer}</span></button>
           </td>
         </tr>

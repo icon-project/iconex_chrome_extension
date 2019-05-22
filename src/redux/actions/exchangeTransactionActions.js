@@ -86,12 +86,6 @@ export function setCoinQuantityError() {
   };
 }
 
-export function setSwapCoinQuantityError() {
-  return {
-    type: actionTypes.setSwapCoinQuantityError
-  };
-}
-
 export function toggleFullBalance(payload) {
   return {
     type: actionTypes.toggleFullBalance,

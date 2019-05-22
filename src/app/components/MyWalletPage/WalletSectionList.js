@@ -7,8 +7,6 @@ const INIT_STATE = {
   showMenuIndex: -1,
 
   showAlertNoBalance: false,
-  showAlertNoSwapBalance: false,
-  showAlertNoSwapGasBalance: false,
   showAlertNoTxFeeBalance: false
 }
 
@@ -64,8 +62,6 @@ class WalletSectionList extends Component {
   closeAlert = () => {
     this.setState({
       showAlertNoBalance: false,
-      showAlertNoSwapBalance: false,
-      showAlertNoSwapGasBalance: false,
       showAlertNoTxFeeBalance: false
     })
   }
@@ -81,8 +77,6 @@ class WalletSectionList extends Component {
       showMenuIndex,
 
       showAlertNoBalance, 
-      showAlertNoSwapBalance, 
-      showAlertNoSwapGasBalance, 
       showAlertNoTxFeeBalance,
     } = this.state
 
@@ -113,24 +107,6 @@ class WalletSectionList extends Component {
             <Alert
               handleCancel={this.closeAlert}
               text={I18n.error.alertNoBalance}
-              cancelText={I18n.button.confirm}
-            />
-          )
-        }
-        {
-          showAlertNoSwapBalance && (
-            <Alert
-              handleCancel={this.closeAlert}
-              text={I18n.error.alertNoSwapBalance}
-              cancelText={I18n.button.confirm}
-            />
-          )
-        }
-        {
-          showAlertNoSwapGasBalance && (
-            <Alert
-              handleCancel={this.closeAlert}
-              text={I18n.error.alertNoSwapGasBalance}
               cancelText={I18n.button.confirm}
             />
           )

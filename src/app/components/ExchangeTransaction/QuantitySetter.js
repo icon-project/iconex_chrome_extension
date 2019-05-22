@@ -35,11 +35,7 @@ class QuantitySetter extends Component {
 
   handleInputBlur = () => {
     this.props.setCoinQuantity(trimLeftZero(this.props.coinQuantity), false);
-    if (this.props.swapPage) {
-      this.props.setSwapCoinQuantityError();
-    } else {
-      this.props.setCoinQuantityError();
-    }
+    this.props.setCoinQuantityError();
   }
 
   toggleCheckBox = (balance) => {
@@ -94,7 +90,6 @@ class QuantitySetter extends Component {
       selectedAccount,
       isLoggedIn,
       I18n,
-      swapPage,
       isFullBalance,
       isContractPage,
       isLedger
@@ -124,12 +119,12 @@ class QuantitySetter extends Component {
 
     return (
       <div className="group">
-        <span className="label">{swapPage ? I18n.swapToken.swapQuantity : I18n.transferPageLabel1}</span>
+        <span className="label">{I18n.transferPageLabel1}</span>
         <div className="won-group">
           <input
             type="text"
             className={`txt-type-normal ${coinQuantityError && 'error'}`}
-            placeholder={swapPage ? I18n.swapToken.inputPlaceholder : I18n.transferPagePlaceholder1}
+            placeholder={I18n.transferPagePlaceholder1}
             disabled={!isLoggedIn}
             value={coinQuantity || ''}
             onChange={this.handleInputChange}

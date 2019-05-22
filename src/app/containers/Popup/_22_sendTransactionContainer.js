@@ -30,8 +30,6 @@ function mapStateToProps(state) {
     sendTransactionError: state.exchangeTransaction.error,
     contractError: state.contract.error,
     language: state.global.language,
-    icxSwapAddress: state.signup.icxSwapAddress,
-    swapWalletName: state.signup.walletName,
 
     funcList: state.contract.funcList,
     selectedFuncIndex: state.contract.selectedFuncIndex,

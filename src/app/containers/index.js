@@ -33,7 +33,6 @@ import LockContainer from './Lock/LockContainer'
 import ChangePasscodeContainer from './Popup/_24_changePasscodeContainer'
 import FooterContainer from './Footer/FooterContainer'
 import ImmunityPopupContainer from './Popup/_25_immunityPopupContainer'
-import SwapTokenContainer from './Popup/_26_swapTokenContainer'
 import ContractListContainer from './Popup/_27_contractListContainer'
 import ConnectLedgerContainer from './Popup/_27_connectLedgerContainer'
 import RouteContainer from './Route/RouteContainer'
@@ -75,7 +74,6 @@ export {
   ChangePasscodeContainer,
   FooterContainer,
   ImmunityPopupContainer,
-  SwapTokenContainer,
   ConnectLedgerContainer,
   RouteContainer,
   TimerContainer,

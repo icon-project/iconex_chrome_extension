@@ -17,7 +17,6 @@ import {
   UnlockPopupContainer,
   ChangePasscodeContainer,
   ImmunityPopupContainer,
-  SwapTokenContainer,
   ContractListContainer,
   ConnectLedgerContainer
 } from 'app/containers/';
@@ -108,8 +107,6 @@ class Popup extends Component {
         case 'sendTransaction_exchange':
         case 'sendTransaction_transaction':
           return <SendTransactionContainer type={type} pageType={'transaction'}/>
-        case 'sendTransaction_swap':
-          return <SendTransactionContainer type={type} pageType={'swap'}/>
         case 'sendTransaction_contract':
           return <SendTransactionContainer type={type} pageType={'contract'}/>
         case 'changePasscode':
@@ -118,8 +115,6 @@ class Popup extends Component {
           return <UnlockPopupContainer />
         case 'immunityPopup':
           return <ImmunityPopupContainer />
-        case 'swapToken':
-          return <SwapTokenContainer />
         case 'contractList':
           return <ContractListContainer type={type}/>
         case 'connectLedger':

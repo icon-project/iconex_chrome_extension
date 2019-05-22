@@ -97,11 +97,23 @@ export const tokenList = {
     name: 'AC3',
     symbol: 'AC3'
   },
+  'IGA': {
+    address: 'cx81fe20ac9a8ed7387b8d17be878c1d0ccb01aabf',
+    decimals: 18,
+    name: 'IconGameAlliance',
+    symbol: 'IGA'
+  },
   'MCA': {
     address: 'cxf9148db4f8ec78823a50cb06c4fed83660af38d0',
     decimals: 0,
     name: 'MECA Coin',
     symbol: 'MCA'
+  },
+  'PNP': {
+    address: 'cx2137642d0bf1926fbe23a3688d042a0f34bc2b9a',
+    decimals: 18,
+    name: 'LogisticsX',
+    symbol: 'PNP'
   },
   'SPORT': {
     address: 'cx3ec2814520c0096715159b8fc55fa1f385be038c',
@@ -109,11 +121,29 @@ export const tokenList = {
     name: 'SportToken',
     symbol: 'SPORT'
   },
+  'SSX': {
+    address: 'cx429731644462ebcfd22185df38727273f16f9b87',
+    decimals: 18,
+    name: 'Somesing Exchange',
+    symbol: 'SSX'
+  },
   'VCX': {
     address: 'cxbc264e6279ec971f11ebe3939fc88d05b243eba7',
     decimals: 18,
     name: 'VELICX',
     symbol: 'VCX'
+  },
+  'VELA': {
+    address: 'cxefaa21e34a3a1abf97369b5beef84524f52d88a8',
+    decimals: 8,
+    name: 'Velic Authority',
+    symbol: 'VELA'
+  },
+  'VELT': {
+    address: 'cx19a23e850bf736387cd90d0b6e88ce9af76a8d41',
+    decimals: 8,
+    name: 'Velic Token',
+    symbol: 'VELT'
   },
   'WOK': {
     address: 'cx921205acb7c51e16d5b7cbc37539a4357d929d20',

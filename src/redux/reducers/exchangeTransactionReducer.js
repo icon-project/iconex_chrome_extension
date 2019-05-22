@@ -1,5 +1,5 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
-import { isAddress, isEmpty, dataToHex, getHexByteLength, isIcxWalletAddress, checkLength, isIcxContractAddress, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
+import { isAddress, isEmpty, dataToHex, isIcxWalletAddress, checkLength, isIcxContractAddress, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
 import { store } from 'redux/store/store';
 import { IS_V3 } from 'constants/config.js'
 //import { coinRound as ROUND } from 'constants/index';
@@ -108,7 +108,7 @@ export function validateRecipientAddressError(state) {
 
 export function validateMessageError(state) {
   let error = '';
-  if (getHexByteLength(checkLength(dataToHex(state.data))) > (250 * 1024)) {
+  if (checkLength(JSON.stringify(dataToHex(state.data))) > (500 * 1024)) {
     error = 'dataOverLimit'
   } else {
     error = ''
@@ -120,7 +120,7 @@ export function validateDataError(state) {
   let error = '';
   if (!isHex(state.data)) {
     error = 'checkData'
-  } else if (getHexByteLength(checkLength(state.data)) > (250 * 1024)) {
+  } else if (checkLength(JSON.stringify(state.data)) > (500 * 1024)) {
     error = 'dataOverLimit'
   } else {
     error = ''

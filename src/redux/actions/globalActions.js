@@ -27,6 +27,12 @@ export function setShowNotice() {
   }
 }
 
+export function setShowPrepNotice() {
+  return {
+    type: actionTypes.setShowPrepNotice
+  }
+}
+
 export function setScrollToNewWallet(payload) {
   return {
     type: actionTypes.setScrollToNewWallet,

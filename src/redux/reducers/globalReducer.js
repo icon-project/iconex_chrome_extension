@@ -4,6 +4,7 @@ const initialState = {
   language: 'en',
   passcodeHash: '',
   showNotice: true,
+  showPrepNotice: true,
   message: {
     scrollToNewWallet: false,
     showChangePasscodePopup: false,
@@ -43,6 +44,10 @@ export function globalReducer(state = initialState, action) {
     case actionTypes.setShowNotice:
       return Object.assign({}, state, {
         showNotice: !state.showNotice
+      })
+    case actionTypes.setShowPrepNotice:
+      return Object.assign({}, state, {
+        showPrepNotice: !state.showPrepNotice
       })
 
     default:

@@ -1,4 +1,5 @@
 import Notice from './Notice/Notice'
+import PrepNotice from './Notice/PrepNotice'
 import Header from './Header/Header'
 import Footer from './Footer/Footer'
 import LoadingComponent from './Common/LoadingComponent'
@@ -123,6 +124,7 @@ import ConnectLedger from './Popup/_27_connectLedger/ConnectLedger'
 
 export {
   Notice,
+  PrepNotice,
   Header,
   Footer,
   Popup,

@@ -253,6 +253,8 @@ export default {
   noticeDesc2: 'You can back up your wallet from the wallet menu.',
   noticeNotAgain: 'Do not show this again.',
 
+  prepNoticeNotShow: 'Do not show 7 days',
+
   myPageExportDesc: 'Select the wallets to bundle. Passwords are required.',
   myPageExportCaution: '· [CAUTION] If you back up your wallets using the ‘Wallet bundle’ function, the password of each wallet will be changed into the bundle wallet password.',
   myPageExportSelectedWallets: 'Wallets',

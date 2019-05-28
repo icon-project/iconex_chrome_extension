@@ -8,7 +8,7 @@ import {
   HomeContainer,
   LockContainer,
 } from 'app/containers';
-import { Notice } from 'app/components';
+import { Notice, PrepNotice } from 'app/components';
 import MyWalletPage from 'app/pages/MyWalletPage';
 import ExchangePage from 'app/pages/ExchangePage';
 import TransactionPage from 'app/pages/TransactionPage';
@@ -40,7 +40,8 @@ class Routes extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      showNotice: this.props.showNotice
+      showNotice: this.props.showNotice,
+      showPrepNotice: this.props.showPrepNotice,
     }
     this.tabId = ''
     this.mounted = false;
@@ -122,15 +123,21 @@ class Routes extends Component {
     this.setState({showNotice: !this.state.showNotice})
   }
 
+  togglePrepNotice = () => {
+    this.setState({showPrepNotice: !this.state.showPrepNotice})
+  }
+
   render() {
     const { initLoading, isLoggedIn, isLocked, isLedger, language } = this.props;
     const isShowNotice = isLoggedIn && this.state.showNotice
+    const isShowPrepNotice = isLoggedIn && this.state.showPrepNotice
+
     return (
       <div>
       {
         !initLoading && (
           <HashRouter>
-            <div>
+            <div className={isShowPrepNotice ? 'isBanner' : ''}>
               <div className={`wrap
                   ${language}
                   ${isShowNotice ? 'notice' : ''}`}>
@@ -145,6 +152,7 @@ class Routes extends Component {
                 <PrivateRoute path={ROUTE['mypage']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={MyPage} />
               </div>
               <FooterContainer />
+              {isShowPrepNotice && <PrepNotice togglePrepNotice={this.togglePrepNotice} {...this.props}/>}
               <div>
                 {!isLoggedIn && !isLedger && (<HomeContainer />)}
                 {isLocked && (<LockContainer />)}

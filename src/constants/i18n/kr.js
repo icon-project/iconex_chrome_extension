@@ -253,6 +253,8 @@ export default {
   noticeDesc2: '백업은 각 지갑의 메뉴에서 진행할 수 있습니다.',
   noticeNotAgain: '다시 보지 않기.',
 
+  prepNoticeNotShow: '7일 동안 보지 않기',
+
   myPageExportDesc: '· 묶어서 백업할 지갑들을 선택해주세요. 지갑마다 비밀번호 확인이 필요합니다.',
   myPageExportCaution: '· [주의] 묶어서 내보낼 때, 기존 지갑들의 비밀번호는 묶음 지갑의 비밀번호로 바뀝니다.',
   myPageExportSelectedWallets: '개',

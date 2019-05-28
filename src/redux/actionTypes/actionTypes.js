@@ -20,6 +20,7 @@ const actionTypes = {
   setLockRejected: 'SET_LOCK_REJECTED',
   changePasscodeHash: 'CHANGE_PASSCODE_HASH',
   setShowNotice: 'SET_SHOW_NOTICE',
+  setShowPrepNotice: 'SET_SHOW_PREP_NOTICE',
 
   // signupActions
   setWalletName: 'SET_WALLET_NAME',

@@ -319,7 +319,7 @@ const TableBodyBar = ({ I18n, index, wallets, type, item, selectedTokenId, setAd
     return (
       <tr>
         <td>{name}</td>
-        <td>{convertNumberToText(number, unit, true)}<span>{unit.toUpperCase()}</span></td>
+        <td>{convertNumberToText(number, unit, true)} <span>{unit.toUpperCase()}</span></td>
         <td><span className="ellipsis">{account}</span></td>
         <td><button className="btn-type-choice" onClick={()=>{setAddress(account)}}><span>{I18n.button.select}</span></button></td>
       </tr>

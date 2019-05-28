@@ -247,7 +247,7 @@ class SendTransaction3 extends Component {
       )
     } else {
       return (
-        <div className="popup-wrap home">
+        <div className="popup-wrap ledger">
           <SmallPopup
             handleCancel={this.closePopup}
             text={this.getErrorText()}

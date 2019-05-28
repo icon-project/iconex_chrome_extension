@@ -309,3 +309,7 @@ div.popup-wrap.ledger p.txt_box.middle {
 .content-wrap .wrap-holder.exchange .quantity-holder .all {
   left: 638px;
 }
+
+.table-typeA.my tbody .ellipsis {
+  padding-top: 5px;
+}

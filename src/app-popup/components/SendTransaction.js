@@ -233,7 +233,7 @@ class SendTransaction extends Component {
 		const balanceUsd = balanceIcx * icxRate
 
 		const currentServer = getCurrentServer('icx')
-
+		const timeLabel = (t) => t % 60 === 0 ? `${t / 60} hour${t !== 60 ? 's' : ''}` : `${t} minutes`
 		return (
 			<div className="wrap remittance">
 				<div className="tab-holder on">
@@ -315,15 +315,14 @@ class SendTransaction extends Component {
 						}
 						<div className="signing-holder">
 							<span className="name">Enable auto signing</span>
-							<div className="layer-group" onClick={this.toggleList}>{time === 0 ? 'Don’t automatically sign' : time + ' minutes'}<i className="_img"></i>
+							<div className="layer-group" onClick={this.toggleList}>{time === 0 ? 'Don’t automatically sign' : timeLabel(time)}<i className="_img"></i>
 							{
 								showTimeList &&
 								<div className="drop-box">
 									<div className="drop-layer">
 										<ul>
 											{timeList.map((t, i) => {
-												const timeLabel = t % 60 === 0 ? `${t / 60} hour${t !== 60 ? 's' : ''}` : `${t} minutes`
-												return <li key={i} className={timeList[i] === time ? 'on' : ''} onClick={() => {this.setTime(t)}}><span>{t === 0 ? 'Don’t automatically sign' : timeLabel}</span></li>
+												return <li key={i} className={timeList[i] === time ? 'on' : ''} onClick={() => {this.setTime(t)}}><span>{t === 0 ? 'Don’t automatically sign' : timeLabel(t)}</span></li>
 											})}
 										</ul>
 									</div>

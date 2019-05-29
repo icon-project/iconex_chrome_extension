@@ -15,6 +15,9 @@ import DeleteTokenContainer from './Popup/_10_deleteTokenContainer'
 import UpdateTokenContainer from './Popup/_11_updateTokenContainer'
 import MyWalletPageContainer from './MyWalletPage/MyWalletPageContainer'
 import CoinDetailPageContainer from './CoinDetailPage/CoinDetailPageContainer'
+import VotingPageContainer from './VotingPage/VotingPageContainer'
+import PrepsVotingStatusGraphContainer from './VotingPage/PrepsVotingStatusGraphContainer'
+import PrepsLeaderboardContainer from './VotingPage/PrepsLeaderboardContainer'
 import ExchangeTransactionPageContainer from './ExchangeTransactionPage/ExchangeTransactionPageContainer'
 import WalletSelectorContainer from './ExchangeTransactionPage/WalletSelectorContainer'
 import TxFeeAndDataContainer from './ExchangeTransactionPage/TxFeeAndDataContainer'
@@ -56,6 +59,9 @@ export {
   CoinDetailPageContainer,
   DeleteTokenContainer,
   UpdateTokenContainer,
+  VotingPageContainer,
+  PrepsVotingStatusGraphContainer,
+  PrepsLeaderboardContainer,
   ExchangeTransactionPageContainer,
   WalletSelectorContainer,
   TxFeeAndDataContainer,

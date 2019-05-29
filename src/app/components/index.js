@@ -13,6 +13,7 @@ import Timer from './Common/Timer'
 import AddressTable from './Common/AddressTable'
 import ServerChanger from './Common/ServerChanger'
 import LedgerIframe from './Common/LedgerIframe'
+import SubRoute from './Common/SubRoute'
 
 import Home from './Home/Home'
 
@@ -27,6 +28,14 @@ import WalletSection from './MyWalletPage/WalletSection';
 import WalletBar from './MyWalletPage/WalletBar';
 import WalletStakingBar from './MyWalletPage/WalletStakingBar';
 import WalletMenuBar from './MyWalletPage/WalletMenuBar';
+
+import VotingPage from './VotingPage/VotingPage'
+import Preps from './VotingPage/Preps'
+import PrepsVotingStatusGraph from './VotingPage/PrepsVotingStatusGraph'
+import PrepsLeaderboard from './VotingPage/PrepsLeaderboard'
+import PrepsTable from './VotingPage/PrepsTable'
+import PrepsBar from './VotingPage/PrepsBar'
+import MyStatus from './VotingPage/MyStatus'
 
 import Popup from './Popup/Popup';
 import SmallPopup from './Popup/_00_commonPopup/SmallPopup';
@@ -132,6 +141,7 @@ export {
   AddressTable,
   ServerChanger,
   LedgerIframe,
+  SubRoute,
 
   // *** MAIN PAGE *** //
   Home,
@@ -187,6 +197,15 @@ export {
   // popup //
   DeleteToken,
   UpdateToken,
+
+  // *** VOTING PAGE *** //
+  VotingPage,
+  Preps,
+  PrepsVotingStatusGraph,
+  PrepsLeaderboard,
+  PrepsTable,
+  PrepsBar,
+  MyStatus,
 
   // *** EXCHANGE_TRANSACTION PAGE *** //
   ExchangeTransaction,

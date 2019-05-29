@@ -74,7 +74,7 @@ class Header extends Component {
           {showHeaderItem && !isLedgerAccess && (
             <div className="menu-holder">
     					<Link to={ROUTE['home']}><span className={`wallet ${location.pathname === ROUTE['home'] || location.pathname.includes('mywallet') ? 'on' : ''}`}>{I18n.myWallet}</span></Link>
-    					{/* <span onClick={this.disableExchange} className={`exchange ${location.pathname === '/exchange' && 'on'}`}>{I18n.exchange}</span> */}
+    					<Link to="/voting"><span className={`voting ${location.pathname === '/voting' && 'on'}`}>{'Voting'}</span></Link>
     					<Link to="/transaction"><span onClick={this.goToTransactionPage} className={`remittance ${location.pathname === '/transaction' && 'on'}`}>{I18n.transfer}</span></Link>
               <Link to="/contract"><span className={`contract ${location.pathname === '/contract' && 'on'}`}>{I18n.contract}</span></Link>
               <Link to="/mypage"><span className={`mypage ${location.pathname === '/mypage' && 'on'}`}>{I18n.myPage}</span></Link>

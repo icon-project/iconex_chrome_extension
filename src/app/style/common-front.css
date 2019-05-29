@@ -262,12 +262,6 @@ div.popup-wrap.ledger p.txt_box.middle {
   margin-top: 14px !important;
 }
 
-
-/* lockpage tab-holder margin-top */
-.content-wrap.lock .tab-holder {
-  margin-top: 0px;
-}
-
 /* mainpage tooltip layer left */
 .en .content-wrap .main-holder .layer.left {
   left: auto;
@@ -313,4 +307,32 @@ div.popup-wrap.ledger p.txt_box.middle {
 /* WalletSection icon text position */
 .table-typeC tbody td:nth-child(1) i {
   padding-top: 8px;
+}
+
+.table-typeA.my tbody .ellipsis {
+  padding-top: 5px;
+}
+
+/* WalletSection icon text position */
+.table-typeC tbody td:nth-child(1) i {
+  padding-top: 8px;
+}
+
+/* fix lock page padding-top */
+.content-wrap.lock, .content-wrap.vote {
+  padding: 142px 0 0px 0;
+}
+
+.content-wrap .tab-holder {
+  margin-top: 20px;
+}
+
+/* voting page h4 */
+.content-wrap.vote div.myvote h4 {
+  text-align: right;
+  margin-top: 20px;
+}
+.content-wrap.vote div.myvote h4 a {
+  color: #00a1b3;
+  text-decoration: underline;
 }

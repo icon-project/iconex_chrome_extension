@@ -31,6 +31,7 @@ export const v3_options = {
 export const routeConstants = {
   'home': '/',
   'mywallet': '/mywallet',
+  'voting': '/voting',
   'exchange': '/exchange',
   'transaction': '/transaction',
   'contract': '/contract',

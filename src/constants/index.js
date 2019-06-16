@@ -91,6 +91,12 @@ export const currencyRound = {
 }
 
 export const tokenList = {
+  'BLOC8': {
+    address: 'cxbdda1241313c0113f8ebf4b974239b145558513a',
+    decimals: 18,
+    name: 'BLOC8',
+    symbol: 'BLOC8'
+  },
   'AC3': {
     address: 'cx9ab3078e72c8d9017194d17b34b1a47b661945ca',
     decimals: 18,

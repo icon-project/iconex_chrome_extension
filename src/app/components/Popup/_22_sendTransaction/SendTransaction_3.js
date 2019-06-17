@@ -172,12 +172,13 @@ class SendTransaction3 extends Component {
   }
 
   getText = () => {
-    const { I18n } = this.props;
+    const { I18n, selectedWallet } = this.props;
+    const { type } = selectedWallet
 
     switch(this.props.pageType) {
       case 'transaction':
       case 'contract': {
-        return `${I18n.coinDetailHistoryIcx}`
+        return type === 'eth' ? I18n.coinDetailHistoryNoTransactionEth : I18n.coinDetailHistoryIcx
       }
       default:
         return ''

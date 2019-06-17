@@ -207,7 +207,7 @@ export default {
   coinDetailHistoryTitle: 'Transaction History',
   coinDetailHistoryPending: 'Pending',
   coinDetailHistoryCompleted: 'Completed',
-  coinDetailHistoryNoTransactionEth: 'Transactions made using the Ethereum wallet can be looked up on Etherscan.',
+  coinDetailHistoryNoTransactionEth: 'Transactions made using the Ethereum wallet<br/>can be looked up on Etherscan.',
   coinDetailHistoryIcx: 'You can check the transaction history on <span>ICON Tracker</span>',
   coinDetailHistoryNoTransactionDefault: 'No transaction',
 

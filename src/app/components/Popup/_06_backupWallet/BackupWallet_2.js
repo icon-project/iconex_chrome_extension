@@ -100,7 +100,7 @@ class BackupWallet2 extends Component {
               </div>
 
               <div className="tabbox-holder end">
-                <CopyButton target={privKey} text={I18n.button.copy} defaultSize={true} copyFinish={I18n.button.copyFinish}/>
+                <CopyButton target={privKey} text={I18n.button.copyPrivateKey} defaultSize={true} copyFinish={I18n.button.copyFinish}/>
                 <button onClick={() => this.handlePrint(name, type, selectedAccount, privKey)} className="btn-type-next size-next"><span>{I18n.button.print}</span></button>
               </div>
     				</div>

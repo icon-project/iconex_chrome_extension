@@ -189,8 +189,10 @@ class SendTransaction3 extends Component {
     const { I18n, funcResult, selectedWallet, tx } = this.props;
     const { type } = selectedWallet
     const text = this.getText()
-    const txUrl = type === 'eth' ? TXID_URL['eth'] + check0xPrefix(tx) : TXID_URL['icx'] + tx
+    const txUrl = type === 'eth' ? TXID_URL['eth'] + check0xPrefix(tx) : TXID_URL['icx'] + tx    
     const { pageType, isLedger } = this.props;
+    // Replace txHash to label for opening tracker or etherscan
+    const openText = type === 'eth' ? I18n.sendTransaction.openEtherscan : I18n.sendTransaction.openTracker
     switch (pageType) {
       case 'contract': {
         return (
@@ -210,7 +212,7 @@ class SendTransaction3 extends Component {
           <div className="popup">
             <p className="txt_box">{I18n.sendTransaction.infoSuccess}</p>
             <p className="txt" ref={ref => {if (ref) ref.innerHTML = text}}></p>
-            <a href={txUrl} target="_blank" rel="noopener noreferrer"><p className="mint">{ tx }</p></a>
+            <a href={txUrl} target="_blank" rel="noopener noreferrer"><p className="mint">{openText}</p></a>
             {
               hideSubmit ? (
                 <div className="btn-holder full">

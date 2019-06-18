@@ -613,8 +613,8 @@ export default {
     txComplete: '실행이 완료 되었습니다.',
     txHashTracker: 'TxHash는 ICON Tracker에서 조회 가능합니다.',
 
-    openTracker: 'ICON Tracker로 이동'
-
+    openTracker: 'ICON Tracker로 이동',
+    openEtherscan: 'Etherscan으로 이동'
   },
 
   connectLedger: {

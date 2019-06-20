@@ -313,6 +313,3 @@ div.popup-wrap.ledger p.txt_box.middle {
 .table-typeA.my tbody .ellipsis {
   padding-top: 5px;
 }
-
-/* To position footer to bottom */
-.wrap{ min-height: 100vh }

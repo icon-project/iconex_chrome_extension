@@ -1,70 +1,137 @@
 @charset "utf-8";
 
-
-
 .help-layer .txt,
+.content-wrap .main-holder .a-group .c span em:first-child,
+.content-wrap .wrap-holder .coin-holder .c,
 .content-wrap .wrap-holder .coin-holder .c em,
-.content-wrap .layer.sub li,
-.content-wrap .layer-wallet li,
 .content-wrap .layer.default li,
 .wrap.home .content-wrap .content-holder li .box p:nth-child(3){font-weight: 100;}
 
-.popup-wrap .popup .scroll .info .dot,
-.content-wrap .wrap-holder.exchange .quantity-holder .controller .a,
-.btn-type-exchange,
-.error,
-.wrap.home .content-wrap .content-holder .txt,
-.popup-wrap h2,
-.content-wrap .layer-wallet,
+/*300*/
+.header-wrap .menu-holder,
+.drop-layer li .c,
+.lock-wrap.new .content-holder .txt,
+.table-holder.common td:nth-child(2) em,
+.table-holder.common td:nth-child(2n+3),
+.tabbox-holder .wallet-group.floor li .icx em,
 .notice-wrap .wrap-holder .txt,
+.popup-wrap h2,
+.popup-wrap.ledger p:not(.txt_box),
+.popup-wrap.contract .message-holder p,
+.popup-wrap.contract p.title,
+.popup-wrap .popup .header h2,
+.popup-wrap .tabbox-holder .message,
+.popup-wrap.convert p:not(.txt_box),
+.popup-wrap .popup .layout .step .tab-holder h1,
+.popup-wrap .popup .layout .step .info .dot,
+.popup-wrap .popup .scroll .info .dot,
+.content-wrap .wrap-holder.dex .dex-holder .group label,
+.content-wrap .wrap-holder.dex p,
+.content-wrap .wrap-holder.exchange .name-holder.connect .label em,
+.content-wrap .main-holder .a-group .b .unit,
+.content-wrap .layer-wallet,
+.content-wrap .wrap-holder.exchange .input-group,
 .content-wrap .main-holder .a-group .b p,
 .content-wrap .main-holder .layer.left,
-.popup-wrap .popup .layout .step .info .dot,
+.wrap.home .content-wrap .content-holder .txt,
 .wrap.home .content-wrap.lock .content-holder .guide-holder .forget,
 .wrap.home .content-wrap.lock .content-holder .pw-group .error{font-weight: 300;}
 
-.content-wrap .wrap-holder .table-typeC.coin thead .c span.m_usd em,
+/*400*/
+.content-wrap .main-holder .a-group .b.small span em,
+[class ^="rbox-type"] + label,
 .header-wrap .language-holder span{font-weight: 400;}
+.controller span em,
+.popup-wrap.convert .txt_box,
+.popup-wrap.ledger p span,
+.content-wrap .wrap-holder .table-typeC.coin thead .c span,
+.content-wrap .wrap-holder.exchange .input-group p,
+.content-wrap .layer-wallet li span,
+.content-wrap .wrap-holder .table-typeC thead .c em,
+.content-wrap .wrap-holder .table-typeC.coin thead .c span.m_usd em,
 
-
-
-
+/*500*/
+.table-holder.common td:nth-child(1),
+.content-wrap .wallet-group.floor li label,
+.content-wrap .wrap-holder .deposit-hoder span,
 .content-wrap .wrap-holder .table-typeC thead .a {font-weight: 500;}
 
-.content-wrap .wrap-holder.exchange .quantity-holder .controller .a em,
+/*600*/
+.popup-wrap .popup.address.wallet h1 span,
 .popup-wrap .terms .tabbox-holder h2{font-weight: 600;}
 
-
-.content-wrap .wrap-holder .table-typeC thead .c em,
+/*700*/
+.controller span,
+.table-typeB tbody td:nth-child(4) span,
+.tabbox-holder .wallet-group.floor li .icx,
+.table-holder.common td:nth-child(2n+2),
+.popup-wrap.ledger .fail .txt_box,
 .popup-wrap .terms .tabbox-holder .title,
+.popup-wrap.contract .message-holder p span,
+.popup-wrap .token input:read-only,
+.popup-wrap .tabbox-holder .key-group .key,
+.popup-wrap .typeA .tabbox-holder .key-group .key,
+.popup-wrap.convert p span,
+.content-wrap .wrap-holder .table-typeC thead .a p em,
 .content-wrap .tab-holder li.on,
-.content-wrap .tab-holder li:hover,
-.content-wrap .main-holder .a-group .b span em{font-weight: 700;}
-
-
+.content-wrap .tab-holder li:hover{font-weight: 700;}
+.content-wrap .dex .dex-holder .right-group h3,
+.content-wrap .dex .dex-holder .right-group h3 > *,
+.content-wrap .wrap-holder .deposit-hoder span,
 
 
 
 /*/////////////////////////////////*/
-.popup-wrap .popup .layout .content .exchange .change-group .num,
-.content-wrap .wrap-holder.exchange .quantity-holder .controller ul li,
-.tabbox-holder .cnt em,
-.content-wrap .wrap-holder.exchange .quantity-holder .change-group .c em,
-.content-wrap .wrap-holder.exchange .quantity-holder .controller .a em,
-.content-wrap .wrap-holder.exchange .quantity-holder .change-group .b,
-.table-typeA tbody td:nth-child(2),
-.pager-holder li .number,
-.table-typeB tbody td:nth-child(4),
-.table-typeB tbody td:nth-child(1),
-.content-wrap .wrap-holder .coin-holder .d em,
-.content-wrap .wrap-holder .coin-holder .c,
-/*.popup-wrap .backup .tabbox-holder .key-group .key,*/
-.table-typeC tbody td:nth-child(4) span,
+
 .popup-wrap.send p em,
+.popup-wrap .popup.address.wallet h1 span,
+.popup-wrap .popup .layout .content .exchange .change-group .num,
+.popup-wrap.contract .message-holder p span,
+.popup-wrap .token input:read-only,
+.popup-wrap.convert p span,
+.popup-wrap .tabbox-holder .key-group .key,
+.popup-wrap .popup .layout .step .tab-holder h1,
+.content-wrap .wrap-holder .deposit-hoder span,
+.content-wrap .wrap-holder .coin-holder .money-group,
+.content-wrap .wrap-holder.contract .search-holder p.have,
+.content-wrap .wrap-holder.contract .search-holder p.have > *,
+.content-wrap .wrap-holder.dex p span em,
+.content-wrap .wrap-holder.exchange .name-holder.connect .money-group,
+.content-wrap .wrap-holder.exchange .input-group p span,
+.content-wrap .wrap-holder.exchange .input-group p,
+.content-wrap .wrap-holder.exchange .quantity-holder .controller span,
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul li,
+.content-wrap .wrap-holder.exchange .quantity-holder .change-group .c em,
+.content-wrap .wrap-holder.exchange .quantity-holder .change-group .b,
+.content-wrap .wrap-holder .coin-holder .d em,
+.content-wrap .wrap-holder .coin-holder .c *,
 .content-wrap .wrap-holder .table-typeC thead .token_num,
 .content-wrap .main-holder .a-group .c span em:first-child,
 .content-wrap .main-holder .a-group .b span em,
+.content-wrap .wrap-holder .table-typeC thead .c span,
 .content-wrap .wrap-holder .table-typeC thead .c em,
-/*.table-typeC tbody td:nth-child(3) em,*/
+.content-wrap .wrap-holder .table-typeC thead .a p,
+.content-wrap .dex .dex-holder .right-group h3,
+.content-wrap .dex .dex-holder .right-group h3 > *,
+.drop-layer li .tag-group em,
+.drop-layer li .b,
+.drop-layer li .c,
+.controller .a em,
+.ver em,
+.won,
+.won em,
+.table-holder.common td:not(:first-child),
+.tabbox-holder .cnt em,
+.table-typeA tbody td:nth-child(2),
+.pager-holder li .number,
+.table-typeB td,
+.table-typeB tbody td:nth-child(4),
+.table-typeB tbody td:nth-child(4) > *,
+.table-typeB tbody td:nth-child(1),
+.table-typeC tbody td:nth-child(4) span,
+.table-typeC tbody td:nth-child(3) em,
 .table-typeC tbody td:nth-child(2) em,
+.table-typeC tbody td:nth-child(2) span,
+.table-typeF tbody td:nth-child(3),
+.tabbox-holder .wallet-group li .icx > *,
 .tabbox-holder .wallet-group li .icx{font-family: NanumSquare;}

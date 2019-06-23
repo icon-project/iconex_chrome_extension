@@ -36,7 +36,7 @@ class ContractPage extends Component {
     return (
       <div>
         <div className="title-holder sub">
-          <h1>{I18n.contract}</h1>
+          <h1 className="no">{I18n.contract}</h1>
           <div className="tab-holder">
             <ul>
   						<li onClick={this.setTab} data-name={'read'} className={tab === 'read' ? 'on' : ''}>{I18n.contractReadPage}</li>
@@ -46,7 +46,6 @@ class ContractPage extends Component {
         </div>
         <div className="wrap-holder contract">
           { tab === 'read' && (<ContractReadPage />)}
-
     		</div>
 
         {

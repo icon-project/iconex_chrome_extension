@@ -13,7 +13,7 @@ export default {
     modify: 'Change',
     download: 'Download Keystore file (wallet backup file)',
     upload: 'Select Keystore File (wallet backup file)',
-    copy: 'Copy',
+    copy: 'Copy Address',
     copyFinish: 'Copy Complete',
     print: 'Print Wallet',
     checkTransction: 'Check Transaction',
@@ -207,8 +207,8 @@ export default {
   coinDetailHistoryTitle: 'Transaction History',
   coinDetailHistoryPending: 'Pending',
   coinDetailHistoryCompleted: 'Completed',
-  coinDetailHistoryNoTransactionEth: 'Transactions made using the Ethereum wallet can be looked up on Etherscan.',
-  coinDetailHistoryIcx: 'You can check the transaction history on ICON Tracker',
+  coinDetailHistoryNoTransactionEth: 'You can check the transaction history on<br/>Etherscan.',
+  coinDetailHistoryIcx: 'You can check the transaction history on<br/><span>ICON Tracker</span>',
   coinDetailHistoryNoTransactionDefault: 'No transaction',
 
   coinDetailHistoryColumn0: 'Requested Time',
@@ -254,13 +254,14 @@ export default {
   noticeNotAgain: 'Do not show this again.',
 
   myPageExportDesc: 'Select the wallets to bundle. Passwords are required.',
-  myPageExportCaution: '[CAUTION] If you back up your wallets using the ‘Wallet bundle’ function, the password of each wallet will be changed into the bundle wallet password.',
-  myPageWalletChecked: 'Selected Wallets',
+  myPageExportCaution: '· [CAUTION] If you back up your wallets using the ‘Wallet bundle’ function, the password of each wallet will be changed into the bundle wallet password.',
+  myPageExportSelectedWallets: 'Wallets',
+  myPageWalletChecked: '· Selected Wallets',
   myPageSubTitle1: 'Screen Lock',
   myPageSubTitle2: 'Export Wallet Bundle',
-  myPageInfo1: 'By activating the screen lock function, a 6-digit passcode is required every time you open ICONex in a new chrome window.\nIf you forget your screen lock passcode, you can reset the passcode using your wallet password.',
-  myPageInfo2: 'If you activate the screen lock, a 6-digit passcode is required every time you open your ICONex. It can protect your assets from others.',
-  myPageInfo3: 'Wallet bundle backs up your wallets in one file.\nYou can easily manage different wallets at once.',
+  myPageInfo1: '· By activating the screen lock function, a 6-digit passcode is required every time you open ICONex in a new chrome window.\n · If you forget your screen lock passcode, you can reset the passcode using your wallet password.',
+  myPageInfo2: '· If you activate the screen lock, a 6-digit passcode is required every time you open your ICONex. It can protect your assets from others.',
+  myPageInfo3: '· Wallet bundle backs up your wallets in one file.\n · You can easily manage different wallets at once.',
   myPageUnlock: '· Do you want to unlock?',
   myPageLockNumber: 'Screen Lock',
   myPageLockNumberUsing: 'Screen lock activated',
@@ -272,15 +273,15 @@ export default {
   myPageLockSuccess: 'Do you want to lock?',
   myPageLockChangeSuccess: 'Your passcode has been changed.',
 
-  transferPageInfo1: 'Please check the amount and the address. You CANNOT cancel the transaction after you confirm.',
+  transferPageInfo1: '· Please check the amount and the address. You CANNOT cancel the transaction after you confirm.',
   transferPageLabel1: 'Transfer Amount',
   transferPageLabel2: 'Receiving Amount',
   transferPageLabel3: 'Receiving Address',
   transferPageLabel4: 'Wallet Name',
   transferPageLabel5_1: 'Transaction Fee',
-  transferPageLabel5_2: 'Estimated Maximum Fee',
+  transferPageLabel5_2: '· Estimated Maximum Fee',
   transferPageLabel6_1: 'Balance after transaction',
-  transferPageLabel6_2: 'Estimated Balance',
+  transferPageLabel6_2: '· Estimated Balance',
   transferPageLabel7_eth: 'Gas Limit',
   transferPageLabel7_icx: 'Step Limit',
   transferPageLabel8: 'Data',
@@ -297,6 +298,8 @@ export default {
   transferPageAndCoin: '& Coin',
   transferPageSlow: 'Slow',
   transferPageFast: 'Fast',
+  transferViewData: 'View',
+  transferCollapseData: 'Collapse',
 
   transferPageHelperTitle1_eth: 'Estimated Maximum Fee = Gas price * Gas limit.',
   transferPageHelperDesc1_eth: 'Set proper gas limit and gas price. You will pay transaction fees even if your transaction is not confirmed by miners.',
@@ -426,14 +429,14 @@ export default {
     inputLabel2: 'New Password',
     inputPlaceHolder2: 'Enter New Password (At least 8 characters including letters, numbers, and special characters)',
     inputPlaceHolder3: 'Confirm Password',
-    infoBoxTitle: 'Set a strong and secure password you can remember. You are responsible for keeping your password safe.',
+    infoBoxTitle: '· Set a strong and secure password you can remember. You are responsible for keeping your password safe.',
     infoBoxDesc1: '· You will need the password to load your wallet in other devices using the Keystore file or your private key.',
     changed: 'Your password has been changed.',
   },
 
   backupWallet: {
     title: 'Backup Wallet',
-    desc: "You can load your wallet using the Keystore file or your private key. Please backup your Keystore file or private key.",
+    desc: "You can load your wallet using the Keystore file or your private key. \nPlease backup your Keystore file or private key.",
     infoBoxTitle1_1: 'Download the Keystore file (wallet backup file)',
     infoBoxDesc1_1: '· Anyone who can access to the Keystore file and the password can transfer assets from the wallets without your permission. Please be careful not to expose your private key.',
     infoBoxDesc1_2: '· Be careful not to accidentally delete your Keystore file.',
@@ -474,10 +477,11 @@ export default {
 
     inputPlaceholder1: 'Please enter your password',
 
-    infoBoxTitle1: 'Set a wallet bundle password that is strong and secure. You are responsible for safeguarding your password. DO NOT forget to save this. If you lose your password, you cannot restore it.',
+    infoBoxTitle1: '· Set a wallet bundle password that is strong and secure. You are responsible for safeguarding your password. DO NOT forget to save this. If you lose your password, you cannot restore it.',
     infoBoxDesc1: '· Anyone holding the backup file and the password can access or transfer from the wallets. Please be careful not to expose them to others.',
 
-    infoBoxTitle2: 'This backup file is the encrypted file of the selected wallets and requires the wallet bundle password which you created when exporting your wallet bundle.',
+    infoTitle: 'Wallet Backup File',
+    infoBoxTitle2: '· This backup file is the encrypted file of the selected wallets and requires the wallet bundle password which you created when exporting your wallet bundle.',
     infoBoxDesc2_1: '· You will need the wallet bundle password to load your wallet bundle in other devices.',
     infoBoxDesc2_2: '· Anyone who can access to the backup file and the password can transfer assets from the wallets without your permission. Please be careful not to expose your backup file.',
   },
@@ -605,16 +609,18 @@ export default {
     txComplete: 'Request for write contract has been completed.',
     txHashTracker: 'Tx Hash is trackable on ICON Tracker.',
 
-    openTracker: 'Go to ICON Tracker'
+    openTracker: 'Go to ICON Tracker',
+    openEtherscan: 'Go to Etherscan'
   },
 
   connectLedger: {
     title: 'Connect to Ledger Wallet',
     connectError: 'Failed to connect',
-    desc: 'Connect Ledger Wallet to your computer and\nclick the “Connect” button below',
-    descError: 'Please check the connection and\nclick the “Retry” button below.',
+    desc: 'Connect Ledger Wallet to your computer and<br />click the <span>“Connect”</span> button below',
+    descError: 'Please check the connection and<br />click the <span>“Retry”</span> button below.',
     info: 'Guide to use Ledger Wallet on ICONex',
     walletAddress: 'Wallet Address',
+    connectWallet: 'Connected Ledger Wallet',
     manualFileName: 'Guide_to_use_Ledger_Wallet_on_ICONex_Ledger_en'
   },
 

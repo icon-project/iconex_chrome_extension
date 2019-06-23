@@ -63,7 +63,7 @@ class UnlockPopup extends Component {
 
   closeAlert = () => {
     this.props.closePopup();
-    this.props.history.push(ROUTE['mywallet']);
+    this.props.history.push(ROUTE['home']);
   }
 
   render() {
@@ -71,8 +71,8 @@ class UnlockPopup extends Component {
     const { I18n } = this.props;
     return (
       <div>
-        <div className="dimmed"></div>
-        <div className="popup size-medium2">
+        <div className="dimmed fade-in"></div>
+        <div className="popup size-medium2 moving-down">
           <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
           <h1 className="title">{I18n.unlockPopup.title}</h1>
           <h2>{I18n.unlockPopup.desc}</h2>

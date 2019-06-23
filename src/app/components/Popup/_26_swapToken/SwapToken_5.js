@@ -142,7 +142,6 @@ class SwapToken5 extends Component {
             handleSubmit={this.goToHome}
             text={I18n.swapToken.alertCompleteInfo}
             submitText={I18n.button.confirm}
-            btnBottom={true}
           />
         }
       </ul>

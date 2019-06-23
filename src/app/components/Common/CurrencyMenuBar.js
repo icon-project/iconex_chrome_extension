@@ -14,13 +14,13 @@ class CurrencyMenuBar extends Component {
   }
 
   render() {
-    const { coinType } = this.props
+    const { coinType, setCurrencyList, type } = this.props
     const last = !coinType ? 'eth' : coinType === 'eth' ? 'icx' : 'eth'
     return (
-      <ul className={`layer ${this.props.type}`}>
-        <li data-currency="usd" onClick={this.props.setCurrencyList}>{CURRENCY_NAME['usd']}</li>
-        <li data-currency="btc" onClick={this.props.setCurrencyList}>{CURRENCY_NAME['btc']}</li>
-        <li data-currency={last} onClick={this.props.setCurrencyList}>{CURRENCY_NAME[last]}</li>
+      <ul className={`${type === 'default' ? "layer default" : ""}`}>
+        <li onClick={() => setCurrencyList('usd')}><span>{CURRENCY_NAME['usd']}</span></li>
+        <li onClick={() => setCurrencyList('btc')}><span>{CURRENCY_NAME['btc']}</span></li>
+        <li onClick={() => setCurrencyList(last)}><span>{CURRENCY_NAME[last]}</span></li>
       </ul>
     )
   }

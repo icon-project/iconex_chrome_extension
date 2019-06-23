@@ -4,25 +4,13 @@ import MyWalletPage from 'app-popup/pages/MyWalletPage';
 import SendTransactionPage from 'app-popup/pages/SendTransactionPage';
 import CheckTransactionPage from 'app-popup/pages/CheckTransactionPage';
 import CompleteTransactionPage from 'app-popup/pages/CompleteTransactionPage';
-import LockPage from 'app-popup/pages/LockPage';
+import LockContainer from 'app-popup/containers/LockContainer'
 import { routeConstants as ROUTE } from 'constants/index';
 import { chromeStorage, chromeStorageLocal } from 'utils'
 import queryString from 'query-string'
 
 const PrivateRoute = ({ component: Component, isLocked, ...rest }) => (
-  <Route exact {...rest} render={props => (
-    isLocked
-      ? (<Redirect to={ROUTE['lock']} />)
-      : (<Component {...props} />)
-  )} />
-)
-
-const LoginRoute = ({ component: Component, isLoggedIn, isLocked, ...rest }) => (
-  <Route {...rest} render={props => (
-    isLocked
-      ? (<Component {...props} />)
-      : (<Redirect to={ROUTE['home']} />)
-  )} />
+  <Route exact {...rest} render={props => (<Component {...props} />)} />
 )
 
 class Routes extends Component {
@@ -68,8 +56,7 @@ class Routes extends Component {
         this.props.setAddressRequest(payload)
         break;
       case 'REQUEST_JSON-RPC':
-      const { data } = payload        
-        if (data.method === 'icx_sendTransaction') {
+        if (payload.payload.method === 'icx_sendTransaction') {
           this.props.setScore(payload)
         }
         break;
@@ -91,7 +78,7 @@ class Routes extends Component {
   render() {
     const { initLoading, isLocked, language } = this.props;
     return (
-      <div className={`${navigator.platform.indexOf('Mac') > -1 ? 'isMac' : ''} empty`}>
+      <div>
         {!initLoading && (
           <HashRouter>
             <div>
@@ -100,8 +87,8 @@ class Routes extends Component {
                 <PrivateRoute path={ROUTE['send']} isLocked={isLocked} component={SendTransactionPage} />
                 <PrivateRoute path={ROUTE['check']} isLocked={isLocked} component={CheckTransactionPage} />
                 <PrivateRoute path={ROUTE['complete']} isLocked={isLocked} component={CompleteTransactionPage} />
-                <LoginRoute path={ROUTE['lock']} isLocked={isLocked} component={LockPage} />
               </div>
+              {isLocked && (<LockContainer />)}
             </div>
           </HashRouter>
         )}

@@ -129,7 +129,6 @@ class SwapToken4 extends Component {
               text={I18n.createWallet.passWithoutDownload}
               cancelText={I18n.button.no}
               submitText={I18n.button.yes}
-              btnBottom={true}
             />
           )
         }
@@ -139,7 +138,6 @@ class SwapToken4 extends Component {
               handleCancel={this.closeAlert}
               text={I18n.createWallet.downloadSuccess}
               cancelText={I18n.button.confirm}
-              btnBottom={true}
             />
           )
         }

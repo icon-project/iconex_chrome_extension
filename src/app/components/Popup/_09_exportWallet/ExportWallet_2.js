@@ -33,9 +33,11 @@ class ExportWallet2 extends Component {
     const { I18n } = this.props;
     return (
       <div className="popup">
-        <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
-        <h1 className="title">{I18n.exportWallet.title}</h1>
-        <h2>{I18n.exportWallet.desc2}</h2>
+        <div className="header">
+          <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
+          <h1 className="title">{I18n.exportWallet.title}</h1>
+          <h2>{I18n.exportWallet.desc2}</h2>
+        </div>
         <div className="scroll-holder">
   				<div className="scroll">
             <div className="tabbox-holder">
@@ -47,11 +49,9 @@ class ExportWallet2 extends Component {
                 onlyPwGroup='margin-none'
                 handleSubmit={this.handleSubmit}
               />
-              <div className="message-holder"><i className="_img"></i>
-                {I18n.exportWallet.infoBoxTitle1}
-              </div>
-              <div className="message-holder line">
+              <div className="message-holder">
                 <ul>
+                  <li>{I18n.exportWallet.infoBoxTitle1}</li>
                   <li>{I18n.exportWallet.infoBoxDesc1}</li>
                 </ul>
               </div>
@@ -59,7 +59,7 @@ class ExportWallet2 extends Component {
           </div>
         </div>
         <div className="btn-holder">
-          <button onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.button.next}</span></button>
+          <button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.next}</span></button>
         </div>
       </div>
     );

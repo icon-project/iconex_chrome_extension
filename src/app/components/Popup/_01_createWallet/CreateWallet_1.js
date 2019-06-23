@@ -42,7 +42,7 @@ class CreateWallet1 extends Component {
         <ul className="layout">
           <li className="step">
             <div className="tab-holder">
-              <h1 className="title">Step 1</h1>
+              <h1 className="title">STEP 1</h1>
               <span className="img"><em className="_img step1"></em></span>
               <ul>
                 <li className="on">{I18n.createWallet.step1}</li>
@@ -54,9 +54,10 @@ class CreateWallet1 extends Component {
             <div className="info">
               <ul>
                 <li>{I18n.createWallet.leftInfoTitle1_1}</li>
-                <li className="dot space">{I18n.createWallet.leftInfoDesc1_1}</li>
-                <li className="dot">{I18n.createWallet.leftInfoDesc1_2}</li>
-                <li className="dot">{I18n.createWallet.leftInfoDesc1_3}</li>
+                {/* <li className="dot space">{I18n.createWallet.leftInfoDesc1_1}</li>
+                <li className="dot">{I18n.createWallet.leftInfoDesc1_2}</li> */}
+                <li className="dot space">{I18n.createWallet.leftInfoDesc1_3}</li>
+                <li className="dot">{I18n.createWallet.leftInfoDesc1_4}</li>
               </ul>
             </div>
           </li>
@@ -81,7 +82,7 @@ class CreateWallet1 extends Component {
   						</div>
   					</div>
   					<div className="btn-holder">
-              <button onClick={() => this.handleSubmit()} type="submit" className="btn-type-normal"><span>{I18n.button.next}</span></button>
+              <button onClick={() => this.handleSubmit()} type="submit" className="btn-type-next size-full"><span>{I18n.button.next}</span></button>
   					</div>
   				</li>
         </ul>

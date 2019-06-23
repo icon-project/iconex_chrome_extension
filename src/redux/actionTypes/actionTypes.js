@@ -188,6 +188,7 @@ const actionTypes = {
   setScore: 'SET_SCORE',
   setScoreWallet: 'SET_SCORE_WALLET',
   setScoreStep: 'SET_SCORE_STEP',
+  setScoreTime: 'SET_SCORE_TIME',
   callScore: 'CALL_SCORE',
   callScoreFulfilled: 'CALL_SCORE_FULFILLED',
   callScoreRejected: 'CALL_SCORE_REJECTED',

@@ -14,20 +14,21 @@ class DeleteToken extends Component {
 
   handleSubmit = () => {
     this.props.deleteToken(this.props.selectedAccount, this.props.selectedTokenId);
-    this.props.history.push(ROUTE['mywallet']);
+    this.props.history.push(ROUTE['home']);
   }
 
   render() {
     const { I18n } = this.props;
     return (
-      <div className='popup-wrap home'>
-        <div className="dimmed"></div>
+      <div className='popup-wrap ledger'>
+        <div className="dimmed fade-in"></div>
         <SmallPopup
           handleCancel={this.closePopup}
           handleSubmit={this.handleSubmit}
           text={I18n.deleteToken.info}
           cancelText={I18n.button.no}
           submitText={I18n.button.yes}
+          isFullButton={true}
         />
       </div>
     );

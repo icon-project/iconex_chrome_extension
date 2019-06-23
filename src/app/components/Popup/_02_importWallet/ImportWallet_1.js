@@ -42,9 +42,11 @@ class ImportWallet1 extends Component {
 
     return (
       <div>
-        <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
-        <h1 className="title">{I18n.importWallet.title}</h1>
-        <h2>{I18n.importWallet.desc1}</h2>
+        <div className="header">
+          <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
+          <h1 className="title">{I18n.importWallet.title}</h1>
+          <h2>{I18n.importWallet.desc1}</h2>
+        </div>
         <div className="scroll-holder">
   				<div className="scroll">
   					<div className="tabbox-holder">
@@ -62,7 +64,7 @@ class ImportWallet1 extends Component {
   				</div>
   			</div>
         <div className="btn-holder">
-          <button onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.button.next}</span></button>
+          <button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.next}</span></button>
         </div>
       </div>
     );

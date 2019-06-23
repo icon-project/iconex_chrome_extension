@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { copyState as COPY_STATE } from 'constants/index';
+import { handleCopy } from 'utils/utils';
 
 const INIT_STATE = {
   copyState: COPY_STATE['off'],
 }
+
 
 class CopyButton extends Component {
   constructor(props) {
@@ -12,34 +14,8 @@ class CopyButton extends Component {
   }
 
   handleCopy = () => {
-    const key = document.querySelector("span.copyKey");
-    if (this.state.copyState === COPY_STATE['on']) {
-      return false;
-    } else {
-      const selection = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(key);
-      selection.removeAllRanges();
-      selection.addRange(range);
-      try {
-        document.execCommand('copy');
-        selection.removeAllRanges();
-        this.setState({
-          copyState: COPY_STATE['on']
-        }, () => {
-          const self = this;
-          window.setTimeout(function(){
-              self.setState({
-                copyState: COPY_STATE['off']
-              })
-            },
-            1000)
-          }
-        )
-      } catch(e) {
-        alert(e);
-      }
-    }
+    const { copyState } = this.state
+    handleCopy("span.copyKey", copyState, this.setState.bind(this))
   }
 
   render() {
@@ -58,11 +34,13 @@ class CopyButton extends Component {
     return (
       <button onClick={this.handleCopy} className={`${
         copyState === COPY_STATE['off'] ? (
-          type === 'small'  ? 'btn-type-copy2'
-                            : 'btn-type-normal'
+          // btn-type-normal
+          type === 'small'  ? 'btn-type-search2'
+                            : 'btn-type-next size-next'
         ) : (
-          type === 'small'  ? 'btn-type-copy2-fill'
-                            : 'btn-type-fill'
+          // btn-type-fill
+          type === 'small'  ? 'btn-type-search2'
+                            : 'btn-type-next size-next'
         )
       } ${!defaultSize && 'copy'}`}>
         <em>{copyState === COPY_STATE['off'] ? text : copyFinish}</em>

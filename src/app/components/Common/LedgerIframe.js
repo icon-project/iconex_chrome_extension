@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LEDGER_SERVER, IS_V3 } from 'constants/config'
+import { LEDGER_SERVER } from 'constants/config'
 import queryString from 'qs'
 
 const INIT_STATE = {
@@ -46,12 +46,10 @@ class LedgerIframe extends Component {
 
   render() {
     const { isHidden, method, query, path, language } = this.props;
-
     const queryToString = query ? `&${queryString.stringify(query)}` : ''
-    console.log(query, queryToString)
     const pathString = path ? `&path=${path}` : ''
     const langString = `&lang=${language}`
-    const versionString = `&networkVer=${IS_V3 ? 'v3' : 'v2'}`
+    const versionString = `&networkVer=v3`
     return (
       <iframe
         title="ICONex Ledger"
@@ -62,8 +60,8 @@ class LedgerIframe extends Component {
             width: '0px',
             height: '0px',
           } : {
-            width: '960px',
-            height: '387px',
+            width: '1160px',
+            height: '400px',
           }
         }
       />

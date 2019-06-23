@@ -58,7 +58,7 @@ class CreateWallet2 extends Component {
       <ul className="layout">
         <li className="step">
           <div className="tab-holder">
-            <h1 className="title">Step 2</h1>
+            <h1 className="title">STEP 2</h1>
             <span className="img"><em className="_img step2"></em></span>
             <ul>
               <li>{I18n.createWallet.step1}</li>
@@ -72,6 +72,7 @@ class CreateWallet2 extends Component {
               <li>{I18n.createWallet.leftInfoTitle2_1}</li>
               <li>{I18n.createWallet.leftInfoTitle2_2}</li>
               <li className="dot space">{I18n.createWallet.leftInfoDesc2_1}</li>
+              <li className="dot">{I18n.createWallet.leftInfoDesc2_2}</li>
             </ul>
           </div>
         </li>
@@ -88,8 +89,8 @@ class CreateWallet2 extends Component {
             handleSubmit={this.handleSubmit}
             />
           <div className="btn-holder">
-            <button onClick={this.goBack} type="submit" className="btn-type-fill"><span>{I18n.button.back}</span></button>
-            <button onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.button.next}</span></button>
+            <button onClick={this.goBack} type="submit" className="btn-type-next size-next"><span>{I18n.button.back}</span></button>&nbsp;
+            <button onClick={this.handleSubmit} type="submit" className="btn-type-next size-next"><span>{I18n.button.next}</span></button>
           </div>
         </li>
         {
@@ -100,7 +101,7 @@ class CreateWallet2 extends Component {
               text={I18n.createWallet.cancelCreateWallet}
               cancelText={I18n.button.no}
               submitText={I18n.button.yes}
-              btnBottom={true}
+              isFullButton={true}
             />
           )
         }

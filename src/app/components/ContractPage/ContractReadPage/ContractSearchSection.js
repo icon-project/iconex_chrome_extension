@@ -59,7 +59,7 @@ class ContractSearchSection extends Component {
               spellCheck="false" />
             <p className="error">{I18n.error[contractAddressError]}</p>
             <div className="-holder">
-              <button className="btn-type-copy" onClick={this.handleButtonClick}><span>{I18n.contractList.contractList}</span></button>
+              <button className="btn-type-copy size-ledger" onClick={this.handleButtonClick}><span>{I18n.contractList.contractList}</span></button>
             </div>
           </div>
         </div>
@@ -74,11 +74,11 @@ class ContractSearchSection extends Component {
               ></textarea>
             {
               abiLoading ? (
-                <button style={{width: 99.45}} className="btn-type-fill3">
+                <button style={{width: 99.45}} className="btn-type-black">
                   <span><LoadingComponent type='white' /></span>
                 </button>
               ) : (
-                <button onClick={this.setFuncList} className="btn-type-fill3">
+                <button onClick={this.setFuncList} className="btn-type-black">
                   <span>{I18n.button.confirm}</span>
                 </button>
               )

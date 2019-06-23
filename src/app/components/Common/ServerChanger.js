@@ -14,7 +14,7 @@ const INIT_STATE = {
 // style
 const ulStyle = {
   position: 'absolute',
-  top: '20px',
+  top: '6px',
   right: '110px',
   display: 'inline-block'
 }
@@ -22,12 +22,12 @@ const liStyle = {
   'float': 'left',
   'margin': '0 20px 0 0',
 }
-const borderStyle = { width: 3, borderRight: '1px solid #5f5f5f', marginRight: 20, height: 47, float: 'left'}
+const borderStyle = { width: 3, borderRight: '1px solid #5f5f5f', marginRight: 20, height: 38, float: 'left'}
 const spanStyle = {
   display: 'block',
   fontSize: '10px',
   textAlign: 'center',
-  marginTop: '6px',
+  marginTop: '0px',
   color: '#888'
 }
 const emStyle = {color: '#666'}
@@ -35,7 +35,7 @@ const emStyle = {color: '#666'}
 const inputUlStyle = {
   position: 'absolute',
   right: '353px',
-  top: '20px'
+  top: '8px'
 }
 
 const inputLiStyle = {
@@ -51,7 +51,9 @@ const inputButtonStyle = {
   height: '20px',
   fontSize: '11px',
   color: '#888',
-  padding: 0
+  padding: 0,
+  marginTop: 6,
+  cursor: 'pointer'
 }
 
 class ServerChanger extends Component {
@@ -181,7 +183,7 @@ class ComboBox extends Component {
         width: 72,
         display: 'block',
         textAlign: 'center',
-        fontSize: '14px',
+        fontSize: '11px',
         color: '#9e9e9e'
       }} className={`money-group ${this.props.disabled ? 'disabled' : ''}`} onClick={this.toggleList}>
         {this.props.index ? this.props.list[this.props.index].toUpperCase() : '    '}

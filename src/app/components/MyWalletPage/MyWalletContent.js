@@ -46,7 +46,7 @@ class MyWalletContent extends Component {
     			</div>
           {
             ((subNav === "walletView" && (dataSortedByWallet.length < 1 || walletsLoading)) || (subNav === "coinView" && (isEmpty(dataSortedByCoin) || totalResultLoading)))
-              ? (<div className="content-holder load"><LoadingComponent /></div>)
+              ? (<div className="content-holder load"><LoadingComponent type="black" /></div>)
               : (subNav === "walletView") ? (<WalletSectionList data={dataSortedByWallet} isCoinView={false} {...this.props} />)
                                           : (<WalletSectionList data={dataSortedByCoin} isCoinView={true} {...this.props} />)
           }

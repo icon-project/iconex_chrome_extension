@@ -24,9 +24,9 @@ class CreateWallet extends Component {
     }
 
     return (
-      <div>
+      <div className="popup-wrap">
         <div className="dimmed"></div>
-        <div className="popup typeA">
+        <div className="popup  typeA">
           { content(popupNum) }
         </div>
       </div>

@@ -147,16 +147,20 @@ class ExportContent extends Component {
   }
 
   render() {
-    const { loading, showAlertWalletChecked } = this.state;
+    const { loading, showAlertWalletChecked, checklist } = this.state;
+    const numOfWalletChecked = checklist.filter(i => !isEmpty(i)).length;
     const { I18n } = this.props
+    const myPageInfo = I18n.myPageInfo3;
     return (
       <div className="wrap-holder">
+      <p className="lock-txt gray">{myPageInfo.split('\n').map((item, key) => {return <span key={key}>{item}<br/></span>})}</p>
         <div className="tabbox-holder">
           <div className="txt-group">
             <span className="txt">{I18n.myPageExportDesc}</span>
-            <span className="cnt"><em>{this.state.checklist.filter(i => !isEmpty(i)).length}</em>{` ${I18n.myPageWalletChecked}`}</span>
+            {/* <span className="cnt"><em>{this.state.checklist.filter(i => !isEmpty(i)).length}</em>{` ${I18n.myPageWalletChecked}`}</span> */}
           </div>
-          <div className="wallet-group scroll line">
+          {/* line */}
+          <div className="wallet-group scroll floor">
             <ul>
               {
                 this.state.walletArr.map((wallet, i) => (
@@ -174,13 +178,37 @@ class ExportContent extends Component {
               }
             </ul>
           </div>
-          <div className="caution-holder">
-            <p className="lock-txt"><em className="_img"></em>{nToBr(I18n.myPageExportCaution)}</p>
+        </div>
+
+        { numOfWalletChecked > 0 && (
+          <div className="table-holder  common">
+            <table>
+              <colgroup>
+                <col></col>
+                <col></col>
+                <col></col>
+              </colgroup>
+              <thead>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{I18n.myPageWalletChecked}</td>
+                  <td>{numOfWalletChecked}</td>
+                  <td>{I18n.myPageExportSelectedWallets}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+          )
+        }
+
+        <div className="caution-holder">
+          <p className="lock-txt">{nToBr(I18n.myPageExportCaution)}</p>
         </div>
         <div className="btn-holder in">
-        { loading ? (<button type="submit" className="btn-type-fill2 load"><span><LoadingComponent type="white" /></span></button>)
-                  : (<button onClick={this.handleSubmit} type="submit" className="btn-type-fill2"><span>{I18n.button.next}</span></button>)}
+        {/* btn-type-fill2 */}
+        { loading ? (<button type="submit" className="btn-type-normal size-medium load"><span><LoadingComponent type="white" /></span></button>)
+                  : (<button onClick={this.handleSubmit} type="submit" className="btn-type-normal size-medium"><span>{I18n.button.next}</span></button>)}
 				</div>
         { showAlertWalletChecked && (
           <Alert
@@ -285,8 +313,8 @@ class WalletBar extends Component {
 
     return (
       <li>
-        <input onChange={this.toggleCheckbox} id={'check-'+this.props.index} className="cbox-type" type="checkbox" name="" checked={isChecked}/>
-        <label htmlFor={'check-'+this.props.index} className="label _img">{name}</label><span className="icx">{convertNumberToText(balance, type, true)}<em>{type.toUpperCase()}</em></span>
+        <input onChange={this.toggleCheckbox} id={'cbox-'+this.props.index} className="cbox-type" type="checkbox" name="" checked={isChecked}/>
+        <label htmlFor={'cbox-'+this.props.index} className="label _img"><i className={`_icon ${type === 'icx' ? '' : 'eth'}`}></i>{name}</label><span className="icx">{convertNumberToText(balance, type, true)}<em>{type.toUpperCase()}</em></span>
         { isChecked && (
             <div className="pw-add">
               <input onChange={this.changePw} onBlur={this.validateForm} type="password" className={`txt-type-normal ${(error || pwError) && 'error'}`} placeholder={I18n.myPagePlaceholder2} value={pw} onKeyPress={this.handleKeyPress}/>

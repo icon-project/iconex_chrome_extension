@@ -4,13 +4,115 @@ button:disabled{cursor: default;}
 .content-wrap .hash-holder .address{text-overflow: ellipsis; overflow: hidden;}
 .content-wrap .hash-holder.no-error{margin-top: 0px;}
 .footer.cols-2:hover{background: #fff;}
-.footer.cols-2 button{width: 48%;}
+/* .footer.cols-2 button{width: 48%;} */
 .content-wrap .list-holder li.link i:hover{cursor: pointer;}
-.remittance .footer button{width: 48%;}
+/* .remittance .footer button{width: 48%;} */
 .tab-holder ul.no-pointer li{cursor: default !important;}
 .remittance.complete .scroll{width:100%;}
-.remittance .mainnet{top: 32px; width: 90px;}
-.remittance .layer{top: 37px;}
+/* .remittance .mainnet{top: 32px; width: 90px;} */
+/* .remittance .layer{top: 37px;} */
 .remittance .layer li{cursor: pointer;}
+.remittance .layer li{cursor: pointer;}
+.remittance .drop-box{display: inline-block;}
 .content-wrap .scroll{height: calc(100vh - 120px);}
 .footer{height: 50px !important;}
+.footer.cols-2{height: 76px !important;}
+
+.lock .lock-wrap {
+    background: white;
+    height: 100%;
+    top: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
+/* Lock password input circle */ 
+.lock-wrap .content-holder ul#empty li span{
+    background: transparent;
+  }
+  
+.copyKey {position: absolute;color: transparent;font-size: 0px;}
+/* .footer{height: 50px !important;} */
+
+
+/* ******************* */
+/* 로딩 관련 CSS 시작 */
+/* ******************* */
+.loadingDiv {width: 100%;height: -webkit-fill-available;position: relative;}
+.loading {margin: 0;position: absolute;top: calc(50% - 9px);left: calc(50% - 9px);/*margin-right: -50%;transform: translate(-50%, -50%); */}
+.main .loading{background: url(../image/loading-W.png) left top no-repeat; background-size: auto 30px;width: 30px; height: 30px; animation: animateLoading 1s infinite linear; -webkit-animation: animateLoading 1s infinite linear;}
+
+.loading.black{background: url(../image/loading-B.png) left top no-repeat; background-size: auto 18px; width: 18px; height: 18px;
+   animation: animateLoading 1s infinite linear; -webkit-animation: animateLoading 1s infinite linear;
+ }
+.loading.white{background: url(../image/loading-W.png) left top no-repeat; background-size: auto 18px; width: 18px; height: 18px;
+     animation: animateLoading 1s infinite linear; -webkit-animation: animateLoading 1s infinite linear;
+ }
+
+.popup-wrap .loading-holder{height: 82px;    position: relative;}
+.popup-wrap .loading{width: 30px; height: 30px; background-size: auto 30px;}
+
+ @keyframes animateLoading {
+        0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+/* 각 페이지 로딩시 페이지를 감싸는 전체 wrapper div의 스타일 조정 */
+.page-loading-wrap {
+  height: calc(100vh - 160px);
+}
+/* 메인 내 지갑 페이지 상단 섹션 로딩 wapper div 스타일 */
+.content-wrap.main .main-holder .load {
+  height: 400px;
+}
+/* 메인 내 지갑 페이지 하단 섹션 로딩 wapper div 스타일 */
+.content-wrap.main .content-holder.load {
+  height: 340px;
+  margin-bottom: -72px;
+}
+/* 메인 내 지갑 페이지 지갑 섹션 - 상단 환율적용가 로딩 div 스타일 */
+.content-wrap .wrap-holder .table-typeC thead .c .load {
+  padding-left: 198px;
+  height: 6px;
+}
+/* 메인 내 지갑 페이지 지갑 섹션 - 코인/토큰 줄 섹션 로딩 div 스타일 */
+.table-typeC tbody td:nth-child(1).load {
+  width: 100%;
+  height: 54px;
+  padding: 0px;
+}
+/* 메인 내 지갑 페이지 지갑 섹션 - 코인/토큰 줄 섹션 중 환율적용가 로딩 div 스타일 */
+.table-typeC tbody td:nth-child(3) .load {
+  right: 20px;
+  position: absolute;
+}
+/* 코인 상세 조회 페이지 잔고 부분 로딩 wrapper div 스타일 */
+.content-wrap .wrap-holder .coin-holder .c .load {
+  width: 40px;
+  display: inline-block;
+  position: relative;
+  height: 6px;
+}
+/* 송금 화면 지갑 선택 섹션 잔고 로딩 스타일*/
+.content-wrap .wrap-holder.exchange .layer li span.c.load {
+  padding-top: 8px;
+}
+/* 토큰 추가 팝업 - 토큰 주소 입력 폼 부분 로딩 스타일*/
+.popup-wrap .tabbox-holder .with-loading .load {
+  width: 50px;
+  position: absolute;
+  right: 0;
+  bottom: 25px;
+}
+/* 마이페이지 잠금 설정 잠금번호 변경 화면 첫번째 인풋 라벨 ("현재 잠금번호") 길이 조정 스타일. 영어 문구가 길기 때문에 width를 더 줌. */
+.content-wrap .wrap-holder .locknum-holder .pw-group .label.long{
+  width: 300px;
+}
+/* 버튼 내부 로딩 div 스타일 */
+.btn-type-normal.load span, .btn-type-fill.load span {
+  display: inline-block;
+  padding-bottom: 3px;
+}
+/* ******************* */
+/* 로딩 관련 CSS 끝 */
+/* ******************* */

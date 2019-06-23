@@ -106,7 +106,7 @@ class CreateWallet3 extends Component {
       <ul className="layout">
         <li className="step">
   				<div className="tab-holder">
-  					<h1 className="title">Step 3</h1>
+  					<h1 className="title">STEP 3</h1>
   					<span className="img"><em className="_img step3"></em></span>
   					<ul>
               <li>{I18n.createWallet.step1}</li>
@@ -132,15 +132,16 @@ class CreateWallet3 extends Component {
 						<div className="scroll">
 							<div className="tabbox-holder">
                 <div className="download">
-                  { loading ? (<button type="submit" className="btn-type-fill size-full load"><span><LoadingComponent type="white" /></span></button>)
-                            : (<button onClick={this.handleDownload} type="submit" className="btn-type-fill size-full"><span>{I18n.button.download}</span></button>)}
+                {/* btn-type-fill */}
+                  { loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="white" /></span></button>)
+                            : (<button onClick={this.handleDownload} type="submit" className="btn-type-next size-full"><span>{I18n.button.download}</span></button>)}
     						</div>
 							</div>
 						</div>
 					</div>
           <div className="btn-holder">
-            <button onClick={this.goBack} type="submit" className="btn-type-fill"><span>{I18n.button.back}</span></button>
-            <button onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.button.next}</span></button>
+            <button onClick={this.goBack} type="submit" className="btn-type-next size-next"><span>{I18n.button.back}</span></button>&nbsp;
+            <button onClick={this.handleSubmit} type="submit" className="btn-type-next size-next"><span>{I18n.button.next}</span></button>
 					</div>
 				</li>
         {
@@ -151,7 +152,6 @@ class CreateWallet3 extends Component {
               text={I18n.createWallet.cancelCreateWalletNotDownload}
               cancelText={I18n.button.no}
               submitText={I18n.button.yes}
-              btnBottom={true}
             />
           )
         }
@@ -163,7 +163,6 @@ class CreateWallet3 extends Component {
               text={I18n.createWallet.passWithoutDownload}
               cancelText={I18n.button.no}
               submitText={I18n.button.yes}
-              btnBottom={true}
             />
           )
         }
@@ -173,7 +172,6 @@ class CreateWallet3 extends Component {
               handleCancel={this.closeAlert}
               text={I18n.createWallet.downloadSuccess}
               cancelText={I18n.button.confirm}
-              btnBottom={true}
             />
           )
         }

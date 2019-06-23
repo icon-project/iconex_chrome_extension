@@ -35,7 +35,7 @@ class PasswordInput extends Component{
   render() {
     const { error } = this.props
     return (
-      <div>
+      <div style={{display: "inline"}}>
         <input type="password" className={`txt-type-normal ${error && 'error'}`}
           placeholder={this.props.placeholder}
           value={this.state.value}

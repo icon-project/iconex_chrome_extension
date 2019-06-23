@@ -4,8 +4,8 @@ import { coinRound as COIN_ROUND, currencyRound as CURRENCY_ROUND } from 'consta
 import i18n from 'constants/i18n'
 import React from 'react';
 import BigNumber from 'bignumber.js';
-import { erc20Abi } from 'constants/index'
-import { IS_V3, ICX_NID } from 'constants/config.js'
+import { erc20Abi, copyState as COPY_STATE } from 'constants/index'
+import { ICX_NID } from 'constants/config.js'
 
 function charFreq(string) {
   let value;
@@ -410,17 +410,6 @@ function makeEthRawTx(isToken, data) {
 
 function makeIcxRawTx(isContract, data) {
   let rawTx = {}
-  if (!IS_V3) {
-    const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
-    rawTx = {
-      from: data.from,
-      to: data.to,
-      value: window.web3.toHex(sendAmount),
-      fee: "0x2386f26fc10000",
-      timestamp: (new Date()).getTime().toString() + '000'
-    }
-    return rawTx
-  }
 
   if (isContract) {
     rawTx = {
@@ -537,6 +526,57 @@ function fromDecToHex(num) {
   else return '0x' + (new BigNumber(num)).toString(16)
 }
 
+function handleCopy(selector, copyState, setState) {
+  const key = document.querySelector(selector);
+  if (copyState === COPY_STATE['on']) {
+    return false;
+  } else {
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(key);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    try {
+      document.execCommand('copy');
+      selection.removeAllRanges();
+      setState({
+        copyState: COPY_STATE['on']
+      }, () => {
+        const self = this;
+        window.setTimeout(function(){
+            setState({
+              copyState: COPY_STATE['off']
+            })
+          },
+          1000)
+        }
+      )
+    } catch(e) {
+      alert(e);
+    }
+  }
+}
+
+function beautifyJson(data, tab) {
+  if (!data) {
+    return ''
+  }
+  try {
+    let _data = {}
+    if (typeof data === 'object') {
+      _data = data
+    }
+    else if (typeof data === 'string') {
+      _data = JSON.parse(data)
+    }
+    return JSON.stringify(_data, null, tab)
+  }
+  catch (e) {
+    console.log(e)
+    return ''
+  }
+}
+
 export {
   charFreq,
   isEmpty,
@@ -582,5 +622,7 @@ export {
   getHexByteLength,
   fromHexToDec,
   fromDecToHex,
-  isPrivateKey
+  isPrivateKey,
+  handleCopy,
+  beautifyJson
 }

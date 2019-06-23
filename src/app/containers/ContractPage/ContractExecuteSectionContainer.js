@@ -11,7 +11,8 @@ function mapStateToProps(state) {
     funcLoading: state.contract.funcLoading,
     funcInputState: state.contract.funcInput,
     funcInputError: state.contract.funcInputError,
-    funcResult: state.contract.funcResult
+    funcResult: state.contract.funcResult,
+    contractError: state.contract.error,
   };
 }
 

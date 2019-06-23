@@ -1,24 +1,26 @@
 import NotificationManager from 'lib/notification-manager.js'
 import { icx_callScoreExternally } from 'redux/api/walletIcxApi'
 import { getWalletApi } from 'redux/api/walletApi'
+import autoSign from './AutoSign'
 
 const notificationManager = new NotificationManager();
-let TAB_ARR = [];
-let IS_LOCKED = _initIsAppLocked();
+const MIN = 60000
+const TIMER_TIME = MIN * 10;
+const TAB_ARR = [];
+
 let TIMER;
-let TIMER_TIME = 60000 * 10;
-//let TIMER_TIME = 5000;
+let IS_LOCKED = _initIsAppLocked();
 
 window.chrome.browserAction.setPopup({ popup: './popup.html' })
 
 window.chrome.runtime.onConnect.addListener(portFrom => {
-	console.log(portFrom)
 	if (portFrom.name === 'iconex-background-content') {
 		portFrom.onMessage.addListener(async message => {
+			const { type } = message
 			const popupId = notificationManager.getPopupId()
 			const isShown = await notificationManager.isShown(popupId)
 			const tabId = portFrom.sender.tab.id
-			const { type } = message
+			
 			switch (type) {
 				case 'REQUEST_HAS_ACCOUNT': {
 					const wallets = await getWalletApi()
@@ -34,17 +36,41 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 					break;
 				}
 				case 'REQUEST_JSON-RPC': {
-					const { payload: param } = message
-					if (param.method !== 'icx_sendTransaction') {
+					if (message.payload.method !== 'icx_sendTransaction') {
 						try {
-							const result = await icx_callScoreExternally(param)
+							const result = await icx_callScoreExternally(message.payload)
 							window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_JSON-RPC', payload: result });
 						}
 						catch (error) {
 							window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_JSON-RPC', payload: error });
 						}
-						break;
+					} else {
+						const { host } = message
+						const payload = { 
+							tabId, 
+							host,
+							payload: message.payload
+						}
+						if (autoSign.isWhitelisted(payload)) {
+							try {
+								const signedTransaction = autoSign.sign(payload)
+								console.log(signedTransaction)
+								const result = await icx_callScoreExternally(signedTransaction)
+								window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_JSON-RPC', payload: result });
+							}
+							catch (error) {
+								console.log(error)
+								window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_JSON-RPC', payload: error });
+							}
+						} else {
+							if (isShown) {
+								window.chrome.extension.sendMessage({ type, payload, host })
+							} else {
+								notificationManager.showPopup({ type, payload, host })
+							}
+						}
 					}
+					break
 				}
 				case 'REQUEST_ADDRESS':
 				case 'REQUEST_SIGNING': {
@@ -52,13 +78,13 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 					const payload = { tabId, data }
 					if (isShown) {
 						window.chrome.extension.sendMessage({ type, payload })
-					}
-					else {
+					} else {
 						notificationManager.showPopup({ type, payload })
 					}
 					break;
 				}
 				default:
+					break;
 			}
 		});
 	}
@@ -76,9 +102,11 @@ window.chrome.tabs.onRemoved.addListener((tabId) => {
 });
 
 window.chrome.runtime.onMessage.addListener(message => {
-	const { type } = message
-	console.log(message)
+	const { type, payload } = message
 	switch (type) {
+		case 'SET_AUTO_SIGN':
+			autoSign.createTimer(payload)
+			break;
 		case 'ADD_TAB_ID':
 			if (TAB_ARR.indexOf(message.payload) === -1) {
 				TAB_ARR.push(message.payload);
@@ -113,7 +141,6 @@ window.chrome.runtime.onMessage.addListener(message => {
 			notificationManager.closePopup()
 			break;
 		case 'REFRESH_LOCK_STATE':
-			console.log(type, message.payload)
 			window.chrome.extension.sendMessage({ type: type + '_FULFILLED', payload: message.payload });
 			break;
 		default:

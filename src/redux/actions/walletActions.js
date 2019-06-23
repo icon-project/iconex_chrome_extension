@@ -1,8 +1,9 @@
 import actionTypes from 'redux/actionTypes/actionTypes';
 
-export function getWallet() {
+export function getWallet(payload = {}) {
   return {
-    type: actionTypes.getWallet
+    type: actionTypes.getWallet,
+    payload
   };
 }
 

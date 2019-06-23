@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import { WalletSection } from 'app/components/';
+import { WalletSection, Alert } from 'app/components/';
 import { makeWalletArray } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
-  data: []
+  showMenuIndex: -1,
+
+  showAlertNoBalance: false,
+  showAlertNoSwapBalance: false,
+  showAlertNoSwapGasBalance: false,
+  showAlertNoTxFeeBalance: false
 }
 
 @withLanguageProps
@@ -29,11 +34,48 @@ class WalletSectionList extends Component {
     return dataArr;
   }
 
+  showMenuBar = (index) => {
+    this.setState({
+      showMenuIndex: index
+    })
+  }
+
+  closeMenuBar = () => {
+    this.setState({
+      showMenuIndex: -1
+    })
+  }
+
+  showAlert = (type, value = true) => {
+    this.setState({
+      [type]: value
+    })
+  }
+
+  closeAlert = () => {
+    this.setState({
+      showAlertNoBalance: false,
+      showAlertNoSwapBalance: false,
+      showAlertNoSwapGasBalance: false,
+      showAlertNoTxFeeBalance: false
+    })
+  }
+
   render() {
     const {
       isCoinView,
-      data
+      data,
+      I18n,
     } = this.props;
+
+    const {
+      showMenuIndex,
+
+      showAlertNoBalance, 
+      showAlertNoSwapBalance, 
+      showAlertNoSwapGasBalance, 
+      showAlertNoTxFeeBalance 
+    } = this.state
 
     let dataArr = this.walletDataToArr(data, isCoinView);
 
@@ -43,10 +85,51 @@ class WalletSectionList extends Component {
             dataArr.map((data, i) => (
                 <WalletSection
                   key={i}
+                  index={i}
+                  showMenuIndex={showMenuIndex}
+                  showMenuBar={this.showMenuBar}
+                  closeMenuBar={this.closeMenuBar}
+                  showAlert={this.showAlert}
                   walletSectionData={data}
                   {...this.props}
                 />
             ))
+        }
+        {
+          showAlertNoBalance && (
+            <Alert
+              handleCancel={this.closeAlert}
+              text={I18n.error.alertNoBalance}
+              cancelText={I18n.button.confirm}
+            />
+          )
+        }
+        {
+          showAlertNoSwapBalance && (
+            <Alert
+              handleCancel={this.closeAlert}
+              text={I18n.error.alertNoSwapBalance}
+              cancelText={I18n.button.confirm}
+            />
+          )
+        }
+        {
+          showAlertNoSwapGasBalance && (
+            <Alert
+              handleCancel={this.closeAlert}
+              text={I18n.error.alertNoSwapGasBalance}
+              cancelText={I18n.button.confirm}
+            />
+          )
+        }
+        {
+          showAlertNoTxFeeBalance && (
+            <Alert
+              handleCancel={this.closeAlert}
+              text={I18n.error.alertNoTxFeeBalance(showAlertNoTxFeeBalance)}
+              cancelText={I18n.button.confirm}
+            />
+          )
         }
       </div>
     )

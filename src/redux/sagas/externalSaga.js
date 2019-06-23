@@ -6,14 +6,15 @@ import { signRawTx } from 'utils'
 import { signHashcode } from 'utils/iconex'
 
 export function* callScoreFunc(action) {
-    const { tabId, privKey, param } = action.payload
+    const { tabId, privKey, payload } = action.payload
     try {
-        const { params } = param
-        param.params = signRawTx(privKey, params)
-        const payload = yield call(CALL_SCORE_EXTERNALLY, param)
-        const txHash = payload.result
+        const { params } = payload
+        payload.params = signRawTx(privKey, params)
+        const result = yield call(CALL_SCORE_EXTERNALLY, payload)
+        const txHash = result.result
         yield put({ type: AT.callScoreFulfilled, payload: { txHash } });
-        window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_JSON-RPC', payload });
+        window.chrome.runtime.sendMessage({ type: 'SET_AUTO_SIGN', payload: action.payload });
+        window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_JSON-RPC', payload: result });
     }
     catch (error) {
         yield put({ type: AT.callScoreRejected, payload: { error } });

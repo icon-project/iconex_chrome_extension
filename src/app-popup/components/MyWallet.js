@@ -41,7 +41,7 @@ class MyWallet extends Component {
 			else {
 				this.cancelClicked = true
 				const { wallets, tabId, transaction, signing } = this.props;
-				if (transaction.param) {
+				if (transaction.payload) {
 					const wallet = wallets[transaction.from]
 					this.props.setScoreWallet({ wallet, privKey })
 					this.props.history.push(ROUTE['send'])
@@ -125,7 +125,7 @@ class MyWallet extends Component {
 		}
 
 		let type = 'CANCEL'
- 		if (this.props.transaction.param) {
+ 		if (this.props.transaction.payload) {
 			type += '_JSON-RPC'
 		}
 		else if (this.props.signing.hash) {
@@ -192,13 +192,13 @@ class MyWallet extends Component {
 
 	onlyIcxTab = () => {
 		const { addressRequest, transaction, signing } = this.props
-		return addressRequest || transaction.param || signing.hash
+		return addressRequest || transaction.payload || signing.hash
 	}
 
 	render() {
 		const { tab, data, password, pwError, confirmLoading, selected } = this.state;
 		const { I18n, totalResultLoading } = this.props;
-		const { addressRequest, transaction } = this.props
+		const { addressRequest, transaction } = this.props;
 		const _onlyIcxTab = this.onlyIcxTab()
 		if (_onlyIcxTab) {
 			data['eth'] = []
@@ -221,8 +221,10 @@ class MyWallet extends Component {
 								<ul className="list-holder">
 									{
 										data[tab].map((wallet, i) => {
-											const isInput = this.getIsInput(wallet)
-											const txHash = isInput ? this.getTxHash() : ''
+											const isInput = this.getIsInput(wallet);
+											// const isInput = true;
+											const txHash = isInput ? this.getTxHash() : '';
+											// const txHash = '3H3svYGqXxAAHSAJy2Eu1TGagC3H3svYGqXxAAHSbU2kz5KR';
 											return (
 												<WalletBar key={i}
 													index={i}
@@ -234,7 +236,7 @@ class MyWallet extends Component {
 													selected={selected}
 													selectAddress={this.selectAddress}
 
-													isTransaction={!!transaction.param}
+													isTransaction={!!transaction.payload}
 													isInput={isInput}
 													txHash={txHash}
 													confirmPassword={this.confirmPassword}
@@ -251,12 +253,12 @@ class MyWallet extends Component {
 				}
 				{addressRequest ?
 					<div className="footer cols-2">
-						<button className="btn-type-normal" onClick={() => { this.cancelEvent() }}><span>{I18n.button.cancel}</span></button>
-						<button className="btn-type-ok" onClick={this.confirmAddress} disabled={!selected}><span>{I18n.button.confirm}</span></button>
+						<button className="btn-type-cancel" onClick={() => { this.cancelEvent() }}><span>{I18n.button.cancel}</span></button>
+						<button className="btn-type-normal" onClick={this.confirmAddress} disabled={!selected}><span>{I18n.button.confirm}</span></button>
 					</div>
 					:
 					<div onClick={this.goApp} className="footer">
-						<p>{I18n.button.goToWallet}<em className="_img"></em></p>
+						<p>{I18n.button.goToWallet}</p>
 					</div>
 				}
 			</div>

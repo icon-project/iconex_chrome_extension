@@ -91,9 +91,11 @@ class ImportWallet4 extends Component {
     const { I18n } = this.props;
     return (
       <div>
+        <div className="header">
           <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
           <h1 className="title">{I18n.importWallet.title}</h1>
           <h2>{I18n.importWallet.desc4}</h2>
+        </div>
           <ValidationForm
             type="importWallet_privKey"
             initialName={''}
@@ -103,8 +105,8 @@ class ImportWallet4 extends Component {
             handleSubmit={this.handleSubmit}
             />
           <div className="btn-holder">
-            { buttonLoading ? (<button type="submit" className="btn-type-normal load"><span><LoadingComponent type="black" /></span></button>)
-                      : (<button onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.button.import}</span></button>)}
+            { buttonLoading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="white" /></span></button>)
+                      : (<button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.import}</span></button>)}
           </div>
           {
             showAlertAccountSame && (

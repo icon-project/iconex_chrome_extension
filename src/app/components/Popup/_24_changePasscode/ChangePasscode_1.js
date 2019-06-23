@@ -31,8 +31,10 @@ class ChangePasscode1 extends Component {
     }
   }
 
-  componentWillMount() {
-    this.props.getWallet();
+  componentDidMount() {
+    this.props.getWallet({
+      fetchWithoutBalance: true
+    });
   }
 
   componentWillUnmount() {
@@ -84,8 +86,8 @@ class ChangePasscode1 extends Component {
     const { I18n } = this.props;
     return (
       <div className="popup-wrap">
-        <div className="dimmed"></div>
-        <div className="popup">
+        <div className="dimmed fade-in"></div>
+        <div className="popup moving-down">
           <span className="close" onClick={this.closePopup}><em className="_img"></em></span>
           <h1 className="title">{I18n.changePasscode.title}</h1>
           <h2>{I18n.changePasscode.desc1}</h2>

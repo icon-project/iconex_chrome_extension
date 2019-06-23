@@ -1,4 +1,3 @@
-const isDevVersion = () => process.env.USER === 'developer';
 const isAccessedFromWorker = typeof window === 'undefined';
 
 const isDevModeOn = () => {
@@ -28,8 +27,8 @@ export const INITIAL_API_VERSION_ICX = 'v3';
 export const INITIAL_SERVER_ICX = prodDev('mainnet', 'euljiro');
 export const INITIAL_SERVER_ETH = prodDev('main', 'ropsten');
 
-export const HIDE_SERVER = (isDevVersion() || isDevModeOn()) ? false : true;
-export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://hardwallet.icon.foundation/test.html')
+export const HIDE_SERVER = isDevModeOn() ? false : true;
+export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://localhost:3000/index.html')
 
 export const getCurrentServer = (coinType) => {
   let server;
@@ -42,23 +41,11 @@ export const getCurrentServer = (coinType) => {
   return server;
 }
 
-export const getCurrentICXApiVersion = () => {
-  let apiVersion;
-  if (!isAccessedFromWorker) {
-    apiVersion = localStorage.getItem(`icxApiVersion`) || INITIAL_API_VERSION_ICX
-  } else {
-    apiVersion = INITIAL_API_VERSION_ICX
-  }
-  return apiVersion;
-}
-
-export const IS_V3 = getCurrentICXApiVersion() === 'v3';
-
 export const ICX_WALLET_SERVER = () => {
   const icxServer = getCurrentServer('icx');
   const obj = {
     'mainnet': 'https://wallet.icon.foundation',
-    'euljiro': 'https://test-ctz.solidwallet.io',
+    'euljiro': 'https://testwallet.icon.foundation',
     'yeouido': 'https://bicon.net.solidwallet.io',
     'custom': getCustomIcxServer().customWalletURL
   }

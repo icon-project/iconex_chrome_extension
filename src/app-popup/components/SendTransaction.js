@@ -213,12 +213,8 @@ class SendTransaction extends Component {
 		const { payload } = transaction
 		const { params } = payload
 		const { to, value, dataType, data } = params
-		console.log(payload)
-		const dataParams = data.params
-		const price = dataParams.price
-
-		// const valueIcx = window.web3.fromWei(fromHexToDec(value), 'ether')
-		const valueIcx = window.web3.fromWei(fromHexToDec(price), 'ether')
+		const valueIcx = window.web3.fromWei(fromHexToDec(value), 'ether')
+		//const valueIcx = window.web3.fromWei(fromHexToDec(price), 'ether')
 		const valueUsd = valueIcx * icxRate
 
 		const stepPriceNum = !isNaN(stepPrice) ? stepPrice : 0

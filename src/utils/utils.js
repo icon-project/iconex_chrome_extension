@@ -329,7 +329,7 @@ function checkLength(message) {
   tmpStr = String(message);
 
   for (var k = 0; k < tmpStr.length; k++) {
-    // [=91     \=92    ]=93    ^=94    {=123    |=124    }=125    ~=126 A~Z 65 ~ 90     a~z 97~122
+    // [=91 \=92 ]=93 ^=94 {=123 |=124 }=125 ~=126 A~Z 65 ~ 90 a~z 97~122
     if (tmpStr.charCodeAt(k) === 91 || tmpStr.charCodeAt(k) === 92 ||
       tmpStr.charCodeAt(k) === 93 || tmpStr.charCodeAt(k) === 94 ||
       tmpStr.charCodeAt(k) === 123 || tmpStr.charCodeAt(k) === 124 ||
@@ -487,15 +487,11 @@ function dataToHex(text) {
     convertedText += char;
   }
 
-  return convertedText;
+  return check0xPrefix(convertedText);
 }
 
 function bytesToKB(input) {
   return Math.ceil(input / 1024);
-}
-
-function getHexByteLength(input) {
-  return input / 2;
 }
 
 function isObject(value) {
@@ -511,7 +507,7 @@ function calcIcxMessageKB({
   dataType,
   data
 }) {
-  return dataType === 'utf8' ? bytesToKB(getHexByteLength(checkLength(dataToHex(data)))) : bytesToKB(getHexByteLength(data.length))
+  return dataType === 'utf8' ? bytesToKB(checkLength(JSON.stringify(dataToHex(data)))) : bytesToKB(JSON.stringify(data).length)
 }
 
 function fromHexToDec(num) {
@@ -619,7 +615,6 @@ export {
   isObject,
   checkURLSuffix,
   calcIcxMessageKB,
-  getHexByteLength,
   fromHexToDec,
   fromDecToHex,
   isPrivateKey,

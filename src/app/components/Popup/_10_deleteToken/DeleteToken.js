@@ -20,7 +20,7 @@ class DeleteToken extends Component {
   render() {
     const { I18n } = this.props;
     return (
-      <div className='popup-wrap home'>
+      <div className='popup-wrap ledger'>
         <div className="dimmed fade-in"></div>
         <SmallPopup
           handleCancel={this.closePopup}
@@ -28,6 +28,7 @@ class DeleteToken extends Component {
           text={I18n.deleteToken.info}
           cancelText={I18n.button.no}
           submitText={I18n.button.yes}
+          isFullButton={true}
         />
       </div>
     );

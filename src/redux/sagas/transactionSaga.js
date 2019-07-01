@@ -13,7 +13,7 @@ import {
   icx_sendTransaction as ICX_SEND_TRANSACTION,
   icx_getTxFeeInfoApi as ICX_GET_TX_FEE_INFO,
 } from 'redux/api/walletIcxApi';
-import { check0xPrefix, signRawTx, customValueToTokenValue, makeEthRawTx, isEmpty, checkLength, dataToHex, getHexByteLength } from 'utils'
+import { check0xPrefix, signRawTx, customValueToTokenValue, makeEthRawTx, isEmpty, checkLength, dataToHex } from 'utils'
 import {
   addRecentTransaction
 } from 'redux/actions/walletActions';
@@ -117,8 +117,14 @@ export function* getTxFeeInfoFunc(action) {
       } else {
         const data = yield select(state => state.exchangeTransaction.data);
         const dataType = yield select(state => state.exchangeTransaction.dataType);
-        const txFeeLimit = data.length > 0 ? parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['input'], 16) * (dataType === 'utf8' ? (getHexByteLength(checkLength(dataToHex(data)))) : getHexByteLength(data.length))
-                                            : parseInt(txFeeLimitTable['default'], 16)
+        // Apply v0.2.54 hotfix to v0.3.4 for calculating stepLimit
+        const txFeeLimit = data.length > 0 
+        ? parseInt(txFeeLimitTable['default'], 16) + 
+          parseInt(txFeeLimitTable['input'], 16) * 
+          (dataType === 'utf8' 
+            ? checkLength(JSON.stringify(dataToHex(data)))
+            : JSON.stringify(data).length)
+        : parseInt(txFeeLimitTable['default'], 16)
         yield put({type: AT.getTxFeeInfoFulfilled, payload: {
           txFeePrice: txFeePriceStep,
           txFeeLimit: txFeeLimit,

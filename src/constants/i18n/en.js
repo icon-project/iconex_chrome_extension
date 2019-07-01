@@ -204,8 +204,8 @@ export default {
   coinDetailHistoryTitle: 'Transaction History',
   coinDetailHistoryPending: 'Pending',
   coinDetailHistoryCompleted: 'Completed',
-  coinDetailHistoryNoTransactionEth: 'Transactions made using the Ethereum wallet can be looked up on Etherscan.',
-  coinDetailHistoryIcx: 'You can check the transaction history on <span>ICON Tracker</span>',
+  coinDetailHistoryNoTransactionEth: 'You can check the transaction history on<br/>Etherscan.',
+  coinDetailHistoryIcx: 'You can check the transaction history on<br/><span>ICON Tracker</span>',
   coinDetailHistoryNoTransactionDefault: 'No transaction',
 
   coinDetailHistoryColumn0: 'Requested Time',
@@ -603,7 +603,8 @@ export default {
     txComplete: 'Request for write contract has been completed.',
     txHashTracker: 'Tx Hash is trackable on ICON Tracker.',
 
-    openTracker: 'Go to ICON Tracker'
+    openTracker: 'Go to ICON Tracker',
+    openEtherscan: 'Go to Etherscan'
   },
 
   connectLedger: {

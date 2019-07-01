@@ -127,11 +127,11 @@ class Routes extends Component {
     const { initLoading, isLoggedIn, isLocked, isLedger, language } = this.props;
     const isShowNotice = isLoggedIn && this.state.showNotice
     return (
-      <div>
+      <div className='empty'>
       {
         !initLoading && (
           <HashRouter>
-            <div>
+            <div className='empty'>
               <div className={`wrap
                   ${language}
                   ${isShowNotice ? 'notice' : ''}`}>

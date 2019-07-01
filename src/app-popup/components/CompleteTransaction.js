@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { txidUrl as TXID_URL } from 'constants/config.js'
+import { routeConstants as ROUTE } from '../../constants';
 
 @withLanguageProps
 class CompleteTransaction extends Component {
@@ -17,8 +18,9 @@ class CompleteTransaction extends Component {
 
 	render() {
 		const { I18n, transaction } = this.props;
-		const { txHash, error } = transaction
+		const { txHash, error, from } = transaction
 		const txUrl = TXID_URL['icx'] + txHash
+		const walletPath = `/index.html#${ROUTE.mywallet}/${from}`
 		const Content = () => {
 			if (!!txHash) {
 				return (
@@ -32,7 +34,7 @@ class CompleteTransaction extends Component {
 						</div>
 						<div className="footer cols-2">
 							<button className="btn-type-normal" onClick={this.closePopup} ><span>{I18n.button.close}</span></button>
-							<button className="btn-type-normal" onClick={() => { this.checkTransaction(txUrl) }}><span>{I18n.button.checkTransction}</span></button>
+							<button className="btn-type-normal" onClick={() => { this.checkTransaction(walletPath) }}><span>{I18n.button.checkTransction}</span></button>
 						</div>
 					</div>
 				)

@@ -204,7 +204,7 @@ export default {
   coinDetailHistoryTitle: '입출금 내역',
   coinDetailHistoryPending: '대기 내역',
   coinDetailHistoryCompleted: '완료 내역',
-  coinDetailHistoryNoTransactionEth: 'Ethereum 지갑 주소의 거래내역은 Etherscan에서 조회 가능합니다.',
+  coinDetailHistoryNoTransactionEth: 'Ethereum 지갑 주소의 거래내역은<br/>Etherscan에서 조회 가능합니다.',
   coinDetailHistoryIcx: '거래내역은 <span>ICON Tracker</span>에서 조회 가능합니다.',
   coinDetailHistoryNoTransactionDefault: '내역이 없습니다.',
 
@@ -607,8 +607,8 @@ export default {
     txComplete: '실행이 완료 되었습니다.',
     txHashTracker: 'TxHash는 ICON Tracker에서 조회 가능합니다.',
 
-    openTracker: 'ICON Tracker로 이동'
-
+    openTracker: 'ICON Tracker로 이동',
+    openEtherscan: 'Etherscan으로 이동'
   },
 
   connectLedger: {

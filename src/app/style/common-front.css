@@ -336,3 +336,7 @@ div.popup-wrap.ledger p.txt_box.middle {
   color: #00a1b3;
   text-decoration: underline;
 }
+
+.table-typeA.my tbody .ellipsis {
+  padding-top: 5px;
+}

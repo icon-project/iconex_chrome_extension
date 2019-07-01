@@ -31,6 +31,9 @@ class CoinDetailContent extends Component {
       tokenId: !isToken ? '' : url.split("_")[1],
       isToken: isToken
     });
+
+    // To resize font size only once
+    this.fontSizeUpdated = false
   }
 
   componentWillMount() {
@@ -50,14 +53,18 @@ class CoinDetailContent extends Component {
     this.props.resetReducer();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {    
+    if (this.fontSizeUpdated) return
+
     const { account, tokenId, isToken } = this.state;
     const getFontSize = (divWidth, emWidth) => {
+      this.fontSizeUpdated = true
       let fontSize = 0
       fontSize = 500 / (divWidth - emWidth);
       fontSize = Math.min(Math.max(fontSize, 0.4), 1) * 46;
       return fontSize
     }
+
     if (isToken) {
       const wallet = this.props.wallets[account];
       const token = wallet.tokens[tokenId];

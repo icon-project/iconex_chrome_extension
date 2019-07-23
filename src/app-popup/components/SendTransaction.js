@@ -214,8 +214,8 @@ class SendTransaction extends Component {
 		const { params } = payload
 		const { to, value, dataType, data } = params
 		console.log(payload)
-		const dataParams = data.params
-		const price = dataParams.price
+		const dataParams = data.params || {}
+		const price = dataParams.price || 0
 
 		// const valueIcx = window.web3.fromWei(fromHexToDec(value), 'ether')
 		const valueIcx = window.web3.fromWei(fromHexToDec(price), 'ether')

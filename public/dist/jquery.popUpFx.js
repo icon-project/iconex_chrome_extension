@@ -9,6 +9,8 @@
 		var _id 			= this.attr("id");
 		var _class 			= this.attr("class");
 
+		_class = _class.trim()
+		console.log(_class)
 		var init = function(){
 			I_F.set = $.extend({}, defaults, options);
 			loadedFx();
@@ -23,9 +25,11 @@
 					var _add = (_objH - _winH);
 					if (_id.includes('popup')) {
 						$(`#${_id}`).css({"position":"absolute"});
+						$(`#${_id}`).css({"overflow":"initial"});
 						$(`#${_id} > div > .popup`).css({"top":(_top + 10)+"px", "bottom":"auto"});
 					} else {
 						$(`#${_id}`).css({"position":"fixed"});
+						$(`#${_id}`).css({"overflow":"hidden"});
 						$(`#${_id} > div > .popup`).css({"top":"0", "bottom":"0"});
 					}
 

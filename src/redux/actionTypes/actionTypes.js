@@ -193,6 +193,11 @@ const actionTypes = {
   //addressBookActions
   addAddressInAddressBook: 'ADD_ADDRESS_IN_ADDRESS_BOOK',
   deleteAddressInAddressBook: 'DELETE_ADDRESS_IN_ADDRESS_BOOK',
+  //txFeeActions
+  getEstimatedTxFee: 'GET_ESTIMATED_TX_FEE',
+  getEstimatedTxFeeLoading: 'GET_ESTIMATED_TX_FEE_LOADING',
+  getEstimatedTxFeeFulfilled: 'GET_ESTIMATED_TX_FEE_FULFILLED',
+  getEstimatedTxFeeRejected: 'GET_ESTIMATED_TX_FEE_REJECTED',
 };
 
 export default actionTypes;

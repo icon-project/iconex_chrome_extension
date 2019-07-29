@@ -45,7 +45,6 @@ export function icx_fetchCoinBalanceApi(account) {
 export function icx_fetchTokenBalanceApi(tokenAddress, customDecimal, account) {
   return (async () => {
     try {
-
       const balance = await icx_call({
         contractAddress: tokenAddress,
         methodName: 'balanceOf',
@@ -332,9 +331,50 @@ export function icx_getTxFeeInfoApi(data) {
   })();
 }
 
+export function debug_estimateStepApi(params) {
+  return new Promise((resolve, reject) => {
+    //const rawTx = makeIcxRawTx(true, params)
+    const param = {
+      jsonrpc: "2.0",
+      method: "debug_estimateStep",
+      id: randomUint32(),
+      params,
+      //params: rawTx
+    }
+
+    walletApi.post(`/api/debug/v3`, JSON.stringify(param))
+      .then(res => {
+        if (res.data.result) {
+          resolve(res.data.result);
+        } else {
+          throw new Error(res.data.error);
+        }
+      })
+      .catch(error => {
+        reject(error);
+      })
+  });
+}
+
+
+export function icx_getStepPriceApi(data) {
+  return (async () => {
+    try {
+      const stepPrice = await icx_call({
+        contractAddress: GOVERNANCE_ADDRESS,
+        methodName: 'getStepPrice'
+      });
+      return new BigNumber(stepPrice[0])
+    } catch (error) {
+      return {
+        error
+      };
+    }
+  })();
+}
+
 export function icx_callScoreExternally(param) {
   setIcxWalletServer()
-  console.log(ICX_WALLET_SERVER(), param, JSON.stringify(param))
   return new Promise((resolve, reject) => {
     walletApi.post(`/api/v3`, JSON.stringify(param))
       .then(res => {

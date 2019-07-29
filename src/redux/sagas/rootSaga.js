@@ -5,6 +5,7 @@ import walletSaga from './walletSaga';
 import lockSaga from './lockSaga';
 import transactionSaga from './transactionSaga'
 import contractSaga from './contractSaga'
+import txFeeSaga from './txFeeSaga'
 import externalSaga from './externalSaga'
 
 export default function* rootSaga() {
@@ -16,5 +17,6 @@ export default function* rootSaga() {
         fork(transactionSaga),
         fork(contractSaga),
         fork(externalSaga)
+        fork(txFeeSaga),
     ];
 }

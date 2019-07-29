@@ -11,6 +11,7 @@ import { rateReducer } from 'redux/reducers/rateReducer'
 import { ledgerReducer } from 'redux/reducers/ledgerReducer'
 import { addressBookReducer } from 'redux/reducers/addressBookReducer'
 import { externalReducer } from 'redux/reducers/externalReducer'
+import { txFeeReducer } from 'redux/reducers/txFeeReducer';
 
 const rootReducer = combineReducers({
   global: globalReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   signup: signupReducer,
   auth: authReducer,
   wallet: walletReducer,
+  txFee: txFeeReducer,
   exchangeTransaction: exchangeTransactionReducer,
   history: historyReducer,
   contract: contractReducer,

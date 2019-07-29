@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ComboBox } from 'app/components/'
-import { isEmpty, checkValueLength, trimLeftZero, makeEthRawTx } from 'utils/utils'
+import { isEmpty, trimLeftZero, trimSpace, isValidICXInput } from 'utils/utils'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -22,8 +22,8 @@ class QuantitySetter extends Component {
   }
 
   handleInputChange = (e) => {
-    const value = e.target.value.replace(/\s+/g, '');
-    if (!isNaN(value) && checkValueLength(value) && !value.includes("+") && !value.includes("-")) {
+    const value = trimSpace(e.target.value);
+    if (isValidICXInput(value)) {
       this.setCoinQuantity(value);
       this.props.toggleFullBalance(false);
     }

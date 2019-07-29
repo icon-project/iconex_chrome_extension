@@ -573,6 +573,17 @@ function beautifyJson(data, tab) {
   }
 }
 
+function isValidICXInput(input) {
+  const value = input.replace(/\s+/g, '');
+  if (!isNaN(value) && checkValueLength(value) && !value.includes("+") && !value.includes("-")) {
+    return true
+  }
+  return false
+}
+
+function trimSpace(input) {
+  return input.replace(/\s+/g, '');
+}
 export {
   charFreq,
   isEmpty,
@@ -620,4 +631,6 @@ export {
   isPrivateKey,
   handleCopy,
   beautifyJson
+  isValidICXInput,
+  trimSpace,
 }

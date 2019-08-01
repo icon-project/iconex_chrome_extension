@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { Home } from 'app/components/';
-import {  openPopup } from 'redux/actions/popupActions';
+import { openPopup } from 'redux/actions/popupActions';
 
 function mapStateToProps(state) {
   return {

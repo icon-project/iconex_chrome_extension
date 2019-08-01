@@ -1,16 +1,20 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
 import update from 'react-addons-update';
 
+const initialSelectedWallet = {
+  account: '',
+  tokenId: '',
+  isToken: false,
+  privKey: '',
+  isLoggedIn: false,
+}
+
 const initialState = {
   wallets: {},
   walletsLoading: true,
   totalResultLoading: false,
 
-  selectedWallet: {
-    account: '',
-    tokenId: '',
-    isToken: false
-  },
+  selectedWallet: initialSelectedWallet,
 
   _06_privateKey: '', // 06 BACKUP WALLETS,
   _06_v3: '', // 06 BACKUP WALLETS
@@ -28,16 +32,16 @@ export function walletReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.getWalletLoading: {
       return Object.assign({}, state, {
-          walletsLoading: true
+        walletsLoading: true
       })
     }
     case actionTypes.getWalletFulfilled: {
       let result = {};
       let keys = Object.keys(action.payload);
       let values = Object.values(action.payload);
-      for(let i=0; i<keys.length; i++) {
+      for (let i = 0; i < keys.length; i++) {
         const tokensValues = Object.values(values[i].tokens);
-        for(let v=0; v<tokensValues.length; v++) {
+        for (let v = 0; v < tokensValues.length; v++) {
           const newTokenObject = Object.assign({}, {
             balance: 0,
             balanceLoading: true,
@@ -55,24 +59,24 @@ export function walletReducer(state = initialState, action) {
         }, values[i]);
       }
       return Object.assign({}, state, {
-          wallets: result,
-          walletsLoading: false
+        wallets: result,
+        walletsLoading: false
       })
     }
     case actionTypes.getWalletRejected: {
       return Object.assign({}, state, {
-          error: action.error,
-          walletsLoading: false
+        error: action.error,
+        walletsLoading: false
       })
     }
     case actionTypes.setExportWalletObject: {
       return Object.assign({}, state, {
-          _09_exportWalletObjects: action.payload
+        _09_exportWalletObjects: action.payload
       })
     }
     case actionTypes.setNewPw: {
       return Object.assign({}, state, {
-          _09_newPw: action.payload
+        _09_newPw: action.payload
       })
     }
     case actionTypes.resetExportWalletState: {
@@ -83,8 +87,8 @@ export function walletReducer(state = initialState, action) {
     }
     case actionTypes.setPrivKeyAndV3ForBackup: {
       return Object.assign({}, state, {
-          _06_privateKey: action.payload.privKey,
-          _06_v3: action.payload.v3,
+        _06_privateKey: action.payload.privKey,
+        _06_v3: action.payload.v3,
       })
     }
     case actionTypes.getTokenInfo: {
@@ -111,8 +115,8 @@ export function walletReducer(state = initialState, action) {
       return update(state, {
         wallets: {
           [action.account]: {
-            balanceLoading: {$set: true},
-            isError: {$set: false}
+            balanceLoading: { $set: true },
+            isError: { $set: false }
           }
         }
       });
@@ -121,9 +125,9 @@ export function walletReducer(state = initialState, action) {
       return update(state, {
         wallets: {
           [action.account]: {
-            balance: {$set: action.balance},
-            balanceLoading: {$set: false},
-            isError: {$set: action.isError}
+            balance: { $set: action.balance },
+            balanceLoading: { $set: false },
+            isError: { $set: action.isError }
           }
         }
       });
@@ -133,7 +137,7 @@ export function walletReducer(state = initialState, action) {
         error: action.error,
         wallets: {
           [action.account]: {
-            balanceLoading: {$set: false}
+            balanceLoading: { $set: false }
           }
         }
       });
@@ -144,8 +148,8 @@ export function walletReducer(state = initialState, action) {
           [action.account]: {
             tokens: {
               [action.index]: {
-                balanceLoading: {$set: true},
-                isError: {$set: false}
+                balanceLoading: { $set: true },
+                isError: { $set: false }
               }
             }
           }
@@ -158,9 +162,9 @@ export function walletReducer(state = initialState, action) {
           [action.account]: {
             tokens: {
               [action.index]: {
-                balance: {$set: action.balance},
-                balanceLoading: {$set: false},
-                isError: {$set: action.isError}
+                balance: { $set: action.balance },
+                balanceLoading: { $set: false },
+                isError: { $set: action.isError }
               }
             }
           }
@@ -169,12 +173,12 @@ export function walletReducer(state = initialState, action) {
     }
     case actionTypes.fetchTokenBalanceRejected: {
       return update(state, {
-        error: {$set: action.error},
+        error: { $set: action.error },
         wallets: {
           [action.account]: {
             tokens: {
               [action.index]: {
-                balanceLoading: {$set: false}
+                balanceLoading: { $set: false }
               }
             }
           }
@@ -183,12 +187,12 @@ export function walletReducer(state = initialState, action) {
     }
     case actionTypes.totalResultLoading: {
       return Object.assign({}, state, {
-          totalResultLoading: true
+        totalResultLoading: true
       })
     }
     case actionTypes.totalResultFulfilled: {
       return Object.assign({}, state, {
-          totalResultLoading: false
+        totalResultLoading: false
       })
     }
     case actionTypes.deleteToken:
@@ -200,9 +204,9 @@ export function walletReducer(state = initialState, action) {
           [action.account]: {
             tokens: {
               [action.tokenIndex]: {
-                name: {$set: action.payload.name},
-                symbol: {$set: action.payload.symbol},
-                decimals: {$set: action.payload.decimals}
+                name: { $set: action.payload.name },
+                symbol: { $set: action.payload.symbol },
+                decimals: { $set: action.payload.decimals }
               }
             }
           }
@@ -223,8 +227,8 @@ export function walletReducer(state = initialState, action) {
               [from]: {
                 tokens: {
                   [contractAddress]: {
-                    recent: {$set: [action.payload.recent]},
-                    pendingTransaction: {$set: [action.payload.pending, ...state.wallets[from].tokens[contractAddress].pendingTransaction]}
+                    recent: { $set: [action.payload.recent] },
+                    pendingTransaction: { $set: [action.payload.pending, ...state.wallets[from].tokens[contractAddress].pendingTransaction] }
                   }
                 }
               }
@@ -236,7 +240,7 @@ export function walletReducer(state = initialState, action) {
               [from]: {
                 tokens: {
                   [contractAddress]: {
-                    recent: {$set: [action.payload.recent, ...state.wallets[from].tokens[contractAddress].recent].slice(0, 5)}
+                    recent: { $set: [action.payload.recent, ...state.wallets[from].tokens[contractAddress].recent].slice(0, 5) }
                   }
                 }
               }
@@ -248,8 +252,8 @@ export function walletReducer(state = initialState, action) {
           return update(state, {
             wallets: {
               [from]: {
-                recent: {$set: [action.payload.recent]},
-                pendingTransaction: {$set: [action.payload.pending, ...state.wallets[from].pendingTransaction]}
+                recent: { $set: [action.payload.recent] },
+                pendingTransaction: { $set: [action.payload.pending, ...state.wallets[from].pendingTransaction] }
               }
             }
           })
@@ -257,7 +261,7 @@ export function walletReducer(state = initialState, action) {
           return update(state, {
             wallets: {
               [from]: {
-                recent: {$set: [action.payload.recent, ...state.wallets[from].recent].slice(0, 5)}
+                recent: { $set: [action.payload.recent, ...state.wallets[from].recent].slice(0, 5) }
               }
             }
           })
@@ -265,26 +269,39 @@ export function walletReducer(state = initialState, action) {
       }
     }
     case actionTypes.setSelectedWallet: {
-      const selectedWallet = {
+      const _selectedWallet = Object.assign({}, state.selectedWallet, {
         account: action.payload.account,
         tokenId: action.payload['tokenId'] || '',
-        isToken: !!action.payload['tokenId']
-      }
+        isToken: !!action.payload['tokenId'],
+      })
       return Object.assign({}, state, {
-          selectedWallet: selectedWallet
+        selectedWallet: _selectedWallet
       })
     }
-
+    case actionTypes.setLogInStateForLedger: {
+      const _selectedWallet = Object.assign({}, state.selectedWallet, {
+        isLoggedIn: action.payload.isLoggedIn,
+        account: action.payload.ledgerWallet.account
+      })
+      return Object.assign({}, state, {
+        selectedWallet: _selectedWallet
+      })
+    }
+    case actionTypes.setLogInState: {
+      const _selectedWallet = Object.assign({}, state.selectedWallet, {
+        isLoggedIn: action.payload.isLoggedIn,
+        privKey: action.payload.isLoggedIn ? action.payload.privKey : '',
+      })
+      return Object.assign({}, state, {
+        selectedWallet: _selectedWallet
+      })
+    }
     case actionTypes.resetContractInputOutput:
     case actionTypes.resetEXTRPageReducer:
     case actionTypes.resetSelectedWallet:
-      const selectedWallet = {
-        account: '',
-        tokenId: '',
-        isToken: false
-      }
+      const _selectedWallet = Object.assign({}, state.selectedWallet, initialSelectedWallet)
       return Object.assign({}, state, {
-          selectedWallet: selectedWallet
+        selectedWallet: _selectedWallet
       })
     default: {
       return state

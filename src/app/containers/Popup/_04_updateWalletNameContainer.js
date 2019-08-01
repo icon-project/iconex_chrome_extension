@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { UpdateWalletName } from 'app/components/';
-import {  closePopup } from 'redux/actions/popupActions';
+import { closePopup } from 'redux/actions/popupActions';
 import { updateWalletName, resetSelectedWallet } from 'redux/actions/walletActions';
 
 function mapStateToProps(state) {

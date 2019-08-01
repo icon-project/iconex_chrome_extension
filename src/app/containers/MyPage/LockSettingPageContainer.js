@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { MyPage } from 'app/components/';
 import { setLock } from 'redux/actions/globalActions';
-import {  openPopup } from 'redux/actions/popupActions';
+import { openPopup } from 'redux/actions/popupActions';
 
 function mapStateToProps(state) {
   return {

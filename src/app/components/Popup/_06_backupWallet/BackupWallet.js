@@ -6,11 +6,11 @@ class BackupWallet extends Component {
   render() {
 
     const {
-     popupNum
+      popupNum
     } = this.props;
 
     const content = (num) => {
-      switch(num) {
+      switch (num) {
         case 1:
           return <BackupWallet1 {...this.props} />
         case 2:
@@ -23,7 +23,7 @@ class BackupWallet extends Component {
     return (
       <div>
         <div className="dimmed fade-in"></div>
-        { content(popupNum) }
+        {content(popupNum)}
       </div>
     );
   }

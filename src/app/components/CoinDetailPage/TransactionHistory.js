@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { LoadingComponent } from 'app/components/';
 import { dateFormat as DATE_FORMAT } from 'constants/index';
 import { ETH_SCAN, txidUrl as TXID_URL } from 'constants/config.js'
-import { convertNumberToText, check0xPrefix, calcMaxPageNum } from 'utils'
+import { convertNumberToText, check0xPrefix, calcMaxPageNum, nToBr } from 'utils'
 import moment from 'moment';
 import withLanguageProps from 'HOC/withLanguageProps';
 
@@ -34,7 +34,7 @@ class TransactionHistory extends Component {
   changeTab = (e) => {
     const { account, walletCoinType, tokenData, wallets } = this.props;
     const target = e.target.getAttribute('data-id');
-    if(this.state.tab === target) return false;
+    if (this.state.tab === target) return false;
     this.setState({
       tab: target,
       page: 1
@@ -97,7 +97,7 @@ class TransactionHistory extends Component {
     const isPending = this.state.tab === "pending" ? true : false;
 
     const noTransaction = (walletCoinType, tab) => {
-      switch(tab) {
+      switch (tab) {
         case 'pending':
           return (
             <tr><td colSpan="4" className="nodata">{I18n.coinDetailHistoryNoTransactionDefault}</td></tr>
@@ -113,9 +113,9 @@ class TransactionHistory extends Component {
                 <td colSpan="4" className="nodata">
                   <p>
                     {I18n.coinDetailHistoryNoTransactionEth.split('\n').map((item, key) => {
-                      return <span key={key}>{item}<br/></span>
+                      return <span key={key}>{item}<br /></span>
                     })}
-                  </p><br/><br/>
+                  </p><br /><br />
                   <p>
                     <a href={`${ETH_SCAN()}/address/${check0xPrefix(account)}`} target="_blank"><span>{`https://etherscan.io/`}</span></a>
                   </p>
@@ -134,7 +134,7 @@ class TransactionHistory extends Component {
         <table className="table-typeB">
           <tbody>
             <tr>
-              <td colSpan="4" className="nodata"><p>{I18n.coinDetailHistoryNoTransactionEth}</p><br/>
+              <td colSpan="4" className="nodata"><p>{nToBr(I18n.coinDetailHistoryNoTransactionEth)}</p><br />
                 <p><a href={`${ETH_SCAN()}/address/${check0xPrefix(account)}`} target="_blank">{`https://etherscan.io/`}</a></p>
               </td>
             </tr>
@@ -142,77 +142,77 @@ class TransactionHistory extends Component {
         </table>
       </div>
     ) : (
-      <div>
-        <div className="tab-holder">
-          <ul>
-            <li data-id="pending" onClick={this.changeTab} className={tab === 'pending' && 'on'}>{I18n.coinDetailHistoryPending}</li>
-            <li data-id="complete" onClick={this.changeTab} className={tab === 'complete' && 'on'}>{I18n.coinDetailHistoryCompleted}</li>
-          </ul>
-        </div>
-        <div className={`wrap-holder`}>
-          { (txHistoryLoading
+        <div>
+          <div className="tab-holder">
+            <ul>
+              <li data-id="pending" onClick={this.changeTab} className={tab === 'pending' && 'on'}>{I18n.coinDetailHistoryPending}</li>
+              <li data-id="complete" onClick={this.changeTab} className={tab === 'complete' && 'on'}>{I18n.coinDetailHistoryCompleted}</li>
+            </ul>
+          </div>
+          <div className={`wrap-holder`}>
+            {(txHistoryLoading
               ? (
-                  <table className="table-typeB">
-                    <thead>
-                      <tr>
-                        <th>{isPending ? I18n.coinDetailHistoryColumn0 : I18n.coinDetailHistoryColumn1}</th>
-                        <th>{I18n.coinDetailHistoryColumn2}</th>
-                        <th>{I18n.coinDetailHistoryColumn3}</th>
-                        <th>{I18n.coinDetailHistoryColumn4}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td colSpan="4" className="nodata"><LoadingComponent type="black" /></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                )
+                <table className="table-typeB">
+                  <thead>
+                    <tr>
+                      <th>{isPending ? I18n.coinDetailHistoryColumn0 : I18n.coinDetailHistoryColumn1}</th>
+                      <th>{I18n.coinDetailHistoryColumn2}</th>
+                      <th>{I18n.coinDetailHistoryColumn3}</th>
+                      <th>{I18n.coinDetailHistoryColumn4}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colSpan="4" className="nodata"><LoadingComponent type="black" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+              )
               : (
-                  <table className="table-typeB">
-                    <thead>
-                      <tr>
-                        <th>{isPending ? I18n.coinDetailHistoryColumn0 : I18n.coinDetailHistoryColumn1}</th>
-                        <th>{I18n.coinDetailHistoryColumn2}</th>
-                        <th>{I18n.coinDetailHistoryColumn3}</th>
-                        <th>{I18n.coinDetailHistoryColumn4}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        txHistory.length > 0
-                          ? (
-                                txHistory.map((row, i) => {
-                                    // console.log(row)
-                                    const newRow = {
-                                        to: row.address || row.toAddr,
-                                        time: row.time || row.age || row.createDate,
-                                        txid: row.txid || row.txHash,
-                                        value: row.quantity || row.amount,
-                                        isFail: isPending ? (row["isFail"]) : (row["state"] === 0),
-                                        unit: tokenData['defaultSymbol'] || row.symbol || walletCoinType
-                                    }
-                                    const isUp = newRow.to === account
-                                    return (
-                                      <HistoryRow key={i}
-                                        time={newRow.time ? moment(newRow.time).format(DATE_FORMAT) : '-'}
-                                        type={isUp ? I18n.deposit : I18n.withdraw}
-                                        txid={newRow.txid}
-                                        isFail={newRow.isFail}
-                                        failText={I18n.coinDetailHistoryFail}
-                                        isUp={isUp}
-                                        value={convertNumberToText(newRow.value, 'transaction', true)}
-                                        walletCoinType={walletCoinType}
-                                        unit={newRow.unit}/>
-                                    )
-                                })
+                <table className="table-typeB">
+                  <thead>
+                    <tr>
+                      <th>{isPending ? I18n.coinDetailHistoryColumn0 : I18n.coinDetailHistoryColumn1}</th>
+                      <th>{I18n.coinDetailHistoryColumn2}</th>
+                      <th>{I18n.coinDetailHistoryColumn3}</th>
+                      <th>{I18n.coinDetailHistoryColumn4}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      txHistory.length > 0
+                        ? (
+                          txHistory.map((row, i) => {
+                            // console.log(row)
+                            const newRow = {
+                              to: row.address || row.toAddr,
+                              time: row.time || row.age || row.createDate,
+                              txid: row.txid || row.txHash,
+                              value: row.quantity || row.amount,
+                              isFail: isPending ? (row["isFail"]) : (row["state"] === 0),
+                              unit: tokenData['defaultSymbol'] || row.symbol || walletCoinType
+                            }
+                            const isUp = newRow.to === account
+                            return (
+                              <HistoryRow key={i}
+                                time={newRow.time ? moment(newRow.time).format(DATE_FORMAT) : '-'}
+                                type={isUp ? I18n.deposit : I18n.withdraw}
+                                txid={newRow.txid}
+                                isFail={newRow.isFail}
+                                failText={I18n.coinDetailHistoryFail}
+                                isUp={isUp}
+                                value={convertNumberToText(newRow.value, 'transaction', true)}
+                                walletCoinType={walletCoinType}
+                                unit={newRow.unit} />
                             )
-                          : noTransaction(walletCoinType, tab)
-                        }
-                    </tbody>
-                  </table>
-                )
-              ) 
+                          })
+                        )
+                        : noTransaction(walletCoinType, tab)
+                    }
+                  </tbody>
+                </table>
+              )
+            )
             }
             {
               tab === "pending" && (
@@ -222,11 +222,12 @@ class TransactionHistory extends Component {
               )
             }
             {
-              (tab === "complete" && txHistory.length > 0) && <Pagination walletCoinType={walletCoinType} totalData={totalData} page={page} changePage={this.changePage}/>
+              (tab === "complete" && txHistory.length > 0) && <Pagination walletCoinType={walletCoinType} totalData={totalData} page={page} changePage={this.changePage} />
             }
+          </div>
         </div>
-      </div>
-    )}
+      )
+  }
 }
 
 class Pagination extends Component {
@@ -249,7 +250,7 @@ class Pagination extends Component {
         }
       }
 
-      for (let i=initNum; i<=maxNum; i++) {
+      for (let i = initNum; i <= maxNum; i++) {
         pageNum.push({
           num: i,
           disabled: i > maxPage
@@ -262,7 +263,7 @@ class Pagination extends Component {
             <ul className="">
               <li className="controller">
                 <a className={`prev start ${page === 1 && 'disabled'}`}
-                  onClick={()=>{
+                  onClick={() => {
                     if (page !== 1) changePage(1)
                   }}
                 >
@@ -271,7 +272,7 @@ class Pagination extends Component {
               </li>
               <li className="controller">
                 <a className={`prev start2 ${page === 1 && 'disabled'}`}
-                  onClick={()=>{
+                  onClick={() => {
                     if (page - 1 >= 1) changePage(page - 1)
                   }}
                 >
@@ -282,7 +283,7 @@ class Pagination extends Component {
                 return (
                   <li className={`${btn.disabled && 'disabled'} ${page === btn.num && 'selected'}`} key={btn.num}>
                     <a className="number"
-                      onClick={()=>{
+                      onClick={() => {
                         if (!btn.disabled && page !== btn.num) changePage(btn.num)
                       }}
                     >
@@ -293,7 +294,7 @@ class Pagination extends Component {
               })}
               <li className="controller">
                 <a className={`next end ${page === maxPage && 'disabled'}`}
-                  onClick={()=>{
+                  onClick={() => {
                     if (page + 1 <= maxPage) changePage(page + 1)
                   }}
                 >
@@ -302,11 +303,12 @@ class Pagination extends Component {
               </li>
               <li className="controller">
                 <a className={`next end2 ${page === maxPage && 'disabled'}`}
-                 onClick={()=>{
-                   if (page !== maxPage) changePage(maxPage)}}
-                 >
-                   <em className="_img"></em>
-                 </a>
+                  onClick={() => {
+                    if (page !== maxPage) changePage(maxPage)
+                  }}
+                >
+                  <em className="_img"></em>
+                </a>
               </li>
             </ul>
           </div>
@@ -323,8 +325,8 @@ class Pagination extends Component {
 class HistoryRow extends Component {
 
   handleTxidClick = () => {
-      const txidUrl = TXID_URL[this.props.walletCoinType];
-      window.open(`${txidUrl}${check0xPrefix(this.props.txid)}`, '_blank');
+    const txidUrl = TXID_URL[this.props.walletCoinType];
+    window.open(`${txidUrl}${check0xPrefix(this.props.txid)}`, '_blank');
   }
 
   render() {
@@ -334,11 +336,11 @@ class HistoryRow extends Component {
         <td>{time}</td>
         <td>{type}</td>
         <td onClick={this.handleTxidClick}><span>{txid}</span></td>
-        { isFail ? (
+        {isFail ? (
           <td className={'down'}>{failText}</td>
         ) : (
-          <td className={isUp ? 'up' : 'down'}>{`${isUp ? '' : '-'} ${value} ${unit.toUpperCase()}`}</td>
-        )}
+            <td className={isUp ? 'up' : 'down'}>{`${isUp ? '' : '-'} ${value} ${unit.toUpperCase()}`}</td>
+          )}
       </tr>
     );
   }

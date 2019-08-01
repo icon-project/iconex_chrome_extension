@@ -10,7 +10,6 @@
 		var _class 			= this.attr("class");
 
 		_class = _class.trim()
-		console.log(_class)
 		var init = function(){
 			I_F.set = $.extend({}, defaults, options);
 			loadedFx();

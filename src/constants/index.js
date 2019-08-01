@@ -15,7 +15,7 @@ export const popupType = {
   'createWallet': '_01_createWallet'
 }
 
-export const v3_options_pdkdf2 =  {
+export const v3_options_pdkdf2 = {
   kdf: "pbkdf2",
   c: 16384,
   cipher: "aes-128-ctr",
@@ -79,7 +79,6 @@ export const currencyUnit = {
   'eth': 'ETH'
 }
 
-
 export const coinRound = {
   'icx': 8,
   'eth': 8
@@ -90,6 +89,16 @@ export const currencyRound = {
   'btc': 8,
   'eth': 8
 }
+
+export const pRepType = {
+  MAIN_PREP: 'Main P-Rep',
+  SUB_PREP: 'Sub P-Rep',
+  PREP: 'P-Rep',
+}
+
+export const MIN_UNSTAKE_VALUE = 3
+
+export const ZERO_ADDRESS = 'cx0000000000000000000000000000000000000000'
 
 export const tokenList = {
   'BLOC8': {
@@ -158,82 +167,52 @@ export const tokenList = {
     name: 'weBloc',
     symbol: 'WOK'
   },
-  'IGA': {
-    address: 'cx81fe20ac9a8ed7387b8d17be878c1d0ccb01aabf',
-    decimals: 18,
-    name: 'IconGameAlliance',
-    symbol: 'IGA'
-  },
-  'PNP': {
-    address: 'cx2137642d0bf1926fbe23a3688d042a0f34bc2b9a',
-    decimals: 18,
-    name: 'LogisticsX',
-    symbol: 'PNP'
-  },
-  'SSX': {
-    address: 'cx429731644462ebcfd22185df38727273f16f9b87',
-    decimals: 18,
-    name: 'Somesing Exchange',
-    symbol: 'SSX'
-  },
-  'VELA': {
-    address: 'cxefaa21e34a3a1abf97369b5beef84524f52d88a8',
-    decimals: 8,
-    name: 'Velic Authority',
-    symbol: 'VELA'
-  },
-  'VELT': {
-    address: 'cx19a23e850bf736387cd90d0b6e88ce9af76a8d41',
-    decimals: 8,
-    name: 'Velic Token',
-    symbol: 'VELT'
-  },
 }
 
 export const erc20Abi = [
   {
-    "constant":true,
-    "inputs":[],
-    "name":"name",
-    "outputs":[{"name":"","type":"string"}],
-    "payable":false,
-    "type":"function"
-  },{
-    "constant":true,
-    "inputs":[],
-    "name":"totalSupply",
-    "outputs":[{"name":"","type":"uint256"}],
-    "payable":false,
-    "type":"function"
-  },{
-    "constant":true,
-    "inputs":[],
-    "name":"symbol",
-    "outputs":[{"name":"","type":"string"}],
-    "payable":false,
-    "type":"function"
-  },{
-    "constant":true,
-    "inputs":[],
-    "name":"decimals",
-    "outputs":[{"name":"","type":"uint8"}],
-    "payable":false,
-    "type":"function"
+    "constant": true,
+    "inputs": [],
+    "name": "name",
+    "outputs": [{ "name": "", "type": "string" }],
+    "payable": false,
+    "type": "function"
+  }, {
+    "constant": true,
+    "inputs": [],
+    "name": "totalSupply",
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "payable": false,
+    "type": "function"
+  }, {
+    "constant": true,
+    "inputs": [],
+    "name": "symbol",
+    "outputs": [{ "name": "", "type": "string" }],
+    "payable": false,
+    "type": "function"
+  }, {
+    "constant": true,
+    "inputs": [],
+    "name": "decimals",
+    "outputs": [{ "name": "", "type": "uint8" }],
+    "payable": false,
+    "type": "function"
   },
   {
-    "constant":true,
-    "inputs":[{"name":"_owner","type":"address"}],
-    "name":"balanceOf",
-    "outputs":[{"name":"balance","type":"uint256"}],
-    "payable":false,
-    "type":"function"
+    "constant": true,
+    "inputs": [{ "name": "_owner", "type": "address" }],
+    "name": "balanceOf",
+    "outputs": [{ "name": "balance", "type": "uint256" }],
+    "payable": false,
+    "type": "function"
   },
   {
-    "constant":false,
-    "inputs":[{"name":"_to","type":"address"}, {"name":"_value","type":"uint256"}],
-    "name":"transfer",
-    "outputs":[{"name":"success","type":"bool"}],
-    "payable":false,
-    "type":"function"
+    "constant": false,
+    "inputs": [{ "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" }],
+    "name": "transfer",
+    "outputs": [{ "name": "success", "type": "bool" }],
+    "payable": false,
+    "type": "function"
   }
 ];

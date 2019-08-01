@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import { CreateWallet } from 'app/components/';
 import {
-  setPopupNum ,
-  closePopup } from 'redux/actions/popupActions';
+  setPopupNum,
+  closePopup
+} from 'redux/actions/popupActions';
 import { getWallet } from 'redux/actions/walletActions';
 import {
   generateWallet,

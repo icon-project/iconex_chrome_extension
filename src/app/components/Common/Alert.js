@@ -17,19 +17,20 @@ class Alert extends Component {
 
   render() {
     return (
-        <div id="alert" className='popup-wrap ledger alert'>
-          <div>
-            <div className="dimmed fade-in"></div>
-            <SmallPopup
-              handleSubmit={this.props.handleSubmit}
-              handleCancel={this.props.handleCancel}
-              text={this.props.text}
-              submitText={this.props.submitText}
-              cancelText={this.props.cancelText}
-              isFullButton={true}
-            />
-          </div>
+      <div id="alert" className='popup-wrap ledger alert'>
+        <div>
+          <div className="dimmed fade-in"></div>
+          <SmallPopup
+            isBig={this.props.isBig || false}
+            handleSubmit={this.props.handleSubmit}
+            handleCancel={this.props.handleCancel}
+            text={this.props.text}
+            submitText={this.props.submitText}
+            cancelText={this.props.cancelText}
+            isFullButton={true}
+          />
         </div>
+      </div>
     )
   }
 }

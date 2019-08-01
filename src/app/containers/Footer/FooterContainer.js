@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Footer } from 'app/components/';
-import {  openPopup } from 'redux/actions/popupActions';
+import { openPopup } from 'redux/actions/popupActions';
 import { withRouter } from 'react-router-dom';
 
 function mapStateToProps(state) {

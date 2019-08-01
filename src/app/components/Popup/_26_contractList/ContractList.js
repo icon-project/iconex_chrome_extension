@@ -26,15 +26,15 @@ class ContractList extends Component {
     return (
       <div>
         <div className="dimmed fade-in"></div>
-    		<div className="popup address min moving-down">
-    			<span className="close" onClick={this.props.closePopup}><em className="_img"></em></span>
-    			<h1 className="title">{I18n.contractList.contractList}</h1>
+        <div className="popup address min moving-down">
+          <span className="close" onClick={this.props.closePopup}><em className="_img"></em></span>
+          <h1 className="title">{I18n.contractList.contractList}</h1>
           <AddressTable
             listArr={icxContract}
             selectAddress={this.selectAddress}
-            {...this.props}/>
-    		</div>
-    	</div>
+            {...this.props} />
+        </div>
+      </div>
     );
   }
 }

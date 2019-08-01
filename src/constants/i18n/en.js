@@ -17,6 +17,7 @@ export default {
     copyFinish: 'Copy Complete',
     print: 'Print Wallet',
     checkTransction: 'Check Transaction',
+    checkTx: 'Check Transaction',
     reset: 'Reset',
     changeToken: 'Change Token',
     removeToken: 'Remove Token',
@@ -39,7 +40,12 @@ export default {
     write: 'Write',
     edit: 'Edit',
     editComplete: 'Complete',
-    delete: 'Delete'
+    delete: 'Delete',
+    stake: 'Stake',
+    vote: 'Vote',
+    claim: 'Claim',
+    search: 'Search',
+    adjust: 'Adjust',
   },
 
   error: {
@@ -56,7 +62,8 @@ export default {
     alertWalletFirst: 'Please select wallet.',
     alertExchange: 'Transfer function is under development.',
     alertNoBalance: 'You have 0 balance. Please deposit and transfer.',
-    alertNoTxFeeBalance: (walletCoinType) => `Please check your ${walletCoinType.toUpperCase()} balance. ${walletCoinType.toUpperCase()} is needed for transaction fee.`,
+    alertNoTxFeeBalance_icx: `Please check your ICX balance. ICX is needed for transaction fee.`,
+    alertNoTxFeeBalance_eth: `Please check your ETH balance. ETH is needed for transaction fee.`,
     alertBalanceRemove: 'You may remove it only when you have 0 balance.',
     alertDownloadAfterBackup: "Click 'Next' button after downloading the Keystore file.",
 
@@ -84,7 +91,7 @@ export default {
     alertAddress: 'Enter address.',
     alertAddressNotCorrect_icx: 'Incorrect ICX address.',
     alertAddressNotCorrect_eth: 'Incorrect ETH address.',
-    alertAddressSame_icx:  'This icx account already exists.',
+    alertAddressSame_icx: 'This icx account already exists.',
     alertAddressSame_eth: 'This eth account already exists.',
 
     noAddress: 'No registered address.',
@@ -145,6 +152,14 @@ export default {
 
     bytesEnter: 'Please enter “bytes“ value',
     bytesConfirm: 'Please check “bytes” value again.',
+
+    alertNoIScore: 'No I-Score. Please check the I-Score remaining amount.',
+    alertNoDelegation: 'No Voting Power. Please stake the ICX first.',
+    alertNotEnoughForStake: 'You must have a minimum amount of ICX balance (5 ICX) to stake or un-stake your ICX.',
+    alertLTMin: (min, type) => `The minimum amount of ${type} is ${min}.`,
+    alertGTMax: (max, type) => `The maximum amount of ${type} is ${max}.`,
+    alertNoChange: 'There is no changed in amount.',
+    alertFull: 'There is no ICX left. Please check the ICX remainig amount.',
   },
 
   currency: {
@@ -175,6 +190,7 @@ export default {
   myWalletHeaderTotalValue: 'Total Assets',
   myWalletHeaderCoinNum: 'Coins',
   myWalletHeaderTokenNum: 'Tokens',
+  myWalletHeader_totalVote: 'Voting Weight',
   myWalletHeaderNumUnit: '',
   graphNoData: '0 balance.',
   myWalletHeaderInfo_1: 'The total asset is based on Coinmarketcap and the tokens',
@@ -200,11 +216,12 @@ export default {
   coinDetailContentQrCode: 'QR Code',
   coinDetailContentDesc1: 'You can deposit your coins to the address above.',
   coinDetailContentDesc2: 'Scan the QR code on the right if you are using mobile devices.',
+  coinDetailNoPrice: '* No USD-converted price',
 
   coinDetailHistoryTitle: 'Transaction History',
   coinDetailHistoryPending: 'Pending',
   coinDetailHistoryCompleted: 'Completed',
-  coinDetailHistoryNoTransactionEth: 'You can check the transaction history on<br/>Etherscan.',
+  coinDetailHistoryNoTransactionEth: 'You can check the transaction history on\nEtherscan.',
   coinDetailHistoryIcx: 'You can check the transaction history on<br/><span>ICON Tracker</span>',
   coinDetailHistoryNoTransactionDefault: 'No transaction',
 
@@ -277,6 +294,7 @@ export default {
   transferPageLabel4: 'Wallet Name',
   transferPageLabel5_1: 'Transaction Fee',
   transferPageLabel5_2: '· Estimated Maximum Fee',
+  estimatedStepAndPrice: '· Step Limit / Step Price',
   transferPageLabel6_1: 'Balance after transaction',
   transferPageLabel6_2: '· Estimated Balance',
   transferPageLabel7_eth: 'Gas Limit',
@@ -617,9 +635,89 @@ export default {
     connectWallet: 'Connected Ledger Wallet',
     manualFileName: 'Guide_to_use_Ledger_Wallet_on_ICONex_Ledger_en'
   },
-  
+
   completeTransaction: {
     success: 'Transfer Request Complete.<br/>You can check the transaction history<br/>on ICON Tracker.',
     fail: 'Transfer Request Failed.<br/>Please try again.'
-  }
+  },
+
+  stake: 'Stake',
+  vote: 'Vote',
+  iScore: 'I-Score',
+
+  // 6p Voting P-Rep 페이지
+  pRep_totalDelegated: 'Delegated Voting Power (ICX)',
+  pRep_available: 'Available Voting Power (ICX)',
+  pRep_totalSupply: 'Total ICX Supply',
+
+  // 7p ~ 10p Voting My Status 페이지
+  voting: 'Voting',
+  voting_sub1: 'P-Rep',
+  voting_sub2: 'My Status',
+  voting_about: 'About Voting',
+  voting_about_desc: `
+    <p class="about-bold">Stake</p>
+    <p class="about-text">Function for staking requested amount of ICX. Once staking is requested, Voting power will generate in 1 to 1 ratio. Using Voting power, it can be delegate to P-Rep candidate.</p>
+    <p class="about-bold">Vote</p>
+    <p class="about-text">Using Voting power, it can be delegate to P-Rep candidate.</p>
+    <p class="about-bold">I-Score</p>
+    <p class="about-text">Contribution score for the P-Rep delegation, 1000 I-Score can be exchange with 1 ICX.</p>      
+  `,
+  myStatusStake_unstake1: 'Requested Un-stake amount',
+  myStatusStake_unstake2: 'Target Block Height',
+  myStatusStake_axis1: 'Staked',
+  myStatusStake_axis2: 'Un-staked',
+  myStatusStake_axis3: 'Voted',
+  myStatusStake_li1: 'ICX Balance',
+  myStatusStake_li2: 'Staked ICX',
+  myStatusStake_li3: 'Un-staked ICX',
+  myStatusVote_axis1: 'Delegated',
+  myStatusVote_axis2: 'Available',
+  myStatusVote_li1: 'Staked ICX',
+  myStatusVote_li2: 'Delegated Voting Power',
+  myStatusVote_li3: 'Available Voting Power',
+  myStatusIScore_p1: 'Current I-Score',
+  myStatusIScore_p2: 'You can receive',
+
+  myVote: 'My Votes',
+  pRepTable_rank: 'Rank', 
+  pRepTable_name: 'Name', 
+  pRepTable_totalVotes: 'Total Votes (%)', 
+  pRepTable_server: 'Server Location', 
+  pRepTable_active: 'Active',
+  pRepTable_myVotes: 'My Votes (%)',
+  pRepTable_h4: 'View History', 
+  pRepTable_noData_p: 'Be part of ICON Network!',
+  pRepTable_noData_p1: 'Choose the delegating list and delegate Voting Power.',
+  pRepTable_noData_p2: 'Contribute ICON Network by participate delegation. Receive I-Score for that contribution.',
+
+  // 13p~ Claim ICX with I-Score 팝업
+  claimIcx: {
+    title: 'Claim ICX',
+  },
+
+  // 14p~ Stake 팝업
+  stakeIcx: {
+    desc: 'Of the staked ICX, the amount of voted ICX cannot be un-staked.',
+    help: 'Need a minimum of ICX for un-staking. (3 ICX)',
+    min: 'Min Stake',
+    max: 'Max Stake',
+    success: str => `Request for ${str} has been completed.`,
+  },
+
+  // 21p~ Vote 페이지
+  votePage: {
+    add: 'Add',
+    add_added: 'Added List',
+    add_cntFull: 'Maximum number of delegating P-Rep is 10.',
+    delete: 'Delete',
+    delete_voted: 'Please retry after reset the delegation amount to according P-Rep.',
+    max: 'Max',
+    toast: "Added to 'My Votes'",
+    confirm_title: 'Please recheck the delegation request.',
+    confirm_li1: '· Delegated P-Rep',
+    confirm_li2: '· Delegated',
+    success1: 'Vote Request Complete.',
+    success2: 'You can check the voting history<br/>on ICON Tracker.',
+  },
 };

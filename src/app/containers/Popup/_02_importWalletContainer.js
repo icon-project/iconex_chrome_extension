@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { ImportWallet } from 'app/components/';
-import {  setPopupNum, closePopup } from 'redux/actions/popupActions';
+import { setPopupNum, closePopup } from 'redux/actions/popupActions';
 import { createWallet, createWallets, resetSignupReducer, setV3Object, setCoinType, setWalletObject } from 'redux/actions/signupActions';
 import { logIn } from 'redux/actions/authActions';
 
@@ -17,7 +17,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    
+
     closePopup: () => dispatch(closePopup()),
     setPopupNum: (n) => dispatch(setPopupNum(n)),
     setCoinType: (coinType) => dispatch(setCoinType(coinType)),

@@ -78,7 +78,7 @@ class UpdateToken extends Component {
           else { nameError = ''; }
           break;
         case 'symbol':
-          if (symbol.length < 1) { symbolError = I18n.error.tokenSymbolEnter;}
+          if (symbol.length < 1) { symbolError = I18n.error.tokenSymbolEnter; }
           else { symbolError = ''; }
           break;
         case 'decimals':
@@ -144,46 +144,46 @@ class UpdateToken extends Component {
       decimalsError,
       isLoading
     } = this.state;
-    const { I18n } = this.props;
-
+    const { wallets, selectedAccount, I18n } = this.props;
+    const walletCoinType = wallets[selectedAccount].type
     return (
       <div>
         <div className="dimmed fade-in"></div>
         <div className="popup moving-down">
-            <div className="header-white">
-              <h1 className="title">{I18n.updateToken.title}</h1>
-              <h2>{I18n.updateToken.desc}</h2>
-            </div>
-            <div className="scroll-holder">
-      				<div className="scroll">
-                <div className="tabbox-holder token">
-                  <div className="name-group">
-                    <p className="title">{I18n.updateToken.inputLabel1}</p>
-                    <input type="text" onBlur={this.validateForm} className="txt-type-normal" data-type="address" placeholder={I18n.updateToken.inputPlaceHolder1} value={address} readOnly/>
-                    <p className='error'>{addressError}</p>
-                  </div>
-                  <div className="name-group">
-                    <p className="title">{I18n.updateToken.inputLabel2}</p>
-                    <input onChange={this.changeInput} onBlur={this.validateForm} type="text" className="txt-type-normal" data-type="name" placeholder={I18n.updateToken.inputPlaceHolder2} value={name} spellCheck="false" />
-                    <p className='error'>{nameError}</p>
-                  </div>
-                  <div className="name-group">
-                    <p className="title">{I18n.updateToken.inputLabel3}</p>
-                    <input onChange={this.changeInput} onBlur={this.validateForm} type="text" pattern="[A-Za-z0-9]{1,10}" className="txt-type-normal" data-type="symbol" placeholder={I18n.updateToken.inputPlaceHolder3} value={symbol} spellCheck="false" />
-                    <p className='error'>{symbolError}</p>
-                  </div>
-                  <div className="name-group">
-                    <p className="title">{I18n.updateToken.inputLabel4}</p>
-                    <input onChange={this.changeInput} onBlur={this.validateForm} type="text" pattern="[0-9]*" className="txt-type-normal" data-type="decimals" placeholder={I18n.updateToken.inputPlaceHolder4} value={decimals} spellCheck="false" />
-                    <p className='error'>{decimalsError}</p>
-                  </div>
+          <div className="header-white">
+            <h1 className="title">{I18n.updateToken.title}</h1>
+            <h2>{I18n.updateToken.desc}</h2>
+          </div>
+          <div className="scroll-holder">
+            <div className="scroll">
+              <div className="tabbox-holder token">
+                <div className="name-group">
+                  <p className="title">{I18n.updateToken.inputLabel1}</p>
+                  <input type="text" onBlur={this.validateForm} className="txt-type-normal" data-type="address" placeholder={I18n.updateToken.inputPlaceHolder1} value={address} readOnly />
+                  <p className='error'>{addressError}</p>
+                </div>
+                <div className="name-group">
+                  <p className="title">{I18n.updateToken.inputLabel2}</p>
+                  <input onChange={this.changeInput} onBlur={this.validateForm} type="text" className="txt-type-normal" data-type="name" placeholder={I18n.updateToken.inputPlaceHolder2} value={name} spellCheck="false" />
+                  <p className='error'>{nameError}</p>
+                </div>
+                <div className="name-group">
+                  <p className="title">{I18n.updateToken.inputLabel3}</p>
+                  <input disabled={walletCoinType === 'icx' && true} onChange={this.changeInput} onBlur={this.validateForm} type="text" pattern="[A-Za-z0-9]{1,10}" className="txt-type-normal" data-type="symbol" placeholder={I18n.updateToken.inputPlaceHolder3} value={symbol} spellCheck="false" />
+                  <p className='error'>{symbolError}</p>
+                </div>
+                <div className="name-group">
+                  <p className="title">{I18n.updateToken.inputLabel4}</p>
+                  <input disabled={walletCoinType === 'icx' && true} onChange={this.changeInput} onBlur={this.validateForm} type="text" pattern="[0-9]*" className="txt-type-normal" data-type="decimals" placeholder={I18n.updateToken.inputPlaceHolder4} value={decimals} spellCheck="false" />
+                  <p className='error'>{decimalsError}</p>
                 </div>
               </div>
             </div>
-            <div className="btn-holder full">
-              <button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.cancel}</span></button>
-              <button disabled={isLoading} onClick={() => this.validateForm(null, 'submit')} type="submit" className="btn-type-normal size-half"><span>{I18n.button.modify}</span></button>
-            </div>
+          </div>
+          <div className="btn-holder full">
+            <button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.cancel}</span></button>
+            <button disabled={isLoading} onClick={() => this.validateForm(null, 'submit')} type="submit" className="btn-type-normal size-half"><span>{I18n.button.modify}</span></button>
+          </div>
         </div>
       </div>
     );

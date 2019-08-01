@@ -14,21 +14,21 @@ function* generateWalletFunc(action) {
   try {
     const payload = yield call(GENERATE_WALLET, action.pw, action.coinType);
     yield put(setWalletName(action.walletName))
-    yield put({type: AT.generateWalletFulfilled, payload});
+    yield put({ type: AT.generateWalletFulfilled, payload });
   } catch (e) {
     alert(e);
-    yield put({type: AT.generateWalletRejected, error: e});
+    yield put({ type: AT.generateWalletRejected, error: e });
   }
 }
 
 function* createWalletFunc(action) {
   try {
     yield call(CREATE_WALLET, action.walletObject);
-    yield put({type: AT.setScrollToNewWallet, payload: true});
-    yield put({type: AT.createWalletFulfilled});
+    yield put({ type: AT.setScrollToNewWallet, payload: true });
+    yield put({ type: AT.createWalletFulfilled });
   } catch (e) {
     alert(e);
-    yield put({type: AT.createWalletRejected, error: e});
+    yield put({ type: AT.createWalletRejected, error: e });
   }
 }
 
@@ -39,11 +39,11 @@ function* createWalletsFunc(action) {
       arr.push(call(CREATE_WALLET, action.walletObjects[i]))
     }
     yield all(arr);
-    yield put({type: AT.setScrollToNewWallet, payload: true});
-    yield put({type: AT.createWalletsFulfilled});
+    yield put({ type: AT.setScrollToNewWallet, payload: true });
+    yield put({ type: AT.createWalletsFulfilled });
   } catch (e) {
     alert(e);
-    yield put({type: AT.createWalletsRejected, error: e});
+    yield put({ type: AT.createWalletsRejected, error: e });
   }
 }
 
@@ -67,8 +67,8 @@ function* watchCreateWallets() { yield takeLatest(AT.createWallets, createWallet
 function* watchLogin() { yield takeLatest(AT.logIn, logInFunc) }
 
 export default function* signupSaga() {
- yield fork(watchSetKey);
- yield fork(watchCreateWallet);
- yield fork(watchCreateWallets);
- yield fork(watchLogin);
+  yield fork(watchSetKey);
+  yield fork(watchCreateWallet);
+  yield fork(watchCreateWallets);
+  yield fork(watchLogin);
 }

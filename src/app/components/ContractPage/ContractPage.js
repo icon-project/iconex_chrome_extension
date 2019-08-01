@@ -22,11 +22,11 @@ class ContractPage extends Component {
     const { I18n, funcInputDataExceedError } = this.props;
     return (
       <div>
-        <SubRoute 
+        <SubRoute
           title={I18n.contract}
           labels={[I18n.contractReadPage]}
           components={[<ContractReadPage />]}
-          />
+        />
         {
           funcInputDataExceedError && (
             <Alert

@@ -4,15 +4,15 @@ import { withRouter } from 'react-router-dom';
 import { initExternalState } from 'redux/actions/externalActions';
 
 function mapStateToProps(state) {
-    return {
-        transaction: state.external.transaction
-    };
+  return {
+    transaction: state.external.transaction
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        initExternalState: () => dispatch(initExternalState()),
-    };
+  return {
+    initExternalState: () => dispatch(initExternalState()),
+  };
 }
 
 const CompleteTransactionContainer = connect(mapStateToProps, mapDispatchToProps)(CompleteTransaction);

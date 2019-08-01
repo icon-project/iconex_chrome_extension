@@ -5,18 +5,20 @@ import walletSaga from './walletSaga';
 import lockSaga from './lockSaga';
 import transactionSaga from './transactionSaga'
 import contractSaga from './contractSaga'
+import pRepIissSaga from './pRepIissSaga'
 import txFeeSaga from './txFeeSaga'
 import externalSaga from './externalSaga'
 
 export default function* rootSaga() {
- yield [
-        fork(signupSaga),
-        fork(authSaga),
-        fork(walletSaga),
-        fork(lockSaga),
-        fork(transactionSaga),
-        fork(contractSaga),
-        fork(externalSaga)
-        fork(txFeeSaga),
-    ];
+  yield [
+    fork(signupSaga),
+    fork(authSaga),
+    fork(walletSaga),
+    fork(lockSaga),
+    fork(transactionSaga),
+    fork(contractSaga),
+    fork(pRepIissSaga),
+    fork(txFeeSaga),
+    fork(externalSaga),
+  ];
 }

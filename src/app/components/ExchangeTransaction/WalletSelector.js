@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { coinNameKorean as COIN_NAME_KOREAN, coinName as COIN_NAME } from 'constants/index';
 import { makeWalletArray, convertNumberToText, isEmpty } from 'utils'
 import withClickOut from 'HOC/withClickOut';
-import { LoadingComponent  } from 'app/components/'
+import { LoadingComponent } from 'app/components/'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -24,7 +24,7 @@ class WalletSelector extends Component {
   }
 
   setWallet = (account) => {
-    this.props.setEXTRLogInState({
+    this.props.setLogInState({
       isLoggedIn: false
     })
     this.props.setSelectedWallet({
@@ -46,32 +46,33 @@ class WalletSelector extends Component {
       walletSelectorError,
       isLedger,
       ledgerWallet,
-      totalResultLoading
+      totalResultLoading,
+      typeFilter = '',
     } = this.props
 
     const walletsArr = makeWalletArray(wallets);
     const walletName = wallets[selectedAccount] ? wallets[selectedAccount].name : I18n.transferPagePlaceholder3
-    const walletIcon = wallets[selectedAccount] ? `${wallets[selectedAccount].type === 'eth' ? 'ethereum' : '' } ${!isEmpty(wallets[selectedAccount].tokens) ? 'three' : '' } _icon` : ''
+    const walletIcon = wallets[selectedAccount] ? `${wallets[selectedAccount].type === 'eth' ? 'ethereum' : ''} ${!isEmpty(wallets[selectedAccount].tokens) ? 'three' : ''} _icon` : ''
 
     if (isContractPage) {
       return (
         <div className="-group">
-					<p className="title">{I18n.transferPageLabel4}</p>
-            <span className="money-group" onClick={this.toggleWalletList}>{walletName}<em className="_img"></em>
-              {this.state.showWalletList &&
-                <WalletList
-                  walletsArr={walletsArr.filter((wallet) => wallet.type === 'icx')}
-                  selectedAccount={selectedAccount}
-                  setWallet={this.setWallet}
-                  onClickOut={this.toggleWalletList}
-                  totalResultLoading={totalResultLoading}
-                  isContractPage
-                />
-              }
-            </span>
-            { isLoggedIn && (<p className="have">{I18n.contractBalance} {wallets[selectedAccount].balance.toString()}<em>ICX</em></p>) }
-            <p className="error">{I18n.error[walletSelectorError]}</p>
-				</div>
+          <p className="title">{I18n.transferPageLabel4}</p>
+          <span className="money-group" onClick={this.toggleWalletList}>{walletName}<em className="_img"></em>
+            {this.state.showWalletList &&
+              <WalletList
+                walletsArr={walletsArr.filter((wallet) => wallet.type === 'icx')}
+                selectedAccount={selectedAccount}
+                setWallet={this.setWallet}
+                onClickOut={this.toggleWalletList}
+                totalResultLoading={totalResultLoading}
+                isContractPage
+              />
+            }
+          </span>
+          {isLoggedIn && (<p className="have">{I18n.contractBalance} {wallets[selectedAccount].balance.toString()}<em>ICX</em></p>)}
+          <p className="error">{I18n.error[walletSelectorError]}</p>
+        </div>
       )
     }
 
@@ -79,35 +80,39 @@ class WalletSelector extends Component {
       <div className={`name-holder ${isLedger ? 'connect' : ''}`}>
         <div className="group">
           <span className="label">{I18n.transferPageLabel4}</span>
-          { isLedger ? (
-  					<span className="money-group">{`${ledgerWallet.account} (${ledgerWallet.path})`}</span>
+          {isLedger ? (
+            <span className="money-group">{`${ledgerWallet.account} (${ledgerWallet.path})`}</span>
           ) : (
-            <span className="money-group" onClick={this.toggleWalletList}>
-              <i className={walletIcon}></i>
-              {` ${walletName}`}
-              <em className="_img"></em>
-              {this.state.showWalletList &&
-                <WalletList
-                  walletsArr={walletsArr}
-                  selectedAccount={selectedAccount}
-                  setWallet={this.setWallet}
-                  onClickOut={this.toggleWalletList}
-                  totalResultLoading={totalResultLoading}
-                />
-              }
-            </span>
-          )}
+              <span className="money-group" onClick={this.toggleWalletList}>
+                <i className={walletIcon}></i>
+                {` ${walletName}`}
+                <em className="_img"></em>
+                {this.state.showWalletList &&
+                  <WalletList
+                    walletsArr={
+                      typeFilter
+                        ? walletsArr.filter((wallet) => wallet.type === typeFilter)
+                        : walletsArr
+                    }
+                    selectedAccount={selectedAccount}
+                    setWallet={this.setWallet}
+                    onClickOut={this.toggleWalletList}
+                    totalResultLoading={totalResultLoading}
+                  />
+                }
+              </span>
+            )}
           {
             !isLedger && (
               <div className="-holder">
-    						<button
+                <button
                   onClick={() => this.props.openPopup({
                     popupType: 'connectLedger'
                   })}
                   className="btn-type-copy size-ledger">
                   <span>{I18n.button.connectLedger}</span>
                 </button>
-    					</div>
+              </div>
             )
           }
         </div>
@@ -137,19 +142,19 @@ class WalletList extends Component {
           <ul>
             {this.props.walletsArr.map((w, i) => {
               const tokens = Object.values(w.tokens);
-              return(
+              return (
                 <li key={i} disabled={w.account === selectedAccount} className={w.account === selectedAccount ? "on" : ""} onClick={() => this.setWallet(w.account)}>
                   <i className={`_icon ${w.type === 'icx' ? "" : "ethereum"} ${tokens.length > 0 ? 'three' : ''}`}></i>
                   <span className="a">{`${w.name}`}</span>
                   {
                     !isContractPage && (
                       totalResultLoading
-                        ? (<span className="b load"><LoadingComponent type="black"/></span>)
+                        ? (<span className="b load"><LoadingComponent type="black" /></span>)
                         : (<span className="b">{`${convertNumberToText(w.balance, 'transaction', true)}`}</span>)
                     )
                   }
-                  { !isContractPage && (<span className="c">{`${w.type.toUpperCase()}`}</span>) }
-                  { !isContractPage && tokens.length > 0 && !totalResultLoading && (
+                  {!isContractPage && (<span className="c">{`${w.type.toUpperCase()}`}</span>)}
+                  {!isContractPage && tokens.length > 0 && !totalResultLoading && (
                     <div className="tag-group">
                       {
                         tokens.map((token, i) => (
@@ -157,7 +162,7 @@ class WalletList extends Component {
                         ))
                       }
                     </div>
-                    ) }
+                  )}
                 </li>
               )
             })}

@@ -5,7 +5,7 @@ import { resetEXTRPageReducer } from 'redux/actions/exchangeTransactionActions';
 
 function mapStateToProps(state) {
   return {
-    isLoggedIn: state.exchangeTransaction.isLoggedIn,
+    isLoggedIn: state.wallet.selectedWallet.isLoggedIn,
     funcList: state.contract.funcList,
     selectedFuncIndex: state.contract.selectedFuncIndex,
     funcLoading: state.contract.funcLoading,

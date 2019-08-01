@@ -37,6 +37,12 @@ function numberWithCommas(x) {
   return parts.join('.');
 }
 
+function numberWithCommasWithZero(x) {
+  let parts = x.toString().split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return parts.join('.');
+}
+
 function convertNumberToText(num, unit, isCoin) {
   const ROUND = isCoin ? COIN_ROUND : CURRENCY_ROUND;
 
@@ -104,9 +110,8 @@ function removeTrailingZeros(value) {
   return value;
 }
 
-function checkValueLength(value) {
+function checkValueLength(value, point = 18) {
   const round = 10;
-  const point = 18;
   if (value.includes('.')) {
     if (value.split('.')[0].length > round || value.split('.')[1].length > point) {
       return false;
@@ -517,7 +522,7 @@ function fromHexToDec(num) {
 }
 
 function fromDecToHex(num) {
-  if (!num) return 0x0 
+  if (!num) return 0x0
   else if ((String(num)).startsWith('0x')) return num
   else return '0x' + (new BigNumber(num)).toString(16)
 }
@@ -539,15 +544,15 @@ function handleCopy(selector, copyState, setState) {
         copyState: COPY_STATE['on']
       }, () => {
         const self = this;
-        window.setTimeout(function(){
-            setState({
-              copyState: COPY_STATE['off']
-            })
-          },
+        window.setTimeout(function () {
+          setState({
+            copyState: COPY_STATE['off']
+          })
+        },
           1000)
-        }
+      }
       )
-    } catch(e) {
+    } catch (e) {
       alert(e);
     }
   }
@@ -573,9 +578,31 @@ function beautifyJson(data, tab) {
   }
 }
 
-function isValidICXInput(input) {
+function convertToPercent(num = 0, den = 0, fixed = 0) {
+  const n = num.toString()
+  const d = den.toString()
+
+  if (d === '0') {
+    return (0).toFixed(fixed)
+  }
+
+  const value = n / d * 100
+  return value.toFixed(fixed);
+}
+
+function fromLoop(value) {
+  if (!value) return 0
+  return new BigNumber(value).dividedBy('1000000000000000000')
+}
+
+function toLoop(value) {
+  if (!value) return 0
+  return new BigNumber(value).times('1000000000000000000')
+}
+
+function isValidICXInput(input, point = 18) {
   const value = input.replace(/\s+/g, '');
-  if (!isNaN(value) && checkValueLength(value) && !value.includes("+") && !value.includes("-")) {
+  if (!isNaN(value) && checkValueLength(value, point) && !value.includes("+") && !value.includes("-")) {
     return true
   }
   return false
@@ -584,6 +611,32 @@ function isValidICXInput(input) {
 function trimSpace(input) {
   return input.replace(/\s+/g, '');
 }
+
+function map({ value, x1, y1, x2, y2 }) {
+  if (x1.eq(y1)) return new BigNumber(100)
+  return ((value.minus(x1)).times(y2.minus(x2))).div(y1.minus(x1)).plus(x2)
+}
+
+function convertStakeValueToText(val) {
+  if (!val) return 0
+  return numberWithCommasWithZero(val.toFixed(4))
+}
+
+function convertIScoreToText(val) {
+  if (!val) return 0
+  return numberWithCommasWithZero(val.toFixed(8))
+}
+
+// function addZeros(num, zeros) {
+//   console.log(num)
+//   num = Number(num);
+//   if (!num) return 0;
+//   if (String(num).split(".").length < 2 || String(num).split(".")[1].length <= zeros ){
+//       num = num.toFixed(zeros);
+//   }
+//   return num;
+// }
+
 export {
   charFreq,
   isEmpty,
@@ -630,7 +683,13 @@ export {
   fromDecToHex,
   isPrivateKey,
   handleCopy,
-  beautifyJson
+  beautifyJson,
+  convertToPercent,
+  fromLoop,
+  toLoop,
   isValidICXInput,
   trimSpace,
+  map,
+  convertStakeValueToText,
+  convertIScoreToText,
 }

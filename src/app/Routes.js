@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Redirect, HashRouter } from 'react-router-dom';
-import { 
-  HeaderContainer, 
-  PopupContainer, 
-  FooterContainer, 
+import {
+  HeaderContainer,
+  PopupContainer,
+  FooterContainer,
   TimerContainer,
   HomeContainer,
   LockContainer,
@@ -20,7 +20,7 @@ import { routeConstants as ROUTE } from '../constants/index';
 import { chromeStorage, chromeStorageLocal } from 'utils'
 
 const HomeRoute = ({ component: Component, isLoggedIn, isLocked, ...rest }) => (
-  <Route onEnter={window.scroll(0, 0)} exact {...rest} render={props => <Component {...props}/>}/>
+  <Route onEnter={window.scroll(0, 0)} exact {...rest} render={props => <Component {...props} />} />
 )
 
 const PrivateRoute = ({ component: Component, isLoggedIn, isLocked, isLedgerAccess, ...rest }) => (
@@ -28,13 +28,13 @@ const PrivateRoute = ({ component: Component, isLoggedIn, isLocked, isLedgerAcce
     isLoggedIn
       ? (
         isLocked
-          ? (<Redirect to={ROUTE['home']}/>)
-          : (<Component {...props}/>)
-        )
+          ? (<Redirect to={ROUTE['home']} />)
+          : (<Component {...props} />)
+      )
       : isLedgerAccess
-          ? (<Component {...props}/>)
-          : (<Redirect to={ROUTE['home']}/>)
-  )}/>
+        ? (<Component {...props} />)
+        : (<Redirect to={ROUTE['home']} />)
+  )} />
 )
 
 class Routes extends Component {
@@ -47,8 +47,8 @@ class Routes extends Component {
     this.mounted = false;
   }
 
-  componentWillMount(){
-    (async ()=>{
+  componentWillMount() {
+    (async () => {
       await new Promise(function (resolve, reject) {
         chromeStorageLocal.get(null, result => {
           chromeStorage.set(result, () => {
@@ -65,6 +65,7 @@ class Routes extends Component {
   }
 
   componentDidMount() {
+    const { showChangePasscode } = this.props
     window.chrome.tabs.getCurrent((tab) => {
       this.tabId = tab.id
       window.chrome.runtime.sendMessage({ type: 'ADD_TAB_ID', payload: tab.id });
@@ -74,7 +75,7 @@ class Routes extends Component {
     })
     window.onpopstate = (e) => {
       // prevent triggered by a page load
-      if (document.location.hash !== '#/lock') {
+      if (!showChangePasscode) {
         this.props.closePopup();
       }
     }
@@ -120,7 +121,7 @@ class Routes extends Component {
   }
 
   toggleNotice = () => {
-    this.setState({showNotice: !this.state.showNotice})
+    this.setState({ showNotice: !this.state.showNotice })
   }
 
   render() {
@@ -128,35 +129,35 @@ class Routes extends Component {
     const isShowNotice = isLoggedIn && this.state.showNotice
     return (
       <div className='empty'>
-      {
-        !initLoading && (
-          <HashRouter>
-            <div className='empty'>
-              <div className={`wrap
+        {
+          !initLoading && (
+            <HashRouter>
+              <div className='empty'>
+                <div className={`wrap
                   ${language}
                   ${isShowNotice ? 'notice' : ''}`}>
-                {isShowNotice && <Notice toggleNotice={this.toggleNotice} {...this.props}/>}
-                <HeaderContainer />
-                {/* <HomeRoute path={ROUTE['home']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={MainPage} /> */}
-                <HomeRoute exact path={ROUTE['home']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={MyWalletPage} />
-                <PrivateRoute path={ROUTE['mywallet'] + "/:id"} isLoggedIn={isLoggedIn} isLocked={isLocked} component={CoinDetailPage} />
-                <PrivateRoute path={ROUTE['voting']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={VotingPage} />
-                <PrivateRoute path={ROUTE['exchange']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={ExchangePage} />
-                <PrivateRoute path={ROUTE['transaction']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={TransactionPage} isLedgerAccess={isLedger}/>
-                <PrivateRoute path={ROUTE['contract']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={ContractPage} />
-                <PrivateRoute path={ROUTE['mypage']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={MyPage} />
+                  {isShowNotice && <Notice toggleNotice={this.toggleNotice} {...this.props} />}
+                  <HeaderContainer />
+                  {/* <HomeRoute path={ROUTE['home']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={MainPage} /> */}
+                  <HomeRoute exact path={ROUTE['home']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={MyWalletPage} />
+                  <PrivateRoute path={ROUTE['mywallet'] + "/:id"} isLoggedIn={isLoggedIn} isLocked={isLocked} component={CoinDetailPage} />
+                  <PrivateRoute path={ROUTE['voting']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={VotingPage} />
+                  <PrivateRoute path={ROUTE['exchange']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={ExchangePage} />
+                  <PrivateRoute path={ROUTE['transaction']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={TransactionPage} isLedgerAccess={isLedger} />
+                  <PrivateRoute path={ROUTE['contract']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={ContractPage} />
+                  <PrivateRoute path={ROUTE['mypage']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={MyPage} />
+                </div>
+                <FooterContainer />
+                <div>
+                  {!isLoggedIn && !isLedger && (<HomeContainer />)}
+                  {isLocked && (<LockContainer />)}
+                </div>
+                <PopupContainer />
+                <TimerContainer />
               </div>
-              <FooterContainer />
-              <div>
-                {!isLoggedIn && !isLedger && (<HomeContainer />)}
-                {isLocked && (<LockContainer />)}
-              </div>
-              <PopupContainer />
-              <TimerContainer />
-            </div>
-          </HashRouter>
-        )
-      }
+            </HashRouter>
+          )
+        }
       </div>
     );
   }

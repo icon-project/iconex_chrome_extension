@@ -5,9 +5,7 @@ class VotingPage extends Component {
   render() {
     return (
       <div>
-        <div className="content-wrap vote">
-          <VotingPageContainer />
-        </div>
+        <VotingPageContainer />
         <div className="blank"></div>
       </div>
     );

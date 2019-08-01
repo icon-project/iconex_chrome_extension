@@ -5,11 +5,13 @@ export default class SubRoute extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tab: 0
+      tab: props.tab || 0
     }
   }
 
   setTab = (i) => {
+    const { handleSetTabEvent } = this.props
+    if (handleSetTabEvent) handleSetTabEvent(i)
     this.setState({
       tab: i
     })
@@ -30,10 +32,10 @@ export default class SubRoute extends Component {
                 ))
               }
             </ul>
-            { tooltip }
+            {tooltip}
           </div>
         </div>
-        { components[tab] }
+        {components[tab]}
       </div>
     )
   }

@@ -4,11 +4,6 @@ import { store } from 'redux/store/store';
 //import { coinRound as ROUND } from 'constants/index';
 import BigNumber from 'bignumber.js';
 
-const mainState = {
-  isLoggedIn: false,
-  privKey: '',
-}
-
 const uiState = {
   calcData: {},
   walletSelectorError: '',
@@ -42,7 +37,6 @@ const txFeeLimitState = {
 }
 
 const initialState = {
-  ...mainState,
   ...uiState,
   ...txFeeLimitState
 }
@@ -210,7 +204,7 @@ const calcData = (props) => {
   return {
     currentBalance: balance,
     totalBalance: totalBalance.toFixed(18),
-    txFeePriceWithRate: txFeePriceWithRate,
+    txFeePriceWithRate,
     txFee: txFeeText,
     txFeeWithRate: txFeeWithRateText,
     sendQuantity: sendQuantityText,
@@ -250,15 +244,8 @@ const initializeTxFeePrice = (isToken, walletCoinType, txFeePriceStep) => {
 
 export function exchangeTransactionReducer(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.setEXTRLogInStateForLedger: {
+    case actionTypes.setLogInState: {
       return Object.assign({}, state, {
-          isLoggedIn: action.payload.isLoggedIn
-      })
-    }
-    case actionTypes.setEXTRLogInState: {
-      return Object.assign({}, state, {
-          isLoggedIn: action.payload.isLoggedIn,
-          privKey: action.payload.isLoggedIn ? action.payload.privKey : '',
           walletSelectorError: ''
       })
     }

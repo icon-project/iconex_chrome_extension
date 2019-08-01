@@ -65,13 +65,6 @@ export function setDataError() {
   };
 }
 
-export function setEXTRLogInState(payload) {
-  return {
-    type: actionTypes.setEXTRLogInState,
-    payload
-  };
-}
-
 export function setCoinQuantity(payload, isTxFeeNeeded) {
   return {
     type: actionTypes.setCoinQuantity,

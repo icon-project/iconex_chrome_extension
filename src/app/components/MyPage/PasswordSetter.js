@@ -35,19 +35,19 @@ class PasswordSetter extends Component {
                 <div className="group">
                   <span className="label">{I18n.myPageLabel1}</span>
                   <PasswordInput placeholder={I18n.myPagePlaceholder1}
-                                setInputValue={(value, callback)=>{this.props.setValue({first:value}, callback)}}
-                                error={I18n.error[this.props.firstError]}
-                                clearError={this.props.clearError}
-                                handleKeyPress={this.props.setNewPasscode}
+                    setInputValue={(value, callback) => { this.props.setValue({ first: value }, callback) }}
+                    error={I18n.error[this.props.firstError]}
+                    clearError={this.props.clearError}
+                    handleKeyPress={this.props.setNewPasscode}
                   />
                 </div>
                 <div className="group">
                   <span className="label">{I18n.myPageLabel2}</span>
                   <PasswordInput placeholder={I18n.myPagePlaceholder1}
-                                setInputValue={(value, callback)=>{this.props.setValue({second:value}, callback)}}
-                                error={I18n.error[this.props.secondError]}
-                                clearError={this.props.clearError}
-                                handleKeyPress={this.props.setNewPasscode}
+                    setInputValue={(value, callback) => { this.props.setValue({ second: value }, callback) }}
+                    error={I18n.error[this.props.secondError]}
+                    clearError={this.props.clearError}
+                    handleKeyPress={this.props.setNewPasscode}
                   />
                 </div>
               </div>
@@ -60,7 +60,7 @@ class PasswordSetter extends Component {
               <span className="txt">{I18n.myPageLockNumberUsing}</span>
               <div className="btn-holder">
                 <button className="btn-type-txt" onClick={() => this.props.goToChangingStatus(2)}><span>{I18n.button.change}</span></button>
-                <button className="btn-type-txt" onClick={this.unlock}><span>{I18n.button.unlock}</span></button>						
+                <button className="btn-type-txt" onClick={this.unlock}><span>{I18n.button.unlock}</span></button>
               </div>
             </div>
           )
@@ -71,28 +71,28 @@ class PasswordSetter extends Component {
                 <div className="group">
                   <p className="label">{I18n.myPageLabel3}</p>
                   <PasswordInput placeholder={I18n.myPagePlaceholder1}
-                                setInputValue={(value, callback)=>{this.props.setValue({current:value}, callback)}}
-                                error={I18n.error[this.props.currentError]}
-                                clearError={this.props.clearError}
-                                handleKeyPress={this.props.changeToNewPasscode}
+                    setInputValue={(value, callback) => { this.props.setValue({ current: value }, callback) }}
+                    error={I18n.error[this.props.currentError]}
+                    clearError={this.props.clearError}
+                    handleKeyPress={this.props.changeToNewPasscode}
                   />
                 </div>
                 <div className="group">
                   <p className="label">{I18n.myPageLabel1}</p>
                   <PasswordInput placeholder={I18n.myPagePlaceholder1}
-                                setInputValue={(value, callback)=>{this.props.setValue({first:value}, callback)}}
-                                error={I18n.error[this.props.firstError]}
-                                clearError={this.props.clearError}
-                                handleKeyPress={this.props.changeToNewPasscode}
+                    setInputValue={(value, callback) => { this.props.setValue({ first: value }, callback) }}
+                    error={I18n.error[this.props.firstError]}
+                    clearError={this.props.clearError}
+                    handleKeyPress={this.props.changeToNewPasscode}
                   />
                 </div>
                 <div className="group">
                   <p className="label">{I18n.myPageLabel2}</p>
                   <PasswordInput placeholder={I18n.myPagePlaceholder1}
-                                setInputValue={(value, callback)=>{this.props.setValue({second:value}, callback)}}
-                                error={I18n.error[this.props.secondError]}
-                                clearError={this.props.clearError}
-                                handleKeyPress={this.props.changeToNewPasscode}
+                    setInputValue={(value, callback) => { this.props.setValue({ second: value }, callback) }}
+                    error={I18n.error[this.props.secondError]}
+                    clearError={this.props.clearError}
+                    handleKeyPress={this.props.changeToNewPasscode}
                   />
                 </div>
               </div>
@@ -110,7 +110,7 @@ class PasswordSetter extends Component {
     return (
       <div>
         {pwGroup(status)}
-			</div>
+      </div>
     );
   }
 }

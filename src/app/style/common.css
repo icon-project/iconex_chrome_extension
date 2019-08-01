@@ -226,6 +226,15 @@ i._icon.L{background:#547345;}
 .popup-wrap.common-voting .multi .txt{font-size: 14px; margin-top: 12px;}
 .popup-wrap.common-voting .multi p.txt_box:not(:first-child){margin-top: 30px;}
 
+.popup-wrap.common-voting .fee{text-align: left; margin-top: 50px;}
+.popup-wrap.common-voting .fee p{font-size: 14px; font-weight: 400; margin-top: 18px;}
+.popup-wrap.common-voting .fee p span:last-child{float: right; margin-top: 2px;}
+.popup-wrap.common-voting .fee p span:last-child em{color: #999; margin-left: 6px;}
+.popup-wrap.common-voting .fee p span:last-child em.slash{margin: 0 3px;}
+.popup-wrap.common-voting .fee p:last-child{margin-top: 2px;}
+.popup-wrap.common-voting .dot{border-bottom: 1px dotted #d9d9d9; margin: 30px 0;}
+
+
 .popup-wrap.convert{}
 .popup-wrap.convert .txt_box{ font-size: 20px;  padding:15px 0 60px;}
 .popup-wrap.convert .txt_box span{position: relative; color: #1aaaba;}
@@ -1948,9 +1957,9 @@ textarea:focus{border: 1px solid #1daab9;}
 .notice-wrap .view label{    background-color: transparent; color: rgba(255, 255, 255, 0.5); padding: 0 0px 0 30px; background-position-x:-550px; }
 .notice-wrap .view input[type=checkbox]:checked + label{background-position-x:-550px;}
 
-.help-layer{position: absolute; background: #4d4d4d; border-radius: 8px; padding: 8px 14px; color: #fff; font-size: 12px; top: inherit; bottom: 30px; left: 10px;   z-index: 9; opacity:0;display: inline-grid; margin-left: 5px; width: 500px; pointer-events: none; text-align: left; }
+.help-layer{position: absolute; background: #4d4d4d; border-radius: 8px; padding: 8px 14px; color: #fff; font-size: 12px; top: inherit; bottom: 30px; left: 10px;   z-index: 9; opacity:0; margin-left: 5px;  pointer-events: none; text-align: left; }
 .help-layer .title{line-height: 16px;  word-break: keep-all;     margin-bottom: 8px; }
-.help-layer .txt{color: rgba(255,2555,255,1);/* margin-top: 8px;*/font-weight: 300; line-height: 16px;  word-break: keep-all; font-size: 11px;}
+.help-layer .txt{color: rgba(255,2555,255,1);font-weight: 300;  line-height: 16px;  width: max-content;  font-size: 11px;}
 .help-layer .tri{    width: 0px;
     height: 0px;
     border-top: 8px solid #4d4d4d;

@@ -29,7 +29,7 @@ class ComboBox extends Component {
   render() {
     return (
       <div className={`money-group ${this.props.disabled ? 'disabled' : ''}`} onClick={this.toggleList}>
-        {this.props.index ? this.props.list[this.props.index].toUpperCase() : '    '}
+        {this.props.list[this.props.index] ? this.props.list[this.props.index].toUpperCase() : '    '}
         {
           !this.props.noArrow && (
             <em className="_img"></em>
@@ -45,7 +45,7 @@ class ComboBox extends Component {
               />
             </div>
           </div>
-        }       
+        }
       </div>
     )
   }

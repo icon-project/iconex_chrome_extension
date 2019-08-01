@@ -30,12 +30,20 @@ import WalletStakingBar from './MyWalletPage/WalletStakingBar';
 import WalletMenuBar from './MyWalletPage/WalletMenuBar';
 
 import VotingPage from './VotingPage/VotingPage'
-import Preps from './VotingPage/Preps'
-import PrepsVotingStatusGraph from './VotingPage/PrepsVotingStatusGraph'
-import PrepsLeaderboard from './VotingPage/PrepsLeaderboard'
-import PrepsTable from './VotingPage/PrepsTable'
-import PrepsBar from './VotingPage/PrepsBar'
+import PReps from './VotingPage/PReps'
+import PRepsVotingStatusGraph from './VotingPage/PRepsVotingStatusGraph'
+import PRepsLeaderboard from './VotingPage/PRepsLeaderboard'
+import PRepsTable from './VotingPage/PRepsTable'
+import PRepsBar from './VotingPage/PRepsBar'
 import MyStatus from './VotingPage/MyStatus'
+import MyStatusIScore from './VotingPage/MyStatusIScore'
+import MyStatusStakeVote from './VotingPage/MyStatusStakeVote'
+import Vote from './VotingPage/Vote'
+import VoteAlerts from './VotingPage/VoteAlerts'
+import TxFeeTable from './VotingPage/TxFeeTable'
+import MyVotesInput from './VotingPage/MyVotesInput'
+import PRepsBarInputRange from './VotingPage/PRepsBarInputRange'
+import IissLedgerIframe from './VotingPage/IissLedgerIframe'
 
 import Popup from './Popup/Popup';
 import SmallPopup from './Popup/_00_commonPopup/SmallPopup';
@@ -81,6 +89,14 @@ import SendTransaction1 from './Popup/_22_sendTransaction/SendTransaction_1'
 import SendTransaction2 from './Popup/_22_sendTransaction/SendTransaction_2'
 import SendTransaction3 from './Popup/_22_sendTransaction/SendTransaction_3'
 
+import ClaimIScore from './Popup/_30_claimIScore/ClaimIScore'
+import ClaimIScoreAlerts from './Popup/_30_claimIScore/ClaimIScoreAlerts'
+import Stake from './Popup/_31_stake/Stake'
+import StakeBarGraph from './Popup/_31_stake/StakeBarGraph'
+import StakeBarLabel from './Popup/_31_stake/StakeBarLabel'
+import StakeInputRange from './Popup/_31_stake/StakeInputRange'
+import StakeAlerts from './Popup/_31_stake/StakeAlerts'
+
 import ExchangeTransaction from './ExchangeTransaction/ExchangeTransaction'
 import ComboBox from './ExchangeTransaction/ComboBox'
 import HeaderTitle from './ExchangeTransaction/HeaderTitle'
@@ -100,7 +116,7 @@ import InputText from './ContractPage/ContractReadPage/InputText'
 import InputData from './ContractPage/ContractReadPage/InputData'
 import InputBoolean from './ContractPage/ContractReadPage/InputBoolean'
 import Output from './ContractPage/ContractReadPage/Output'
-import ContractList from './Popup/_27_contractList/ContractList'
+import ContractList from './Popup/_26_contractList/ContractList'
 
 import MyPage from './MyPage/MyPage'
 import LockContent from './MyPage/LockContent'
@@ -142,6 +158,7 @@ export {
   ServerChanger,
   LedgerIframe,
   SubRoute,
+  TxFeeTable,
 
   // *** MAIN PAGE *** //
   Home,
@@ -200,12 +217,27 @@ export {
 
   // *** VOTING PAGE *** //
   VotingPage,
-  Preps,
-  PrepsVotingStatusGraph,
-  PrepsLeaderboard,
-  PrepsTable,
-  PrepsBar,
+  PReps,
+  PRepsVotingStatusGraph,
+  PRepsLeaderboard,
+  PRepsTable,
+  PRepsBar,
   MyStatus,
+  MyStatusIScore,
+  MyStatusStakeVote,
+  Vote,
+  VoteAlerts,
+  MyVotesInput,
+  PRepsBarInputRange,
+  IissLedgerIframe,
+  // popup //
+  ClaimIScore,
+  ClaimIScoreAlerts,
+  Stake,
+  StakeBarGraph,
+  StakeBarLabel,
+  StakeInputRange,
+  StakeAlerts,
 
   // *** EXCHANGE_TRANSACTION PAGE *** //
   ExchangeTransaction,

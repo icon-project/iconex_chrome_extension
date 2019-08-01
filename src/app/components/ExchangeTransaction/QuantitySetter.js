@@ -4,8 +4,8 @@ import { isEmpty, trimLeftZero, trimSpace, isValidICXInput } from 'utils/utils'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
-//  currencyIndex: 0,
-//  isFullBalance: false,
+  //  currencyIndex: 0,
+  //  isFullBalance: false,
 }
 
 @withLanguageProps
@@ -45,11 +45,11 @@ class QuantitySetter extends Component {
       isFullBalance
     } = this.props;
 
-    if(!isLoggedIn) {
+    if (!isLoggedIn) {
       return false
     }
 
-    if(balance <= 0) {
+    if (balance <= 0) {
       return false
     }
 
@@ -96,27 +96,27 @@ class QuantitySetter extends Component {
     } = this.props;
 
     const coinQuantityErrorText =
-        coinQuantityError === 'notEnoughBalance' ? I18n.error[coinQuantityError](calcData.walletCoinType.toUpperCase())
-                                                 : I18n.error[coinQuantityError];
+      coinQuantityError === 'notEnoughBalance' ? I18n.error[coinQuantityError](calcData.walletCoinType.toUpperCase())
+        : I18n.error[coinQuantityError];
 
     if (isContractPage) {
       return (
         <div className="-group">
           <p className="title">{I18n.transferPageLabel1}</p>
           <input
-          	type="text"
-          	className={`txt-type-normal ${coinQuantityError && 'error'}`}
-          	placeholder={I18n.transferPagePlaceholder1}
-          	disabled={!isLoggedIn}
-          	value={coinQuantity || ''}
-          	onChange={this.handleInputChange}
-          	onBlur={() => this.handleInputBlur()}
+            type="text"
+            className={`txt-type-normal ${coinQuantityError && 'error'}`}
+            placeholder={I18n.transferPagePlaceholder1}
+            disabled={!isLoggedIn}
+            value={coinQuantity || ''}
+            onChange={this.handleInputChange}
+            onBlur={() => this.handleInputBlur()}
           />
           <p className="error">{coinQuantityErrorText}</p>
         </div>
       )
     }
-
+    
     return (
       <div className="group">
         <span className="label">{I18n.transferPageLabel1}</span>
@@ -136,20 +136,22 @@ class QuantitySetter extends Component {
               className="cbox-type"
               type="checkbox"
               name=""
-            
+
               checked={isFullBalance}
             />
-            <label htmlFor="cbox-01" className="_img" onClick={()=>{isLoggedIn && this.toggleCheckBox(calcData.totalBalance)}}>{I18n.transferPageAllCheckBtn}</label>
-            { isLedger && (<button onClick={() => this.props.openPopup({ popupType: 'addToken', popupNum: 1 })} className="btn-type-copy w104"><span>{I18n.addToken.title1}</span></button>) }
+            <label htmlFor="cbox-01" className="_img" onClick={() => { isLoggedIn && this.toggleCheckBox(calcData.totalBalance) }}>{I18n.transferPageAllCheckBtn}</label>
+            {isLedger && (<button onClick={() => this.props.openPopup({ popupType: 'addToken', popupNum: 1 })} className="btn-type-copy w104"><span>{I18n.addToken.title1}</span></button>)}
           </div>
           <ComboBox
             disabled={!isLoggedIn}
-            list={!isEmpty(calcData) ? calcData.coinTypeObj : ['']}
+            list={!isEmpty(calcData) ? calcData.coinTypeObj : {}}
             index={selectedTokenId || selectedAccount}
             setIndex={this.changeCoin}
           />
-          { isLoggedIn && (<span className={`won ${calcData.sendQuantityWithRate === '0' ? 'zero' : ''}`}>{calcData.sendQuantityWithRate || 0 } <em>USD</em></span>)}
-          { isLoggedIn && !isEmpty(calcData) && (<span className={`won ${calcData.currentBalance.toString() === '0' ? 'zero' : ''}`}>{I18n.contractBalance} {calcData.currentBalance.toString()}<em>{calcData.coinTypeObj[selectedTokenId || selectedAccount].toUpperCase()}</em></span>) }
+          {isLoggedIn && (<span className={`won ${calcData.sendQuantityWithRate === '0' ? 'zero' : ''}`}>{calcData.sendQuantityWithRate || 0} <em>USD</em></span>)}
+          {isLoggedIn && !isEmpty(calcData) && (<span className={`won ${calcData.currentBalance.toString() === '0' ? 'zero' : ''}`}>{I18n.contractBalance} {calcData.currentBalance.toString()}
+            <em>{calcData.coinTypeObj[selectedTokenId || selectedAccount] && calcData.coinTypeObj[selectedTokenId || selectedAccount].toUpperCase()}</em>
+          </span>)}
           <p className="error">{coinQuantityErrorText}</p>
         </div>
       </div>

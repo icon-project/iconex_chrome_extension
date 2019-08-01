@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { routeConstants as ROUTE, currencyUnit as CURRENCY_UNIT, dateFormat as DATE_FORMAT} from 'constants/index'
-import { ICX_TOKEN_CONTRACT_ADDRESS } from 'constants/config'
-import { LoadingComponent, Alert } from 'app/components/'
+import { routeConstants as ROUTE, currencyUnit as CURRENCY_UNIT, } from 'constants/index'
+import { LoadingComponent, } from 'app/components/'
 import { convertNumberToText, checkLength } from 'utils'
 import { withRouter } from 'react-router-dom'
-import moment from 'moment';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 
@@ -16,7 +14,7 @@ class WalletBar extends Component {
     const { data, history } = this.props;
     const { tokenId, account } = data;
     const url = tokenId ? account + '_' + tokenId : account;
-    history.push(ROUTE['mywallet'] + '/' + url );
+    history.push(ROUTE['mywallet'] + '/' + url);
   }
 
   handleTransactionClick = () => {
@@ -26,17 +24,17 @@ class WalletBar extends Component {
     if (!isError) {
       if (tokenId) {
         if (walletBalance.eq(0)) {
-          this.props.showAlert('showAlertNoTxFeeBalance', walletCoinType)
+          this.props.showAlert(`alertNoTxFeeBalance_${walletCoinType}`)
           return false;
         }
 
         if (balance.eq(0)) {
-          this.props.showAlert('showAlertNoBalance')
+          this.props.showAlert('alertNoBalance')
           return false;
         }
       } else {
         if (balance.eq(0)) {
-          this.props.showAlert('showAlertNoBalance')
+          this.props.showAlert('alertNoBalance')
           return false;
         }
       }
@@ -55,7 +53,7 @@ class WalletBar extends Component {
   }
 
   render() {
-    const { currency, data, I18n, index, isCoinView, getIcon } = this.props;
+    const { currency, data, I18n, isCoinView, getIcon } = this.props;
     const { name, balanceLoading = false, isError, symbol, balance, totalResultLoading, balanceWithRate, tokenId } = data;
 
     const nameText = checkLength(name) > 18 ? name.substring(0, 18) + '...' : name;
@@ -67,7 +65,7 @@ class WalletBar extends Component {
       return (
         <tr>
           <td colSpan="5" className="load">
-            <LoadingComponent type="black"/>
+            <LoadingComponent type="black" />
           </td>
         </tr>
       );
@@ -84,10 +82,10 @@ class WalletBar extends Component {
                 <em>{balanceWithRate !== null ? convertNumberToText(balanceWithRate, currency, false) : "-"}</em><em>{CURRENCY_UNIT[currency]}</em>
               </div>
             ) : (
-              <div className="load">
-                <LoadingComponent type="black"/>
-              </div>
-            )}
+                <div className="load">
+                  <LoadingComponent type="black" />
+                </div>
+              )}
           </td>
           <td>
             <button onClick={this.handleTransactionClick} className="btn-type-exchange"><span>{I18n.button.transfer}</span></button>

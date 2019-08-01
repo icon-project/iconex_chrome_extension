@@ -75,46 +75,46 @@ class ImportWallet2 extends Component {
 
   acceptDrop = (files) => {
     files.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            const fileAsBinaryString = reader.result;
-            new Promise(resolve => {
-              // check whether file is JSON or not
-              const ks = JSON.parse(fileAsBinaryString);
-              resolve(ks);
-            }).then((ks) => {
-              // check whether file is made by MyEtherWallet
-              if (ks['Crypto']) {
-                ks['crypto'] = ks.Crypto;
-                delete ks.Crypto;
-              }
+      const reader = new FileReader();
+      reader.onload = () => {
+        const fileAsBinaryString = reader.result;
+        new Promise(resolve => {
+          // check whether file is JSON or not
+          const ks = JSON.parse(fileAsBinaryString);
+          resolve(ks);
+        }).then((ks) => {
+          // check whether file is made by MyEtherWallet
+          if (ks['Crypto']) {
+            ks['crypto'] = ks.Crypto;
+            delete ks.Crypto;
+          }
 
-              if( validateKSFile(ks) ) {
-                this.setState({
-                  file: ks,
-                  fileTitle: file.name,
-                  isDropped: true,
-                  fileType: 'ks',
-                  dropzoneError: ''
-                });
-              } else if ( validateIconexFile(ks) ) {
-                this.setState({
-                  file: ks,
-                  fileTitle: file.name,
-                  isDropped: true,
-                  fileType: 'iconex',
-                  dropzoneError: ''
-                });
-              } else {
-                this.rejectDrop(file);
-              }
-            }).catch((e) => {
-              this.rejectDrop(file);
-            })
-        };
-        reader.onabort = () => alert('file reading was aborted');
-        reader.onerror = () => alert('file reading has failed');
-        reader.readAsText(file);
+          if (validateKSFile(ks)) {
+            this.setState({
+              file: ks,
+              fileTitle: file.name,
+              isDropped: true,
+              fileType: 'ks',
+              dropzoneError: ''
+            });
+          } else if (validateIconexFile(ks)) {
+            this.setState({
+              file: ks,
+              fileTitle: file.name,
+              isDropped: true,
+              fileType: 'iconex',
+              dropzoneError: ''
+            });
+          } else {
+            this.rejectDrop(file);
+          }
+        }).catch((e) => {
+          this.rejectDrop(file);
+        })
+      };
+      reader.onabort = () => alert('file reading was aborted');
+      reader.onerror = () => alert('file reading has failed');
+      reader.readAsText(file);
     });
   }
 
@@ -141,14 +141,14 @@ class ImportWallet2 extends Component {
     const { file, pw, fileType } = this.state;
     if (file) {
       this.setState({ loading: true }, () => {
-        this.worker.postMessage({file: file, pw: pw, type: fileType === 'ks' ? 'importWallet_2_ks' : 'importWallet_2_iconex'});
+        this.worker.postMessage({ file: file, pw: pw, type: fileType === 'ks' ? 'importWallet_2_ks' : 'importWallet_2_iconex' });
       })
     } else {
       this.validateForm();
     }
   }
 
-  validateForm = (state="") => {
+  validateForm = (state = "") => {
     const { I18n } = this.props;
     let pwError = this.state.pwError;
     let dropzoneError = this.state.dropzoneError;
@@ -163,7 +163,7 @@ class ImportWallet2 extends Component {
       pwError = ''
     }
 
-    if(!this.state.isDropped) {
+    if (!this.state.isDropped) {
       if (this.state.fileTitle !== '') {
         dropzoneError = I18n.error.dropzoneFormat
       } else {
@@ -230,55 +230,55 @@ class ImportWallet2 extends Component {
           <h1 className="title">{I18n.importWallet.title}</h1>
           <h2>{I18n.importWallet.desc2}</h2>
         </div>
-          <div className="scroll-holder">
-    				<div className="scroll">
-    					<div className="tabbox-holder token">
-    						<p className="title">{I18n.importWallet.inputLabel2_1}</p>
-                <Dropzone
-                  onDropAccepted={this.acceptDrop}
-                  onDropRejected={this.rejectDrop}
-                  multiple={false}
-                  ref={(node) => { dropzoneRef = node; }}
-                  className={DropzoneClassName}
-                  activeClassName="drag-active"
-                  disableClick
-                >
-                  {fileTitle !== '' ? (
-                    <div>
-                      <p className="list" title={fileTitle}><i className="_img"></i>{fileTitle}<em onClick={this.resetDropzone} className="_img"></em></p>
-                      <p className="error">{dropzoneError}</p>
-                    </div>
-                  ) : (
+        <div className="scroll-holder">
+          <div className="scroll">
+            <div className="tabbox-holder token">
+              <p className="title">{I18n.importWallet.inputLabel2_1}</p>
+              <Dropzone
+                onDropAccepted={this.acceptDrop}
+                onDropRejected={this.rejectDrop}
+                multiple={false}
+                ref={(node) => { dropzoneRef = node; }}
+                className={DropzoneClassName}
+                activeClassName="drag-active"
+                disableClick
+              >
+                {fileTitle !== '' ? (
+                  <div>
+                    <p className="list" title={fileTitle}><i className="_img"></i>{fileTitle}<em onClick={this.resetDropzone} className="_img"></em></p>
+                    <p className="error">{dropzoneError}</p>
+                  </div>
+                ) : (
                     <div>
                       <span>{I18n.importWallet.inputPlaceHolder2_1}</span>
                       <p className="error">{dropzoneError}</p>
                     </div>
                   )}
-                </Dropzone>
-                <div className="choice">
-                  <button onClick={() => { dropzoneRef.open() }} type="submit" className={ButtonClassName}><span>{I18n.button.upload}</span></button>
-    						</div>
-                <div className="pw-group">
-                  <p className="title">{I18n.importWallet.inputLabel2_2}</p>
-                  <input onKeyPress={this.handleKeyPress} onChange={this.changeInput} type="password" className={`txt-type-normal ${pwError && 'error'}`} name="pw" placeholder={I18n.importWallet.inputPlaceHolder2_2} value={pw} />
-                  <p className="error">{pwError}</p>
-                </div>
-    					</div>
-    				</div>
-    			</div>
-          <div className="btn-holder">
-            { loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="white"/></span></button>)
-                      : (<button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{this.state.fileType === 'ks' ? I18n.button.next : I18n.button.import}</span></button>)}
+              </Dropzone>
+              <div className="choice">
+                <button onClick={() => { dropzoneRef.open() }} type="submit" className={ButtonClassName}><span>{I18n.button.upload}</span></button>
+              </div>
+              <div className="pw-group">
+                <p className="title">{I18n.importWallet.inputLabel2_2}</p>
+                <input onKeyPress={this.handleKeyPress} onChange={this.changeInput} type="password" className={`txt-type-normal ${pwError && 'error'}`} name="pw" placeholder={I18n.importWallet.inputPlaceHolder2_2} value={pw} />
+                <p className="error">{pwError}</p>
+              </div>
+            </div>
           </div>
-          {
-            showAlertImportSuccessAlert && (
-              <Alert
-                handleSubmit={this.logIn}
-                text={I18n.importWallet.importSuccessAlert}
-                submitText={I18n.button.confirm}
-              />
-            )
-          }
+        </div>
+        <div className="btn-holder">
+          {loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="white" /></span></button>)
+            : (<button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{this.state.fileType === 'ks' ? I18n.button.next : I18n.button.import}</span></button>)}
+        </div>
+        {
+          showAlertImportSuccessAlert && (
+            <Alert
+              handleSubmit={this.logIn}
+              text={I18n.importWallet.importSuccessAlert}
+              submitText={I18n.button.confirm}
+            />
+          )
+        }
       </div>
     );
   }

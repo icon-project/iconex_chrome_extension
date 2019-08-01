@@ -5,9 +5,7 @@ import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
   showMenuIndex: -1,
-
-  showAlertNoBalance: false,
-  showAlertNoTxFeeBalance: false
+  alert: false,
 }
 
 @withLanguageProps
@@ -26,14 +24,14 @@ class WalletSectionList extends Component {
       let tokenArr = makeWalletArray(data['token']);
       for (let coin of coinArr) {
         const tokenArrWithSameCoinType = tokenArr.filter((token) => token.walletCoinType === coin.coinType);
-        dataArr = [ ...dataArr, coin, ...tokenArrWithSameCoinType ]
+        dataArr = [...dataArr, coin, ...tokenArrWithSameCoinType]
       }
     }
     return dataArr;
   }
 
   makeTokenArr = (data, isCoinView) => {
-    if(!isCoinView) {
+    if (!isCoinView) {
       return;
     }
     let tokenListArr = makeWalletArray(data['token']);
@@ -53,16 +51,15 @@ class WalletSectionList extends Component {
     })
   }
 
-  showAlert = (type, value = true) => {
+  showAlert = (type) => {
     this.setState({
-      [type]: value
+      alert: type
     })
   }
 
   closeAlert = () => {
     this.setState({
-      showAlertNoBalance: false,
-      showAlertNoTxFeeBalance: false
+      alert: false,
     })
   }
 
@@ -75,9 +72,7 @@ class WalletSectionList extends Component {
 
     const {
       showMenuIndex,
-
-      showAlertNoBalance, 
-      showAlertNoTxFeeBalance,
+      alert,
     } = this.state
 
     let dataArr = this.walletDataToArr(data, isCoinView);
@@ -88,34 +83,25 @@ class WalletSectionList extends Component {
     return (
       <div>
         {
-            dataArr.map((data, i) => (
-                <WalletSection
-                  key={i}
-                  index={i}
-                  showMenuIndex={showMenuIndex}
-                  showMenuBar={this.showMenuBar}
-                  closeMenuBar={this.closeMenuBar}
-                  showAlert={this.showAlert}
-                  walletSectionData={data}
-                  tokenArray={tokenArray}
-                  {...this.props}
-                />
-            ))
-        }
-        {
-          showAlertNoBalance && (
-            <Alert
-              handleCancel={this.closeAlert}
-              text={I18n.error.alertNoBalance}
-              cancelText={I18n.button.confirm}
+          dataArr.map((data, i) => (
+            <WalletSection
+              key={i}
+              index={i}
+              showMenuIndex={showMenuIndex}
+              showMenuBar={this.showMenuBar}
+              closeMenuBar={this.closeMenuBar}
+              showAlert={this.showAlert}
+              walletSectionData={data}
+              tokenArray={tokenArray}
+              {...this.props}
             />
-          )
+          ))
         }
         {
-          showAlertNoTxFeeBalance && (
+          alert && (
             <Alert
               handleCancel={this.closeAlert}
-              text={I18n.error.alertNoTxFeeBalance(showAlertNoTxFeeBalance)}
+              text={I18n.error[alert]}
               cancelText={I18n.button.confirm}
             />
           )

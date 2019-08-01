@@ -58,6 +58,7 @@
 .wrap.home .content-wrap.lock .content-holder .pw-group .error{font-weight: 300;}
 
 /*400*/
+.popup-wrap.common-voting .fee p span:last-child:not(.txt) em,
 .content-wrap.vote .vote-fixed li p:not(.label) *,
 .myvote.choice .table-typeG tbody td:nth-child(4),
 .myvote.choice .table-typeG tbody td:nth-child(4) *,
@@ -100,6 +101,7 @@ table td.nodata p,
 .popup-wrap .terms .tabbox-holder h2{font-weight: 600;}
 
 /*700*/
+.popup-wrap.common-voting .fee p span:last-child:not(.txt),
 .table-holder.voting-stake td:nth-child(even),
 .content-wrap.vote .search-group span:not(.search) em,
 .content-wrap.vote .tost p span:first-child,
@@ -134,6 +136,8 @@ table td.nodata p,
 
 
 /*/////////////////////////////////*/
+.popup-wrap.common-voting .fee p span:last-child:not(.txt),
+.popup-wrap.common-voting .fee p span:last-child *,
 .content-wrap.vote .tost p span:first-child,
 .content-wrap.vote .myvote.choice td:nth-child(3) ~ td:nth-child(4),
 .content-wrap.vote .myvote.choice td:nth-child(4) *,

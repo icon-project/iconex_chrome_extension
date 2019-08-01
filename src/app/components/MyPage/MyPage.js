@@ -16,14 +16,14 @@ class MyPage extends Component {
       <SubRoute
         title={I18n.myPage}
         labels={[
-          I18n.myPageSubTitle1, 
+          I18n.myPageSubTitle1,
           I18n.myPageSubTitle2
         ]}
         components={[
-          <LockContent {...this.props} />, 
+          <LockContent {...this.props} />,
           <ExportContent {...this.props} />
         ]}
-        />
+      />
     );
   }
 }

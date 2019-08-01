@@ -32,6 +32,7 @@ const actionTypes = {
   createWalletsRejected: 'CREATE_WALLETS_REJECTED',
 
   // walletActions
+  setLogInState: 'SET_LOG_IN_STATE',
   deleteWallet: 'DELETE_WALLET',
   deleteWalletFulfilled: 'DELETE_WALLET_FULFILLED',
   deleteWalletRejected: 'DELETE_WALLET_REJECTED',
@@ -110,7 +111,6 @@ const actionTypes = {
   // resetExchangePageReducer: 'RESET_EXCHANGE_PAGE_REDUCER',
 
   // ExchangeTransactionActions
-  setEXTRLogInState: 'SET_EXTR_LOG_IN_STATE',
   setCoinQuantity: 'SET_COIN_QUANTITY',
   toggleFullBalance: 'TOGGLE_FULL_BALANCE',
   setTxFeePrice: 'SET_TX_FEE_PRICE',
@@ -167,7 +167,7 @@ const actionTypes = {
   resetContractInputOutput: 'RESET_CONTRACT_INPUT_OUTPUT',
 
   //ledgerActions
-  setEXTRLogInStateForLedger: 'SET_EXTR_LOG_IN_STATE_FOR_LEDGER',
+  setLogInStateForLedger: 'SET_LOG_IN_STATE_FOR_LEDGER',
   confirmLedger: 'CONFIRM_LEDGER',
   resetLedgerReducer: 'RESET_LEDGER_REDUCER',
   updateWalletBalance: 'UPDATE_WALLET_BALANCE',
@@ -193,6 +193,46 @@ const actionTypes = {
   //addressBookActions
   addAddressInAddressBook: 'ADD_ADDRESS_IN_ADDRESS_BOOK',
   deleteAddressInAddressBook: 'DELETE_ADDRESS_IN_ADDRESS_BOOK',
+
+  //pRepActions
+  openVoteMode: 'OPEN_VOTE_MODE',
+  resetVoteMode: 'RESET_VOTE_MODE',
+  getPRepData: 'GET_P_REP_DATA',
+  getPRepDataLoading: 'GET_P_REP_DATA_LOADING',
+  getPRepDataFulfilled: 'GET_P_REP_DATA_FULFILLED',
+  getPRepDataRejected: 'GET_P_REP_DATA_REJECTED',
+  updateMyVotes: 'UPDATE_MY_VOTES',
+  addPRep: 'ADD_P_REP',
+  deletePRep: 'DELETE_P_REP',
+
+  //iissActions
+  fetchMyStatusData: 'FETCH_MY_STATUS_DATA',
+  getStake: 'GET_STAKE', 
+  getStakeLoading: 'GET_STAKE_LOADING',
+  getStakeFulfilled: 'GET_STAKE_FULFILLED',
+  getStakeRejected: 'GET_STAKE_REJECTED',
+  setStake: 'SET_STAKE', 
+  setStakeLoading: 'SET_STAKE_LOADING',
+  setStakeFulfilled: 'SET_STAKE_FULFILLED',
+  setStakeRejected: 'SET_STAKE_REJECTED',
+  queryIScore: 'QUERY_I_SCORE',
+  queryIScoreLoading: 'QUERY_I_SCORE_LOADING',
+  queryIScoreFulfilled: 'QUERY_I_SCORE_FULFILLED',
+  queryIScoreRejected: 'QUERY_I_SCORE_REJECTED',
+  claimIScore: 'CLAIM_I_SCORE',
+  claimIScoreLoading: 'CLAIM_I_SCORE_LOADING',
+  claimIScoreFulfilled: 'CLAIM_I_SCORE_FULFILLED',
+  claimIScoreRejected: 'CLAIM_I_SCORE_REJECTED',
+  getDelegation: 'GET_DELEGATION',
+  getDelegationLoading: 'GET_DELEGATION_LOADING',
+  getDelegationFulfilled: 'GET_DELEGATION_FULFILLED',
+  getDelegationRejected: 'GET_DELEGATION_REJECTED',
+  setDelegation: 'SET_DELEGATION',
+  setDelegationLoading: 'SET_DELEGATION_LOADING',
+  setDelegationFulfilled: 'SET_DELEGATION_FULFILLED',
+  setDelegationRejected: 'SET_DELEGATION_REJECTED',
+  resetPRepIissReducer: 'RESET_PREP_IISS_REDUCER',
+  
   //txFeeActions
   getEstimatedTxFee: 'GET_ESTIMATED_TX_FEE',
   getEstimatedTxFeeLoading: 'GET_ESTIMATED_TX_FEE_LOADING',

@@ -167,7 +167,6 @@ class PRepsBar extends React.Component {
       delegatedPct,
       city,
       country,
-      status,
       rank,
       myDelegation,
       myDelegationPct,
@@ -237,7 +236,7 @@ class PRepsBar extends React.Component {
         </td>
         <td>{!isUnregistered ? `${convertStakeValueToText(delegated)} (${delegatedPct}%)` : '-'}</td>
         {isLeaderboard && (<td><span className="ellipsis">{`${city}, ${country}`}</span></td>)}
-        {isLeaderboard && (<td><i className={status ? 'on' : ''}></i></td>)}
+       
         {!isLeaderboard && isVoteMode && (
           <MyVotesInput
             data={data}

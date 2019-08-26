@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InputData = ({input, value, handleFuncInputChange, setFuncInputError, textCount, placeHolder, error}) => {
+const InputData = ({ input, value, handleFuncInputChange, setFuncInputError, textCount, placeHolder, error }) => {
   return (
     <div className="-group">
       <p className="title">{input.name}<em>{input.type}</em></p>
@@ -8,7 +8,7 @@ const InputData = ({input, value, handleFuncInputChange, setFuncInputError, text
         <textarea onChange={handleFuncInputChange} onBlur={setFuncInputError} placeholder={placeHolder} value={value}></textarea>
         <p><span>{textCount}</span>/500 {error}</p>
       </div>
-		</div>
+    </div>
   )
 }
 

@@ -78,38 +78,9 @@ export function resetSignupReducer() {
   };
 }
 
-export function setIcxSwapAddress(payload) {
-  return {
-    type: actionTypes.setIcxSwapAddress,
-    payload
-  };
-}
-
-export function setPrivKeyForSwap(payload) {
-  return {
-    type: actionTypes.setPrivKeyForSwap,
-    payload
-  };
-}
-
-export function setWalletNameAndPasswordForSwap(walletName, pw) {
-  return {
-    type: actionTypes.setWalletNameAndPasswordForSwap,
-    walletName,
-    pw
-  };
-}
-
 export function setAddress(payload) {
   return {
     type: actionTypes.setAddress,
     payload
   };
-}
-
-export function checkSwapWalletExist(payload) {
-  return {
-    type: actionTypes.checkSwapWalletExist,
-    payload
-  }
 }

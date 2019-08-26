@@ -35,14 +35,14 @@ class CopyButton extends Component {
       <button onClick={this.handleCopy} className={`${
         copyState === COPY_STATE['off'] ? (
           // btn-type-normal
-          type === 'small'  ? 'btn-type-search2'
-                            : 'btn-type-next size-next'
+          type === 'small' ? 'btn-type-search2'
+            : 'btn-type-next size-next'
         ) : (
-          // btn-type-fill
-          type === 'small'  ? 'btn-type-search2'
-                            : 'btn-type-next size-next'
-        )
-      } ${!defaultSize && 'copy'}`}>
+            // btn-type-fill
+            type === 'small' ? 'btn-type-search2'
+              : 'btn-type-next size-next'
+          )
+        } ${!defaultSize && 'copy'}`}>
         <em>{copyState === COPY_STATE['off'] ? text : copyFinish}</em>
         <span className="copyKey">{target}</span>
       </button>

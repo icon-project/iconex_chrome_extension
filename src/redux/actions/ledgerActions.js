@@ -1,8 +1,8 @@
 import actionTypes from 'redux/actionTypes/actionTypes';
 
-export function setEXTRLogInStateForLedger(payload) {
+export function setLogInStateForLedger(payload) {
   return {
-    type: actionTypes.setEXTRLogInStateForLedger,
+    type: actionTypes.setLogInStateForLedger,
     payload
   };
 }

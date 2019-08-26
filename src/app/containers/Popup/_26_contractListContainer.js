@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { ContractList } from 'app/components/';
-import {  openPopup, setPopupNum, closePopup } from 'redux/actions/popupActions';
+import { openPopup, setPopupNum, closePopup } from 'redux/actions/popupActions';
 import { setContractAddress, fetchAbi } from 'redux/actions/contractActions';
 
 function mapStateToProps(state) {

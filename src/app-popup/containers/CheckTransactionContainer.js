@@ -4,19 +4,19 @@ import { withRouter } from 'react-router-dom';
 import { initExternalState, callScore } from 'redux/actions/externalActions';
 
 function mapStateToProps(state) {
-    return {
-        tabId: state.external.tabId,
-        host: state.external.host,
-        transaction: state.external.transaction,
-        transactionLoading: state.external.transactionLoading,
-    };
+  return {
+    tabId: state.external.tabId,
+    host: state.external.host,
+    transaction: state.external.transaction,
+    transactionLoading: state.external.transactionLoading,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        initExternalState: () => dispatch(initExternalState()),
-        callScore: payload => dispatch(callScore(payload)),
-    };
+  return {
+    initExternalState: () => dispatch(initExternalState()),
+    callScore: payload => dispatch(callScore(payload)),
+  };
 }
 
 const CheckTransactionContainer = connect(mapStateToProps, mapDispatchToProps)(CheckTransaction);

@@ -10,15 +10,15 @@ const generateStore = (port) => {
   const composeEnhancers = composeWithDevTools({ realtime: true, hostname: 'localhost', port: port });
   const composeFunc = process.env.NODE_ENV === 'production' ? compose : composeEnhancers;
   const store = createStore(rootReducer, {}, composeFunc(
-      applyMiddleware(sagaMiddleware),
-      persistState(null, {
-        slicer: (paths) => (state) => {
-          return {
-            global: state['global'],
-          }
+    applyMiddleware(sagaMiddleware),
+    persistState(null, {
+      slicer: (paths) => (state) => {
+        return {
+          global: state['global'],
         }
-      }),
-    )
+      }
+    }),
+  )
   );
   sagaMiddleware.run(rootSaga);
   return store

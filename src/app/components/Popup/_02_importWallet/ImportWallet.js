@@ -10,7 +10,7 @@ class ImportWallet extends Component {
     } = this.props;
 
     const content = (num) => {
-      switch(num) {
+      switch (num) {
         case 1:
           return <ImportWallet1 {...this.props} />
         case 2:
@@ -30,7 +30,7 @@ class ImportWallet extends Component {
       <div className="popup-wrap">
         <div className="dimmed"></div>
         <div className={`popup ${popupNum === 5 ? "size-medium2" : ""}`}>
-          { content(popupNum) }
+          {content(popupNum)}
         </div>
       </div>
     );

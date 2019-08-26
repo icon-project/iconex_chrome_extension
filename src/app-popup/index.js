@@ -20,7 +20,7 @@ chromeStorage.get(null, (data) => {
         <Provider store={store}>
           <App />
         </Provider>
-      , document.getElementById('root-popup'));
+        , document.getElementById('root-popup'));
     }, 250);
   }
 });

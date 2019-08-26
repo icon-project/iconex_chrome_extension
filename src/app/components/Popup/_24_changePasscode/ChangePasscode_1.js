@@ -46,7 +46,7 @@ class ChangePasscode1 extends Component {
   }
 
   handleRadioChange = (e) => {
-    this.setState({selected: e.target.value})
+    this.setState({ selected: e.target.value })
   }
 
   handleChange = (e) => {
@@ -75,7 +75,7 @@ class ChangePasscode1 extends Component {
     const data = {
       priv, pw, type: 'backupWallet'
     }
-    this.setState({loading: true}, ()=>{
+    this.setState({ loading: true }, () => {
       this.worker.postMessage(data)
     })
   }
@@ -92,7 +92,7 @@ class ChangePasscode1 extends Component {
           <h1 className="title">{I18n.changePasscode.title}</h1>
           <h2>{I18n.changePasscode.desc1}</h2>
           <div className="scroll-holder">
-    				<div className="scroll line">
+            <div className="scroll line">
               <div className="tabbox-holder">
                 <div className="wallet-group">
                   <ul>
@@ -100,17 +100,17 @@ class ChangePasscode1 extends Component {
                       const checked = this.state.selected === i.toString()
                       return (
                         <li key={i}>
-                          <input id={`rbox-${i}`} className="rbox-type" type="radio" name="rbox-1" value={i.toString()} onChange={this.handleRadioChange} checked={checked}/>
+                          <input id={`rbox-${i}`} className="rbox-type" type="radio" name="rbox-1" value={i.toString()} onChange={this.handleRadioChange} checked={checked} />
                           <label htmlFor={`rbox-${i}`} className="_img">{w.name}</label>{/*<span className="icx">{w.balance.toFixed(3)}<em>{w.type.toUpperCase()}</em></span>*/}
                           {checked &&
-                          <div className="pw-add">
-                            <input type="password" className={`txt-type-normal ${error && 'error'}`} placeholder={I18n.changePasscode.inputPlaceHolder1}
-                              value={this.state.pw}
-                              onChange={this.handleChange}
-                              onKeyPress={this.handleKeyPress}
-                            />
-                            {error && <p className="error">{error}</p>}
-                          </div>
+                            <div className="pw-add">
+                              <input type="password" className={`txt-type-normal ${error && 'error'}`} placeholder={I18n.changePasscode.inputPlaceHolder1}
+                                value={this.state.pw}
+                                onChange={this.handleChange}
+                                onKeyPress={this.handleKeyPress}
+                              />
+                              {error && <p className="error">{error}</p>}
+                            </div>
                           }
                         </li>
                       )
@@ -121,8 +121,8 @@ class ChangePasscode1 extends Component {
             </div>
           </div>
           <div className="btn-holder">
-            { this.state.loading ? (<button type="submit" className="btn-type-normal load"><span><LoadingComponent type="black" /></span></button>)
-                    : (<button onClick={this.validatePassword} type="submit" className="btn-type-normal"><span>{I18n.button.next}</span></button>)}
+            {this.state.loading ? (<button type="submit" className="btn-type-normal load"><span><LoadingComponent type="black" /></span></button>)
+              : (<button onClick={this.validatePassword} type="submit" className="btn-type-normal"><span>{I18n.button.next}</span></button>)}
           </div>
         </div>
       </div>

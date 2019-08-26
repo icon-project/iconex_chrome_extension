@@ -22,7 +22,7 @@ const liStyle = {
   'float': 'left',
   'margin': '0 20px 0 0',
 }
-const borderStyle = { width: 3, borderRight: '1px solid #5f5f5f', marginRight: 20, height: 38, float: 'left'}
+const borderStyle = { width: 3, borderRight: '1px solid #5f5f5f', marginRight: 20, height: 38, float: 'left' }
 const spanStyle = {
   display: 'block',
   fontSize: '10px',
@@ -30,7 +30,7 @@ const spanStyle = {
   marginTop: '0px',
   color: '#888'
 }
-const emStyle = {color: '#666'}
+const emStyle = { color: '#666' }
 
 const inputUlStyle = {
   position: 'absolute',
@@ -117,6 +117,7 @@ class ServerChanger extends Component {
           <li
             style={liStyle}>
             <ComboBox
+              width={72}
               list={icxServerList}
               index={showCustomInput ? 'custom' : getCurrentServer('icx')}
               setIndex={(index) => this.changeServer(index, 'icx')}
@@ -139,6 +140,7 @@ class ServerChanger extends Component {
           <li style={borderStyle}></li>
           <li style={liStyle}>
             <ComboBox
+              width={72}
               list={ethServerList}
               index={getCurrentServer('eth')}
               setIndex={(index) => this.changeServer(index, 'eth')}
@@ -176,11 +178,12 @@ class ComboBox extends Component {
   }
 
   render() {
+    const { width } = this.props
     return (
       <span style={{
         border: '1px dotted #545454',
         padding: 2,
-        width: 72,
+        width: width,
         display: 'block',
         textAlign: 'center',
         fontSize: '11px',
@@ -196,17 +199,17 @@ class ComboBox extends Component {
           style={{
             position: 'absolute',
             bottom: '44px',
-            width: '72px',
+            width: width,
             marginLeft: '-3px'
           }}
-        className="layer typeB">
-        {this.state.showList &&
-          <CurrencyList
-            {...this.props}
-            onClickOut={this.toggleList}
-            setIndex={this.setIndex}
-          />
-        }
+          className="layer typeB">
+          {this.state.showList &&
+            <CurrencyList
+              {...this.props}
+              onClickOut={this.toggleList}
+              setIndex={this.setIndex}
+            />
+          }
         </div>
       </span>
     )
@@ -227,7 +230,7 @@ class CurrencyList extends Component {
             padding: '4px',
             color: '#b1b1b1'
           }}
-          key={i} className={listKey[i] === this.props.index ? 'on' : ''} onClick={this.props.setIndex.bind(this, listKey[i])}><span>{c.toUpperCase()}</span></li>
+            key={i} className={listKey[i] === this.props.index ? 'on' : ''} onClick={this.props.setIndex.bind(this, listKey[i])}><span>{c.toUpperCase()}</span></li>
         })}
       </ul>
     )

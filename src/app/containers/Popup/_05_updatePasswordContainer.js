@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { UpdatePassword } from 'app/components/';
-import {  closePopup } from 'redux/actions/popupActions';
+import { closePopup } from 'redux/actions/popupActions';
 import { updatePassword, resetSelectedWallet } from 'redux/actions/walletActions';
 import { logIn } from 'redux/actions/authActions';
 

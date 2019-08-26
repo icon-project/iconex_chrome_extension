@@ -46,7 +46,7 @@ class ExportWallet3 extends Component {
       isDownloaded: false,
       loading: true
     }, () => {
-      this.worker.postMessage({exportWalletObjects: exportWalletObjects, newPw: newPw, type: 'exportWallet_3'});
+      this.worker.postMessage({ exportWalletObjects: exportWalletObjects, newPw: newPw, type: 'exportWallet_3' });
     })
   }
 
@@ -77,26 +77,26 @@ class ExportWallet3 extends Component {
           <h2>{I18n.exportWallet.desc3}</h2>
         </div>
         <div className="scroll-holder">
-  				<div className="scroll">
+          <div className="scroll">
             <div class="tabbox-holder">
               <div class="pw-group margin-none">
                 <p class="title">{I18n.exportWallet.infoTitle}</p>
               </div>
             </div>
 
-      			<div className="message-holder mt-small">
-      				<ul>
-      					<li>{I18n.exportWallet.infoBoxTitle2}</li>
-      					<li>{I18n.exportWallet.infoBoxDesc2_1}</li>
-      					<li>{I18n.exportWallet.infoBoxDesc2_2}</li>
-      				</ul>
-      			</div>
+            <div className="message-holder mt-small">
+              <ul>
+                <li>{I18n.exportWallet.infoBoxTitle2}</li>
+                <li>{I18n.exportWallet.infoBoxDesc2_1}</li>
+                <li>{I18n.exportWallet.infoBoxDesc2_2}</li>
+              </ul>
+            </div>
 
           </div>
         </div>
         <div className="btn-holder">
-    					{ loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="white" /></span></button>)
-                        : (<button onClick={this.handleDownload} type="submit" className="btn-type-next size-full"><span>{I18n.button.download}</span></button>)}
+          {loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="white" /></span></button>)
+            : (<button onClick={this.handleDownload} type="submit" className="btn-type-next size-full"><span>{I18n.button.download}</span></button>)}
         </div>
         {
           isDownloaded && (
@@ -107,7 +107,7 @@ class ExportWallet3 extends Component {
             />
           )
         }
-  		</div>
+      </div>
     );
   }
 }

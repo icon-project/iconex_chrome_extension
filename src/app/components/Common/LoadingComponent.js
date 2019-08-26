@@ -16,8 +16,8 @@ class LoadingComponent extends Component {
     const { type, style } = this.props;
     return (
       <div className='loadingDiv' style={style}>
-    		<div className={`loading ${type || ''}`}>
-    		</div>
+        <div className={`loading ${type || ''}`}>
+        </div>
       </div>
     );
   }

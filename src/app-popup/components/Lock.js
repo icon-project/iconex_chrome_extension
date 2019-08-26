@@ -29,7 +29,7 @@ class Lock extends Component {
 
   handleKeyDown = (e) => {
     const { passcode } = this.state;
-   
+
     if (!this.disableInput) {
       if (!isNaN(e.key)) {
         const inputPasscode = `${passcode}${e.key}`;
@@ -44,7 +44,7 @@ class Lock extends Component {
 
       if (e.key === "Backspace") {
         this.setState({
-          passcode: passcode.slice(0, passcode.length-1)
+          passcode: passcode.slice(0, passcode.length - 1)
         })
       }
     }
@@ -57,14 +57,14 @@ class Lock extends Component {
     if (passcodeHash !== hash.sha256().update(this.state.passcode).digest('hex')) {
       window.loginChkFx(false)
       window.setTimeout(() => {
-        this.setState({ 
-          passcode: '' 
+        this.setState({
+          passcode: ''
         })
         this.disableInput = false
       }, 300)
       return
     }
-    
+
     window.loginChkFx(true)
     window.setTimeout(() => {
       window.chrome.extension.sendMessage({ type: 'UNLOCK' })
@@ -95,11 +95,11 @@ class Lock extends Component {
           <div className="pw-group">
             <p>{I18n.lockPageInputPlaceholder}</p>
             <ul id={passcode.length === 0 ? 'empty' : ''}>
-            {
-              Array(6).fill(0).map((_, i) => (
-                <li key={i} className={i === passcode.length - 1 ? 'on' : ''}><span></span></li>
-              ))
-            }
+              {
+                Array(6).fill(0).map((_, i) => (
+                  <li key={i} className={i === passcode.length - 1 ? 'on' : ''}><span></span></li>
+                ))
+              }
             </ul>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { AddressList } from 'app/components/';
-import {  openPopup, setPopupNum, closePopup } from 'redux/actions/popupActions';
+import { openPopup, setPopupNum, closePopup } from 'redux/actions/popupActions';
 import { setRecipientAddress } from 'redux/actions/exchangeTransactionActions';
 import { fetchTransactionHistory, resetHistoryReducer } from 'redux/actions/historyActions'
 import { addAddressInAddressBook, deleteAddressInAddressBook } from 'redux/actions/addressBookActions'

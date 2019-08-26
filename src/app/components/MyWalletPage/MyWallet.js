@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { MyWalletHeader, MyWalletContent } from 'app/components/';
 import { coinName as COIN_NAME } from 'constants/index'
+import { getPRep } from 'redux/api/pRepIissApi'
 import { makeWalletArray, calcTokenBalanceWithRate, customValueToTokenValue, sortTokensByDate } from 'utils';
+import BigNumber from 'bignumber.js';
 
 const INIT_STATE = {
   totalBalance: 0,
@@ -19,22 +21,22 @@ class MyWallet extends Component {
   }
 
   componentWillMount() {
-    if(!this.props.walletsLoading) {
+    if (!this.props.walletsLoading) {
       this.props.fetchAll(this.props.wallets);
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if(this.props.walletsLoading !== nextProps.walletsLoading && nextProps.walletsLoading) {
+  async componentWillUpdate(nextProps, nextState) {
+    if (this.props.walletsLoading !== nextProps.walletsLoading && nextProps.walletsLoading) {
       this.setState(INIT_STATE);
     }
 
-    if(this.props.totalResultLoading !== nextProps.totalResultLoading && !nextProps.totalResultLoading) {
-      this.calcData(nextProps.rate);
+    if (this.props.totalResultLoading !== nextProps.totalResultLoading && !nextProps.totalResultLoading) {
+      await this.calcData(nextProps.rate);
     }
 
-    if(this.props.currency !== nextProps.currency && !nextProps.totalResultLoading) {
-      this.calcData(nextProps.rate);
+    if (this.props.currency !== nextProps.currency && !nextProps.totalResultLoading) {
+      await this.calcData(nextProps.rate);
     }
   }
 
@@ -64,7 +66,7 @@ class MyWallet extends Component {
       account: wallet.account
     }
 
-    dataSortedByWallet[dataSortedByWallet.length-1].data.push(coinObj);
+    dataSortedByWallet[dataSortedByWallet.length - 1].data.push(coinObj);
     return dataSortedByWallet;
   }
 
@@ -84,21 +86,21 @@ class MyWallet extends Component {
       decimals: token.decimals,
     }
 
-    dataSortedByWallet[dataSortedByWallet.length-1].data.push(tokenObj);
+    dataSortedByWallet[dataSortedByWallet.length - 1].data.push(tokenObj);
     return dataSortedByWallet;
   }
 
   setCoinDataSortedByCoin = (wallet, coinBalanceWithRate, dataSortedByCoin) => {
     const type = wallet.type;
 
-    if(!dataSortedByCoin["coin"].hasOwnProperty(type)) {
+    if (!dataSortedByCoin["coin"].hasOwnProperty(type)) {
       dataSortedByCoin["coin"][type] = {
         data: [],
         walletSectionName: COIN_NAME[type],
         walletSectionBalance: 0,
         walletSectionBalanceWithRate: 0,
         createdAt: new Date(-8640000000000000),
-        coinType: type
+        coinType: type,
       };
     }
 
@@ -127,7 +129,7 @@ class MyWallet extends Component {
     const name = token.defaultName
     const defaultBalance = customValueToTokenValue(token.balance, token.defaultDecimals, token.decimals);
 
-    if(!dataSortedByCoin['token'].hasOwnProperty(contractAddress)) {
+    if (!dataSortedByCoin['token'].hasOwnProperty(contractAddress)) {
       dataSortedByCoin['token'][contractAddress] = {
         data: [],
         walletSectionName: name,
@@ -169,33 +171,110 @@ class MyWallet extends Component {
     return dataSortedByCoin
   }
 
-  setGraphData = (dataSortedByCoin) => {
-
-    let coinArr = makeWalletArray(dataSortedByCoin['coin']);
-    let tokenArr = makeWalletArray(dataSortedByCoin['token']);
-
-    let dataArr = [...coinArr, ...tokenArr];
-    let sortedByTotalBalance = dataArr.sort((a, b) => { return b.walletSectionBalanceWithRate - a.walletSectionBalanceWithRate})
-    let filteredGraphArr = sortedByTotalBalance.filter((i) => { return i.walletSectionBalanceWithRate })
-    let graphData = filteredGraphArr.map((i) => {return {type: i.coinType, balance: i.walletSectionBalanceWithRate}})
-
-    if (graphData.length > 4) {
-      let etcBalance = 0;
-      for (let i=4; i<graphData.length; i++) {
-        etcBalance += graphData[i].balance;
+  getPRepsWithName = async _pReps => {
+    const arr = []
+    for (const { address, value } of _pReps) {
+      let name= ''
+      if (!address) {
+        name = 'etc'
+      } else {
+        const result = await getPRep(address)
+        name = result.name
       }
-      graphData = graphData.slice(0,4);
-      graphData.push({type: 'etc', balance: etcBalance})
+      arr.push({
+        name,
+        value
+      })
     }
-    return graphData;
+    return arr
   }
 
-  calcData = (rate) => {
+  setGraphData = async (dataSortedByCoin) => {
+    const { delegated } = this.props
+    const icxData = dataSortedByCoin['coin']['icx'] || { data: [] }
+
+    let totalDelegated = new BigNumber(0),
+      available = new BigNumber(0),
+      etcsDelegated = new BigNumber(0),
+      pRepsMap = {},
+      pReps = [],
+      etcs = []
+
+    for (const { account } of icxData.data) {
+      const { 
+        delegations: _delegations, 
+        totalDelegated: _totalDelegated, 
+        available: _available,
+      } = delegated[account]
+
+      totalDelegated = totalDelegated.plus(_totalDelegated)
+      available = available.plus(_available)
+      for (const { address, value } of _delegations) {
+        if (!pRepsMap[address]) {
+          pRepsMap[address] = value
+        } else {
+          pRepsMap[address] = pRepsMap[address].plus(value)
+        }
+      }
+    }
+
+    const pRepsArr = Object.entries(pRepsMap)
+      .map(([address, value]) => ({address, value}))
+      .sort((a, b) => b.value - a.value)
+
+    if (pRepsArr.length > 6) {
+      pReps = pRepsArr.splice(0, 5)
+      if (pRepsArr.length > 5) {
+        let value = new BigNumber(0)
+        etcs = pRepsArr.splice(0, 4)
+        for (const { value: _value } of pRepsArr) {
+          value = value.plus(_value)
+        }
+        etcs.push({
+          address: '',
+          value,
+        })
+      } else {
+        etcs = pRepsArr
+      }
+      for (const { value } of etcs) {
+        etcsDelegated = etcsDelegated.plus(value)
+      }
+    } else {
+      pReps = pRepsArr
+    }
+
+    pReps = await this.getPRepsWithName(pReps)
+    etcs = await this.getPRepsWithName(etcs)
+
+    const _data = [...pReps]
+    if (etcs.length > 0) {
+      _data.push({
+        name: 'etc',
+        value: etcsDelegated,
+      })
+    }
+    _data.push({
+      name: 'Available',
+      value: available,
+    })
+
+    return {
+      data: _data,
+      totalDelegated,
+      available,
+      pReps,
+      etcsDelegated,
+      etcs,
+    }
+  }
+
+  calcData = async rate => {
     let totalBalance = 0;
     let dataSortedByWallet = [];
-    let dataSortedByCoin = {"coin": {}, "token": {}};
+    let dataSortedByCoin = { "coin": {}, "token": {} };
     let walletArr = makeWalletArray(this.props.wallets);
-    for(let i=0; i<walletArr.length; i++) {
+    for (let i = 0; i < walletArr.length; i++) {
 
       let coinBalanceWithRate = walletArr[i].balance * (rate[walletArr[i].type] || 0)
       dataSortedByWallet = this.setCoinDataSortedByWallet(walletArr[i], coinBalanceWithRate, dataSortedByWallet);
@@ -203,8 +282,8 @@ class MyWallet extends Component {
 
       let tokenBalanceWithRateSum = 0;
       const tokens = sortTokensByDate(walletArr[i].tokens);
-      if(tokens.length > 0) {
-        for(let v=0; v<tokens.length; v++){
+      if (tokens.length > 0) {
+        for (let v = 0; v < tokens.length; v++) {
 
           let tokenBalanceWithRate = calcTokenBalanceWithRate(tokens[v].balance, (rate[tokens[v].defaultSymbol.toLowerCase()] || 0), tokens[v].defaultDecimals, tokens[v].decimals)
           if (tokenBalanceWithRate) {
@@ -221,7 +300,7 @@ class MyWallet extends Component {
       totalBalance += walletBalanceWithRate;
     }
 
-    let graphData = this.setGraphData(dataSortedByCoin);
+    let graphData = await this.setGraphData(dataSortedByCoin);
 
     this.setState({
       totalBalance: totalBalance,
@@ -231,7 +310,7 @@ class MyWallet extends Component {
     }, () => {
       if (this.props.scrollToNewWallet) {
         this.props.setScrollToNewWallet(false);
-        window.scrollTo(0,document.body.scrollHeight);
+        window.scrollTo(0, document.body.scrollHeight);
       }
     })
   }
@@ -239,7 +318,7 @@ class MyWallet extends Component {
   render() {
     return (
       <div>
-  			<MyWalletHeader
+        <MyWalletHeader
           totalBalance={this.state.totalBalance}
           dataSortedByCoin={this.state.dataSortedByCoin}
           graphData={this.state.graphData}

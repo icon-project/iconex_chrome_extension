@@ -79,14 +79,14 @@ class ExchangeTransaction extends Component {
 
     return (
       <div>
-        <HeaderTitle title={I18n.transfer}/>
+        <HeaderTitle title={I18n.transfer} />
         <div className="wrap-holder exchange">
           <WalletSelectorContainer />
           <div className='quantity-holder'>
             <QuantitySetterContainer />
             <RecipientAddressContainer />
-            { isLoggedIn && !isEmpty(calcData) && (<TxFeeAndDataContainer />) }
-            { isLoggedIn && !isEmpty(calcData) && (<CalculationTableContainer />) }
+            {isLoggedIn && !isEmpty(calcData) && (<TxFeeAndDataContainer />)}
+            {isLoggedIn && !isEmpty(calcData) && (<CalculationTableContainer />)}
           </div>
           <p className="lock-txt">{I18n.transferPageInfo1}</p>
           <div className="btn-holder in">
@@ -104,6 +104,7 @@ class ExchangeTransaction extends Component {
         }
       </div>
     );
-  }}
+  }
+}
 
 export default ExchangeTransaction;

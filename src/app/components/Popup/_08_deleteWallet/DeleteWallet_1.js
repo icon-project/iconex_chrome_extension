@@ -26,12 +26,12 @@ class DeleteWallet1 extends Component {
     return (
       <div className='popup-wrap ledger'>
         <SmallPopup
-            handleCancel={this.closePopup}
-            handleSubmit={this.handleSubmit}
-            text={text}
-            cancelText={I18n.button.no}
-            submitText={I18n.button.yes}
-            isFullButton={true}
+          handleCancel={this.closePopup}
+          handleSubmit={this.handleSubmit}
+          text={text}
+          cancelText={I18n.button.no}
+          submitText={I18n.button.yes}
+          isFullButton={true}
         />
       </div>
     );

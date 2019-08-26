@@ -102,45 +102,45 @@ class CreateWallet4 extends Component {
     return (
       <ul className="layout">
         <li className="step">
-					<div className="tab-holder">
-						<h1 className="title">STEP 4</h1>
-						<span className="img"><em className="_img step4"></em></span>
-						<ul>
+          <div className="tab-holder">
+            <h1 className="title">STEP 4</h1>
+            <span className="img"><em className="_img step4"></em></span>
+            <ul>
               <li>{I18n.createWallet.step1}</li>
               <li>{I18n.createWallet.step2}</li>
               <li>{I18n.createWallet.step3}</li>
               <li className="on">{nToBr(I18n.createWallet.step4)}</li>
-						</ul>
-					</div>
-					<div className="info">
-						<ul>
-							<li>{I18n.createWallet.leftInfoTitle4_1}</li>
-							<li className="dot space">{I18n.createWallet.leftInfoDesc4_1}</li>
-							<li className="dot">{I18n.createWallet.leftInfoDesc4_2}</li>
-							<li className="dot">{I18n.createWallet.leftInfoDesc4_3}</li>
-						</ul>
-					</div>
-				</li>{/*
+            </ul>
+          </div>
+          <div className="info">
+            <ul>
+              <li>{I18n.createWallet.leftInfoTitle4_1}</li>
+              <li className="dot space">{I18n.createWallet.leftInfoDesc4_1}</li>
+              <li className="dot">{I18n.createWallet.leftInfoDesc4_2}</li>
+              <li className="dot">{I18n.createWallet.leftInfoDesc4_3}</li>
+            </ul>
+          </div>
+        </li>{/*
       */}<li className="content">
           <span onClick={this.handleCloseButton} className="close"><em className="_img"></em></span>
           <h1 className="title">{I18n.createWallet.title}</h1>
           <h2>{I18n.createWallet.desc4}</h2>
           <div className="scroll-holder">
-						<div className="scroll">
-							<div className="tabbox-holder ">
-								<div className="key-group">
-									<p className="title">{I18n.createWallet.privateKey}</p>
+            <div className="scroll">
+              <div className="tabbox-holder ">
+                <div className="key-group">
+                  <p className="title">{I18n.createWallet.privateKey}</p>
                   <p className="key">{toggleKey === '' ? privateKey : '*'.repeat(64)}<em onClick={this.toggleKey} className={`_img ${toggleKey}`}></em></p>
-								</div>
-								<div className="btn-group">
-                  <CopyButton target={privateKey} text={I18n.button.copyPrivateKey} type="small" defaultSize={true} copyFinish={I18n.button.copyFinish}/>&nbsp;
+                </div>
+                <div className="btn-group">
+                  <CopyButton target={privateKey} text={I18n.button.copyPrivateKey} type="small" defaultSize={true} copyFinish={I18n.button.copyFinish} />&nbsp;
 									<button className="btn-type-copy" onClick={() => this.handlePrint(walletName, coinType, address, privateKey)}><span>{I18n.button.print}</span></button>
-								</div>
-							</div>
-						</div>
-					</div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="btn-holder">
-            {loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="black" /></span></button>): (<button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.submit}</span></button>)}
+            {loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="black" /></span></button>) : (<button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.submit}</span></button>)}
           </div>
         </li>
         {

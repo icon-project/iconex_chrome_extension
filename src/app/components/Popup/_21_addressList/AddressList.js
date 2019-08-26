@@ -59,8 +59,8 @@ class AddressList extends Component {
           })
         }
         addressArr = addressArr
-                    .filter(l => l.account !== selectedAccount)
-                    .filter(l => l.type === currentWallet.type)
+          .filter(l => l.account !== selectedAccount)
+          .filter(l => l.type === currentWallet.type)
         return addressArr
       case 'addressBook':
         return this.props[`${currentWallet.type}AddressBook`]
@@ -106,7 +106,7 @@ class AddressList extends Component {
             selectAddress={(address) => this.props.setRecipientAddress(address, true)}
             listArr={addressArr}
             currentWallet={currentWallet}
-            {...this.props}/>
+            {...this.props} />
         </div>
       </div>
     );

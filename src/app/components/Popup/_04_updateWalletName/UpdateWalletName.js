@@ -64,7 +64,11 @@ class UpdateWalletName extends Component {
     this.validateForm(e.target.value);
   }
 
-  validateForm = (e, state="") => {
+  handlePaste = e => {
+    e.preventDefault();
+  }
+
+  validateForm = (e, state = "") => {
     let walletNameError = this.state.walletNameError;
     const { I18n } = this.props;
     if (!this.state.newWalletName) {
@@ -99,11 +103,20 @@ class UpdateWalletName extends Component {
           <h1 className="title">{I18n.updateWalletName.title}</h1>
           <h2>{I18n.updateWalletName.desc}</h2>
           <div className="scroll-holder">
-    				<div className="scroll">
+            <div className="scroll">
               <div className="tabbox-holder">
                 <div>
                   <p className="title">{I18n.updateWalletName.inputLabel}</p>
-                  <input onBlur={this.handleBlur} onChange={this.changeWalletName} type="text" className={`txt-type-normal ${walletNameError && 'error'}`} placeholder={I18n.updateWalletName.inputPlaceHolder} value={newWalletName} onKeyPress={this.handleKeyPress} spellCheck="false" />
+                  <input 
+                    onBlur={this.handleBlur} 
+                    onChange={this.changeWalletName} 
+                    type="text" 
+                    className={`txt-type-normal ${walletNameError && 'error'}`} 
+                    placeholder={I18n.updateWalletName.inputPlaceHolder} 
+                    value={newWalletName} 
+                    onKeyPress={this.handleKeyPress} 
+                    onPaste={this.handlePaste}
+                    spellCheck="false" />
                   <p className='error'>{walletNameError}</p>
                 </div>
               </div>

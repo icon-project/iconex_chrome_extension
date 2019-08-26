@@ -15,7 +15,7 @@ class NewPasscodeInput extends Component {
     }
     this.setState({
       value: value
-    }, ()=> {
+    }, () => {
       this.props.clearError()
     })
   }

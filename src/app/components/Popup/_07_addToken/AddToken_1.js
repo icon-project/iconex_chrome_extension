@@ -56,7 +56,7 @@ class AddToken1 extends Component {
         return !isEmpty(item)
       })
 
-      for (let i=0; i<selectedTokensFiltered.length; i++) {
+      for (let i = 0; i < selectedTokensFiltered.length; i++) {
         const tokenObj = Object.assign({}, selectedTokensFiltered[i], {
           defaultName: selectedTokensFiltered[i].name,
           defaultSymbol: selectedTokensFiltered[i].symbol,
@@ -113,7 +113,7 @@ class AddToken1 extends Component {
                   <ul>
                     {
                       tokenListArr.map((token, i) => {
-                        if(ownTokens.includes(token.address)) {
+                        if (ownTokens.includes(token.address)) {
                           return (
                             <TokenBar
                               key={token.address}
@@ -191,7 +191,7 @@ class TokenBar extends Component {
 
     return (
       <li>
-        <input onChange={this.toggleCheckbox} checked={isChecked} data-checked={disabled} disabled={disabled} id={'cbox-' + index} className="cbox-type" type="checkbox"/>
+        <input onChange={this.toggleCheckbox} checked={isChecked} data-checked={disabled} disabled={disabled} id={'cbox-' + index} className="cbox-type" type="checkbox" />
         <label htmlFor={'cbox-' + index} className="label _img">{`${token.symbol}`}</label>
         <span>{token.address}</span>
       </li>

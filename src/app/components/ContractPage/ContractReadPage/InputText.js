@@ -2,7 +2,7 @@ import React from 'react';
 import { trimLeftZero } from 'utils/utils'
 
 
-const InputText = ({input, value, handleFuncInputChange, setFuncInputError, placeHolder, error}) => {
+const InputText = ({ input, value, handleFuncInputChange, setFuncInputError, placeHolder, error }) => {
   console.log(input)
   return (
     <div className="-group">
@@ -15,18 +15,18 @@ const InputText = ({input, value, handleFuncInputChange, setFuncInputError, plac
           value: e.target.value
         })}
         onBlur={(e) => {
-            setFuncInputError({
+          setFuncInputError({
+            name: input.name,
+            type: input.type,
+            optional: input.hasOwnProperty('default') ? true : false
+          })
+          if (input.type === 'int') {
+            handleFuncInputChange({
               name: input.name,
-              type: input.type,
-              optional: input.hasOwnProperty('default') ? true : false
+              value: trimLeftZero(e.target.value)
             })
-            if (input.type === 'int') {
-              handleFuncInputChange({
-                name: input.name,
-                value: trimLeftZero(e.target.value)
-              })
-            }
           }
+        }
         }
         className={`txt-type-normal ${error ? 'error' : ''}`}
         placeholder={placeHolder}

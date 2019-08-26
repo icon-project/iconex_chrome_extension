@@ -18,19 +18,19 @@ class ImmunityPopup extends Component {
           <span className="close" onClick={this.closePopup}><em className="_img"></em></span>
           <h1 className="title">{I18n.disclaimerPage.header}</h1>
           <div className="scroll-holder terms">
-    				<div className="scroll">
-    					<div className="tabbox-holder">
-    						<h2>{I18n.disclaimerPage.title}</h2>
-    						<p className="txt">{I18n.disclaimerPage.desc1}</p>
-    						<p className="txt">{I18n.disclaimerPage.desc2}</p>
-    						<p className="txt">{I18n.disclaimerPage.desc3}</p>
+            <div className="scroll">
+              <div className="tabbox-holder">
+                <h2>{I18n.disclaimerPage.title}</h2>
+                <p className="txt">{I18n.disclaimerPage.desc1}</p>
+                <p className="txt">{I18n.disclaimerPage.desc2}</p>
+                <p className="txt">{I18n.disclaimerPage.desc3}</p>
                 <p className="txt">{I18n.disclaimerPage.desc4}</p>
                 <p className="txt">{I18n.disclaimerPage.desc5}</p>
                 <p className="txt">{I18n.disclaimerPage.desc6}</p>
-    						<p className="copy">{I18n.disclaimerPage.copyright}</p>
-    					</div>
-    				</div>
-    			</div>
+                <p className="copy">{I18n.disclaimerPage.copyright}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

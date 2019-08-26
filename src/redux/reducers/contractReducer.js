@@ -60,8 +60,8 @@ function initializeFuncInput(func) {
   let inputs = {}
   if (func.inputs.length > 0) {
     inputs = func.inputs.reduce((acc, cur) => {
-        acc[cur.name] = getInitialInput(cur.type)
-        return acc
+      acc[cur.name] = getInitialInput(cur.type)
+      return acc
     }, {});
   }
   return inputs;
@@ -71,18 +71,18 @@ function initializeFuncInputError(func) {
   let error = {}
   if (func.inputs.length > 0) {
     error = func.inputs.reduce((acc, cur) => {
-        acc[cur.name] = ''
-        return acc
+      acc[cur.name] = ''
+      return acc
     }, {});
   }
   return error;
 }
 
-export function validateInputError({name, type, optional}) {
+export function validateInputError({ name, type, optional }) {
   const funcInput = store.getState().contract.funcInput;
   const isValueExist = funcInput[name] || funcInput[name] !== '';
-  console.log(optional)
-  switch(type) {
+
+  switch (type) {
     case 'str':
       if (!funcInput[name] && !optional) {
         return 'strEnter';
@@ -133,7 +133,7 @@ export function contractReducer(state = initialState, action) {
     case actionTypes.setContractAddressError: {
       let error = validateContractAddressError(state);
       return Object.assign({}, state, {
-          contractAddressError: error
+        contractAddressError: error
       })
     }
     case actionTypes.fetchAbi:
@@ -168,20 +168,20 @@ export function contractReducer(state = initialState, action) {
     case actionTypes.handleFuncInputChange:
       return update(state, {
         funcInput: {
-          [action.payload.name]: {$set: action.payload.value}
+          [action.payload.name]: { $set: action.payload.value }
         }
       });
     case actionTypes.setFuncInputError:
       const error = action.payload.hasOwnProperty('error')
-                      ? action.payload.error
-                      : validateInputError({
-                          name: action.payload.name,
-                          type: action.payload.type,
-                          optional: action.payload.optional
-                        });
+        ? action.payload.error
+        : validateInputError({
+          name: action.payload.name,
+          type: action.payload.type,
+          optional: action.payload.optional
+        });
       return update(state, {
         funcInputError: {
-          [action.payload.name]: {$set: error}
+          [action.payload.name]: { $set: error }
         }
       });
     case actionTypes.setFuncInputDataExceedError:

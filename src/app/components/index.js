@@ -13,6 +13,7 @@ import Timer from './Common/Timer'
 import AddressTable from './Common/AddressTable'
 import ServerChanger from './Common/ServerChanger'
 import LedgerIframe from './Common/LedgerIframe'
+import SubRoute from './Common/SubRoute'
 
 import Home from './Home/Home'
 
@@ -25,7 +26,24 @@ import Graph from './MyWalletPage/Graph';
 import WalletSectionList from './MyWalletPage/WalletSectionList';
 import WalletSection from './MyWalletPage/WalletSection';
 import WalletBar from './MyWalletPage/WalletBar';
+import WalletStakingBar from './MyWalletPage/WalletStakingBar';
 import WalletMenuBar from './MyWalletPage/WalletMenuBar';
+
+import VotingPage from './VotingPage/VotingPage'
+import PReps from './VotingPage/PReps'
+import PRepsVotingStatusGraph from './VotingPage/PRepsVotingStatusGraph'
+import PRepsLeaderboard from './VotingPage/PRepsLeaderboard'
+import PRepsTable from './VotingPage/PRepsTable'
+import PRepsBar from './VotingPage/PRepsBar'
+import MyStatus from './VotingPage/MyStatus'
+import MyStatusIScore from './VotingPage/MyStatusIScore'
+import MyStatusStakeVote from './VotingPage/MyStatusStakeVote'
+import Vote from './VotingPage/Vote'
+import VoteAlerts from './VotingPage/VoteAlerts'
+import TxFeeTable from './VotingPage/TxFeeTable'
+import MyVotesInput from './VotingPage/MyVotesInput'
+import PRepsBarInputRange from './VotingPage/PRepsBarInputRange'
+import IissLedgerIframe from './VotingPage/IissLedgerIframe'
 
 import Popup from './Popup/Popup';
 import SmallPopup from './Popup/_00_commonPopup/SmallPopup';
@@ -71,6 +89,14 @@ import SendTransaction1 from './Popup/_22_sendTransaction/SendTransaction_1'
 import SendTransaction2 from './Popup/_22_sendTransaction/SendTransaction_2'
 import SendTransaction3 from './Popup/_22_sendTransaction/SendTransaction_3'
 
+import ClaimIScore from './Popup/_30_claimIScore/ClaimIScore'
+import ClaimIScoreAlerts from './Popup/_30_claimIScore/ClaimIScoreAlerts'
+import Stake from './Popup/_31_stake/Stake'
+import StakeBarGraph from './Popup/_31_stake/StakeBarGraph'
+import StakeBarLabel from './Popup/_31_stake/StakeBarLabel'
+import StakeInputRange from './Popup/_31_stake/StakeInputRange'
+import StakeAlerts from './Popup/_31_stake/StakeAlerts'
+
 import ExchangeTransaction from './ExchangeTransaction/ExchangeTransaction'
 import ComboBox from './ExchangeTransaction/ComboBox'
 import HeaderTitle from './ExchangeTransaction/HeaderTitle'
@@ -90,7 +116,7 @@ import InputText from './ContractPage/ContractReadPage/InputText'
 import InputData from './ContractPage/ContractReadPage/InputData'
 import InputBoolean from './ContractPage/ContractReadPage/InputBoolean'
 import Output from './ContractPage/ContractReadPage/Output'
-import ContractList from './Popup/_27_contractList/ContractList'
+import ContractList from './Popup/_26_contractList/ContractList'
 
 import MyPage from './MyPage/MyPage'
 import LockContent from './MyPage/LockContent'
@@ -108,15 +134,6 @@ import ChangePasscode2 from './Popup/_24_changePasscode/ChangePasscode_2'
 import NewPasscodeInput from './Popup/_24_changePasscode/NewPasscodeInput'
 
 import ImmunityPopup from './Popup/_25_immunityPopup/ImmunityPopup'
-
-import SwapToken from './Popup/_26_swapToken/SwapToken'
-import SwapToken0 from './Popup/_26_swapToken/SwapToken_0'
-import SwapToken1 from './Popup/_26_swapToken/SwapToken_1'
-import SwapToken2 from './Popup/_26_swapToken/SwapToken_2'
-import SwapToken3 from './Popup/_26_swapToken/SwapToken_3'
-import SwapToken4 from './Popup/_26_swapToken/SwapToken_4'
-import SwapToken5 from './Popup/_26_swapToken/SwapToken_5'
-import SwapToken6 from './Popup/_26_swapToken/SwapToken_6'
 
 import ConnectLedger from './Popup/_27_connectLedger/ConnectLedger'
 
@@ -140,6 +157,8 @@ export {
   AddressTable,
   ServerChanger,
   LedgerIframe,
+  SubRoute,
+  TxFeeTable,
 
   // *** MAIN PAGE *** //
   Home,
@@ -155,14 +174,6 @@ export {
   ImportWallet3,
   ImportWallet4,
   ImportWallet5,
-  SwapToken,
-  SwapToken0,
-  SwapToken1,
-  SwapToken2,
-  SwapToken3,
-  SwapToken4,
-  SwapToken5,
-  SwapToken6,
   ConnectLedger,
 
   // *** MY WALLET PAGE *** //
@@ -175,6 +186,7 @@ export {
   WalletSectionList,
   WalletSection,
   WalletBar,
+  WalletStakingBar,
   WalletMenuBar,
   CurrencyMenuBar,
   // popup //
@@ -202,6 +214,30 @@ export {
   // popup //
   DeleteToken,
   UpdateToken,
+
+  // *** VOTING PAGE *** //
+  VotingPage,
+  PReps,
+  PRepsVotingStatusGraph,
+  PRepsLeaderboard,
+  PRepsTable,
+  PRepsBar,
+  MyStatus,
+  MyStatusIScore,
+  MyStatusStakeVote,
+  Vote,
+  VoteAlerts,
+  MyVotesInput,
+  PRepsBarInputRange,
+  IissLedgerIframe,
+  // popup //
+  ClaimIScore,
+  ClaimIScoreAlerts,
+  Stake,
+  StakeBarGraph,
+  StakeBarLabel,
+  StakeInputRange,
+  StakeAlerts,
 
   // *** EXCHANGE_TRANSACTION PAGE *** //
   ExchangeTransaction,

@@ -1,13 +1,36 @@
 import React, { Component } from 'react'
+import moment from 'moment'
+import { dateFormat as DATE_FORMAT } from 'constants/index';
 import { LoadingComponent } from 'app/components'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 @withLanguageProps
 class MyStatusStakeVote extends Component {
 
-  // state = {
-  //   unstakeTime: '',
-  // }
+  constructor(props) {
+    super(props)
+    this.state = {
+      unstakeTime: ''
+    }
+    // this.timer = null
+  }
+
+  componentWillReceiveProps(nextProps) { 
+    const { loading } = this.props
+    if (loading !== nextProps.loading 
+      && !nextProps.loading 
+      && nextProps.isUnstakeExist
+      && nextProps.isLoggedIn) {
+      const {
+        unstake: {
+          remainingBlocks,
+        } = {},
+      } = nextProps
+      this.setState({
+        unstakeTime: this.convertTime(remainingBlocks)
+      })
+    }
+  }
 
   // componentWillReceiveProps(nextProps) {
   //   const { loading } = this.props
@@ -17,20 +40,16 @@ class MyStatusStakeVote extends Component {
   //     && nextProps.isLoggedIn) {
   //     const {
   //       unstake: {
-  //         unstakeBlockHeight,
-  //         currentBlockHeight,
+  //         remainingBlocks,
   //       } = {},
   //     } = nextProps
   //     clearInterval(this.timer)
-  //     console.log(unstakeBlockHeight, currentBlockHeight)
-  //     let unstakeTime = (unstakeBlockHeight.minus(currentBlockHeight)).times(2).toNumber()
+  //     let _unstakeTime = remainingBlocks * 2
   //     this.timer = setInterval(() => {
-  //       let unstakeTimeText = this.convertSeconds(unstakeTime)
-  //       console.log(unstakeTimeText)
   //       this.setState({
-  //         unstakeTime: unstakeTimeText
+  //         unstakeTime: _unstakeTime
   //       })
-  //       unstakeTime--
+  //       _unstakeTime--
   //     }, 1000)
   //   }
   // }
@@ -49,6 +68,14 @@ class MyStatusStakeVote extends Component {
   //   result += ":" + (seconds < 10 ? "0" + seconds : seconds);
   //   return result;
   // }
+
+
+  convertTime = (remainingBlocks) => {
+    const curTime = moment()
+    const remainingTime = remainingBlocks.times(2)
+    return curTime.add(remainingTime.toNumber(), 'seconds').format(DATE_FORMAT)
+  }
+
 
   render() {
     const {
@@ -73,9 +100,9 @@ class MyStatusStakeVote extends Component {
       error,
     } = this.props
     
-    // const {
-    //   unstakeTime
-    // } = this.state
+    const {
+      unstakeTime
+    } = this.state
 
     if (loading) {
       return (
@@ -99,8 +126,14 @@ class MyStatusStakeVote extends Component {
         </ul>
         <h3>{I18n[li1.label]}<span>{li1.value}<em> ICX</em></span></h3>
         <h3>{I18n[li2.label]}<span>{li2.value}<em> ICX</em></span></h3>
-        {isUnstakeExist && (<h3 className="unstake"><i className="_img"></i>{`${I18n.myStatusStake_unstake1} ${unstake.value} ICX`}<p>{`${I18n.myStatusStake_unstake2} ${unstake.unstakeBlockHeight}`}</p></h3>)}
-        <h3>{I18n[li3.label]}<span>{li3.value}<em> ICX</em></span></h3>
+        {isUnstakeExist && (
+          <h3 className="unstake">
+            <i className="_img"></i>
+            {`${I18n.myStatusStake_unstake1} ${unstake.value} ICX`}
+            <p>{`${I18n.myStatusStake_unstake2} ${unstake.unstakeBlockHeight}`}</p>
+            <p style={{ marginLeft: 20, marginTop: 3 }}>{`${I18n.myStatusStake_unstake3} ${unstakeTime}`}</p>
+          </h3>)}
+        <h3 style={isUnstakeExist ? { marginTop: 6 } : {}}>{I18n[li3.label]}<span>{li3.value}<em> ICX</em></span></h3>
         <div className="btn-group">
           {/* {
             isUnstakeExist && (

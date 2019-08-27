@@ -670,6 +670,7 @@ export default {
   `,
   myStatusStake_unstake1: 'Un-stake 요청 수량',
   myStatusStake_unstake2: '목표 블록 높이',
+  myStatusStake_unstake3: '완료 시간',
   myStatusStake_axis1: 'Staked',
   myStatusStake_axis2: 'Un-staked',
   myStatusStake_axis3: 'Voted',

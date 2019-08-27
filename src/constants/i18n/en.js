@@ -665,6 +665,7 @@ export default {
   `,
   myStatusStake_unstake1: 'Requested Un-stake amount',
   myStatusStake_unstake2: 'Target Block Height',
+  myStatusStake_unstake3: 'Estimated Time',
   myStatusStake_axis1: 'Staked',
   myStatusStake_axis2: 'Un-staked',
   myStatusStake_axis3: 'Voted',

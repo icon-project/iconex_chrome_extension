@@ -11,7 +11,7 @@ const initStakeElem = {
 	value: new BigNumber(0),
 	unstake: new BigNumber(0),
 	unstakeBlockHeight: new BigNumber(0),
-	currentBlockHeight: 0,
+	remainingBlocks: new BigNumber(0),
 }
 
 const initIScoreElem = {
@@ -99,6 +99,7 @@ export function iissReducer(state = initialState, action) {
 					value: fromLoop(payload.stake),
 					unstake: fromLoop(payload.unstake),
 					unstakeBlockHeight: new BigNumber(payload.unstakeBlockHeight) || new BigNumber(0),
+					remainingBlocks: new BigNumber(payload.remainingBlocks) || new BigNumber(0),
 					loading: false,
 				}
 			})

@@ -30,7 +30,7 @@ import {
 } from 'constants/index.js';
 
 const INIT_STATE = {
-  inputStakedValue: 0,
+  inputStakedValue: new BigNumber(0),
   stakedPct: 0,
   unstaked: 0,
   unstakedPct: 0,
@@ -300,6 +300,10 @@ class Stake extends Component {
       delegatedPct,
       step,
       totalIcxBalance,
+      estimatedUnstakeTime,
+      staked: {
+        value,
+      }
     } = this.props
 
     const {
@@ -314,6 +318,7 @@ class Stake extends Component {
 
     let inputRef;
 
+    const isStake = inputStakedValue.gte(value)
     const Title = (<p className="txt_box">Stake <span>({walletName})</span></p>)
     const getStakeBarClass = () => {
       if (delegatedPct === '100.0') {
@@ -386,7 +391,13 @@ class Stake extends Component {
                       />
                     </div>
                   </div>
-                  <p className="txt-time"><span></span></p>
+                  {
+                    !isStake ? (
+                      <p className="txt-time">{I18n.stakeIcx.estimatedTime}<span>{estimatedUnstakeTime}</span></p>
+                    ) : (
+                      <p style={{ height: 48 }} className="txt-time">{I18n.stakeIcx.estimatedTime}<span>-</span></p>
+                    )
+                  }
                   <div className="dot"></div>
                   <TxFeeTableContainer />
                   <div className="btn-holder">

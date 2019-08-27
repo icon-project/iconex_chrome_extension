@@ -705,6 +705,7 @@ export default {
   stakeIcx: {
     desc: '위임된 Staked ICX는 un-stake 할 수 없습니다.',
     help: 'Un-stake를 위해 최소한의 ICX가 필요합니다. (3 ICX)',
+    estimatedTime: '· Un-stake 예상 완료 시간',
     min: '최소 Stake',
     max: '최대 Stake',
     success: str => `${str} 실행이 완료되었습니다.`,

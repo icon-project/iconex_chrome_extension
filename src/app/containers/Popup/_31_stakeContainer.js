@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import BigNumber from 'bignumber.js'
+import moment from 'moment'
 import { Stake } from 'app/components/';
 import {
   getStake,
@@ -7,16 +8,31 @@ import {
   getDelegation,
   fetchMyStatusData,
 } from 'redux/actions/iissActions'
+import { getPRepData } from 'redux/actions/pRepActions'
 import { updateLedgerWalletBalance } from 'redux/actions/ledgerActions'
 import { getEstimatedTxFee } from 'redux/actions/txFeeActions'
 import { closePopup } from 'redux/actions/popupActions';
 import { store } from 'redux/store/store';
-import { MIN_UNSTAKE_VALUE } from 'constants/index'
+import { 
+  MIN_UNSTAKE_VALUE,
+  R_POINT,
+  L_MAX, 
+  L_MIN,
+  dateFormat as DATE_FORMAT,
+} from 'constants/index'
 import { fetchCoinBalance, resetSelectedWallet } from 'redux/actions/walletActions';
 import { convertToPercent } from 'utils'
 
+const getEstimatedUnstakeTime = (totalSupply, totalNetworkStaked) => {
+  const curTime = moment()
+  const diff = ((L_MAX - L_MIN) / Math.pow(R_POINT, 2)) * Math.pow((totalNetworkStaked.div(totalSupply).toNumber()) - R_POINT, 2) + L_MIN
+  console.log(diff)
+  return curTime.add(diff * 24 * 60 * 60, 'seconds').format(DATE_FORMAT)
+}
+
 function mapStateToProps(state) {
   const { isLedger, ledgerWallet } = state.ledger
+  const { totalSupply, totalNetworkStaked, pRepsLoading } = state.pRep
   const { account } = state.wallet.selectedWallet
   const currentWallet = isLedger ? ledgerWallet : state.wallet.wallets[account] || {}
   const staked = state.iiss.staked[account] || {}
@@ -52,8 +68,9 @@ function mapStateToProps(state) {
     totalIcxBalance,
     availableBalance,
     availableMaxBalance,
+    estimatedUnstakeTime: !pRepsLoading ? getEstimatedUnstakeTime(totalSupply, totalNetworkStaked) : '',
     walletName: isLedger ? currentWallet.path : currentWallet.name,
-    loading: staked.loading || delegated.loading || balanceLoading,
+    loading: staked.loading || delegated.loading || balanceLoading || pRepsLoading,
     txFeeLoading,
     txFee,
     txLoading,
@@ -72,6 +89,7 @@ function mapDispatchToProps(dispatch) {
       } else {
         dispatch(fetchCoinBalance(account, 'icx'))
       }
+      dispatch(getPRepData())
       dispatch(getStake(account))
       dispatch(getDelegation(account))
     },

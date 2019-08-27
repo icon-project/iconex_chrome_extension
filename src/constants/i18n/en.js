@@ -700,6 +700,7 @@ export default {
   stakeIcx: {
     desc: 'Of the staked ICX, the amount of voted ICX cannot be un-staked.',
     help: 'Need a minimum of ICX for un-staking. (3 ICX)',
+    estimatedTime: '· Estimated Time of Un-staking',
     min: 'Min Stake',
     max: 'Max Stake',
     success: str => `Request for ${str} has been completed.`,

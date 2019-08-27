@@ -45,7 +45,7 @@ export default {
     vote: 'Vote',
     claim: 'Claim',
     search: '검색',
-    adjust: '조절',
+    adjust: 'Adjust',
   },
 
   error: {

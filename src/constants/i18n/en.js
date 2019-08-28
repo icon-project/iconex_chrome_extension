@@ -159,7 +159,7 @@ export default {
     alertLTMin: (min, type) => `The minimum amount of ${type} is ${min}.`,
     alertGTMax: (max, type) => `The maximum amount of ${type} is ${max}.`,
     alertNoChange: 'There is no changed in amount.',
-    alertFull: 'There is no ICX left. Please check the ICX remainig amount.',
+    alertFull: 'There is no ICX left. Please check the ICX remaining amount.',
   },
 
   currency: {

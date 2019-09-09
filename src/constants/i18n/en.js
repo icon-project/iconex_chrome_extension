@@ -665,6 +665,7 @@ export default {
   `,
   myStatusStake_unstake1: 'Requested Un-stake amount',
   myStatusStake_unstake2: 'Target Block Height',
+  myStatusStake_unstake3: 'Estimated Time',
   myStatusStake_axis1: 'Staked',
   myStatusStake_axis2: 'Un-staked',
   myStatusStake_axis3: 'Voted',
@@ -700,6 +701,7 @@ export default {
   stakeIcx: {
     desc: 'Of the staked ICX, the amount of voted ICX cannot be un-staked.',
     help: 'Need a minimum of ICX for un-staking. (3 ICX)',
+    estimatedTime: '· Estimated Time of Un-staking',
     min: 'Min Stake',
     max: 'Max Stake',
     success: str => `Request for ${str} has been completed.`,

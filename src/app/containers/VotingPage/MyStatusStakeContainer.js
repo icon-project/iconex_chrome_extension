@@ -11,7 +11,7 @@ function mapStateToProps(state) {
   const currentWallet = isLedger ? ledgerWallet : state.wallet.wallets[account] || {}
   const balance = new BigNumber(currentWallet.balance)
   const staked = state.iiss.staked[account] || {}
-  const { value, unstake, unstakeBlockHeight, loading } = staked
+  const { value, unstake, unstakeBlockHeight, remainingBlocks, loading } = staked
   const icxBalance = balance
     .plus(value)
     .plus(unstake)
@@ -78,6 +78,7 @@ function mapStateToProps(state) {
       label: 'myStatusStake_unstake1',
       value: showHyphen(convertStakeValueToText(unstake)),
       unstakeBlockHeight: showHyphen(convertNumberToText(unstakeBlockHeight, 'icx', true)),
+      remainingBlocks,
       width: unstakingWidthPct,
     },
     isLoggedIn,

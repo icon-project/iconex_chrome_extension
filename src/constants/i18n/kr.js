@@ -45,7 +45,7 @@ export default {
     vote: 'Vote',
     claim: 'Claim',
     search: '검색',
-    adjust: '조절',
+    adjust: 'Adjust',
   },
 
   error: {
@@ -670,6 +670,7 @@ export default {
   `,
   myStatusStake_unstake1: 'Un-stake 요청 수량',
   myStatusStake_unstake2: '목표 블록 높이',
+  myStatusStake_unstake3: '완료 시간',
   myStatusStake_axis1: 'Staked',
   myStatusStake_axis2: 'Un-staked',
   myStatusStake_axis3: 'Voted',
@@ -705,6 +706,7 @@ export default {
   stakeIcx: {
     desc: '위임된 Staked ICX는 un-stake 할 수 없습니다.',
     help: 'Un-stake를 위해 최소한의 ICX가 필요합니다. (3 ICX)',
+    estimatedTime: '· Un-stake 예상 완료 시간',
     min: '최소 Stake',
     max: '최대 Stake',
     success: str => `${str} 실행이 완료되었습니다.`,

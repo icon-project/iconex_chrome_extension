@@ -30,6 +30,7 @@ import {
 } from 'constants/index.js';
 
 const INIT_STATE = {
+  isStake: true,
   inputStakedValue: 0,
   stakedPct: 0,
   unstaked: 0,
@@ -105,6 +106,7 @@ class Stake extends Component {
     
     this.setState({
       inputStakedValue,
+      isStake: inputStakedValue.gte(value),
       stakedPct: _stakedPct,
       unstaked: balance,
       unstakedPct: (100 - Number(_stakedPct)).toFixed(1),
@@ -136,6 +138,7 @@ class Stake extends Component {
       inputStakedValue,
     } = this.state
     const {
+      staked: { value },
       totalDelegated,
       totalIcxBalance,
       availableMaxBalance,
@@ -167,6 +170,7 @@ class Stake extends Component {
     this.setState({
       isInputMode: false,
       inputStakedValue: _stakedValue,
+      isStake: _stakedValue.gte(value),
       stakedPct: _stakedPct,
       unstaked: _unstaked,
       unstakedPct: _unstakedPct,
@@ -186,6 +190,7 @@ class Stake extends Component {
 
   handleChangeRange = (_rangeStakedPct) => {
     const {
+      staked: { value },
       availableBalance,
       availableMaxBalance,
       totalDelegated,
@@ -218,6 +223,7 @@ class Stake extends Component {
 
     this.setState({
       inputStakedValue: _stakedValue,
+      isStake: _stakedValue.gte(value),
       stakedPct: _stakedPct,
       unstaked: _unstaked,
       unstakedPct: _unstakedPct,
@@ -300,9 +306,11 @@ class Stake extends Component {
       delegatedPct,
       step,
       totalIcxBalance,
+      estimatedUnstakeTime,
     } = this.props
 
     const {
+      isStake,
       isInputMode,
       inputStakedValue,
       stakedPct,
@@ -313,7 +321,7 @@ class Stake extends Component {
     } = this.state
 
     let inputRef;
-
+    
     const Title = (<p className="txt_box">Stake <span>({walletName})</span></p>)
     const getStakeBarClass = () => {
       if (delegatedPct === '100.0') {
@@ -386,7 +394,13 @@ class Stake extends Component {
                       />
                     </div>
                   </div>
-                  <p className="txt-time"><span></span></p>
+                  {
+                    !isStake ? (
+                      <p className="txt-time">{I18n.stakeIcx.estimatedTime}<span>{estimatedUnstakeTime}</span></p>
+                    ) : (
+                      <p style={{ height: 48 }} className="txt-time">{I18n.stakeIcx.estimatedTime}<span>-</span></p>
+                    )
+                  }
                   <div className="dot"></div>
                   <TxFeeTableContainer />
                   <div className="btn-holder">

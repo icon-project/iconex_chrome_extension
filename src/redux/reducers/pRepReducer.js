@@ -8,7 +8,6 @@ const preprocessPReps = (pReps, totalNetworkDelegated) => {
   const _pReps = pReps.map(({
     delegated,
     stake,
-    status,
     grade,
     address,
     ...rest,
@@ -19,7 +18,6 @@ const preprocessPReps = (pReps, totalNetworkDelegated) => {
       delegated: _delegated,
       delegatedPct: convertToPercent(_delegated, totalNetworkDelegated, 1),
       stake: fromLoop(stake),
-      status: !Number(status),
       grade: _grade,
       rank: i + 1,
       address,

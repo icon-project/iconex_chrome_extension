@@ -163,7 +163,6 @@ class PRepsTable extends Component {
             <th><span>{I18n.pRepTable_name}<i className="_img"></i></span></th>
             <th><span>{I18n.pRepTable_totalVotes}<i className="_img"></i></span></th>
             {isLeaderboard && <th>{I18n.pRepTable_server}</th>}
-            {isLeaderboard && <th>{I18n.pRepTable_active}</th>}
             {!isLeaderboard && (
               <SortToggleButton
                 label={I18n.pRepTable_myVotes}

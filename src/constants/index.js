@@ -100,6 +100,12 @@ export const MIN_UNSTAKE_VALUE = 3
 
 export const ZERO_ADDRESS = 'cx0000000000000000000000000000000000000000'
 
+export const L_MAX = 20
+
+export const L_MIN = 5
+
+export const R_POINT = 0.7
+
 export const tokenList = {
   'BLOC8': {
     address: 'cxbdda1241313c0113f8ebf4b974239b145558513a',

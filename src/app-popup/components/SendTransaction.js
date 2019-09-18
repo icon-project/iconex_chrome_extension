@@ -326,7 +326,7 @@ class SendTransaction extends Component {
                 }
               </div>
 
-              <p>This allows to <span>{host}</span> to automatically sign similar transactions on your behalf. Automatic signing is valid until the given.</p>
+              <p>This allows to <span>{host}</span> to automatically sign similar transactions on your behalf. Automatic signing is valid until the given time expires.</p>
             </div>
             <div className="list-holder">
               <ul className="change-holder">

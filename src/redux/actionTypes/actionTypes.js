@@ -7,7 +7,6 @@ const actionTypes = {
   logInFulfilled: 'LOG_IN_FULFILLED',
   logOut: 'LOG_OUT',
   setLockState: 'SET_LOCK_STATE',
-  setUnlock: 'SET_UNLOCK',
   setScrollToNewWallet: 'SET_SCROLL_TO_NEW_WALLET',
   setShowChangePasscodePopup: 'SET_SHOW_CHANGE_PASSCODE_POPUP',
 

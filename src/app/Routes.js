@@ -95,13 +95,8 @@ class Routes extends Component {
         }
         break;
       case 'SET_LOCK_STATE':
-        if (payload) {
-          window.scroll(0, 0);
-          window.chrome.tabs.reload(this.tabId)
-        } else {
-          this.props.closePopup();
-          this.props.setLockState(payload);
-        }
+        window.scroll(0, 0);
+        window.chrome.tabs.reload(this.tabId)
         break;
       case 'CHECK_APP_LOCK_STATE_FULFILLED':
         if (this.mounted) return;
@@ -114,7 +109,7 @@ class Routes extends Component {
           this.props.getWallet();
         }
         this.mounted = true;
-        break;
+        break
       default:
         break;
     }

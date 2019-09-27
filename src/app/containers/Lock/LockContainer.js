@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { Lock } from 'app/components/';
 import { getWallet } from 'redux/actions/walletActions';
-import { openPopup } from 'redux/actions/popupActions';
-import { setUnlock } from 'redux/actions/authActions';
+import { openPopup, closePopup } from 'redux/actions/popupActions';
+import { setLockState } from 'redux/actions/authActions'
 import { setShowChangePasscodePopup } from 'redux/actions/globalActions';
 import { withRouter } from 'react-router-dom';
 
@@ -18,8 +18,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     openPopup: (s) => dispatch(openPopup(s)),
-    setUnlock: () => dispatch(setUnlock()),
+    closePopup: () => dispatch(closePopup()),
     getWallet: () => dispatch(getWallet()),
+    setLockState: (isLocked) => dispatch(setLockState(isLocked)),
     setShowChangePasscodePopup: (isTrue) => dispatch(setShowChangePasscodePopup(isTrue))
   };
 }

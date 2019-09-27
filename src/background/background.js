@@ -97,7 +97,7 @@ window.chrome.tabs.onRemoved.addListener((tabId) => {
 	if (index !== -1) TAB_ARR.splice(index, 1);
 	// if tabArr empty, lock the app
 	if (TAB_ARR.length < 1) {
-		_setLockState(true);
+		_lock();
 	}
 });
 
@@ -117,7 +117,6 @@ window.chrome.runtime.onMessage.addListener(message => {
 			TIMER = _setTimer();
 			break;
 		case 'UNLOCK':
-			_setLockState(false);
 			if (TIMER) clearInterval(TIMER);
 			TIMER = _setTimer();
 			break;
@@ -153,7 +152,7 @@ function _setTimer() {
 	let end = false;
 	let timer = setInterval(function () {
 		if (end) {
-			_setLockState(true);
+			_lock();
 			clearInterval(timer);
 		}
 		end = true;
@@ -183,9 +182,9 @@ function _checkIsPopupLocked() {
 	}
 }
 
-function _setLockState(lockState) {
-	IS_LOCKED = (localStorage.getItem('redux') && JSON.parse(localStorage.getItem('redux')).global.passcodeHash) ? lockState : false
-	window.chrome.extension.sendMessage({ type: 'SET_LOCK_STATE', payload: IS_LOCKED })
+function _lock() {
+	IS_LOCKED = (localStorage.getItem('redux') && JSON.parse(localStorage.getItem('redux')).global.passcodeHash) ? true : false
+	if (IS_LOCKED) window.chrome.extension.sendMessage({ type: 'SET_LOCK_STATE' })
 }
 
 function _isPasscodeExist() {

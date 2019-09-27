@@ -51,11 +51,13 @@ class Lock extends Component {
   }
 
   checkPasscode = () => {
-    const { passcodeHash, getWallet } = this.props
+    const { passcodeHash, setLockState } = this.props
+    const { passcode } = this.state
 
     this.disableInput = true
-    if (passcodeHash !== hash.sha256().update(this.state.passcode).digest('hex')) {
+    if (passcodeHash !== hash.sha256().update(passcode).digest('hex')) {
       window.loginChkFx(false)
+      window.chrome.extension.sendMessage({ type: 'UNLOCK_APP', payload: passcode })
       window.setTimeout(() => {
         this.setState({
           passcode: ''
@@ -66,8 +68,10 @@ class Lock extends Component {
     }
 
     window.loginChkFx(true)
+    window.chrome.extension.sendMessage({ type: 'UNLOCK_APP', payload: passcode })
     window.setTimeout(() => {
-      window.chrome.extension.sendMessage({ type: 'UNLOCK' })
+      window.chrome.extension.sendMessage({ type: 'UNLOCK', })
+      setLockState(false)
     }, 2000)
   }
 

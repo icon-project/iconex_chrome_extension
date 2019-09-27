@@ -30,9 +30,3 @@ export function setLockState(payload) {
     payload
   };
 }
-
-export function setUnlock() {
-  return {
-    type: actionTypes.setUnlock
-  };
-}

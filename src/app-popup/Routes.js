@@ -64,7 +64,7 @@ class Routes extends Component {
         this.props.setSigning(payload)
         break;
       case 'SET_LOCK_STATE':
-        this.props.setLockState(message.payload);
+        this.props.setLockState(true);
         break;
       case 'CHECK_POPUP_LOCK_STATE_FULFILLED':
         this.props.setLockState(message.payload);

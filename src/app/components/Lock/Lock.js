@@ -28,6 +28,7 @@ class Lock extends Component {
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyDown);
+    window.chrome.extension.onMessage.addListener(this.listener)
   }
 
   componentDidUpdate(prevProps) {
@@ -39,10 +40,21 @@ class Lock extends Component {
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyDown);
     document.body.classList.remove('lock');
+    window.chrome.extension.onMessage.removeListener(this.listener)
+  }
+
+  listener = ({ type, payload }) => {
+    if (type === "UNLOCK_APP") {
+      this.setState({
+        passcode: payload
+      }, () => {
+        this.checkPasscode()
+      })
+    }
   }
 
   checkPasscode = () => {
-    const { passcodeHash, getWallet } = this.props
+    const { passcodeHash, getWallet, closePopup, setLockState } = this.props
 
     this.disableInput = true
     if (passcodeHash !== hash.sha256().update(this.state.passcode).digest('hex')) {
@@ -60,6 +72,8 @@ class Lock extends Component {
     getWallet()
     window.setTimeout(() => {
       window.chrome.extension.sendMessage({ type: 'UNLOCK' })
+      closePopup()
+      setLockState(false)
     }, 2000)
   }
 

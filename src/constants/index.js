@@ -122,7 +122,7 @@ export const tokenList = {
   'IGA': {
     address: 'cx81fe20ac9a8ed7387b8d17be878c1d0ccb01aabf',
     decimals: 18,
-    name: 'IconGameAlliance',
+    name: 'IconGameAllience',
     symbol: 'IGA'
   },
   'MCA': {

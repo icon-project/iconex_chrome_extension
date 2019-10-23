@@ -1,24 +1,26 @@
 import { connect } from 'react-redux';
 import { SendTransaction } from 'app/components/';
-import {  openPopup, setPopupNum, closePopup } from 'redux/actions/popupActions';
-import { sendCall, submitCall, resetEXTRPageReducer, setEXTRLogInState, resetEXTRInputReducer } from 'redux/actions/exchangeTransactionActions';
+import { openPopup, setPopupNum, closePopup } from 'redux/actions/popupActions';
+import { sendCall, submitCall, resetEXTRPageReducer, resetEXTRInputReducer } from 'redux/actions/exchangeTransactionActions';
 import { executeFunc, resetContractInputOutput } from 'redux/actions/contractActions';
 import { confirmLedger, resetLedgerReducer, updateLedgerWalletBalance } from 'redux/actions/ledgerActions'
-import { fetchAll, updateWalletBalance, resetSelectedWallet } from 'redux/actions/walletActions'
+import { fetchAll, setLogInState, updateWalletBalance, resetSelectedWallet } from 'redux/actions/walletActions'
 import {
   resetSignupReducer
 } from 'redux/actions/signupActions';
 import { logIn } from 'redux/actions/authActions';
+import { setStake } from 'redux/actions/iissActions'
+import { openVoteMode } from 'redux/actions/pRepActions'
 
 function mapStateToProps(state) {
   return {
     wallets: state.wallet.wallets,
     selectedAccount: state.wallet.selectedWallet.account,
+    privKey: state.wallet.selectedWallet.privKey,
     selectedTokenId: state.wallet.selectedWallet.tokenId,
     isToken: state.wallet.selectedWallet.isToken,
     recipientAddress: state.exchangeTransaction.recipientAddress,
     coinQuantity: state.exchangeTransaction.coinQuantity,
-    privKey: state.exchangeTransaction.privKey,
     calcData: state.exchangeTransaction.calcData,
     data: state.exchangeTransaction.data,
     dataType: state.exchangeTransaction.dataType,
@@ -30,8 +32,6 @@ function mapStateToProps(state) {
     sendTransactionError: state.exchangeTransaction.error,
     contractError: state.contract.error,
     language: state.global.language,
-    icxSwapAddress: state.signup.icxSwapAddress,
-    swapWalletName: state.signup.walletName,
 
     funcList: state.contract.funcList,
     selectedFuncIndex: state.contract.selectedFuncIndex,
@@ -53,7 +53,7 @@ function mapDispatchToProps(dispatch) {
     openPopup: (s) => dispatch(openPopup(s)),
     setPopupNum: (n) => dispatch(setPopupNum(n)),
     sendCall: (privKey, data, isLedger) => dispatch(sendCall(privKey, data, isLedger)),
-    setEXTRLogInState: (payload) => dispatch(setEXTRLogInState(payload)),
+    setLogInState: (payload) => dispatch(setLogInState(payload)),
     submitCall: (payload, options) => dispatch(submitCall(payload, options)),
     resetEXTRPageReducer: () => dispatch(resetEXTRPageReducer()),
     resetInput: () => dispatch(resetEXTRInputReducer()),
@@ -67,7 +67,10 @@ function mapDispatchToProps(dispatch) {
 
     resetContractInputOutput: () => dispatch(resetContractInputOutput()),
     confirmLedger: (payload) => dispatch(confirmLedger(payload)),
-    resetLedgerReducer: () => dispatch(resetLedgerReducer())
+    resetLedgerReducer: () => dispatch(resetLedgerReducer()),
+
+    setStake: () => dispatch(setStake()),
+    openVoteMode: () => dispatch(openVoteMode())
   };
 }
 

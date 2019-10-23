@@ -146,3 +146,10 @@ export function updateWalletBalance(payload) {
     payload
   };
 }
+
+export function setLogInState(payload) {
+  return {
+    type: actionTypes.setLogInState,
+    payload
+  };
+}

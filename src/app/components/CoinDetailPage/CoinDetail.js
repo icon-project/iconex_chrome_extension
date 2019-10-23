@@ -22,7 +22,7 @@ class CoinDetail extends Component {
 
     return (
       <div>
-  			<CoinDetailContent {...this.props} />
+        <CoinDetailContent {...this.props} />
       </div>
     );
   }

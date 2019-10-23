@@ -7,14 +7,14 @@ function walletToV3File(wallet, pw, coinType) {
   let v3 = wallet.toV3(pw, V3_OPTIONS);
   if (coinType === 'icx') {
     const address = wallet.getAddressIcx().toString('hex');
-    v3 = Object.assign({}, v3, {'address': address})
-    v3 = Object.assign({}, v3, {'coinType': 'icx'})
+    v3 = Object.assign({}, v3, { 'address': address })
+    v3 = Object.assign({}, v3, { 'coinType': 'icx' })
   }
   return JSON.stringify(v3);
 }
 
-onmessage = function(m) {
-  switch(m.data.type) {
+onmessage = function (m) {
+  switch (m.data.type) {
     case 'sendTransaction':
       try {
         const wallet = Wallet.fromV3(m.data.priv, m.data.pw, V3_OPTIONS);
@@ -65,28 +65,28 @@ onmessage = function(m) {
         if (ks['coinType'] === 'icx') {
           const pubKey = wallet.getAddressIcx().toString('hex');
           if (checkHxPrefix(ks.address) !== checkHxPrefix(pubKey)) {
-            this.postMessage({msg: 'addressError'});
+            this.postMessage({ msg: 'addressError' });
           } else {
             this.postMessage({
               msg: 'success',
-              payload: Object.assign({}, ks, {address: checkHxPrefix(pubKey)})
+              payload: Object.assign({}, ks, { address: checkHxPrefix(pubKey) })
             });
           }
         } else {
           const pubKey = wallet.getAddress().toString('hex');
           if (check0xPrefix(ks.address) !== check0xPrefix(pubKey)) {
-            this.postMessage({msg: 'addressError'});
+            this.postMessage({ msg: 'addressError' });
           } else {
             this.postMessage({
               msg: 'success',
-              payload: Object.assign({}, ks, {address: pubKey})
+              payload: Object.assign({}, ks, { address: pubKey })
             });
           }
         }
       }
       catch (e) {
         console.log(e)
-        this.postMessage({msg: 'passwordError'});
+        this.postMessage({ msg: 'passwordError' });
       }
       break;
 
@@ -137,7 +137,7 @@ onmessage = function(m) {
       catch (e) {
         console.log(e)
         if (e.message === 'Key derivation failed - possibly wrong passphrase') e.message = 'passwordError';
-        this.postMessage({'msg': e.message});
+        this.postMessage({ 'msg': e.message });
       }
       break;
 
@@ -194,18 +194,18 @@ onmessage = function(m) {
               break;
           }
           const tokens = Object.values(val.tokens);
-          for (let v = 0; v<tokens.length; v++) {
+          for (let v = 0; v < tokens.length; v++) {
             delete tokens[v].isError;
             delete tokens[v].recent;
             delete tokens[v].balance;
             delete tokens[v].balanceLoading;
           }
           const obj = Object.assign({}, {
-              name: val.name,
-              type: val.type,
-              priv: wallet,
-              tokens: tokens,
-              createdAt: val.createdAt
+            name: val.name,
+            type: val.type,
+            priv: wallet,
+            tokens: tokens,
+            createdAt: val.createdAt
           })
           const result = {};
           result[key] = obj;
@@ -217,13 +217,13 @@ onmessage = function(m) {
           return isError
         }
       })
-      this.postMessage({resolvedWalletArr: resolvedWalletArr, pwNotMatchErrorArr: pwNotMatchErrorArr, error: isError})
+      this.postMessage({ resolvedWalletArr: resolvedWalletArr, pwNotMatchErrorArr: pwNotMatchErrorArr, error: isError })
       break;
 
     case 'exportWallet_3':
       const exportWalletObjects = m.data.exportWalletObjects
       console.log('from walletworker exportWallet_3', exportWalletObjects)
-      for(let i=0; i<exportWalletObjects.length; i++) {
+      for (let i = 0; i < exportWalletObjects.length; i++) {
         const key = Object.keys(exportWalletObjects[i])[0];
         const priv = new Wallet(new Buffer(exportWalletObjects[i][key].priv._privKey));
         let v3 = walletToV3File(priv, m.data.newPw, exportWalletObjects[i][key].type)

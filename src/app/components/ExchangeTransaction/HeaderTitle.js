@@ -11,9 +11,13 @@ class HeaderTitle extends Component {
   }
 
   render() {
+    const { title, sub, goBack } = this.props
     return (
       <div className="title-holder sub">
-        <h1 className='default-font-size'>{this.props.title}</h1>
+        <h1 className='default-font-size'>{sub || title}</h1>
+        {sub &&
+          (<span><em style={{ cursor: 'pointer', fontWeight: 400 }} onClick={goBack}>{title}</em><i className="_img"></i><em>{sub}</em></span>)
+        }
       </div>
     );
   }

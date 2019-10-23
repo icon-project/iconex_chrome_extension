@@ -71,17 +71,17 @@ class ContractSearchSection extends Component {
               placeholder={I18n.contractAbiPlaceHolder}
               readOnly
               value={abi}
-              ></textarea>
+            ></textarea>
             {
               abiLoading ? (
-                <button style={{width: 99.45}} className="btn-type-black">
+                <button style={{ width: 99.45 }} className="btn-type-black">
                   <span><LoadingComponent type='white' /></span>
                 </button>
               ) : (
-                <button onClick={this.setFuncList} className="btn-type-black">
-                  <span>{I18n.button.confirm}</span>
-                </button>
-              )
+                  <button onClick={this.setFuncList} className="btn-type-black">
+                    <span>{I18n.button.confirm}</span>
+                  </button>
+                )
             }
           </div>
         </div>

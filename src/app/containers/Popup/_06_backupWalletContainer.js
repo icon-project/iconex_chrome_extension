@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { BackupWallet } from 'app/components/';
-import {  closePopup, setPopupNum } from 'redux/actions/popupActions';
+import { closePopup, setPopupNum } from 'redux/actions/popupActions';
 import { setPrivKeyAndV3ForBackup, resetSelectedWallet } from 'redux/actions/walletActions';
 
 function mapStateToProps(state) {

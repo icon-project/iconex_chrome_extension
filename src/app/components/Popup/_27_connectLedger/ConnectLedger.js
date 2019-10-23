@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import withLanguageProps from 'HOC/withLanguageProps';
-import { LoadingComponent, LedgerIframe, Alert } from 'app/components';
+import { LedgerIframe, Alert } from 'app/components';
 import { routeConstants as ROUTE } from 'constants/index';
 import { icx_fetchCoinBalanceApi } from 'redux/api/walletIcxApi'
 import { trackerAccountUrl as TRACKER_ACCOUNT_URL } from 'constants/config.js'
-import { nToBr } from 'utils';
-
 
 const INIT_STATE = {
   ledgerInit: false,
   ledgerLoading: false,
   showBalanceError: false,
   error: ''
+}
+
+const POPUP_TYPE = {
+  VOTING: 'VOTING',
+  TRANSFER: 'TRANSFER',
 }
 
 @withRouter
@@ -42,14 +45,15 @@ class ConnectLedger extends Component {
       popupNum,
       history,
       setSelectedWallet,
-      setEXTRLogInStateForLedger,
+      setLogInStateForLedger,
       setPopupNum,
-      closePopup
+      closePopup,
+      fetchMyStatusData,
     } = this.props;
 
     const { data, source } = event
     const parsedData = JSON.parse(data)
-    const { method, payload } = parsedData
+    const { method, payload, popupType = '' } = parsedData
 
     if (popupNum === 1) setPopupNum(2)
 
@@ -66,7 +70,7 @@ class ConnectLedger extends Component {
         source.postMessage(balanceArr, '*')
         break;
       case 'setWallet':
-        setEXTRLogInStateForLedger({
+        setLogInStateForLedger({
           isLoggedIn: true,
           ledgerWallet: payload
         })
@@ -74,9 +78,11 @@ class ConnectLedger extends Component {
           account: payload.account
         });
         closePopup();
-        history.push({
-          pathname: ROUTE['transaction']
-        });
+        if (popupType === POPUP_TYPE.TRANSFER) {
+          history.push({
+            pathname: ROUTE['transaction']
+          });
+        } 
         break;
       case 'openAccountInfoOnTracker':
         window.open(`${TRACKER_ACCOUNT_URL['icx']}${payload}`)
@@ -111,69 +117,72 @@ class ConnectLedger extends Component {
     const {
       I18n,
       popupNum,
-      language
+      language,
+      location,
     } = this.props;
 
     const { ledgerLoading, ledgerInit, showBalanceError, error } = this.state;
+    const isVoting = location.pathname === ROUTE['voting']
 
     return (
       <div>
         <div className="dimmed fade-in"></div>
         <div
-          style={popupNum === 2 ? {height: 508} : {}}
+          style={popupNum === 2 ? { height: 508 } : {}}
           className={`
             popup
             ${popupNum === 2 ? 'address wallet' : ''}
             ${error ? 'fail' : ''}
             moving-down
             `}>
-              {
-                popupNum === 1 && (
-                  <div>
-                    <p className="txt_box">{!error ? I18n.connectLedger.title : I18n.connectLedger.connectError}</p>
-                    { ledgerLoading 
-                      ? <div className="loading-holder">
-                          <i className="loading black"></i>
-                        </div>
-                      : <p className="txt" ref={ref => {if (ref) ref.innerHTML = !error ? I18n.connectLedger.desc : I18n.connectLedger.descError}} />
-                    }
-                    <a href={`./resource/${I18n.connectLedger.manualFileName}.pdf`} target="_blank"><p className="mint">{I18n.connectLedger.info}</p></a>
-                    <div className="btn-holder full">
-                      <button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.close}</span></button>
-                      <button onClick={this.handleStartLedger} className="btn-type-normal size-half"><span>{!error ? I18n.button.connect : I18n.button.retry}</span></button>
-                    </div>
+          {
+            popupNum === 1 && (
+              <div>
+                <p className="txt_box">{!error ? I18n.connectLedger.title : I18n.connectLedger.connectError}</p>
+                {ledgerLoading
+                  ? <div className="loading-holder">
+                    <i className="loading black"></i>
                   </div>
-                )
-              }
-              {
-                popupNum === 2 && (
-                  <div>
-                    <span className="close" onClick={this.closePopup}><em className="_img"></em></span>
-                    <h1 className="title">{I18n.connectLedger.connectWallet}<span>{`(44'/4801368'/0'/0')`}</span></h1>
-                  </div>
-                )
-              }
+                  : <p className="txt" ref={ref => { if (ref) ref.innerHTML = !error ? I18n.connectLedger.desc : I18n.connectLedger.descError }} />
+                }
+                <a href={`./resource/${I18n.connectLedger.manualFileName}.pdf`} target="_blank"><p className="mint">{I18n.connectLedger.info}</p></a>
+                <div className="btn-holder full">
+                  <button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.close}</span></button>
+                  <button onClick={this.handleStartLedger} className="btn-type-normal size-half"><span>{!error ? I18n.button.connect : I18n.button.retry}</span></button>
+                </div>
+              </div>
+            )
+          }
+          {
+            popupNum === 2 && (
+              <div>
+                <span className="close" onClick={this.closePopup}><em className="_img"></em></span>
+                <h1 className="title">{I18n.connectLedger.connectWallet}<span>{`(44'/4801368'/0'/0')`}</span></h1>
+              </div>
+            )
+          }
 
-              {
-                ledgerInit && (
-                  <LedgerIframe
-                    method={'getBalance'}
-                    language={language}
-                    handleSuccess={this.handleLedgerSuccess}
-                    handleError={this.handleLedgerError}
-                    isHidden={popupNum === 1} />
-                )
-              }
-              {
-                showBalanceError && (
-                  <Alert
-                    handleCancel={this.closeAlert}
-                    text={I18n.error.noBalance}
-                    cancelText={I18n.button.confirm}
-                  />
-                )
-              }
-          </div>
+          {
+            ledgerInit && (
+              <LedgerIframe
+                method={'getBalance'}
+                popupType={isVoting ? POPUP_TYPE.VOTING : POPUP_TYPE.TRANSFER}
+                language={language}
+                handleSuccess={this.handleLedgerSuccess}
+                handleError={this.handleLedgerError}
+                isHidden={popupNum === 1} />
+            )
+          }
+          {
+            showBalanceError && (
+              <Alert
+                handleCancel={this.closeAlert}
+                text={I18n.error.noBalance}
+                cancelText={I18n.button.confirm}
+              />
+            )
+          }
+        </div>
       </div>
     );
   }

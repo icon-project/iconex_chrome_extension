@@ -11,10 +11,10 @@ class BackupWallet1 extends Component {
   }
 
   handleSuccess = (data) => {
-      this.props.setPrivKeyAndV3ForBackup({
-        privKey: data.privKey, v3: data.v3
-      });
-      this.props.setPopupNum(2);
+    this.props.setPrivKeyAndV3ForBackup({
+      privKey: data.privKey, v3: data.v3
+    });
+    this.props.setPopupNum(2);
   }
 
   render() {

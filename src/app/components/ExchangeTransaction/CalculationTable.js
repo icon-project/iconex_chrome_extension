@@ -27,7 +27,6 @@ class CalculationTable extends Component {
   render() {
     const { calcData: data, I18n } = this.props;
     const { walletCoinType } = data;
-    const { txFeeHelpLayer } = this.state;
     return (
       <div className="table-holder common">
         <table>
@@ -42,37 +41,37 @@ class CalculationTable extends Component {
           </thead>
           <tbody>
             <tr>
-              <td>{I18n.transferPageLabel5_2}<i className="_img"></i>
+              <td>{I18n.transferPageLabel5_2}<i className="_img tooltip info-i"></i>
                 <div className="help-layer">
                   <p className="title">{I18n[`transferPageHelperTitle1_${walletCoinType}`]}</p>
                   <p className="txt">{I18n[`transferPageHelperDesc1_${walletCoinType}`]}</p>
                 </div>
               </td>
               {
-                data.txFee 
-                  ? (<td>{ data.txFee }</td>)
-                  : (<td><LoadingComponent type="black"/></td>)
+                data.txFee
+                  ? (<td>{data.txFee}</td>)
+                  : (<td><LoadingComponent type="black" /></td>)
               }
               <td>{`${data.walletCoinType === 'icx' ? 'ICX' : 'ETH'}`}</td>
               {
-                data.txFeeWithRate 
-                  ? (<td>{ data.txFeeWithRate }</td>)
-                  : (<td><LoadingComponent type="black"/></td>)
+                data.txFeeWithRate
+                  ? (<td>{data.txFeeWithRate}</td>)
+                  : (<td><LoadingComponent type="black" /></td>)
               }
               <td>USD</td>
             </tr>
             <tr>
               <td>{I18n.transferPageLabel6_2}</td>
               {
-                data.resultBalance 
-                  ? (<td>{ data.resultBalance }</td>)
-                  : (<td><LoadingComponent type="black"/></td>)
+                data.resultBalance
+                  ? (<td>{data.resultBalance}</td>)
+                  : (<td><LoadingComponent type="black" /></td>)
               }
               <td>{data.coinType.toUpperCase()}</td>
               {
-                data.resultBalanceWithRate 
-                  ? (<td>{ data.resultBalanceWithRate }</td>)
-                  : (<td><LoadingComponent type="black"/></td>)
+                data.resultBalanceWithRate
+                  ? (<td>{data.resultBalanceWithRate}</td>)
+                  : (<td><LoadingComponent type="black" /></td>)
               }
               <td>USD</td>
             </tr>

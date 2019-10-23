@@ -13,7 +13,7 @@ import {
   icx_sendTransaction as ICX_SEND_TRANSACTION,
   icx_getTxFeeInfoApi as ICX_GET_TX_FEE_INFO,
 } from 'redux/api/walletIcxApi';
-import { check0xPrefix, signRawTx, customValueToTokenValue, makeEthRawTx, isEmpty, checkLength, dataToHex, getHexByteLength } from 'utils'
+import { check0xPrefix, signRawTx, customValueToTokenValue, makeEthRawTx, isEmpty, checkLength, dataToHex } from 'utils'
 import {
   addRecentTransaction
 } from 'redux/actions/walletActions';
@@ -48,7 +48,7 @@ export function* getTxFeeInfoFunc(action) {
         })
         delete rawTx.gasLimit;
         const payload = yield call(ETH_GET_TX_FEE_INFO, rawTx);
-        yield put({type: AT.getTxFeeInfoFulfilled, payload: payload});
+        yield put({ type: AT.getTxFeeInfoFulfilled, payload: payload });
       }
     } else {
 
@@ -76,14 +76,16 @@ export function* getTxFeeInfoFunc(action) {
         //    "method": funcList[selectedFuncIndex].name,
         //    "params": contractFuncInput
         // }
-        yield put({type: AT.getTxFeeInfoFulfilled, payload: {
-          txFeePrice: txFeePriceStep,
-          //txFeeLimit: calcContractCallLimit(data),
-          txFeeLimit: txFeeLimitMax,
-          txFeePriceStep: txFeePriceStep,
-          txFeeLimitTable: txFeeLimitTable,
-          txFeeLimitMax: txFeeLimitMax
-        }});
+        yield put({
+          type: AT.getTxFeeInfoFulfilled, payload: {
+            txFeePrice: txFeePriceStep,
+            //txFeeLimit: calcContractCallLimit(data),
+            txFeeLimit: txFeeLimitMax,
+            txFeePriceStep: txFeePriceStep,
+            txFeeLimitTable: txFeeLimitTable,
+            txFeeLimitMax: txFeeLimitMax
+          }
+        });
       } else if (isTokenSelector) {
         let data;
         const selectedAccount = yield select(state => state.wallet.selectedWallet.account);
@@ -99,50 +101,58 @@ export function* getTxFeeInfoFunc(action) {
         const sendAmount = customValueToTokenValue(new BigNumber(coinQuantity || 0), defaultDecimals, decimals).times(Math.pow(10, defaultDecimals)).toString()
 
         data = {
-            "method": 'transfer',
-            "params": {
-              "_to": recipientAddress,
-              "_value": window.web3.toHex(sendAmount)
-            }
+          "method": 'transfer',
+          "params": {
+            "_to": recipientAddress,
+            "_value": window.web3.toHex(sendAmount)
+          }
         }
 
-        yield put({type: AT.getTxFeeInfoFulfilled, payload: {
-          txFeePrice: txFeePriceStep,
-          txFeeLimit: calcContractCallLimit(data),
-          txFeePriceStep: txFeePriceStep,
-          txFeeLimitTable: txFeeLimitTable,
-          txFeeLimitMax: txFeeLimitMax
-        }});
+        yield put({
+          type: AT.getTxFeeInfoFulfilled, payload: {
+            txFeePrice: txFeePriceStep,
+            txFeeLimit: calcContractCallLimit(data),
+            txFeePriceStep: txFeePriceStep,
+            txFeeLimitTable: txFeeLimitTable,
+            txFeeLimitMax: txFeeLimitMax
+          }
+        });
 
       } else {
         const data = yield select(state => state.exchangeTransaction.data);
         const dataType = yield select(state => state.exchangeTransaction.dataType);
         // Apply v0.2.54 hotfix to v0.3.4 for calculating stepLimit
-        // const txFeeLimit = data.length > 0 ? parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['input'], 16) * (dataType === 'utf8' ? (getHexByteLength(checkLength(dataToHex(data)))) : getHexByteLength(data.length))
-        const txFeeLimit = data.length > 0 ? parseInt(txFeeLimitTable['default'], 16) + parseInt(txFeeLimitTable['input'], 16) * (dataType === 'utf8' ? (checkLength(JSON.stringify(check0xPrefix(dataToHex(data))))) : JSON.stringify(data).length)
-                                            : parseInt(txFeeLimitTable['default'], 16)
-        yield put({type: AT.getTxFeeInfoFulfilled, payload: {
-          txFeePrice: txFeePriceStep,
-          txFeeLimit: txFeeLimit,
-          txFeePriceStep: txFeePriceStep,
-          txFeeLimitTable: txFeeLimitTable,
-          txFeeLimitMax: txFeeLimitMax
-        }});
+        const txFeeLimit = data.length > 0
+          ? parseInt(txFeeLimitTable['default'], 16) +
+          parseInt(txFeeLimitTable['input'], 16) *
+          (dataType === 'utf8'
+            ? checkLength(JSON.stringify(dataToHex(data)))
+            : JSON.stringify(data).length)
+          : parseInt(txFeeLimitTable['default'], 16)
+        yield put({
+          type: AT.getTxFeeInfoFulfilled, payload: {
+            txFeePrice: txFeePriceStep,
+            txFeeLimit: txFeeLimit,
+            txFeePriceStep: txFeePriceStep,
+            txFeeLimitTable: txFeeLimitTable,
+            txFeeLimitMax: txFeeLimitMax
+          }
+        });
       }
     }
-    yield put({type: AT.setCalcData});
+    yield put({ type: AT.setCalcData });
   } catch (e) {
     console.log(e)
-    yield put({type: AT.getTxFeeInfoRejected, error: e});
+    yield put({ type: AT.getTxFeeInfoRejected, error: e });
   }
 }
 
 export function* setCoinQuantityFunc(action) {
   try {
-    yield put({type: AT.setCalcData});
+    yield put({ type: AT.setCalcData });
     if (action.isTxFeeNeeded) {
       yield call(delay, 250);
-      yield put({type: AT.getTxFeeInfo});
+      yield put({ type: AT.getTxFeeInfo });
     }
   } catch (e) {
     alert(e);
@@ -153,7 +163,7 @@ export function* setRecipientAddressFunc(action) {
   try {
     if (action.isTxFeeNeeded) {
       yield call(delay, 250);
-      yield put({type: AT.getTxFeeInfo});
+      yield put({ type: AT.getTxFeeInfo });
     }
   } catch (e) {
     alert(e);
@@ -165,7 +175,7 @@ export function* setDataFunc(action) {
     const walletCoinType = yield select(state => state.exchangeTransaction.calcData.walletCoinType);
     const isTokenSelector = yield select(state => state.wallet.selectedWallet.isToken);
     if (walletCoinType === 'icx' && !isTokenSelector) {
-      yield put({type: AT.getTxFeeInfo});
+      yield put({ type: AT.getTxFeeInfo });
     }
   } catch (e) {
     alert(e);
@@ -177,17 +187,17 @@ export function* sendTransactionCallFunc(action) {
     let response;
     if (action.isLedger) {
       response = yield call(ICX_SEND_TRANSACTION, action.data);
-      yield put({type: AT.sendCallFulfilled, payload: response});
+      yield put({ type: AT.sendCallFulfilled, payload: response });
     } else {
       if (!action.data.contractAddress) {
-         response = yield call(SEND_COIN, action.privKey, action.data);
+        response = yield call(SEND_COIN, action.privKey, action.data);
       } else {
-         response = yield call(SEND_TOKEN, action.privKey, action.data);
+        response = yield call(SEND_TOKEN, action.privKey, action.data);
       }
-      yield put({type: AT.sendCallFulfilled, payload: response});
+      yield put({ type: AT.sendCallFulfilled, payload: response });
 
       const tokenSendAmount = action.data.contractAddress ? customValueToTokenValue(new BigNumber(action.data.value), action.data.tokenDefaultDecimal, action.data.tokenDecimal).toString()
-                                                          : ''
+        : ''
       const data = {
         from: action.data.from,
         type: action.data.coinType,
@@ -210,7 +220,7 @@ export function* sendTransactionCallFunc(action) {
       yield put(addRecentTransaction(data))
     }
   } catch (e) {
-    yield put({type: AT.sendCallRejected, errorMsg: e});
+    yield put({ type: AT.sendCallRejected, errorMsg: e });
   }
 }
 

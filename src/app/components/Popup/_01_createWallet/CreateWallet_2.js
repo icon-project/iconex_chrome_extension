@@ -22,7 +22,7 @@ class CreateWallet2 extends Component {
   }
 
   handleSubmit = () => {
-    if(!this.props.loading) {
+    if (!this.props.loading) {
       this.validationForm.validateForm(['walletName', 'pw', 'pwConfirm'], 'submit');
     }
   }
@@ -87,7 +87,7 @@ class CreateWallet2 extends Component {
             onSuccess={(walletName, pw) => this.props.generateWallet(walletName, pw, coinType)}
             {...this.props}
             handleSubmit={this.handleSubmit}
-            />
+          />
           <div className="btn-holder">
             <button onClick={this.goBack} type="submit" className="btn-type-next size-next"><span>{I18n.button.back}</span></button>&nbsp;
             <button onClick={this.handleSubmit} type="submit" className="btn-type-next size-next"><span>{I18n.button.next}</span></button>

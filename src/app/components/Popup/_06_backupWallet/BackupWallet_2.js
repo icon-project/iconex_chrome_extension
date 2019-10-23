@@ -25,7 +25,7 @@ class BackupWallet2 extends Component {
     });
     this.props.closePopup();
     this.props.resetSelectedWallet();
-    this.props.setPrivKeyAndV3ForBackup({privKey: '', v3: ''});
+    this.props.setPrivKeyAndV3ForBackup({ privKey: '', v3: '' });
   }
 
   handleDownload = () => {
@@ -68,31 +68,31 @@ class BackupWallet2 extends Component {
             <h2>{I18n.backupWallet.desc}</h2>
           </div>
           <div className="scroll-holder backup">
-    				<div className="scroll">
-            <p className="title">{I18n.backupWallet.infoBoxTitle1_1}</p>
-    					<div className="message-holder">
-    						<ul>
-    							<li>{I18n.backupWallet.infoBoxDesc1_1}</li>
-    							<li>{I18n.backupWallet.infoBoxDesc1_2}</li>
-    						</ul>
-    					</div>
-    					<div className="tabbox-holder ">
-    						<div className="download">
+            <div className="scroll">
+              <p className="title">{I18n.backupWallet.infoBoxTitle1_1}</p>
+              <div className="message-holder">
+                <ul>
+                  <li>{I18n.backupWallet.infoBoxDesc1_1}</li>
+                  <li>{I18n.backupWallet.infoBoxDesc1_2}</li>
+                </ul>
+              </div>
+              <div className="tabbox-holder ">
+                <div className="download">
                   <button type="submit" onClick={this.handleDownload} className="btn-type-next size-full"><span>{I18n.button.download}</span></button>
-    						</div>
-    					</div>
-    					{/* <div className="tabbox-holder ">
+                </div>
+              </div>
+              {/* <div className="tabbox-holder ">
     						<div className="key-group">
                   <p className={`key ${toggleKey}`}>{toggleKey === '' ? privKey : '*'.repeat(64)}<em onClick={this.toggleKey} className={`_img ${toggleKey}`}></em></p>
     						</div>
     					</div> */}
               <p className="title">{I18n.backupWallet.infoBoxTitle2_1}</p>
-    					<div className="message-holder">
-    						<ul>
-    							<li>{I18n.backupWallet.infoBoxDesc2_1}</li>
-    							<li>{I18n.backupWallet.infoBoxDesc2_2}</li>
-    						</ul>
-    					</div>
+              <div className="message-holder">
+                <ul>
+                  <li>{I18n.backupWallet.infoBoxDesc2_1}</li>
+                  <li>{I18n.backupWallet.infoBoxDesc2_2}</li>
+                </ul>
+              </div>
               <div className="tabbox-holder ">
                 <div className="key-group">
                   <p className={`key ${toggleKey}`}>{toggleKey === '' ? privKey : '*'.repeat(64)}<em onClick={this.toggleKey} className={`_img ${toggleKey}`}></em></p>
@@ -100,11 +100,11 @@ class BackupWallet2 extends Component {
               </div>
 
               <div className="tabbox-holder end">
-                <CopyButton target={privKey} text={I18n.button.copyPrivateKey} defaultSize={true} copyFinish={I18n.button.copyFinish}/>
+                <CopyButton target={privKey} text={I18n.button.copyPrivateKey} defaultSize={true} copyFinish={I18n.button.copyFinish} />
                 <button onClick={() => this.handlePrint(name, type, selectedAccount, privKey)} className="btn-type-next size-next"><span>{I18n.button.print}</span></button>
               </div>
-    				</div>
-    			</div>
+            </div>
+          </div>
         </div>
       </div>
     );

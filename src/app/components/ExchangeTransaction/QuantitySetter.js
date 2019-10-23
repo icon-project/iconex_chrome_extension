@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { ComboBox } from 'app/components/'
-import { isEmpty, checkValueLength, trimLeftZero, makeEthRawTx } from 'utils/utils'
+import { isEmpty, trimLeftZero, trimSpace, isValidICXInput } from 'utils/utils'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
-//  currencyIndex: 0,
-//  isFullBalance: false,
+  //  currencyIndex: 0,
+  //  isFullBalance: false,
 }
 
 @withLanguageProps
@@ -22,8 +22,8 @@ class QuantitySetter extends Component {
   }
 
   handleInputChange = (e) => {
-    const value = e.target.value.replace(/\s+/g, '');
-    if (!isNaN(value) && checkValueLength(value) && !value.includes("+") && !value.includes("-")) {
+    const value = trimSpace(e.target.value);
+    if (isValidICXInput(value)) {
       this.setCoinQuantity(value);
       this.props.toggleFullBalance(false);
     }
@@ -35,11 +35,7 @@ class QuantitySetter extends Component {
 
   handleInputBlur = () => {
     this.props.setCoinQuantity(trimLeftZero(this.props.coinQuantity), false);
-    if (this.props.swapPage) {
-      this.props.setSwapCoinQuantityError();
-    } else {
-      this.props.setCoinQuantityError();
-    }
+    this.props.setCoinQuantityError();
   }
 
   toggleCheckBox = (balance) => {
@@ -49,11 +45,11 @@ class QuantitySetter extends Component {
       isFullBalance
     } = this.props;
 
-    if(!isLoggedIn) {
+    if (!isLoggedIn) {
       return false
     }
 
-    if(balance <= 0) {
+    if (balance <= 0) {
       return false
     }
 
@@ -94,42 +90,41 @@ class QuantitySetter extends Component {
       selectedAccount,
       isLoggedIn,
       I18n,
-      swapPage,
       isFullBalance,
       isContractPage,
       isLedger
     } = this.props;
 
     const coinQuantityErrorText =
-        coinQuantityError === 'notEnoughBalance' ? I18n.error[coinQuantityError](calcData.walletCoinType.toUpperCase())
-                                                 : I18n.error[coinQuantityError];
+      coinQuantityError === 'notEnoughBalance' ? I18n.error[coinQuantityError](calcData.walletCoinType.toUpperCase())
+        : I18n.error[coinQuantityError];
 
     if (isContractPage) {
       return (
         <div className="-group">
           <p className="title">{I18n.transferPageLabel1}</p>
           <input
-          	type="text"
-          	className={`txt-type-normal ${coinQuantityError && 'error'}`}
-          	placeholder={I18n.transferPagePlaceholder1}
-          	disabled={!isLoggedIn}
-          	value={coinQuantity || ''}
-          	onChange={this.handleInputChange}
-          	onBlur={() => this.handleInputBlur()}
+            type="text"
+            className={`txt-type-normal ${coinQuantityError && 'error'}`}
+            placeholder={I18n.transferPagePlaceholder1}
+            disabled={!isLoggedIn}
+            value={coinQuantity || ''}
+            onChange={this.handleInputChange}
+            onBlur={() => this.handleInputBlur()}
           />
           <p className="error">{coinQuantityErrorText}</p>
         </div>
       )
     }
-
+    
     return (
       <div className="group">
-        <span className="label">{swapPage ? I18n.swapToken.swapQuantity : I18n.transferPageLabel1}</span>
+        <span className="label">{I18n.transferPageLabel1}</span>
         <div className="won-group">
           <input
             type="text"
             className={`txt-type-normal ${coinQuantityError && 'error'}`}
-            placeholder={swapPage ? I18n.swapToken.inputPlaceholder : I18n.transferPagePlaceholder1}
+            placeholder={I18n.transferPagePlaceholder1}
             disabled={!isLoggedIn}
             value={coinQuantity || ''}
             onChange={this.handleInputChange}
@@ -141,20 +136,22 @@ class QuantitySetter extends Component {
               className="cbox-type"
               type="checkbox"
               name=""
-            
+
               checked={isFullBalance}
             />
-            <label htmlFor="cbox-01" className="_img" onClick={()=>{isLoggedIn && this.toggleCheckBox(calcData.totalBalance)}}>{I18n.transferPageAllCheckBtn}</label>
-            { isLedger && (<button onClick={() => this.props.openPopup({ popupType: 'addToken', popupNum: 1 })} className="btn-type-copy w104"><span>{I18n.addToken.title1}</span></button>) }
+            <label htmlFor="cbox-01" className="_img" onClick={() => { isLoggedIn && this.toggleCheckBox(calcData.totalBalance) }}>{I18n.transferPageAllCheckBtn}</label>
+            {isLedger && (<button onClick={() => this.props.openPopup({ popupType: 'addToken', popupNum: 1 })} className="btn-type-copy w104"><span>{I18n.addToken.title1}</span></button>)}
           </div>
           <ComboBox
             disabled={!isLoggedIn}
-            list={!isEmpty(calcData) ? calcData.coinTypeObj : ['']}
+            list={!isEmpty(calcData) ? calcData.coinTypeObj : {}}
             index={selectedTokenId || selectedAccount}
             setIndex={this.changeCoin}
           />
-          { isLoggedIn && (<span className={`won ${calcData.sendQuantityWithRate === '0' ? 'zero' : ''}`}>{calcData.sendQuantityWithRate || 0 } <em>USD</em></span>)}
-          { isLoggedIn && !isEmpty(calcData) && (<span className={`won ${calcData.currentBalance.toString() === '0' ? 'zero' : ''}`}>{I18n.contractBalance} {calcData.currentBalance.toString()}<em>{calcData.coinTypeObj[selectedTokenId || selectedAccount].toUpperCase()}</em></span>) }
+          {isLoggedIn && (<span className={`won ${calcData.sendQuantityWithRate === '0' ? 'zero' : ''}`}>{calcData.sendQuantityWithRate || 0} <em>USD</em></span>)}
+          {isLoggedIn && !isEmpty(calcData) && (<span className={`won ${calcData.currentBalance.toString() === '0' ? 'zero' : ''}`}>{I18n.contractBalance} {calcData.currentBalance.toString()}
+            <em>{calcData.coinTypeObj[selectedTokenId || selectedAccount] && calcData.coinTypeObj[selectedTokenId || selectedAccount].toUpperCase()}</em>
+          </span>)}
           <p className="error">{coinQuantityErrorText}</p>
         </div>
       </div>

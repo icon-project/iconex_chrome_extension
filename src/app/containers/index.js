@@ -15,6 +15,17 @@ import DeleteTokenContainer from './Popup/_10_deleteTokenContainer'
 import UpdateTokenContainer from './Popup/_11_updateTokenContainer'
 import MyWalletPageContainer from './MyWalletPage/MyWalletPageContainer'
 import CoinDetailPageContainer from './CoinDetailPage/CoinDetailPageContainer'
+import VotingPageContainer from './VotingPage/VotingPageContainer'
+import PRepsContainer from './VotingPage/PRepsContainer'
+import PRepsVotingStatusGraphContainer from './VotingPage/PRepsVotingStatusGraphContainer'
+import PRepsLeaderboardContainer from './VotingPage/PRepsLeaderboardContainer'
+import MyStatusIScoreContainer from './VotingPage/MyStatusIScoreContainer'
+import MyStatusStakeContainer from './VotingPage/MyStatusStakeContainer'
+import MyPRepsTableContainer from './VotingPage/MyPRepsTableContainer'
+import MyStatusVoteContainer from './VotingPage/MyStatusVoteContainer'
+import VoteContainer from './VotingPage/VoteContainer'
+import TxFeeTableContainer from './VotingPage/TxFeeTableContainer'
+import IissLedgerIframeContainer from './VotingPage/IissLedgerIframeContainer'
 import ExchangeTransactionPageContainer from './ExchangeTransactionPage/ExchangeTransactionPageContainer'
 import WalletSelectorContainer from './ExchangeTransactionPage/WalletSelectorContainer'
 import TxFeeAndDataContainer from './ExchangeTransactionPage/TxFeeAndDataContainer'
@@ -33,9 +44,11 @@ import LockContainer from './Lock/LockContainer'
 import ChangePasscodeContainer from './Popup/_24_changePasscodeContainer'
 import FooterContainer from './Footer/FooterContainer'
 import ImmunityPopupContainer from './Popup/_25_immunityPopupContainer'
-import SwapTokenContainer from './Popup/_26_swapTokenContainer'
-import ContractListContainer from './Popup/_27_contractListContainer'
+import ContractListContainer from './Popup/_26_contractListContainer'
 import ConnectLedgerContainer from './Popup/_27_connectLedgerContainer'
+import ClaimIScoreContainer from './Popup/_30_claimIScoreContainer'
+import StakeContainer from './Popup/_31_stakeContainer'
+
 import RouteContainer from './Route/RouteContainer'
 import TimerContainer from './TimerContainer'
 
@@ -57,6 +70,17 @@ export {
   CoinDetailPageContainer,
   DeleteTokenContainer,
   UpdateTokenContainer,
+  VotingPageContainer,
+  PRepsContainer,
+  PRepsVotingStatusGraphContainer,
+  PRepsLeaderboardContainer,
+  MyStatusIScoreContainer,
+  MyStatusStakeContainer,
+  MyStatusVoteContainer,
+  MyPRepsTableContainer,
+  VoteContainer,
+  TxFeeTableContainer,
+  IissLedgerIframeContainer,
   ExchangeTransactionPageContainer,
   WalletSelectorContainer,
   TxFeeAndDataContainer,
@@ -75,9 +99,10 @@ export {
   ChangePasscodeContainer,
   FooterContainer,
   ImmunityPopupContainer,
-  SwapTokenContainer,
   ConnectLedgerContainer,
   RouteContainer,
   TimerContainer,
-  ContractListContainer
+  ContractListContainer,
+  ClaimIScoreContainer,
+  StakeContainer,
 }

@@ -106,6 +106,7 @@ class UpdatePassword extends Component {
 
   logIn = () => {
     this.props.logIn()
+    this.props.resetSelectedWallet();
   }
 
   render() {
@@ -125,7 +126,7 @@ class UpdatePassword extends Component {
           <h1 className="title">{I18n.updatePassword.title}</h1>
           <h2>{I18n.updatePassword.desc}</h2>
           <div className="scroll-holder">
-    				<div className="scroll">
+            <div className="scroll">
               <div className="tabbox-holder">
                 <div className="name-group">
                   <p className="title">{I18n.updatePassword.inputLabel1}</p>
@@ -151,8 +152,8 @@ class UpdatePassword extends Component {
           </div>
           <div className="btn-holder full">
             <button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.cancel}</span></button>
-            { loading ? (<button type="submit" className={'btn-type-normal size-half load'}><span><LoadingComponent type="black" /></span></button>)
-                      : (<button onClick={this.handleSubmit} type="submit" className={'btn-type-normal size-half'}><span>{I18n.button.change}</span></button>)}
+            {loading ? (<button type="submit" className={'btn-type-normal size-half load'}><span><LoadingComponent type="black" /></span></button>)
+              : (<button onClick={this.handleSubmit} type="submit" className={'btn-type-normal size-half'}><span>{I18n.button.change}</span></button>)}
           </div>
         </div>
         {

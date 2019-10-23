@@ -9,7 +9,6 @@ import withClickOut from 'HOC/withClickOut'
 
 @withLanguageProps
 class SendTransaction extends Component {
-
 	constructor(props) {
 		super(props)
 		const { wallet, stepLimit } = this.props.transaction
@@ -363,29 +362,29 @@ class SendTransaction extends Component {
 
 @withClickOut
 class ServerList extends Component {
-	handleClick = server => {
-		this.props.onClickOut()
-		if (this.props.currentServer !== server) {
-			localStorage.setItem(`icxServer`, server);
-			setIcxWalletServer()
-			this.props.getStepPrice()
-			this.props.updateBalance()	
-		}
-	}
+  handleClick = server => {
+    this.props.onClickOut()
+    if (this.props.currentServer !== server) {
+      localStorage.setItem(`icxServer`, server);
+      setIcxWalletServer()
+      this.props.getStepPrice()
+      this.props.updateBalance()
+    }
+  }
 
-	render() {
-		const serverList = Object.keys(icxServerList).filter(server => server !== this.props.currentServer)
-		return (
-			<ul className="layer">
-				{serverList.map(
-					(key, index) => {
-						const server = serverList[index]
-						return <li key={index} onClick={() => { this.handleClick(server) }}><span>{server}</span></li>
-					}
-				)}
-			</ul>
-		)
-	}
+  render() {
+    const serverList = Object.keys(icxServerList).filter(server => server !== this.props.currentServer)
+    return (
+      <ul className="layer">
+        {serverList.map(
+          (key, index) => {
+            const server = serverList[index]
+            return <li key={index} onClick={() => { this.handleClick(server) }}><span>{server}</span></li>
+          }
+        )}
+      </ul>
+    )
+  }
 
 }
 

@@ -17,6 +17,7 @@ export default {
     copyFinish: '복사 완료',
     print: '종이 지갑 프린트',
     checkTransction: '거래 내역 확인',
+    checkTx: '내역 확인',
     reset: '재설정',
     changeToken: '토큰 수정',
     removeToken: '토큰 삭제',
@@ -24,7 +25,6 @@ export default {
     recentTransactionAddress: '최근 거래 주소',
     exchange: '환전',
     transfer: '송금',
-    swap: '스왑',
     copyPrivateKey: '개인 키 복사',
     tokenInfo: '토큰 정보 입력',
     select: '선택',
@@ -40,7 +40,12 @@ export default {
     write: '실행',
     edit: '편집',
     editComplete: '편집 완료',
-    delete: '삭제'
+    delete: '삭제',
+    stake: 'Stake',
+    vote: 'Vote',
+    claim: 'Claim',
+    search: '검색',
+    adjust: 'Adjust',
   },
 
   error: {
@@ -57,9 +62,8 @@ export default {
     alertWalletFirst: '지갑 선택을 먼저 해주세요.',
     alertExchange: '환전 기능은 개발 중입니다.',
     alertNoBalance: '코인 보유량이 없습니다.<br/>입금 후 송금해주세요.',
-    alertNoSwapBalance: '스왑 가능한 ICX 토큰이 없습니다.',
-    alertNoSwapGasBalance: '스왑 수수료 지불을 위한 ETH 잔액이 없습니다. 입금 후 진행해 주세요.',
-    alertNoTxFeeBalance: (walletCoinType) => `${walletCoinType.toUpperCase()} 계좌 잔액이 부족하여 토큰을 송금할 수 없습니다.`,
+    alertNoTxFeeBalance_icx: `ICX 계좌 잔액이 부족하여 토큰을 송금할 수 없습니다.`,
+    alertNoTxFeeBalance_eth: `ETH 계좌 잔액이 부족하여 토큰을 송금할 수 없습니다.`,
     alertBalanceRemove: '코인 보유량이 없는 경우에만 삭제할 수 있습니다.',
     alertDownloadAfterBackup: '지갑 백업 파일(Keystore 파일) 다운로드 후 다음 버튼을 클릭해주세요.',
 
@@ -87,7 +91,7 @@ export default {
     alertAddress: '주소를 입력해주세요.',
     alertAddressNotCorrect_icx: '올바른 ICX 주소가 아닙니다.',
     alertAddressNotCorrect_eth: '올바른 ETH 주소가 아닙니다.',
-    alertAddressSame_icx:  '같은 ICX 주소가 이미 존재합니다.',
+    alertAddressSame_icx: '같은 ICX 주소가 이미 존재합니다.',
     alertAddressSame_eth: '같은 ETH 주소가 이미 존재합니다.',
 
     noAddress: '등록된 주소가 없습니다.',
@@ -118,7 +122,7 @@ export default {
     checkData: '데이터를 다시 확인해주세요.',
     dataOverLimit: '입력 한도 250KB를 초과합니다.',
     enterGasPrice_gas: '가스 한도를 입력해주세요.',
-    enterGasPrice_step: '스텝 한도를 입력해주세요.',
+    enterGasPrice_step: 'Step 한도를 입력해주세요.',
     stepLimitTooLow: (stepLimit) => {
       return `${stepLimit}보다 높은 스텝 한도를 입력해주세요.`
     },
@@ -148,6 +152,15 @@ export default {
 
     bytesEnter: '“bytes“ 값을 입력해주세요.',
     bytesConfirm: '“bytes“ 값을 확인해주세요.',
+
+    alertNoIScore: 'I-Score가 없습니다. I-Score 잔량을 확인하세요.',
+    alertNoDelegation: 'Voting Power가 없습니다. ICX를 Stake해주세요.',
+    alertNotEnoughForStake: 'Stake 또는 Un-stake 실행을 하려면 소량의 ICX 잔액이 있어야 합니다. (5 ICX)',
+    alertLTMin: (min, type) => `입력 가능한 최소 ${type} 수량은 ${min} 입니다.`,
+    alertGTMax: (max, type) => `입력 가능한 최대 ${type} 수량은 ${max} 입니다.`,
+    alertNoChange: '변경된 수량이 없습니다.',
+    
+    alertFull: 'Stake 가능한 ICX가 없습니다. ICX 수량을 확인해주세요.',
   },
 
   currency: {
@@ -178,6 +191,7 @@ export default {
   myWalletHeaderTotalValue: '전체 자산 평가금액',
   myWalletHeaderCoinNum: '코인 종류',
   myWalletHeaderTokenNum: '토큰 종류',
+  myWalletHeader_totalVote: 'Voting Weight',
   myWalletHeaderNumUnit: '',
   graphNoData: '보유코인 없음',
   myWalletHeaderInfo_1: '전체 자산 평가금액은 Coinmarketcap 기준으로 표시되며 USD 환산금액이',
@@ -203,11 +217,12 @@ export default {
   coinDetailContentQrCode: 'QR코드 주소',
   coinDetailContentDesc1: '위 주소로 코인을 입금할 수 있습니다.',
   coinDetailContentDesc2: '모바일로 입금 시, 우측 QR코드를 스캔하면 주소가 입력됩니다.',
+  coinDetailNoPrice: '* USD 환산 금액이 없습니다.',
 
   coinDetailHistoryTitle: '입출금 내역',
   coinDetailHistoryPending: '대기 내역',
   coinDetailHistoryCompleted: '완료 내역',
-  coinDetailHistoryNoTransactionEth: 'Ethereum 지갑 주소의 거래내역은<br/>Etherscan에서 조회 가능합니다.',
+  coinDetailHistoryNoTransactionEth: 'Ethereum 지갑 주소의 거래내역은\nEtherscan에서 조회 가능합니다.',
   coinDetailHistoryIcx: '거래내역은 <span>ICON Tracker</span>에서 조회 가능합니다.',
   coinDetailHistoryNoTransactionDefault: '내역이 없습니다.',
 
@@ -280,6 +295,7 @@ export default {
   transferPageLabel4: '지갑 이름',
   transferPageLabel5_1: '송금 수수료',
   transferPageLabel5_2: '· 예상 최대 수수료',
+  estimatedStepAndPrice: '· 적정 Step 한도 및 가격',
   transferPageLabel6_1: '송금 후 잔액',
   transferPageLabel6_2: '· 송금 후 예상 잔액',
   transferPageLabel7_eth: '가스 한도',
@@ -305,7 +321,7 @@ export default {
   transferPageHelperDesc1_eth: 'Transaction이 발생했지만 채굴자에 의해 채택되지 않는 경우, 이미 사용된 수수료는 소진되고 해당 Transaction은 취소되니 적절한 수준의 가스 한도와 가스 가격을 설정해야 합니다.',
   transferPageHelperTitle2_eth: '가스 한도는 Transaction 실행에 지불할 용의가 있는 가스의 최대량을 의미합니다.',
   transferPageHelperDesc2_eth: '가스 한도를 더 높게 설정하더라도 Transaction에 필요한 만큼의 가스만 소진합니다.\n즉, 가스한도는 최대치만 설정 가능하며 실제 소진되는 가스량은 유동적입니다.',
-  transferPageHelperTitle3_eth: '가스 가격은 단위가 1 Gwei = 0.000000001 ETH로 고정되어 있습니다.',
+  transferPageHelperTitle3_eth: '가스 가격은 가스 한 단위의 가격으로서 1 Gwei = 0.000000001 ETH로 고정되어 있습니다.',
   transferPageHelperDesc3_eth: '이더리움 채굴자는 블록을 생성할 때 자신에게 가장 이익이 되는 Transaction을 먼저\n채택합니다. 이는 가스 가격을 높게 설정할수록, 또는 가스 한도가 높을수록 채택될 확률이\n높음을 의미하며, 따라서 전송속도에 영향을 미치게 됩니다',
   transferPageHelperTitle4_eth: '수신자로부터 Data 입력을 요청 받지 않은 경우에는 입력하지 않고 송금할 수 있습니다.',
   transferPageHelperDesc4_eth: 'Data를 입력해야만 거래가 실행되도록 설계되어 있는 경우, Data를 입력하지 않으면\n송금이 불가하며 수수료만 차감될 수 있습니다.',
@@ -535,7 +551,7 @@ export default {
     title: '잠금 번호 확인',
     desc: '잠금 설정 해제를 위해 현재 잠금 번호를 입력해주세요.',
     subTitle: '잠금 번호',
-    placeholder: '잠금 번호 6자리',
+    placeholder: '잠금 번호 6자리 입력',
     success: '잠금 설정이 해제되었습니다.',
   },
 
@@ -602,9 +618,6 @@ export default {
     internetFailure: '송금이 취소되었습니다.<br/>인터넷 연결이 해제되어 있습니다.',
     tokenGasFailure: '이더리움 계좌 잔액이 부족하여<br/>토큰을 송금할 수 없습니다.',
 
-    swapSuccess: '스왑 요청이 완료되었습니다.<br/>ICX 지급 날짜 및 시각은 상황에 따라<br/>달라질 수 있으므로 아래 안내를 확인해 주세요.',
-    swapQuantity: '스왑 수량',
-
     confirmData: '실행할 정보를 한번 더 확인해주세요.',
     maximumFee: '예상 최대 수수료',
     sendQuantity: '송금할 ICX 수량',
@@ -628,107 +641,90 @@ export default {
     manualFileName: 'Guide_to_use_Ledger_Wallet_on_ICONex_Ledger_kr'
   },
 
-  swapToken: {
-    title15: '토큰 스왑 안내',
-    title: '토큰 스왑 지갑 만들기',
-
-    step1_0: '스왑 안내\n1/2',
-    step1: '스왑 안내\n2/2',
-    step1_1: '스왑 안내',
-    step2: '정보 입력',
-    step3: 'Keystore 파일\n다운로드',
-    step4: '개인 키\n저장',
-    step5: '스왑 요청',
-
-    cancelWalletAndSwap: '지갑 생성 및 토큰 스왑을 취소하시겠습니까?',
-    cancelSwap: '토큰 스왑을 취소하시겠습니까?<br/>다음에 다시 스왑 버튼을 눌러 나머지 절차를<br/>진행하실 수 있습니다.',
-
-    leftInfoTitle1_1: '현재 이더리움 네트워크 상에 있는 ICX ERC20 토큰들을 ICON의 메인넷으로 스왑할 수 있습니다.',
-    leftInfoDesc1_1: '· 새 ICX 코인 지갑 생성 후 토큰 스왑이 진행됩니다.',
-    leftInfoDesc1_1_1: '· 이전에 스왑용으로 생성한 ICX 지갑이 있습니다. ',
-    leftInfoDesc1_1_2: '(으)로 토큰 스왑이 진행됩니다.',
-    rightHeaderDesc1: '주의 사항을 확인해주세요.',
-    rightHeaderDesc1_1: '주의 사항을 확인해주세요.',
-
-    rightInfoTitle1_1: '토큰 스왑용 ICX 지갑 생성',
-    rightInfoDesc1_1_1: '· 안내를 따라 진행하시면 <b>토큰 스왑용 ICX 지갑이 새로 만들어집니다.</b> (스왑용 지갑의 개인 키는 기존 이더리움 지갑의 개인 키와 동일)',
-    rightInfoDesc1_1_2: '· 지갑의 이름은 토큰 스왑을 위해 생성한 지갑임을 명확하게 알 수 있도록 설정해 주세요.',
-
-    rightInfoTitle1_1_1: '스왑 절차 완료 후 주의 사항',
-    rightInfoDesc1_1_1_1: '· 사용자는 스왑할 ERC20 토큰의 양을 직접 설정할 수 있으며, <b>스왑이 완료된 이후에는 어떠한 경우에도 다시 원상태로 복구할 수 없습니다.</b>',
-    rightInfoDesc1_1_2_1: '· 스왑 요청 후, ICX는 정해진 시각에 자동 지급됩니다. 지급 날짜 및 시각은 상황에 따라 달라질 수 있으므로 아래 링크를 통해 확인해 주세요.',
-    rightInfoDesc1_1_3_1: 'ICX 토큰 스왑 FAQ',
-    rightInfoDesc1_1_4_1: '· ICONex에서 스왑이 완료된 ICX 코인이라도 ICX 코인 지갑을 지원하지 않는 거래소로 송금할 수 없습니다. 거래소로 송금을 원하실 경우, 해당 거래소 지갑이 ICX ERC20 토큰 지갑인지, ICX 코인을 지원하는지 미리 확인해 주세요.',
-
-    rightInfoTitle1_3: '마이이더월렛 또는 거래소 지갑에 토큰 보유 시',
-    rightInfoDesc1_3_1: '· 마이이더월렛 등 개인 지갑에 토큰을 보유하신 경우, Keystore 파일 또는 개인 키로 해당 지갑을 가져오면 자동으로 ICX 토큰이 추가되며 스왑 버튼이 생성됩니다.',
-    rightInfoDesc1_3_2: '[매뉴얼] ICONex ETH 지갑 생성 (다운로드)',
-    rightInfoDesc1_3_3: '· 거래소에 보유한 토큰의 스왑은 거래소 상에서 별도의 절차 없이 진행됩니다. 거래소 지갑의 토큰을 스왑 목적으로 송금하는 일이 없도록 각별히 유의하시기 바랍니다.',
-
-    checkInfo: '주의사항을 확인했습니다.',
-    checkCaution: '주의사항을 확인했습니다.',
-
-    leftInfoTitle2_1: '비밀번호는 강력하고 본인이 확실하게 기억할 수 있는 비밀번호로 설정하세요.',
-    leftInfoTitle2_2: '비밀번호의 백업 및 관리는 전적으로 개인의 책임이며, 분실 시 어떤 방법으로도 복구될 수 없습니다.',
-    leftInfoDesc2_1: '· 모바일이나 다른 PC로 지갑을 옮기는 경우 개인키를 입력하거나, 지갑 백업 파일(Keystore 파일)과 함께 비밀번호를 입력해야 합니다.',
-    rightHeaderDesc2: '새 지갑의 이름과 비밀번호를 입력해주세요.',
-
-    leftInfoTitle3_1: '지갑 백업파일(Keystore 파일)은 개인 키를 암호화하여 저장한 파일이며, 사용을 위해서는 지정한 지갑 비밀번호를 입력해야 합니다.',
-    leftInfoDesc3_1: '· 지갑이 삭제된 경우나 다른 PC 사용 시, Keystore 파일을 가져와서 지갑을 실행할 수 있습니다.',
-    leftInfoDesc3_2: '· 지갑 백업파일(Keystore 파일)은 비밀번호만 알면 지갑을 실행할 수 있는 중요한 정보이므로, 다른 사람에게 노출되지 않도록 안전하게 보관해야 합니다.',
-    leftInfoDesc3_3: '· 안전한 저장 장소가 준비되지 않은 경우 지금 바로 다운로드 하지 않아도 되며, 다음에 ‘지갑 백업’ 메뉴에서 다운로드할 수 있습니다.',
-    rightHeaderDesc3: '지갑 백업 파일을 안전하게 보관하세요.',
-
-    leftInfoTitle4_1: '개인 키는 지갑을 직접 실행할 수 있는 고유 정보입니다. 프린트하거나 적어 두고 보관할 수 있습니다.',
-    leftInfoDesc4_1: '· 개인 키만 보유하면 지갑 실행 및 송금이 가능하니, 누구에게도 노출되지 않도록 각별한 관리가 필요합니다.',
-    leftInfoDesc4_2: '· 지금 즉시 복사 또는 프린트하지 않더라도 ‘지갑 백업’ 메뉴를 선택해 다시 진행할 수 있습니다.',
-    rightHeaderDesc4: '종이 지갑을 프린트하거나 개인 키를 적어두세요.',
-
-    leftInfoTitle5_1: '스왑할 수량을 입력하고 스왑 요청을 완료해주세요.',
-    leftInfoDesc5_1: '· 스왑이 완료된 이후에는 어떠한 경우에도 다시 원상태로 복구할 수 없습니다.',
-
-    alertCompleteInfo: '토큰 스왑용 지갑 만들기가 완료되었습니다.<br/>거래소에서 ICX 코인 지원이 준비되면 바로<br/>완전한 토큰 스왑 기능이 활성화됩니다.',
-    alertSameWallet1: '토큰 스왑용 ICX 지갑이 이미 있습니다.<br/>지갑명:',
-    alertSameWallet2: '<br/>거래소에서 ICX 코인 지원이 준비되면 바로<br/>완전한 토큰 스왑 기능이 활성화됩니다.',
-
-    titleRequestTokenSwap: '토큰 스왑 요청',
-
-    swapQuantity: '스왑할 토큰 수량',
-    inputPlaceholder: '토큰 수량 입력',
-    allCheckBtn: '전액',
-    gasLimit: '적정 가스 한도',
-    gasPrice: '적정 가스 가격',
-    expectedMaximumFee: '예상 최대 수수료',
-    expectedBalacne: '스왑 후 예상 잔액',
-    gasInfo: '· 적정 가스 한도 및 가격은 토큰 스왑에 적합하도록 계산하여 설정된 값입니다.',
-    erc20AddressLabel: '토큰 스왑 주소',
-    erc20AddressInfo1: '· ICON의 ERC20 토큰 스왑 전용 주소이며, 자동으로 입력됩니다.',
-    erc20AddressInfo2: '· ICON 공식 채널에 해당 스왑 주소가 안내되어 있으니, 안전을 위해 입력된 스왑 주소가 정확한지 대조해 주시길 바랍니다.',
-    icxAddressLabel: 'ICX 코인 받는 주소',
-    icxAddressInfo1: '· 새로 생성된 ICX 지갑의 주소입니다.',
-    icxAddressInfo2: '· "토큰 스왑 주소"에 스왑할 토큰을 송금한 후, "ICX 코인 받는 주소"로 ICX가 정해진 시각에 자동 지급됩니다.',
-
-    swapInfoTitle: '토큰 스왑 요청',
-    swapInfoDesc: '토큰 스왑을 위한 ICX 지갑을 만드세요.',
-
-    swapInfoCaution: "[주의!] 거래소의 ‘ICX 코인’ 지원 일정으로 인하여 ICONex에서 토큰 스왑용 ICX 지갑 생성까지만 지원하며, 스왑 요청 기능은 일시적으로 비활성화 됩니다.",
-    swapInfoCautionDesc1: "· ICX가 상장된 거래소들에서는 현재 ICX ERC20 토큰(이하 ‘ICX 토큰’)이 거래되고 있습니다. 토큰 스왑을 완료할 경우, 해당 거래소들에서는 ICX 코인의 송금 및 거래가 불가합니다.",
-    swapInfoCautionDesc2: "· 사용자들의 금전적 손실 방지 및 원활한 거래를 위하여, 거래소에서 ICX 코인 지원이 준비되면 바로 완전한 토큰 스왑 기능이 활성화됩니다.",
-
-    swapInfoExchange: '현재 거래소들과 협의하여 ‘ICX 코인’ 송금 및 거래 지원을 준비하고 있으며, 빠른 시일 내에 가능하도록 최선을 다하겠습니다.',
-    tableExchange: '거래소',
-    tableIcxToken: 'ICX 토큰',
-    tableIcxCoin: 'ICX 코인',
-    tableReady: '준비 중',
-
-    swapProceed: '토큰 스왑용 ICX 지갑을 지금 만드시겠습니까?',
-    walletFinish: '지갑 만들기 완료',
-
-    manualFileName: '[Manual]_How_to_create_ICONex_ETH_wallet_kr',
-  },
-
   completeTransaction: {
     success: '송금 요청이 완료되었습니다.<br/>거래 내역은 ICON Tracker에서<br/>조회 가능합니다.',
     fail: '송금 요청을 실패했습니다.<br/>다시 시도해 주세요.'
+  },
+
+  stake: 'Stake',
+  vote: 'Vote',
+  iScore: 'I-Score',
+
+  // 6p Voting P-Rep 페이지
+  pRep_totalDelegated: '이미 위임한 Voting Power (ICX)',
+  pRep_available: '위임 가능한 Voting Power (ICX)',
+  pRep_totalSupply: 'Total ICX Supply',
+
+  // 7p ~ 10p Voting My Status 페이지
+  voting: 'Voting',
+  voting_sub1: 'P-Rep',
+  voting_sub2: 'My Status',
+  voting_about: 'About Voting',
+  voting_about_desc: `
+    <p class="about-bold">Stake</p>
+    <p class="about-text">원하는 수량만큼 ICX를 잠금 상태(Staked ICX)로 전환하는 기능입니다. Stake를 실행하면 ICX는 잠금 상태로 전환되며, 해제 시 수일이 소요됩니다. Stake된 ICX의 양만큼 Voting Power가 1:1 비율로 생성됩니다. </p>
+    <p class="about-bold">Vote</p>
+    <p class="about-text">Voting Power를 이용하여 P-Rep 후보자에게 투표할 수 있습니다.</p>
+    <p class="about-bold">I-Score</p>
+    <p class="about-text">P-Rep 투표에 대한 기여도 점수이며, 1,000 I-Score를 1 ICX로 청구할 수 있습니다.</p>      
+  `,
+  myStatusStake_unstake1: 'Un-stake 요청 수량',
+  myStatusStake_unstake2: '목표 블록 높이',
+  myStatusStake_unstake3: '완료 시간',
+  myStatusStake_axis1: 'Staked',
+  myStatusStake_axis2: 'Un-staked',
+  myStatusStake_axis3: 'Voted',
+  myStatusStake_li1: 'ICX Balance',
+  myStatusStake_li2: 'Staked ICX',
+  myStatusStake_li3: 'Un-staked ICX',
+  myStatusVote_axis1: 'Delegated',
+  myStatusVote_axis2: 'Available',
+  myStatusVote_li1: 'Staked ICX',
+  myStatusVote_li2: '위임된 Voting Power',
+  myStatusVote_li3: '위임 가능한 Voting Power',
+  myStatusIScore_p1: '현재 I-Score',
+  myStatusIScore_p2: '수령 가능한 ICX의 양',
+
+  myVote: 'My Votes',
+  pRepTable_rank: 'Rank', 
+  pRepTable_name: 'Name', 
+  pRepTable_totalVotes: 'Total Votes (%)', 
+  pRepTable_server: 'Server Location', 
+  pRepTable_active: 'Active',
+  pRepTable_myVotes: 'My Votes (%)',
+  pRepTable_h4: '내역 조회', 
+  pRepTable_noData_p: '투표에 참여하여 ICON Network의 일원이 되어 주세요!',
+  pRepTable_noData_p1: '아래에서 투표할 리스트를 선택 후, Voting Power를 분배해 주세요.',
+  pRepTable_noData_p2: '투표에 참여하여 네트워크에 기여하세요. 기여에 대한 보상으로 I-Score를 받을 수 있습니다.',
+
+  // 13p~ Claim ICX with I-Score 팝업
+  claimIcx: {
+    title: 'Claim ICX'
+  },
+
+  // 14p~ Stake 팝업
+  stakeIcx: {
+    desc: '위임된 Staked ICX는 un-stake 할 수 없습니다.',
+    help: 'Un-stake를 위해 최소한의 ICX가 필요합니다. (3 ICX)',
+    estimatedTime: '· Un-stake 예상 완료 시간',
+    min: '최소 Stake',
+    max: '최대 Stake',
+    success: str => `${str} 실행이 완료되었습니다.`,
+  },
+
+  // 21p~ Vote 페이지
+  votePage: {
+    add: '추가',
+    add_added: '추가한 리스트',
+    add_cntFull: '최대 10개의 P-Rep을 선택해주세요.',
+    delete: '삭제',
+    delete_voted: '해당 P-Rep에게 투표된 수량을 초기화한 후에 다시 시도하세요.',
+    max: '최대',
+    toast: 'My Votes에 추가 완료',
+    confirm_title: '투표할 내용을 한번 더 확인해 주세요.',
+    confirm_li1: '· 투표한 P-Rep',
+    confirm_li2: '· Delegated',
+    success1: '투표가 완료되었습니다.',
+    success2: 'Voting 내역은 ICON Tracker에서 조회 가능합니다.',
   }
 };

@@ -20,7 +20,7 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 			const popupId = notificationManager.getPopupId()
 			const isShown = await notificationManager.isShown(popupId)
 			const tabId = portFrom.sender.tab.id
-			
+
 			switch (type) {
 				case 'REQUEST_HAS_ACCOUNT': {
 					const wallets = await getWalletApi()
@@ -46,8 +46,8 @@ window.chrome.runtime.onConnect.addListener(portFrom => {
 						}
 					} else {
 						const { host } = message
-						const payload = { 
-							tabId, 
+						const payload = {
+							tabId,
 							host,
 							payload: message.payload
 						}

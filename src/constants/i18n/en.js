@@ -17,6 +17,7 @@ export default {
     copyFinish: 'Copy Complete',
     print: 'Print Wallet',
     checkTransction: 'Check Transaction',
+    checkTx: 'Check Transaction',
     reset: 'Reset',
     changeToken: 'Change Token',
     removeToken: 'Remove Token',
@@ -24,7 +25,6 @@ export default {
     recentTransactionAddress: 'Recent Address',
     exchange: 'Exchange',
     transfer: 'Transfer',
-    swap: 'Swap',
     copyPrivateKey: 'Copy Private Key',
     tokenInfo: 'Input Token Info.',
     select: 'Select',
@@ -40,7 +40,12 @@ export default {
     write: 'Write',
     edit: 'Edit',
     editComplete: 'Complete',
-    delete: 'Delete'
+    delete: 'Delete',
+    stake: 'Stake',
+    vote: 'Vote',
+    claim: 'Claim',
+    search: 'Search',
+    adjust: 'Adjust',
   },
 
   error: {
@@ -57,9 +62,8 @@ export default {
     alertWalletFirst: 'Please select wallet.',
     alertExchange: 'Transfer function is under development.',
     alertNoBalance: 'You have 0 balance. Please deposit and transfer.',
-    alertNoSwapBalance: 'You have 0 ICX tokens available for token swap. Please check your balance.',
-    alertNoSwapGasBalance: 'Please check your ETH balance. ETH is needed for token swap transaction fee.',
-    alertNoTxFeeBalance: (walletCoinType) => `Please check your ${walletCoinType.toUpperCase()} balance. ${walletCoinType.toUpperCase()} is needed for transaction fee.`,
+    alertNoTxFeeBalance_icx: `Please check your ICX balance. ICX is needed for transaction fee.`,
+    alertNoTxFeeBalance_eth: `Please check your ETH balance. ETH is needed for transaction fee.`,
     alertBalanceRemove: 'You may remove it only when you have 0 balance.',
     alertDownloadAfterBackup: "Click 'Next' button after downloading the Keystore file.",
 
@@ -87,7 +91,7 @@ export default {
     alertAddress: 'Enter address.',
     alertAddressNotCorrect_icx: 'Incorrect ICX address.',
     alertAddressNotCorrect_eth: 'Incorrect ETH address.',
-    alertAddressSame_icx:  'This icx account already exists.',
+    alertAddressSame_icx: 'This icx account already exists.',
     alertAddressSame_eth: 'This eth account already exists.',
 
     noAddress: 'No registered address.',
@@ -148,6 +152,14 @@ export default {
 
     bytesEnter: 'Please enter “bytes“ value',
     bytesConfirm: 'Please check “bytes” value again.',
+
+    alertNoIScore: 'No I-Score. Please check the I-Score remaining amount.',
+    alertNoDelegation: 'No Voting Power. Please stake the ICX first.',
+    alertNotEnoughForStake: 'You must have a minimum amount of ICX balance (5 ICX) to stake or un-stake your ICX.',
+    alertLTMin: (min, type) => `The minimum amount of ${type} is ${min}.`,
+    alertGTMax: (max, type) => `The maximum amount of ${type} is ${max}.`,
+    alertNoChange: 'There is no changed in amount.',
+    alertFull: 'There is no ICX left. Please check the ICX remaining amount.',
   },
 
   currency: {
@@ -178,6 +190,7 @@ export default {
   myWalletHeaderTotalValue: 'Total Assets',
   myWalletHeaderCoinNum: 'Coins',
   myWalletHeaderTokenNum: 'Tokens',
+  myWalletHeader_totalVote: 'Voting Weight',
   myWalletHeaderNumUnit: '',
   graphNoData: '0 balance.',
   myWalletHeaderInfo_1: 'The total asset is based on Coinmarketcap and the tokens',
@@ -203,11 +216,12 @@ export default {
   coinDetailContentQrCode: 'QR Code',
   coinDetailContentDesc1: 'You can deposit your coins to the address above.',
   coinDetailContentDesc2: 'Scan the QR code on the right if you are using mobile devices.',
+  coinDetailNoPrice: '* No USD-converted price',
 
   coinDetailHistoryTitle: 'Transaction History',
   coinDetailHistoryPending: 'Pending',
   coinDetailHistoryCompleted: 'Completed',
-  coinDetailHistoryNoTransactionEth: 'You can check the transaction history on<br/>Etherscan.',
+  coinDetailHistoryNoTransactionEth: 'You can check the transaction history on\nEtherscan.',
   coinDetailHistoryIcx: 'You can check the transaction history on<br/><span>ICON Tracker</span>',
   coinDetailHistoryNoTransactionDefault: 'No transaction',
 
@@ -280,6 +294,7 @@ export default {
   transferPageLabel4: 'Wallet Name',
   transferPageLabel5_1: 'Transaction Fee',
   transferPageLabel5_2: '· Estimated Maximum Fee',
+  estimatedStepAndPrice: '· Step Limit / Step Price',
   transferPageLabel6_1: 'Balance after transaction',
   transferPageLabel6_2: '· Estimated Balance',
   transferPageLabel7_eth: 'Gas Limit',
@@ -598,9 +613,6 @@ export default {
     internetFailure: 'Your transaction has been canceled.<br/>There is no Internet connection.',
     tokenGasFailure: 'You have insufficient ETH balance for GAS.',
 
-    swapSuccess: 'Request for swap has been completed.<br/>ICX distribution schedule is subject to change so please refer to the following information.',
-    swapQuantity: 'Swap Amount',
-
     confirmData: 'Check the write information once again.',
     maximumFee: 'Estimated Maximum Fee',
     sendQuantity: 'Transfer ICX Amount',
@@ -624,107 +636,90 @@ export default {
     manualFileName: 'Guide_to_use_Ledger_Wallet_on_ICONex_Ledger_en'
   },
 
-  swapToken: {
-    title15: 'Token Swap Instructions',
-    title: 'Create Wallet for Token Swap',
-
-    step1_0: 'Instructions\n1/2',
-    step1: 'Instructions\n2/2',
-    step1_1: 'Instructions',
-    step2: 'Wallet\nInfo.',
-    step3: 'Backup\nFile',
-    step4: 'Private\nKey',
-    step5: 'Request\nSwap',
-
-    cancelWalletAndSwap: 'Cancel creating wallet and token swap?',
-    cancelSwap: 'Cancel token swap?<br/>You may press the swap button later<br/>to proceed with the remaining steps.',
-
-    leftInfoTitle1_1: 'ICX ERC20 tokens on the Ethereum network can now be swapped and transferred to ICON’s Mainnet.',
-    leftInfoDesc1_1: '· Token swap will take place after generating your new ICX coin wallet.',
-    leftInfoDesc1_1_1: '· You have created the wallet for token swap before. Swapped ICX coins will be added to the ',
-    leftInfoDesc1_1_2: '',
-    rightHeaderDesc1: 'Please refer to the following precautions.',
-    rightHeaderDesc1_1: 'Please refer to the following precautions.',
-
-    rightInfoTitle1_1: 'Create wallet for token swap',
-    rightInfoDesc1_1_1: '· If you follow the instructions, <b>the ICX wallet for token swap will be created.</b> (The private key of the ICX wallet for token swap will be identical to the private key of your previous Ethereum wallet.)',
-    rightInfoDesc1_1_2: '· Please make sure that you name the wallet so that you can distinguish the wallet for token swap from other wallets.',
-
-    rightInfoTitle1_1_1: 'Precautions after token swap',
-    rightInfoDesc1_1_1_1: '· Users can appoint the number of ERC20 tokens willing to swap, and <b>once the swap has taken place it cannot be reversed.</b>',
-    rightInfoDesc1_1_2_1: '· After the swap has been completed, ICX distributions will take place automatically at a designated time. However, schedule is subject to change so please refer to the link below.',
-    rightInfoDesc1_1_3_1: 'ICX Token Swap FAQ',
-    rightInfoDesc1_1_4_1: '· You may not be able to transfer swapped ICX coins to the exchanges that do not support ICX coin wallets. Please check first if the exchange has ICX coin wallets as well as ERC20 token wallets.',
-
-    rightInfoTitle1_3: 'If you store your ICX in MEW or Exchanges',
-    rightInfoDesc1_3_1: '· If you have stored your tokens in your private wallet such as MyEtherWallet, please load the ETH wallet using the Keystore file or private key. Then, the ICX tokens will be added automatically to your ETH wallet and "Swap" button will be created.',
-    rightInfoDesc1_3_2: '[Manual] How to create ICONex ETH wallet (Download)',
-    rightInfoDesc1_3_3: '· We do not support token swaps for addresses listed on the exchange. In this regard, please take caution for token swaps within the exchange.',
-
-    checkInfo: 'I have read the precautions.',
-    checkCaution: 'I have read the precautions.',
-
-    leftInfoTitle2_1: 'Set a strong and secure password you can remember.',
-    leftInfoTitle2_2: 'You are responsible for keeping your password safe. DO NOT FORGET TO SAVE THIS. If you lose your password, you cannot restore it.',
-    leftInfoDesc2_1: '· You will need the password to load your wallet in other devices using the Keystore file or your private key.',
-    rightHeaderDesc2: 'Enter a wallet name and a password.',
-
-    leftInfoTitle3_1: 'This Keystore file contains the encrypted private key and requires the wallet password to access it.',
-    leftInfoDesc3_1: '· Use this Keystore file to load your wallet from other devices.',
-    leftInfoDesc3_2: '· Keystore file can replace your private key.',
-    leftInfoDesc3_3: '· You can download your Keystore file from the “Backup wallet” menu.',
-    rightHeaderDesc3: 'Keep your Keystore file safe.',
-
-    leftInfoTitle4_1: 'Use your private key to load your wallet from other devices. You can print or write the private key to keep it safe.',
-    leftInfoDesc4_1: '· Pay special attention to your private key as anyone who can access to the private key can transfer assets from the wallets without your permission.',
-    leftInfoDesc4_2: '· You can print your private key from the “Backup wallet” menu later.',
-    rightHeaderDesc4: 'Print your paper wallet or write down your private key.',
-
-    leftInfoTitle5_1: 'Please enter the swap amount and complete the token swap request.',
-    leftInfoDesc5_1: '· Once the swap has taken place it cannot be reversed.',
-
-    alertCompleteInfo: 'ICX wallet for token swap has been created.<br/>The token swap feature will be available<br/>as soon as the exchanges support ICX coins.',
-    alertSameWallet1: 'Wallet for token swap already exists<br />Wallet Name:',
-    alertSameWallet2: '<br/>The token swap feature will open<br/> as soon as the exchanges support ICX coins.',
-
-    titleRequestTokenSwap: 'Request Token Swap',
-
-    swapQuantity: 'Swap Amount',
-    inputPlaceholder: 'Enter swap amount',
-    allCheckBtn: 'Total',
-    gasLimit: 'Gas Limit',
-    gasPrice: 'Gas Price',
-    expectedMaximumFee: 'Estimated Maximum Fee',
-    expectedBalacne: 'Estimated Balance',
-    gasInfo: '· Gas limit and gas price are optimized for the token swap.',
-    erc20AddressLabel: 'Token Swap Address',
-    erc20AddressInfo1: '· This address is for ICON’s token swap only and is automatically entered.',
-    erc20AddressInfo2: '· Please refer to ICON’s official channel regarding the swap address as we recommend double checking the address.',
-    icxAddressLabel: 'Address for ICX Coin',
-    icxAddressInfo1: '· This is your new ICX wallet address.',
-    icxAddressInfo2: '· After sending tokens to the "token swap address”, ICX coins will be automatically sent to this ICX wallet address at a designated time.',
-
-    swapInfoTitle: 'Request Token Swap',
-    swapInfoDesc: 'Create ICX wallet for token swap.',
-
-    swapInfoCaution: "[Warning!] Due to the ICX coin support schedule of the exchanges, ONLY the create wallet feature is available. The token swap feature will be temporarily disabled.",
-    swapInfoCautionDesc1: "· The exchanges that ICX is listed are trading with ERC20 tokens. After finishing your own token swap process, you cannot trade swapped ICX coins in several exchages.(See the following table to check the current status.)",
-    swapInfoCautionDesc2: "· To prevent any unanticipated and serious consequences, the fully functional token swap feature will be activated after the exchanges support ICX coins.",
-
-    swapInfoExchange: 'We are currently coordinating schedules with the exchanges to support ICX coins simultaneously.',
-    tableExchange: 'Exchange',
-    tableIcxToken: 'ICX Token',
-    tableIcxCoin: 'ICX Coin',
-    tableReady: 'In preparation',
-
-    swapProceed: 'Do you want to create the token swap wallet?',
-    walletFinish: 'Wallet has been created.',
-
-    manualFileName: '[Manual]_How_to_create_ICONex_ETH_wallet',
-  },
-
   completeTransaction: {
     success: 'Transfer Request Complete.<br/>You can check the transaction history<br/>on ICON Tracker.',
     fail: 'Transfer Request Failed.<br/>Please try again.'
-  }
+  },
+
+  stake: 'Stake',
+  vote: 'Vote',
+  iScore: 'I-Score',
+
+  // 6p Voting P-Rep 페이지
+  pRep_totalDelegated: 'Delegated Voting Power (ICX)',
+  pRep_available: 'Available Voting Power (ICX)',
+  pRep_totalSupply: 'Total ICX Supply',
+
+  // 7p ~ 10p Voting My Status 페이지
+  voting: 'Voting',
+  voting_sub1: 'P-Rep',
+  voting_sub2: 'My Status',
+  voting_about: 'About Voting',
+  voting_about_desc: `
+    <p class="about-bold">Stake</p>
+    <p class="about-text">Function for staking requested amount of ICX. Once staking is requested, Voting power will generate in 1 to 1 ratio. Using Voting power, it can be delegate to P-Rep candidate.</p>
+    <p class="about-bold">Vote</p>
+    <p class="about-text">Using Voting power, it can be delegate to P-Rep candidate.</p>
+    <p class="about-bold">I-Score</p>
+    <p class="about-text">Contribution score for the P-Rep delegation, 1000 I-Score can be exchange with 1 ICX.</p>      
+  `,
+  myStatusStake_unstake1: 'Requested Un-stake amount',
+  myStatusStake_unstake2: 'Target Block Height',
+  myStatusStake_unstake3: 'Estimated Time',
+  myStatusStake_axis1: 'Staked',
+  myStatusStake_axis2: 'Un-staked',
+  myStatusStake_axis3: 'Voted',
+  myStatusStake_li1: 'ICX Balance',
+  myStatusStake_li2: 'Staked ICX',
+  myStatusStake_li3: 'Un-staked ICX',
+  myStatusVote_axis1: 'Delegated',
+  myStatusVote_axis2: 'Available',
+  myStatusVote_li1: 'Staked ICX',
+  myStatusVote_li2: 'Delegated Voting Power',
+  myStatusVote_li3: 'Available Voting Power',
+  myStatusIScore_p1: 'Current I-Score',
+  myStatusIScore_p2: 'You can receive',
+
+  myVote: 'My Votes',
+  pRepTable_rank: 'Rank', 
+  pRepTable_name: 'Name', 
+  pRepTable_totalVotes: 'Total Votes (%)', 
+  pRepTable_server: 'Server Location', 
+  pRepTable_active: 'Active',
+  pRepTable_myVotes: 'My Votes (%)',
+  pRepTable_h4: 'View History', 
+  pRepTable_noData_p: 'Be part of ICON Network!',
+  pRepTable_noData_p1: 'Choose the delegating list and delegate Voting Power.',
+  pRepTable_noData_p2: 'Contribute ICON Network by participate delegation. Receive I-Score for that contribution.',
+
+  // 13p~ Claim ICX with I-Score 팝업
+  claimIcx: {
+    title: 'Claim ICX',
+  },
+
+  // 14p~ Stake 팝업
+  stakeIcx: {
+    desc: 'Of the staked ICX, the amount of voted ICX cannot be un-staked.',
+    help: 'Need a minimum of ICX for un-staking. (3 ICX)',
+    estimatedTime: '· Estimated Time of Un-staking',
+    min: 'Min Stake',
+    max: 'Max Stake',
+    success: str => `Request for ${str} has been completed.`,
+  },
+
+  // 21p~ Vote 페이지
+  votePage: {
+    add: 'Add',
+    add_added: 'Added List',
+    add_cntFull: 'Maximum number of delegating P-Rep is 10.',
+    delete: 'Delete',
+    delete_voted: 'Please retry after reset the delegation amount to according P-Rep.',
+    max: 'Max',
+    toast: "Added to 'My Votes'",
+    confirm_title: 'Please recheck the delegation request.',
+    confirm_li1: '· Delegated P-Rep',
+    confirm_li2: '· Delegated',
+    success1: 'Vote Request Complete.',
+    success2: 'You can check the voting history<br/>on ICON Tracker.',
+  },
 };

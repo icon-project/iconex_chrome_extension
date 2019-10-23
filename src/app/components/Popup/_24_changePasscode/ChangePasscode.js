@@ -10,7 +10,7 @@ class ChangePasscode extends Component {
   }
 
   setPasscodeStep = () => {
-    this.setState({isPasscodeStep: true})
+    this.setState({ isPasscodeStep: true })
   }
 
   render() {
@@ -19,7 +19,7 @@ class ChangePasscode extends Component {
         {!this.state.isPasscodeStep ?
           <ChangePasscode1 {...this.props} setPasscodeStep={this.setPasscodeStep}
           />
-        :
+          :
           <ChangePasscode2 {...this.props} />
         }
       </div>

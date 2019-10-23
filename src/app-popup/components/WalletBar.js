@@ -112,7 +112,7 @@ class WalletBar extends Component {
         }
         <span className={`copyKey copyKey${index}`}>{wallet.account}</span>
 
-        {isInput && 
+        {isInput &&
           <div className="pass-holder">
             <div className="name-group">
               <input type="password" className={`txt-type-normal ${pwError ? 'error' : ''}`} spellCheck="false"
@@ -148,11 +148,11 @@ class WalletBar extends Component {
           </div>
         }
         {isInput && txHash &&
-        <div className="tx">
-          <button className="btn-type-line" onClick={this.onTxDataClick}>
-            <span>Tx Data</span>
-          </button>
-        </div>
+          <div className="tx">
+            <button className="btn-type-line" onClick={this.onTxDataClick}>
+              <span>Tx Data</span>
+            </button>
+          </div>
         }
       </li>
     )

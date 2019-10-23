@@ -12,7 +12,7 @@ class ExportWallet extends Component {
     } = this.props;
 
     const content = (num) => {
-      switch(num) {
+      switch (num) {
         case 1:
           return <ExportWallet1 {...this.props} />
         case 2:
@@ -27,7 +27,7 @@ class ExportWallet extends Component {
     return (
       <div>
         <div className="dimmed fade-in"></div>
-          { content(popupNum) }
+        {content(popupNum)}
       </div>
     );
   }

@@ -14,18 +14,18 @@ class MyWalletHeader extends Component {
 
   render() {
     return (
-        <div className="main-holder">
+      <div className="main-holder">
         {!this.props.totalResultLoading ? (
           <div className="info-holder">
             <MyWalletHeaderLeft {...this.props} />
             <Graph {...this.props} />
           </div>
         ) : (
-          <div className="load">
-            <LoadingComponent />
-          </div>
-        )}
-        </div>
+            <div className="load">
+              <LoadingComponent />
+            </div>
+          )}
+      </div>
     );
   }
 }

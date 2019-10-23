@@ -10,35 +10,44 @@ const initialState = {
 
 export function ledgerReducer(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.setEXTRLogInStateForLedger: {
+    case actionTypes.setLogInStateForLedger: {
       return Object.assign({}, state, {
-          isLedger: action.payload.isLoggedIn,
-          ledgerWallet: {
-            ...action.payload.ledgerWallet,
-            tokens: {},
-            type: 'icx'
-          }
+        isLedger: action.payload.isLoggedIn,
+        ledgerWallet: {
+          ...action.payload.ledgerWallet,
+          tokens: {},
+          type: 'icx',
+          balanceLoading: false,
+        }
       })
     }
     case actionTypes.confirmLedger: {
       return Object.assign({}, state, {
-          isLedgerConfirmed: true,
-          ledgerSignedRawTx: action.payload
+        isLedgerConfirmed: true,
+        ledgerSignedRawTx: action.payload
       })
     }
     case actionTypes.resetLedgerReducer:
     case actionTypes.resetEXTRInputReducer:
       return Object.assign({}, state, {
-          isLedgerConfirmed: false,
-          ledgerSignedRawTx: ''
+        isLedgerConfirmed: false,
+        ledgerSignedRawTx: ''
       })
+    case actionTypes.updateLedgerWalletBalance:
+        return Object.assign({}, state, {
+          ledgerWallet: {
+            ...state.ledgerWallet,
+            balanceLoading: true
+          }
+        })
     case actionTypes.updateLedgerWalletBalanceFulfilled:
       const newLedgerWallet = {
         ...state.ledgerWallet,
-        balance: action.balance
+        balance: action.balance,
+        balanceLoading: false,
       }
       return Object.assign({}, state, {
-          ledgerWallet: newLedgerWallet
+        ledgerWallet: newLedgerWallet
       })
     case actionTypes.addTokenFulfilledForLedger:
       const tokenObj = Object.assign({}, state.ledgerWallet.tokens, action.payload)
@@ -52,11 +61,13 @@ export function ledgerReducer(state = initialState, action) {
         ledgerWallet: {
           tokens: {
             [action.address]: {
-              balance: {$set: action.balance}
+              balance: { $set: action.balance }
             }
           }
         }
       })
+    case actionTypes.resetSelectedWallet:
+    case actionTypes.resetPRepIissReducer:
     case actionTypes.resetEXTRPageReducer:
       return Object.assign({}, initialState)
     default:

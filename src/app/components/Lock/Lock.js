@@ -48,14 +48,14 @@ class Lock extends Component {
     if (passcodeHash !== hash.sha256().update(this.state.passcode).digest('hex')) {
       window.loginChkFx(false)
       window.setTimeout(() => {
-        this.setState({ 
-          passcode: '' 
+        this.setState({
+          passcode: ''
         })
         this.disableInput = false
       }, 300)
       return
     }
-    
+
     window.loginChkFx(true)
     getWallet()
     window.setTimeout(() => {
@@ -72,7 +72,7 @@ class Lock extends Component {
 
   handleKeyDown = (e) => {
     const { passcode } = this.state;
-   
+
     if (!this.disableInput) {
       if (!isNaN(e.key)) {
         const inputPasscode = `${passcode}${e.key}`;
@@ -87,7 +87,7 @@ class Lock extends Component {
 
       if (e.key === "Backspace") {
         this.setState({
-          passcode: passcode.slice(0, passcode.length-1)
+          passcode: passcode.slice(0, passcode.length - 1)
         })
       }
     }
@@ -96,31 +96,31 @@ class Lock extends Component {
   render() {
     const { I18n } = this.props;
     const { passcode } = this.state;
-    
+
     return (
-        <div className="lock-wrap">
-          <div className="dimmed"></div>
-          <HeaderContainer />
-          <div className="content-holder">
-            <div className="logo">
-              <em className="_img"></em>
-              <em className="_img"></em>
-            </div>
-            <div className="pw-group">
-              <p>{I18n.lockPageInputPlaceholder}</p>
-              <ul id={passcode.length === 0 ? 'empty' : ''}>
+      <div className="lock-wrap">
+        <div className="dimmed"></div>
+        <HeaderContainer />
+        <div className="content-holder">
+          <div className="logo">
+            <em className="_img"></em>
+            <em className="_img"></em>
+          </div>
+          <div className="pw-group">
+            <p>{I18n.lockPageInputPlaceholder}</p>
+            <ul id={passcode.length === 0 ? 'empty' : ''}>
               {
                 Array(6).fill(0).map((_, i) => (
                   <li key={i} className={i === passcode.length - 1 ? 'on' : ''}><span></span></li>
                 ))
               }
-              </ul>
-            </div>
-          </div>
-          <div className="footer-wrap">
-            <p className="forget" onClick={this.handleForgotButtonClick}>{I18n.lockPageInputForget}</p>
+            </ul>
           </div>
         </div>
+        <div className="footer-wrap">
+          <p className="forget" onClick={this.handleForgotButtonClick}>{I18n.lockPageInputForget}</p>
+        </div>
+      </div>
     );
   }
 }

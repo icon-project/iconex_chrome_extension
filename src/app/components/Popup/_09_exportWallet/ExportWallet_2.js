@@ -39,7 +39,7 @@ class ExportWallet2 extends Component {
           <h2>{I18n.exportWallet.desc2}</h2>
         </div>
         <div className="scroll-holder">
-  				<div className="scroll">
+          <div className="scroll">
             <div className="tabbox-holder">
               <ValidationForm
                 type="exportWallet"

@@ -11,10 +11,10 @@ class BackupWallet1 extends Component {
   }
 
   handleSuccess = (data) => {
-      this.props.setPrivKeyAndV3ForBackup({
-        privKey: data.privKey, v3: data.v3
-      });
-      this.props.setPopupNum(2);
+    this.props.setPrivKeyAndV3ForBackup({
+      privKey: data.privKey, v3: data.v3
+    });
+    this.props.setPopupNum(2);
   }
 
   render() {
@@ -27,7 +27,7 @@ class BackupWallet1 extends Component {
     const coinType = wallets[selectedAccount].type;
 
     return (
-      <div className="popup size-medium2">
+      <div className="popup size-medium2 moving-down">
         <CheckPassword type="backupWallet" coinType={coinType} walletName={name} priv={priv} onCancel={this.closePopup} onSuccess={this.handleSuccess} />
       </div>
     );

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { CheckPassword } from 'app/components/';
+import { routeConstants as ROUTE, } from 'constants/index'
+import { withRouter } from 'react-router-dom'
 
 const INIT_STATE = {
 
 }
 
+@withRouter
 class SendTransaction1 extends Component {
 
   constructor(props) {
@@ -14,19 +17,40 @@ class SendTransaction1 extends Component {
 
   closePopup = () => {
     this.setState(INIT_STATE);
-    this.props.setEXTRLogInState({
-      isLoggedIn: false
-    });
     this.props.resetSelectedWallet();
     this.props.closePopup();
   }
 
   handleSuccess = (privKey) => {
-    this.props.setEXTRLogInState({
+    const {
+      pageType: popupType,
+      openPopup,
+      openVoteMode,
+      history,
+      setLogInState,
+      closePopup,
+    } = this.props
+
+    setLogInState({
       isLoggedIn: true,
       privKey: privKey
     });
-    this.props.closePopup();
+    closePopup();
+
+    switch (popupType) {
+      case 'vote':
+        history.push({
+          pathname: ROUTE['voting']
+        });
+        openVoteMode()
+        break
+      case 'stake':
+      case 'claimIScore':
+        openPopup({ popupType })
+        break
+      default:
+        break
+    }
   }
 
   render() {
@@ -38,7 +62,7 @@ class SendTransaction1 extends Component {
     const priv = wallets[selectedAccount].priv;
 
     return (
-      <div className="popup size-medium2">
+      <div className="popup size-medium2 moving-down">
         <CheckPassword
           type="sendTransaction"
           walletName={name}

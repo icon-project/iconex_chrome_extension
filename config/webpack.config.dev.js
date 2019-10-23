@@ -13,7 +13,6 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const manifest = require('./manifest');
-const isDevVersion = () => process.env.USER === 'developer';
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -59,7 +58,7 @@ module.exports = {
     print: paths.appPrintCss
   },
   output: {
-    path: isDevVersion() ? paths.appBuildDev : paths.appBuildTest,
+    path: paths.appBuildDev,
     pathinfo: true,
     filename: 'static/js/[name].bundle.js',
     chunkFilename: 'static/js/[name].chunk.js',
@@ -244,7 +243,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       chunks: ["index"],
-      template: isDevVersion() ? paths.appHtmlDev : paths.appHtmlTest,
+      template: paths.appHtmlDev,
     }),
     new HtmlWebpackPlugin({
       inject: true,

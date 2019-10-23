@@ -17,7 +17,7 @@ function mapDispatchToProps(dispatch) {
   return {
     closePopup: () => dispatch(closePopup()),
     setLock: (passcodeHash) => dispatch(setLock(passcodeHash)),
-    getWallet: () => dispatch(getWallet())
+    getWallet: (payload) => dispatch(getWallet(payload))
   };
 }
 

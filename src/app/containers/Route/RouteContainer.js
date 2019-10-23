@@ -13,7 +13,8 @@ function mapStateToProps(state) {
     isLocked: state.auth.isLocked,
     language: state.global.language,
     showNotice: state.global.showNotice,
-    isLedger: state.ledger.isLedger
+    isLedger: state.ledger.isLedger,
+    showChangePasscode: state.global.message !== undefined ? state.global.message.showChangePasscodePopup : false,
   };
 }
 

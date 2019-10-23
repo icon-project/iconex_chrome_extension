@@ -16,11 +16,11 @@ class ExchangePanel extends Component {
   }
 
   setCurrencyIndex = (index) => {
-    this.setState({currencyIndex: index})
+    this.setState({ currencyIndex: index })
   }
 
   toggleFullList = () => {
-    this.setState({isOpen: !this.state.isOpen})
+    this.setState({ isOpen: !this.state.isOpen })
   }
 
   render() {
@@ -37,7 +37,7 @@ class ExchangePanel extends Component {
         />
         <ExchangeList isOpen={isOpen} />
         <span className={isOpen ? 'b-group' : 'b-group open'}
-              onClick={this.toggleFullList}
+          onClick={this.toggleFullList}
         >
           <em className="_img"></em>
         </span>
@@ -107,7 +107,7 @@ class ExchangeList extends Component {
     return (
       <div className="exchange-list">
         <ul>
-          {list.map(l => { return(l) })}
+          {list.map(l => { return (l) })}
         </ul>
       </div>
     );

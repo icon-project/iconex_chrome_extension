@@ -7,10 +7,10 @@ import {
 export function* isLoggedInFunc(action) {
   try {
     const payload = yield call(IS_LOGGED_IN);
-    yield put({type: AT.initLoginCheckFulfilled, payload});
+    yield put({ type: AT.initLoginCheckFulfilled, payload });
   } catch (e) {
     alert(e);
-    yield put({type: AT.initLoginCheckRejected, error: e});
+    yield put({ type: AT.initLoginCheckRejected, error: e });
   }
 }
 
@@ -19,5 +19,5 @@ function* watchIsLoggedIn() {
 }
 
 export default function* authSaga() {
- yield fork(watchIsLoggedIn);
+  yield fork(watchIsLoggedIn);
 }

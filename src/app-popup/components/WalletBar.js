@@ -11,13 +11,14 @@ class WalletBar extends Component {
     this.state = {
       showAlertNoBalance: false,
       addressHoverState: 'address',
-      addressClickState: ''
+      addressClickState: '',
+      showTxHash: false
     }
   }
 
   handleAddressMouseOver = (addressHoverState) => {
-    if (this.props.addressRequest) {
-      return
+    if (this.props.addressRequest || this.props.isInput) {
+      return;
     }
 
     this.setState({
@@ -26,8 +27,8 @@ class WalletBar extends Component {
   }
 
   handleCopy = () => {
-    if (this.props.addressRequest) {
-      return
+    if (this.props.addressRequest || this.props.isInput) {
+      return;
     }
 
     const key = document.querySelector(`span.copyKey${this.props.index}`);
@@ -81,9 +82,16 @@ class WalletBar extends Component {
     }
   }
 
+  onTxDataClick = () => {
+    const { showTxHash } = this.state;
+    this.setState({
+      showTxHash: !showTxHash
+    })
+  }
+
   render() {
-    const { wallet, index, I18n, password, handleChange, pwError, confirmLoading, isInput, txHash, addressRequest, selected, isTransaction } = this.props
-    const { addressHoverState, addressClickState } = this.state;
+    const { wallet, index, I18n, password, handleChange, pwError, confirmLoading, isInput, addressRequest, txHash, selected, isTransaction } = this.props;
+    const { addressHoverState, addressClickState, showTxHash } = this.state;
     const balanceText = convertNumberToText(wallet.balance, wallet.type, true);
     return (
       <li className={(addressRequest ? 'link' : '') + (selected === wallet.account ? ' on' : '')}>
@@ -92,11 +100,14 @@ class WalletBar extends Component {
         <span className="coin">{wallet.isError ? '-' : balanceText}<em>{wallet.type.toUpperCase()}</em></span>
         {
           addressClickState !== 'complete' ? (
-            <p onMouseEnter={() => this.handleAddressMouseOver('copy')} onMouseLeave={() => this.handleAddressMouseOver('address')} onClick={this.handleCopy} className={addressHoverState}>{wallet.account}
+            // <p onMouseEnter={() => this.handleAddressMouseOver('copy')} onMouseLeave={() => this.handleAddressMouseOver('address')} onClick={this.handleCopy} className={addressHoverState}>{wallet.account}
+            //   {addressHoverState === 'copy' && <em>{I18n.button.copy}</em>}
+            // </p>
+            <p onMouseEnter={() => this.handleAddressMouseOver('copy')} onClick={this.handleCopy} className="address">{wallet.account}
               {addressHoverState === 'copy' && <em>{I18n.button.copy}</em>}
             </p>
           ) : (
-              <p className={addressClickState}>{I18n.button.copyFinish}</p>
+              <p className={`address ${addressClickState}`}>{wallet.account} <em>{I18n.button.copyFinish}</em></p>
             )
         }
         <span className={`copyKey copyKey${index}`}>{wallet.account}</span>
@@ -105,35 +116,42 @@ class WalletBar extends Component {
           <div className="pass-holder">
             <div className="name-group">
               <input type="password" className={`txt-type-normal ${pwError ? 'error' : ''}`} spellCheck="false"
-                placeholder={I18n.checkPassword.placeHolder}
+                placeholder={I18n.checkPassword.placeholder}
                 value={password}
                 onChange={handleChange}
                 onKeyPress={this.handleKeyPress}
               />
               {pwError && <p className="error">{pwError}</p>}
             </div>
+            <button className="btn-type-line" onClick={this.onCancelClick}><span>{I18n.button.cancel}</span></button>
             {confirmLoading ?
-              <button className="btn-type-ok load">
-                <span><LoadingComponent type="black" style={{height: '8px', display: '-webkit-inline-box'}}/></span>
+              <button className="btn-type-line load">
+                <span><LoadingComponent type="black" /></span>
               </button>
               :
-              <button className="btn-type-ok" disabled={!password} onClick={this.onConfirmClick}>
+              <button className="btn-type-line" disabled={!password} onClick={this.onConfirmClick}>
                 <span>{isTransaction ? I18n.button.transfer : I18n.button.confirm}</span>
               </button>
             }
-            <button className="btn-type-normal" onClick={this.onCancelClick}><span>{I18n.button.cancel}</span></button>
           </div>
         }
-        {txHash &&
+        {showTxHash &&
           <div className={`hash-holder ${!pwError ? 'no-error' : ''}`}>
             <div>
-              <span>TxHash</span>
+              <span>Sign TxHash</span>
               {Array.isArray(txHash) ?
                 txHash.map((t, i) => <p key={i} className="address" title={t}>{t}</p>)
                 :
                 <p className="address" title={txHash}>{txHash}</p>
               }
             </div>
+          </div>
+        }
+        {isInput && txHash &&
+          <div className="tx">
+            <button className="btn-type-line" onClick={this.onTxDataClick}>
+              <span>Tx Data</span>
+            </button>
           </div>
         }
       </li>

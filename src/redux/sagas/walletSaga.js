@@ -27,33 +27,36 @@ import {
   addRecentTransactionApi as ADD_RECENT_TRANSACTION
 } from 'redux/api/walletApi';
 import { icx_checkIcxTransactionExist as CHECK_ICX_TRANSACTION_EXIST } from 'redux/api/walletIcxApi';
+import { fetchIissInfoFunc } from 'redux/sagas/pRepIissSaga'
 
 function* getWalletFunc(action) {
   try {
-    yield put({type: AT.getWalletLoading});
+    yield put({ type: AT.getWalletLoading });
     const payload = yield call(GET_WALLET);
-    if (isEmpty(payload))  {
-      yield put({type: AT.getWalletFulfilled, payload});
+    if (isEmpty(payload)) {
+      yield put({ type: AT.getWalletFulfilled, payload });
       yield put(setLock(''));
       yield put(logOut());
     } else {
-      yield put({type: AT.getWalletFulfilled, payload});
-      yield put({type: AT.fetchAll, payload});
+      yield put({ type: AT.getWalletFulfilled, payload });
+      if (!action.payload.fetchWithoutBalance) {
+        yield put({ type: AT.fetchAll, payload });
+      }
     }
   } catch (e) {
     alert(e);
-    yield put({type: AT.getWalletRejected, error: e});
+    yield put({ type: AT.getWalletRejected, error: e });
   }
 }
 
 function* fetchAllFunc(action) {
   try {
-    yield put({type: AT.totalResultLoading});
+    yield put({ type: AT.totalResultLoading });
     let keys = Object.keys(action.payload);
     let values = Object.values(action.payload);
 
     let fetchDataArr = [];
-    for(let i=0; i<keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       let param = {
         account: keys[i],
         tokens: values[i].tokens,
@@ -64,9 +67,9 @@ function* fetchAllFunc(action) {
 
     fetchDataArr.push(call(getRateFunc, { currency: 'usd' }));
     yield all(fetchDataArr);
-    yield put({type: AT.totalResultFulfilled});
+    yield put({ type: AT.totalResultFulfilled });
   } catch (e) {
-    yield put({type: AT.totalResultRejected});
+    yield put({ type: AT.totalResultRejected });
     alert(e);
   }
 }
@@ -79,8 +82,11 @@ function* fetchWalletDataFunc(action) {
       coinType: action.coinType
     }
     arr.push(call(fetchCoinBalanceFunc, param));
+    if (param.coinType === 'icx') {
+      arr.push(call(fetchIissInfoFunc, action));
+    }
     const tokens = Object.values(action.tokens);
-    for (let i=0; i<tokens.length; i++) {
+    for (let i = 0; i < tokens.length; i++) {
       param = {
         index: tokens[i].address,
         address: tokens[i].address,
@@ -91,16 +97,16 @@ function* fetchWalletDataFunc(action) {
       arr.push(call(fetchTokenBalanceFunc, param));
     }
     yield all(arr);
-    yield put({type: AT.fetchWalletDataFulfilled});
+    yield put({ type: AT.fetchWalletDataFulfilled });
   } catch (e) {
     alert(e);
-    yield put({type: AT.fetchWalletDataRejected, error: e});
+    yield put({ type: AT.fetchWalletDataRejected, error: e });
   }
 }
 
 function* fetchCoinBalanceFunc(action) {
   try {
-    yield put({type: AT.fetchCoinBalanceLoading, account: action.account});
+    yield put({ type: AT.fetchCoinBalanceLoading, account: action.account });
     const balance = yield call(FETCH_COIN_BALANCE, action.account, action.coinType);
     const isError = balance === 'error';
     yield put({
@@ -120,7 +126,7 @@ function* fetchCoinBalanceFunc(action) {
 
 function* fetchTokenBalanceFunc(action) {
   try {
-    yield put({type: AT.fetchTokenBalanceLoading, index: action.index, account: action.account});
+    yield put({ type: AT.fetchTokenBalanceLoading, index: action.index, account: action.account });
     const balance = yield call(FETCH_TOKEN_BALANCE, action.address, action.customDecimal, action.account, action.coinType);
     const isError = balance === 'error';
     yield put({
@@ -143,12 +149,12 @@ function* fetchTokenBalanceFunc(action) {
 
 function* updateWalletBalanceFunc(action) {
   try {
-    yield put({type: AT.totalResultLoading});
+    yield put({ type: AT.totalResultLoading });
     let keys = Object.keys(action.payload);
     let values = Object.values(action.payload);
 
     let fetchDataArr = [];
-    for(let i=0; i<keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       let param = {
         account: keys[i],
         tokens: values[i].tokens,
@@ -157,10 +163,10 @@ function* updateWalletBalanceFunc(action) {
       fetchDataArr.push(call(fetchWalletDataFunc, param));
     }
     yield all(fetchDataArr);
-    yield put({type: AT.totalResultFulfilled});
-    yield put({type: AT.setCalcData});
+    yield put({ type: AT.totalResultFulfilled });
+    yield put({ type: AT.setCalcData });
   } catch (e) {
-    yield put({type: AT.totalResultRejected});
+    yield put({ type: AT.totalResultRejected });
     alert(e);
   }
 }
@@ -281,23 +287,23 @@ function* fetchTransactionHistoryFunc(action) {
 function* updateWalletNameFunc(action) {
   try {
     const payload = yield call(UPDATE_WALLET_NAME, action.account, action.name);
-    yield put({type: AT.updateWalletNameFulfilled, payload});
+    yield put({ type: AT.updateWalletNameFulfilled, payload });
     yield put(getWallet());
     yield put(resetSelectedWallet());
     yield put(closePopup());
   } catch (e) {
     alert(e);
-    yield put({type: AT.updateWalletNameRejected, error: e});
+    yield put({ type: AT.updateWalletNameRejected, error: e });
   }
 }
 
 function* updatePasswordFunc(action) {
   try {
     const payload = yield call(UPDATE_PASSWORD, action.account, action.priv);
-    yield put({type: AT.updatePasswordFulfilled, payload});
+    yield put({ type: AT.updatePasswordFulfilled, payload });
   } catch (e) {
     alert(e);
-    yield put({type: AT.updatePasswordRejected, error: e});
+    yield put({ type: AT.updatePasswordRejected, error: e });
   }
 }
 
@@ -305,9 +311,9 @@ function* getTokenInfoFunc(action) {
   try {
     const payload = yield call(GET_TOKEN_INFO, action.address, action.coinType);
     console.log(payload)
-    yield put({type: AT.getTokenInfoFulfilled, payload});
+    yield put({ type: AT.getTokenInfoFulfilled, payload });
   } catch (error) {
-    yield put({type: AT.getTokenInfoRejected, error});
+    yield put({ type: AT.getTokenInfoRejected, error });
   }
 }
 
@@ -319,18 +325,18 @@ function* addTokenFunc(action) {
       const fetchArr = [];
       const setArr = [];
       const tokenObj = action.tokenArr.reduce((acc, cur) => {
-          acc[cur.address] = cur
-          return acc
+        acc[cur.address] = cur
+        return acc
       }, {});
-      
-      yield put({type: AT.addTokenFulfilledForLedger, payload: tokenObj});
 
-      for (let i=0; i<action.tokenArr.length; i++) {
+      yield put({ type: AT.addTokenFulfilledForLedger, payload: tokenObj });
+
+      for (let i = 0; i < action.tokenArr.length; i++) {
         fetchArr.push(call(FETCH_TOKEN_BALANCE, action.tokenArr[0].address, action.tokenArr[0].decimals, ledgerWallet.account, ledgerWallet.type));
       }
       const resultArr = yield all(fetchArr);
       console.log(resultArr)
-      for (let i=0; i<action.tokenArr.length; i++) {
+      for (let i = 0; i < action.tokenArr.length; i++) {
         const isError = resultArr[i] === 'error'
         setArr.push(put({
           type: AT.fetchTokenBalanceFulfilledForLedger,
@@ -350,43 +356,43 @@ function* addTokenFunc(action) {
       })
       yield put(closePopup());
     } else {
-      for(let i=0; i<action.tokenArr.length; i++) {
+      for (let i = 0; i < action.tokenArr.length; i++) {
         yield call(ADD_TOKEN, action.address, action.tokenArr[i], action.coinType)
       }
-      yield put({type: AT.addTokenFulfilled});
+      yield put({ type: AT.addTokenFulfilled });
       yield put(getWallet());
       yield put(resetSelectedWallet());
       yield put(closePopup());
     }
   } catch (e) {
     alert(e);
-    yield put({type: AT.addTokenRejected, error: e});
+    yield put({ type: AT.addTokenRejected, error: e });
   }
 }
 
 function* deleteWalletFunc(action) {
   try {
     const payload = yield call(DELETE_WALLET, action.address);
-    yield put({type: AT.deleteWalletFulfilled, payload});
+    yield put({ type: AT.deleteWalletFulfilled, payload });
     yield put(getWallet());
     yield put(resetSelectedWallet());
     yield put(closePopup());
   } catch (e) {
     alert(e);
-    yield put({type: AT.deleteWalletRejected, error: e});
+    yield put({ type: AT.deleteWalletRejected, error: e });
   }
 }
 
 function* deleteTokenFunc(action) {
   try {
     const payload = yield call(DELETE_TOKEN, action.account, action.index);
-    yield put({type: AT.deleteTokenFulfilled, payload});
+    yield put({ type: AT.deleteTokenFulfilled, payload });
     yield put(getWallet());
     yield put(resetSelectedWallet());
     yield put(closePopup());
   } catch (e) {
     alert(e);
-    yield put({type: AT.deleteTokenRejected, error: e});
+    yield put({ type: AT.deleteTokenRejected, error: e });
   }
 }
 
@@ -394,35 +400,35 @@ function* deleteTokenFunc(action) {
 function* updateTokenFunc(action) {
   try {
     yield call(UPDATE_TOKEN, action.account, action.index, action.data);
-    yield put({type: AT.updateTokenFulfilled, account: action.account, tokenIndex: action.index, payload: action.data});
+    yield put({ type: AT.updateTokenFulfilled, account: action.account, tokenIndex: action.index, payload: action.data });
     yield put(getWallet());
     yield put(resetSelectedWallet());
     yield put(closePopup());
   } catch (e) {
     alert(e);
-    yield put({type: AT.updateTokenRejected, error: e});
+    yield put({ type: AT.updateTokenRejected, error: e });
   }
 }
 
 export function* getRateFunc(action) {
   try {
     const wallets = yield select(state => state.wallet.wallets);
-    yield put({type: AT.getRateLoading});
+    yield put({ type: AT.getRateLoading });
     let keys = Object.keys(wallets);
     let values = Object.values(wallets);
     let symbolList = [];
-    for(let i=0; i<keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       symbolList.push(values[i].type);
       const tokensValues = Object.values(values[i].tokens)
-      for (let v = 0; v< tokensValues.length; v++) {
+      for (let v = 0; v < tokensValues.length; v++) {
         symbolList.push(tokensValues[v].defaultSymbol.toLowerCase());
       }
     }
     const result = yield call(GET_RATE_API, action['currency'], symbolList);
-    yield put({type: AT.getRateFulfilled, payload: { result: result, currency: action.currency }});
+    yield put({ type: AT.getRateFulfilled, payload: { result: result, currency: action.currency } });
   } catch (e) {
     alert(e);
-    yield put({type: AT.getRateRejected, error: e});
+    yield put({ type: AT.getRateRejected, error: e });
   }
 }
 
@@ -434,7 +440,7 @@ export function* addRecentTransactionFunc(action) {
       payload: action.transactionData
     })
   }
-  catch(e) {
+  catch (e) {
     alert(e);
   }
 }
@@ -512,22 +518,22 @@ function* watchAddRecentTransaction() {
 }
 
 export default function* walletSaga() {
-   yield fork(watchGetWallet);
-   yield fork(watchFetchAll);
-   yield fork(watchFetchWalletData);
-   yield fork(watchFetchCoinBalance);
-   yield fork(watchUpdateWalletBalance);
-   yield fork(watchUpdateLedgerWalletBalance);
-   yield fork(watchFetchTokenBalance);
-   yield fork(watchFetchRecentHistory);
-   yield fork(watchFetchTransactionHistory);
-   yield fork(watchGetRate);
-   yield fork(watchUpdateWalletName);
-   yield fork(watchUpdatePassword);
-   yield fork(wtchGetTokenInfo);
-   yield fork(watchAddToken);
-   yield fork(watchDeleteWallet);
-   yield fork(watchDeleteToken);
-   yield fork(watchUpdateToken);
-   yield fork(watchAddRecentTransaction);
+  yield fork(watchGetWallet);
+  yield fork(watchFetchAll);
+  yield fork(watchFetchWalletData);
+  yield fork(watchFetchCoinBalance);
+  yield fork(watchUpdateWalletBalance);
+  yield fork(watchUpdateLedgerWalletBalance);
+  yield fork(watchFetchTokenBalance);
+  yield fork(watchFetchRecentHistory);
+  yield fork(watchFetchTransactionHistory);
+  yield fork(watchGetRate);
+  yield fork(watchUpdateWalletName);
+  yield fork(watchUpdatePassword);
+  yield fork(wtchGetTokenInfo);
+  yield fork(watchAddToken);
+  yield fork(watchDeleteWallet);
+  yield fork(watchDeleteToken);
+  yield fork(watchUpdateToken);
+  yield fork(watchAddRecentTransaction);
 }

@@ -6,10 +6,7 @@ const paths = require('./paths');
 
 // JH Added
 const MAINNET_VERSION_HEADER = 1
-const TESTNET_VERSION_HEADER = 0
-const DEVELOPER_VERSION_HEADER = 99
-
-const isDevVersion = () => process.env.USER === 'developer';
+const DEVELOPER_VERSION_HEADER = 0
 
 function prodDev(prod, dev) {
   return process.env.NODE_ENV === 'production' ? prod : dev;
@@ -88,9 +85,8 @@ function getClientEnvironment(publicUrl) {
         // JH added: app version
         APP_VERSION: prodDev(
                 `${MAINNET_VERSION_HEADER}.${process.env.APP_VERSION}`,
-                `${isDevVersion() ? DEVELOPER_VERSION_HEADER : TESTNET_VERSION_HEADER}.${process.env.APP_VERSION}`
-              ),
-        USER: process.env.USER        
+                `${DEVELOPER_VERSION_HEADER}.${process.env.APP_VERSION}`
+              ), 
       }
     );
   // Stringify all values so we can feed into Webpack DefinePlugin

@@ -106,6 +106,7 @@ class UpdatePassword extends Component {
 
   logIn = () => {
     this.props.logIn()
+    this.props.resetSelectedWallet();
   }
 
   render() {
@@ -120,13 +121,12 @@ class UpdatePassword extends Component {
 
     return (
       <div>
-        <div className="dimmed"></div>
-        <div className="popup">
-          <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
+        <div className="dimmed fade-in"></div>
+        <div className="popup moving-down">
           <h1 className="title">{I18n.updatePassword.title}</h1>
           <h2>{I18n.updatePassword.desc}</h2>
           <div className="scroll-holder">
-    				<div className="scroll">
+            <div className="scroll">
               <div className="tabbox-holder">
                 <div className="name-group">
                   <p className="title">{I18n.updatePassword.inputLabel1}</p>
@@ -143,19 +143,17 @@ class UpdatePassword extends Component {
                 />
               </div>
               <div className="message-holder">
-                <i className="_img"></i>
-                {I18n.updatePassword.infoBoxTitle}
-              </div>
-              <div className="message-holder line">
                 <ul>
+                  <li>{I18n.updatePassword.infoBoxTitle}</li>
                   <li>{I18n.updatePassword.infoBoxDesc1}</li>
                 </ul>
               </div>
             </div>
           </div>
-          <div className="btn-holder">
-            { loading ? (<button type="submit" className={'btn-type-normal load'}><span><LoadingComponent type="black" /></span></button>)
-                      : (<button onClick={this.handleSubmit} type="submit" className={'btn-type-normal'}><span>{I18n.button.change}</span></button>)}
+          <div className="btn-holder full">
+            <button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.cancel}</span></button>
+            {loading ? (<button type="submit" className={'btn-type-normal size-half load'}><span><LoadingComponent type="black" /></span></button>)
+              : (<button onClick={this.handleSubmit} type="submit" className={'btn-type-normal size-half'}><span>{I18n.button.change}</span></button>)}
           </div>
         </div>
         {

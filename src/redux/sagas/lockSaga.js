@@ -3,14 +3,14 @@ import AT from 'redux/actionTypes/actionTypes';
 
 function* setLockFunc(action) {
   try {
-    yield put({type: AT.setLockFulfilled, payload: action.passcodeHash});
+    yield put({ type: AT.setLockFulfilled, payload: action.passcodeHash });
     if (!action.passcodeHash) {
       window.chrome.runtime.sendMessage({ type: 'CLEAR_LOCK' });
     } else {
       window.chrome.extension.sendMessage({ type: 'LOCK' })
     }
   } catch (e) {
-    yield put({type: AT.setLockRejected, error: e});
+    yield put({ type: AT.setLockRejected, error: e });
   }
 }
 
@@ -19,5 +19,5 @@ function* watchSetLock() {
 }
 
 export default function* lockSaga() {
- yield fork(watchSetLock);
+  yield fork(watchSetLock);
 }

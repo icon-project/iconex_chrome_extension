@@ -1,14 +1,8 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
-import { isAddress, isEmpty, dataToHex, getHexByteLength, isIcxWalletAddress, checkLength, isIcxContractAddress, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
+import { isAddress, isEmpty, dataToHex, isIcxWalletAddress, checkLength, isIcxContractAddress, convertNumberToText, calcTokenBalanceWithRate, isHex, checkHxPrefix, check0xPrefix, parseError } from 'utils'
 import { store } from 'redux/store/store';
-import { IS_V3 } from 'constants/config.js'
 //import { coinRound as ROUND } from 'constants/index';
 import BigNumber from 'bignumber.js';
-
-const mainState = {
-  isLoggedIn: false,
-  privKey: '',
-}
 
 const uiState = {
   calcData: {},
@@ -43,26 +37,8 @@ const txFeeLimitState = {
 }
 
 const initialState = {
-  ...mainState,
   ...uiState,
   ...txFeeLimitState
-}
-
-export function validateSwapCoinQuantityError(state) {
-  const isToken = store.getState().wallet.selectedWallet.isToken;
-  let error = '';
-  if (!state.coinQuantity) {
-    error = 'coinAmount'
-  } else if (state.coinQuantity === '0') {
-    error = 'coinAmountZero'
-  } else if (state.coinQuantity !== '0' && !isToken && !state.calcData.isWalletCoinBalanceMinus && state.calcData.isResultBalanceMinus) {
-    error = 'notEnoughBalance'
-  } else if (state.coinQuantity !== '0' && state.calcData.isResultBalanceMinus) {
-    error = 'coinAmountBalance'
-  } else {
-    error = ''
-  }
-  return error
 }
 
 export function validateCoinQuantityError(state) {
@@ -108,7 +84,7 @@ export function validateRecipientAddressError(state) {
 
 export function validateMessageError(state) {
   let error = '';
-  if (getHexByteLength(checkLength(dataToHex(state.data))) > (250 * 1024)) {
+  if (checkLength(JSON.stringify(dataToHex(state.data))) > (500 * 1024)) {
     error = 'dataOverLimit'
   } else {
     error = ''
@@ -120,7 +96,7 @@ export function validateDataError(state) {
   let error = '';
   if (!isHex(state.data)) {
     error = 'checkData'
-  } else if (getHexByteLength(checkLength(state.data)) > (250 * 1024)) {
+  } else if (checkLength(JSON.stringify(state.data)) > (500 * 1024)) {
     error = 'dataOverLimit'
   } else {
     error = ''
@@ -208,11 +184,6 @@ const calcData = (props) => {
   let txFeePriceCalc = new BigNumber(window.web3.fromWei(window.web3.toWei(txFeePrice, walletCoinType === 'icx' ? 'wei' : 'gwei'), 'ether'))
   let txFee = txFeePriceCalc.times(txFeeLimitNumber)
   const txFeePriceWithRate = convertNumberToText(txFeePriceCalc.times(usdRate), 'usd', false);
-
-  if(!IS_V3 && walletCoinType === 'icx') {
-    txFee = new BigNumber(0.01);
-  }
-
   const totalBalance = !isToken
                           ? balance.minus(txFee)
                           : balance;
@@ -233,7 +204,7 @@ const calcData = (props) => {
   return {
     currentBalance: balance,
     totalBalance: totalBalance.toFixed(18),
-    txFeePriceWithRate: txFeePriceWithRate,
+    txFeePriceWithRate,
     txFee: txFeeText,
     txFeeWithRate: txFeeWithRateText,
     sendQuantity: sendQuantityText,
@@ -273,15 +244,8 @@ const initializeTxFeePrice = (isToken, walletCoinType, txFeePriceStep) => {
 
 export function exchangeTransactionReducer(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.setEXTRLogInStateForLedger: {
+    case actionTypes.setLogInState: {
       return Object.assign({}, state, {
-          isLoggedIn: action.payload.isLoggedIn
-      })
-    }
-    case actionTypes.setEXTRLogInState: {
-      return Object.assign({}, state, {
-          isLoggedIn: action.payload.isLoggedIn,
-          privKey: action.payload.isLoggedIn ? action.payload.privKey : '',
           walletSelectorError: ''
       })
     }
@@ -355,9 +319,9 @@ export function exchangeTransactionReducer(state = initialState, action) {
           submit: submit
         })
       } else {
-        const coinQuantityError = action.options['isSwap'] ? validateSwapCoinQuantityError(state) : validateCoinQuantityError(state);
+        const coinQuantityError = validateCoinQuantityError(state);
         const recipientAddressError = validateRecipientAddressError(state);
-        const txFeeLimitError = action.options['isSwap'] ? '' : validateTxFeeLimitError(state);
+        const txFeeLimitError = validateTxFeeLimitError(state);
         const dataError = state.calcData.walletCoinType === 'icx' && state.dataType === 'utf8'
                             ? validateMessageError(state)
                             : validateDataError(state)
@@ -392,12 +356,6 @@ export function exchangeTransactionReducer(state = initialState, action) {
       })
     case actionTypes.setCoinQuantityError: {
       let error = validateCoinQuantityError(state);
-      return Object.assign({}, state, {
-          coinQuantityError: error
-      })
-    }
-    case actionTypes.setSwapCoinQuantityError: {
-      let error = validateSwapCoinQuantityError(state);
       return Object.assign({}, state, {
           coinQuantityError: error
       })

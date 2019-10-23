@@ -9,7 +9,7 @@ class DeleteWallet extends Component {
     } = this.props;
 
     const content = (num) => {
-      switch(num) {
+      switch (num) {
         case 1:
           return <DeleteWallet1 {...this.props} />
         case 2:
@@ -21,8 +21,8 @@ class DeleteWallet extends Component {
 
     return (
       <div>
-        <div className="dimmed"></div>
-        { content(popupNum) }
+        <div className="dimmed fade-in"></div>
+        {content(popupNum)}
       </div>
     );
   }

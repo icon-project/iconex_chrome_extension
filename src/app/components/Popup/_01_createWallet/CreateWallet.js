@@ -9,7 +9,7 @@ class CreateWallet extends Component {
     } = this.props;
 
     const content = (num) => {
-      switch(num) {
+      switch (num) {
         case 1:
           return <CreateWallet1 {...this.props} />
         case 2:
@@ -24,10 +24,10 @@ class CreateWallet extends Component {
     }
 
     return (
-      <div>
+      <div className="popup-wrap">
         <div className="dimmed"></div>
-        <div className="popup typeA">
-          { content(popupNum) }
+        <div className="popup  typeA">
+          {content(popupNum)}
         </div>
       </div>
     );

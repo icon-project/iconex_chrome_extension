@@ -6,7 +6,7 @@ export default function asyncComponent(getComponent) {
     state = { Component: AsyncComponent.Component };
     componentWillMount() {
       if (!this.state.Component) {
-        getComponent().then(({default: Component}) => {
+        getComponent().then(({ default: Component }) => {
           AsyncComponent.Component = Component
           this.setState({ Component })
         })

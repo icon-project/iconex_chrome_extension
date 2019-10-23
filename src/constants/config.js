@@ -1,4 +1,3 @@
-const isDevVersion = () => process.env.USER === 'developer';
 const isAccessedFromWorker = typeof window === 'undefined';
 
 const isDevModeOn = () => {
@@ -19,8 +18,8 @@ export const getCustomIcxServer = () => {
     return initialCustomServer
   } else {
     return localStorage.getItem('customIcxServer')
-              ? JSON.parse(localStorage.getItem('customIcxServer'))
-              : initialCustomServer
+      ? JSON.parse(localStorage.getItem('customIcxServer'))
+      : initialCustomServer
   }
 }
 
@@ -28,7 +27,7 @@ export const INITIAL_API_VERSION_ICX = 'v3';
 export const INITIAL_SERVER_ICX = prodDev('mainnet', 'euljiro');
 export const INITIAL_SERVER_ETH = prodDev('main', 'ropsten');
 
-export const HIDE_SERVER = (isDevVersion() || isDevModeOn()) ? false : true;
+export const HIDE_SERVER = isDevModeOn() ? false : true;
 export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://hardwallet.icon.foundation/test.html')
 
 export const getCurrentServer = (coinType) => {
@@ -42,24 +41,13 @@ export const getCurrentServer = (coinType) => {
   return server;
 }
 
-export const getCurrentICXApiVersion = () => {
-  let apiVersion;
-  if (!isAccessedFromWorker) {
-    apiVersion = localStorage.getItem(`icxApiVersion`) || INITIAL_API_VERSION_ICX
-  } else {
-    apiVersion = INITIAL_API_VERSION_ICX
-  }
-  return apiVersion;
-}
-
-export const IS_V3 = getCurrentICXApiVersion() === 'v3';
-
 export const ICX_WALLET_SERVER = () => {
   const icxServer = getCurrentServer('icx');
   const obj = {
     'mainnet': 'https://wallet.icon.foundation',
-    'euljiro': 'https://test-ctz.solidwallet.io',
+    'euljiro': 'https://testwallet.icon.foundation',
     'yeouido': 'https://bicon.net.solidwallet.io',
+    'pagoda': 'https://zicon.net.solidwallet.io',
     'custom': getCustomIcxServer().customWalletURL
   }
   return obj[icxServer];
@@ -71,6 +59,7 @@ export const ICX_TRACKER_SERVER = () => {
     'mainnet': 'https://tracker.icon.foundation',
     'euljiro': 'https://trackerdev.icon.foundation',
     'yeouido': 'https://bicon.tracker.solidwallet.io',
+    'pagoda': 'https://zicon.tracker.solidwallet.io',
     'custom': getCustomIcxServer().customTrackerURL
   }
   return obj[icxServer];
@@ -82,6 +71,7 @@ export const ICX_NID = () => {
     'mainnet': '0x1',
     'euljiro': '0x2',
     'yeouido': '0x3',
+    'pagoda': '0x50',
     'custom': getCustomIcxServer().customNid
   }
   return obj[icxServer];
@@ -134,13 +124,13 @@ export const ICX_TOKEN_DISCARD_ADDRESS = () => {
 }
 
 export const txidUrl = {
-    'icx': `${ICX_TRACKER_SERVER()}/transaction/`,
-    'eth': `${ETH_SCAN()}/tx/`
+  'icx': `${ICX_TRACKER_SERVER()}/transaction/`,
+  'eth': `${ETH_SCAN()}/tx/`
 }
 
 export const trackerAccountUrl = {
-    'icx': `${ICX_TRACKER_SERVER()}/address/`,
-    'eth': `${ETH_SCAN()}/address/`
+  'icx': `${ICX_TRACKER_SERVER()}/address/`,
+  'eth': `${ETH_SCAN()}/address/`
 }
 
 // list constants
@@ -148,6 +138,7 @@ export const icxServerList = {
   'mainnet': 'mainnet',
   'euljiro': 'euljiro',
   'yeouido': 'yeouido',
+  'pagoda': 'pagoda',
   'custom': 'custom'
 }
 

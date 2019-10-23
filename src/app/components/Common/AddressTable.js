@@ -50,7 +50,7 @@ class AddressTable extends Component {
     const value = this.state[inputDataType]
     let error = ''
 
-    switch(inputDataType) {
+    switch (inputDataType) {
       case 'walletName':
         error = this.checkWalletNameError(value);
         break;
@@ -64,6 +64,10 @@ class AddressTable extends Component {
     this.setState({
       [`${inputDataType}Error`]: error
     });
+  }
+
+  handlePaste = e => {
+    e.preventDefault();
   }
 
   checkWalletNameError = (value) => {
@@ -100,7 +104,7 @@ class AddressTable extends Component {
   isSameWalletNameExist = (value) => {
     const { ethAddressBook, icxAddressBook } = this.props;
     console.log(ethAddressBook, icxAddressBook)
-    const addressBookList = [ ...ethAddressBook, ...icxAddressBook ]
+    const addressBookList = [...ethAddressBook, ...icxAddressBook]
     const addressItemWithSameName = addressBookList.filter((item) => item.name === value)
     if (addressItemWithSameName.length > 0) {
       return true
@@ -184,38 +188,40 @@ class AddressTable extends Component {
     const addListClass = type === 'addressBook' ? 'addList' : ''
     return (
       <div className="scroll-holder">
-				<div className={`tabbox-holder ${addListClass}`}>
-					<div className="scroll autoH">
-						<table className={tableTypeClass}>
-							<thead>
-                <TableHead
-                  quantityTitle={quantityTitle}
-                  {...this.props}
-                   />
-							</thead>
-							<tbody></tbody>
-						</table>
-					</div>
-					<div className="table-holder scroll">
-            {
-              listArr.length > 0 || isEditMode
-                ? (
+        <div className={`tabbox-holder ${addListClass}`}>
+          <div className="box">
+            <div className="scroll autoH">
+              <table className={tableTypeClass}>
+                <thead>
+                  <TableHead
+                    quantityTitle={quantityTitle}
+                    {...this.props}
+                  />
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div className="table-holder scroll">
+              {
+                listArr.length > 0 || isEditMode
+                  ? (
                     <table className={tableTypeClass}>
                       <thead>
                         <TableHead
                           quantityTitle={quantityTitle}
                           {...this.props}
-                           />
+                        />
                       </thead>
                       <tbody>
-                        { type === 'addressBook' && isEditMode && (
+                        {type === 'addressBook' && isEditMode && (
                           <TableAddSection
                             {...this.props}
                             {...this.state}
                             handleChangeInput={this.handleChangeInput}
                             handleAddAddress={this.handleAddAddress}
+                            handlePaste={this.handlePaste}
                             handleBlurInput={this.handleBlurInput}
-                            />
+                          />
                         )}
                         {
                           listArr.map((l, i) => {
@@ -234,27 +240,28 @@ class AddressTable extends Component {
                       </tbody>
                     </table>
                   )
-                : (
+                  : (
                     <div style={{
                       textAlign: 'center',
                       position: 'relative',
                       paddingTop: '146px'
                     }}>{I18n.error.noAddress}</div>
                   )
-            }
-					</div>
+              }
+            </div>
+          </div>
           {
             type === 'addressBook' && (
               <div className="btn-holder">
                 {
                   !isEditMode ? (<button onClick={this.toggleEditMode} type="submit" className="btn-type-edit"><span>{I18n.button.edit}</span></button>)
-                              : (<button onClick={this.toggleEditMode} type="submit" className="btn-type-edit modify"><span>{I18n.button.editComplete}</span></button>)
+                    : (<button onClick={this.toggleEditMode} type="submit" className="btn-type-edit modify"><span>{I18n.button.editComplete}</span></button>)
                 }
-    					</div>
+              </div>
             )
           }
-				</div>
-			</div>
+        </div>
+      </div>
     )
   }
 }
@@ -294,7 +301,7 @@ const TableBodyBar = ({ I18n, index, wallets, type, item, selectedTokenId, setAd
       <tr>
         <td>{item.name}</td>
         <td><span className="ellipsis">{item.address}</span></td>
-        <td><button className="btn-type-choice" onClick={()=>{setAddress(item.address)}}><span>{I18n.button.select}</span></button></td>
+        <td><button className="btn-type-choice" onClick={() => { setAddress(item.address) }}><span>{I18n.button.select}</span></button></td>
       </tr>
     );
   } else if (type === 'addressBook') {
@@ -303,8 +310,8 @@ const TableBodyBar = ({ I18n, index, wallets, type, item, selectedTokenId, setAd
         <td>{item.name}</td>
         <td><span className="ellipsis">{item.address}</span></td>
         {
-          !isEditMode ? (<td><button className="btn-type-choice" onClick={()=>{setAddress(item.address)}}><span>{I18n.button.select}</span></button></td>)
-                      : (<td><button className="btn-type-del" onClick={()=>{deleteAddress(index)}}><span>{I18n.button.delete}</span></button></td>)
+          !isEditMode ? (<td><button className="btn-type-choice" onClick={() => { setAddress(item.address) }}><span>{I18n.button.select}</span></button></td>)
+            : (<td><button className="btn-type-choice" onClick={() => { deleteAddress(index) }}><span>{I18n.button.delete}</span></button></td>)
         }
 
       </tr>
@@ -317,9 +324,9 @@ const TableBodyBar = ({ I18n, index, wallets, type, item, selectedTokenId, setAd
     return (
       <tr>
         <td>{name}</td>
-        <td>{convertNumberToText(number, unit, true)}<span>{unit.toUpperCase()}</span></td>
+        <td>{convertNumberToText(number, unit, true)} <span>{unit.toUpperCase()}</span></td>
         <td><span className="ellipsis">{account}</span></td>
-        <td><button className="btn-type-choice" onClick={()=>{setAddress(account)}}><span>{I18n.button.select}</span></button></td>
+        <td><button className="btn-type-choice" onClick={() => { setAddress(account) }}><span>{I18n.button.select}</span></button></td>
       </tr>
     );
   }
@@ -334,12 +341,22 @@ const TableAddSection = ({
 
   handleChangeInput,
   handleBlurInput,
+  handlePaste,
   handleAddAddress,
 }) => {
   return (
     <tr>
       <td>
-        <input onBlur={() => handleBlurInput('walletName')} onChange={handleChangeInput} data-type="walletName" type="text" className="txt-type-normal" placeholder={I18n.addressList.walletNamePlaceHolder} value={walletName} spellCheck="false" />
+        <input 
+          onBlur={() => handleBlurInput('walletName')} 
+          onChange={handleChangeInput}
+          onPaste={handlePaste}
+          data-type="walletName" 
+          type="text" 
+          className="txt-type-normal" 
+          placeholder={I18n.addressList.walletNamePlaceHolder} 
+          value={walletName} 
+          spellCheck="false" />
         <p className="error">{I18n.error[walletNameError]}</p>
       </td>
       <td>

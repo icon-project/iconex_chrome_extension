@@ -51,7 +51,7 @@ export function* executeFuncFunc(action) {
       });
     } else {
       const payableValue = yield select(state => state.exchangeTransaction.coinQuantity);
-      const privKey = yield select(state => state.exchangeTransaction.privKey);
+      const privKey = yield select(state => state.wallet.selectedWallet.privKey);
       const txFeeLimit = yield select(state => state.exchangeTransaction.txFeeLimit);
       const rawTx = makeIcxRawTx(true, {
         from: selectedAccount,
@@ -63,12 +63,11 @@ export function* executeFuncFunc(action) {
       });
       const rawTxSigned = signRawTx(privKey, rawTx)
       payload = yield call(ICX_SEND_TRANSACTION, rawTxSigned);
-      payload = [ payload ];
+      payload = [payload];
     }
-    yield put({type: AT.executeFuncFulfilled, payload: payload});
+    yield put({ type: AT.executeFuncFulfilled, payload: payload });
   } catch (error) {
-    console.log(error)
-    yield put({type: AT.executeFuncRejected, errorMsg: error});
+    yield put({ type: AT.executeFuncRejected, errorMsg: error });
   }
 }
 
@@ -112,7 +111,7 @@ export function* checkContractInputErrorFunc(action) {
     }
 
     if (!func.readonly) {
-      isLoggedIn = yield select(state => state.exchangeTransaction.isLoggedIn);
+      isLoggedIn = yield select(state => state.wallet.selectedWallet.isLoggedIn);
       txFeeLimit = yield select(state => state.exchangeTransaction.txFeeLimit);
       txFeeLimitTable = yield select(state => state.exchangeTransaction.txFeeLimitTable);
       coinQuantity = yield select(state => state.exchangeTransaction.coinQuantity);
@@ -121,16 +120,16 @@ export function* checkContractInputErrorFunc(action) {
       if (!isLoggedIn) {
         yield put(setWalletSelectorError());
         errorFlag = true;
-      } else if (isPayableFunc && validateCoinQuantityError({coinQuantity, calcData})) {
+      } else if (isPayableFunc && validateCoinQuantityError({ coinQuantity, calcData })) {
         yield put(setCoinQuantityError());
         errorFlag = true;
-      } else if (validateContractTxFeeLimitError({txFeeLimit, calcData, txFeeLimitTable, txFeeLimitMax})) {
+      } else if (validateContractTxFeeLimitError({ txFeeLimit, calcData, txFeeLimitTable, txFeeLimitMax })) {
         yield put(setContractTxFeeLimitError());
         errorFlag = true;
       }
     }
 
-    if (errorFlag) throw new Error('errorExist');
+    if (errorFlag) throw new Error();
 
     if (func.readonly) {
       yield put(executeFunc())
@@ -142,15 +141,15 @@ export function* checkContractInputErrorFunc(action) {
     }
   } catch (error) {
     console.log(error)
-    yield put({type: AT.executeFuncRejected, errorMsg: error});
+    yield put({ type: AT.executeFuncRejected, errorMsg: error });
   }
 }
 
 export function* handleFuncInputChangeFunc(action) {
   try {
-    const isLoggedIn = yield select(state => state.exchangeTransaction.isLoggedIn);
+    const isLoggedIn = yield select(state => state.wallet.selectedWallet.isLoggedIn);
     if (isLoggedIn) {
-      yield put({type: AT.getTxFeeInfo});
+      yield put({ type: AT.getTxFeeInfo });
     }
   } catch (e) {
     alert(e);
@@ -161,9 +160,9 @@ export function* fetchAbiFunc(action) {
   try {
     const payloadArr = yield call(GET_SCORE, action.payload);
     const payload = JSON.stringify(payloadArr);
-    yield put({type: AT.fetchAbiFulfilled, payload});
+    yield put({ type: AT.fetchAbiFulfilled, payload });
   } catch (error) {
-    yield put({type: AT.fetchAbiRejected, error});
+    yield put({ type: AT.fetchAbiRejected, error });
   }
 }
 
@@ -184,8 +183,8 @@ function* watchHandleFuncInputChange() {
 }
 
 export default function* contractSaga() {
- yield fork(watchHandleFuncInputChange)
- yield fork(watchFetchAbi);
- yield fork(watchExecuteFunc);
- yield fork(watchCheckContractInputError);
+  yield fork(watchHandleFuncInputChange)
+  yield fork(watchFetchAbi);
+  yield fork(watchExecuteFunc);
+  yield fork(watchCheckContractInputError);
 }

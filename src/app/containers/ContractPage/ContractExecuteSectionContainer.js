@@ -5,13 +5,14 @@ import { resetEXTRPageReducer } from 'redux/actions/exchangeTransactionActions';
 
 function mapStateToProps(state) {
   return {
-    isLoggedIn: state.exchangeTransaction.isLoggedIn,
+    isLoggedIn: state.wallet.selectedWallet.isLoggedIn,
     funcList: state.contract.funcList,
     selectedFuncIndex: state.contract.selectedFuncIndex,
     funcLoading: state.contract.funcLoading,
     funcInputState: state.contract.funcInput,
     funcInputError: state.contract.funcInputError,
-    funcResult: state.contract.funcResult
+    funcResult: state.contract.funcResult,
+    contractError: state.contract.error,
   };
 }
 

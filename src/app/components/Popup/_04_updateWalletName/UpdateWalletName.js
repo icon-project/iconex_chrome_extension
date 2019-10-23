@@ -64,7 +64,11 @@ class UpdateWalletName extends Component {
     this.validateForm(e.target.value);
   }
 
-  validateForm = (e, state="") => {
+  handlePaste = e => {
+    e.preventDefault();
+  }
+
+  validateForm = (e, state = "") => {
     let walletNameError = this.state.walletNameError;
     const { I18n } = this.props;
     if (!this.state.newWalletName) {
@@ -94,24 +98,33 @@ class UpdateWalletName extends Component {
 
     return (
       <div>
-        <div className="dimmed"></div>
-        <div className="popup size-medium2">
-          <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
+        <div className="dimmed fade-in"></div>
+        <div className="popup size-medium2 moving-down">
           <h1 className="title">{I18n.updateWalletName.title}</h1>
           <h2>{I18n.updateWalletName.desc}</h2>
           <div className="scroll-holder">
-    				<div className="scroll">
+            <div className="scroll">
               <div className="tabbox-holder">
                 <div>
                   <p className="title">{I18n.updateWalletName.inputLabel}</p>
-                  <input onBlur={this.handleBlur} onChange={this.changeWalletName} type="text" className={`txt-type-normal ${walletNameError && 'error'}`} placeholder={I18n.updateWalletName.inputPlaceHolder} value={newWalletName} onKeyPress={this.handleKeyPress} spellCheck="false" />
+                  <input 
+                    onBlur={this.handleBlur} 
+                    onChange={this.changeWalletName} 
+                    type="text" 
+                    className={`txt-type-normal ${walletNameError && 'error'}`} 
+                    placeholder={I18n.updateWalletName.inputPlaceHolder} 
+                    value={newWalletName} 
+                    onKeyPress={this.handleKeyPress} 
+                    onPaste={this.handlePaste}
+                    spellCheck="false" />
                   <p className='error'>{walletNameError}</p>
                 </div>
               </div>
             </div>
           </div>
-          <div className="btn-holder">
-            <button onClick={this.handleSubmit} type="submit" className={newWalletName.length < 1 ? 'btn-type-fill' : 'btn-type-normal'}><span>{I18n.button.change}</span></button>
+          <div className="btn-holder full">
+            <button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.cancel}</span></button>
+            <button onClick={this.handleSubmit} type="submit" className="btn-type-normal size-half"><span>{I18n.button.change}</span></button>
           </div>
         </div>
         {

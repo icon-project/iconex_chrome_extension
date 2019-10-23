@@ -4,7 +4,7 @@ import { routeConstants as ROUTE } from 'constants/index';
 import { withRouter } from 'react-router-dom';
 
 import { txidUrl as TXID_URL } from 'constants/config.js'
-import { check0xPrefix, nToBr } from 'utils';
+import { check0xPrefix } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -34,14 +34,7 @@ class SendTransaction3 extends Component {
   }
 
   closePopup = () => {
-    switch(this.props.pageType) {
-      case 'swap': {
-        this.props.resetSignupReducer();
-        this.props.resetSelectedWallet();
-        this.props.closePopup();
-        this.props.logIn();
-        break;
-      }
+    switch (this.props.pageType) {
       case 'contract':
       case 'transaction': {
         this.props.closePopup();
@@ -53,7 +46,7 @@ class SendTransaction3 extends Component {
   }
 
   updateWallets = () => {
-    const { wallets, selectedAccount, recipientAddress  } = this.props
+    const { wallets, selectedAccount, recipientAddress } = this.props
     const sending = wallets[selectedAccount]
     const receiving = wallets[recipientAddress]
 
@@ -66,14 +59,7 @@ class SendTransaction3 extends Component {
 
   closePopupAfterTx = () => {
     const { funcResult, isLedger } = this.props;
-    switch(this.props.pageType) {
-      case 'swap': {
-        this.props.resetInput();
-        this.props.resetSelectedWallet();
-        this.props.closePopup();
-        this.props.logIn();
-        break;
-      }
+    switch (this.props.pageType) {
       case 'contract': {
         this.updateWallets();
         this.props.resetContractInputOutput();
@@ -101,15 +87,7 @@ class SendTransaction3 extends Component {
     const { selectedAccount, selectedTokenId, isToken, calcData, tx } = this.props;
     const url = !isToken ? selectedAccount : selectedAccount + '_' + selectedTokenId
 
-    switch(this.props.pageType) {
-      case 'swap': {
-        this.props.resetInput();
-        this.props.resetSelectedWallet();
-        this.props.closePopup();
-        this.props.logIn();
-        window.open(TXID_URL['eth'] + check0xPrefix(tx), '_blank');
-        break;
-      }
+    switch (this.props.pageType) {
       case 'contract': {
         this.updateWallets();
         this.props.resetContractInputOutput();
@@ -121,7 +99,7 @@ class SendTransaction3 extends Component {
         this.props.history.push(ROUTE['mywallet'] + '/' + url);
 
         if (calcData.walletCoinType !== "icx") {
-            window.open(TXID_URL['eth'] + check0xPrefix(tx), '_blank');
+          window.open(TXID_URL['eth'] + check0xPrefix(tx), '_blank');
         }
         break;
       }
@@ -131,7 +109,7 @@ class SendTransaction3 extends Component {
   }
 
   getErrorText = () => {
-    const { I18n, pageType, sendTransactionError, contractError, selectedWallet} = this.props;
+    const { I18n, pageType, sendTransactionError, contractError, selectedWallet } = this.props;
     const { type } = selectedWallet
     const error = pageType === 'contract' ? contractError : sendTransactionError
 
@@ -172,23 +150,13 @@ class SendTransaction3 extends Component {
   }
 
   getText = () => {
-    const { I18n } = this.props;
+    const { I18n, selectedWallet } = this.props;
+    const { type } = selectedWallet
 
-    switch(this.props.pageType) {
-      case 'swap': {
-        return `${I18n.sendTransaction.swapSuccess}<br/><a href='https://docs.google.com/spreadsheets/d/1HiT98wqEpFgF2d98eJefQfH7xK4KPPxNDiiXg3AcJ7w/edit#gid=0' target="_blank">${I18n.swapToken.rightInfoDesc1_1_3_1}</a>`
-      }
+    switch (this.props.pageType) {
+      case 'transaction':
       case 'contract': {
-        break;
-      }
-      case 'transaction': {
-        const { tx, selectedWallet } = this.props;
-        const { type } = selectedWallet
-        if (type === 'eth') {
-          return `${I18n.sendTransaction.infoSuccess}<br/>${I18n.coinDetailHistoryNoTransactionEth}<br/><a href=${TXID_URL['eth'] + check0xPrefix(tx)} target="_blank">https://etherscan.io/</a>`
-        } else {
-          return `${I18n.sendTransaction.infoSuccess}<br/>${I18n.coinDetailHistoryIcx}<br/><a href=${TXID_URL['icx'] + tx} target="_blank">${I18n.sendTransaction.openTracker}</a>`
-        }
+        return type === 'eth' ? I18n.coinDetailHistoryNoTransactionEth : I18n.coinDetailHistoryIcx
       }
       default:
         return ''
@@ -196,39 +164,45 @@ class SendTransaction3 extends Component {
   }
 
   renderPageTypeSwitch = () => {
-    const { I18n, funcResult, selectedWallet } = this.props;
+    const { I18n, funcResult, selectedWallet, tx } = this.props;
     const { type } = selectedWallet
     const text = this.getText()
+    const txUrl = type === 'eth' ? TXID_URL['eth'] + check0xPrefix(tx) : TXID_URL['icx'] + tx
     const { pageType, isLedger } = this.props;
-    switch(pageType) {
+    // Replace txHash to label for opening tracker or etherscan
+    const openText = type === 'eth' ? I18n.sendTransaction.openEtherscan : I18n.sendTransaction.openTracker
+    switch (pageType) {
       case 'contract': {
         return (
-          <div className="popup complete">
-            <p className="txt_box">{I18n.sendTransaction.txComplete}</p>
-            <div className="scroll-holder">
-              <div className="scroll">
-                <p className="title">{I18n.sendTransaction.txHashTracker}</p>
-                <p onClick={this.closePopupAfterTx} className="address">{funcResult[0]}</p>
-              </div>
-            </div>
-            <div className="btn-holder">
-              <button onClick={this.handleSubmit} className="btn-type-fill size-full"><span>{I18n.button.submit}</span></button>
+          <div className="popup">
+            <p className="txt_box">{I18n.sendTransaction.infoSuccess}</p>
+            <p className="txt" ref={ref => { if (ref) ref.innerHTML = text }}></p>
+            <a href={TXID_URL['icx'] + funcResult[0]} target="_blank" rel="noopener noreferrer"><p className="mint">{funcResult[0]}</p></a>
+            <div className="btn-holder full">
+              <button onClick={this.handleSubmit} className="btn-type-normal size-full"><span>{I18n.button.submit}</span></button>
             </div>
           </div>
         )
       }
-      case 'swap':
       case 'transaction': {
         const hideSubmit = type === 'eth' || isLedger
         return (
-          <div className="popup-wrap home">
-            <SmallPopup
-              handleCancel={this.closePopupAfterTx}
-              handleSubmit={this.handleSubmit}
-              text={text}
-              cancelText={I18n.button.close}
-              submitText={hideSubmit ? undefined : I18n.button.checkTransction}
-            />
+          <div className="popup">
+            <p className="txt_box">{I18n.sendTransaction.infoSuccess}</p>
+            <p className="txt" ref={ref => { if (ref) ref.innerHTML = text }}></p>
+            <a href={txUrl} target="_blank" rel="noopener noreferrer"><p className="mint">{openText}</p></a>
+            {
+              hideSubmit ? (
+                <div className="btn-holder full">
+                  <button onClick={this.closePopupAfterTx} className="btn-type-fill size-full"><span>{I18n.button.close}</span></button>
+                </div>
+              ) : (
+                  <div className="btn-holder full">
+                    <button onClick={this.closePopupAfterTx} className="btn-type-fill size-half"><span>{I18n.button.close}</span></button>
+                    <button onClick={this.handleSubmit} className="btn-type-normal size-half"><span>{I18n.button.checkTransction}</span></button>
+                  </div>
+                )
+            }
           </div>
         )
       }
@@ -241,15 +215,11 @@ class SendTransaction3 extends Component {
     const { I18n, pageType } = this.props;
     if (pageType === 'contract') {
       return (
-        <div className="popup-wrap contract">
+        <div className="popup-wrap ledger">
           <div className="dimmed"></div>
-          <div className="popup complete">
+          <div className="popup">
             <p className="txt_box">{I18n.sendTransaction.icxFailure}</p>
-            <div className="scroll-holder">
-              <div className="scroll">
-                <p className="errorMsg">{nToBr(this.getErrorText())}</p>
-              </div>
-            </div>
+            <p className="txt">{this.getErrorText()}</p>
             <div className="btn-holder">
               <button onClick={this.closePopup} className="btn-type-fill size-full"><span>{I18n.button.close}</span></button>
             </div>
@@ -258,7 +228,7 @@ class SendTransaction3 extends Component {
       )
     } else {
       return (
-        <div className="popup-wrap home">
+        <div className="popup-wrap ledger">
           <SmallPopup
             handleCancel={this.closePopup}
             text={this.getErrorText()}

@@ -28,17 +28,17 @@ class ContractRunSection extends Component {
     const { showFuncList } = this.state;
     if (funcList.length > 0) {
       return (
-        <div className="search-holder" style={{minHeight: 420}}>
+        <div className="search-holder" style={{ minHeight: 420 }}>
           <div className="group">
             <span className="label">{I18n.contractReadPage}</span>
             <span className="money-group" onClick={this.toggleFuncList}>{funcList[selectedFuncIndex].name}<em className="_img"></em>
-            {
-              showFuncList && (
-                <ContractFuncSelector
-                  onClickOut={this.toggleFuncList}
-                  {...this.props} />
-              )
-            }
+              {
+                showFuncList && (
+                  <ContractFuncSelector
+                    onClickOut={this.toggleFuncList}
+                    {...this.props} />
+                )
+              }
             </span>
             <ContractExecuteSectionContainer />
           </div>
@@ -68,19 +68,21 @@ class ContractFuncSelector extends Component {
   render() {
     const { funcList, selectedFuncIndex } = this.props;
     return (
-      <div className="layer">
-        <ul>
-          {
-            funcList.map((func, i) => {
-              const isActive = isEqual(func, funcList[selectedFuncIndex]);
-              return (
-                <li key={i} onClick={() => !isActive && this.setFuncIndex(i)} className={isActive ? 'on' : ''}>
-                  <span className="a">{func.name}</span>
-                </li>
-              )
-            })
-          }
-        </ul>
+      <div className="drop-box">
+        <div className="drop-layer">
+          <ul>
+            {
+              funcList.map((func, i) => {
+                const isActive = isEqual(func, funcList[selectedFuncIndex]);
+                return (
+                  <li key={i} onClick={() => !isActive && this.setFuncIndex(i)} className={isActive ? 'on' : ''}>
+                    <span className="a">{func.name}</span>
+                  </li>
+                )
+              })
+            }
+          </ul>
+        </div>
       </div>
     )
   }

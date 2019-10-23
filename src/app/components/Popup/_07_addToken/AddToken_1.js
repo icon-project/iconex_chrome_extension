@@ -56,7 +56,7 @@ class AddToken1 extends Component {
         return !isEmpty(item)
       })
 
-      for (let i=0; i<selectedTokensFiltered.length; i++) {
+      for (let i = 0; i < selectedTokensFiltered.length; i++) {
         const tokenObj = Object.assign({}, selectedTokensFiltered[i], {
           defaultName: selectedTokensFiltered[i].name,
           defaultSymbol: selectedTokensFiltered[i].symbol,
@@ -103,38 +103,39 @@ class AddToken1 extends Component {
     const { I18n } = this.props;
     return (
       <div>
-        <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
         <h1 className="title">{I18n.addToken.title1}</h1>
         <h2>{I18n.addToken.desc1}</h2>
         <div className="scroll-holder">
-  				<div className="scroll line tokenAdd">
-            <div className="tabbox-holder">
-              <div className="wallet-group">
-                <ul>
-                  {
-                    tokenListArr.map((token, i) => {
-                      if(ownTokens.includes(token.address)) {
-                        return (
-                          <TokenBar
-                            key={token.address}
-                            token={token}
-                            index={i}
-                            disabled={true}
-                            updateChecklist={(i, b) => this.updateChecklist(i, b)} />
-                        )
-                      } else {
-                        return (
-                          <TokenBar
-                            key={token.address}
-                            token={token}
-                            index={i}
-                            disabled={false}
-                            updateChecklist={(i, b) => this.updateChecklist(i, b)} />
-                        )
-                      }
-                    })
-                  }
-                </ul>
+          <div className="box">
+            <div className="scroll">
+              <div className="tabbox-holder">
+                <div className="wallet-group">
+                  <ul>
+                    {
+                      tokenListArr.map((token, i) => {
+                        if (ownTokens.includes(token.address)) {
+                          return (
+                            <TokenBar
+                              key={token.address}
+                              token={token}
+                              index={i}
+                              disabled={true}
+                              updateChecklist={(i, b) => this.updateChecklist(i, b)} />
+                          )
+                        } else {
+                          return (
+                            <TokenBar
+                              key={token.address}
+                              token={token}
+                              index={i}
+                              disabled={false}
+                              updateChecklist={(i, b) => this.updateChecklist(i, b)} />
+                          )
+                        }
+                      })
+                    }
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -142,8 +143,9 @@ class AddToken1 extends Component {
         <div className="txt-holder">
           <h3 className='addtxt'>{I18n.addToken.info}</h3><button onClick={() => this.props.setPopupNum(2)} type="submit" className="btn-type-search2 auto"><span>{I18n.button.tokenInfo}</span></button>
         </div>
-        <div className="btn-holder">
-          <button disabled={isLoading} onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.button.add}</span></button>
+        <div className="btn-holder full">
+          <button onClick={this.closePopup} className="btn-type-fill size-half"><span>{I18n.button.cancel}</span></button>
+          <button disabled={isLoading} onClick={this.handleSubmit} type="submit" className="btn-type-normal size-half"><span>{I18n.button.add}</span></button>
         </div>
         {
           showAlertAddToken && (
@@ -189,7 +191,7 @@ class TokenBar extends Component {
 
     return (
       <li>
-        <input onChange={this.toggleCheckbox} checked={isChecked} data-checked={disabled} disabled={disabled} id={'cbox-' + index} className="cbox-type" type="checkbox"/>
+        <input onChange={this.toggleCheckbox} checked={isChecked} data-checked={disabled} disabled={disabled} id={'cbox-' + index} className="cbox-type" type="checkbox" />
         <label htmlFor={'cbox-' + index} className="label _img">{`${token.symbol}`}</label>
         <span>{token.address}</span>
       </li>

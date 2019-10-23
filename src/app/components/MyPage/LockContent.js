@@ -20,9 +20,6 @@ class LockContent extends Component {
     }
   }
 
-  componentWillMount() {
-  }
-
   clearError = () => {
     // this.setState({
     //   currentError: undefined,
@@ -42,49 +39,49 @@ class LockContent extends Component {
     const { current, first, second } = this.state
 
     if (changing && current === '') {
-      this.setState({currentError: 'currentPasscodeEnter'})
+      this.setState({ currentError: 'currentPasscodeEnter' })
       return false
     }
 
     if (changing && current.length !== 6) {
-      this.setState({currentError: 'passcodeSix'})
+      this.setState({ currentError: 'passcodeSix' })
       return false
     }
 
     if (first === '') {
-      this.setState({firstError: 'passcodeEnter'})
+      this.setState({ firstError: 'passcodeEnter' })
       return false
     }
 
     if (first.length !== 6) {
-      this.setState({firstError: 'passcodeSix'})
+      this.setState({ firstError: 'passcodeSix' })
       return false
     }
 
     if (second === '') {
-      this.setState({secondError: 'passcodeEnter'})
+      this.setState({ secondError: 'passcodeEnter' })
       return false
     }
 
     if (second.length !== 6) {
-      this.setState({secondError: 'passcodeSix'})
+      this.setState({ secondError: 'passcodeSix' })
       return false
     }
 
     const currentHash = hash.sha256().update(current).digest('hex')
     if (changing && this.props.passcodeHash !== currentHash) {
-      this.setState({currentError: 'currentPasscodeFail'})
+      this.setState({ currentError: 'currentPasscodeFail' })
       return false
     }
 
     const passcodeHash = hash.sha256().update(first).digest('hex')
     if (changing && passcodeHash === currentHash) {
-      this.setState({firstError: 'currentPasscodeSame'})
+      this.setState({ firstError: 'currentPasscodeSame' })
       return false
     }
 
     if (first !== second) {
-      this.setState({secondError: 'passcodeSame'})
+      this.setState({ secondError: 'passcodeSame' })
       return false
     }
 
@@ -118,7 +115,7 @@ class LockContent extends Component {
   }
 
   goToChangingStatus = (status) => {
-    this.setState({status: status})
+    this.setState({ status: status })
   }
 
   changeToNewPasscode = () => {
@@ -140,12 +137,6 @@ class LockContent extends Component {
         showPasscodeChangingSuccess: true
       })
     }
-  }
-
-  unlock = () => {
-    this.props.openPopup({
-      popupType: 'unlockPopup'
-    })
   }
 
   handleSettingSuccess = () => {
@@ -182,36 +173,31 @@ class LockContent extends Component {
   render() {
     const { status, showPasscodeSettingSuccess, showPasscodeChangingSuccess } = this.state
     const { I18n } = this.props;
-
     return (
       <div>
         <div className="wrap-holder">
           <PasswordSetter {...this.props}
-                          {...this.state}
-                          status={status}
-                          setValue={this.setValue}
-                          clearError={this.clearError}
-                          goToChangingStatus={this.goToChangingStatus}
-                          setNewPasscode={this.setNewPasscode}
-                          changeToNewPasscode={this.changeToNewPasscode}
+            {...this.state}
+            status={status}
+            setValue={this.setValue}
+            clearError={this.clearError}
+            goToChangingStatus={this.goToChangingStatus}
+            setNewPasscode={this.setNewPasscode}
+            changeToNewPasscode={this.changeToNewPasscode}
           />
+          <p className="lock-txt">{I18n.myPageInfo1.split('\n').map((item, key) => { return <i key={key}>{item}<br /></i> })}</p>
           {status === 0 &&
-          <div className="btn-holder in">
-  					<button className="btn-type-fill2" onClick={this.setNewPasscode}><span>{I18n.button.submit}</span></button>
-  				</div>
+            <div className="btn-holder in">
+              <button className="btn-type-normal size-medium" onClick={this.setNewPasscode}><span>{I18n.button.submit}</span></button>
+            </div>
           }
           {status === 2 &&
-          <div className="btn-holder in">
-  					<button className="btn-type-fill2" onClick={this.changeToNewPasscode}><span>{I18n.button.change}</span></button>
-  				</div>
+            <div className="btn-holder in">
+              <button className="btn-type-normal size-medium" onClick={this.changeToNewPasscode}><span>{I18n.button.change}</span></button>
+            </div>
           }
-  			</div>
-        {((this.props.passcodeHash !== '' && status === 1)) &&
-          <div className="txt-holder">
-            <p className="lock-txt">{I18n.myPageUnlock}<em onClick={this.unlock}>{I18n.button.unlock}</em></p>
-          </div>
-        }
-        { showPasscodeSettingSuccess && (
+        </div>
+        {showPasscodeSettingSuccess && (
           <Alert
             handleSubmit={this.handleSettingSuccess}
             handleCancel={this.closeAlert}
@@ -220,7 +206,7 @@ class LockContent extends Component {
             cancelText={I18n.button.cancel}
           />
         )}
-        { showPasscodeChangingSuccess && (
+        {showPasscodeChangingSuccess && (
           <Alert
             handleSubmit={this.closeAlert}
             text={I18n.myPageLockChangeSuccess}

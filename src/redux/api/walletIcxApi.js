@@ -3,7 +3,7 @@ import axios from 'axios';
 import { signRawTx, customValueToTokenValue, makeIcxRawTx, checkHxPrefix, check0xPrefix, delete0xPrefix, concatTypedArrays, randomUint32, isIRCTokenFunc } from 'utils';
 import moment from 'moment';
 import BigNumber from 'bignumber.js';
-import { ICX_WALLET_SERVER, ICX_TRACKER_SERVER, IS_V3 } from 'constants/config.js';
+import { ICX_WALLET_SERVER, ICX_TRACKER_SERVER } from 'constants/config.js';
 
 const GOVERNANCE_ADDRESS = 'cx0000000000000000000000000000000000000001'
 
@@ -32,9 +32,9 @@ export function icx_fetchCoinBalanceApi(account) {
     params: { "address": checkHxPrefix(account) },
   }
   return new Promise(resolve => {
-    walletApi.post(`/api/v${IS_V3 ? '3' : '2'}`, JSON.stringify(param))
+    walletApi.post(`/api/v3`, JSON.stringify(param))
       .then(res => {
-        resolve(window.web3.fromWei(new BigNumber(IS_V3 ? res.data.result : res.data.result.response), 'ether'))
+        resolve(window.web3.fromWei(new BigNumber(res.data.result), 'ether'))
       })
       .catch(error => {
         resolve('error')
@@ -45,10 +45,6 @@ export function icx_fetchCoinBalanceApi(account) {
 export function icx_fetchTokenBalanceApi(tokenAddress, customDecimal, account) {
   return (async () => {
     try {
-      if (!IS_V3) {
-        throw new Error('v2 version');
-      }
-
       const balance = await icx_call({
         contractAddress: tokenAddress,
         methodName: 'balanceOf',
@@ -117,38 +113,22 @@ export function icx_fetchTransactionHistoryApi(data) {
     const _addressId = data.account || '';
     const _pageId = data.page || 1;
     return new Promise(resolve => {
-      if (IS_V3) {
-        const url = data.contractAddress ? `/v3/token/txList?tokenAddr=${_addressId}&count=10&page=${_pageId}&contractAddr=${data.contractAddress}`
-          : `/v3/address/txListForWallet?address=${_addressId}&page=${_pageId}&type=0`
-        trackerApi.get(url)
-          .then(res => {
-            resolve({
-              data: res.data.data || [],
-              total: res.data.listSize || 0
-            })
+      const url = data.contractAddress ? `/v3/token/txList?tokenAddr=${_addressId}&count=10&page=${_pageId}&contractAddr=${data.contractAddress}`
+        : `/v3/address/txListForWallet?address=${_addressId}&page=${_pageId}&type=0`
+      trackerApi.get(url)
+        .then(res => {
+          resolve({
+            data: res.data.data || [],
+            total: res.data.listSize || 0
           })
-          .catch(error => {
-            console.log(error)
-            resolve({
-              data: [],
-              total: 0
-            })
+        })
+        .catch(error => {
+          console.log(error)
+          resolve({
+            data: [],
+            total: 0
           })
-      } else {
-        trackerApi.get('/v0/wallet/walletDetailTxList?address=' + _addressId + '&page=' + _pageId)
-          .then(res => {
-            resolve({
-              data: res.data.data.walletTx || [],
-              total: res.data.totalData || 0
-            })
-          })
-          .catch(error => {
-            resolve({
-              data: [],
-              total: 0
-            })
-          })
-      }
+        })
     })
   }
 }
@@ -159,69 +139,41 @@ export function icx_checkIcxTransactionExist(data) {
     if (moment() > moment(data.time).add(10, 'minutes')) {
       resolve('')
     }
-    if (IS_V3) {
-      let param = {
-        jsonrpc: "2.0",
-        method: "icx_getTransactionResult",
-        id: randomUint32(),
-        params: { "txHash": check0xPrefix(data.txid) },
-      }
-      walletApi.post('/api/v3', JSON.stringify(param))
-        .then(res => {
-          console.log(res)
-          if (data.isToken) {
-            if (res.data.result.status === "0x1") {
-              resolve('');
-            } else if (res.data.result.status === "0x0") {
-              resolve({
-                ...data,
-                isFail: true
-              });
-            } else {
-              resolve(data);
-            }
-          } else {
-            if (res.data.result.status === "0x1" || res.data.result.status === "0x0") {
-              resolve('');
-            } else {
-              resolve(data);
-            }
-          }
-        })
-        .catch(error => {
-          if (!data['txid']) {
-            resolve('');
-          } else {
-            resolve(data);
-          }
-        })
-    } else {
-      let param = {
-        jsonrpc: "2.0",
-        method: "icx_getTransactionResult",
-        id: randomUint32(),
-        params: { "tx_hash": delete0xPrefix(data.txid) },
-      }
-      walletApi.post('/api/v2', JSON.stringify(param))
-        .then(res => {
-          if (res.data.result.response_code === "0" && res.data.result.response.code === 0) {
-            resolve('');
-          } else {
-            if (moment() > moment(data.time).add(10, 'minutes')) {
-              resolve('')
-            } else {
-              resolve(data);
-            }
-          }
-        })
-        .catch(error => {
-          if (!data['txid']) {
-            resolve('');
-          } else {
-            resolve(data);
-          }
-        })
+    let param = {
+      jsonrpc: "2.0",
+      method: "icx_getTransactionResult",
+      id: randomUint32(),
+      params: { "txHash": check0xPrefix(data.txid) },
     }
+    walletApi.post('/api/v3', JSON.stringify(param))
+      .then(res => {
+        console.log(res)
+        if (data.isToken) {
+          if (res.data.result.status === "0x1") {
+            resolve('');
+          } else if (res.data.result.status === "0x0") {
+            resolve({
+              ...data,
+              isFail: true
+            });
+          } else {
+            resolve(data);
+          }
+        } else {
+          if (res.data.result.status === "0x1" || res.data.result.status === "0x0") {
+            resolve('');
+          } else {
+            resolve(data);
+          }
+        }
+      })
+      .catch(error => {
+        if (!data['txid']) {
+          resolve('');
+        } else {
+          resolve(data);
+        }
+      })
   })
 }
 
@@ -291,58 +243,36 @@ export function icx_call({
 
     walletApi.post(`/api/v3`, JSON.stringify(param))
       .then(res => {
-        if (res.data.result) {
+        if (res.data.hasOwnProperty('result')) {
           let result = res.data.result;
-          resolve(!Array.isArray(result) ? [result] : result)
+          resolve([result])
         } else {
           throw new Error(res.data.error);
         }
       })
       .catch(error => {
-        reject(error);
+        reject(error.response.data.error);
       })
   });
 }
 
 export function icx_sendTransaction(rawTx) {
-  if (IS_V3) {
-    return new Promise((resolve, reject) => {
-      let param = {
-        jsonrpc: "2.0",
-        method: "icx_sendTransaction",
-        params: rawTx,
-        id: randomUint32()
-      }
+  return new Promise((resolve, reject) => {
+    let param = {
+      jsonrpc: "2.0",
+      method: "icx_sendTransaction",
+      params: rawTx,
+      id: randomUint32()
+    }
 
-      walletApi.post(`/api/v3`, JSON.stringify(param))
-        .then(res => {
-          resolve(res.data.result);
-        })
-        .catch((error) => {
-          reject(error.response.data.error);
-        })
-    });
-  } else {
-    return new Promise((resolve, reject) => {
-      let param = {
-        jsonrpc: "2.0",
-        method: "icx_sendTransaction",
-        params: rawTx,
-        id: randomUint32()
-      }
-      walletApi.post(`/api/v2`, JSON.stringify(param))
-        .then(res => {
-          if (res.data.result['response_code'] === 0) {
-            resolve(res.data.result.tx_hash);
-          } else {
-            resolve(res.data.result);
-          }
-        })
-        .catch(error => {
-          resolve(error);
-        })
-    });
-  }
+    walletApi.post(`/api/v3`, JSON.stringify(param))
+      .then(res => {
+        resolve(res.data.result);
+      })
+      .catch((error) => {
+        reject(error.response.data.error);
+      })
+  });
 }
 
 export function icx_getScoreApi(address) {
@@ -401,9 +331,50 @@ export function icx_getTxFeeInfoApi(data) {
   })();
 }
 
+export function debug_estimateStepApi(params) {
+  return new Promise((resolve, reject) => {
+    //const rawTx = makeIcxRawTx(true, params)
+    const param = {
+      jsonrpc: "2.0",
+      method: "debug_estimateStep",
+      id: randomUint32(),
+      params,
+      //params: rawTx
+    }
+
+    walletApi.post(`/api/debug/v3`, JSON.stringify(param))
+      .then(res => {
+        if (res.data.result) {
+          resolve(res.data.result);
+        } else {
+          throw new Error(res.data.error);
+        }
+      })
+      .catch(error => {
+        reject(error);
+      })
+  });
+}
+
+
+export function icx_getStepPriceApi(data) {
+  return (async () => {
+    try {
+      const stepPrice = await icx_call({
+        contractAddress: GOVERNANCE_ADDRESS,
+        methodName: 'getStepPrice'
+      });
+      return new BigNumber(stepPrice[0])
+    } catch (error) {
+      return {
+        error
+      };
+    }
+  })();
+}
+
 export function icx_callScoreExternally(param) {
   setIcxWalletServer()
-  console.log(ICX_WALLET_SERVER(), param, JSON.stringify(param))
   return new Promise((resolve, reject) => {
     walletApi.post(`/api/v3`, JSON.stringify(param))
       .then(res => {
@@ -435,4 +406,26 @@ export async function icx_getStepPrice() {
   catch (error) {
     return new BigNumber(0)
   }
+}
+
+export function icx_getTotalSupply(address) {
+  return new Promise((resolve, reject) => {
+    let param = {
+      jsonrpc: "2.0",
+      method: "icx_getTotalSupply",
+      id: randomUint32()
+    }
+
+    walletApi.post(`/api/v3`, JSON.stringify(param))
+      .then(res => {
+        if (res.data.result) {
+          resolve(res.data.result);
+        } else {
+          throw new Error(res.data.error);
+        }
+      })
+      .catch(error => {
+        reject(error);
+      })
+  });
 }

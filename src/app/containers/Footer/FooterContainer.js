@@ -1,17 +1,19 @@
 import { connect } from 'react-redux';
 import { Footer } from 'app/components/';
-import {  openPopup } from 'redux/actions/popupActions';
+import { openPopup } from 'redux/actions/popupActions';
 import { withRouter } from 'react-router-dom';
 
 function mapStateToProps(state) {
   return {
-    language: state.global.language
+    language: state.global.language,
+    isLoggedIn: state.auth.isLoggedIn,
+    isLocked: state.auth.isLocked,
+    isLedger: state.ledger.isLedger,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    
     openPopup: (s) => dispatch(openPopup(s)),
   };
 }

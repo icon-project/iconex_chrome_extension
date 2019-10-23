@@ -11,10 +11,10 @@ class Timer extends Component {
     this.state = INIT_STATE;
   }
 
-  componentWillUpdate ({ location, popupNum, popupType }) {
-    if( (location.pathname !== this.props.location.pathname && location.pathname !== '/lock')
-     || (popupNum !== this.props.popupNum && popupNum)
-     || (popupType !== this.props.popupType && popupType)) {
+  componentWillUpdate({ location, popupNum, popupType }) {
+    if ((location.pathname !== this.props.location.pathname && location.pathname !== '/lock')
+      || (popupNum !== this.props.popupNum && popupNum)
+      || (popupType !== this.props.popupType && popupType)) {
       window.chrome.extension.sendMessage({ type: 'RESET_TIMER' })
     }
   }

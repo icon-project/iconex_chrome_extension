@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-import { WalletBar, WalletMenuBar } from 'app/components/'
+import { WalletStakingBar, WalletBar, WalletMenuBar } from 'app/components/'
 import {
   currencyUnit as CURRENCY_UNIT,
-  coinImage as COIN_IMAGE,
+  copyState as COPY_STATE,
 } from 'constants/index';
-import { convertNumberToText } from 'utils'
+import { convertNumberToText, handleCopy } from 'utils/utils'
+import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
-  showMenuBar: false,
-  isExtended: true
+  isExtended: true,
+  copyState: COPY_STATE['off'],
+  tokenList: []
 }
 
+@withLanguageProps
 class WalletSection extends Component {
 
   constructor(props) {
@@ -18,14 +21,14 @@ class WalletSection extends Component {
     this.state = INIT_STATE;
   }
 
-  shouldComponentUpdate(nextProps, nextState){
+  shouldComponentUpdate(nextProps, nextState) {
     if (this.props.id !== nextProps.id) {
       return false;
     }
     return true;
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     if (this.props.isCoinView !== nextProps.isCoinView) {
       this.setState({
         isExtended: true
@@ -37,10 +40,22 @@ class WalletSection extends Component {
     this.setState(INIT_STATE);
   }
 
-  toggleMenuBar = () => {
-    this.setState({
-      showMenuBar: !this.state.showMenuBar
-    })
+  showMenuBar = (e) => {
+    e.stopPropagation()
+    const { index, showMenuBar } = this.props
+    showMenuBar(index)
+  }
+
+  closeMenuBar = () => {
+    const { closeMenuBar } = this.props
+    closeMenuBar()
+  }
+
+  handleCopy = (e) => {
+    e.stopPropagation()
+    const { index } = this.props
+    const { copyState } = this.state
+    handleCopy(`span.copyKey${index}`, copyState, this.setState.bind(this))
   }
 
   toggleExtend = () => {
@@ -49,15 +64,65 @@ class WalletSection extends Component {
     })
   }
 
+  getIcon = (isToken, symbol) => {
+    const iconClass = isToken
+      ? this.getIconColor(symbol[0].toUpperCase().charCodeAt(0))
+      : symbol === 'icx' ? '' : 'ethereum'
+    const iconInitial = isToken
+      ? symbol[0].toUpperCase()
+      : ''
+
+    return <i className={`_icon ${iconClass}`}>{iconInitial}</i>
+  }
+
+  getIconColor = (index) => {
+    const colorNum = Math.abs(index - 65) % 12;
+    switch (colorNum) {
+      case 0:
+        return 'A'
+      case 1:
+        return 'B'
+      case 2:
+        return 'C'
+      case 3:
+        return 'D'
+      case 4:
+        return 'E'
+      case 5:
+        return 'F'
+      case 6:
+        return 'G'
+      case 7:
+        return 'H'
+      case 8:
+        return 'I'
+      case 9:
+        return 'J'
+      case 10:
+        return 'K'
+      case 11:
+        return 'L'
+      default:
+        return ''
+    }
+  }
+
   render() {
 
     const {
+      staked,
+      iScore,
+      delegated,
       walletSectionData,
       isCoinView,
       openPopup,
       currency,
       setPopupNum,
-      setSelectedWallet
+      setSelectedWallet,
+      showMenuIndex,
+      index,
+      showAlert,
+      I18n
     } = this.props;
 
     const {
@@ -70,88 +135,122 @@ class WalletSection extends Component {
     } = walletSectionData;
 
     const {
-      isExtended
+      isExtended,
+      copyState,
     } = this.state;
 
-    const iconClass = (coinType) => {
-      switch(coinType) {
-        case 'icx':
-          return 'c_icon'
-        case 'eth':
-          return 'c_ethereum'
-        default:
-          return ''
+    const isToken = !!walletCoinType
+    const icon = isCoinView && this.getIcon(isToken, coinType)
+
+    const wrapSelectClass = (showMenuIndex, index) => {
+      if (showMenuIndex !== -1) {
+        if (showMenuIndex === index) {
+          return 'select'
+        } else {
+          return 'no-select'
+        }
+      } else {
+        return ''
       }
     }
 
+    const myWalletBar = walletSectionData.data.map((barData, i) => {
+      const key = isCoinView ? barData.account : account
+      const pRepIissBar = (
+        <WalletStakingBar
+          account={key}
+          balance={barData.balance}
+          staked={staked[key]}
+          iScore={iScore[key]}
+          delegated={delegated[key]}
+          showAlert={showAlert}
+          openPopup={openPopup}
+          setSelectedWallet={setSelectedWallet}
+        />
+      )
+      return (
+        <div style={{ display: 'contents' }} key={i}>
+          {
+            coinType === 'icx' && (
+              isCoinView
+                ? (!isToken && pRepIissBar)
+                : (i === 0 && pRepIissBar)
+            )
+          }
+          <WalletBar
+            key={i}
+            index={i}
+            data={barData}
+            currency={currency}
+            isCoinView={isCoinView}
+            walletCoinType={walletCoinType || coinType}
+            openPopup={openPopup}
+            setPopupNum={setPopupNum}
+            setSelectedWallet={setSelectedWallet}
+            showAlert={showAlert}
+            getIcon={this.getIcon}
+          />
+        </div>
+      )
+    })
+
     return (
-      <div className="wrap-holder">
+      <div
+        onClick={!isExtended && this.toggleExtend}
+        className={`${wrapSelectClass(showMenuIndex, index)} wrap-holder`}
+      >
         <div>
           <table className={`table-typeC ${isCoinView ? 'coin' : ''} ${isExtended ? 'open' : ''}`}>
+            <colgroup>
+              <col />
+              <col />
+              <col />
+            </colgroup>
             <thead>
               <tr>
-                <th className="a">
-                  <em className={`${isExtended && iconClass(coinType)} ${COIN_IMAGE[coinType] && 'icon'}`}>
-                    {COIN_IMAGE[coinType] && (<img alt={coinType} src={COIN_IMAGE[coinType]} />)}
-                  </em>{walletSectionName}
+                <th className="a" colSpan="2">
+                  {icon}
+                  {walletSectionName}
                   {!isCoinView && (<span><em className="token_num">{walletSectionData.data.length}</em></span>)}
                 </th>
-                <th className={`b ${isCoinView ? 'coin' : ''}`}>
+                <th className="c" >
+                  {!isCoinView && (
+                    <p className={copyState === COPY_STATE['on'] ? 'complete' : ''} onClick={this.handleCopy}>
+                      {copyState === COPY_STATE['on'] ? (<em>{I18n.button.copyFinish}</em>) : (<em>{I18n.button.copyDepositAddress}</em>)}
+                      <span className={`copyKey${index}`}>{account}</span>
+                    </p>
+                  )}
                 </th>
                 {
                   isCoinView && (
                     <th className="c">
-                        <span className="m_icx"><em>{convertNumberToText(walletSectionBalance, coinType, true)}</em>{coinType.toUpperCase()}</span>
-                        <span className="m_usd">{walletSectionBalanceWithRate !== null && <i className="_img"></i>}<em>{walletSectionBalanceWithRate !== null ? convertNumberToText(walletSectionBalanceWithRate, currency, false) : '-'}</em>{CURRENCY_UNIT[currency]}</span>
+                      <span className="m_icx"><em>{convertNumberToText(walletSectionBalance, coinType, true)}</em>{coinType.toUpperCase()}</span>
+                      <span className="m_usd">{walletSectionBalanceWithRate !== null && <i className="_img"></i>}<em>{walletSectionBalanceWithRate !== null ? convertNumberToText(walletSectionBalanceWithRate, currency, false) : '-'}</em>{CURRENCY_UNIT[currency]}</span>
                     </th>
                   )
                 }
-                {
-                  !isCoinView && (
-                    <th className="c">
-                       <span>
-                         {!!walletSectionBalanceWithRate && <i className="_img"></i>}
-                         <em>{convertNumberToText(walletSectionBalanceWithRate, currency, false)}</em>{'  '+ CURRENCY_UNIT[currency]}
-                       </span>
-                    </th>
-                  )
-                }
-                <th className="d"></th>
-                <th className="e">{!isCoinView && (<span onClick={this.toggleMenuBar}><em className="_img"></em></span>)}</th>
+                <th className="e">{!isCoinView && (<span onClick={this.showMenuBar}><em className="_img"></em></span>)}</th>
               </tr>
             </thead>
-            { isExtended && (
+            {isExtended && (
               <tbody>
-                {
-                  walletSectionData.data.map((barData, i) => (
-                    <WalletBar
-                      key={i}
-                      data={barData}
-                      currency={currency}
-                      openPopup={openPopup}
-                      isCoinView={isCoinView}
-                      setPopupNum={setPopupNum}
-                      setSelectedWallet={setSelectedWallet}
-                      walletCoinType={walletCoinType || coinType}
-                      />
-                  ))
-                }
+                {myWalletBar}
               </tbody>
             )}
           </table>
           {
-            !isCoinView && (
+            !isCoinView && isExtended && (
               <div className="extend">
                 <span onClick={this.toggleExtend} className={isExtended && "on"}><em className="_img"></em></span>
               </div>
             )
           }
         </div>
-        <div className="layer-wallet">
-        { this.state.showMenuBar && (
-            <WalletMenuBar account={account} onClickOut={this.toggleMenuBar} {...this.props} />
+        {showMenuIndex === index && (
+          <div className="layer-wallet">
+            <WalletMenuBar account={account} onClickOut={this.closeMenuBar} {...this.props} />
+          </div>
         )}
-        </div>
       </div>
     );
   }

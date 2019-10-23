@@ -1,10 +1,10 @@
 import React from 'react';
 
-const InputBoolean = ({input, value, handleFuncInputChange, error}) => {
+const InputBoolean = ({ input, value, handleFuncInputChange, error }) => {
   return (
     <div className="-group">
-			<p className="title">{input.name}<em>{input.type}</em></p>
-			<input
+      <p className="title">{input.name}<em>{input.type}</em></p>
+      <input
         id="rbox-01"
         onChange={(e) => handleFuncInputChange({
           name: input.name,
@@ -13,7 +13,7 @@ const InputBoolean = ({input, value, handleFuncInputChange, error}) => {
         className="rbox-type" type="radio" name="rbox-1"
         checked={!value} />
       <label htmlFor="rbox-01" className="_img">False</label>
-			<input
+      <input
         id="rbox-02"
         onChange={(e) => handleFuncInputChange({
           name: input.name,
@@ -21,8 +21,8 @@ const InputBoolean = ({input, value, handleFuncInputChange, error}) => {
         })}
         className="rbox-type" type="radio" name="rbox-1"
         checked={value} />
-			<label htmlFor="rbox-02" className="_img">True</label>
-		</div>
+      <label htmlFor="rbox-02" className="_img">True</label>
+    </div>
   )
 }
 

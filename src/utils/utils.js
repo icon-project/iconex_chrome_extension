@@ -4,8 +4,8 @@ import { coinRound as COIN_ROUND, currencyRound as CURRENCY_ROUND } from 'consta
 import i18n from 'constants/i18n'
 import React from 'react';
 import BigNumber from 'bignumber.js';
-import { erc20Abi } from 'constants/index'
-import { IS_V3, ICX_NID } from 'constants/config.js'
+import { erc20Abi, copyState as COPY_STATE } from 'constants/index'
+import { ICX_NID } from 'constants/config.js'
 
 function charFreq(string) {
   let value;
@@ -32,6 +32,12 @@ function isEmpty(obj) {
 
 function numberWithCommas(x) {
   x = removeTrailingZeros(x)
+  let parts = x.toString().split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return parts.join('.');
+}
+
+function numberWithCommasWithZero(x) {
   let parts = x.toString().split('.');
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return parts.join('.');
@@ -104,9 +110,8 @@ function removeTrailingZeros(value) {
   return value;
 }
 
-function checkValueLength(value) {
+function checkValueLength(value, point = 18) {
   const round = 10;
-  const point = 18;
   if (value.includes('.')) {
     if (value.split('.')[0].length > round || value.split('.')[1].length > point) {
       return false;
@@ -329,7 +334,7 @@ function checkLength(message) {
   tmpStr = String(message);
 
   for (var k = 0; k < tmpStr.length; k++) {
-    // [=91     \=92    ]=93    ^=94    {=123    |=124    }=125    ~=126 A~Z 65 ~ 90     a~z 97~122
+    // [=91 \=92 ]=93 ^=94 {=123 |=124 }=125 ~=126 A~Z 65 ~ 90 a~z 97~122
     if (tmpStr.charCodeAt(k) === 91 || tmpStr.charCodeAt(k) === 92 ||
       tmpStr.charCodeAt(k) === 93 || tmpStr.charCodeAt(k) === 94 ||
       tmpStr.charCodeAt(k) === 123 || tmpStr.charCodeAt(k) === 124 ||
@@ -410,17 +415,6 @@ function makeEthRawTx(isToken, data) {
 
 function makeIcxRawTx(isContract, data) {
   let rawTx = {}
-  if (!IS_V3) {
-    const sendAmount = window.web3.toWei(new BigNumber(data.value), "ether");
-    rawTx = {
-      from: data.from,
-      to: data.to,
-      value: window.web3.toHex(sendAmount),
-      fee: "0x2386f26fc10000",
-      timestamp: (new Date()).getTime().toString() + '000'
-    }
-    return rawTx
-  }
 
   if (isContract) {
     rawTx = {
@@ -498,15 +492,11 @@ function dataToHex(text) {
     convertedText += char;
   }
 
-  return convertedText;
+  return check0xPrefix(convertedText);
 }
 
 function bytesToKB(input) {
   return Math.ceil(input / 1024);
-}
-
-function getHexByteLength(input) {
-  return input / 2;
 }
 
 function isObject(value) {
@@ -522,7 +512,7 @@ function calcIcxMessageKB({
   dataType,
   data
 }) {
-  return dataType === 'utf8' ? bytesToKB(getHexByteLength(checkLength(dataToHex(data)))) : bytesToKB(getHexByteLength(data.length))
+  return dataType === 'utf8' ? bytesToKB(checkLength(JSON.stringify(dataToHex(data)))) : bytesToKB(JSON.stringify(data).length)
 }
 
 function fromHexToDec(num) {
@@ -532,10 +522,120 @@ function fromHexToDec(num) {
 }
 
 function fromDecToHex(num) {
-  if (!num) return 0x0 
+  if (!num) return 0x0
   else if ((String(num)).startsWith('0x')) return num
   else return '0x' + (new BigNumber(num)).toString(16)
 }
+
+function handleCopy(selector, copyState, setState) {
+  const key = document.querySelector(selector);
+  if (copyState === COPY_STATE['on']) {
+    return false;
+  } else {
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(key);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    try {
+      document.execCommand('copy');
+      selection.removeAllRanges();
+      setState({
+        copyState: COPY_STATE['on']
+      }, () => {
+        const self = this;
+        window.setTimeout(function () {
+          setState({
+            copyState: COPY_STATE['off']
+          })
+        },
+          1000)
+      }
+      )
+    } catch (e) {
+      alert(e);
+    }
+  }
+}
+
+function beautifyJson(data, tab) {
+  if (!data) {
+    return ''
+  }
+  try {
+    let _data = {}
+    if (typeof data === 'object') {
+      _data = data
+    }
+    else if (typeof data === 'string') {
+      _data = JSON.parse(data)
+    }
+    return JSON.stringify(_data, null, tab)
+  }
+  catch (e) {
+    console.log(e)
+    return ''
+  }
+}
+
+function convertToPercent(num = 0, den = 0, fixed = 0) {
+  const n = num.toString()
+  const d = den.toString()
+
+  if (d === '0') {
+    return (0).toFixed(fixed)
+  }
+
+  const value = n / d * 100
+  return value.toFixed(fixed);
+}
+
+function fromLoop(value) {
+  if (!value) return 0
+  return new BigNumber(value).dividedBy('1000000000000000000')
+}
+
+function toLoop(value) {
+  if (!value) return 0
+  return new BigNumber(value).times('1000000000000000000')
+}
+
+function isValidICXInput(input, point = 18) {
+  const value = input.replace(/\s+/g, '');
+  if (!isNaN(value) && checkValueLength(value, point) && !value.includes("+") && !value.includes("-")) {
+    return true
+  }
+  return false
+}
+
+function trimSpace(input) {
+  return input.replace(/\s+/g, '');
+}
+
+function map({ value, x1, y1, x2, y2 }) {
+  if (x1.eq(y1)) return new BigNumber(100)
+  return ((value.minus(x1)).times(y2.minus(x2))).div(y1.minus(x1)).plus(x2)
+}
+
+function convertStakeValueToText(val) {
+  if (!val) return 0
+  return numberWithCommasWithZero(val.toFixed(4))
+}
+
+function convertIScoreToText(val) {
+  if (!val) return 0
+  return numberWithCommasWithZero(val.toFixed(8))
+}
+
+// function addZeros(num, zeros) {
+//   console.log(num)
+//   num = Number(num);
+//   if (!num) return 0;
+//   if (String(num).split(".").length < 2 || String(num).split(".")[1].length <= zeros ){
+//       num = num.toFixed(zeros);
+//   }
+//   return num;
+// }
 
 export {
   charFreq,
@@ -579,8 +679,17 @@ export {
   isObject,
   checkURLSuffix,
   calcIcxMessageKB,
-  getHexByteLength,
   fromHexToDec,
   fromDecToHex,
-  isPrivateKey
+  isPrivateKey,
+  handleCopy,
+  beautifyJson,
+  convertToPercent,
+  fromLoop,
+  toLoop,
+  isValidICXInput,
+  trimSpace,
+  map,
+  convertStakeValueToText,
+  convertIScoreToText,
 }

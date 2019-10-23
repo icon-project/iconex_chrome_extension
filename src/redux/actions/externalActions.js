@@ -34,6 +34,13 @@ export function setScoreStep(payload) {
     }
 }
 
+export function setScoreTime(payload) {
+    return {
+        type: actionTypes.setScoreTime,
+        payload
+    }
+}
+
 export function callScore(payload) {
     return {
         type: actionTypes.callScore,

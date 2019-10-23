@@ -17,9 +17,10 @@ import {
   UnlockPopupContainer,
   ChangePasscodeContainer,
   ImmunityPopupContainer,
-  SwapTokenContainer,
   ContractListContainer,
-  ConnectLedgerContainer
+  ConnectLedgerContainer,
+  ClaimIScoreContainer,
+  StakeContainer,
 } from 'app/containers/';
 
 class Popup extends Component {
@@ -37,36 +38,42 @@ class Popup extends Component {
       popupState,
     } = this.props;
     if (popupState) {
-  		window.jQuery("#popup").popUpFx();
+      window.jQuery("#popup").popUpFx();
     }
   }
 
-  closePopup = () => {
-    this.props.closePopup();
-  }
-
   switchPopupClass = () => {
-    const { popupType, popupNum, funcResult, error } = this.props
-    const isSuccess = funcResult[0] && !error
+    const { popupType, popupNum } = this.props
+
     if (popupType.startsWith('sendTransaction')) {
       const pageType = popupType.split('_')[1];
-      switch(true) {
-        case ((pageType === 'swap' || pageType === 'transaction') && popupNum === 2) : {
-          return 'send'
+      switch (true) {
+        case (pageType === 'transaction' && (popupNum === 2 || popupNum === 3)): {
+          return `ledger send num-${popupNum}`
         }
-        case (pageType === 'contract' && popupNum === 3 && !isSuccess) : {
-          return ''
-        }
-        case (pageType === 'contract' && (popupNum === 2 || popupNum === 3)) : {
+        case (pageType === 'contract' && popupNum === 2): {
           return 'contract'
+        }
+        case (pageType === 'contract' && popupNum === 3): {
+          return 'ledger'
         }
         default:
           return ''
       }
     }
+
     if (popupType === 'connectLedger' && popupNum === 1) {
-      return 'send ledger'
+      return 'ledger'
     }
+
+    if (popupType === 'claimIScore') {
+      return 'claim'
+    }
+
+    if (popupType === 'stake') {
+      return 'stake'
+    }
+
     return ''
   }
 
@@ -77,7 +84,7 @@ class Popup extends Component {
     } = this.props;
 
     const content = (type) => {
-      switch(type) {
+      switch (type) {
         case 'createWallet':
           return <CreateWalletContainer />
         case 'importWallet':
@@ -104,37 +111,40 @@ class Popup extends Component {
           return <UpdateTokenContainer />
         case 'addressBook':
         case 'myWallet':
-          return <AddressListContainer type={type}/>
+          return <AddressListContainer type={type} />
         case 'sendTransaction_exchange':
         case 'sendTransaction_transaction':
-          return <SendTransactionContainer type={type} pageType={'transaction'}/>
-        case 'sendTransaction_swap':
-          return <SendTransactionContainer type={type} pageType={'swap'}/>
         case 'sendTransaction_contract':
-          return <SendTransactionContainer type={type} pageType={'contract'}/>
+        case 'sendTransaction_vote':
+        case 'sendTransaction_stake':
+        case 'sendTransaction_claimIScore':
+          const pageType = popupType.split('_')[1];
+          return <SendTransactionContainer type={type} pageType={pageType} />
         case 'changePasscode':
           return <ChangePasscodeContainer />
         case 'unlockPopup':
           return <UnlockPopupContainer />
         case 'immunityPopup':
           return <ImmunityPopupContainer />
-        case 'swapToken':
-          return <SwapTokenContainer />
         case 'contractList':
-          return <ContractListContainer type={type}/>
+          return <ContractListContainer type={type} />
         case 'connectLedger':
           return <ConnectLedgerContainer />
+        case 'claimIScore':
+          return <ClaimIScoreContainer />
+        case 'stake':
+          return <StakeContainer />
         default:
           break;
-          }
+      }
     }
 
     return (
       <div>
-        { popupState && (
+        {popupState && (
           <div id="popup" className={`popup-wrap ${this.switchPopupClass()}`}>
-            { content(popupType) }
-        	</div>
+            {content(popupType)}
+          </div>
         )}
       </div>
     );

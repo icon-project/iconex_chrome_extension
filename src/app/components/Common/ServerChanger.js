@@ -14,7 +14,7 @@ const INIT_STATE = {
 // style
 const ulStyle = {
   position: 'absolute',
-  top: '20px',
+  top: '6px',
   right: '110px',
   display: 'inline-block'
 }
@@ -22,20 +22,20 @@ const liStyle = {
   'float': 'left',
   'margin': '0 20px 0 0',
 }
-const borderStyle = { width: 3, borderRight: '1px solid #5f5f5f', marginRight: 20, height: 47, float: 'left'}
+const borderStyle = { width: 3, borderRight: '1px solid #5f5f5f', marginRight: 20, height: 38, float: 'left' }
 const spanStyle = {
   display: 'block',
   fontSize: '10px',
   textAlign: 'center',
-  marginTop: '6px',
+  marginTop: '0px',
   color: '#888'
 }
-const emStyle = {color: '#666'}
+const emStyle = { color: '#666' }
 
 const inputUlStyle = {
   position: 'absolute',
   right: '353px',
-  top: '20px'
+  top: '8px'
 }
 
 const inputLiStyle = {
@@ -51,7 +51,9 @@ const inputButtonStyle = {
   height: '20px',
   fontSize: '11px',
   color: '#888',
-  padding: 0
+  padding: 0,
+  marginTop: 6,
+  cursor: 'pointer'
 }
 
 class ServerChanger extends Component {
@@ -115,6 +117,7 @@ class ServerChanger extends Component {
           <li
             style={liStyle}>
             <ComboBox
+              width={72}
               list={icxServerList}
               index={showCustomInput ? 'custom' : getCurrentServer('icx')}
               setIndex={(index) => this.changeServer(index, 'icx')}
@@ -137,6 +140,7 @@ class ServerChanger extends Component {
           <li style={borderStyle}></li>
           <li style={liStyle}>
             <ComboBox
+              width={72}
               list={ethServerList}
               index={getCurrentServer('eth')}
               setIndex={(index) => this.changeServer(index, 'eth')}
@@ -174,14 +178,15 @@ class ComboBox extends Component {
   }
 
   render() {
+    const { width } = this.props
     return (
       <span style={{
         border: '1px dotted #545454',
         padding: 2,
-        width: 72,
+        width: width,
         display: 'block',
         textAlign: 'center',
-        fontSize: '14px',
+        fontSize: '11px',
         color: '#9e9e9e'
       }} className={`money-group ${this.props.disabled ? 'disabled' : ''}`} onClick={this.toggleList}>
         {this.props.index ? this.props.list[this.props.index].toUpperCase() : '    '}
@@ -194,17 +199,17 @@ class ComboBox extends Component {
           style={{
             position: 'absolute',
             bottom: '44px',
-            width: '72px',
+            width: width,
             marginLeft: '-3px'
           }}
-        className="layer typeB">
-        {this.state.showList &&
-          <CurrencyList
-            {...this.props}
-            onClickOut={this.toggleList}
-            setIndex={this.setIndex}
-          />
-        }
+          className="layer typeB">
+          {this.state.showList &&
+            <CurrencyList
+              {...this.props}
+              onClickOut={this.toggleList}
+              setIndex={this.setIndex}
+            />
+          }
         </div>
       </span>
     )
@@ -225,7 +230,7 @@ class CurrencyList extends Component {
             padding: '4px',
             color: '#b1b1b1'
           }}
-          key={i} className={listKey[i] === this.props.index ? 'on' : ''} onClick={this.props.setIndex.bind(this, listKey[i])}><span>{c.toUpperCase()}</span></li>
+            key={i} className={listKey[i] === this.props.index ? 'on' : ''} onClick={this.props.setIndex.bind(this, listKey[i])}><span>{c.toUpperCase()}</span></li>
         })}
       </ul>
     )

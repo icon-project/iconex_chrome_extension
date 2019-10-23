@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { UpdateToken } from 'app/components/';
 import { updateToken, resetSelectedWallet } from 'redux/actions/walletActions';
 import { withRouter } from 'react-router-dom';
-import {  closePopup } from 'redux/actions/popupActions';
+import { closePopup } from 'redux/actions/popupActions';
 
 function mapStateToProps(state) {
   return {

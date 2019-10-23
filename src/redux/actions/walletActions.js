@@ -1,8 +1,9 @@
 import actionTypes from 'redux/actionTypes/actionTypes';
 
-export function getWallet() {
+export function getWallet(payload = {}) {
   return {
-    type: actionTypes.getWallet
+    type: actionTypes.getWallet,
+    payload
   };
 }
 
@@ -142,6 +143,13 @@ export function addRecentTransaction(transactionData) {
 export function updateWalletBalance(payload) {
   return {
     type: actionTypes.updateWalletBalance,
+    payload
+  };
+}
+
+export function setLogInState(payload) {
+  return {
+    type: actionTypes.setLogInState,
     payload
   };
 }

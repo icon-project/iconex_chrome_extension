@@ -22,7 +22,7 @@ class ImportWallet5 extends Component {
   }
 
   handleSubmit = () => {
-    if(!this.props.loading) {
+    if (!this.props.loading) {
       this.validationForm.validateForm(['walletName'], 'submit');
     }
   }
@@ -42,7 +42,7 @@ class ImportWallet5 extends Component {
 
     const iconexObj = generateIconexObject(key, type, walletName, JSON.stringify(v3Obj));
 
-    if(!loading) {
+    if (!loading) {
       this.props.createWallet(iconexObj);
       this.setState({
         showAlertImportSuccess: true
@@ -65,38 +65,40 @@ class ImportWallet5 extends Component {
     const { I18n } = this.props;
     return (
       <div>
+        <div className="header">
           <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
           <h1 className="title">{I18n.importWallet.title}</h1>
           <h2>{I18n.importWallet.desc5}</h2>
-          <ValidationForm
-            type="importWallet_file"
-            initialName={''}
-            ref={instance => { this.validationForm = instance; }}
-            onSuccess={(walletName, pw) => this.createWallet(walletName)}
-            {...this.props}
-            handleSubmit={this.handleSubmit}
+        </div>
+        <ValidationForm
+          type="importWallet_file"
+          initialName={''}
+          ref={instance => { this.validationForm = instance; }}
+          onSuccess={(walletName, pw) => this.createWallet(walletName)}
+          {...this.props}
+          handleSubmit={this.handleSubmit}
+        />
+        <div className="btn-holder">
+          <button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.import}</span></button>
+        </div>
+        {
+          showAlertAccountSame && (
+            <Alert
+              handleCancel={this.closeAlert}
+              text={I18n.error.alertAccountSame}
+              cancelText={I18n.button.confirm}
             />
-          <div className="btn-holder">
-            <button onClick={this.handleSubmit} type="submit" className="btn-type-normal"><span>{I18n.button.import}</span></button>
-          </div>
-          {
-            showAlertAccountSame && (
-              <Alert
-                handleCancel={this.closeAlert}
-                text={I18n.error.alertAccountSame}
-                cancelText={I18n.button.confirm}
-              />
-            )
-          }
-          {
-            showAlertImportSuccess && (
-              <Alert
-                handleSubmit={this.logIn}
-                text={I18n.importWallet.importSuccessAlert}
-                submitText={I18n.button.confirm}
-              />
-            )
-          }
+          )
+        }
+        {
+          showAlertImportSuccess && (
+            <Alert
+              handleSubmit={this.logIn}
+              text={I18n.importWallet.importSuccessAlert}
+              submitText={I18n.button.confirm}
+            />
+          )
+        }
       </div>
     );
   }

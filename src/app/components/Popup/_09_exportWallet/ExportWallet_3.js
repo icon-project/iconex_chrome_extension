@@ -46,7 +46,7 @@ class ExportWallet3 extends Component {
       isDownloaded: false,
       loading: true
     }, () => {
-      this.worker.postMessage({exportWalletObjects: exportWalletObjects, newPw: newPw, type: 'exportWallet_3'});
+      this.worker.postMessage({ exportWalletObjects: exportWalletObjects, newPw: newPw, type: 'exportWallet_3' });
     })
   }
 
@@ -61,7 +61,7 @@ class ExportWallet3 extends Component {
     this.closePopup()
     const { history } = this.props;
     history.push({
-      pathname: ROUTE['mywallet']
+      pathname: ROUTE['home']
     });
 
   }
@@ -71,29 +71,32 @@ class ExportWallet3 extends Component {
     const { I18n } = this.props;
     return (
       <div className="popup">
-  			<span onClick={this.closePopup} className="close"><em className="_img"></em></span>
-  			<h1 className="title">{I18n.exportWallet.title}</h1>
-  			<h2>{I18n.exportWallet.desc3}</h2>
+        <div className="header">
+          <span onClick={this.closePopup} className="close"><em className="_img"></em></span>
+          <h1 className="title">{I18n.exportWallet.title}</h1>
+          <h2>{I18n.exportWallet.desc3}</h2>
+        </div>
         <div className="scroll-holder">
-  				<div className="scroll">
-            <div className="message-holder margin-none"><i className="_img"></i>
-      				{I18n.exportWallet.infoBoxTitle2}
-      			</div>
-      			<div className="message-holder line">
-      				<ul>
-      					<li>{I18n.exportWallet.infoBoxDesc2_1}</li>
-      					<li>{I18n.exportWallet.infoBoxDesc2_2}</li>
-      				</ul>
-      			</div>
+          <div className="scroll">
+            <div class="tabbox-holder">
+              <div class="pw-group margin-none">
+                <p class="title">{I18n.exportWallet.infoTitle}</p>
+              </div>
+            </div>
+
+            <div className="message-holder mt-small">
+              <ul>
+                <li>{I18n.exportWallet.infoBoxTitle2}</li>
+                <li>{I18n.exportWallet.infoBoxDesc2_1}</li>
+                <li>{I18n.exportWallet.infoBoxDesc2_2}</li>
+              </ul>
+            </div>
+
           </div>
         </div>
         <div className="btn-holder">
-          <div className="tabbox-holder">
-    				<div className="download">
-    					{ loading ? (<button type="submit" className="btn-type-normal size-full load"><span><LoadingComponent type="black" /></span></button>)
-                        : (<button onClick={this.handleDownload} type="submit" className="btn-type-normal size-full"><span>{I18n.button.download}</span></button>)}
-            </div>
-    			</div>
+          {loading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="white" /></span></button>)
+            : (<button onClick={this.handleDownload} type="submit" className="btn-type-next size-full"><span>{I18n.button.download}</span></button>)}
         </div>
         {
           isDownloaded && (
@@ -104,7 +107,7 @@ class ExportWallet3 extends Component {
             />
           )
         }
-  		</div>
+      </div>
     );
   }
 }

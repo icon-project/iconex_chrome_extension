@@ -5,9 +5,7 @@ import withLanguageProps from 'HOC/withLanguageProps';
 import { initialStepLimit } from 'redux/reducers/exchangeTransactionReducer'
 
 const INIT_STATE = {
-  txFeeLimitHelpLayer: false,
-  txFeePriceHelpLayer: false,
-  dataHelpLayer: false
+
 }
 
 @withLanguageProps
@@ -82,11 +80,6 @@ class TxFeeAndData extends Component {
   }
 
   render() {
-    const {
-      txFeeLimitHelpLayer,
-      txFeePriceHelpLayer,
-      dataHelpLayer
-    } = this.state;
 
     const {
       txFeePrice,
@@ -106,10 +99,10 @@ class TxFeeAndData extends Component {
     const { walletCoinType, txFeePriceWithRate } = calcData;
 
     const txFeeLimitErrorText =
-        txFeeLimitError === 'stepLimitTooLow' ? I18n.error[txFeeLimitError](initialStepLimit(isToken, txFeeLimitTable)) :
+      txFeeLimitError === 'stepLimitTooLow' ? I18n.error[txFeeLimitError](initialStepLimit(isToken, txFeeLimitTable)) :
         txFeeLimitError === 'stepLimitTooHigh' ? I18n.error[txFeeLimitError](txFeeLimitMax.toString()) :
-        txFeeLimitError === 'notEnoughBalance' ? I18n.error[txFeeLimitError](calcData.walletCoinType.toUpperCase()) :
-        I18n.error[txFeeLimitError];
+          txFeeLimitError === 'notEnoughBalance' ? I18n.error[txFeeLimitError](calcData.walletCoinType.toUpperCase()) :
+            I18n.error[txFeeLimitError];
 
     const dataKB = calcIcxMessageKB({
       data,
@@ -118,160 +111,127 @@ class TxFeeAndData extends Component {
 
     if (isContractPage) {
       return (
-      <div className="-group">
         <div className="-group">
-					<span className="title">{I18n[`transferPageLabel7_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeeLimitHelpLayer" className="_img"></i>
-            {
-              txFeeLimitHelpLayer && (
-                <div className="help-layer">
-                  <p className="title">{I18n[`transferPageHelperTitle2_${walletCoinType}`]}</p>
-                  <p className="txt">{nToBr(I18n[`transferPageHelperDesc2_${walletCoinType}`])}</p>
-                </div>
-              )
-            }
-					</span>
-				  <input onChange={this.setTxFeeLimit} type="text" className={`txt-type-normal ${txFeeLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={txFeeLimit} onBlur={this.handleTxFeeLimitBlur} />
-          <p className="error">{txFeeLimitErrorText}</p>
-				</div>
-        <div className="-group price">
-					<span className="title">{I18n[`transferPageLabel10_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeePriceHelpLayer" className="_img"></i>
-            {
-              txFeePriceHelpLayer && (
+          <div className="-group">
+            <span className="title">{I18n[`transferPageLabel7_${walletCoinType}`]}<i className="_img tooltip info-i"></i>
+              <div className="help-layer">
+                <p className="title">{I18n[`transferPageHelperTitle2_${walletCoinType}`]}</p>
+                <p className="txt">{I18n[`transferPageHelperDesc2_${walletCoinType}`]}</p>
+              </div>
+            </span>
+            <input onChange={this.setTxFeeLimit} type="text" className={`txt-type-normal ${txFeeLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={txFeeLimit} onBlur={this.handleTxFeeLimitBlur} />
+            <p className="error">{txFeeLimitErrorText}</p>
+          </div>
+          <div className="-group price">
+            <span className="title">{I18n[`transferPageLabel10_${walletCoinType}`]}<i className="_img tooltip info-i"></i>
               <div className="help-layer">
                 <p className="title">{I18n[`transferPageHelperTitle3_${walletCoinType}`]}</p>
-                <p ref={ref => {if (ref) ref.innerHTML = I18n[`transferPageHelperDesc3_${walletCoinType}`]}} className="txt"></p>
+                <p ref={ref => { if (ref) ref.innerHTML = I18n[`transferPageHelperDesc3_${walletCoinType}`] }} className="txt"></p>
               </div>
-              )
-            }
-					</span>
-          <ul className="change-group">
-						<li className="loop">
-							<span className="b">{convertNumberToText(window.web3.fromWei(txFeePrice, 'ether'), 'transaction', true)}<em>ICX ({convertNumberToText(window.web3.fromWei(txFeePrice, 'gwei'), 'transaction', true)} Gloop)</em></span>
-							<span className="c"><i className="_img"></i><em>{txFeePriceWithRate}</em> <em>USD</em></span>
-						</li>
-					</ul>
-				</div>
-      </div>
+            </span>
+            <div className="controller">
+              <span className="a loop">{convertNumberToText(window.web3.fromWei(txFeePrice, 'ether'), 'transaction', true)}<em>ICX ({convertNumberToText(window.web3.fromWei(txFeePrice, 'gwei'), 'transaction', true)} Gloop)</em></span>
+              <span className="won"><i className="_img"></i><em>{txFeePriceWithRate}</em> <em>USD</em></span>
+            </div>
+          </div>
+        </div>
       )
     }
 
     return (
       <div id="gasTable">
         <div className="group">
-          <span className="label">{I18n[`transferPageLabel7_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeeLimitHelpLayer" className="_img"></i>
-            {
-              txFeeLimitHelpLayer && (
-                <div className="help-layer">
-                  <p className="title">{I18n[`transferPageHelperTitle2_${walletCoinType}`]}</p>
-                  <p className="txt">{nToBr(I18n[`transferPageHelperDesc2_${walletCoinType}`])}</p>
-                </div>
-              )
-            }
+          <span className="label">{I18n[`transferPageLabel7_${walletCoinType}`]}<i className="_img tooltip info-i"></i>
+            <div className="help-layer">
+              <p className="title">{I18n[`transferPageHelperTitle2_${walletCoinType}`]}</p>
+              <p className="txt">{I18n[`transferPageHelperDesc2_${walletCoinType}`]}</p>
+            </div>
           </span>
-          <p className="error gasLimit">{txFeeLimitErrorText}</p>
           <input onChange={this.setTxFeeLimit} type="text" className={`txt-type-normal ${txFeeLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={txFeeLimit} onBlur={this.handleTxFeeLimitBlur} />
+          <p className="error gasLimit">{txFeeLimitErrorText}</p>
         </div>
         <div className="group money">
-          <span className="label">{I18n[`transferPageLabel10_${walletCoinType}`]}<i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="txFeePriceHelpLayer" className="_img"></i>
-            {
-              txFeePriceHelpLayer && (
-              <div className="help-layer">
-                <p className="title">{I18n[`transferPageHelperTitle3_${walletCoinType}`]}</p>
-                <p ref={ref => {if (ref) ref.innerHTML = I18n[`transferPageHelperDesc3_${walletCoinType}`]}} className="txt"></p>
-              </div>
-              )
-            }
+          <span className="label">{I18n[`transferPageLabel10_${walletCoinType}`]}<i className="_img tooltip info-i"></i>
+            <div className="help-layer">
+              <p className="title">{I18n[`transferPageHelperTitle3_${walletCoinType}`]}</p>
+              <p ref={ref => { if (ref) ref.innerHTML = I18n[`transferPageHelperDesc3_${walletCoinType}`] }} className="txt"></p>
+            </div>
           </span>
           {
             walletCoinType === 'icx' ? (
               <div className="controller">
-								<span className="a loop"><em>{convertNumberToText(window.web3.fromWei(txFeePrice, 'ether'), 'transaction', true)}</em>ICX ({convertNumberToText(window.web3.fromWei(txFeePrice, 'gwei'), 'transaction', true)} Gloop)</span>
+                <span className="a loop">{convertNumberToText(window.web3.fromWei(txFeePrice, 'ether'), 'transaction', true)}<em>ICX ({convertNumberToText(window.web3.fromWei(txFeePrice, 'gwei'), 'transaction', true)} Gloop)</em></span>
                 <span className="won"><i className="_img"></i><em>{txFeePriceWithRate}</em> <em>USD</em></span>
-    					</div>
-            ) : (
-              <div className="controller">
-                <span className="a"><em>{txFeePrice}</em>Gwei</span>
-
-                <button onClick={() => this.setTxFeePriceByClick(txFeePrice - 1)} className="b minus"><em className="_img"></em></button>
-                <button onClick={() => this.setTxFeePriceByClick(txFeePrice + 1)} className="b plus"><em className="_img"></em></button>
-                <span className="c">{I18n.transferPageSlow}</span>
-                <InputRange
-                  maxValue={99}
-                  minValue={1}
-                  value={txFeePrice}
-                  step={1}
-                  classNames={{
-                    minLabel: 'none',
-                    maxLabel: 'none',
-                    valueLabel: 'none',
-                    inputRange: 'drag-holder',
-                    track: 'bg',
-                    activeTrack: 'bar',
-                    sliderContainer: 'drag-wrap',
-                    slider: 'drag'
-                  }}
-                  onChange={txFeePrice => {
-                    this.props.setTxFeePrice(txFeePrice);
-                    this.props.setTxFeeModified(true);
-                  }}
-                  onChangeComplete={() => this.props.setCalcData()} />
-                <ul id="dragBar">
-                  <li>1</li>
-                  <li>10</li>
-                  <li>20</li>
-                  <li>30</li>
-                  <li>40</li>
-                  <li>50</li>
-                  <li>60</li>
-                  <li>70</li>
-                  <li>80</li>
-                  <li>90</li>
-                  <li>99</li>
-                </ul>
-                <span>{I18n.transferPageFast}</span>
               </div>
-            )
+            ) : (
+                <div className="controller">
+                  <span className="a">{txFeePrice}<em>Gwei</em></span>
+
+                  <button onClick={() => this.setTxFeePriceByClick(txFeePrice - 1)} className="b minus"><em className="_img"></em></button>
+                  <button onClick={() => this.setTxFeePriceByClick(txFeePrice + 1)} className="b plus"><em className="_img"></em></button>
+                  <InputRange
+                    maxValue={99}
+                    minValue={1}
+                    value={txFeePrice}
+                    step={1}
+                    classNames={{
+                      minLabel: 'none',
+                      maxLabel: 'none',
+                      valueLabel: 'none',
+                      inputRange: 'drag-holder',
+                      track: 'bg',
+                      activeTrack: 'bar',
+                      sliderContainer: 'drag-wrap',
+                      slider: 'drag'
+                    }}
+                    onChange={txFeePrice => {
+                      this.props.setTxFeePrice(txFeePrice);
+                      this.props.setTxFeeModified(true);
+                    }}
+                    onChangeComplete={() => this.props.setCalcData()} />
+                  <ul id="dragBar">
+                    <li>1 <em>({I18n.transferPageSlow})</em></li>
+                    <li>99 <em>({I18n.transferPageFast})</em></li>
+                  </ul>
+                </div>
+              )
           }
         </div>
         {
           !isToken && (
             <div className="group datainput">
-							<span className="label">{I18n.transferPageLabel8}<em>{I18n.transferPageLabel9}</em><i onMouseOver={this.toggleInfo} onMouseLeave={this.toggleInfo} data-name="dataHelpLayer" className="_img"></i>
-                {
-                  dataHelpLayer && (
-                  <div className="help-layer">
-                    <p className="title">{I18n[`transferPageHelperTitle4_${walletCoinType}`]}</p>
-                    <p className="txt">{I18n[`transferPageHelperDesc4_${walletCoinType}`]}</p>
-                  </div>
-                  )
-                }
-							</span>
+              <span className="label">{I18n.transferPageLabel8}<em>{I18n.transferPageLabel9}</em><i className="_img tooltip info-i"></i>
+                <div className="help-layer">
+                  <p className="title">{I18n[`transferPageHelperTitle4_${walletCoinType}`]}</p>
+                  <p className="txt">{I18n[`transferPageHelperDesc4_${walletCoinType}`]}</p>
+                </div>
+              </span>
               {
                 walletCoinType === 'icx' && (
                   <div className="-holder">
-    								<ul className="coin">
-    									<li onClick={this.setDataType} data-type='utf8'>
-    										<input id="rbox-01" className="rbox-type" type="radio" name="rbox-1" checked={dataType === 'utf8'} readOnly />
-    										<label htmlFor="rbox-01" className="_img">UTF-8</label>
-    									</li>
-    									<li onClick={this.setDataType} data-type='hex'>
-    										<input id="rbox-02" className="rbox-type" type="radio" name="rbox-1" checked={dataType === 'hex'} readOnly />
-    										<label htmlFor="rbox-02" className="_img">HEX</label>
-    									</li>
-    								</ul>
-    							</div>
+                    <ul className="coin">
+                      <li onClick={this.setDataType} data-type='utf8'>
+                        <input id="rbox-01" className="rbox-type" type="radio" name="rbox-1" checked={dataType === 'utf8'} readOnly />
+                        <label htmlFor="rbox-01" className="_img">UTF-8</label>
+                      </li>
+                      <li onClick={this.setDataType} data-type='hex'>
+                        <input id="rbox-02" className="rbox-type" type="radio" name="rbox-1" checked={dataType === 'hex'} readOnly />
+                        <label htmlFor="rbox-02" className="_img">HEX</label>
+                      </li>
+                    </ul>
+                  </div>
                 )
               }
-						</div>
+            </div>
           )
         }
         {
           !isToken && (
             <div className={`input-group ${dataError && 'error'}`}>
-							<textarea style={walletCoinType === 'eth' ? {marginTop: '-40px', resize: 'none'} : {resize: 'none'}} onChange={this.setData} onBlur={this.handleDataBlur} value={data} placeholder={`${I18n.transferPageLabel8} ${I18n.transferPageLabel9}`}></textarea>
+              <textarea style={walletCoinType === 'eth' ? { marginTop: '-40px', resize: 'none' } : { resize: 'none' }} onChange={this.setData} onBlur={this.handleDataBlur} value={data} placeholder={`${I18n.transferPageLabel8} ${I18n.transferPageLabel9}`}></textarea>
               <p className="error data">{I18n.error[dataError]}</p>
-              { walletCoinType === 'icx' && (<p><span>≒ {dataKB}KB</span> / 250KB</p>) }
-						</div>
+              {walletCoinType === 'icx' && (<p><span>≒ {dataKB}KB</span> / 250KB</p>)}
+            </div>
           )
         }
       </div>

@@ -17,14 +17,16 @@ class ContractReadPage extends Component {
 
     if (this.props.walletsLoading) {
       return (
-        <div className="page-loading-wrap">
-          <LoadingComponent type="black" />
+        <div className="wrap-holder contract">
+          <div className="page-loading-wrap">
+            <LoadingComponent type="black" />
+          </div>
         </div>
       );
     }
 
     return (
-      <div>
+      <div className="wrap-holder contract">
         <ContractSearchSectionContainer />
         <ContractRunSectionContainer />
       </div>

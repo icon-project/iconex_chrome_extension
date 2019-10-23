@@ -12,7 +12,7 @@ function mapStateToProps(state) {
     selectedTokenId: state.wallet.selectedWallet.tokenId,
     calcData: state.exchangeTransaction.calcData,
     isToken: state.wallet.selectedWallet.isToken,
-    isLoggedIn: state.exchangeTransaction.isLoggedIn,
+    isLoggedIn: state.wallet.selectedWallet.isLoggedIn,
     recipientAddress: state.exchangeTransaction.recipientAddress,
     recipientAddressError: state.exchangeTransaction.recipientAddressError,
     historyLoading: state.history.historyLoading,

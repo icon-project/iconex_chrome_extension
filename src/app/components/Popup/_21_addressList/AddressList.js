@@ -59,8 +59,8 @@ class AddressList extends Component {
           })
         }
         addressArr = addressArr
-                    .filter(l => l.account !== selectedAccount)
-                    .filter(l => l.type === currentWallet.type)
+          .filter(l => l.account !== selectedAccount)
+          .filter(l => l.type === currentWallet.type)
         return addressArr
       case 'addressBook':
         return this.props[`${currentWallet.type}AddressBook`]
@@ -98,15 +98,15 @@ class AddressList extends Component {
 
     return (
       <div>
-        <div className="dimmed"></div>
-        <div className="popup address">
+        <div className="dimmed fade-in"></div>
+        <div className="popup address moving-down">
           <span className="close" onClick={this.props.closePopup}><em className="_img"></em></span>
           <h1 className="title">{title}</h1>
           <AddressTable
             selectAddress={(address) => this.props.setRecipientAddress(address, true)}
             listArr={addressArr}
             currentWallet={currentWallet}
-            {...this.props}/>
+            {...this.props} />
         </div>
       </div>
     );

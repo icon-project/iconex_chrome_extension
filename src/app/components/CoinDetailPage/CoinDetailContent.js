@@ -12,10 +12,9 @@ const INIT_STATE = {
   currency: '원/KRW',
   showInfo: false,
   showCurrencyList: false,
+  balanceStyle: {},
 
   showAlertNoBalance: false,
-  showAlertNoSwapBalance: false,
-  showAlertNoSwapGasBalance: false
 }
 
 @withRouter
@@ -32,6 +31,9 @@ class CoinDetailContent extends Component {
       tokenId: !isToken ? '' : url.split("_")[1],
       isToken: isToken
     });
+
+    // To resize font size only once
+    this.fontSizeUpdated = false
   }
 
   componentWillMount() {
@@ -51,14 +53,50 @@ class CoinDetailContent extends Component {
     this.props.resetReducer();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.fontSizeUpdated) return
+
+    const { account, tokenId, isToken } = this.state;
+    const getFontSize = (divWidth, emWidth) => {
+      this.fontSizeUpdated = true
+      let fontSize = 0
+      fontSize = 500 / (divWidth - emWidth);
+      fontSize = Math.min(Math.max(fontSize, 0.4), 1) * 46;
+      return fontSize
+    }
+
+    if (isToken) {
+      const wallet = this.props.wallets[account];
+      const token = wallet.tokens[tokenId];
+      if (prevProps.wallets[account].tokens[tokenId].balanceLoading !== token.balanceLoading && !token.balanceLoading) {
+        this.setState({
+          balanceStyle: {
+            fontSize: getFontSize(this.refs.balanceDiv.offsetWidth, this.refs.balanceEm.offsetWidth),
+            visibility: 'visible',
+          }
+        })
+      }
+    } else {
+      const wallet = this.props.wallets[account];
+      if (prevProps.wallets[account].balanceLoading !== wallet.balanceLoading && !wallet.balanceLoading) {
+        this.setState({
+          balanceStyle: {
+            fontSize: getFontSize(this.refs.balanceDiv.offsetWidth, this.refs.balanceEm.offsetWidth),
+            visibility: 'visible',
+          }
+        })
+      }
+    }
+  }
+
   toggleCurrencyList = () => {
     this.setState({
       showCurrencyList: !this.state.showCurrencyList
     })
   }
 
-  setCurrencyList = (e) => {
-    this.props.getRate(e.target.getAttribute("data-currency"));
+  setCurrencyList = (currencyType) => {
+    this.props.getRate(currencyType);
     this.setState({
       showCurrencyList: false
     })
@@ -86,33 +124,6 @@ class CoinDetailContent extends Component {
     });
   }
 
-  handleSwapClick = (balance) => {
-    const { account, tokenId } = this.state;
-    const wallet = this.props.wallets[account];
-
-    if (balance.eq(0)) {
-      this.setState({
-        showAlertNoSwapBalance: true
-      });
-      return false;
-    }
-
-    if (wallet.balance.eq(0)) {
-      this.setState({
-        showAlertNoSwapGasBalance: true
-      });
-      return false;
-    }
-
-    this.props.setSelectedWallet({
-      account,
-      tokenId
-    })
-    this.props.openPopup({
-      popupType: 'swapToken'
-    });
-  }
-
   handleTransactionClick = (balance) => {
     const { account, tokenId } = this.state;
     const { history } = this.props;
@@ -137,8 +148,6 @@ class CoinDetailContent extends Component {
   closeAlert = () => {
     this.setState({
       showAlertNoBalance: false,
-      showAlertNoSwapBalance: false,
-      showAlertNoSwapGasBalance: false
     });
   }
 
@@ -184,8 +193,6 @@ class CoinDetailContent extends Component {
     const {
       isToken,
       showAlertNoBalance,
-      showAlertNoSwapBalance,
-      showAlertNoSwapGasBalance
     } = this.state;
 
     const {
@@ -196,68 +203,82 @@ class CoinDetailContent extends Component {
     } = this.props;
 
     const data = this.setData();
-    const isSwapAvailable = false
-
     return (
       <div>
         <div className={`title-holder ${data.coinType}`}>
           <h1>{COIN_NAME[data.coinType] && (<em className="_icon"></em>)}
-            {data.name} <span>{'('+data.coinType.toUpperCase()+')'}</span></h1>
-          <div className="navigator">
-            <span>{I18n.home}</span> /
-            <span><em className="_img"></em> {I18n.myWallet}</span> /
-            <span><em className="_img"></em> {I18n.coin}</span>
-          </div>
+            {data.name}</h1>
         </div>
 
         <div className="wrap-holder bg">
           <h2>{data.walletName}</h2>
           <div className="coin-holder">
-            <span className="a">{I18n.coinDetailContentBalance}</span><br />
             <span className="c">
-              { data.balanceLoading
-                ? ( <div className="load"><LoadingComponent type="black" /></div> )
-                : convertNumberToText(data.balance, 'transaction', true)}<em>{data.coinType.toUpperCase()}</em>
-            </span><br />
+              <div ref="balanceDiv" style={this.state.balanceStyle}>
+                {data.balanceLoading
+                  ? (<div className="load"><LoadingComponent type="black" /></div>)
+                  : convertNumberToText(data.balance, 'transaction', true)}<em ref="balanceEm">{data.coinType.toUpperCase()}</em>
+              </div>
+            </span>
             {
               isToken ? (
                 <span className="d">
-                  <i className="_img"></i><em>{!data.balanceLoading && !rateLoading && (rate[data.defaultSymbol.toLowerCase()] ? convertNumberToText(calcTokenBalanceWithRate(data.balance, rate[data.defaultSymbol.toLowerCase()], data.defaultDecimals, data.decimals), currency, false) : '')}</em>
-                  <span onClick={this.toggleCurrencyList} className={`money-group ${this.state.showCurrencyList ? 'on' : ''}`}>{CURRENCY_NAME[currency]}<em className="_img"></em>
-                    {this.state.showCurrencyList && (
-                      <CurrencyMenuBar type="sub" onClickOut={this.toggleCurrencyList} setCurrencyList={this.setCurrencyList} coinType={data.coinType} />
-                    )}
-                  </span>
+                  {rate[data.defaultSymbol.toLowerCase()] && (<i className="_img"></i>) }
+                  <em>{!data.balanceLoading && !rateLoading && (
+                    rate[data.defaultSymbol.toLowerCase()] 
+                      ? convertNumberToText(calcTokenBalanceWithRate(data.balance, rate[data.defaultSymbol.toLowerCase()], data.defaultDecimals, data.decimals), currency, false) 
+                      : I18n.coinDetailNoPrice
+                  )}</em>
+                  {
+                    rate[data.defaultSymbol.toLowerCase()] && (
+                    <div 
+                      onClick={this.toggleCurrencyList} 
+                      className={`money-group no ${this.state.showCurrencyList ? 'on' : ''}`}>
+                      {CURRENCY_NAME[currency]}
+                      <em className="_img"></em>
+                      {this.state.showCurrencyList && (
+                        <div className="drop-box one">
+                          <div className="drop-layer">
+                            <CurrencyMenuBar type="sub" onClickOut={this.toggleCurrencyList} setCurrencyList={this.setCurrencyList} coinType={data.coinType} />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    )
+                  }
                 </span>
               ) : (
-                <span className="d">
-                  <i className="_img"></i><em>{!data.balanceLoading && !rateLoading && convertNumberToText(data.balance.toNumber() * rate[data.coinType], currency, false)}</em>
-                  <span onClick={this.toggleCurrencyList} className={`money-group ${this.state.showCurrencyList ? 'on' : ''}`}>{CURRENCY_NAME[currency]}<em className="_img"></em>
-                    {this.state.showCurrencyList && (
-                      <CurrencyMenuBar type="sub" onClickOut={this.toggleCurrencyList} setCurrencyList={this.setCurrencyList} coinType={data.coinType} />
-                    )}
+                  <span className="d">
+                    <em>{!data.balanceLoading && !rateLoading && convertNumberToText(data.balance.toNumber() * rate[data.coinType], currency, false)}</em>
+                    <div onClick={this.toggleCurrencyList} className={`money-group no ${this.state.showCurrencyList ? 'on' : ''}`}>{CURRENCY_NAME[currency]}<em className="_img"></em>
+                      {this.state.showCurrencyList && (
+                        <div className="drop-box one">
+                          <div className="drop-layer">
+                            <CurrencyMenuBar type="sub" onClickOut={this.toggleCurrencyList} setCurrencyList={this.setCurrencyList} coinType={data.coinType} />
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </span>
-                </span>
-              )
+                )
             }
             <div className="exchange-holder">
               {/* !data.balanceLoading && !isToken && (<button disabled={true} className="btn-type-exchange2"><span>{I18n.button.exchange}</span></button>) */}
-              {!data.balanceLoading && isSwapAvailable && (<button onClick={() => this.handleSwapClick(data.balance)} className="btn-type-exchange2"><span>{I18n.button.swap}</span></button>)}
               {!data.balanceLoading && (<button onClick={() => this.handleTransactionClick(data.balance)} className="btn-type-exchange2"><span>{I18n.button.transfer}</span></button>)}
             </div>
           </div>
 
           <div className="deposit-hoder">
             <p>{I18n.coinDetailContentAddress}</p>
-            <span>{data.account}<CopyButton type="small" target={data.account} text={I18n.button.copyDepositAddress} copyFinish={I18n.button.copyFinish}/></span>
+            <span>{data.account}<CopyButton type="small" target={data.account} text={I18n.button.copyDepositAddress} copyFinish={I18n.button.copyFinish} /></span>
             <ul>
               <li>· {I18n.coinDetailContentDesc1}</li>
               <li>· {I18n.coinDetailContentDesc2}</li>
             </ul>
-            <div className="qr"><span>{I18n.coinDetailContentQrCode}</span><em><QrcodeComponent scale={3} text={data.account} /></em></div>
+            <div className="qr"><em><QrcodeComponent scale={3} text={data.account} /></em></div>
           </div>
-          { isToken && (<span onClick={this.handleUpdateToken} className="edit-token"><em className="_img"></em>{I18n.button.changeToken}</span>) }
-          { isToken && (<span onClick={this.handleDeleteToken} className="del-token"><em className="_img"></em>{I18n.button.removeToken}</span>) }
+          {isToken && (<span onClick={this.handleUpdateToken} className="edit-token"><em className="_img"></em>{I18n.button.changeToken}</span>)}
+          {isToken && (<span onClick={this.handleDeleteToken} className="del-token"><em className="_img"></em>{I18n.button.removeToken}</span>)}
         </div>
         <TransactionHistory
           account={data.account}
@@ -276,24 +297,6 @@ class CoinDetailContent extends Component {
             <Alert
               handleCancel={this.closeAlert}
               text={I18n.error.alertNoBalance}
-              cancelText={I18n.button.confirm}
-            />
-          )
-        }
-        {
-          showAlertNoSwapBalance && (
-            <Alert
-              handleCancel={this.closeAlert}
-              text={I18n.error.alertNoSwapBalance}
-              cancelText={I18n.button.confirm}
-            />
-          )
-        }
-        {
-          showAlertNoSwapGasBalance && (
-            <Alert
-              handleCancel={this.closeAlert}
-              text={I18n.error.alertNoSwapGasBalance}
               cancelText={I18n.button.confirm}
             />
           )

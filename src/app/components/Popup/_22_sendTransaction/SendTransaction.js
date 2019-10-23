@@ -39,7 +39,7 @@ class SendTransaction extends Component {
     this.setState({
       ledgerTimer: this.state.ledgerTimer - 1
     })
-    if(this.state.ledgerTimer < 1) {
+    if (this.state.ledgerTimer < 1) {
       this.setState({
         ledgerError: 'timeExceed'
       })
@@ -125,7 +125,7 @@ class SendTransaction extends Component {
   getErrorText = () => {
     const { I18n } = this.props;
     const { ledgerError } = this.state;
-    switch(ledgerError) {
+    switch (ledgerError) {
       case 'timeExceed':
         return I18n.error.ledgerTimeout
       case 'deniedByUser':
@@ -145,27 +145,27 @@ class SendTransaction extends Component {
     const selectedWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
 
     const content = (num) => {
-      switch(num) {
+      switch (num) {
         case 1:
           return <SendTransaction1
-                    payload={pageType === 'contract' ? funcResult[0] : tx}
-                    loading={pageType === 'contract' ? funcLoading : txLoading}
-                    {...this.props}
-                  />
+            payload={pageType === 'contract' ? funcResult[0] : tx}
+            loading={pageType === 'contract' ? funcLoading : txLoading}
+            {...this.props}
+          />
         case 2:
           return <SendTransaction2
-                    payload={pageType === 'contract' ? funcResult[0] : tx}
-                    loading={pageType === 'contract' ? funcLoading : txLoading}
-                    ledgerTimer={ledgerTimer}
-                    {...this.props}
-                  />
+            payload={pageType === 'contract' ? funcResult[0] : tx}
+            loading={pageType === 'contract' ? funcLoading : txLoading}
+            ledgerTimer={ledgerTimer}
+            {...this.props}
+          />
         case 3:
           return <SendTransaction3
-                    payload={pageType === 'contract' ? funcResult[0] : tx}
-                    loading={pageType === 'contract' ? funcLoading : txLoading}
-                    selectedWallet={selectedWallet}
-                    {...this.props}
-                  />
+            payload={pageType === 'contract' ? funcResult[0] : tx}
+            loading={pageType === 'contract' ? funcLoading : txLoading}
+            selectedWallet={selectedWallet}
+            {...this.props}
+          />
         default:
           break;
       }
@@ -173,8 +173,8 @@ class SendTransaction extends Component {
 
     return (
       <div>
-        <div className="dimmed"></div>
-        { content(popupNum) }
+        <div className="dimmed fade-in"></div>
+        {content(popupNum)}
         {
           isLedger && !ledgerError && (
             <LedgerIframe

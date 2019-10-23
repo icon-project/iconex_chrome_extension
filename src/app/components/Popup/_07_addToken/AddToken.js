@@ -10,7 +10,7 @@ class AddToken extends Component {
     } = this.props;
 
     const content = (num) => {
-      switch(num) {
+      switch (num) {
         case 1:
           return <AddToken1 {...this.props} />
         case 2:
@@ -23,8 +23,8 @@ class AddToken extends Component {
     return (
       <div>
         <div className="dimmed"></div>
-        <div className="popup">
-          { content(popupNum) }
+        <div className="popup tokenAdd moving-down">
+          {content(popupNum)}
         </div>
       </div>
     );

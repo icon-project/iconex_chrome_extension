@@ -68,7 +68,7 @@ class ExportContent extends Component {
     const inputArr = this.state.checklist;
 
     let isCheckExist = false;
-    for(let input of inputArr) {
+    for (let input of inputArr) {
       if (!isEmpty(input)) {
         isCheckExist = true;
       }
@@ -95,7 +95,7 @@ class ExportContent extends Component {
       }
     });
 
-    if(isNoInputErrorExist) {
+    if (isNoInputErrorExist) {
       this.setState({
         errorArr: noInputErrorArr
       })
@@ -103,7 +103,7 @@ class ExportContent extends Component {
     }
 
     this.setState({ loading: true }, () => {
-      this.worker.postMessage({inputArr: inputArr, type: 'exportWallet_1'});
+      this.worker.postMessage({ inputArr: inputArr, type: 'exportWallet_1' });
     })
   }
 
@@ -147,42 +147,70 @@ class ExportContent extends Component {
   }
 
   render() {
-    const { loading, showAlertWalletChecked } = this.state;
+    const { loading, showAlertWalletChecked, checklist } = this.state;
+    const numOfWalletChecked = checklist.filter(i => !isEmpty(i)).length;
     const { I18n } = this.props
+    const myPageInfo = I18n.myPageInfo3;
     return (
       <div className="wrap-holder">
+        <p className="lock-txt gray">{myPageInfo.split('\n').map((item, key) => { return <span key={key}>{item}<br /></span> })}</p>
         <div className="tabbox-holder">
           <div className="txt-group">
             <span className="txt">{I18n.myPageExportDesc}</span>
-            <span className="cnt"><em>{this.state.checklist.filter(i => !isEmpty(i)).length}</em>{` ${I18n.myPageWalletChecked}`}</span>
+            {/* <span className="cnt"><em>{this.state.checklist.filter(i => !isEmpty(i)).length}</em>{` ${I18n.myPageWalletChecked}`}</span> */}
           </div>
-          <div className="wallet-group scroll line">
+          {/* line */}
+          <div className="wallet-group scroll floor">
             <ul>
               {
                 this.state.walletArr.map((wallet, i) => (
-                    <WalletBar
-                      key={wallet.account}
-                      index={i}
-                      wallet={wallet}
-                      updateChecklist={(i, b) => this.updateChecklist(i, b)}
-                      updateChecklistPassword={(i, s) => this.updateChecklistPassword(i, s)}
-                      error={this.state.errorArr[i]}
-                      checkFlag={this.state.checkFlag}
-                      handleSubmit={this.handleSubmit}
-                   />
+                  <WalletBar
+                    key={wallet.account}
+                    index={i}
+                    wallet={wallet}
+                    updateChecklist={(i, b) => this.updateChecklist(i, b)}
+                    updateChecklistPassword={(i, s) => this.updateChecklistPassword(i, s)}
+                    error={this.state.errorArr[i]}
+                    checkFlag={this.state.checkFlag}
+                    handleSubmit={this.handleSubmit}
+                  />
                 ))
               }
             </ul>
           </div>
-          <div className="caution-holder">
-            <p className="lock-txt"><em className="_img"></em>{nToBr(I18n.myPageExportCaution)}</p>
+        </div>
+
+        {numOfWalletChecked > 0 && (
+          <div className="table-holder  common">
+            <table>
+              <colgroup>
+                <col></col>
+                <col></col>
+                <col></col>
+              </colgroup>
+              <thead>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{I18n.myPageWalletChecked}</td>
+                  <td>{numOfWalletChecked}</td>
+                  <td>{I18n.myPageExportSelectedWallets}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+        )
+        }
+
+        <div className="caution-holder">
+          <p className="lock-txt">{nToBr(I18n.myPageExportCaution)}</p>
         </div>
         <div className="btn-holder in">
-        { loading ? (<button type="submit" className="btn-type-fill2 load"><span><LoadingComponent type="white" /></span></button>)
-                  : (<button onClick={this.handleSubmit} type="submit" className="btn-type-fill2"><span>{I18n.button.next}</span></button>)}
-				</div>
-        { showAlertWalletChecked && (
+          {/* btn-type-fill2 */}
+          {loading ? (<button type="submit" className="btn-type-normal size-medium load"><span><LoadingComponent type="white" /></span></button>)
+            : (<button onClick={this.handleSubmit} type="submit" className="btn-type-normal size-medium"><span>{I18n.button.next}</span></button>)}
+        </div>
+        {showAlertWalletChecked && (
           <Alert
             handleCancel={this.closeAlert}
             text={I18n.error.alertWalletChecked}
@@ -208,7 +236,7 @@ class WalletBar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.checkFlag !== nextProps.checkFlag) {
+    if (this.props.checkFlag !== nextProps.checkFlag) {
       this.setState({
         isChecked: false,
         pw: '',
@@ -218,7 +246,7 @@ class WalletBar extends Component {
   }
 
   toggleCheckbox = () => {
-    if(this.state.isChecked) {
+    if (this.state.isChecked) {
       this.setState({
         isChecked: !this.state.isChecked,
         pw: '',
@@ -285,14 +313,14 @@ class WalletBar extends Component {
 
     return (
       <li>
-        <input onChange={this.toggleCheckbox} id={'check-'+this.props.index} className="cbox-type" type="checkbox" name="" checked={isChecked}/>
-        <label htmlFor={'check-'+this.props.index} className="label _img">{name}</label><span className="icx">{convertNumberToText(balance, type, true)}<em>{type.toUpperCase()}</em></span>
-        { isChecked && (
-            <div className="pw-add">
-              <input onChange={this.changePw} onBlur={this.validateForm} type="password" className={`txt-type-normal ${(error || pwError) && 'error'}`} placeholder={I18n.myPagePlaceholder2} value={pw} onKeyPress={this.handleKeyPress}/>
-              <p className="error">{error ? I18n.error[error] : I18n.error[pwError]}</p>
-            </div>
-          )
+        <input onChange={this.toggleCheckbox} id={'cbox-' + this.props.index} className="cbox-type" type="checkbox" name="" checked={isChecked} />
+        <label htmlFor={'cbox-' + this.props.index} className="label _img"><i className={`_icon ${type === 'icx' ? '' : 'eth'}`}></i>{name}</label><span className="icx">{convertNumberToText(balance, type, true)}<em>{type.toUpperCase()}</em></span>
+        {isChecked && (
+          <div className="pw-add">
+            <input onChange={this.changePw} onBlur={this.validateForm} type="password" className={`txt-type-normal ${(error || pwError) && 'error'}`} placeholder={I18n.myPagePlaceholder2} value={pw} onKeyPress={this.handleKeyPress} />
+            <p className="error">{error ? I18n.error[error] : I18n.error[pwError]}</p>
+          </div>
+        )
         }
       </li>
     )

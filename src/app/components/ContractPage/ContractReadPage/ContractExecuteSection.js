@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  LoadingComponent, InputText, InputBoolean, Output } from 'app/components/';
+import { LoadingComponent, InputText, InputBoolean, Output } from 'app/components/';
 import { WalletSelectorContainer, TxFeeAndDataContainer, CalculationTableContainer, QuantitySetterContainer } from 'app/containers';
 import withLanguageProps from 'HOC/withLanguageProps';
 
@@ -50,26 +50,26 @@ class ContractExecuteSection extends Component {
       case 'str':
       case 'int':
         return <InputText
-                {...{
-                  input,
-                  value,
-                  error,
-                  setFuncInputError,
-                  handleFuncInputChange
-                }}
-                key={input.name}
-                placeHolder={I18n[`contract${input.type}InputPlaceHolder`]}
-                />
+          {...{
+            input,
+            value,
+            error,
+            setFuncInputError,
+            handleFuncInputChange
+          }}
+          key={input.name}
+          placeHolder={I18n[`contract${input.type}InputPlaceHolder`]}
+        />
       case 'bool':
         return <InputBoolean
-                {...{
-                  input,
-                  value,
-                  error,
-                  handleFuncInputChange
-                }}
-                key={input.name}
-                />
+          {...{
+            input,
+            value,
+            error,
+            handleFuncInputChange
+          }}
+          key={input.name}
+        />
       default:
         return ''
     }
@@ -82,6 +82,7 @@ class ContractExecuteSection extends Component {
       selectedFuncIndex,
       funcLoading,
       funcResult,
+      contractError
     } = this.props;
 
     const { inputs, outputs, readonly } = funcList[selectedFuncIndex];
@@ -94,19 +95,19 @@ class ContractExecuteSection extends Component {
               return this.renderInputSwitch(input)
             })
           }
-          { !readonly && ( <WalletSelectorInput {...this.props}/> )}
+          {!readonly && (<WalletSelectorInput {...this.props} />)}
           {
             funcLoading ? (
-              <button style={{width: 99.45}} className="btn-type-fill3"><LoadingComponent type='white' /></button>
+              <button style={{ width: 99.45 }} className="btn-type-black"><LoadingComponent type='white' /></button>
             ) : (
-              <button onClick={() => this.props.checkContractInputError()} className="btn-type-fill3">
-                <span>{ readonly ? I18n.button.read : I18n.button.write }</span>
-              </button>
-            )
+                <button onClick={() => this.props.checkContractInputError()} className="btn-type-black">
+                  <span>{readonly ? I18n.button.read : I18n.button.write}</span>
+                </button>
+              )
           }
         </span>
         {
-          readonly && funcResult.length > 0 && (
+          readonly && (funcResult.length > 0 || contractError) && (
             <span className="result-group">
               <ul>
                 {
@@ -118,7 +119,8 @@ class ContractExecuteSection extends Component {
                         }}
                         key={i}
                         value={funcResult[i]}
-                        />
+                        error={contractError}
+                      />
                     );
                   })
                 }
@@ -145,9 +147,13 @@ class WalletSelectorInput extends Component {
     return (
       <div>
         <WalletSelectorContainer isContractPage={true} />
-        { isLoggedIn && payable && (<QuantitySetterContainer isContractPage={true} />) }
-        { isLoggedIn && (<TxFeeAndDataContainer isContractPage={true} />) }
-        { isLoggedIn && (<CalculationTableContainer isContractPage={true} />) }
+        {isLoggedIn && payable && (<QuantitySetterContainer isContractPage={true} />)}
+        {isLoggedIn && (<TxFeeAndDataContainer isContractPage={true} />)}
+        {isLoggedIn && (
+          <div className="table-group">
+            <CalculationTableContainer isContractPage={true} />
+          </div>
+        )}
       </div>
     )
   }

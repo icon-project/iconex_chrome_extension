@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import withClickOut from 'HOC/withClickOut'
 import withLanguageProps from 'HOC/withLanguageProps';
-import { IS_V3 } from 'constants/config.js'
 
 const INIT_STATE = {
 
@@ -21,16 +20,25 @@ class WalletMenuBar extends Component {
       onClickOut,
       setSelectedWallet,
       openPopup
-     } = this.props;
+    } = this.props;
 
     onClickOut();
     setSelectedWallet({
-        account
+      account
     });
     openPopup({
       popupType,
       popupNum
     });
+  }
+
+  isWalletHasNoBalance = (data) => {
+    for (const { balance } of data) {
+      if (!balance.eq(0)) {
+        return false
+      }
+    }
+    return true
   }
 
   render() {
@@ -42,11 +50,11 @@ class WalletMenuBar extends Component {
         <li onClick={() => this.handleMenuClick('backupWallet')} className="backup"><span><em className="_img"></em>{I18n.walletMenuBarBackupWallet}</span></li>
         <li onClick={() => this.handleMenuClick('addToken', walletSectionData.coinType === 'eth' ? 2 : 1)} className="add"><span><em className="_img"></em>{I18n.walletMenuBarAddToken}</span></li>
         <li onClick={() => {
-            if (walletSectionData.walletSectionBalanceWithRate === 0) {
-              return this.handleMenuClick('deleteWallet')
-            }
-            return this.handleMenuClick('deleteWallet_hasBalance')
-          }} className="del"><span><em className="_img"></em>{I18n.walletMenuBarDeleteWallet}</span></li>
+          if (this.isWalletHasNoBalance(walletSectionData.data)) {
+            return this.handleMenuClick('deleteWallet')
+          }
+          return this.handleMenuClick('deleteWallet_hasBalance')
+        }} className="del"><span><em className="_img"></em>{I18n.walletMenuBarDeleteWallet}</span></li>
       </ul>
     )
   }

@@ -76,7 +76,7 @@ export function externalReducer(state = initialState, action) {
       return newState
     }
     case actionTypes.setSigning: {
-      const { tabId, payload: signing } = action.payload
+      const { tabId, data: signing } = action.payload
       return {
         ...initialState,
         tabId,

@@ -50,31 +50,31 @@ class Lock extends Component {
       }, () => {
         this.checkPasscode()
       })
+    } else if (type === "CHECK_PASSCODE_FULFILLED") {
+      const { getWallet, closePopup, setLockState } = this.props
+      if (!payload) {
+        window.loginChkFx(false)
+        window.setTimeout(() => {
+          this.setState({
+            passcode: ''
+          })
+          this.disableInput = false
+        }, 300)
+        return
+      }
+
+      window.loginChkFx(true)
+      getWallet()
+      window.setTimeout(() => {
+        closePopup()
+        setLockState(false)
+      }, 2000)
     }
   }
 
   checkPasscode = () => {
-    const { passcodeHash, getWallet, closePopup, setLockState } = this.props
-
     this.disableInput = true
-    if (passcodeHash !== hash.sha256().update(this.state.passcode).digest('hex')) {
-      window.loginChkFx(false)
-      window.setTimeout(() => {
-        this.setState({
-          passcode: ''
-        })
-        this.disableInput = false
-      }, 300)
-      return
-    }
-
-    window.loginChkFx(true)
-    getWallet()
-    window.setTimeout(() => {
-      window.chrome.extension.sendMessage({ type: 'UNLOCK' })
-      closePopup()
-      setLockState(false)
-    }, 2000)
+    window.chrome.runtime.sendMessage({ type: 'CHECK_PASSCODE', payload: this.state.passcode })
   }
 
   handleForgotButtonClick = () => {

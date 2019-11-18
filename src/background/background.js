@@ -1,6 +1,7 @@
 import NotificationManager from 'lib/notification-manager.js'
 import { icx_callScoreExternally } from 'redux/api/walletIcxApi'
 import { getWalletApi } from 'redux/api/walletApi'
+import hash from 'hash.js'
 import autoSign from './AutoSign'
 
 const notificationManager = new NotificationManager();
@@ -116,10 +117,6 @@ window.chrome.runtime.onMessage.addListener(message => {
 			if (TIMER) clearInterval(TIMER);
 			TIMER = _setTimer();
 			break;
-		case 'UNLOCK':
-			if (TIMER) clearInterval(TIMER);
-			TIMER = _setTimer();
-			break;
 		case 'CLEAR_LOCK':
 			if (TIMER) clearInterval(TIMER);
 			break;
@@ -141,6 +138,9 @@ window.chrome.runtime.onMessage.addListener(message => {
 			break;
 		case 'REFRESH_LOCK_STATE':
 			window.chrome.extension.sendMessage({ type: type + '_FULFILLED', payload: message.payload });
+			break;
+		case 'CHECK_PASSCODE':
+			window.chrome.extension.sendMessage({ type: type + '_FULFILLED', payload: _checkPasscode(payload) });
 			break;
 		default:
 			break;
@@ -168,7 +168,6 @@ function _initIsAppLocked() {
 function _checkIsAppLocked() {
 	const passcodeHash = localStorage.getItem('redux') ? JSON.parse(localStorage.getItem('redux')).global.passcodeHash : false;
 	const isLocked = passcodeHash ? IS_LOCKED : false
-	console.log(passcodeHash, TAB_ARR, isLocked)
 	return isLocked
 }
 
@@ -177,7 +176,6 @@ function _checkIsPopupLocked() {
 		return IS_LOCKED
 	} else {
 		const passcodeHash = localStorage.getItem('redux') ? JSON.parse(localStorage.getItem('redux')).global.passcodeHash : false;
-		console.log(passcodeHash)
 		return !!passcodeHash
 	}
 }
@@ -189,4 +187,12 @@ function _lock() {
 
 function _isPasscodeExist() {
 	return (localStorage.getItem('redux') && JSON.parse(localStorage.getItem('redux')).global.passcodeHash) ? true : false
+}
+
+function _checkPasscode(_passcode) {
+	if (!localStorage.getItem('redux')) return false;
+	const _passcodeHash = JSON.parse(localStorage.getItem('redux')).global.passcodeHash
+	const _isPasscodeCorrect = _passcodeHash === hash.sha256().update(_passcode).digest('hex')
+	IS_LOCKED = !_isPasscodeCorrect
+	return _isPasscodeCorrect
 }

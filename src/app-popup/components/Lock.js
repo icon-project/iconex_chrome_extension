@@ -20,11 +20,37 @@ class Lock extends Component {
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyDown);
+    window.chrome.extension.onMessage.addListener(this.listener)
   }
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyDown);
     document.body.classList.remove('lock');
+    window.chrome.extension.onMessage.removeListener(this.listener)
+  }
+
+  listener = ({ type, payload }) => {
+    if (type === "CHECK_PASSCODE_FULFILLED") {
+      const { setLockState } = this.props
+      const { passcode } = this.state
+      if (!payload) {
+        window.loginChkFx(false)
+        window.chrome.extension.sendMessage({ type: 'UNLOCK_APP', payload: passcode })
+        window.setTimeout(() => {
+          this.setState({
+            passcode: ''
+          })
+          this.disableInput = false
+        }, 300)
+        return
+      }
+
+      window.loginChkFx(true)
+      window.chrome.extension.sendMessage({ type: 'UNLOCK_APP', payload: passcode })
+      window.setTimeout(() => {
+        setLockState(false)
+      }, 2000)
+    }
   }
 
   handleKeyDown = (e) => {
@@ -51,28 +77,10 @@ class Lock extends Component {
   }
 
   checkPasscode = () => {
-    const { passcodeHash, setLockState } = this.props
     const { passcode } = this.state
 
     this.disableInput = true
-    if (passcodeHash !== hash.sha256().update(passcode).digest('hex')) {
-      window.loginChkFx(false)
-      window.chrome.extension.sendMessage({ type: 'UNLOCK_APP', payload: passcode })
-      window.setTimeout(() => {
-        this.setState({
-          passcode: ''
-        })
-        this.disableInput = false
-      }, 300)
-      return
-    }
-
-    window.loginChkFx(true)
-    window.chrome.extension.sendMessage({ type: 'UNLOCK_APP', payload: passcode })
-    window.setTimeout(() => {
-      window.chrome.extension.sendMessage({ type: 'UNLOCK', })
-      setLockState(false)
-    }, 2000)
+    window.chrome.runtime.sendMessage({ type: 'CHECK_PASSCODE', payload: passcode })
   }
 
   handleForgotButtonClick = () => {

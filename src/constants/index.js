@@ -96,7 +96,7 @@ export const pRepType = {
   PREP: 'P-Rep',
 }
 
-export const MIN_UNSTAKE_VALUE = 3
+export const MIN_UNSTAKE_VALUE = 1
 
 export const ZERO_ADDRESS = 'cx0000000000000000000000000000000000000000'
 

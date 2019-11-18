@@ -206,11 +206,11 @@ const actionTypes = {
 
   //iissActions
   fetchMyStatusData: 'FETCH_MY_STATUS_DATA',
-  getStake: 'GET_STAKE', 
+  getStake: 'GET_STAKE',
   getStakeLoading: 'GET_STAKE_LOADING',
   getStakeFulfilled: 'GET_STAKE_FULFILLED',
   getStakeRejected: 'GET_STAKE_REJECTED',
-  setStake: 'SET_STAKE', 
+  setStake: 'SET_STAKE',
   setStakeLoading: 'SET_STAKE_LOADING',
   setStakeFulfilled: 'SET_STAKE_FULFILLED',
   setStakeRejected: 'SET_STAKE_REJECTED',
@@ -231,7 +231,7 @@ const actionTypes = {
   setDelegationFulfilled: 'SET_DELEGATION_FULFILLED',
   setDelegationRejected: 'SET_DELEGATION_REJECTED',
   resetPRepIissReducer: 'RESET_PREP_IISS_REDUCER',
-  
+
   //txFeeActions
   getEstimatedTxFee: 'GET_ESTIMATED_TX_FEE',
   getEstimatedTxFeeLoading: 'GET_ESTIMATED_TX_FEE_LOADING',

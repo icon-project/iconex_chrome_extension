@@ -155,7 +155,7 @@ export default {
 
     alertNoIScore: 'No I-Score. Please check the I-Score remaining amount.',
     alertNoDelegation: 'No Voting Power. Please stake the ICX first.',
-    alertNotEnoughForStake: 'You must have a minimum amount of ICX balance (5 ICX) to stake or un-stake your ICX.',
+    alertNotEnoughForStake: 'You must have a minimum amount of ICX balance (1 ICX) to stake or un-stake your ICX.',
     alertLTMin: (min, type) => `The minimum amount of ${type} is ${min}.`,
     alertGTMax: (max, type) => `The maximum amount of ${type} is ${max}.`,
     alertNoChange: 'There is no changed in amount.',
@@ -681,13 +681,13 @@ export default {
   myStatusIScore_p2: 'You can receive',
 
   myVote: 'My Votes',
-  pRepTable_rank: 'Rank', 
-  pRepTable_name: 'Name', 
-  pRepTable_totalVotes: 'Total Votes (%)', 
-  pRepTable_server: 'Server Location', 
+  pRepTable_rank: 'Rank',
+  pRepTable_name: 'Name',
+  pRepTable_totalVotes: 'Total Votes (%)',
+  pRepTable_server: 'Server Location',
   pRepTable_active: 'Active',
   pRepTable_myVotes: 'My Votes (%)',
-  pRepTable_h4: 'View History', 
+  pRepTable_h4: 'View History',
   pRepTable_noData_p: 'Be part of ICON Network!',
   pRepTable_noData_p1: 'Choose the delegating list and delegate Voting Power.',
   pRepTable_noData_p2: 'Contribute ICON Network by participate delegation. Receive I-Score for that contribution.',
@@ -700,7 +700,7 @@ export default {
   // 14p~ Stake 팝업
   stakeIcx: {
     desc: 'Of the staked ICX, the amount of voted ICX cannot be un-staked.',
-    help: 'Need a minimum of ICX for un-staking. (3 ICX)',
+    help: 'Need a minimum of ICX for un-staking. (1 ICX)',
     estimatedTime: '· Estimated Time of Un-staking',
     min: 'Min Stake',
     max: 'Max Stake',

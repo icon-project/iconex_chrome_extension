@@ -103,7 +103,7 @@ class Stake extends Component {
       y2: new BigNumber(100),
     })
     const _stakedPct = convertToPercent(inputStakedValue, totalIcxBalance, 1)
-    
+
     this.setState({
       inputStakedValue,
       isStake: inputStakedValue.gte(value),
@@ -252,13 +252,13 @@ class Stake extends Component {
       isLedger,
       txFee,
     } = this.props
-    const { 
+    const {
       isInputMode,
       inputStakedValue,
     } = this.state
 
     if (!isInputMode && !txFeeLoading && !loading && !txLoading) {
-      if (inputStakedValue.eq(staked.value) && 
+      if (inputStakedValue.eq(staked.value) &&
         delegatedPct === '100.0') {
         this.setState({
           alert: ALERT_MSG.FULL,
@@ -272,7 +272,7 @@ class Stake extends Component {
         })
         return
       }
-      
+
       if (balance.minus(txFee).lt(0)) {
         this.setState({
           alert: ALERT_MSG.NO_BALANCE,
@@ -321,10 +321,10 @@ class Stake extends Component {
     } = this.state
 
     let inputRef;
-    
+
     const Title = (<p className="txt_box">Stake <span>({walletName})</span></p>)
     const getStakeBarClass = () => {
-      if (delegatedPct === '100.0') {
+      if (delegatedPct === '100.0' || totalIcxBalance.eq(MIN_UNSTAKE_VALUE)) {
         return 'full'
       } else if (unstakedPct === '100.0') {
         return 'zero'
@@ -357,7 +357,7 @@ class Stake extends Component {
                   </div>
                   <div className="box">
                     <div className="txt">{`· ${I18n.myStatusStake_axis1} (ICX)`}
-                    <span>
+                      <span>
                         <input
                           type="text"
                           className={`txt-type-normal ${isInputMode && 'input-mode'}`}
@@ -398,16 +398,16 @@ class Stake extends Component {
                     !isStake ? (
                       <p className="txt-time">{I18n.stakeIcx.estimatedTime}<span>{estimatedUnstakeTime}</span></p>
                     ) : (
-                      <p style={{ height: 48 }} className="txt-time">{I18n.stakeIcx.estimatedTime}<span>-</span></p>
-                    )
+                        <p style={{ height: 48 }} className="txt-time">{I18n.stakeIcx.estimatedTime}<span>-</span></p>
+                      )
                   }
                   <div className="dot"></div>
                   <TxFeeTableContainer />
                   <div className="btn-holder">
-                    <button 
-                      onClick={this.closePopup} 
+                    <button
+                      onClick={this.closePopup}
                       className="btn-type-fill size-half">
-                        <span>{I18n.button.cancel}</span>
+                      <span>{I18n.button.cancel}</span>
                     </button>
                     <button
                       onMouseDown={this.handleMouseDownSubmit}

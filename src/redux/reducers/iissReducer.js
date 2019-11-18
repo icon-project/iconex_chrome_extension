@@ -2,7 +2,7 @@ import actionTypes from 'redux/actionTypes/actionTypes'
 import BigNumber from 'bignumber.js'
 import { fromLoop } from 'utils'
 
-export const validateStake = balance => balance.lt(5)
+export const validateStake = balance => balance.lt(1)
 export const validateVote = value => value.eq(0)
 export const validateClaim = value => value.eq(0)
 
@@ -73,8 +73,8 @@ export function iissReducer(state = initialState, action) {
 			iScore[account] = initIScoreElem
 			delegated[account] = initDelegatedElem
 			return Object.assign({}, state, {
-				staked, 
-				iScore, 
+				staked,
+				iScore,
 				delegated,
 				ledgerAddress: account,
 			})

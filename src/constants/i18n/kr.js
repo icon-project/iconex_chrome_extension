@@ -155,11 +155,11 @@ export default {
 
     alertNoIScore: 'I-Score가 없습니다. I-Score 잔량을 확인하세요.',
     alertNoDelegation: 'Voting Power가 없습니다. ICX를 Stake해주세요.',
-    alertNotEnoughForStake: 'Stake 또는 Un-stake 실행을 하려면 소량의 ICX 잔액이 있어야 합니다. (5 ICX)',
+    alertNotEnoughForStake: 'Stake 또는 Un-stake 실행을 하려면 소량의 ICX 잔액이 있어야 합니다. (1 ICX)',
     alertLTMin: (min, type) => `입력 가능한 최소 ${type} 수량은 ${min} 입니다.`,
     alertGTMax: (max, type) => `입력 가능한 최대 ${type} 수량은 ${max} 입니다.`,
     alertNoChange: '변경된 수량이 없습니다.',
-    
+
     alertFull: 'Stake 가능한 ICX가 없습니다. ICX 수량을 확인해주세요.',
   },
 
@@ -686,13 +686,13 @@ export default {
   myStatusIScore_p2: '수령 가능한 ICX의 양',
 
   myVote: 'My Votes',
-  pRepTable_rank: 'Rank', 
-  pRepTable_name: 'Name', 
-  pRepTable_totalVotes: 'Total Votes (%)', 
-  pRepTable_server: 'Server Location', 
+  pRepTable_rank: 'Rank',
+  pRepTable_name: 'Name',
+  pRepTable_totalVotes: 'Total Votes (%)',
+  pRepTable_server: 'Server Location',
   pRepTable_active: 'Active',
   pRepTable_myVotes: 'My Votes (%)',
-  pRepTable_h4: '내역 조회', 
+  pRepTable_h4: '내역 조회',
   pRepTable_noData_p: '투표에 참여하여 ICON Network의 일원이 되어 주세요!',
   pRepTable_noData_p1: '아래에서 투표할 리스트를 선택 후, Voting Power를 분배해 주세요.',
   pRepTable_noData_p2: '투표에 참여하여 네트워크에 기여하세요. 기여에 대한 보상으로 I-Score를 받을 수 있습니다.',
@@ -705,7 +705,7 @@ export default {
   // 14p~ Stake 팝업
   stakeIcx: {
     desc: '위임된 Staked ICX는 un-stake 할 수 없습니다.',
-    help: 'Un-stake를 위해 최소한의 ICX가 필요합니다. (3 ICX)',
+    help: 'Un-stake를 위해 최소한의 ICX가 필요합니다. (1 ICX)',
     estimatedTime: '· Un-stake 예상 완료 시간',
     min: '최소 Stake',
     max: '최대 Stake',

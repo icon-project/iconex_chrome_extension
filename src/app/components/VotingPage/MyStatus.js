@@ -101,7 +101,7 @@ export default class MyStatus extends Component {
             <span className="label">{I18n.myVote}</span>
           </div>
           <MyPRepsTableContainer />
-          { selectedAccount && (<h4>{`${I18n.pRepTable_h4} : `}<a href={`${TRACKER_ACCOUNT_URL['icx']}${selectedAccount}#delegations`} target="_blank">https://tracker.icon.foundation/</a></h4>)}
+          {selectedAccount && (<h4>{`${I18n.pRepTable_h4} : `}<a href={`${TRACKER_ACCOUNT_URL['icx']}${selectedAccount}#delegations`} target="_blank">https://tracker.icon.foundation/</a></h4>)}
         </div>
         {
           alert && (

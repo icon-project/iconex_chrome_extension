@@ -25,7 +25,7 @@ function mapStateToProps(state) {
   const isUnstakeExist = !!unstake
   const isUnstakingEqualToStake = stakedWidthPct === unstakingWidthPct
   const isNoBalance = balance && balance.eq(0)
-  const isBalanceLT5 = balance && validateStake(icxBalance)
+  const isBalanceLT1 = balance && validateStake(icxBalance)
   const showHyphen = (val) => isLoggedIn ? val : '-'
   const getGraphClassName = () => {
     if (!isLoggedIn || isNoBalance) {
@@ -34,7 +34,7 @@ function mapStateToProps(state) {
       return 'unstake'
     } else if (unstakedWidthPct === '100') {
       return 'notvoted'
-    } else if (stakedWidthPct === '100' && unstakingWidthPct > 0)  {
+    } else if (stakedWidthPct === '100' && unstakingWidthPct > 0) {
       return 'unstake'
     } else if (stakedWidthPct === '100') {
       return 'notavail'
@@ -83,7 +83,7 @@ function mapStateToProps(state) {
     },
     isLoggedIn,
     loading,
-    error: isBalanceLT5,
+    error: isBalanceLT1,
   }
 }
 

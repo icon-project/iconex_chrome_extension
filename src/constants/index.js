@@ -93,7 +93,7 @@ export const currencyRound = {
 export const pRepType = {
   MAIN_PREP: 'Main P-Rep',
   SUB_PREP: 'Sub P-Rep',
-  PREP: 'P-Rep',
+  PREP: 'Candidate',
 }
 
 export const MIN_UNSTAKE_VALUE = 1

@@ -59,7 +59,7 @@ window.dispatchEvent(customEvent);
 const eventHandler = event => {
 	const { type, payload } = event.detail;
 	if (type === 'RESPONSE_HAS_ACCOUNT') {
-		console.log(payload); // true or false
+		console.log(payload.hasAccount); // true or false
 	}
 }
 window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
@@ -93,7 +93,7 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 `REQUEST_ADDRESS` Requests for the address to use for service.
 
-`RESPONSE_HAS_ADDRESS` Returns the icx address selected by user.
+`RESPONSE_ADDRESS` Returns the icx address selected by user.
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
@@ -150,6 +150,8 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 `RESPONSE_SIGNING` Returns signature.
 
+`CANCEL_SIGNING` User cancelled signing request.
+
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
 	detail: { 
@@ -166,6 +168,9 @@ const eventHandler = event => {
     const { type, payload } = detail
     if (type === 'RESPONSE_SIGNING') {
         console.log(payload) // e.g., 'q/dVc3qj4En0GN+...'
+    }
+    else if (type === 'CANCEL_SIGNING') {
+    	console.error('User cancelled signing request')
     }
 }
 window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);

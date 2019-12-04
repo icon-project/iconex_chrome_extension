@@ -170,7 +170,7 @@ const eventHandler = event => {
         console.log(payload) // e.g., 'q/dVc3qj4En0GN+...'
     }
     else if (type === 'CANCEL_SIGNING') {
-    	console.error('User cancelled signing request')
+        console.error('User cancelled signing request')
     }
 }
 window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);

@@ -58,7 +58,7 @@ class WalletStakingBar extends Component {
       <tr className="staked">
         <td>{`${stakedValue}%`}<span className="txt">Staked ICX</span></td>
         <td><p><span className="txt">Voting Power</span><em>{available}</em><span>ICX</span></p></td>
-        <td><span className="txt">I-Score</span><em>{iScoreValue}</em><em>ISC</em></td>
+        <td><span className="txt">I-Score</span><em>{iScoreValue}</em><em>I-Score</em></td>
         <td>
           <button
             onClick={() => this.handleClick('stake')}

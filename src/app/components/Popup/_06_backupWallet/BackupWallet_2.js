@@ -35,8 +35,8 @@ class BackupWallet2 extends Component {
     downloadFile(selectedAccount, v3, FileSaver);
   }
 
-  handlePrint = (walletName, coinType, address, privateKey) => {
-    printDom(walletName, coinType, address, privateKey, this.props.language);
+  handlePrint = (walletName, coinType, address, privateKey, createdAt) => {
+    printDom(walletName, coinType, address, privateKey, this.props.language, createdAt);
   }
 
   toggleKey = () => {
@@ -49,6 +49,7 @@ class BackupWallet2 extends Component {
     const {
       selectedAccount,
       privKey,
+      createdAt,
     } = this.props;
 
     const {
@@ -101,7 +102,7 @@ class BackupWallet2 extends Component {
 
               <div className="tabbox-holder end">
                 <CopyButton target={privKey} text={I18n.button.copyPrivateKey} defaultSize={true} copyFinish={I18n.button.copyFinish} />
-                <button onClick={() => this.handlePrint(name, type, selectedAccount, privKey)} className="btn-type-next size-next"><span>{I18n.button.print}</span></button>
+                <button onClick={() => this.handlePrint(name, type, selectedAccount, privKey, createdAt)} className="btn-type-next size-next"><span>{I18n.button.print}</span></button>
               </div>
             </div>
           </div>

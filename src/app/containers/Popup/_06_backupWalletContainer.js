@@ -7,6 +7,7 @@ function mapStateToProps(state) {
   return {
     wallets: state.wallet.wallets,
     selectedAccount: state.wallet.selectedWallet.account,
+    createdAt: state.wallet.wallets[state.wallet.selectedWallet.account].createdAt,
     privKey: state.wallet._06_privateKey,
     v3: state.wallet._06_v3,
     popupNum: state.popup.popupNum,

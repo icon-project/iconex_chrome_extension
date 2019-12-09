@@ -278,7 +278,7 @@ function decimalToHex(d, padding) {
   return hex;
 }
 
-function formatDate() { var d = new Date(), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear(); if (month.length < 2) month = '0' + month; if (day.length < 2) day = '0' + day; return [year, month, day].join('-'); }
+function formatDate(time) { var d = time ? new Date(time) : new Date(); var month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear(); if (month.length < 2) month = '0' + month; if (day.length < 2) day = '0' + day; return [year, month, day].join('-'); }
 
 
 /* https://gist.github.com/RHavar/a6511dea4d4c41aeb1eb */

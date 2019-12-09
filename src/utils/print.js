@@ -5,22 +5,22 @@ import { formatDate } from 'utils'
 import i18n from 'constants/i18n'
 
 const OPTION = {
-  margin: 0,
-  scale: 7,
-  color: {
-    light: '#fff' // Transparent background
-  }
+	margin: 0,
+	scale: 7,
+	color: {
+		light: '#fff' // Transparent background
+	}
 }
 
-function printDom(walletName, coinType, account, privKey, language) {
-  return new Promise(resolve => {
-    QRCode.toString(account, OPTION, function (err1, accountQr) {
-      if (err1) throw err1
-      QRCode.toString(privKey, OPTION, function (err2, privKeyQr) {
-        if (err2) throw err2
-        const I18n = i18n[language ? language : 'kr']
+function printDom(walletName, coinType, account, privKey, language, createdAt) {
+	return new Promise(resolve => {
+		QRCode.toString(account, OPTION, function (err1, accountQr) {
+			if (err1) throw err1
+			QRCode.toString(privKey, OPTION, function (err2, privKeyQr) {
+				if (err2) throw err2
+				const I18n = i18n[language ? language : 'kr']
 
-        const htmlString = `
+				const htmlString = `
         <html>
           <head>
           	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
@@ -48,7 +48,7 @@ function printDom(walletName, coinType, account, privKey, language) {
           				<li>
           					<div class="label-group txt">
           						<p class="name">${walletName}</p>
-          						<p>${formatDate()}</p>
+          						<p>${formatDate(Number(createdAt))}</p>
           						<p>${COIN_LABEL[coinType]}</p>
           					</div>
           				</li>
@@ -66,22 +66,22 @@ function printDom(walletName, coinType, account, privKey, language) {
           </body>
         </html>
         `
-        resolve(htmlString);
-      })
-    })
-  }).then((dom) => {
-    let winPrint = window.open('', '', 'left=0,top=0,toolbar=0,scrollbars=0,status=0');
-    setTimeout(() => {
-      winPrint.document.write(dom);
-    }, 1500)
+				resolve(htmlString);
+			})
+		})
+	}).then((dom) => {
+		let winPrint = window.open('', '', 'left=0,top=0,toolbar=0,scrollbars=0,status=0');
+		setTimeout(() => {
+			winPrint.document.write(dom);
+		}, 1500)
 
-    setTimeout(() => {
-      winPrint.focus();
-      winPrint.print();
-    }, 3500)
-  });
+		setTimeout(() => {
+			winPrint.focus();
+			winPrint.print();
+		}, 3500)
+	});
 }
 
 export {
-  printDom
+	printDom
 }

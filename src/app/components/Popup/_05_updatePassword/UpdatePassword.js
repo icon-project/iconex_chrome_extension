@@ -140,6 +140,7 @@ class UpdatePassword extends Component {
                   onlyPwGroup={true}
                   {...this.props}
                   handleSubmit={this.handleSubmit}
+                  isLoading={loading}
                 />
               </div>
               <div className="message-holder">

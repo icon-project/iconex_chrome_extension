@@ -189,17 +189,17 @@ class ValidationForm extends Component {
       isPasswordFormExist
     } = this.state;
 
-    const { I18n } = this.props;
+    const { I18n, isLoading = false } = this.props;
     const content = (_onlyPwGroup) => {
       if (_onlyPwGroup) {
         const style = typeof _onlyPwGroup ? _onlyPwGroup : ''
         return (
           <div className={`pw-group ${style}`}>
             <p className="title">{passwordLabel}</p>
-            <input onChange={this.changeInput} onBlur={this.validateForm} onKeyPress={this.handleKeyPress} type={togglePw === 'on' ? 'password' : 'text'} className={`txt-type-normal ${pwError && 'error'}`} name="pw" placeholder={I18n.validationForm.inputPlaceHolder1} value={pw} />
+            <input disabled={isLoading} onChange={this.changeInput} onBlur={this.validateForm} onKeyPress={this.handleKeyPress} type={togglePw === 'on' ? 'password' : 'text'} className={`txt-type-normal ${pwError && 'error'}`} name="pw" placeholder={I18n.validationForm.inputPlaceHolder1} value={pw} />
             <p onClick={(e) => this.toggleInput(e)} className="btn"><em data-name="togglePw" className={`_img ${togglePw}`}></em></p>
             <p className='error'>{pwError}</p>
-            <input onChange={this.changeInput} onBlur={this.validateForm} onKeyPress={this.handleKeyPress} type={togglePwConfirm === 'on' ? 'password' : 'text'} className={`txt-type-normal gap ${pwConfirmError && 'error'}`} name="pwConfirm" placeholder={I18n.validationForm.inputPlaceHolder2} value={pwConfirm} />
+            <input disabled={isLoading} onChange={this.changeInput} onBlur={this.validateForm} onKeyPress={this.handleKeyPress} type={togglePwConfirm === 'on' ? 'password' : 'text'} className={`txt-type-normal gap ${pwConfirmError && 'error'}`} name="pwConfirm" placeholder={I18n.validationForm.inputPlaceHolder2} value={pwConfirm} />
             <p onClick={(e) => this.toggleInput(e)} className="btn"><em data-name="togglePwConfirm" className={`_img ${togglePwConfirm}`}></em></p>
             <p className='error'>{pwConfirmError}</p>
           </div>
@@ -213,17 +213,17 @@ class ValidationForm extends Component {
                 {isWalletNameFormExist && (
                   <div className="name-group">
                     <p className="title">{I18n.validationForm.walletNameLabel}</p>
-                    <input 
-                      onChange={this.changeInput} 
-                      onBlur={this.validateForm} 
+                    <input
+                      onChange={this.changeInput}
+                      onBlur={this.validateForm}
                       onPaste={this.handlePaste}
-                      onKeyPress={this.handleKeyPress} 
-                      name="walletName" 
-                      type="text" 
+                      onKeyPress={this.handleKeyPress}
+                      name="walletName"
+                      type="text"
                       className={`txt-type-normal 
-                      ${walletNameError && 'error'}`} 
-                      placeholder={I18n.validationForm.walletNamePlaceHolder} 
-                      value={walletName} 
+                      ${walletNameError && 'error'}`}
+                      placeholder={I18n.validationForm.walletNamePlaceHolder}
+                      value={walletName}
                       spellCheck="false" />
                     <p className='error'>{walletNameError}</p>
                   </div>

@@ -46,6 +46,10 @@ export default class ClaimIScoreAlerts extends Component {
       fetchMyStatusData()
       closePopup()
     })
+
+    setTimeout(() => {
+      fetchMyStatusData()
+    }, 3000)
   }
 
   handleSubmit = () => {
@@ -90,7 +94,7 @@ export default class ClaimIScoreAlerts extends Component {
           methodName={'claimIScore'}
           handleSubmit={claimIScore}
           handleCancel={this.closeAlert}
-          />
+        />
       )
     }
 

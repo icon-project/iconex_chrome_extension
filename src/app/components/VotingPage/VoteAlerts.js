@@ -39,6 +39,9 @@ export default class VoteAlerts extends Component {
     this.setState({
       showAlert: false,
     })
+    setTimeout(() => {
+      this.props.fetchMyStatusData()
+    }, 3000)
   }
 
   closeAlert = () => {
@@ -91,7 +94,7 @@ export default class VoteAlerts extends Component {
     }
 
     switch (alert) {
-      case ALERT_MSG.SHOW_LEDGER: 
+      case ALERT_MSG.SHOW_LEDGER:
         return (
           <IissLedgerIframeContainer
             methodName={'setDelegation'}

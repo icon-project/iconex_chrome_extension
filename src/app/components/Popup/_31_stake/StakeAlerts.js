@@ -47,6 +47,10 @@ export default class StakeAlerts extends Component {
       fetchMyStatusData()
       closePopup()
     })
+
+    setTimeout(() => {
+      fetchMyStatusData()
+    }, 3000)
   }
 
   handleSubmit = () => {

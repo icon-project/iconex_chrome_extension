@@ -8,7 +8,6 @@ const INIT_STATE = {
   buttonLoading: false,
   showAlertImportFail: false,
   showAlertImportSuccess: false,
-  showAlertAccountSame: false
 }
 
 @withLanguageProps
@@ -54,14 +53,6 @@ class ImportWallet4 extends Component {
     const { coinType, walletObj, wallets } = this.props;
     const key = coinType === 'icx' ? walletObj.getAddressIcx().toString('hex') : check0xPrefix(walletObj.getAddress().toString('hex'))
 
-    // check whether wallet already exists
-    if (wallets[key]) {
-      this.setState({
-        showAlertAccountSame: true
-      });
-      return;
-    }
-
     this.worker.postMessage({
       walletName: walletName,
       privKey: walletObj._privKey,
@@ -82,12 +73,11 @@ class ImportWallet4 extends Component {
   closeAlert = () => {
     this.setState({
       showAlertImportFail: false,
-      showAlertAccountSame: false
     })
   }
 
   render() {
-    const { buttonLoading, showAlertAccountSame, showAlertImportFail, showAlertImportSuccess } = this.state;
+    const { buttonLoading, showAlertImportFail, showAlertImportSuccess } = this.state;
     const { I18n } = this.props;
     return (
       <div>
@@ -108,15 +98,6 @@ class ImportWallet4 extends Component {
           {buttonLoading ? (<button type="submit" className="btn-type-next size-full load"><span><LoadingComponent type="white" /></span></button>)
             : (<button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.import}</span></button>)}
         </div>
-        {
-          showAlertAccountSame && (
-            <Alert
-              handleCancel={this.closeAlert}
-              text={I18n.error.alertAccountSame}
-              cancelText={I18n.button.confirm}
-            />
-          )
-        }
         {
           showAlertImportFail && (
             <Alert

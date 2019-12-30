@@ -5,7 +5,6 @@ import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
   showAlertImportSuccess: false,
-  showAlertAccountSame: false
 }
 
 @withLanguageProps
@@ -31,15 +30,6 @@ class ImportWallet5 extends Component {
     const { v3Obj, wallets, loading } = this.props;
     const type = v3Obj.coinType || 'eth';
     const key = type === 'icx' ? v3Obj.address : check0xPrefix(v3Obj.address)
-
-    // check whether wallet already exists
-    if (wallets[key]) {
-      this.setState({
-        showAlertAccountSame: true
-      })
-      return;
-    }
-
     const iconexObj = generateIconexObject(key, type, walletName, JSON.stringify(v3Obj));
 
     if (!loading) {
@@ -54,14 +44,8 @@ class ImportWallet5 extends Component {
     this.props.logIn();
   }
 
-  closeAlert = () => {
-    this.setState({
-      showAlertAccountSame: false
-    })
-  }
-
   render() {
-    const { showAlertImportSuccess, showAlertAccountSame } = this.state;
+    const { showAlertImportSuccess } = this.state;
     const { I18n } = this.props;
     return (
       <div>
@@ -81,15 +65,6 @@ class ImportWallet5 extends Component {
         <div className="btn-holder">
           <button onClick={this.handleSubmit} type="submit" className="btn-type-next size-full"><span>{I18n.button.import}</span></button>
         </div>
-        {
-          showAlertAccountSame && (
-            <Alert
-              handleCancel={this.closeAlert}
-              text={I18n.error.alertAccountSame}
-              cancelText={I18n.button.confirm}
-            />
-          )
-        }
         {
           showAlertImportSuccess && (
             <Alert

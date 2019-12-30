@@ -27,24 +27,43 @@ export function* getTxFeeInfoFunc(action) {
       return;
     }
     if (walletCoinType === 'eth') {
-      if (isTokenSelector) {
-        const walletsSelector = yield select(state => state.wallet.wallets);
+      const data = yield select(state => state.exchangeTransaction.data);
+      // if (isTokenSelector) {
+      //   const walletsSelector = yield select(state => state.wallet.wallets);
+      //   const selectedAccountSelector = yield select(state => state.wallet.selectedWallet.account);
+      //   const selectedTokenIdSelector = yield select(state => state.wallet.selectedWallet.tokenId);
+      //   const coinQuantitySelector = yield select(state => state.exchangeTransaction.coinQuantity);
+      //   const recipientAddressSelector = yield select(state => state.exchangeTransaction.recipientAddress);
+      //   const token = walletsSelector[selectedAccountSelector].tokens[selectedTokenIdSelector]
+      //   const txFeePriceSelector = yield select(state => state.exchangeTransaction.txFeePrice);
+      //   const txFeeLimitSelector = yield select(state => state.exchangeTransaction.txFeeLimit);
+      //   const rawTx = makeEthRawTx(true, {
+      //     from: selectedAccountSelector,
+      //     to: recipientAddressSelector,
+      //     contractAddress: token.address,
+      //     tokenDefaultDecimal: token.defaultDecimals,
+      //     tokenDecimal: token.decimals,
+      //     value: coinQuantitySelector,
+      //     txFeePrice: txFeePriceSelector,
+      //     txFeeLimit: txFeeLimitSelector
+      //   })
+      //   delete rawTx.gasLimit;
+      //   const payload = yield call(ETH_GET_TX_FEE_INFO, rawTx);
+      //   yield put({ type: AT.getTxFeeInfoFulfilled, payload: payload });
+      // }
+      if (!isTokenSelector && data) {
         const selectedAccountSelector = yield select(state => state.wallet.selectedWallet.account);
-        const selectedTokenIdSelector = yield select(state => state.wallet.selectedWallet.tokenId);
         const coinQuantitySelector = yield select(state => state.exchangeTransaction.coinQuantity);
         const recipientAddressSelector = yield select(state => state.exchangeTransaction.recipientAddress);
-        const token = walletsSelector[selectedAccountSelector].tokens[selectedTokenIdSelector]
         const txFeePriceSelector = yield select(state => state.exchangeTransaction.txFeePrice);
         const txFeeLimitSelector = yield select(state => state.exchangeTransaction.txFeeLimit);
-        const rawTx = makeEthRawTx(true, {
+        const rawTx = makeEthRawTx(false, {
           from: selectedAccountSelector,
           to: recipientAddressSelector,
-          contractAddress: token.address,
-          tokenDefaultDecimal: token.defaultDecimals,
-          tokenDecimal: token.decimals,
           value: coinQuantitySelector,
           txFeePrice: txFeePriceSelector,
-          txFeeLimit: txFeeLimitSelector
+          txFeeLimit: txFeeLimitSelector,
+          data,
         })
         delete rawTx.gasLimit;
         const payload = yield call(ETH_GET_TX_FEE_INFO, rawTx);
@@ -64,7 +83,6 @@ export function* getTxFeeInfoFunc(action) {
       }
 
       const isTokenSelector = yield select(state => state.wallet.selectedWallet.isToken);
-      const contractFuncInput = yield select(state => state.contract.funcInput);
       const contractFuncList = yield select(state => state.contract.funcList);
       const calcContractCallLimit = (data) => ((parseInt(txFeeLimitTable['default'], 16)) * 2)
 
@@ -174,7 +192,7 @@ export function* setDataFunc(action) {
   try {
     const walletCoinType = yield select(state => state.exchangeTransaction.calcData.walletCoinType);
     const isTokenSelector = yield select(state => state.wallet.selectedWallet.isToken);
-    if (walletCoinType === 'icx' && !isTokenSelector) {
+    if (!isTokenSelector) {
       yield put({ type: AT.getTxFeeInfo });
     }
   } catch (e) {

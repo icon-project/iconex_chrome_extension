@@ -551,3 +551,13 @@ input.txt-type-value.input-mode {
 .popup-wrap.stake .fill.fill-no-balance .box .bar-group .gray i{background: #ccc;}
 .popup-wrap.stake .fill.fill-no-balance .box .bar-group .b{opacity: 0.5;}
 .popup-wrap.stake .fill.fill-no-balance .box .bar-group .drag ._img{background-position-x:-450px; }
+
+@media screen and (max-width: 1140px) {
+  .wrap > .header-wrap {
+    position: absolute;
+  }
+
+  .wrap > .header-wrap .language-holder {
+    margin-right: 50px;
+  }
+}

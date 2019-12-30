@@ -4,6 +4,7 @@ import withLanguageProps from 'HOC/withLanguageProps';
 import { LedgerIframe, Alert } from 'app/components';
 import { routeConstants as ROUTE } from 'constants/index';
 import { icx_fetchCoinBalanceApi } from 'redux/api/walletIcxApi'
+import { getStake } from 'redux/api/pRepIissApi'
 import { trackerAccountUrl as TRACKER_ACCOUNT_URL } from 'constants/config.js'
 
 const INIT_STATE = {
@@ -14,6 +15,7 @@ const INIT_STATE = {
 }
 
 const POPUP_TYPE = {
+  INITIAL: "INITIAL",
   VOTING: 'VOTING',
   TRANSFER: 'TRANSFER',
 }
@@ -53,22 +55,38 @@ class ConnectLedger extends Component {
 
     const { data, source } = event
     const parsedData = JSON.parse(data)
-    const { method, payload, popupType = '' } = parsedData
+    const { method, payload, action = '' } = parsedData
 
     if (popupNum === 1) setPopupNum(2)
 
     switch (method) {
       case 'icx_getBalance':
-        let balanceArr = await Promise.all([
+        const balanceArr = await Promise.all([
           await icx_fetchCoinBalanceApi(payload[0]),
           await icx_fetchCoinBalanceApi(payload[1]),
           await icx_fetchCoinBalanceApi(payload[2]),
           await icx_fetchCoinBalanceApi(payload[3]),
           await icx_fetchCoinBalanceApi(payload[4])
         ])
-        balanceArr = balanceArr.map((balance) => balance.toString())
-        source.postMessage(balanceArr, '*')
+        const stakedArr = await Promise.all([
+          await getStake({ account: payload[0] }),
+          await getStake({ account: payload[1] }),
+          await getStake({ account: payload[2] }),
+          await getStake({ account: payload[3] }),
+          await getStake({ account: payload[4] })
+        ])
+        const isStakedValueNoneArr = stakedArr.map(staked => {
+          return !!staked.error || (!Number(staked.payload.stake) && !staked.payload.unstake)
+        })
+        const resultArr = balanceArr.map((balance, i) => {
+          return {
+            balance: balance.toString(),
+            isStakedValueNone: isStakedValueNoneArr[i]
+          }
+        })
+        source.postMessage(resultArr, '*')
         break;
+
       case 'setWallet':
         setLogInStateForLedger({
           isLoggedIn: true,
@@ -78,11 +96,20 @@ class ConnectLedger extends Component {
           account: payload.account
         });
         closePopup();
-        if (popupType === POPUP_TYPE.TRANSFER) {
-          history.push({
-            pathname: ROUTE['transaction']
-          });
-        } 
+        if (action === POPUP_TYPE.TRANSFER) {
+          if (!(this.getPopupType() === POPUP_TYPE.TRANSFER)) {
+            history.push({
+              pathname: ROUTE['transaction']
+            });
+          }
+        }
+        if (action === POPUP_TYPE.VOTING) {
+          if (!(this.getPopupType() === POPUP_TYPE.VOTING)) {
+            history.push({
+              pathname: ROUTE['voting']
+            });
+          }
+        }
         break;
       case 'openAccountInfoOnTracker':
         window.open(`${TRACKER_ACCOUNT_URL['icx']}${payload}`)
@@ -112,6 +139,20 @@ class ConnectLedger extends Component {
     })
   }
 
+  getPopupType = () => {
+    const { pathname } = this.props.location
+    switch (pathname) {
+      case "/":
+        return POPUP_TYPE.INITIAL
+      case "/voting":
+        return POPUP_TYPE.VOTING
+      case "/transaction":
+        return POPUP_TYPE.TRANSFER
+      default:
+        return POPUP_TYPE.INITIAL
+    }
+  }
+
   render() {
 
     const {
@@ -122,7 +163,7 @@ class ConnectLedger extends Component {
     } = this.props;
 
     const { ledgerLoading, ledgerInit, showBalanceError, error } = this.state;
-    const isVoting = location.pathname === ROUTE['voting']
+    const popupType = this.getPopupType()
 
     return (
       <div>
@@ -166,7 +207,7 @@ class ConnectLedger extends Component {
             ledgerInit && (
               <LedgerIframe
                 method={'getBalance'}
-                popupType={isVoting ? POPUP_TYPE.VOTING : POPUP_TYPE.TRANSFER}
+                popupType={popupType}
                 language={language}
                 handleSuccess={this.handleLedgerSuccess}
                 handleError={this.handleLedgerError}

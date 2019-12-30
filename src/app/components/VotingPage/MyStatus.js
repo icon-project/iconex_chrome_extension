@@ -26,6 +26,11 @@ export default class MyStatus extends Component {
 
   componentDidMount() {
     window.scroll(0, 0)
+
+    if (this.props.isLedger) {
+      this.props.fetchAll({})
+      this.props.fetchMyStatusData()
+    }
   }
 
   componentWillReceiveProps(nextProps) {

@@ -6,14 +6,14 @@ import {
   fetchMyStatusData,
   resetPRepIissReducer,
 } from 'redux/actions/iissActions'
-import { resetSelectedWallet } from 'redux/actions/walletActions'
-
+import { fetchAll, resetSelectedWallet } from 'redux/actions/walletActions'
 
 function mapStateToProps(state) {
   return {
     selectedAccount: state.wallet.selectedWallet.account,
     isVoteMode: state.pRep.isVoteMode,
     isLoggedIn: state.wallet.selectedWallet.isLoggedIn,
+    isLedger: state.ledger.isLedger,
   };
 }
 
@@ -21,6 +21,7 @@ function mapDispatchToProps(dispatch) {
   return {
     openPopup: (payload) => dispatch(openPopup(payload)),
     openVoteMode: () => dispatch(openVoteMode()),
+    fetchAll: (payload) => dispatch(fetchAll(payload)),
     fetchMyStatusData: () => dispatch(fetchMyStatusData()),
     resetSelectedWallet: () => dispatch(resetSelectedWallet()),
     resetReducer: () => {

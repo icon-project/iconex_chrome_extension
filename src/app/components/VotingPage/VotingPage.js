@@ -16,6 +16,14 @@ class VotingPage extends Component {
     this.state = INIT_STATE
   }
 
+  componentDidMount() {
+    if (this.props.isLedger) {
+      this.setState({
+        defaultTab: 1
+      })
+    }
+  }
+
   componentWillReceiveProps({ isVoteMode }) {
     if (this.props.isVoteMode !== isVoteMode && !isVoteMode) {
       this.setState({
@@ -29,7 +37,7 @@ class VotingPage extends Component {
   }
 
   handleSetTabEvent = (i) => {
-    if (i === 0) {
+    if (i === 0 && !this.props.isLedger) {
       this.props.resetSelectedWallet()
     }
   }
@@ -58,13 +66,13 @@ class VotingPage extends Component {
               <MyStatus {...this.props} />
             ]}
             tooltip={
-              <h4 
+              <h4
                 style={{ cursor: 'pointer' }}
-                onClick={this.toggleAbout} 
+                onClick={this.toggleAbout}
                 className="about-vote">
                 <i className="_img info-no"></i>
                 {I18n.voting_about}
-            </h4>
+              </h4>
             }
             tab={defaultTab}
             handleSetTabEvent={this.handleSetTabEvent}

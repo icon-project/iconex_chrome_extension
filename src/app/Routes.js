@@ -136,7 +136,7 @@ class Routes extends Component {
                   {/* <HomeRoute path={ROUTE['home']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={MainPage} /> */}
                   <HomeRoute exact path={ROUTE['home']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={MyWalletPage} />
                   <PrivateRoute path={ROUTE['mywallet'] + "/:id"} isLoggedIn={isLoggedIn} isLocked={isLocked} component={CoinDetailPage} />
-                  <PrivateRoute path={ROUTE['voting']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={VotingPage} />
+                  <PrivateRoute path={ROUTE['voting']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={VotingPage} isLedgerAccess={isLedger} />
                   <PrivateRoute path={ROUTE['exchange']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={ExchangePage} />
                   <PrivateRoute path={ROUTE['transaction']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={TransactionPage} isLedgerAccess={isLedger} />
                   <PrivateRoute path={ROUTE['contract']} isLoggedIn={isLoggedIn} isLocked={isLocked} component={ContractPage} />

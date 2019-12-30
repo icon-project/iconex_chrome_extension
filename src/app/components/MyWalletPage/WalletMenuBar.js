@@ -32,7 +32,27 @@ class WalletMenuBar extends Component {
     });
   }
 
-  isWalletHasNoBalance = (data) => {
+  isWalletHasNoBalance = (walletSectionData) => {
+    const {
+      staked,
+      iScore,
+    } = this.props
+    const {
+      data
+    } = walletSectionData
+
+    if (walletSectionData.coinType === "icx") {
+      const { account } = data[0]
+
+      if (!staked[account].value.eq(0)) {
+        return false
+      }
+
+      if (!iScore[account].value.eq(0)) {
+        return false
+      }
+    }
+
     for (const { balance } of data) {
       if (!balance.eq(0)) {
         return false
@@ -50,7 +70,7 @@ class WalletMenuBar extends Component {
         <li onClick={() => this.handleMenuClick('backupWallet')} className="backup"><span><em className="_img"></em>{I18n.walletMenuBarBackupWallet}</span></li>
         <li onClick={() => this.handleMenuClick('addToken', walletSectionData.coinType === 'eth' ? 2 : 1)} className="add"><span><em className="_img"></em>{I18n.walletMenuBarAddToken}</span></li>
         <li onClick={() => {
-          if (this.isWalletHasNoBalance(walletSectionData.data)) {
+          if (this.isWalletHasNoBalance(walletSectionData)) {
             return this.handleMenuClick('deleteWallet')
           }
           return this.handleMenuClick('deleteWallet_hasBalance')

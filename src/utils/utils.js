@@ -617,9 +617,9 @@ function map({ value, x1, y1, x2, y2 }) {
   return ((value.minus(x1)).times(y2.minus(x2))).div(y1.minus(x1)).plus(x2)
 }
 
-function convertStakeValueToText(val) {
+function convertStakeValueToText(val, isFloor = null) {
   if (!val) return 0
-  return numberWithCommasWithZero(val.toFixed(4))
+  return numberWithCommasWithZero(val.toFixed(4, isFloor ? 1 : null))
 }
 
 function convertIScoreToText(val) {

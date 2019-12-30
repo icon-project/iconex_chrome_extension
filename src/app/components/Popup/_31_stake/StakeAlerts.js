@@ -85,7 +85,7 @@ export default class StakeAlerts extends Component {
         text = I18n.error.alertLTMin(convertStakeValueToText(totalDelegated), 'Stake')
         break
       case ALERT_MSG.GT_MAX:
-        text = I18n.error.alertGTMax(convertStakeValueToText(availableMaxBalance), 'Stake')
+        text = I18n.error.alertGTMax(convertStakeValueToText(availableMaxBalance, true), 'Stake')
         break
       case ALERT_MSG.SUCCESS_STAKE:
         text = I18n.stakeIcx.success('Stake')
@@ -112,7 +112,7 @@ export default class StakeAlerts extends Component {
           }}
           handleSubmit={() => setStake(inputStakedValue)}
           handleCancel={this.closeAlert}
-          />
+        />
       )
     }
 

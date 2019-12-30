@@ -78,7 +78,7 @@ export default class VoteAlerts extends Component {
         text = I18n.error.notEnoughBalance('ICX')
         break
       case ALERT_MSG.GT_MAX:
-        text = I18n.error.alertGTMax(convertStakeValueToText(maxAvailable), 'Voting Power')
+        text = I18n.error.alertGTMax(convertStakeValueToText(maxAvailable, true), 'Voting Power')
         break
       default:
         break
@@ -134,7 +134,7 @@ export default class VoteAlerts extends Component {
             <div>
               <div className="dimmed"></div>
               <div className="popup">
-                <p className="txt_box">{ I18n.votePage.success1 }</p>
+                <p className="txt_box">{I18n.votePage.success1}</p>
                 <p className="txt" ref={ref => { if (ref) ref.innerHTML = I18n.votePage.success2 }}></p>
                 <a href={TXID_URL['icx'] + txResult} target="_blank" rel="noopener noreferrer"><p className="mint">{I18n.sendTransaction.openTracker}</p></a>
                 <div className="btn-holder full">

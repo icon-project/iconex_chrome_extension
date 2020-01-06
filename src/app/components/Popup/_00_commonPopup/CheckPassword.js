@@ -88,8 +88,8 @@ class CheckPassword extends Component {
               <h3 className="search-pw tooltip"><i className="_img info-no"></i>{I18n.checkPassword.forgotPassword}
                 <div style={{
                   left: 'inherit',
-                  right: 60,
-                  bottom: 100,
+                  right: 0,
+                  bottom: 30,
                   width: 300,
                 }} className="help-layer">
                   <p>{nToBr(I18n.checkPassword.forgotPasswordDesc)}</p>

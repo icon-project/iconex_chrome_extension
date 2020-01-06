@@ -3,11 +3,17 @@ import { CalculationTable } from 'app/components/';
 import { setTxFeeLimit, setTxFeePrice, setCalcData } from 'redux/actions/exchangeTransactionActions';
 
 function mapStateToProps(state) {
+  const {
+    calcData,
+    txFeeLoading,
+    txFeePrice,
+    txFeeLimit,
+  } = state.exchangeTransaction
   return {
-    calcData: state.exchangeTransaction.calcData,
-    txFeeLoading: state.exchangeTransaction.txFeeLoading,
-    txFeePrice: state.exchangeTransaction.txFeePrice,
-    txFeeLimit: state.exchangeTransaction.txFeeLimit,
+    calcData,
+    txFeeLoading,
+    txFeePrice,
+    txFeeLimit,
   };
 }
 
@@ -15,7 +21,7 @@ function mapDispatchToProps(dispatch) {
   return {
     setTxFeeLimit: (payload) => dispatch(setTxFeeLimit(payload)),
     setTxFeePrice: (payload) => dispatch(setTxFeePrice(payload)),
-    setCalcData: () => dispatch(setCalcData())
+    setCalcData: () => dispatch(setCalcData()),
   };
 }
 

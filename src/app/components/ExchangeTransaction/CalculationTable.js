@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { LoadingComponent } from 'app/components/'
 import withLanguageProps from 'HOC/withLanguageProps';
+import { convertNumberToText } from 'utils'
 
 const INIT_STATE = {
   currencyIndex: 0,
@@ -26,7 +27,7 @@ class CalculationTable extends Component {
 
   render() {
     const { calcData: data, I18n } = this.props;
-    const { walletCoinType } = data;
+    const { walletCoinType, txFeeLimit, txFeePrice } = data;
     return (
       <div className="table-holder common">
         <table>
@@ -40,6 +41,17 @@ class CalculationTable extends Component {
           <thead>
           </thead>
           <tbody>
+            {
+              data.walletCoinType === 'icx' && (
+                <tr>
+                  <td>{I18n.estimatedStepAndPrice}</td>
+                  <td>{convertNumberToText(txFeeLimit, 'icx', true)} <em> / </em> {convertNumberToText(txFeePrice, 'icx', true)}</td>
+                  <td>ICX</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              )
+            }
             <tr>
               <td>{I18n.transferPageLabel5_2}<i className="_img tooltip info-i"></i>
                 <div className="help-layer">

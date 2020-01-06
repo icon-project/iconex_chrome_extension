@@ -75,6 +75,8 @@ class QuantitySetter extends Component {
     if (calcData.walletCoinType === 'eth') {
       this.props.setTxFeeLimit(index !== selectedAccount ? 55000 : 21000);
       this.props.setTxFeePrice(21);
+    } else {
+      this.props.setTxFeeLimit(index !== selectedAccount ? 200000 : 100000);
     }
 
     this.props.setCalcData();
@@ -116,7 +118,7 @@ class QuantitySetter extends Component {
         </div>
       )
     }
-    
+
     return (
       <div className="group">
         <span className="label">{I18n.transferPageLabel1}</span>

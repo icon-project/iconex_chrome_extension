@@ -12,8 +12,9 @@ import {
 import {
   icx_sendTransaction as ICX_SEND_TRANSACTION,
   icx_getTxFeeInfoApi as ICX_GET_TX_FEE_INFO,
+  debug_estimateStepApi as DEBUG_ESTIMATE_STEP_API,
 } from 'redux/api/walletIcxApi';
-import { check0xPrefix, signRawTx, customValueToTokenValue, makeEthRawTx, isEmpty, checkLength, dataToHex } from 'utils'
+import { check0xPrefix, signRawTx, customValueToTokenValue, makeEthRawTx, isEmpty, checkLength, dataToHex, makeIcxRawTx } from 'utils'
 import {
   addRecentTransaction
 } from 'redux/actions/walletActions';
@@ -28,29 +29,7 @@ export function* getTxFeeInfoFunc(action) {
     }
     if (walletCoinType === 'eth') {
       const data = yield select(state => state.exchangeTransaction.data);
-      // if (isTokenSelector) {
-      //   const walletsSelector = yield select(state => state.wallet.wallets);
-      //   const selectedAccountSelector = yield select(state => state.wallet.selectedWallet.account);
-      //   const selectedTokenIdSelector = yield select(state => state.wallet.selectedWallet.tokenId);
-      //   const coinQuantitySelector = yield select(state => state.exchangeTransaction.coinQuantity);
-      //   const recipientAddressSelector = yield select(state => state.exchangeTransaction.recipientAddress);
-      //   const token = walletsSelector[selectedAccountSelector].tokens[selectedTokenIdSelector]
-      //   const txFeePriceSelector = yield select(state => state.exchangeTransaction.txFeePrice);
-      //   const txFeeLimitSelector = yield select(state => state.exchangeTransaction.txFeeLimit);
-      //   const rawTx = makeEthRawTx(true, {
-      //     from: selectedAccountSelector,
-      //     to: recipientAddressSelector,
-      //     contractAddress: token.address,
-      //     tokenDefaultDecimal: token.defaultDecimals,
-      //     tokenDecimal: token.decimals,
-      //     value: coinQuantitySelector,
-      //     txFeePrice: txFeePriceSelector,
-      //     txFeeLimit: txFeeLimitSelector
-      //   })
-      //   delete rawTx.gasLimit;
-      //   const payload = yield call(ETH_GET_TX_FEE_INFO, rawTx);
-      //   yield put({ type: AT.getTxFeeInfoFulfilled, payload: payload });
-      // }
+
       if (!isTokenSelector && data) {
         const selectedAccountSelector = yield select(state => state.wallet.selectedWallet.account);
         const coinQuantitySelector = yield select(state => state.exchangeTransaction.coinQuantity);
@@ -84,20 +63,11 @@ export function* getTxFeeInfoFunc(action) {
 
       const isTokenSelector = yield select(state => state.wallet.selectedWallet.isToken);
       const contractFuncList = yield select(state => state.contract.funcList);
-      const calcContractCallLimit = (data) => ((parseInt(txFeeLimitTable['default'], 16)) * 2)
 
       if (contractFuncList.length > 0) {
-        //let data;
-        // const funcList = yield select(state => state.contract.funcList);
-        // const selectedFuncIndex = yield select(state => state.contract.selectedFuncIndex);
-        // data = {
-        //    "method": funcList[selectedFuncIndex].name,
-        //    "params": contractFuncInput
-        // }
         yield put({
           type: AT.getTxFeeInfoFulfilled, payload: {
             txFeePrice: txFeePriceStep,
-            //txFeeLimit: calcContractCallLimit(data),
             txFeeLimit: txFeeLimitMax,
             txFeePriceStep: txFeePriceStep,
             txFeeLimitTable: txFeeLimitTable,
@@ -105,7 +75,6 @@ export function* getTxFeeInfoFunc(action) {
           }
         });
       } else if (isTokenSelector) {
-        let data;
         const selectedAccount = yield select(state => state.wallet.selectedWallet.account);
         const selectedTokenId = yield select(state => state.wallet.selectedWallet.tokenId);
         const isLedger = yield select(state => state.ledger.isLedger);
@@ -118,39 +87,65 @@ export function* getTxFeeInfoFunc(action) {
         const coinQuantity = yield select(state => state.exchangeTransaction.coinQuantity);
         const sendAmount = customValueToTokenValue(new BigNumber(coinQuantity || 0), defaultDecimals, decimals).times(Math.pow(10, defaultDecimals)).toString()
 
-        data = {
-          "method": 'transfer',
-          "params": {
+        const rawTx = makeIcxRawTx(true, {
+          from: selectedAccount,
+          contractAddress: selectedTokenId,
+          methodName: 'transfer',
+          inputObj: {
             "_to": recipientAddress,
             "_value": window.web3.toHex(sendAmount)
-          }
+          },
+        })
+        delete rawTx.stepLimit
+
+        let txFeeLimit;
+        try {
+          txFeeLimit = yield call(DEBUG_ESTIMATE_STEP_API, rawTx);
+        } catch (e) {
+          txFeeLimit = parseInt(txFeeLimitTable['default'], 16) * 2
         }
 
         yield put({
           type: AT.getTxFeeInfoFulfilled, payload: {
             txFeePrice: txFeePriceStep,
-            txFeeLimit: calcContractCallLimit(data),
+            txFeeLimit: Number(txFeeLimit),
             txFeePriceStep: txFeePriceStep,
             txFeeLimitTable: txFeeLimitTable,
             txFeeLimitMax: txFeeLimitMax
           }
         });
-
       } else {
+        const selectedAccount = yield select(state => state.wallet.selectedWallet.account);
+        const recipientAddress = yield select(state => state.exchangeTransaction.recipientAddress);
+        const coinQuantity = yield select(state => state.exchangeTransaction.coinQuantity);
+
         const data = yield select(state => state.exchangeTransaction.data);
         const dataType = yield select(state => state.exchangeTransaction.dataType);
         // Apply v0.2.54 hotfix to v0.3.4 for calculating stepLimit
-        const txFeeLimit = data.length > 0
-          ? parseInt(txFeeLimitTable['default'], 16) +
-          parseInt(txFeeLimitTable['input'], 16) *
-          (dataType === 'utf8'
-            ? checkLength(JSON.stringify(dataToHex(data)))
-            : JSON.stringify(data).length)
-          : parseInt(txFeeLimitTable['default'], 16)
+        // const txFeeLimit = data.length > 0
+        //   ? parseInt(txFeeLimitTable['default'], 16) +
+        //   parseInt(txFeeLimitTable['input'], 16) *
+        //   (dataType === 'utf8'
+        //     ? checkLength(JSON.stringify(dataToHex(data)))
+        //     : JSON.stringify(data).length)
+        //   : parseInt(txFeeLimitTable['default'], 16)
+
+        const dataInput = data.length > 0
+          ? (dataType === 'utf8' ? dataToHex(data) : data)
+          : '';
+
+        const rawTx = makeIcxRawTx(false, {
+          from: selectedAccount,
+          to: recipientAddress,
+          value: coinQuantity,
+          data: dataInput
+        })
+        delete rawTx.stepLimit
+        const txFeeLimit = yield call(DEBUG_ESTIMATE_STEP_API, rawTx);
         yield put({
           type: AT.getTxFeeInfoFulfilled, payload: {
             txFeePrice: txFeePriceStep,
-            txFeeLimit: txFeeLimit,
+            txFeeLimit: Number(txFeeLimit),
             txFeePriceStep: txFeePriceStep,
             txFeeLimitTable: txFeeLimitTable,
             txFeeLimitMax: txFeeLimitMax

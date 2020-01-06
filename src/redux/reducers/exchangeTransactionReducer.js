@@ -107,13 +107,8 @@ export function validateDataError(state) {
 export function validateTxFeeLimitError(state) {
   let error = '';
   const isToken = store.getState().wallet.selectedWallet.isToken;
-  const minStepLimit = initialStepLimit(isToken, state.txFeeLimitTable);
   if (!state.txFeeLimit) {
     error = `enterGasPrice_${state.calcData.walletCoinType === 'icx' ? 'step' : 'gas'}`;
-  } else if (state.calcData.walletCoinType === 'icx' && state.txFeeLimit < minStepLimit) {
-    error = `stepLimitTooLow`;
-  } else if (state.calcData.walletCoinType === 'icx' && new BigNumber(state.txFeeLimit).gt(state.txFeeLimitMax)) {
-    error = `stepLimitTooHigh`;
   } else if (state.calcData.isWalletCoinBalanceMinus) {
     error = 'notEnoughBalance';
   } else if (state.calcData.isResultBalanceMinus) {
@@ -150,7 +145,7 @@ const getCoinTypeObj = (wallet) => {
   const tokens = Object.values(wallet.tokens);
 
   coinTypeObj[wallet.account] = wallet.type
-  for(let i=0; i<tokens.length; i++) {
+  for (let i = 0; i < tokens.length; i++) {
     coinTypeObj[tokens[i].address] = tokens[i].symbol
   }
   return coinTypeObj;
@@ -185,11 +180,11 @@ const calcData = (props) => {
   let txFee = txFeePriceCalc.times(txFeeLimitNumber)
   const txFeePriceWithRate = convertNumberToText(txFeePriceCalc.times(usdRate), 'usd', false);
   const totalBalance = !isToken
-                          ? balance.minus(txFee)
-                          : balance;
+    ? balance.minus(txFee)
+    : balance;
   const txFeeText = convertNumberToText(txFee, 'transaction', true);
   const sendQuantityText = convertNumberToText(coinQuantityNumber, 'transaction', true);
-  const resultBalanceText = !isToken ? convertNumberToText(balance.minus(txFee).minus(coinQuantityNumber), 'transaction', true) : convertNumberToText(balance.minus(coinQuantityNumber),  'transaction', true);
+  const resultBalanceText = !isToken ? convertNumberToText(balance.minus(txFee).minus(coinQuantityNumber), 'transaction', true) : convertNumberToText(balance.minus(coinQuantityNumber), 'transaction', true);
   let sendQuantityWithRateText, resultBalanceWithRateText;
   const txFeeWithRateText = !totalResultLoading && (txFeeUsdRate ? convertNumberToText(txFee.times(txFeeUsdRate), 'usd', false) : '-');
 
@@ -198,7 +193,7 @@ const calcData = (props) => {
     resultBalanceWithRateText = !totalResultLoading && convertNumberToText((balance.minus(txFee).minus(coinQuantityNumber)).times(usdRate), 'usd', false);
   } else {
     sendQuantityWithRateText = !totalResultLoading && (usdRate ? convertNumberToText(calcTokenBalanceWithRate(coinQuantityNumber, usdRate, wallet.tokens[selectedTokenId].defaultDecimals, wallet.tokens[selectedTokenId].decimals), 'usd', false) : '-');
-    resultBalanceWithRateText = !totalResultLoading && (usdRate ? convertNumberToText(calcTokenBalanceWithRate(balance.minus(coinQuantityNumber), usdRate, wallet.tokens[selectedTokenId].defaultDecimals, wallet.tokens[selectedTokenId].decimals), 'usd', false)  : '-');
+    resultBalanceWithRateText = !totalResultLoading && (usdRate ? convertNumberToText(calcTokenBalanceWithRate(balance.minus(coinQuantityNumber), usdRate, wallet.tokens[selectedTokenId].defaultDecimals, wallet.tokens[selectedTokenId].decimals), 'usd', false) : '-');
   }
 
   return {
@@ -206,6 +201,8 @@ const calcData = (props) => {
     totalBalance: totalBalance.toFixed(18),
     txFeePriceWithRate,
     txFee: txFeeText,
+    txFeeLimit,
+    txFeePrice: txFeePriceCalc,
     txFeeWithRate: txFeeWithRateText,
     sendQuantity: sendQuantityText,
     sendQuantityWithRate: sendQuantityWithRateText,
@@ -221,14 +218,15 @@ const calcData = (props) => {
 
 export const initialStepLimit = (isToken, txFeeLimitTable) => {
   return !isToken ? parseInt(txFeeLimitTable['default'], 16)
-                  : (parseInt(txFeeLimitTable['default'], 16)) * 2
+    : (parseInt(txFeeLimitTable['default'], 16)) * 2
 }
 
 const initializeTxFeeLimit = (isToken, walletCoinType, txFeeLimitTable) => {
   if (walletCoinType === 'icx') {
+    console.log(txFeeLimitTable)
     return !isEmpty(txFeeLimitTable)
-            ? initialStepLimit(isToken, txFeeLimitTable)
-            : 100000
+      ? initialStepLimit(isToken, txFeeLimitTable)
+      : 100000
   } else {
     return isToken ? 55000 : 21000
   }
@@ -246,7 +244,7 @@ export function exchangeTransactionReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.setLogInState: {
       return Object.assign({}, state, {
-          walletSelectorError: ''
+        walletSelectorError: ''
       })
     }
     case actionTypes.setSelectedWallet: {
@@ -258,14 +256,14 @@ export function exchangeTransactionReducer(state = initialState, action) {
         txFeePrice: initializeTxFeePrice(isToken, walletCoinType, state.txFeePriceStep)
       });
       const newStateWithSelectedWallet = {
-          ...newState,
-          account: action.payload.account,
-          tokenId: action.payload['tokenId'] || '',
-          isToken: isToken
+        ...newState,
+        account: action.payload.account,
+        tokenId: action.payload['tokenId'] || '',
+        isToken: isToken
       }
 
       return Object.assign({}, newState, {
-          calcData: calcData(newStateWithSelectedWallet)
+        calcData: calcData(newStateWithSelectedWallet)
       })
     }
     case actionTypes.setCoinQuantity: {
@@ -282,23 +280,23 @@ export function exchangeTransactionReducer(state = initialState, action) {
     }
     case actionTypes.setCalcData: {
       return Object.assign({}, state, {
-          calcData: calcData(state),
+        calcData: calcData(state),
       })
     }
     case actionTypes.setTxFeeLimit: {
       const newState = Object.assign({}, state, {
-          txFeeLimit: action.payload,
+        txFeeLimit: action.payload,
       })
       return Object.assign({}, newState, {
-          calcData: calcData(newState)
+        calcData: calcData(newState)
       })
     }
     case actionTypes.setTxFeePrice: {
       const newState = Object.assign({}, state, {
-          txFeePrice: action.payload,
+        txFeePrice: action.payload,
       })
       return Object.assign({}, newState, {
-          calcData: calcData(newState)
+        calcData: calcData(newState)
       })
     }
     case actionTypes.setData: {
@@ -323,8 +321,8 @@ export function exchangeTransactionReducer(state = initialState, action) {
         const recipientAddressError = validateRecipientAddressError(state);
         const txFeeLimitError = validateTxFeeLimitError(state);
         const dataError = state.calcData.walletCoinType === 'icx' && state.dataType === 'utf8'
-                            ? validateMessageError(state)
-                            : validateDataError(state)
+          ? validateMessageError(state)
+          : validateDataError(state)
         if (!coinQuantityError && !recipientAddressError && !dataError && !txFeeLimitError) {
           submit = true;
         }
@@ -338,67 +336,67 @@ export function exchangeTransactionReducer(state = initialState, action) {
       }
     case actionTypes.sendCall:
       return Object.assign({}, state, {
-          txLoading: true,
-          tx: '',
-          error: ''
+        txLoading: true,
+        tx: '',
+        error: ''
       })
     case actionTypes.sendCallFulfilled:
       return Object.assign({}, state, {
-          txLoading: false,
-          tx: action.payload,
-          error: ''
+        txLoading: false,
+        tx: action.payload,
+        error: ''
       })
     case actionTypes.sendCallRejected:
       return Object.assign({}, state, {
-          txLoading: false,
-          tx: '',
-          error: parseError(action.errorMsg, state.calcData.walletCoinType)
+        txLoading: false,
+        tx: '',
+        error: parseError(action.errorMsg, state.calcData.walletCoinType)
       })
     case actionTypes.setCoinQuantityError: {
       let error = validateCoinQuantityError(state);
       return Object.assign({}, state, {
-          coinQuantityError: error
+        coinQuantityError: error
       })
     }
     case actionTypes.toggleFullBalance: {
       return Object.assign({}, state, {
-          isFullBalance: action.payload
+        isFullBalance: action.payload
       })
     }
     case actionTypes.setRecipientAddressError: {
       let error = validateRecipientAddressError(state);
       return Object.assign({}, state, {
-          recipientAddressError: error
+        recipientAddressError: error
       })
     }
     case actionTypes.setWalletSelectorError: {
       return Object.assign({}, state, {
-          walletSelectorError: 'alertWalletFirst'
+        walletSelectorError: 'alertWalletFirst'
       })
     }
     case actionTypes.setDataError: {
       let error = state.calcData.walletCoinType === 'icx' && state.dataType === 'utf8'
-                    ? validateMessageError(state)
-                    : validateDataError(state)
+        ? validateMessageError(state)
+        : validateDataError(state)
       return Object.assign({}, state, {
-          dataError: error
+        dataError: error
       })
     }
     case actionTypes.setTxFeeLimitError: {
       let error = validateTxFeeLimitError(state);
       return Object.assign({}, state, {
-          txFeeLimitError: error
+        txFeeLimitError: error
       })
     }
     case actionTypes.setContractTxFeeLimitError: {
       let error = validateContractTxFeeLimitError(state);
       return Object.assign({}, state, {
-          txFeeLimitError: error
+        txFeeLimitError: error
       })
     }
     case actionTypes.setTxFeeModified: {
       return Object.assign({}, state, {
-          isTxFeeModified: action.payload
+        isTxFeeModified: action.payload
       })
     }
     case actionTypes.resetContractInputOutput:
@@ -418,7 +416,7 @@ export function exchangeTransactionReducer(state = initialState, action) {
     }
     case actionTypes.getTxFeeInfo:
       return Object.assign({}, state, {
-          txFeeLoading: true
+        txFeeLoading: true
       })
     case actionTypes.getTxFeeInfoFulfilled:
       const { txFeePrice, txFeeLimit, txFeePriceStep, txFeeLimitTable, txFeeLimitMax } = action.payload
@@ -432,7 +430,7 @@ export function exchangeTransactionReducer(state = initialState, action) {
       })
     case actionTypes.getTxFeeInfoRejected:
       return Object.assign({}, state, {
-          txFeeLoading: false
+        txFeeLoading: false
       })
     default: {
       return state

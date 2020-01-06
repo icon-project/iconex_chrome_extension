@@ -140,63 +140,58 @@ class TxFeeAndData extends Component {
 
     return (
       <div id="gasTable">
-        <div className="group">
-          <span className="label">{I18n[`transferPageLabel7_${walletCoinType}`]}<i className="_img tooltip info-i"></i>
-            <div className="help-layer">
-              <p className="title">{I18n[`transferPageHelperTitle2_${walletCoinType}`]}</p>
-              <p className="txt">{I18n[`transferPageHelperDesc2_${walletCoinType}`]}</p>
-            </div>
-          </span>
-          <input onChange={this.setTxFeeLimit} type="text" className={`txt-type-normal ${txFeeLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={txFeeLimit} onBlur={this.handleTxFeeLimitBlur} />
-          <p className="error gasLimit">{txFeeLimitErrorText}</p>
-        </div>
-        <div className="group money">
-          <span className="label">{I18n[`transferPageLabel10_${walletCoinType}`]}<i className="_img tooltip info-i"></i>
-            <div className="help-layer">
-              <p className="title">{I18n[`transferPageHelperTitle3_${walletCoinType}`]}</p>
-              <p ref={ref => { if (ref) ref.innerHTML = I18n[`transferPageHelperDesc3_${walletCoinType}`] }} className="txt"></p>
-            </div>
-          </span>
-          {
-            walletCoinType === 'icx' ? (
-              <div className="controller">
-                <span className="a loop">{convertNumberToText(window.web3.fromWei(txFeePrice, 'ether'), 'transaction', true)}<em>ICX ({convertNumberToText(window.web3.fromWei(txFeePrice, 'gwei'), 'transaction', true)} Gloop)</em></span>
-                <span className="won"><i className="_img"></i><em>{txFeePriceWithRate}</em> <em>USD</em></span>
+        {walletCoinType === 'eth' && (
+          <div className="group">
+            <span className="label">{I18n[`transferPageLabel7_${walletCoinType}`]}<i className="_img tooltip info-i"></i>
+              <div className="help-layer">
+                <p className="title">{I18n[`transferPageHelperTitle2_${walletCoinType}`]}</p>
+                <p className="txt">{I18n[`transferPageHelperDesc2_${walletCoinType}`]}</p>
               </div>
-            ) : (
-                <div className="controller">
-                  <span className="a">{txFeePrice}<em>Gwei</em></span>
+            </span>
+            <input onChange={this.setTxFeeLimit} type="text" className={`txt-type-normal ${txFeeLimitError && 'error'}`} placeholder={I18n[`transferPagePlaceholder5_${walletCoinType}`]} value={txFeeLimit} onBlur={this.handleTxFeeLimitBlur} />
+            <p className="error gasLimit">{txFeeLimitErrorText}</p>
+          </div>
+        )}
+        {walletCoinType === 'eth' && (
+          <div className="group money">
+            <span className="label">{I18n[`transferPageLabel10_${walletCoinType}`]}<i className="_img tooltip info-i"></i>
+              <div className="help-layer">
+                <p className="title">{I18n[`transferPageHelperTitle3_${walletCoinType}`]}</p>
+                <p ref={ref => { if (ref) ref.innerHTML = I18n[`transferPageHelperDesc3_${walletCoinType}`] }} className="txt"></p>
+              </div>
+            </span>
+            <div className="controller">
+              <span className="a">{txFeePrice}<em>Gwei</em></span>
 
-                  <button onClick={() => this.setTxFeePriceByClick(txFeePrice - 1)} className="b minus"><em className="_img"></em></button>
-                  <button onClick={() => this.setTxFeePriceByClick(txFeePrice + 1)} className="b plus"><em className="_img"></em></button>
-                  <InputRange
-                    maxValue={99}
-                    minValue={1}
-                    value={txFeePrice}
-                    step={1}
-                    classNames={{
-                      minLabel: 'none',
-                      maxLabel: 'none',
-                      valueLabel: 'none',
-                      inputRange: 'drag-holder',
-                      track: 'bg',
-                      activeTrack: 'bar',
-                      sliderContainer: 'drag-wrap',
-                      slider: 'drag'
-                    }}
-                    onChange={txFeePrice => {
-                      this.props.setTxFeePrice(txFeePrice);
-                      this.props.setTxFeeModified(true);
-                    }}
-                    onChangeComplete={() => this.props.setCalcData()} />
-                  <ul id="dragBar">
-                    <li>1 <em>({I18n.transferPageSlow})</em></li>
-                    <li>99 <em>({I18n.transferPageFast})</em></li>
-                  </ul>
-                </div>
-              )
-          }
-        </div>
+              <button onClick={() => this.setTxFeePriceByClick(txFeePrice - 1)} className="b minus"><em className="_img"></em></button>
+              <button onClick={() => this.setTxFeePriceByClick(txFeePrice + 1)} className="b plus"><em className="_img"></em></button>
+              <InputRange
+                maxValue={99}
+                minValue={1}
+                value={txFeePrice}
+                step={1}
+                classNames={{
+                  minLabel: 'none',
+                  maxLabel: 'none',
+                  valueLabel: 'none',
+                  inputRange: 'drag-holder',
+                  track: 'bg',
+                  activeTrack: 'bar',
+                  sliderContainer: 'drag-wrap',
+                  slider: 'drag'
+                }}
+                onChange={txFeePrice => {
+                  this.props.setTxFeePrice(txFeePrice);
+                  this.props.setTxFeeModified(true);
+                }}
+                onChangeComplete={() => this.props.setCalcData()} />
+              <ul id="dragBar">
+                <li>1 <em>({I18n.transferPageSlow})</em></li>
+                <li>99 <em>({I18n.transferPageFast})</em></li>
+              </ul>
+            </div>
+          </div>
+        )}
         {
           !isToken && (
             <div className="group datainput">

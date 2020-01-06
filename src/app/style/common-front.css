@@ -563,3 +563,32 @@ input.txt-type-value.input-mode {
 }
 
 .search-pw.tooltip:hover > .help-layer{opacity: 1; transition: all 0.5s;}
+
+.coinDetail-list {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.coinDetail-el:first-of-type {
+  padding-left: 0px;
+}
+
+.coinDetail-el:last-of-type {
+  border-right: none;
+  padding-right: 0px;
+}
+
+.coinDetail-el {
+  float: left;
+  border-right: 1px solid #eee;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.coinDetail-el > span.el {
+  font-weight: 500;
+  margin-right: 10px;
+}
+.coinDetail-el > span.unit {
+  font-size: 10px;
+}

@@ -16,6 +16,7 @@ function mapStateToProps(state) {
     txHistoryLoading: state.history.historyLoading,
     currency: state.rate.currency,
     totalData: state.history.totalData,
+    staked: state.iiss.staked,
   };
 }
 

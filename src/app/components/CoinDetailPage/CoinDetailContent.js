@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import BigNumber from 'bignumber.js';
 import { withRouter } from 'react-router-dom';
 import { LoadingComponent, QrcodeComponent, CurrencyMenuBar, TransactionHistory, CopyButton, Alert } from 'app/components/'
 import { routeConstants as ROUTE, coinImage as COIN_IMAGE, coinName as COIN_NAME, currencyName as CURRENCY_NAME } from 'constants/index'
 import { ICX_TOKEN_CONTRACT_ADDRESS } from 'constants/config'
-import { convertNumberToText, calcTokenBalanceWithRate } from 'utils';
+import { convertNumberToText, calcTokenBalanceWithRate, convertStakeValueToText } from 'utils';
 import DEFAULT_ICON from 'app/image/icon/icon_default.png';
 import withLanguageProps from 'HOC/withLanguageProps';
 
@@ -13,7 +14,6 @@ const INIT_STATE = {
   showInfo: false,
   showCurrencyList: false,
   balanceStyle: {},
-
   showAlertNoBalance: false,
 }
 
@@ -152,6 +152,7 @@ class CoinDetailContent extends Component {
   }
 
   setData = () => {
+    const { staked } = this.props;
     const { account, tokenId, isToken } = this.state;
     let data;
 
@@ -184,6 +185,13 @@ class CoinDetailContent extends Component {
         balanceLoading: wallet.balanceLoading,
         balance: wallet.balance,
         coinImage: COIN_IMAGE[wallet.type]
+      }
+      if (wallet.type === 'icx') {
+        const { value, unstake } = staked[wallet.account]
+        data = Object.assign({}, data, {
+          staked: value.plus(unstake),
+          totalBalance: new BigNumber(wallet.balance).plus(value).plus(unstake)
+        })
       }
     }
     return data;
@@ -223,27 +231,27 @@ class CoinDetailContent extends Component {
             {
               isToken ? (
                 <span className="d">
-                  {rate[data.defaultSymbol.toLowerCase()] && (<i className="_img"></i>) }
+                  {rate[data.defaultSymbol.toLowerCase()] && (<i className="_img"></i>)}
                   <em>{!data.balanceLoading && !rateLoading && (
-                    rate[data.defaultSymbol.toLowerCase()] 
-                      ? convertNumberToText(calcTokenBalanceWithRate(data.balance, rate[data.defaultSymbol.toLowerCase()], data.defaultDecimals, data.decimals), currency, false) 
+                    rate[data.defaultSymbol.toLowerCase()]
+                      ? convertNumberToText(calcTokenBalanceWithRate(data.balance, rate[data.defaultSymbol.toLowerCase()], data.defaultDecimals, data.decimals), currency, false)
                       : I18n.coinDetailNoPrice
                   )}</em>
                   {
                     rate[data.defaultSymbol.toLowerCase()] && (
-                    <div 
-                      onClick={this.toggleCurrencyList} 
-                      className={`money-group no ${this.state.showCurrencyList ? 'on' : ''}`}>
-                      {CURRENCY_NAME[currency]}
-                      <em className="_img"></em>
-                      {this.state.showCurrencyList && (
-                        <div className="drop-box one">
-                          <div className="drop-layer">
-                            <CurrencyMenuBar type="sub" onClickOut={this.toggleCurrencyList} setCurrencyList={this.setCurrencyList} coinType={data.coinType} />
+                      <div
+                        onClick={this.toggleCurrencyList}
+                        className={`money-group no ${this.state.showCurrencyList ? 'on' : ''}`}>
+                        {CURRENCY_NAME[currency]}
+                        <em className="_img"></em>
+                        {this.state.showCurrencyList && (
+                          <div className="drop-box one">
+                            <div className="drop-layer">
+                              <CurrencyMenuBar type="sub" onClickOut={this.toggleCurrencyList} setCurrencyList={this.setCurrencyList} coinType={data.coinType} />
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
+                        )}
+                      </div>
                     )
                   }
                 </span>
@@ -259,6 +267,15 @@ class CoinDetailContent extends Component {
                         </div>
                       )}
                     </div>
+                    {
+                      data.staked && !data.staked.eq(0) && (
+                        <div className="coinDetail-list">
+                          <p className="coinDetail-el"><span className="el">ICX Balance</span>{convertStakeValueToText(data.totalBalance)} <span className="unit">ICX</span></p>
+                          <p className="coinDetail-el"><span className="el">Available</span>{convertStakeValueToText(data.balance)} <span className="unit">ICX</span></p>
+                          <p className="coinDetail-el"><span className="el">Staked</span>{convertStakeValueToText(data.staked)} <span className="unit">ICX</span></p>
+                        </div>
+                      )
+                    }
                   </span>
                 )
             }

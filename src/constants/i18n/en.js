@@ -611,6 +611,7 @@ export default {
     knownFailure: 'Your transaction has been canceled.<br/>The transaction is being processed.',
     anotherFailure: 'Your transaction has been canceled.<br/>Another transaction is being processed.',
     gasFailure: 'Transaction fee is too low.',
+    gasLimitFailure: 'Gas limit is too low.',
     exceedsFailure: 'This exceeds block gas limit.',
     internetFailure: 'Your transaction has been canceled.<br/>There is no Internet connection.',
     tokenGasFailure: 'You have insufficient ETH balance for GAS.',

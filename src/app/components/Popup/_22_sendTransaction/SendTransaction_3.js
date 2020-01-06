@@ -135,7 +135,7 @@ class SendTransaction3 extends Component {
           return I18n.sendTransaction.anotherFailure
 
         case 'intrinsic gas too low':
-          return I18n.sendTransaction.gasFailure
+          return I18n.sendTransaction.gasLimitFailure
 
         case 'exceeds block gas limit':
           return I18n.sendTransaction.exceedsFailure

@@ -616,6 +616,7 @@ export default {
     knownFailure: '송금이 취소되었습니다.<br/>동일 내역의 송금이 이미 진행 중입니다.',
     anotherFailure: '송금이 취소되었습니다.<br/>다른 내역의 송금이 진행 중입니다.',
     gasFailure: '수수료가 부족합니다.',
+    gasLimitFailure: '가스 한도가 너무 낮습니다.',
     exceedsFailure: '가스 한도를 초과했습니다.',
     internetFailure: '송금이 취소되었습니다.<br/>인터넷 연결이 해제되어 있습니다.',
     tokenGasFailure: '이더리움 계좌 잔액이 부족하여<br/>토큰을 송금할 수 없습니다.',

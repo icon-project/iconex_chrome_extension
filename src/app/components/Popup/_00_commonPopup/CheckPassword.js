@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Worker from 'workers/wallet.worker.js';
 import { LoadingComponent } from 'app/components/'
 import withLanguageProps from 'HOC/withLanguageProps';
+import { nToBr } from 'utils';
 
 const INIT_STATE = {
   pw: '',
@@ -84,6 +85,16 @@ class CheckPassword extends Component {
                 <input onChange={this.changeInput} onKeyPress={this.handleKeyPress} type="password" className={`txt-type-normal ${pwError && 'error'}`} placeholder={I18n.checkPassword.placeholder} name="pw" value={pw} />
                 <p className="error">{pwError}</p>
               </div>
+              <h3 className="search-pw tooltip"><i className="_img info-no"></i>{I18n.checkPassword.forgotPassword}
+                <div style={{
+                  left: 'inherit',
+                  right: 60,
+                  bottom: 100,
+                  width: 300,
+                }} className="help-layer">
+                  <p>{nToBr(I18n.checkPassword.forgotPasswordDesc)}</p>
+                </div>
+              </h3>
             </div>
           </div>
         </div>

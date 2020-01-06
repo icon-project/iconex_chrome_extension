@@ -347,6 +347,8 @@ export default {
     desc: '지갑의 비밀번호를 입력하여 주세요.',
     input: '비밀번호',
     placeholder: '비밀번호 입력',
+    forgotPassword: '비밀번호를 잊으셨나요?',
+    forgotPasswordDesc: '개인 키를 알고 있다면 지갑을 새로 가져와서 비밀번호를 재설정 할 수 있습니다. 아래 단계를 따라 진행해주세요.\n“지갑 가져오기” 선택 > “개인 키” 선택 > 개인 키 입력 후 가져오기 > 새 비밀번호 입력',
   },
 
   createWallet: {

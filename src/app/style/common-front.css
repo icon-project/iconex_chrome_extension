@@ -561,3 +561,5 @@ input.txt-type-value.input-mode {
     margin-right: 50px;
   }
 }
+
+.search-pw.tooltip:hover > .help-layer{opacity: 1; transition: all 0.5s;}

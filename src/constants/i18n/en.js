@@ -346,6 +346,8 @@ export default {
     desc: 'Enter your password.',
     input: 'Password',
     placeholder: 'Enter your password',
+    forgotPassword: 'Forget Password?',
+    forgotPasswordDesc: 'You can reset password using private key. Please follow directions.\nSelect the \"Load your wallet\"> Select the \"Private Key\" > Input the Private Key and load your wallet > Input the new password',
   },
 
   createWallet: {

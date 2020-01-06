@@ -41,7 +41,9 @@ const AutoSign = (() => {
     _hashKey = (input) => {
       // console.log(input)
       const { payload, host } = input
-      const { from, to, data } = payload.params
+      const { from, to, data = {
+        method: ""
+      } } = payload.params
       const key = `${from}_${to}_${data.method}_${host}`
       const hashedKey = hash.sha256().update(key).digest('hex')
       return hashedKey

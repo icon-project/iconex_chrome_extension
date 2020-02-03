@@ -586,8 +586,8 @@ function convertToPercent(num = 0, den = 0, fixed = 0) {
     return (0).toFixed(fixed)
   }
 
-  const value = n / d * 100
-  return value.toFixed(fixed);
+  const value = new BigNumber(n).div(new BigNumber(d)).times(100);
+  return value.toFixed(fixed, 1);
 }
 
 function fromLoop(value) {

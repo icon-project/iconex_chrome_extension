@@ -15,10 +15,10 @@ class MyStatusStakeVote extends Component {
     // this.timer = null
   }
 
-  componentWillReceiveProps(nextProps) { 
+  componentWillReceiveProps(nextProps) {
     const { loading } = this.props
-    if (loading !== nextProps.loading 
-      && !nextProps.loading 
+    if (loading !== nextProps.loading
+      && !nextProps.loading
       && nextProps.isUnstakeExist
       && nextProps.isLoggedIn) {
       const {
@@ -99,7 +99,7 @@ class MyStatusStakeVote extends Component {
       buttonLabel,
       error,
     } = this.props
-    
+
     const {
       unstakeTime
     } = this.state
@@ -117,7 +117,7 @@ class MyStatusStakeVote extends Component {
         <h1>{I18n[compType]}</h1>
         <div className={`bar-group ${graphClassName}`}>
           {(!isUnstakingFull && !isUnstakingEqualToStake) && (<span className="mint" style={{ width: `${axis1.width}%` }}><i></i></span>)}
-          {isUnstakeExist && (<span className="mint-un" style={{ width: `${unstake.width}%` }}><i><em></em></i></span>)}
+          {isUnstakeExist && unstake.width !== "0" && (<span className="mint-un" style={{ width: `${unstake.width}%` }}><i><em></em></i></span>)}
           <span className="gray" style={{ width: `${axis2.width}%` }}><i></i></span>
         </div>
         <ul>

@@ -5407,6 +5407,12 @@ export const ethToken = [
     "type": "default"
   },
   {
+    "address": "0xC1Ad68c43508dD5AdDb8d0ac0927dbE752d149D6",
+    "symbol": "STL",
+    "decimal": 18,
+    "type": "default"
+  },
+  {
     "address": "0x599346779e90fc3F5F997b5ea715349820F91571",
     "symbol": "STN",
     "decimal": 4,

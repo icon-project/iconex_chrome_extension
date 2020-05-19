@@ -57,7 +57,14 @@ class ConnectLedger extends Component {
     const parsedData = JSON.parse(data)
     const { method, payload, action = '' } = parsedData
 
+    console.log('event');
+    console.log(event);
+    // console.log(this.props);
+    console.log(method)
+
     if (popupNum === 1) setPopupNum(2)
+
+
 
     switch (method) {
       case 'icx_getBalance':
@@ -87,30 +94,46 @@ class ConnectLedger extends Component {
         source.postMessage(resultArr, '*')
         break;
 
-      case 'setWallet':
-        setLogInStateForLedger({
-          isLoggedIn: true,
-          ledgerWallet: payload
-        })
-        setSelectedWallet({
-          account: payload.account
-        });
-        closePopup();
-        if (action === POPUP_TYPE.TRANSFER) {
-          if (!(this.getPopupType() === POPUP_TYPE.TRANSFER)) {
-            history.push({
-              pathname: ROUTE['transaction']
-            });
+      case 'setWallet': {
+        console.log("set wallet called");
+        console.log('before if else');
+        if (window.location.href.includes('contract')) {
+          // this.props.addWallet({[payload.account]: payload});
+          setLogInStateForLedger({
+            isLoggedIn: true,
+            ledgerWallet: payload
+          });
+          setSelectedWallet({
+            account: payload.account
+          });
+          closePopup();
+        } else {
+          setLogInStateForLedger({
+            isLoggedIn: true,
+            ledgerWallet: payload
+          });
+          setSelectedWallet({
+            account: payload.account
+          });
+          closePopup();
+          if (action === POPUP_TYPE.TRANSFER) {
+            if (!(this.getPopupType() === POPUP_TYPE.TRANSFER)) {
+              history.push({
+                pathname: ROUTE['transaction']
+              });
+            }
+          }
+          if (action === POPUP_TYPE.VOTING) {
+            if (!(this.getPopupType() === POPUP_TYPE.VOTING)) {
+              history.push({
+                pathname: ROUTE['voting']
+              });
+            }
           }
         }
-        if (action === POPUP_TYPE.VOTING) {
-          if (!(this.getPopupType() === POPUP_TYPE.VOTING)) {
-            history.push({
-              pathname: ROUTE['voting']
-            });
-          }
-        }
+        console.log('after if else');
         break;
+      }
       case 'openAccountInfoOnTracker':
         window.open(`${TRACKER_ACCOUNT_URL['icx']}${payload}`)
         break;

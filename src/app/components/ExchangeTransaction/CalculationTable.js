@@ -28,6 +28,7 @@ class CalculationTable extends Component {
   render() {
     const { calcData: data, I18n } = this.props;
     const { walletCoinType, txFeeLimit, txFeePrice } = data;
+    console.log('data', data);
     return (
       <div className="table-holder common">
         <table>
@@ -79,7 +80,7 @@ class CalculationTable extends Component {
                   ? (<td>{data.resultBalance}</td>)
                   : (<td><LoadingComponent type="black" /></td>)
               }
-              <td>{data.coinType.toUpperCase()}</td>
+              <td>{data.coinType ? data.coinType.toUpperCase() : '' }</td>
               {
                 data.resultBalanceWithRate
                   ? (<td>{data.resultBalanceWithRate}</td>)

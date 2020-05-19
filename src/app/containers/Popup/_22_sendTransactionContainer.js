@@ -74,6 +74,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const SendTranasctionContainer = connect(mapStateToProps, mapDispatchToProps)(SendTransaction);
+const SendTransactionContainer = connect(mapStateToProps, mapDispatchToProps)(SendTransaction);
 
-export default SendTranasctionContainer;
+export default SendTransactionContainer;

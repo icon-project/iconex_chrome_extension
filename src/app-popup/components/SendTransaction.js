@@ -58,9 +58,9 @@ class SendTransaction extends Component {
 		const validateValue = await this.validateForm(e)
 		if(validateValue !== false) {
 			console.log('no error')
-			this.setState({ 
+			this.setState({
 				stepLimitError: '',
-				isDisabled: false 
+				isDisabled: false
 			})
 		}
 
@@ -104,7 +104,7 @@ class SendTransaction extends Component {
 			isDisabled: true
 		  })
 		  return false
-		} 
+		}
 
 		const { stepLimit } = this.state
 
@@ -176,7 +176,7 @@ class SendTransaction extends Component {
 		this.cancelClicked = true
 		this.props.setScoreStep({ stepLimit, stepPrice })
 		this.props.history.push(ROUTE['check'])
-	
+
 	}
 
 	cancelTransaction = closed => {
@@ -188,8 +188,8 @@ class SendTransaction extends Component {
 	}
 
 	toggleViewData = () => {
-		this.setState({ 
-			viewData: !this.state.viewData 
+		this.setState({
+			viewData: !this.state.viewData
 		})
 	}
 
@@ -223,7 +223,7 @@ class SendTransaction extends Component {
 		const stepPriceNum = !isNaN(stepPrice) ? stepPrice : 0
 		const stepPriceIcx = window.web3.fromWei(stepPriceNum, 'ether')
 		const stepPriceGloop = window.web3.fromWei(stepPriceNum, 'Gwei')
-		const stepPriceUsd = stepPriceIcx * icxRate 
+		const stepPriceUsd = stepPriceIcx * icxRate
 		const maxStepIcx = stepLimit * stepPriceIcx // 예상 최대 수수료
 
 		const maxStepUsd = maxStepIcx * icxRate
@@ -295,7 +295,7 @@ class SendTransaction extends Component {
 							</span>
 							</div>
 						</div>
-						{dataType && data && 
+						{dataType && data &&
 						<div className="code-holder">
 							<span className="name">Tx Data</span>
 							{viewData ?
@@ -326,7 +326,7 @@ class SendTransaction extends Component {
 										</ul>
 									</div>
 								</div>
-							}    
+							}
 							</div>
 
 							<p>This allows to <span>{host}</span> to automatically sign similar transactions on your behalf. Automatic signing is valid until the given.</p>

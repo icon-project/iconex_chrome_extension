@@ -189,18 +189,21 @@ export function contractReducer(state = initialState, action) {
         funcInputDataExceedError: action.payload
       })
     case actionTypes.executeFunc:
+      console.log(action);
       return Object.assign({}, state, {
         funcLoading: true,
         funcResult: [],
         error: ''
       })
     case actionTypes.executeFuncFulfilled:
+      console.log(action);
       return Object.assign({}, state, {
         funcLoading: false,
         funcResult: action.payload,
         error: ''
       })
     case actionTypes.executeFuncRejected:
+      console.log(action);
       return Object.assign({}, state, {
         funcLoading: false,
         funcResult: [],

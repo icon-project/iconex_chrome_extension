@@ -41,9 +41,16 @@ class SendTransaction2 extends Component {
       sendCall,
     } = this.props;
 
+    console.log('sendtransaction', this.props);
     switch (pageType) {
       case 'contract': {
-        executeFunc();
+        console.log(isLedger);
+        if (isLedger) {
+          // executeFunc();
+          sendCall('', ledgerSignedRawTx, true);
+        } else {
+          executeFunc();
+        }
         break;
       }
       case 'transaction': {

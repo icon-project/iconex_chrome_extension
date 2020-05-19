@@ -7,6 +7,14 @@ export function getWallet(payload = {}) {
   };
 }
 
+export function addWallet(payload = {}) {
+  console.log('addwallet', payload);
+  return {
+    type: actionTypes.getWalletFulfilled,
+    payload
+  }
+}
+
 export function setSelectedWallet(payload) {
   return {
     type: actionTypes.setSelectedWallet,

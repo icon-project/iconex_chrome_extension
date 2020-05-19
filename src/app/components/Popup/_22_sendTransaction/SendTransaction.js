@@ -66,6 +66,8 @@ class SendTransaction extends Component {
     let selectedWallet;
     selectedWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
 
+    console.log(this.props)
+
     let queryObj = {
       from: selectedAccount,
       to: recipientAddress,
@@ -90,6 +92,7 @@ class SendTransaction extends Component {
         }
       })
     }
+    console.log(queryObj.contractAddress)
     return makeIcxRawTx(!!queryObj.contractAddress, queryObj)
   }
 

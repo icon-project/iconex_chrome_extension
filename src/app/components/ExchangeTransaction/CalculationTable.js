@@ -28,7 +28,6 @@ class CalculationTable extends Component {
   render() {
     const { calcData: data, I18n } = this.props;
     const { walletCoinType, txFeeLimit, txFeePrice } = data;
-    console.log('data', data);
     return (
       <div className="table-holder common">
         <table>

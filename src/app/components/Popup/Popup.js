@@ -82,6 +82,7 @@ class Popup extends Component {
       popupState,
       popupType,
     } = this.props;
+    console.log('popupclassrender', this.props);
 
     const content = (type) => {
       switch (type) {

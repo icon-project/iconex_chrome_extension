@@ -61,10 +61,15 @@ class SendTransaction3 extends Component {
     const { funcResult, isLedger } = this.props;
     switch (this.props.pageType) {
       case 'contract': {
-        this.updateWallets();
-        this.props.resetContractInputOutput();
-        window.open(TXID_URL['icx'] + check0xPrefix(funcResult[0]), '_blank');
         this.props.closePopup();
+        if (!isLedger) {
+          this.updateWallets();
+          this.props.resetContractInputOutput();
+          window.open(TXID_URL['icx'] + check0xPrefix(funcResult[0]), '_blank');
+        } else {
+          this.props.updateLedgerWalletBalance();
+          this.props.resetContractInputOutput();
+        }
         break;
       }
       case 'transaction': {
@@ -84,20 +89,24 @@ class SendTransaction3 extends Component {
   }
 
   handleSubmit = () => {
-    const { selectedAccount, selectedTokenId, isToken, calcData, tx } = this.props;
+    const { selectedAccount, selectedTokenId, isToken, calcData, tx, isLedger } = this.props;
     const url = !isToken ? selectedAccount : selectedAccount + '_' + selectedTokenId
 
     switch (this.props.pageType) {
       case 'contract': {
-        this.updateWallets();
-        this.props.resetContractInputOutput();
+        if(isLedger) {
+          // this.props.updateLedgerWalletBalance();
+          this.props.resetContractInputOutput();
+        } else {
+          this.updateWallets();
+          this.props.resetContractInputOutput();
+        }
         this.props.closePopup();
         break;
       }
       case 'transaction': {
         this.props.closePopup();
         this.props.history.push(ROUTE['mywallet'] + '/' + url);
-
         if (calcData.walletCoinType !== "icx") {
           window.open(TXID_URL['eth'] + check0xPrefix(tx), '_blank');
         }
@@ -170,14 +179,20 @@ class SendTransaction3 extends Component {
     const txUrl = type === 'eth' ? TXID_URL['eth'] + check0xPrefix(tx) : TXID_URL['icx'] + tx
     const { pageType, isLedger } = this.props;
     // Replace txHash to label for opening tracker or etherscan
+
+    console.log(TXID_URL);
+    console.log("sendTransaction3", this.props);
+    console.log(text);
     const openText = type === 'eth' ? I18n.sendTransaction.openEtherscan : I18n.sendTransaction.openTracker
+
+
     switch (pageType) {
       case 'contract': {
         return (
           <div className="popup">
             <p className="txt_box">{I18n.sendTransaction.infoSuccess}</p>
             <p className="txt" ref={ref => { if (ref) ref.innerHTML = text }}></p>
-            <a href={TXID_URL['icx'] + funcResult[0]} target="_blank" rel="noopener noreferrer"><p className="mint">{funcResult[0]}</p></a>
+            <a href={TXID_URL['icx'] + this.props.payload} target="_blank" rel="noopener noreferrer"><p className="mint">{this.props.payload}</p></a>
             <div className="btn-holder full">
               <button onClick={this.handleSubmit} className="btn-type-normal size-full"><span>{I18n.button.submit}</span></button>
             </div>

@@ -14,6 +14,7 @@ import { openVoteMode } from 'redux/actions/pRepActions'
 
 function mapStateToProps(state) {
   return {
+    contractAddress: state.contract.contractAddress,
     wallets: state.wallet.wallets,
     selectedAccount: state.wallet.selectedWallet.account,
     privKey: state.wallet.selectedWallet.privKey,

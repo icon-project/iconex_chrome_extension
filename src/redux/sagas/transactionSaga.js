@@ -208,7 +208,7 @@ export function* sendTransactionCallFunc(action) {
         response = yield call(SEND_TOKEN, action.privKey, action.data);
       }
       yield put({ type: AT.sendCallFulfilled, payload: response });
-
+    }
       const tokenSendAmount = action.data.contractAddress ? customValueToTokenValue(new BigNumber(action.data.value), action.data.tokenDefaultDecimal, action.data.tokenDecimal).toString()
         : ''
       const data = {
@@ -231,7 +231,7 @@ export function* sendTransactionCallFunc(action) {
       }
       console.log(data)
       yield put(addRecentTransaction(data))
-    }
+    // }
   } catch (e) {
     yield put({ type: AT.sendCallRejected, errorMsg: e });
   }

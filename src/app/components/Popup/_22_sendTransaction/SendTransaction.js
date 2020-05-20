@@ -47,6 +47,22 @@ class SendTransaction extends Component {
     }
   }
 
+  funcInputToHexData(input, inputType) {
+    return inputType.reduce((acc, cur) => {
+      if (cur.hasOwnProperty('default') && !input[cur.name]) {
+        return acc
+      }
+      if (cur.type === 'int') {
+        acc[cur.name] = window.web3.toHex(input[cur.name])
+      } else if (cur.type === 'bool') {
+        acc[cur.name] = input[cur.name] ? '0x1' : '0x0'
+      } else {
+        acc[cur.name] = input[cur.name]
+      }
+      return acc
+    }, {});
+  }
+
   makeQuery = () => {
     const {
       selectedAccount,
@@ -60,18 +76,23 @@ class SendTransaction extends Component {
       data,
       dataType,
       isLedger,
-      ledgerWallet
+      ledgerWallet,
+      contractAddress,
+
+      funcList,
+      selectedFuncIndex,
+      funcInput,
     } = this.props;
+
 
     let selectedWallet;
     selectedWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
 
-    console.log(this.props)
 
     let queryObj = {
       from: selectedAccount,
       to: recipientAddress,
-      contractAddress: !isToken ? null : selectedTokenId,
+      contractAddress: contractAddress || (!isToken ? null : selectedTokenId),
       tokenDefaultDecimal: !isToken ? 18 : selectedWallet.tokens[selectedTokenId].defaultDecimals,
       tokenDecimal: !isToken ? 18 : selectedWallet.tokens[selectedTokenId].decimals,
       value: coinQuantity,
@@ -82,6 +103,7 @@ class SendTransaction extends Component {
       coinType: selectedWallet.type
     }
 
+
     if (isToken) {
       const sendAmount = customValueToTokenValue(new BigNumber(coinQuantity), selectedWallet.tokens[selectedTokenId].defaultDecimals, selectedWallet.tokens[selectedTokenId].decimals).times(Math.pow(10, selectedWallet.tokens[selectedTokenId].defaultDecimals)).toString();
       queryObj = Object.assign({}, queryObj, {
@@ -91,8 +113,18 @@ class SendTransaction extends Component {
           "_value": window.web3.toHex(sendAmount)
         }
       })
+    } else if (!!queryObj.contractAddress) {
+      const func = funcList[selectedFuncIndex];
+      let funcInputHex;
+      if (func.inputs.length > 0) {
+        funcInputHex = this.funcInputToHexData(funcInput, func.inputs)
+      }
+      queryObj = Object.assign({}, queryObj, {
+        methodName: func['name'],
+        inputObj: funcInputHex,
+      });
     }
-    console.log(queryObj.contractAddress)
+
     return makeIcxRawTx(!!queryObj.contractAddress, queryObj)
   }
 
@@ -113,6 +145,7 @@ class SendTransaction extends Component {
   }
 
   handleLedgerError = (e) => {
+    console.log('ledgerFail');
     clearInterval(this.timerId)
     let error;
     if (e.name === 'TransportStatusError' && e.statusCode === 27013) {
@@ -140,32 +173,63 @@ class SendTransaction extends Component {
   }
 
   render() {
-
     const {
       I18n, popupNum, tx, txLoading, funcLoading, funcResult, pageType, wallets, selectedAccount, isLedger, ledgerWallet, language
     } = this.props;
     const { ledgerError, ledgerTimer } = this.state;
     const selectedWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
 
+    // console.log(funcResult, tx);
+    console.log(this.props);
+
+    let currentPayload;
+    let currentLoading;
+    if(pageType === 'contract') {
+      if(isLedger) {
+        currentPayload = tx;
+        currentLoading = txLoading;
+      } else {
+        currentPayload = funcResult[0];
+        currentLoading = funcLoading;
+      }
+    } else {
+      if(isLedger) {
+        currentPayload = tx;
+        currentLoading = txLoading;
+      } else {
+        currentPayload = tx;
+        currentLoading = txLoading;
+      }
+    }
+
+    console.log(currentLoading, currentPayload);
+
+
     const content = (num) => {
       switch (num) {
         case 1:
           return <SendTransaction1
-            payload={pageType === 'contract' ? funcResult[0] : tx}
-            loading={pageType === 'contract' ? funcLoading : txLoading}
+            // payload={pageType === 'contract' ? funcResult[0] : tx}
+            // loading={pageType === 'contract' ? funcLoading : txLoading}
+            payload={currentPayload}
+            loading={currentLoading}
             {...this.props}
           />
         case 2:
           return <SendTransaction2
-            payload={pageType === 'contract' ? funcResult[0] : tx}
-            loading={pageType === 'contract' ? funcLoading : txLoading}
+            // payload={pageType === 'contract' ? funcResult[0] : tx}
+            // loading={pageType === 'contract' ? funcLoading : txLoading}
+            payload={currentPayload}
+            loading={currentLoading}
             ledgerTimer={ledgerTimer}
             {...this.props}
           />
         case 3:
           return <SendTransaction3
-            payload={pageType === 'contract' ? funcResult[0] : tx}
-            loading={pageType === 'contract' ? funcLoading : txLoading}
+            // payload={pageType === 'contract' ? funcResult[0] : tx}
+            // loading={pageType === 'contract' ? funcLoading : txLoading}
+            payload={currentPayload}
+            loading={currentLoading}
             selectedWallet={selectedWallet}
             {...this.props}
           />

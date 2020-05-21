@@ -179,10 +179,6 @@ class SendTransaction3 extends Component {
     const txUrl = type === 'eth' ? TXID_URL['eth'] + check0xPrefix(tx) : TXID_URL['icx'] + tx
     const { pageType, isLedger } = this.props;
     // Replace txHash to label for opening tracker or etherscan
-
-    console.log(TXID_URL);
-    console.log("sendTransaction3", this.props);
-    console.log(text);
     const openText = type === 'eth' ? I18n.sendTransaction.openEtherscan : I18n.sendTransaction.openTracker
 
 

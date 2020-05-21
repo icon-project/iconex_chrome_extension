@@ -55,8 +55,6 @@ class WalletSelector extends Component {
     const walletName = curWallet ? curWallet.name : I18n.transferPagePlaceholder3
     const walletIcon = curWallet ? `${curWallet.type === 'eth' ? 'ethereum' : ''} ${!isEmpty(curWallet.tokens) ? 'three' : ''} _icon` : ''
 
-    console.log(isLedger, this.state.showWalletList);
-
     if (isContractPage) {
       return (
         <div className="-group">

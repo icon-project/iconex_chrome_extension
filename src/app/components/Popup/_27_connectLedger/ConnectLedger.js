@@ -57,11 +57,6 @@ class ConnectLedger extends Component {
     const parsedData = JSON.parse(data)
     const { method, payload, action = '' } = parsedData
 
-    console.log('event');
-    console.log(event);
-    // console.log(this.props);
-    console.log(method)
-
     if (popupNum === 1) setPopupNum(2)
 
 
@@ -95,8 +90,6 @@ class ConnectLedger extends Component {
         break;
 
       case 'setWallet': {
-        console.log("set wallet called");
-        console.log('before if else');
         if (window.location.href.includes('contract')) {
           // this.props.addWallet({[payload.account]: payload});
           setLogInStateForLedger({
@@ -131,7 +124,6 @@ class ConnectLedger extends Component {
             }
           }
         }
-        console.log('after if else');
         break;
       }
       case 'openAccountInfoOnTracker':

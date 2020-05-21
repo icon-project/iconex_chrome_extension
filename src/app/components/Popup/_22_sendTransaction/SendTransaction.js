@@ -145,7 +145,6 @@ class SendTransaction extends Component {
   }
 
   handleLedgerError = (e) => {
-    console.log('ledgerFail');
     clearInterval(this.timerId)
     let error;
     if (e.name === 'TransportStatusError' && e.statusCode === 27013) {
@@ -179,8 +178,6 @@ class SendTransaction extends Component {
     const { ledgerError, ledgerTimer } = this.state;
     const selectedWallet = isLedger ? ledgerWallet : wallets[selectedAccount]
 
-    // console.log(funcResult, tx);
-    console.log(this.props);
 
     let currentPayload;
     let currentLoading;
@@ -201,9 +198,6 @@ class SendTransaction extends Component {
         currentLoading = txLoading;
       }
     }
-
-    console.log(currentLoading, currentPayload);
-
 
     const content = (num) => {
       switch (num) {

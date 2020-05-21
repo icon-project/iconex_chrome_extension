@@ -14,6 +14,7 @@ import { openVoteMode } from 'redux/actions/pRepActions'
 
 function mapStateToProps(state) {
   return {
+    contractAddress: state.contract.contractAddress,
     wallets: state.wallet.wallets,
     selectedAccount: state.wallet.selectedWallet.account,
     privKey: state.wallet.selectedWallet.privKey,
@@ -74,6 +75,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const SendTranasctionContainer = connect(mapStateToProps, mapDispatchToProps)(SendTransaction);
+const SendTransactionContainer = connect(mapStateToProps, mapDispatchToProps)(SendTransaction);
 
-export default SendTranasctionContainer;
+export default SendTransactionContainer;

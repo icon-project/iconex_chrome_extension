@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { ConnectLedger } from 'app/components/';
 import { closePopup, setPopupNum } from 'redux/actions/popupActions';
-import { setSelectedWallet } from 'redux/actions/walletActions';
+import { setSelectedWallet, addWallet } from 'redux/actions/walletActions';
 import { setLogInStateForLedger } from 'redux/actions/ledgerActions'
 import { fetchMyStatusData } from 'redux/actions/iissActions'
 
@@ -19,6 +19,7 @@ function mapDispatchToProps(dispatch) {
     setSelectedWallet: payload => dispatch(setSelectedWallet(payload)),
     setLogInStateForLedger: payload => dispatch(setLogInStateForLedger(payload)),
     fetchMyStatusData: () => dispatch(fetchMyStatusData()),
+    addWallet: payload => dispatch(addWallet(payload))
   };
 }
 

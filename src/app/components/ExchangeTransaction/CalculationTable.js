@@ -79,7 +79,7 @@ class CalculationTable extends Component {
                   ? (<td>{data.resultBalance}</td>)
                   : (<td><LoadingComponent type="black" /></td>)
               }
-              <td>{data.coinType.toUpperCase()}</td>
+              <td>{data.coinType ? data.coinType.toUpperCase() : '' }</td>
               {
                 data.resultBalanceWithRate
                   ? (<td>{data.resultBalanceWithRate}</td>)

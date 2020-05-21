@@ -265,6 +265,7 @@ export function icx_sendTransaction(rawTx) {
       id: randomUint32()
     }
 
+
     walletApi.post(`/api/v3`, JSON.stringify(param))
       .then(res => {
         resolve(res.data.result);

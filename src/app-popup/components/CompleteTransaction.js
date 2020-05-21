@@ -17,6 +17,7 @@ class CompleteTransaction extends Component {
   }
 
   render() {
+    console.log('complete transaction', this.props);
     const { I18n, transaction } = this.props;
     const { txHash, error, from } = transaction
     const txUrl = TXID_URL['icx'] + txHash

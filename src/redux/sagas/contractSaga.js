@@ -37,6 +37,7 @@ export function* executeFuncFunc(action) {
   const selectedFuncIndex = yield select(state => state.contract.selectedFuncIndex);
   const func = funcList[selectedFuncIndex]
 
+
   try {
     if (func.inputs.length > 0) {
       /* delete null value & convert int to hex */
@@ -61,7 +62,9 @@ export function* executeFuncFunc(action) {
         inputObj: funcInputHex,
         payableValue: payableValue
       });
-      const rawTxSigned = signRawTx(privKey, rawTx)
+      let rawTxSigned;
+      rawTxSigned = signRawTx(privKey, rawTx);
+      console.group(rawTxSigned);
       payload = yield call(ICX_SEND_TRANSACTION, rawTxSigned);
       payload = [payload];
     }

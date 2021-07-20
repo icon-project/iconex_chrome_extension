@@ -1,5 +1,5 @@
-import { fork, put, call, select, takeLatest } from 'redux-saga/effects'
-import AT from 'redux/actionTypes/actionTypes';
+import { fork, put, call, select, takeLatest } from "redux-saga/effects";
+import AT from "redux/actionTypes/actionTypes";
 import {
   getStake as GET_STAKE,
   setStake as SET_STAKE,
@@ -8,17 +8,14 @@ import {
   getDelegation as GET_DELEGATION,
   setDelegation as SET_DELEGATION,
   getPReps as GET_P_REPS,
-} from 'redux/api/pRepIissApi'
+  getCPSData as GET_CPS_DATA,
+} from "redux/api/pRepIissApi";
 import {
   icx_getTotalSupply as GET_TOTAL_SUPPLY,
   icx_sendTransaction as SEND_TRANSACTION,
-} from 'redux/api/walletIcxApi'
-import {
-  toLoop
-} from 'utils'
-import {
-  ZERO_ADDRESS
-} from 'constants/index'
+} from "redux/api/walletIcxApi";
+import { toLoop } from "utils";
+import { ZERO_ADDRESS } from "constants/index";
 
 export function* fetchIissInfoFunc({ account }) {
   try {
@@ -26,48 +23,58 @@ export function* fetchIissInfoFunc({ account }) {
     yield call(queryIScoreFunc, { account });
     yield call(getDelegationFunc, { account });
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 }
 
 function* fetchMyStatusDataFunc() {
   try {
-    const account = yield select(state => state.wallet.selectedWallet.account)
-    const isLedger = yield select(state => state.ledger.isLedger);
-    console.log(account)
+    const account = yield select(
+      (state) => state.wallet.selectedWallet.account
+    );
+    const isLedger = yield select((state) => state.ledger.isLedger);
+    console.log(account);
     if (isLedger) {
-      yield put({ type: AT.updateLedgerWalletBalance, })
+      yield put({ type: AT.updateLedgerWalletBalance });
     } else {
-      yield put({ type: AT.fetchCoinBalance, account, coinType: 'icx' })
+      yield put({ type: AT.fetchCoinBalance, account, coinType: "icx" });
     }
-    yield put({ type: AT.getStake, account })
-    yield put({ type: AT.getDelegation, account })
-    yield put({ type: AT.queryIScore, account })
-    yield put({ type: AT.getPRepData, })
+    yield put({ type: AT.getStake, account });
+    yield put({ type: AT.getDelegation, account });
+    yield put({ type: AT.queryIScore, account });
+    yield put({ type: AT.getPRepData });
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 }
-
 
 function* getPRepDataFunc({ options }) {
   try {
     yield put({ type: AT.getPRepDataLoading });
     const { payload, error } = yield call(GET_P_REPS, { options });
+    const { governance, sponsoredProjects, error: errorCps } = yield call(
+      GET_CPS_DATA
+    );
     const totalSupply = yield call(GET_TOTAL_SUPPLY);
     if (payload) {
+      const _payload = { ...payload };
+      _payload.preps = _payload.preps.map((prep) => ({
+        ...prep,
+        governance: !!governance[prep.address],
+        sponsoredProjects: sponsoredProjects[prep.address] || 0,
+      }));
       yield put({
         type: AT.getPRepDataFulfilled,
         payload: {
-          ...payload,
+          ..._payload,
           totalSupply,
-        }
+        },
       });
     } else {
-      yield put({ type: AT.getPRepDataRejected, error, });
+      yield put({ type: AT.getPRepDataRejected, error: error || errorCps });
     }
   } catch (error) {
-    yield put({ type: AT.getPRepDataRejected, error, });
+    yield put({ type: AT.getPRepDataRejected, error });
   }
 }
 
@@ -78,33 +85,37 @@ function* getStakeFunc({ account }) {
     if (payload) {
       yield put({ type: AT.getStakeFulfilled, payload, account });
     } else {
-      yield put({ type: AT.getStakeRejected, error,});
+      yield put({ type: AT.getStakeRejected, error });
     }
   } catch (error) {
-    yield put({ type: AT.getStakeRejected, error, });
+    yield put({ type: AT.getStakeRejected, error });
   }
 }
 
 function* setStakeFunc({ value: input }) {
   try {
-    const isLedger = yield select(state => state.ledger.isLedger)
+    const isLedger = yield select((state) => state.ledger.isLedger);
     if (isLedger) {
-      const ledgerSignedRawTx = yield select(state => state.ledger.ledgerSignedRawTx)
+      const ledgerSignedRawTx = yield select(
+        (state) => state.ledger.ledgerSignedRawTx
+      );
       yield put({ type: AT.setStakeLoading });
       const payload = yield call(SEND_TRANSACTION, ledgerSignedRawTx);
-      yield put({ type: AT.setStakeFulfilled, payload, });
+      yield put({ type: AT.setStakeFulfilled, payload });
     } else {
-      const from = yield select(state => state.wallet.selectedWallet.account)
+      const from = yield select((state) => state.wallet.selectedWallet.account);
       yield put({ type: AT.setStakeLoading });
-      const privKey = yield select(state => state.wallet.selectedWallet.privKey)
-      const txFeeLimit = yield select(state => state.txFee.txFeeLimit)
+      const privKey = yield select(
+        (state) => state.wallet.selectedWallet.privKey
+      );
+      const txFeeLimit = yield select((state) => state.txFee.txFeeLimit);
       const payload = yield call(SET_STAKE, {
         privKey,
         from,
         txFeeLimit,
         input,
       });
-      yield put({ type: AT.setStakeFulfilled, payload, });
+      yield put({ type: AT.setStakeFulfilled, payload });
     }
   } catch (e) {
     alert(e.message);
@@ -119,36 +130,40 @@ function* queryIScoreFunc({ account }) {
     if (payload) {
       yield put({ type: AT.queryIScoreFulfilled, payload, account });
     } else {
-      yield put({ type: AT.queryIScoreRejected, error, });
+      yield put({ type: AT.queryIScoreRejected, error });
     }
   } catch (error) {
-    yield put({ type: AT.queryIScoreRejected, error, });
+    yield put({ type: AT.queryIScoreRejected, error });
   }
 }
 
 function* claimIScoreFunc(action) {
   try {
-    const isLedger = yield select(state => state.ledger.isLedger)
+    const isLedger = yield select((state) => state.ledger.isLedger);
     if (isLedger) {
-      const ledgerSignedRawTx = yield select(state => state.ledger.ledgerSignedRawTx)
+      const ledgerSignedRawTx = yield select(
+        (state) => state.ledger.ledgerSignedRawTx
+      );
       yield put({ type: AT.claimIScoreLoading });
       const payload = yield call(SEND_TRANSACTION, ledgerSignedRawTx);
-      yield put({ type: AT.claimIScoreFulfilled, payload, });
+      yield put({ type: AT.claimIScoreFulfilled, payload });
     } else {
-      const from = yield select(state => state.wallet.selectedWallet.account)
+      const from = yield select((state) => state.wallet.selectedWallet.account);
       yield put({ type: AT.claimIScoreLoading });
-      const privKey = yield select(state => state.wallet.selectedWallet.privKey)
-      const txFeeLimit = yield select(state => state.txFee.txFeeLimit)
+      const privKey = yield select(
+        (state) => state.wallet.selectedWallet.privKey
+      );
+      const txFeeLimit = yield select((state) => state.txFee.txFeeLimit);
       const payload = yield call(CLAIM_I_SCORE, {
         privKey,
         from,
         txFeeLimit,
       });
-      yield put({ type: AT.claimIScoreFulfilled, payload, });
+      yield put({ type: AT.claimIScoreFulfilled, payload });
     }
   } catch (error) {
     alert(error.message);
-    yield put({ type: AT.claimIScoreRejected, error, });
+    yield put({ type: AT.claimIScoreRejected, error });
   }
 }
 
@@ -159,22 +174,22 @@ function* getDelegationFunc({ account }) {
     if (payload) {
       yield put({ type: AT.getDelegationFulfilled, payload, account });
     } else {
-      yield put({ type: AT.getDelegationRejected, error, });
+      yield put({ type: AT.getDelegationRejected, error });
     }
   } catch (error) {
-    yield put({ type: AT.getDelegationRejected, error, });
+    yield put({ type: AT.getDelegationRejected, error });
   }
 }
 
 function* updateMyVotesFunc({ payload: { address, value } }) {
   try {
-    const myVotes = yield select(state => state.pRep.myVotes)
-    const _myVotes = myVotes.map(myVote => ({
+    const myVotes = yield select((state) => state.pRep.myVotes);
+    const _myVotes = myVotes.map((myVote) => ({
       ...myVote,
-      value: window.web3.toHex(toLoop(myVote.value))
-    }))
-    const idx = _myVotes.findIndex(myVote => myVote.address === address)
-    _myVotes[idx].value = window.web3.toHex(toLoop(value))
+      value: window.web3.toHex(toLoop(myVote.value)),
+    }));
+    const idx = _myVotes.findIndex((myVote) => myVote.address === address);
+    _myVotes[idx].value = window.web3.toHex(toLoop(value));
 
     yield put({
       type: AT.getEstimatedTxFee,
@@ -182,24 +197,24 @@ function* updateMyVotesFunc({ payload: { address, value } }) {
         methodName: "setDelegation",
         contractAddress: ZERO_ADDRESS,
         inputObj: {
-          delegations: _myVotes
+          delegations: _myVotes,
         },
-      }
-    })
+      },
+    });
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 }
 
 function* deletePRepFunc({ payload: address }) {
   try {
-    const myVotes = yield select(state => state.pRep.myVotes)
-    const _myVotes = myVotes.map(myVote => ({
+    const myVotes = yield select((state) => state.pRep.myVotes);
+    const _myVotes = myVotes.map((myVote) => ({
       ...myVote,
-      value: window.web3.toHex(toLoop(myVote.value))
-    }))
-    const idx = _myVotes.findIndex(myVote => myVote.address === address)
-    _myVotes.splice(idx, 1)
+      value: window.web3.toHex(toLoop(myVote.value)),
+    }));
+    const idx = _myVotes.findIndex((myVote) => myVote.address === address);
+    _myVotes.splice(idx, 1);
 
     yield put({
       type: AT.getEstimatedTxFee,
@@ -207,81 +222,85 @@ function* deletePRepFunc({ payload: address }) {
         methodName: "setDelegation",
         contractAddress: ZERO_ADDRESS,
         inputObj: {
-          delegations: _myVotes
+          delegations: _myVotes,
         },
-      }
-    })
+      },
+    });
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 }
 
 function* setDelegationFunc() {
   try {
-    const isLedger = yield select(state => state.ledger.isLedger)
-    const input = yield select(state => state.pRep.myVotes)
+    const isLedger = yield select((state) => state.ledger.isLedger);
+    const input = yield select((state) => state.pRep.myVotes);
     if (isLedger) {
-      const ledgerSignedRawTx = yield select(state => state.ledger.ledgerSignedRawTx)
+      const ledgerSignedRawTx = yield select(
+        (state) => state.ledger.ledgerSignedRawTx
+      );
       yield put({ type: AT.setDelegationLoading });
       const payload = yield call(SEND_TRANSACTION, ledgerSignedRawTx);
-      yield put({ type: AT.setDelegationFulfilled, payload, input, });
+      yield put({ type: AT.setDelegationFulfilled, payload, input });
     } else {
-      const from = yield select(state => state.wallet.selectedWallet.account)
+      const from = yield select((state) => state.wallet.selectedWallet.account);
       yield put({ type: AT.setDelegationLoading });
-      const privKey = yield select(state => state.wallet.selectedWallet.privKey)
-      const txFeeLimit = yield select(state => state.txFee.txFeeLimit)
+      const privKey = yield select(
+        (state) => state.wallet.selectedWallet.privKey
+      );
+      const txFeeLimit = yield select((state) => state.txFee.txFeeLimit);
       const payload = yield call(SET_DELEGATION, {
         privKey,
         from,
         txFeeLimit,
         input,
       });
-      yield put({ type: AT.setDelegationFulfilled, payload, input, });
+      yield put({ type: AT.setDelegationFulfilled, payload, input });
     }
   } catch (error) {
     alert(error.message);
-    yield put({ type: AT.setDelegationRejected, error, });
+    yield put({ type: AT.setDelegationRejected, error });
   }
 }
 
 function* watchGetPRepList() {
-  yield takeLatest(AT.getPRepData, getPRepDataFunc)
+  yield takeLatest(AT.getPRepData, getPRepDataFunc);
 }
 
 function* watchFetchMyStatusData() {
-  yield takeLatest(AT.fetchMyStatusData, fetchMyStatusDataFunc)
+  yield takeLatest(AT.fetchMyStatusData, fetchMyStatusDataFunc);
 }
 
 function* watchGetStake() {
-  yield takeLatest(AT.getStake, getStakeFunc)
+  yield takeLatest(AT.getStake, getStakeFunc);
 }
 
 function* watchSetStake() {
-  yield takeLatest(AT.setStake, setStakeFunc)
+  yield takeLatest(AT.setStake, setStakeFunc);
 }
 
 function* watchQueryIScore() {
-  yield takeLatest(AT.queryIScore, queryIScoreFunc)
+  yield takeLatest(AT.queryIScore, queryIScoreFunc);
 }
 
 function* watchClaimIScore() {
-  yield takeLatest(AT.claimIScore, claimIScoreFunc)
+  yield takeLatest(AT.claimIScore, claimIScoreFunc);
 }
 
 function* watchGetDelegation() {
-  yield takeLatest(AT.getDelegation, getDelegationFunc)
+  yield takeLatest(AT.getDelegation, getDelegationFunc);
 }
 
 function* watchUpdateMyVotes() {
-  yield takeLatest(AT.updateMyVotes, updateMyVotesFunc)
+  yield takeLatest(AT.updateMyVotes, updateMyVotesFunc);
 }
 
 function* watchDeletePRep() {
-  yield takeLatest(AT.deletePRep, deletePRepFunc)
+  yield takeLatest(AT.deletePRep, deletePRepFunc);
 }
 
 function* watchSetDelegation() {
-  yield takeLatest(AT.setDelegation, setDelegationFunc)
+  yield takeLatest(AT.setDelegation, setDelegationFunc);
 }
 
 export default function* pRepIissSaga() {

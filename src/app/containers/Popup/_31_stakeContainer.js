@@ -13,10 +13,10 @@ import { updateLedgerWalletBalance } from 'redux/actions/ledgerActions'
 import { getEstimatedTxFee } from 'redux/actions/txFeeActions'
 import { closePopup } from 'redux/actions/popupActions';
 import { store } from 'redux/store/store';
-import { 
+import {
   MIN_UNSTAKE_VALUE,
   R_POINT,
-  L_MAX, 
+  L_MAX,
   L_MIN,
   dateFormat as DATE_FORMAT,
 } from 'constants/index'
@@ -37,12 +37,12 @@ function mapStateToProps(state) {
   const currentWallet = isLedger ? ledgerWallet : state.wallet.wallets[account] || {}
   const staked = state.iiss.staked[account] || {}
   const delegated = state.iiss.delegated[account] || {}
-  const { value, unstake } = staked
+  const { value, totalUnstake } = staked
   const { totalDelegated } = delegated
   const balance = new BigNumber(currentWallet.balance)
   const { balanceLoading } = currentWallet
   const totalIcxBalance = value
-    .plus(unstake)
+    .plus(totalUnstake)
     .plus(balance)
   const minUnstakeValue = balance.lt(MIN_UNSTAKE_VALUE) ? balance : MIN_UNSTAKE_VALUE
   const delegatedPct = convertToPercent(totalDelegated, totalIcxBalance, 1)

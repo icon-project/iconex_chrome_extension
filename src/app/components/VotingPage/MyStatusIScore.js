@@ -16,8 +16,8 @@ class MyStatusIScore extends React.Component {
     return (
       <div className={`center-group ${!isLoggedIn ? 'disabled' : ''}`}>
         <h1>{I18n.iScore}</h1>
-        <h3>{I18n.myStatusIScore_p1}<span>{iScore}<em> I-Score</em></span></h3>
-        <h3>{I18n.myStatusIScore_p2}<span>{estimatedICX}<em style={{ paddingRight: '31px' }}> ICX</em></span></h3>
+        <h3 style={{ width: 690 }}>{I18n.myStatusIScore_p1}<span>{iScore}<em> I-Score</em></span></h3>
+        <h3 style={{ width: 690 }}>{I18n.myStatusIScore_p2}<span>{estimatedICX}<em style={{ paddingRight: '31px' }}> ICX</em></span></h3>
         <div className="btn-group">
           <button
             disabled={!isLoggedIn}

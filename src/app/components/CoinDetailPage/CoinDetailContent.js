@@ -187,10 +187,10 @@ class CoinDetailContent extends Component {
         coinImage: COIN_IMAGE[wallet.type]
       }
       if (wallet.type === 'icx') {
-        const { value, unstake } = staked[wallet.account]
+        const { value, totalUnstake } = staked[wallet.account]
         data = Object.assign({}, data, {
-          staked: value.plus(unstake),
-          totalBalance: new BigNumber(wallet.balance).plus(value).plus(unstake)
+          staked: value.plus(totalUnstake),
+          totalBalance: new BigNumber(wallet.balance).plus(value).plus(totalUnstake)
         })
       }
     }

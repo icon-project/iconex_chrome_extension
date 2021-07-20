@@ -49,7 +49,7 @@ export default class ClaimIScoreAlerts extends Component {
 
     setTimeout(() => {
       fetchMyStatusData()
-    }, 3000)
+    }, 4000)
   }
 
   handleSubmit = () => {

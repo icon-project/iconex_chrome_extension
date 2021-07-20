@@ -1,0 +1,311 @@
+/** @format */
+
+.content-wrap.main .main-holder .load {
+  height: 340px;
+}
+
+.content-wrap .wrap-holder.exchange .quantity-holder .controller .c {
+  margin-left: 46px;
+}
+.content-wrap .wrap-holder.exchange .quantity-holder .controller .b.minus {
+  margin-right: 4px;
+}
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul#dragBar {
+  font-size: 12px;
+  margin-left: 156px;
+  width: 435px;
+}
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul#dragBar li {
+  width: 50%;
+  margin: 0;
+}
+.content-wrap
+  .wrap-holder.exchange
+  .quantity-holder
+  .controller
+  ul#dragBar
+  li:first-child {
+  margin-left: 0;
+}
+.content-wrap
+  .wrap-holder.exchange
+  .quantity-holder
+  .controller
+  ul#dragBar
+  li:last-child {
+  text-align: right;
+}
+.content-wrap .wrap-holder.exchange .quantity-holder .controller ul#dragBar em {
+  color: #b3b3b3;
+  margin-left: 4px;
+}
+
+.btn-type-copy {
+  width: 104px;
+}
+/* [class ^="btn-type"]:nth-child(2) {margin-left: 5px;} */
+
+.content-wrap .wrap-holder.exchange .won-group p.error {
+  padding-top: 33px;
+  padding-left: 20px;
+}
+
+.content-wrap .wrap-holder.exchange p.error.gasLimit {
+  padding-top: 8px;
+  margin: 0px;
+}
+
+.content-wrap .wrap-holder.exchange p.error.data {
+  padding-top: 4px;
+  color: #f24130;
+  text-align: left;
+  left: 0px;
+}
+
+.content-wrap .wrap-holder.exchange .won-group p.error {
+  left: 0px;
+}
+
+.loading {
+  background: url(../image/loading-L.png) left top no-repeat;
+  background-size: auto 60px;
+  width: 60px;
+  height: 60px;
+}
+
+.loading.black {
+  background: url(../image/loading-B.png) left top no-repeat;
+  background-size: auto 18px;
+  width: 18px;
+  height: 18px;
+  -webkit-animation: animateLoading 1s steps(26) forwards;
+  animation: animateLoading 1s steps(26) forwards;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+.loading.white {
+  background: url(../image/loading-W.png) left top no-repeat;
+  background-size: auto 18px;
+  width: 18px;
+  height: 18px;
+  -webkit-animation: animateLoading 1s steps(26) forwards;
+  animation: animateLoading 1s steps(26) forwards;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+.btn-type-normal.load span,
+.btn-type-fill.load span,
+.btn-type-fill2.load span {
+  display: inline-block;
+  margin-bottom: -4px;
+  padding-bottom: 0px;
+}
+
+.btn-type-normal.load2 span {
+  display: inline-block;
+  margin-bottom: -23px;
+  height: 40px;
+  width: 180px;
+  padding-bottom: 17px;
+}
+
+.content-wrap .main-holder .b-group ul li {
+  font-size: 11px;
+  line-height: 180%;
+  display: block;
+  width: 105px;
+}
+.content-wrap .main-holder .b-group .container {
+  display: inline-block;
+  vertical-align: top;
+  width: 90px;
+  height: 200px;
+  margin: 5px;
+  position: absolute;
+  top: 69px;
+  left: 100px;
+}
+.content-wrap .main-holder .b-group ul {
+  position: relative;
+  padding: 0;
+  list-style: none;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  top: 50%;
+}
+.content-wrap .main-holder .b-group li {
+  /*text-align: center;
+  height: 25px;
+  margin: 10px;*/
+}
+.content-wrap .main-holder .b-group ul li:nth-child(1) {
+  color: #ffffff;
+}
+.content-wrap .main-holder .b-group ul li:nth-child(2) {
+  color: #c6eaee;
+}
+.content-wrap .main-holder .b-group ul li:nth-child(3) {
+  color: #9bdae1;
+}
+.content-wrap .main-holder .b-group ul li:nth-child(4) {
+  color: #7bced7;
+}
+.content-wrap .main-holder .b-group ul li:nth-child(5) {
+  color: #63c5d0;
+}
+.content-wrap .main-holder .b-group ul span.li {
+  width: 5px;
+  height: 5px;
+  display: inline-block;
+  border-radius: 100%;
+  margin-right: 10px;
+  margin-bottom: 1px;
+}
+.popup-wrap .tabbox-holder .with-loading .load {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.content-wrap .wrap-holder.exchange .layer li span.c.load {
+  padding-top: 0px;
+  margin-top: -1px;
+}
+
+.table-typeC tbody td:nth-child(3) .load {
+  right: 20px;
+  position: absolute;
+  top: 1px;
+}
+
+.content-wrap .wrap-holder.exchange .quantity-holder .change-group span.load {
+  margin: 0 8px 0 252px;
+}
+.content-wrap .wrap-holder.exchange .quantity-holder .change-group span.load.c {
+  margin: 0 0 0 262px;
+}
+
+.table-typeC tbody td:nth-child(1).load {
+  height: 49px;
+}
+
+.popup-wrap .quantity-holder.ethereum .group .won-group p.error {
+  padding-top: 33px;
+  padding-left: 20px;
+}
+
+.popup-wrap .popup .scroll b {
+  font-weight: 500;
+}
+
+.popup-wrap .popup .txt_box a {
+  color: #4fa8b8;
+  text-decoration: underline;
+}
+
+/* popup-wrap alert class */
+.popup-wrap.home.alert .popup {
+  width: 484px;
+  height: 300px;
+  text-align: center;
+  padding: 40px;
+  font-size: 20px;
+  border-radius: 5px;
+}
+.popup-wrap.home.alert .popup .txt_box {
+  width: 404px;
+  height: 150px;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 32px;
+  word-break: keep-all;
+  border-bottom: none;
+}
+
+/* copy button small type */
+.btn-type-copy2 {
+  width: 110px;
+  height: 26px;
+  border: 1px solid #262626;
+  background: #262626;
+  font-size: 12px;
+  border-radius: 3px;
+  color: #fff;
+}
+.btn-type-copy2:hover {
+  background: #808080;
+  color: #fff;
+  border: 1px solid #808080;
+}
+.btn-type-copy2-fill {
+  width: 110px;
+  height: 26px;
+  border: 1px solid #1aaaba;
+  background: #1aaaba;
+  font-size: 12px;
+  border-radius: 3px;
+  color: #fff;
+}
+
+/* contract page tooltip position */
+/* .en .content-wrap .wrap-holder.contract .search-holder .change-group .a .help-layer{left: 192px; width: 446px; top: 4px;}
+.en .content-wrap .wrap-holder.contract .search-holder .help-layer{left: 96px; width: 500px; top: 4px;}
+.en .content-wrap .wrap-holder.contract .search-holder .price .help-layer{left: 96px; width: 500px; top: 4px;} */
+
+/* transfer page 'balance' position */
+.popup-wrap .popup .layout .content .exchange .group .won-group p.have,
+.content-wrap .wrap-holder.exchange .quantity-holder .won-group p.have {
+  text-align: right;
+  font-size: 14px;
+  color: rgba(38, 38, 38, 0.5);
+  margin-top: 7px;
+}
+.content-wrap .wrap-holder.exchange .quantity-holder .won-group p.have {
+  width: 610px;
+  position: absolute;
+}
+.popup-wrap .popup .layout .content .exchange .group .won-group p.have {
+  width: 445px;
+  position: absolute;
+}
+
+.content-wrap .title-holder.eth h1 ._icon {
+  background-position: 0px -50px;
+}
+.content-wrap .wrap-holder .coin-holder .exchange-holder {
+  margin-top: -50px;
+}
+.content-wrap .wrap-holder .coin-holder .c div {
+  display: block;
+  visibility: hidden;
+}
+
+/* chrome extension popup, button hover color */
+.btn-type-line:hover {
+  border: 1px solid #808080;
+  background: transparent;
+}
+
+/* 'Change Wallet Name/Password' modal, 'cancel' and 'confirm' buttons */
+[class^="btn-type"]:nth-child(2) {
+  margin-left: 0px;
+}
+
+/* 'Backup Wallet' modal, 'Print Wallet' button */
+.popup-wrap .tabbox-holder.end button:last-child {
+  margin-left: 4px;
+}
+
+/* 'Add Token' modal, display checkbox checked when disabled */
+input[type="checkbox"]:disabled + label {
+  background-position: 0px -900px;
+}
+
+.table-typeF tbody td:nth-child(3) {
+  padding-top: 7px;
+}

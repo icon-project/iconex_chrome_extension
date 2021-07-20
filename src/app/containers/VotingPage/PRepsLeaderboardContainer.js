@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
-import { PRepsLeaderboard } from 'app/components/';
-import { addPRep } from 'redux/actions/pRepActions'
+import { connect } from "react-redux";
+import { PRepsLeaderboard } from "app/components/";
+import { addPRep } from "redux/actions/pRepActions";
 
 function mapStateToProps(state) {
   const {
@@ -12,19 +12,21 @@ function mapStateToProps(state) {
     editedMap,
     myVotesMap,
     myVotes,
-  } = state.pRep
+  } = state.pRep;
 
   const updatePRepsLabel = (pReps) => {
     if (isVoteMode) {
-      return pReps.map(pRep => ({
+      return pReps.map((pRep) => ({
         ...pRep,
         isVoted: !!votedMap[pRep.address],
         isEdited: !!editedMap[pRep.address],
         isInMyVotes: !!myVotesMap[pRep.address],
-      }))
+      }));
     }
-    return pReps
-  }
+    return pReps;
+  };
+
+  console.log(pReps);
 
   return {
     pReps: updatePRepsLabel(pReps),
@@ -41,6 +43,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const PRepsLeaderboardContainer = connect(mapStateToProps, mapDispatchToProps)(PRepsLeaderboard);
+const PRepsLeaderboardContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PRepsLeaderboard);
 
 export default PRepsLeaderboardContainer;

@@ -34,7 +34,7 @@ class PRepsVotingStatusGraph extends Component {
       ? (
         <ul>
           <li><span>{myDelegatedPct}</span>%<em>Delegated</em></li>
-          <li><em>Available</em><span>{myAvailablePct}</span>%</li>
+          <li><em>Non-delegated</em><span>{myAvailablePct}</span>%</li>
         </ul>
       )
       : (

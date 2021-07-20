@@ -28,14 +28,22 @@ class Footer extends Component {
       (isLocked || !isLoggedIn) && !isLedger
         ? (
           <div className="footer-wrap">
-            <span>©2018 ICON Foundation</span>
+            <span>©2020 ICON Foundation</span>
             <span className="ver">{`Ver.${process.env.APP_VERSION}`}</span>
           </div>
         )
         : (
           <div className="footer-wrap">
             <div className="wrap-holder">
-              <p className="txt-copy"><span>©2018 ICON Foundation</span><em></em><span onClick={this.handleImmunityClick} className="noti">{I18n.disclaimerPage.header}</span></p>
+              <p className="txt-copy">
+                <span>©2020 ICON Foundation</span>
+                <em></em>
+                <span onClick={this.handleImmunityClick} className="noti">{I18n.disclaimerPage.header}</span>
+                <em></em>
+                <span onClick={() => {
+                  window.open("http://docs.icon.foundation/ICON-Terms-and-Conditions-en.pdf")
+                }} className="noti">{I18n.termsOfUse}</span>
+              </p>
               {
                 !HIDE_SERVER && (
                   <ServerChanger {...this.props} />

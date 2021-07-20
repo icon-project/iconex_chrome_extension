@@ -19,7 +19,7 @@ class WalletStakingBar extends Component {
 
     switch (buttonType) {
       case 'stake':
-        if (validateStake(balance.plus(staked.value).plus(staked.unstake))) {
+        if (validateStake(balance.plus(staked.value).plus(staked.totalUnstake))) {
           showAlert('alertNotEnoughForStake', 'icx')
           return
         }
@@ -49,7 +49,7 @@ class WalletStakingBar extends Component {
 
   render() {
     const { staked, iScore, delegated, balance } = this.props
-    const stakedAndUnstaking = staked.value.plus(staked.unstake)
+    const stakedAndUnstaking = staked.value.plus(staked.totalUnstake)
     const icxBalance = balance.plus(stakedAndUnstaking)
     const stakedValue = convertToPercent(stakedAndUnstaking, icxBalance, 1)
     const iScoreValue = convertIScoreToText(iScore.value)

@@ -94,12 +94,17 @@ class SendTransaction extends Component {
   }
 
   handleLedgerSuccess = async (event) => {
-    const { data } = event
+    const data = event
+    // console.log("handleLedgerSuccess: ", event )
+    // console.log("handleLedgerSuccess: event.method", event.method )
+
     const parsedData = JSON.parse(data)
+
     const { method, payload } = parsedData
 
     switch (method) {
       case 'setRawTx':
+        // console.log("setRawTx payload:", payload);
         this.props.confirmLedger(payload)
         // const result = await icx_sendtransaction_v2(payload);
         // source.postMessage(result, '*')

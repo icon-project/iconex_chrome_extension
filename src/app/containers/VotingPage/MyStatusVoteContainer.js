@@ -31,7 +31,7 @@ function mapStateToProps(state) {
   }
 
   return {
-    wrapClassName: 'right-group',
+    wrapClassName: 'center-group vote-group',
     graphClassName: getGraphClassName(),
     compType: 'vote',
     title: 'Vote',

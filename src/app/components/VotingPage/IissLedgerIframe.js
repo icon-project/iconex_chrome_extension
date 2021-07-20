@@ -43,8 +43,13 @@ class IissLedgerIframe extends Component {
   }
 
   handleLedgerSuccess = async (event) => {
-    const { data } = event
+    console.log("handleLedgerSuccess data:", event, typeof(event));
+    // const { data } = event
+    const data  = event
     const parsedData = JSON.parse(data)
+
+    console.log("handleLedgerSuccess parsedData", parsedData);
+
     const { method, payload } = parsedData
 
     switch (method) {

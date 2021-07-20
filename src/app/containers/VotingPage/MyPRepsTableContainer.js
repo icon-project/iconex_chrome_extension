@@ -80,7 +80,6 @@ function mapStateToProps(state) {
     isLeaderboard: false,
     myVotesCnt: myVotes.length,
     loading: pRepsLoading || delegatedLoading,
-
   };
 }
 

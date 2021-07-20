@@ -41,7 +41,7 @@ export default class VoteAlerts extends Component {
     })
     setTimeout(() => {
       this.props.fetchMyStatusData()
-    }, 3000)
+    }, 4000)
   }
 
   closeAlert = () => {
@@ -117,7 +117,7 @@ export default class VoteAlerts extends Component {
               <p className="txt_box">{I18n.votePage.confirm_title}</p>
               <div className="fee">
                 {/* <p><span className="label">· 소요 시간</span><span className="txt">즉시취소</span></p> */}
-                <p><span className="label">{I18n.votePage.confirm_li1}</span><span>{myVotesCnt}<em className="slash">/</em>10</span></p>
+                <p><span className="label">{I18n.votePage.confirm_li1}</span><span>{myVotesCnt}<em className="slash">/</em>100</span></p>
                 <p><span className="label">{I18n.votePage.confirm_li2}</span><span>{myDelegated} ({myDelegatedPct}%)</span></p>
                 <div className="dot"></div>
                 {/* <p><span className="label">{I18n.estimatedStepAndPrice}</span><span>{`${txFeeLimit} / ${txFeePrice}`}<em>ICX</em></span></p> */}

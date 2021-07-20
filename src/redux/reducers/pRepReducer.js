@@ -1,6 +1,6 @@
 import actionTypes from 'redux/actionTypes/actionTypes'
 import BigNumber from 'bignumber.js'
-import { fromLoop, convertToPercent } from 'utils'
+import { fromLoop, convertToPercent, shuffleArray } from 'utils'
 
 const preprocessPReps = (pReps, totalNetworkDelegated) => {
   const _pRepTypeCnt = [0, 0, 0]
@@ -91,7 +91,7 @@ export function pRepReducer(state = initialState, action) {
       const { _pReps, _pRepTypeCnt, _pRepsMap } = preprocessPReps(preps, _totalNetworkDelegated)
       return Object.assign({}, state, {
         pRepsLoading: false,
-        pReps: _pReps,
+        pReps: shuffleArray(_pReps),
         pRepTypeCnt: _pRepTypeCnt,
         pRepsMap: _pRepsMap,
         blockHeight: new BigNumber(blockHeight),
@@ -211,7 +211,7 @@ export function pRepReducer(state = initialState, action) {
         myAvailable,
       })
     }
-    
+
     case actionTypes.setDelegationFulfilled: {
       const votedMap = {}, myVotesMap = {}
       for (const { address, value } of action.input) {

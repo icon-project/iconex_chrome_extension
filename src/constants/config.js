@@ -1,3 +1,5 @@
+/** @format */
+
 const isAccessedFromWorker = typeof window === "undefined";
 
 const isDevModeOn = () => {
@@ -29,8 +31,8 @@ export const INITIAL_SERVER_ETH = prodDev("main", "ropsten");
 
 export const HIDE_SERVER = isDevModeOn() ? false : true;
 export const LEDGER_SERVER = prodDev(
-  "https://hardwallet.icon.foundation/index.html",
-  "https://hardwallet.icon.foundation/test.html"
+  "https://hardwallet.icon.foundation/index_jw.html",
+  "https://hardwallet.icon.foundation/index_jw.html"
 );
 
 export const getCurrentServer = (coinType) => {

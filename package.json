@@ -58,7 +58,7 @@
     "react-chartjs": "^0.8.0",
     "react-chartjs-2": "^2.6.4",
     "react-chrome-redux": "^1.4.0",
-    "react-dev-utils": "^4.0.1",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "^15.6.2",
     "react-dot-fragment": "^0.2.9",
     "react-dropzone": "^4.2.0",

@@ -1,37 +1,31 @@
-import React, { Component } from 'react';
-import {
-  HeaderTitle,
-  LoadingComponent,
-  VoteAlerts
-} from 'app/components/'
+import React, { Component } from "react";
+import { HeaderTitle, LoadingComponent, VoteAlerts } from "app/components/";
 import {
   PRepsVotingStatusGraphContainer,
   PRepsLeaderboardContainer,
   MyPRepsTableContainer,
-} from 'app/containers/'
-import withLanguageProps from 'HOC/withLanguageProps';
+} from "app/containers/";
+import withLanguageProps from "HOC/withLanguageProps";
 
 const ALERT_MSG = {
-  NO_BALANCE: 'NO_BALANCE',
-  NO_CHANGE: 'NO_CHANGE',
-  GT_MAX: 'GT_MAX',
-  SUCCESS_STAKE: 'SUCCESS',
-  SHOW_LEDGER: 'SHOW_LEDGER',
-  CONFIRM: 'CONFIRM',
-}
-
+  NO_BALANCE: "NO_BALANCE",
+  NO_CHANGE: "NO_CHANGE",
+  GT_MAX: "GT_MAX",
+  SUCCESS_STAKE: "SUCCESS",
+  SHOW_LEDGER: "SHOW_LEDGER",
+  CONFIRM: "CONFIRM",
+};
 
 const INIT_STATE = {
-  fixedClass: '',
+  fixedClass: "",
   showToast: false,
-  alert: '',
-  alertText: '',
+  alert: "",
+  alertText: "",
   maxAvailable: 0,
-}
+};
 
 @withLanguageProps
 class Vote extends Component {
-
   constructor(props) {
     super(props);
     this.state = INIT_STATE;
@@ -40,75 +34,82 @@ class Vote extends Component {
 
   componentDidMount() {
     window.scroll(0, 0);
-    this.props.getData()
+    this.props.getData();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener("scroll", this.handleScroll);
   }
 
   componentDidUpdate(prevProps) {
-    const { loading, myVotesCnt, getEstimatedTxFee, } = this.props
+    const { loading, myVotesCnt, getEstimatedTxFee } = this.props;
     if (loading !== prevProps.loading && !loading) {
-      getEstimatedTxFee()
-      this.handleScroll()
-      window.addEventListener('scroll', this.handleScroll);
+      getEstimatedTxFee();
+      this.handleScroll();
+      window.addEventListener("scroll", this.handleScroll);
     }
 
-    if (myVotesCnt !== prevProps.myVotesCnt
-      && myVotesCnt > prevProps.myVotesCnt
-      && !prevProps.loading) {
-      this.showToast()
+    if (
+      myVotesCnt !== prevProps.myVotesCnt &&
+      myVotesCnt > prevProps.myVotesCnt &&
+      !prevProps.loading
+    ) {
+      this.showToast();
     }
   }
 
   handleScroll = () => {
-    const { offsetHeight: bodyOffsetHeight, } = document.body
-    const { offsetTop, offsetHeight } = document.getElementsByClassName("choice")[0];
+    const { offsetHeight: bodyOffsetHeight } = document.body;
+    const { offsetTop, offsetHeight } = document.getElementsByClassName(
+      "choice"
+    )[0];
     if (offsetTop + offsetHeight - bodyOffsetHeight > window.scrollY - 78) {
       this.setState({
-        fixedClass: 'fixed'
-      })
+        fixedClass: "fixed",
+      });
     } else {
       this.setState({
-        fixedClass: ''
-      })
+        fixedClass: "",
+      });
     }
-  }
+  };
 
   goBack = () => {
-    this.props.resetVoteMode()
-    this.props.fetchMyStatusData()
-  }
+    this.props.resetVoteMode();
+    this.props.fetchMyStatusData();
+  };
 
   showToast = () => {
     if (this.toastTimeOut) {
-      clearTimeout(this.toastTimeOut)
+      clearTimeout(this.toastTimeOut);
     }
-    this.setState({
-      showToast: true
-    }, () => {
-      this.toastTimeOut = setTimeout(() => {
-        this.setState({
-          showToast: false
-        })
-      }, 2500)
-    })
-  }
+    this.setState(
+      {
+        showToast: true,
+      },
+      () => {
+        this.toastTimeOut = setTimeout(() => {
+          this.setState({
+            showToast: false,
+          });
+        }, 2500);
+      }
+    );
+  };
 
   showGTMaxAlert = (maxAvailable, text) => {
     this.setState({
       alert: ALERT_MSG.GT_MAX,
       maxAvailable,
-    })
-  }
+    });
+  };
 
   resetAlert = () => {
     this.setState({
-      alert: '',
+      alert: "",
       maxAvailable: 0,
-    })
-  }
+    });
+  };
 
   handleSubmit = () => {
     const {
@@ -118,31 +119,31 @@ class Vote extends Component {
       isLedger,
       isNoBalance,
       isNoChange,
-    } = this.props
+    } = this.props;
     if (!txLoading && !txFeeLoading && !loading) {
       if (isNoBalance) {
         this.setState({
           alert: ALERT_MSG.NO_BALANCE,
-        })
-        return
+        });
+        return;
       }
       if (isNoChange) {
         this.setState({
           alert: ALERT_MSG.NO_CHANGE,
-        })
-        return
+        });
+        return;
       }
       if (isLedger) {
         this.setState({
           alert: ALERT_MSG.SHOW_LEDGER,
-        })
+        });
       } else {
         this.setState({
           alert: ALERT_MSG.CONFIRM,
-        })
+        });
       }
     }
-  }
+  };
 
   render() {
     const {
@@ -156,28 +157,20 @@ class Vote extends Component {
       txFeePrice,
       txFee,
       txFeeRate,
-    } = this.props
-    const {
-      fixedClass,
-      showToast,
-      maxAvailable,
-      alert,
-    } = this.state
+    } = this.props;
+    const { fixedClass, showToast, maxAvailable, alert } = this.state;
 
-    const headerTitle =
-      <HeaderTitle
-        title={'Voting'}
-        sub={'Vote'}
-        goBack={this.goBack}
-      />
+    const headerTitle = (
+      <HeaderTitle title={"Voting"} sub={"Vote"} goBack={this.goBack} />
+    );
 
     if (loading) {
       return (
         <div className={`content-wrap vote ${fixedClass}`}>
           {headerTitle}
-          <LoadingComponent type='black' />
+          <LoadingComponent type="black" />
         </div>
-      )
+      );
     }
 
     return (
@@ -186,7 +179,9 @@ class Vote extends Component {
         <div className="wrap-holder my-wallet width-m">
           <div className="name-holder">
             <div className="group">
-              <span className="label">My Votes<em>{`(${myVotesCnt}/10)`}</em></span>
+              <span className="label">
+                My Votes<em>{`(${myVotesCnt}/100)`}</em>
+              </span>
               <span className="money-group">{`${walletName} - ${selectedAccount}`}</span>
             </div>
           </div>
@@ -200,48 +195,71 @@ class Vote extends Component {
         <div className="vote-hoder">
           <div className="wrap-holder vote-fixed ">
             <ul className="">
-              <li><p className="label">{I18n.estimatedStepAndPrice}</p>
-                <p>{txFeeLimit}<em>/</em>{txFeePrice}<span>ICX</span></p>
+              <li>
+                <p className="label">{I18n.estimatedStepAndPrice}</p>
+                <p>
+                  {txFeeLimit}
+                  <em>/</em>
+                  {txFeePrice}
+                  <span>ICX</span>
+                </p>
               </li>
               <li>
                 <p className="label">{I18n.transferPageLabel5_2}</p>
-                <p>{txFee}<span>ICX</span></p>
-                <p>{txFeeRate}<span>USD</span></p>
+                <p>
+                  {txFee}
+                  <span>ICX</span>
+                </p>
+                <p>
+                  {txFeeRate}
+                  <span>USD</span>
+                </p>
               </li>
               <li>
                 <button
                   type="submit"
                   className="btn-type-vote"
-                  onClick={this.handleSubmit}><span>{I18n.button.vote}</span></button>
+                  onClick={this.handleSubmit}
+                >
+                  <span>{I18n.button.vote}</span>
+                </button>
               </li>
             </ul>
           </div>
         </div>
         <PRepsLeaderboardContainer />
-        <Toast
-          I18n={I18n}
-          myVotesCnt={myVotesCnt}
-          showToast={showToast} />
+        <Toast I18n={I18n} myVotesCnt={myVotesCnt} showToast={showToast} />
         <VoteAlerts
           ALERT_MSG={ALERT_MSG}
           alert={alert}
           handleCancel={this.resetAlert}
           input={myVotes}
           maxAvailable={maxAvailable}
-          {...this.props} />
+          {...this.props}
+        />
       </div>
     );
   }
 }
 
 const Toast = ({ myVotesCnt, showToast, I18n }) => (
-  <dir className={`
+  <dir
+    className={`
     wrap-holder
     tost
-    ${showToast ? 'show' : ''}
-  `}>
-    <p><span>{myVotesCnt}<em><i>/</i>10</em></span> <span>{I18n.votePage.toast}</span></p>
+    ${showToast ? "show" : ""}
+  `}
+  >
+    <p>
+      <span>
+        {myVotesCnt}
+        <em>
+          <i>/</i>100
+        </em>
+      </span>{" "}
+      <span>{I18n.votePage.toast}</span>
+    </p>
   </dir>
-)
+);
 
 export default Vote;

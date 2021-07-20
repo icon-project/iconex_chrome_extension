@@ -1,121 +1,117 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom';
-import withLanguageProps from 'HOC/withLanguageProps'
-import { PRepsBar, LoadingComponent } from 'app/components'
-import { convertToPercent } from 'utils'
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import withLanguageProps from "HOC/withLanguageProps";
+import { PRepsBar, LoadingComponent } from "app/components";
+import { convertToPercent } from "utils";
 
 const SORT_TYPE = {
-  RANK: 'RANK',
-  MY_DELEGATION: 'MY_DELEGATION',
-}
+  RANK: "RANK",
+  MY_DELEGATION: "MY_DELEGATION",
+};
 
 @withLanguageProps
 class PRepsTable extends Component {
-
   state = {
     isAsc: !!this.props.isLeaderboard,
-    sortType:
-      !this.props.isVoteMode
-        ? (!!this.props.isLeaderboard
-          ? SORT_TYPE.RANK
-          : SORT_TYPE.MY_DELEGATION)
-        : '',
+    sortType: !this.props.isVoteMode
+      ? !!this.props.isLeaderboard
+        ? ""
+        : SORT_TYPE.MY_DELEGATION
+      : "",
     selectedPRepIndex: 0,
     maxAvailable: 0,
     maxAvailablePct: 0,
-  }
+  };
 
   componentWillMount() {
     if (this.getIsMyPRepsTableInVoteMode()) {
-      document.addEventListener('click', this.detectClickOut, false);
+      document.addEventListener("click", this.detectClickOut, false);
     }
   }
 
   componentWillUnmount() {
     if (this.getIsMyPRepsTableInVoteMode()) {
-      document.removeEventListener('click', this.detectClickOut, false);
+      document.removeEventListener("click", this.detectClickOut, false);
     }
   }
 
-  detectClickOut = e => {
+  detectClickOut = (e) => {
     if (!ReactDOM.findDOMNode(this).contains(e.target)) {
       this.setState({
         selectedPRepIndex: 0,
-      })
+      });
     }
-  }
+  };
 
   componentDidUpdate(prevProps) {
-    const {
-      myVotesCnt,
-    } = this.props
-    const {
-      sortType
-    } = this.state
+    const { myVotesCnt } = this.props;
+    const { sortType } = this.state;
 
-    if (this.getIsMyPRepsTableInVoteMode() &&
+    if (
+      this.getIsMyPRepsTableInVoteMode() &&
       myVotesCnt !== prevProps.myVotesCnt &&
-      !prevProps.loading) {
+      !prevProps.loading
+    ) {
       this.setState({
-        sortType: myVotesCnt > prevProps.myVotesCnt ? '' : sortType,
+        sortType: myVotesCnt > prevProps.myVotesCnt ? "" : sortType,
         selectedPRepIndex: 0,
-      })
+      });
     }
   }
 
   getIsMyPRepsTableInVoteMode = () => {
-    const { isVoteMode, isLeaderboard } = this.props
-    return isVoteMode && !isLeaderboard
-  }
+    const { isVoteMode, isLeaderboard } = this.props;
+    return isVoteMode && !isLeaderboard;
+  };
 
   toggleSort = (_sortType) => {
-    let { isAsc, sortType } = this.state
-    const { isLeaderboard } = this.props
+    let { isAsc, sortType } = this.state;
+    const { isLeaderboard } = this.props;
 
     if (this.getIsMyPRepsTableInVoteMode()) {
-      return
+      return;
     }
 
     if (sortType !== _sortType) {
-      isAsc = !!isLeaderboard
+      isAsc = !!isLeaderboard;
     }
     this.setState({
       isAsc: !isAsc,
       sortType: _sortType,
-    })
-  }
+    });
+  };
 
   sortPReps = () => {
-    const { data } = this.props
-    const { isAsc, sortType } = this.state
+    const { data } = this.props;
+    const { isAsc, sortType } = this.state;
     switch (sortType) {
-      case SORT_TYPE.RANK:
-        return data.sort(({ rank: a }, { rank: b }) => isAsc ? a - b : b - a)
       case SORT_TYPE.MY_DELEGATION:
         return data.sort(
           ({ myDelegation: a, rank: c }, { myDelegation: b, rank: d }) =>
-            ((isAsc ? a - b : b - a) || c - d))
+            (isAsc ? a - b : b - a) || c - d
+        );
+      case SORT_TYPE.RANK:
+        return data.sort(({ rank: a }, { rank: b }) => (isAsc ? a - b : b - a));
       default:
-        return data
+        return data;
     }
-  }
+  };
 
   selectPRepIndex = (index) => {
-    const { selectedPRepIndex } = this.state
-    const { myAvailable, totalStaked, data } = this.props
-    if (selectedPRepIndex === index) return
+    const { selectedPRepIndex } = this.state;
+    const { myAvailable, totalStaked, data } = this.props;
+    if (selectedPRepIndex === index) return;
     if (this.getIsMyPRepsTableInVoteMode()) {
-      const _newDelegation = data[index - 1].newDelegation
-      const maxAvailable = myAvailable.plus(_newDelegation)
+      const _newDelegation = data[index - 1].newDelegation;
+      const maxAvailable = myAvailable.plus(_newDelegation);
       this.setState({
         maxAvailable,
-        maxAvailablePct:
-          convertToPercent(maxAvailable, totalStaked, 1),
+        maxAvailablePct: convertToPercent(maxAvailable, totalStaked, 1),
         selectedPRepIndex: index,
-        sortType: '',
-      })
+        sortType: "",
+      });
     }
-  }
+  };
 
   render() {
     const {
@@ -128,8 +124,10 @@ class PRepsTable extends Component {
       updateMyVotes,
       loading = false,
       showAlert,
+      showRankAndTotalVotes,
+      showCPSData,
       I18n,
-    } = this.props
+    } = this.props;
 
     const {
       isAsc,
@@ -137,31 +135,56 @@ class PRepsTable extends Component {
       selectedPRepIndex,
       maxAvailable,
       maxAvailablePct,
-    } = this.state
+    } = this.state;
 
     if (loading) {
       return (
-        <div style={{ height: '300px' }}>
+        <div style={{ height: "300px" }}>
           <LoadingComponent type="black" />
-        </div>)
+        </div>
+      );
     }
 
-    const sortedData = this.sortPReps()
-    const isMyPRepsTableInVoteMode = this.getIsMyPRepsTableInVoteMode()
+    const sortedData = this.sortPReps();
+    const isMyPRepsTableInVoteMode = this.getIsMyPRepsTableInVoteMode();
 
     return (
-      <table className="table-typeG">
+      <table className={`table-typeG ${showRankAndTotalVotes ? "" : "hide"}`}>
         <thead>
           <tr>
-            <SortToggleButton
-              label={I18n.pRepTable_rank}
-              sortType={SORT_TYPE.RANK}
-              curSortType={sortType}
-              isAsc={isAsc}
-              toggleSort={this.toggleSort}
-            />
-            <th><span>{I18n.pRepTable_name}<i className="_img"></i></span></th>
-            <th><span>{I18n.pRepTable_totalVotes}<i className="_img"></i></span></th>
+            {showRankAndTotalVotes ? (
+              <SortToggleButton
+                label={I18n.pRepTable_rank}
+                sortType={SORT_TYPE.RANK}
+                curSortType={sortType}
+                isAsc={isAsc}
+                toggleSort={this.toggleSort}
+              />
+            ) : (
+              <th>
+                <span></span>
+              </th>
+            )}
+            <th>
+              <span>
+                {I18n.pRepTable_name}
+                <i className="_img"></i>
+              </span>
+            </th>
+            {showRankAndTotalVotes ? (
+              <th>
+                <span>
+                  {I18n.pRepTable_totalVotes}
+                  <i className="_img"></i>
+                </span>
+              </th>
+            ) : (
+              <th>
+                <span></span>
+              </th>
+            )}
+            {showCPSData && <th>{I18n.pRepTable_governance}</th>}
+            {showCPSData && <th>{I18n.pRepTable_sponsoredProjects}</th>}
             {isLeaderboard && <th>{I18n.pRepTable_server}</th>}
             {!isLeaderboard && (
               <SortToggleButton
@@ -175,71 +198,63 @@ class PRepsTable extends Component {
           </tr>
         </thead>
         <tbody>
-          {
-            sortedData.map((el, i) => (
-              <PRepsBar
-                key={i}
-                I18n={I18n}
-                index={i + 1}
-                data={el}
-                myVotesCnt={myVotesCnt}
-                isLeaderboard={isLeaderboard}
-                isVoteMode={isVoteMode}
-                isSelected={
-                  isMyPRepsTableInVoteMode &&
-                  selectedPRepIndex === (i + 1)
-                }
-                isNotSelected={
-                  isMyPRepsTableInVoteMode &&
-                  selectedPRepIndex !== 0 &&
-                  selectedPRepIndex !== (i + 1)
-                }
-                maxAvailable={maxAvailable}
-                maxAvailablePct={maxAvailablePct}
-                selectPRepIndex={this.selectPRepIndex}
-                addPRep={addPRep}
-                deletePRep={deletePRep}
-                updateMyVotes={updateMyVotes}
-                showAlert={showAlert}
-              />
-            ))
-          }
-          {
-            !isLeaderboard && data.length === 0 && (
-              <tr>
-                <td colSpan="5" className="nodata">
-                  <p>
-                  {
-                    isVoteMode
-                      ? I18n.pRepTable_noData_p1
-                      : I18n.pRepTable_noData_p
-                  }
-                  </p>
-                  { I18n.pRepTable_noData_p2 }
-                </td>
-              </tr>
-            )
-          }
+          {sortedData.map((el, i) => (
+            <PRepsBar
+              key={i}
+              I18n={I18n}
+              index={i + 1}
+              data={el}
+              myVotesCnt={myVotesCnt}
+              isLeaderboard={isLeaderboard}
+              isVoteMode={isVoteMode}
+              isSelected={
+                isMyPRepsTableInVoteMode && selectedPRepIndex === i + 1
+              }
+              isNotSelected={
+                isMyPRepsTableInVoteMode &&
+                selectedPRepIndex !== 0 &&
+                selectedPRepIndex !== i + 1
+              }
+              maxAvailable={maxAvailable}
+              maxAvailablePct={maxAvailablePct}
+              showRankAndTotalVotes={showRankAndTotalVotes}
+              showCPSData={showCPSData}
+              selectPRepIndex={this.selectPRepIndex}
+              addPRep={addPRep}
+              deletePRep={deletePRep}
+              updateMyVotes={updateMyVotes}
+              showAlert={showAlert}
+            />
+          ))}
+          {!isLeaderboard && data.length === 0 && (
+            <tr>
+              <td colSpan="5" className="nodata">
+                <p>
+                  {isVoteMode
+                    ? I18n.pRepTable_noData_p1
+                    : I18n.pRepTable_noData_p}
+                </p>
+                {I18n.pRepTable_noData_p2}
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
-    )
+    );
   }
 }
 
-function SortToggleButton({
-  label,
-  curSortType,
-  sortType,
-  isAsc,
-  toggleSort,
-}) {
+function SortToggleButton({ label, curSortType, sortType, isAsc, toggleSort }) {
   return (
-    <th onClick={() => toggleSort(sortType)} className='on'>
-      <span>{label}
-        {curSortType === sortType && <i className={`_img ${!isAsc ? 'up' : 'down'}`}></i>}
+    <th onClick={() => toggleSort(sortType)} className="on">
+      <span>
+        {label}
+        {curSortType === sortType && (
+          <i className={`_img ${!isAsc ? "up" : "down"}`}></i>
+        )}
       </span>
     </th>
-  )
+  );
 }
 
-export default PRepsTable
+export default PRepsTable;

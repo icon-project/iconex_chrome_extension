@@ -627,6 +627,13 @@ function convertIScoreToText(val) {
   return numberWithCommasWithZero(val.toFixed(8))
 }
 
+function shuffleArray(arr) {
+  return arr
+    .map(a => [Math.random(), a])
+    .sort((a, b) => a[0] - b[0])
+    .map(a => a[1]);
+}
+
 // function addZeros(num, zeros) {
 //   console.log(num)
 //   num = Number(num);
@@ -692,4 +699,5 @@ export {
   map,
   convertStakeValueToText,
   convertIScoreToText,
+  shuffleArray,
 }

@@ -181,10 +181,11 @@ export function eth_fetchTokenBalanceApi(tokenAddress, customDecimal, account) {
       // update the UI to reflect the data returned from the blockchain
       if (err) {
         resolve('error');
+      } else {
+        let divisor = new BigNumber(10).toPower(customDecimal);
+        balance = balance.div(divisor);
+        resolve(balance);
       }
-      let divisor = new BigNumber(10).toPower(customDecimal);
-      balance = balance.div(divisor);
-      resolve(balance);
     });
   });
 }

@@ -96,7 +96,7 @@ export default class MyStatus extends Component {
         <div className="wrap-holder exchange">
           <WalletSelectorContainer typeFilter='icx' />
           <div className="vote-holder">
-            <MyStatusStakeContainer handleClick={this.handleClick} />&nbsp;
+            <MyStatusStakeContainer handleClick={this.handleClick} />
             <MyStatusVoteContainer handleClick={this.handleClick} />
             <MyStatusIScoreContainer handleClick={this.handleClick} />
           </div>
@@ -105,7 +105,7 @@ export default class MyStatus extends Component {
           <div className="label-group">
             <span className="label">{I18n.myVote}</span>
           </div>
-          <MyPRepsTableContainer />
+          <MyPRepsTableContainer showRankAndTotalVotes={true} />
           {selectedAccount && (<h4>{`${I18n.pRepTable_h4} : `}<a href={`${TRACKER_ACCOUNT_URL['icx']}${selectedAccount}#delegations`} target="_blank">https://tracker.icon.foundation/</a></h4>)}
         </div>
         {

@@ -1,158 +1,172 @@
-const isAccessedFromWorker = typeof window === 'undefined';
+const isAccessedFromWorker = typeof window === "undefined";
 
 const isDevModeOn = () => {
   if (isAccessedFromWorker) {
-    return false
+    return false;
   } else {
-    return localStorage.getItem('isDev') || false
+    return localStorage.getItem("isDev") || false;
   }
-}
+};
 
 export const getCustomIcxServer = () => {
   const initialCustomServer = {
-    customWalletURL: '',
-    customTrackerURL: '',
-    customNid: ''
-  }
+    customWalletURL: "",
+    customTrackerURL: "",
+    customNid: "",
+  };
   if (isAccessedFromWorker) {
-    return initialCustomServer
+    return initialCustomServer;
   } else {
-    return localStorage.getItem('customIcxServer')
-      ? JSON.parse(localStorage.getItem('customIcxServer'))
-      : initialCustomServer
+    return localStorage.getItem("customIcxServer")
+      ? JSON.parse(localStorage.getItem("customIcxServer"))
+      : initialCustomServer;
   }
-}
+};
 
-export const INITIAL_API_VERSION_ICX = 'v3';
-export const INITIAL_SERVER_ICX = prodDev('mainnet', 'euljiro');
-export const INITIAL_SERVER_ETH = prodDev('main', 'ropsten');
+export const INITIAL_API_VERSION_ICX = "v3";
+export const INITIAL_SERVER_ICX = prodDev("mainnet", "euljiro");
+export const INITIAL_SERVER_ETH = prodDev("main", "ropsten");
 
 export const HIDE_SERVER = isDevModeOn() ? false : true;
-export const LEDGER_SERVER = prodDev('https://hardwallet.icon.foundation/index.html', 'https://hardwallet.icon.foundation/test.html')
+export const LEDGER_SERVER = prodDev(
+  "https://hardwallet.icon.foundation/index.html",
+  "https://hardwallet.icon.foundation/test.html"
+);
 
 export const getCurrentServer = (coinType) => {
   let server;
-  const initialServer = coinType === 'icx' ? INITIAL_SERVER_ICX : INITIAL_SERVER_ETH;
+  const initialServer =
+    coinType === "icx" ? INITIAL_SERVER_ICX : INITIAL_SERVER_ETH;
   if (!isAccessedFromWorker) {
-    server = localStorage.getItem(`${coinType}Server`) || initialServer
+    server = localStorage.getItem(`${coinType}Server`) || initialServer;
   } else {
-    server = initialServer
+    server = initialServer;
   }
   return server;
-}
+};
 
 export const ICX_WALLET_SERVER = () => {
-  const icxServer = getCurrentServer('icx');
+  const icxServer = getCurrentServer("icx");
   const obj = {
-    'mainnet': 'https://wallet.icon.foundation',
-    'euljiro': 'https://testwallet.icon.foundation',
-    'yeouido': 'https://bicon.net.solidwallet.io',
-    'pagoda': 'https://zicon.net.solidwallet.io',
-    'custom': getCustomIcxServer().customWalletURL
-  }
+    mainnet: "https://wallet.icon.foundation",
+    euljiro: "https://testwallet.icon.foundation",
+    yeouido: "https://bicon.net.solidwallet.io",
+    pagoda: "https://zicon.net.solidwallet.io",
+    custom: getCustomIcxServer().customWalletURL,
+  };
   return obj[icxServer];
-}
+};
 
 export const ICX_TRACKER_SERVER = () => {
-  const icxServer = getCurrentServer('icx');
+  const icxServer = getCurrentServer("icx");
   const obj = {
-    'mainnet': 'https://tracker.icon.foundation',
-    'euljiro': 'https://trackerdev.icon.foundation',
-    'yeouido': 'https://bicon.tracker.solidwallet.io',
-    'pagoda': 'https://zicon.tracker.solidwallet.io',
-    'custom': getCustomIcxServer().customTrackerURL
-  }
+    mainnet: "https://tracker.icon.foundation",
+    euljiro: "https://trackerdev.icon.foundation",
+    yeouido: "https://bicon.tracker.solidwallet.io",
+    pagoda: "https://zicon.tracker.solidwallet.io",
+    custom: getCustomIcxServer().customTrackerURL,
+  };
   return obj[icxServer];
-}
+};
+
+export const ICX_CPS_SCORE = () => {
+  const icxServer = getCurrentServer("icx");
+  const obj = {
+    mainnet: "cx9f4ab72f854d3ccdc59aa6f2c3e2215dd62e879f",
+    euljiro: "",
+    yeouido: "cx39a17d13e01538756e9649f80f0b6604a9e7bd39",
+    pagoda: "",
+    custom: "",
+  };
+  return obj[icxServer];
+};
 
 export const ICX_NID = () => {
-  const icxServer = getCurrentServer('icx');
+  const icxServer = getCurrentServer("icx");
   const obj = {
-    'mainnet': '0x1',
-    'euljiro': '0x2',
-    'yeouido': '0x3',
-    'pagoda': '0x50',
-    'custom': getCustomIcxServer().customNid
-  }
+    mainnet: "0x1",
+    euljiro: "0x2",
+    yeouido: "0x3",
+    pagoda: "0x50",
+    custom: getCustomIcxServer().customNid,
+  };
   return obj[icxServer];
-}
+};
 
 export const ETH_SERVER = () => {
-  const ethServer = getCurrentServer('eth');
+  const ethServer = getCurrentServer("eth");
   const obj = {
-    'ropsten': 'https://ropsten.infura.io',
-    'main': 'https://eth.solidwallet.io'
-  }
+    ropsten: "https://ropsten.infura.io",
+    main: "https://eth.solidwallet.io",
+  };
   return obj[ethServer];
-}
+};
 
 export const ETH_SCAN = () => {
-  const ethServer = getCurrentServer('eth');
+  const ethServer = getCurrentServer("eth");
   const obj = {
-    'ropsten': 'https://ropsten.etherscan.io',
-    'main': 'https://etherscan.io'
-  }
+    ropsten: "https://ropsten.etherscan.io",
+    main: "https://etherscan.io",
+  };
   return obj[ethServer];
-}
+};
 
 // EIP 155 chainId - mainnet: 1, ropsten: 3
 export const CHAIN_ID = () => {
-  const ethServer = getCurrentServer('eth');
+  const ethServer = getCurrentServer("eth");
   const obj = {
-    'ropsten': 3,
-    'main': 1
-  }
+    ropsten: 3,
+    main: 1,
+  };
   return obj[ethServer];
-}
+};
 
 export const ICX_TOKEN_CONTRACT_ADDRESS = () => {
-  const ethServer = getCurrentServer('eth');
+  const ethServer = getCurrentServer("eth");
   const obj = {
-    'ropsten': '0x55116b9cf269e3f7e9183d35d65d6c310fcacf05',
-    'main': '0xb5a5f22694352c15b00323844ad545abb2b11028'
-  }
+    ropsten: "0x55116b9cf269e3f7e9183d35d65d6c310fcacf05",
+    main: "0xb5a5f22694352c15b00323844ad545abb2b11028",
+  };
   return obj[ethServer];
-}
+};
 
 export const ICX_TOKEN_DISCARD_ADDRESS = () => {
-  const ethServer = getCurrentServer('eth');
+  const ethServer = getCurrentServer("eth");
   const obj = {
-    'ropsten': '0x0000000000000000000000000000000000000000',
-    'main': '0x0000000000000000000000000000000000000000'
-  }
+    ropsten: "0x0000000000000000000000000000000000000000",
+    main: "0x0000000000000000000000000000000000000000",
+  };
   return obj[ethServer];
-}
+};
 
 export const txidUrl = {
-  'icx': `${ICX_TRACKER_SERVER()}/transaction/`,
-  'eth': `${ETH_SCAN()}/tx/`
-}
+  icx: `${ICX_TRACKER_SERVER()}/transaction/`,
+  eth: `${ETH_SCAN()}/tx/`,
+};
 
 export const trackerAccountUrl = {
-  'icx': `${ICX_TRACKER_SERVER()}/address/`,
-  'eth': `${ETH_SCAN()}/address/`
-}
+  icx: `${ICX_TRACKER_SERVER()}/address/`,
+  eth: `${ETH_SCAN()}/address/`,
+};
 
 // list constants
 export const icxServerList = {
-  'mainnet': 'mainnet',
-  'euljiro': 'euljiro',
-  'yeouido': 'yeouido',
-  'pagoda': 'pagoda',
-  'custom': 'custom'
-}
+  mainnet: "mainnet",
+  euljiro: "euljiro",
+  yeouido: "yeouido",
+  pagoda: "pagoda",
+  custom: "custom",
+};
 
 export const icxApiVersionList = {
-  'v2': 'v2',
-  'v3': 'v3'
-}
+  v2: "v2",
+  v3: "v3",
+};
 export const ethServerList = {
-  'ropsten': 'ropsten',
-  'main': 'main'
-}
-
+  ropsten: "ropsten",
+  main: "main",
+};
 
 function prodDev(prod, dev) {
-  return process.env.NODE_ENV === 'production' ? prod : dev;
+  return process.env.NODE_ENV === "production" ? prod : dev;
 }
-

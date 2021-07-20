@@ -11,18 +11,19 @@ function mapStateToProps(state) {
   const currentWallet = isLedger ? ledgerWallet : state.wallet.wallets[account] || {}
   const balance = new BigNumber(currentWallet.balance)
   const staked = state.iiss.staked[account] || {}
-  const { value, unstake, unstakeBlockHeight, remainingBlocks, loading } = staked
+  const { value, totalUnstake, unstakes, loading } = staked
   const icxBalance = balance
     .plus(value)
-    .plus(unstake)
-  const stakedValue = value && value.plus(unstake)
-  const stakedPct = convertToPercent(stakedValue, icxBalance, 1)
+    .plus(totalUnstake)
+  const stakedValue = value && value.plus(totalUnstake)
+  const stakedPct = convertToPercent(value, icxBalance, 1)
   const stakedWidthPct = convertToPercent(stakedValue, icxBalance)
-  const unstakedPct = (100 - stakedPct).toFixed(1)
+  const unstakingPct = convertToPercent(totalUnstake, icxBalance, 1)
+  const unstakingWidthPct = convertToPercent(totalUnstake, icxBalance)
+  const unstakedPct = (100 - stakedPct - unstakingPct).toFixed(1)
   const unstakedWidthPct = (100 - stakedWidthPct).toString()
-  const unstakingWidthPct = convertToPercent(unstake, icxBalance)
   const isUnstakingFull = unstakingWidthPct === '100'
-  const isUnstakeExist = !!unstake
+  const isUnstakeExist = totalUnstake && !totalUnstake.eq(0)
   const isUnstakingEqualToStake = stakedWidthPct === unstakingWidthPct
   const isNoBalance = balance && balance.eq(0)
   const isBalanceLT1 = balance && validateStake(icxBalance)
@@ -44,7 +45,7 @@ function mapStateToProps(state) {
   }
 
   return {
-    wrapClassName: 'left-group',
+    wrapClassName: 'center-group stake-group',
     graphClassName: getGraphClassName(),
     compType: 'stake',
     title: 'Stake',
@@ -65,21 +66,28 @@ function mapStateToProps(state) {
     },
     li2: {
       label: 'myStatusStake_li2',
-      value: showHyphen(convertStakeValueToText(stakedValue, 'icx', true)),
+      value: showHyphen(convertStakeValueToText(balance, 'icx', true)),
     },
     li3: {
       label: 'myStatusStake_li3',
-      value: showHyphen(convertStakeValueToText(balance, 'icx', true)),
+      value: showHyphen(convertStakeValueToText(value, 'icx', true)),
+    },
+    li4: {
+      label: 'myStatusStake_li4',
+      value: showHyphen(convertStakeValueToText(totalUnstake, 'icx', true)),
     },
     isUnstakeExist,
     isUnstakingFull,
     isUnstakingEqualToStake,
-    unstake: {
+    unstakes: {
       label: 'myStatusStake_unstake1',
-      value: showHyphen(convertStakeValueToText(unstake)),
-      unstakeBlockHeight: showHyphen(convertNumberToText(unstakeBlockHeight, 'icx', true)),
-      remainingBlocks,
+      value: !!unstakes ? unstakes.map(unstake => ({
+        unstake: showHyphen(convertStakeValueToText(unstake.unstake)),
+        unstakeBlockHeight: showHyphen(convertNumberToText(unstake.unstakeBlockHeight, 'icx', true)),
+        remainingBlocks: unstake.remainingBlocks
+      })) : [],
       width: unstakingWidthPct,
+      percent: showHyphen(unstakingPct),
     },
     isLoggedIn,
     loading,

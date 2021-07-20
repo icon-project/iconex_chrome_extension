@@ -50,7 +50,7 @@ export default class StakeAlerts extends Component {
 
     setTimeout(() => {
       fetchMyStatusData()
-    }, 3000)
+    }, 4000)
   }
 
   handleSubmit = () => {

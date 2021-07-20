@@ -88,13 +88,13 @@ class Stake extends Component {
 
   initData = (nextProps) => {
     const {
-      staked: { value, unstake },
+      staked: { value },
       totalDelegated,
       balance,
       totalIcxBalance,
       availableMaxBalance,
     } = nextProps
-    const inputStakedValue = value.plus(unstake)
+    const inputStakedValue = value
     const _rangeStakedPct = map({
       value: inputStakedValue,
       x1: totalDelegated,

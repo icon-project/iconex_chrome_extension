@@ -9,9 +9,8 @@ export const validateClaim = value => value.eq(0)
 const initStakeElem = {
 	loading: false,
 	value: new BigNumber(0),
-	unstake: new BigNumber(0),
-	unstakeBlockHeight: new BigNumber(0),
-	remainingBlocks: new BigNumber(0),
+	unstakes: [],
+	totalUnstake: new BigNumber(0),
 }
 
 const initIScoreElem = {
@@ -97,9 +96,18 @@ export function iissReducer(state = initialState, action) {
 				[account]: {
 					...state.staked[account],
 					value: fromLoop(payload.stake),
-					unstake: fromLoop(payload.unstake),
-					unstakeBlockHeight: new BigNumber(payload.unstakeBlockHeight) || new BigNumber(0),
-					remainingBlocks: new BigNumber(payload.remainingBlocks) || new BigNumber(0),
+					totalUnstake: payload.unstakes
+						? payload.unstakes.reduce((acc, cur) => {
+							return acc.plus(fromLoop(cur.unstake))
+						}, new BigNumber(0))
+						: new BigNumber(0),
+					unstakes: payload.unstakes
+						? payload.unstakes.map((unstake) => ({
+							unstake: fromLoop(unstake.unstake),
+							unstakeBlockHeight: new BigNumber(unstake.unstakeBlockHeight),
+							remainingBlocks: new BigNumber(unstake.remainingBlocks)
+						}))
+						: [],
 					loading: false,
 				}
 			})
@@ -113,8 +121,8 @@ export function iissReducer(state = initialState, action) {
 				[account]: {
 					...state.staked[account],
 					value: new BigNumber(0),
-					unstake: new BigNumber(0),
-					unstakeBlockHeight: new BigNumber(0),
+					totalUnstake: new BigNumber(0),
+					unstakes: [],
 					loading: false
 				}
 			})

@@ -76,7 +76,7 @@ class ConnectLedger extends Component {
           await getStake({ account: payload[4] })
         ])
         const isStakedValueNoneArr = stakedArr.map(staked => {
-          return !!staked.error || (!Number(staked.payload.stake) && !staked.payload.unstake)
+          return !!staked.error || (!Number(staked.payload.stake) && (!staked.payload.unstake || staked.payload.unstakes.length === 0))
         })
         const resultArr = balanceArr.map((balance, i) => {
           return {

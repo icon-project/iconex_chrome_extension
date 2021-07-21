@@ -31,8 +31,6 @@ class WalletList extends Component {
     super(props);
     const message = this.props;
 
-    console.log(message);
-
     this.state = {
       method: message.method,
       walletLoading: false,
@@ -70,6 +68,7 @@ class WalletList extends Component {
       const { address } = await WalletList.icx.getAddress(path, false, true);
       callback();
     } catch (error) {
+      console.log("checkError : ", error);
       this.props.eventHandler(JSON.stringify({ error }));
     }
   };
@@ -82,19 +81,24 @@ class WalletList extends Component {
       let walletList = [],
         paramArr = [],
         balanceArr = [];
-
+      let last_address = "";
       for (let i = index * UNIT; i < index * UNIT + UNIT; i++) {
         const path = `44'/4801368'/0'/0'/${i}'`;
         const { address } = await WalletList.icx.getAddress(path, false, true);
         const _address = address.toString();
-        walletList.push({
-          path,
-          account: _address,
-        });
-        paramArr.push(_address);
+        if (last_address === _address) {
+          i -= 1
+        }
+        if (last_address !== _address) {
+          walletList.push({
+            path,
+            account: _address,
+          });
+          paramArr.push(_address);
+        }
+        last_address = _address;
       }
       balanceArr = await this.getBalance(paramArr);
-      // console.log("balanceArr:", balanceArr[0]);
       walletList = walletList.map((wallet, i) => {
         return {
           ...wallet,
@@ -136,12 +140,9 @@ class WalletList extends Component {
       delete rawTx.path;
       delete rawTx.networkVer;
       delete rawTx.popupType;
-
-      console.log("rawTx:", rawTx);
-
+      // console.log("rawTx:", rawTx);
       let tx_params = queryString.parse(rawTx["queryToString"]);
-      console.log("tx_params:", tx_params);
-
+      // console.log("tx_params:", tx_params);
       const phraseToSign = generateHashKey(tx_params);
       await this.initLedgerTransport();
       const signedData = await WalletList.icx.signTransaction(
@@ -162,11 +163,8 @@ class WalletList extends Component {
         },
       };
 
-      console.log("signTransaction result :", result);
-
       this.props.eventHandler(JSON.stringify(result));
     } catch (error) {
-      console.log("signTransaction error:", error );
       this.props.eventHandler(JSON.stringify({ error }));
     } finally {
     }
@@ -228,29 +226,6 @@ class WalletList extends Component {
     );
   };
 
-  initHID = async () => {
-    try {
-      const devices = await navigator.hid.requestDevice({
-        filters: [],
-      });
-      this.props.eventHandler({ devices });
-      let device = "";
-      device = devices[0];
-      console.log(device);
-    } catch (error) {
-      console.log("initHID() An error occurred.", error);
-      window.parent.postMessage(
-        JSON.stringify({ error }),
-        "http://localhost:3001"
-      );
-    }
-
-    // if (!device) {
-    //   console.log("initHID() No device was selected.");
-    // } else {
-    //   console.log(`initHID() HID: ${device.productName}`);
-    // }
-  };
 
   componentDidMount() {
     console.log("Run Component Did Mount", this.state.method, this.state);

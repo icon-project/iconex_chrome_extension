@@ -43,7 +43,6 @@ class ConnectLedger extends Component {
   };
 
   handleLedgerSuccess = async (event) => {
-    console.log("handleLedgerSuccess", event);
     const {
       popupNum,
       history,
@@ -60,7 +59,6 @@ class ConnectLedger extends Component {
     const parsedData = JSON.parse(event);
     const { method, payload, action = "" } = parsedData;
 
-    console.log("parsedData", parsedData);
     if (popupNum === 1) setPopupNum(2);
 
     switch (method) {
@@ -93,7 +91,6 @@ class ConnectLedger extends Component {
           };
         });
         // source.postMessage(resultArr, "*");
-        console.log("icx_getBalance result Arr", resultArr);
         return resultArr;
 
       case "setWallet":

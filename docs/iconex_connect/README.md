@@ -10,7 +10,7 @@ This protocol allows third-party developer to use ICON network through ICONex
 
 ## Specification
 You need to implement two part of dispatching event to ICONex and listening event from ICONex using CustomEvent. The type and payload of events is assigned to detail field in CustomEvent.
- 
+
 *Data in detail field:*
 
 | Field | Type | Description |
@@ -22,7 +22,7 @@ You need to implement two part of dispatching event to ICONex and listening even
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
-	detail: { 
+	detail: {
 		type: '...',
 		payload: {...}
 	}
@@ -50,7 +50,7 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
-	detail: { 
+	detail: {
 		type: 'REQUEST_HAS_ACCOUNT'
 	}
 });
@@ -59,7 +59,7 @@ window.dispatchEvent(customEvent);
 const eventHandler = event => {
 	const { type, payload } = event.detail;
 	if (type === 'RESPONSE_HAS_ACCOUNT') {
-		console.log(payload); // true or false
+		console.log(payload.hasAccount); // true or false
 	}
 }
 window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
@@ -73,7 +73,7 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
-	detail: { 
+	detail: {
 		type: 'REQUEST_HAS_ADDRESS',
 		payload: 'hx19870922...'
 	}
@@ -93,12 +93,12 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 `REQUEST_ADDRESS` Requests for the address to use for service.
 
-`RESPONSE_HAS_ADDRESS` Returns the icx address selected by user.
+`RESPONSE_ADDRESS` Returns the icx address selected by user.
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
-	detail: { 
- 		type: 'REQUEST_ADDRESS' 
+	detail: {
+ 		type: 'REQUEST_ADDRESS'
 	}
 });
 window.dispatchEvent(customEvent);
@@ -107,7 +107,7 @@ const eventHandler = event => {
 	const { type, payload } = detail;
 	if (type === 'RESPONSE_ADDRESS') {
 		console.log(payload); // e.g., hx19870922...
-	}	
+	}
 }
 window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 ```
@@ -118,15 +118,17 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 `RESPONSE_JSON-RPC` Returns the JSON-RPC response.
 
+`CANCEL_JSON-RPC` User cancelled the JSON-RPC request.
+
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
-	detail: { 
+	detail: {
 		type: 'REQUEST_JSON-RPC',
 		payload: {
 			jsonrpc: "2.0",
 			method: "icx_method",
 			id: 6339,
-			params: { 
+			params: {
 				from: "hx19870922...",
 				...
 			}
@@ -140,6 +142,9 @@ const eventHandler = event => {
 	if (type === 'RESPONSE_JSON-RPC') {
 		console.log(payload); // e.g., {"jsonrpc": "2.0", "id": 6339, "result": { ... }}
 	}
+	else if (type === 'CANCEL_JSON-RPC') {
+		console.error('User cancelled JSON-RPC request')
+	}
 }
 window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 ```
@@ -150,9 +155,11 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 `RESPONSE_SIGNING` Returns signature.
 
+`CANCEL_SIGNING` User cancelled the signing request.
+
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
-	detail: { 
+	detail: {
 		type: 'REQUEST_SIGNING',
 		payload: {
 			from: 'hx19870922...',
@@ -163,10 +170,13 @@ const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
 window.dispatchEvent(customEvent);
 
 const eventHandler = event => {
-    const { type, payload } = detail
-    if (type === 'RESPONSE_SIGNING') {
-        console.log(payload) // e.g., 'q/dVc3qj4En0GN+...'
-    }
+	const { type, payload } = detail
+	if (type === 'RESPONSE_SIGNING') {
+		console.log(payload) // e.g., 'q/dVc3qj4En0GN+...'
+	}
+	else if (type === 'CANCEL_SIGNING') {
+		console.error('User cancelled signing request')
+	}
 }
 window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 ```

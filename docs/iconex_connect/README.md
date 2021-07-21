@@ -118,6 +118,8 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 `RESPONSE_JSON-RPC` Returns the JSON-RPC response.
 
+`CANCEL_JSON-RPC` User cancelled the JSON-RPC request.
+
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
 	detail: { 
@@ -140,6 +142,9 @@ const eventHandler = event => {
 	if (type === 'RESPONSE_JSON-RPC') {
 		console.log(payload); // e.g., {"jsonrpc": "2.0", "id": 6339, "result": { ... }}
 	}
+	else if (type === 'CANCEL_JSON-RPC') {
+		console.error('User cancelled JSON-RPC request')
+	}
 }
 window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 ```
@@ -150,7 +155,7 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 `RESPONSE_SIGNING` Returns signature.
 
-`CANCEL_SIGNING` User cancelled signing request.
+`CANCEL_SIGNING` User cancelled the signing request.
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {

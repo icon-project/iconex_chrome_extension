@@ -10,7 +10,7 @@ This protocol allows third-party developer to use ICON network through ICONex
 
 ## Specification
 You need to implement two part of dispatching event to ICONex and listening event from ICONex using CustomEvent. The type and payload of events is assigned to detail field in CustomEvent.
- 
+
 *Data in detail field:*
 
 | Field | Type | Description |
@@ -22,7 +22,7 @@ You need to implement two part of dispatching event to ICONex and listening even
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
-	detail: { 
+	detail: {
 		type: '...',
 		payload: {...}
 	}
@@ -50,7 +50,7 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
-	detail: { 
+	detail: {
 		type: 'REQUEST_HAS_ACCOUNT'
 	}
 });
@@ -73,7 +73,7 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
-	detail: { 
+	detail: {
 		type: 'REQUEST_HAS_ADDRESS',
 		payload: 'hx19870922...'
 	}
@@ -97,8 +97,8 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
-	detail: { 
- 		type: 'REQUEST_ADDRESS' 
+	detail: {
+ 		type: 'REQUEST_ADDRESS'
 	}
 });
 window.dispatchEvent(customEvent);
@@ -107,7 +107,7 @@ const eventHandler = event => {
 	const { type, payload } = detail;
 	if (type === 'RESPONSE_ADDRESS') {
 		console.log(payload); // e.g., hx19870922...
-	}	
+	}
 }
 window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 ```
@@ -122,13 +122,13 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
-	detail: { 
+	detail: {
 		type: 'REQUEST_JSON-RPC',
 		payload: {
 			jsonrpc: "2.0",
 			method: "icx_method",
 			id: 6339,
-			params: { 
+			params: {
 				from: "hx19870922...",
 				...
 			}
@@ -159,7 +159,7 @@ window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 ```javascript
 const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
-	detail: { 
+	detail: {
 		type: 'REQUEST_SIGNING',
 		payload: {
 			from: 'hx19870922...',
@@ -170,13 +170,13 @@ const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
 window.dispatchEvent(customEvent);
 
 const eventHandler = event => {
-    const { type, payload } = detail
-    if (type === 'RESPONSE_SIGNING') {
-        console.log(payload) // e.g., 'q/dVc3qj4En0GN+...'
-    }
-    else if (type === 'CANCEL_SIGNING') {
-        console.error('User cancelled signing request')
-    }
+	const { type, payload } = detail
+	if (type === 'RESPONSE_SIGNING') {
+		console.log(payload) // e.g., 'q/dVc3qj4En0GN+...'
+	}
+	else if (type === 'CANCEL_SIGNING') {
+		console.error('User cancelled signing request')
+	}
 }
 window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 ```

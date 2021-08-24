@@ -63,9 +63,6 @@ class WalletList extends Component {
     try {
       this.setState({ walletLoading: true });
       await this.initLedgerTransport();
-
-      const path = `44'/4801368'/0'/0'/${0}'`;
-      const { address } = await WalletList.icx.getAddress(path, false, true);
       callback();
     } catch (error) {
       console.log("checkError : ", error);
@@ -171,7 +168,7 @@ class WalletList extends Component {
   };
 
   sendTransactionErrorHandler = (event) => {
-    const { data, source } = event;
+    const { data } = event;
     const parsedData = JSON.parse(data);
     const { method } = parsedData;
 
@@ -216,8 +213,7 @@ class WalletList extends Component {
 
   handleCopy = (e, index) => {
     e.stopPropagation();
-    const { copyState, walletList } = this.state;
-    // console.log(walletList[index].account);
+    const { copyState } = this.state;
     handleCopy(
         `span.copyLedgerKey${index}`,
         index,
@@ -255,10 +251,8 @@ class WalletList extends Component {
       walletList,
       popupType,
       i18n,
-      lang,
       copyState,
       copyIndex,
-      error,
     } = this.state;
     const startIndex = walletIndex * UNIT;
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Redirect, HashRouter } from 'react-router-dom';
+import { Route, HashRouter } from 'react-router-dom';
 import MyWalletPage from 'app-popup/pages/MyWalletPage';
 import SendTransactionPage from 'app-popup/pages/SendTransactionPage';
 import CheckTransactionPage from 'app-popup/pages/CheckTransactionPage';

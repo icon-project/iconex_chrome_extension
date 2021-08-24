@@ -543,7 +543,6 @@ function handleCopy(selector, copyState, setState) {
       setState({
         copyState: COPY_STATE['on']
       }, () => {
-        const self = this;
         window.setTimeout(function () {
           setState({
             copyState: COPY_STATE['off']

@@ -39,7 +39,6 @@ class MyStatusStakeVote extends Component {
       compType,
       wrapClassName,
       graphClassName,
-      title,
       axis1,
       axis2,
       li1,

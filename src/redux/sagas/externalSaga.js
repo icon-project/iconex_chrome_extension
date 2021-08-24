@@ -1,5 +1,4 @@
 import { fork, takeLatest, call, put } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
 import AT from 'redux/actionTypes/actionTypes';
 import { icx_callScoreExternally as CALL_SCORE_EXTERNALLY } from 'redux/api/walletIcxApi';
 import { signRawTx } from 'utils'

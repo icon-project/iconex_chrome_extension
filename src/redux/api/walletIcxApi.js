@@ -1,6 +1,6 @@
 import { chromeStorage } from 'utils';
 import axios from 'axios';
-import { signRawTx, customValueToTokenValue, makeIcxRawTx, checkHxPrefix, check0xPrefix, delete0xPrefix, concatTypedArrays, randomUint32, isIRCTokenFunc } from 'utils';
+import { signRawTx, customValueToTokenValue, makeIcxRawTx, checkHxPrefix, check0xPrefix, randomUint32, isIRCTokenFunc } from 'utils';
 import moment from 'moment';
 import BigNumber from 'bignumber.js';
 import { ICX_WALLET_SERVER, ICX_TRACKER_SERVER } from 'constants/config.js';

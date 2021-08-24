@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js';
 import { withRouter } from 'react-router-dom';
 import { LoadingComponent, QrcodeComponent, CurrencyMenuBar, TransactionHistory, CopyButton, Alert } from 'app/components/'
 import { routeConstants as ROUTE, coinImage as COIN_IMAGE, coinName as COIN_NAME, currencyName as CURRENCY_NAME } from 'constants/index'
-import { ICX_TOKEN_CONTRACT_ADDRESS } from 'constants/config'
 import { convertNumberToText, calcTokenBalanceWithRate, convertStakeValueToText } from 'utils';
 import DEFAULT_ICON from 'app/image/icon/icon_default.png';
 import withLanguageProps from 'HOC/withLanguageProps';

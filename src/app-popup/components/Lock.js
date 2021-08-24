@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import hash from 'hash.js'
 import { openApp } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
-import logo from 'app-popup/image/preview/logo.svg'
 
 const INIT_STATE = {
   passcode: '',

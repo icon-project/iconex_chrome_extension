@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import hash from 'hash.js'
 import withLanguageProps from 'HOC/withLanguageProps';
-import { HeaderContainer, FooterContainer } from 'app/containers/'
+import { HeaderContainer } from 'app/containers/'
 
 const INIT_STATE = {
   passcode: '',

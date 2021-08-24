@@ -130,7 +130,6 @@ class TransactionHistory extends Component {
 
     return walletCoinType === 'eth' ? (
       <div className={`wrap-holder nodata`}>
-        <h2></h2>
         <table className="table-typeB">
           <tbody>
             <tr>

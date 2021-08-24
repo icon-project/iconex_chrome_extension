@@ -1,4 +1,3 @@
-import { ICX_TOKEN_CONTRACT_ADDRESS } from 'constants/config'
 import isEqual from 'lodash.isequal';
 const secp256k1 = require('secp256k1');
 const sha3_256 = require('js-sha3').sha3_256;

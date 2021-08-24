@@ -74,7 +74,7 @@ class SendTransaction2 extends Component {
   }
 
   renderPageTypeSwitch = () => {
-    const { I18n, funcList, txLoading, selectedAccount, selectedFuncIndex, funcInput, coinQuantity, recipientAddress, calcData, pageType, wallets, isLedger, ledgerTimer, isLedgerConfirmed, language } = this.props;
+    const { I18n, funcList, txLoading, selectedAccount, selectedFuncIndex, funcInput, coinQuantity, recipientAddress, calcData, pageType, isLedger, ledgerTimer, isLedgerConfirmed, language } = this.props;
     const txFee = calcData.txFee
 
     switch (pageType) {

@@ -50,7 +50,6 @@ class ConnectLedger extends Component {
       setLogInStateForLedger,
       setPopupNum,
       closePopup,
-      fetchMyStatusData,
     } = this.props;
 
     // const { data, source } = event;
@@ -160,7 +159,7 @@ class ConnectLedger extends Component {
   };
 
   render() {
-    const { I18n, popupNum, language, location } = this.props;
+    const { I18n, popupNum, language } = this.props;
 
     const { ledgerLoading, ledgerInit, showBalanceError, error } = this.state;
     const popupType = this.getPopupType();

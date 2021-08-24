@@ -54,7 +54,7 @@ export const ICX_WALLET_SERVER = () => {
     euljiro: "https://testwallet.icon.foundation",
     yeouido: "https://bicon.net.solidwallet.io",
     pagoda: "https://zicon.net.solidwallet.io",
-    sejong: "https://sejong.net.solidwallet.io/",
+    sejong: "https://sejong.net.solidwallet.io",
     custom: getCustomIcxServer().customWalletURL,
   };
   return obj[icxServer];
@@ -67,7 +67,7 @@ export const ICX_TRACKER_SERVER = () => {
     euljiro: "https://trackerdev.icon.foundation",
     yeouido: "https://bicon.tracker.solidwallet.io",
     pagoda: "https://zicon.tracker.solidwallet.io",
-    sejong: "https://sejong.tracker.solidwallet.io/",
+    sejong: "https://sejong.tracker.solidwallet.io",
     custom: getCustomIcxServer().customTrackerURL,
   };
   return obj[icxServer];

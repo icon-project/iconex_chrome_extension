@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { coinNameKorean as COIN_NAME_KOREAN, coinName as COIN_NAME } from 'constants/index';
 import { makeWalletArray, convertNumberToText, isEmpty } from 'utils'
 import withClickOut from 'HOC/withClickOut';
 import { LoadingComponent } from 'app/components/'

@@ -1,6 +1,5 @@
 import React from 'react';
 import BigNumber from 'bignumber.js';
-import { isObject } from 'utils';
 
 const Output = ({ output, value, error }) => {
   let isError = !!error

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ValidationForm, LoadingComponent, Alert } from 'app/components/';
-import { check0xPrefix, generateIconexObject } from 'utils';
+import { generateIconexObject } from 'utils';
 import Worker from 'workers/wallet.worker.js';
 import withLanguageProps from 'HOC/withLanguageProps';
 
@@ -50,8 +50,7 @@ class ImportWallet4 extends Component {
   }
 
   createWallet = (walletName, pw) => {
-    const { coinType, walletObj, wallets } = this.props;
-    const key = coinType === 'icx' ? walletObj.getAddressIcx().toString('hex') : check0xPrefix(walletObj.getAddress().toString('hex'))
+    const { coinType, walletObj } = this.props;
 
     this.worker.postMessage({
       walletName: walletName,

@@ -1,11 +1,15 @@
 import { chromeStorage } from 'utils';
 import axios from 'axios';
-import { signRawTx, customValueToTokenValue, makeIcxRawTx, checkHxPrefix, check0xPrefix, delete0xPrefix, concatTypedArrays, randomUint32, isIRCTokenFunc } from 'utils';
+import { signRawTx, customValueToTokenValue, makeIcxRawTx, checkHxPrefix, check0xPrefix, randomUint32, isIRCTokenFunc } from 'utils';
 import moment from 'moment';
 import BigNumber from 'bignumber.js';
 import { ICX_WALLET_SERVER, ICX_TRACKER_SERVER } from 'constants/config.js';
+import { getCurrentServer } from 'constants/config.js'
 
-const GOVERNANCE_ADDRESS = 'cx0000000000000000000000000000000000000001'
+let GOVERNANCE_ADDRESS = 'cx0000000000000000000000000000000000000001'
+if (getCurrentServer("icx") == "sejong") {
+  GOVERNANCE_ADDRESS = 'cx0000000000000000000000000000000000000000'
+}
 
 let walletApi, trackerApi
 
@@ -342,7 +346,11 @@ export function debug_estimateStepApi(params) {
       //params: rawTx
     }
 
-    walletApi.post(`/api/debug/v3`, JSON.stringify(param))
+    let debugApiUrl = `/api/debug/v3`;
+    if (getCurrentServer("icx") == "sejong") {
+      debugApiUrl = `/api/v3d/`;
+    }
+    walletApi.post(debugApiUrl, JSON.stringify(param))
       .then(res => {
         if (res.data.result) {
           resolve(res.data.result);

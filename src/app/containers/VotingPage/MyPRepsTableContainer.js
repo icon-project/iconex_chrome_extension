@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { PRepsTable } from 'app/components/';
 import { convertToPercent } from 'utils'
 import { deletePRep, updateMyVotes } from 'redux/actions/pRepActions'
-import BigNumber from 'bignumber.js';
 
 function mapStateToProps(state) {
   const { isVoteMode } = state.pRep

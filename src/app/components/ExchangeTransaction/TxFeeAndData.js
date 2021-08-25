@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import InputRange from 'react-input-range';
-import { nToBr, convertNumberToText, calcIcxMessageKB } from 'utils';
+import { convertNumberToText, calcIcxMessageKB } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { initialStepLimit } from 'redux/reducers/exchangeTransactionReducer'
 

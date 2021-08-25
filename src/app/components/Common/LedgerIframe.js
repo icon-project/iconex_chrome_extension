@@ -1,7 +1,6 @@
 /** @format */
 
 import React, { Component } from "react";
-import { LEDGER_SERVER } from "constants/config";
 import queryString from "qs";
 import { WalletList } from "app/components";
 

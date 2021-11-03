@@ -7,9 +7,6 @@ import { ICX_WALLET_SERVER, ICX_TRACKER_SERVER } from 'constants/config.js';
 import { getCurrentServer } from 'constants/config.js'
 
 let GOVERNANCE_ADDRESS = 'cx0000000000000000000000000000000000000001'
-if (getCurrentServer("icx") == "sejong") {
-  GOVERNANCE_ADDRESS = 'cx0000000000000000000000000000000000000000'
-}
 
 let walletApi, trackerApi
 
@@ -346,10 +343,7 @@ export function debug_estimateStepApi(params) {
       //params: rawTx
     }
 
-    let debugApiUrl = `/api/debug/v3`;
-    if (getCurrentServer("icx") == "sejong") {
-      debugApiUrl = `/api/v3d/`;
-    }
+    let debugApiUrl = `/api/v3d/`;
     walletApi.post(debugApiUrl, JSON.stringify(param))
       .then(res => {
         if (res.data.result) {

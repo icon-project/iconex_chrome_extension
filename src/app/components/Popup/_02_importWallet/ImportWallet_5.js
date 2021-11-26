@@ -27,7 +27,7 @@ class ImportWallet5 extends Component {
   }
 
   createWallet = (walletName) => {
-    const { v3Obj, wallets, loading } = this.props;
+    const { v3Obj, loading } = this.props;
     const type = v3Obj.coinType || 'eth';
     const key = type === 'icx' ? v3Obj.address : check0xPrefix(v3Obj.address)
     const iconexObj = generateIconexObject(key, type, walletName, JSON.stringify(v3Obj));

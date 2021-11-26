@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { getCurrentServer, getCustomIcxServer } from 'constants/config.js'
 import withClickOut from 'HOC/withClickOut';
 import { checkURLSuffix } from 'utils';
-import { icxServerList, icxApiVersionList, ethServerList } from 'constants/config'
+import { icxServerList, ethServerList } from 'constants/config'
 
 const INIT_STATE = {
   showCustomInput: getCurrentServer('icx') === 'custom',

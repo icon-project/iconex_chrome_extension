@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { routeConstants as ROUTE } from 'constants/index';
 import { ServerChanger } from 'app/components/'
 import { HIDE_SERVER } from 'constants/config.js'
 import withLanguageProps from 'HOC/withLanguageProps';

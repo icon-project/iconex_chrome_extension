@@ -106,7 +106,6 @@ export function validateDataError(state) {
 
 export function validateTxFeeLimitError(state) {
   let error = '';
-  const isToken = store.getState().wallet.selectedWallet.isToken;
   if (!state.txFeeLimit) {
     error = `enterGasPrice_${state.calcData.walletCoinType === 'icx' ? 'step' : 'gas'}`;
   } else if (state.calcData.isWalletCoinBalanceMinus) {

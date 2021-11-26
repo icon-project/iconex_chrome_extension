@@ -5,7 +5,7 @@ import { LoadingComponent } from 'app/components'
 import withLanguageProps from 'HOC/withLanguageProps';
 
 @withLanguageProps
-class MyStatusStakeVote extends Component {
+class MyStatusStakeBond extends Component {
 
   constructor(props) {
     super(props)
@@ -94,7 +94,7 @@ class MyStatusStakeVote extends Component {
         <div className="btn-group">
           <button
             disabled={!isLoggedIn}
-            onClick={() => handleClick(compType, error)}
+            onClick={() => { console.log('hi'); handleClick(compType, error)}}
             type="submit"
             className="btn-type-vote"><span>{I18n.button[buttonLabel]}</span></button>
         </div>
@@ -103,4 +103,4 @@ class MyStatusStakeVote extends Component {
   }
 }
 
-export default MyStatusStakeVote
+export default MyStatusStakeBond

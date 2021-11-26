@@ -14,7 +14,7 @@ import {
   icx_getTxFeeInfoApi as ICX_GET_TX_FEE_INFO,
   debug_estimateStepApi as DEBUG_ESTIMATE_STEP_API,
 } from 'redux/api/walletIcxApi';
-import { check0xPrefix, signRawTx, customValueToTokenValue, makeEthRawTx, isEmpty, checkLength, dataToHex, makeIcxRawTx } from 'utils'
+import { check0xPrefix, customValueToTokenValue, makeEthRawTx, isEmpty, dataToHex, makeIcxRawTx } from 'utils'
 import {
   addRecentTransaction
 } from 'redux/actions/walletActions';
@@ -185,7 +185,6 @@ export function* setRecipientAddressFunc(action) {
 
 export function* setDataFunc(action) {
   try {
-    const walletCoinType = yield select(state => state.exchangeTransaction.calcData.walletCoinType);
     const isTokenSelector = yield select(state => state.wallet.selectedWallet.isToken);
     if (!isTokenSelector) {
       yield put({ type: AT.getTxFeeInfo });

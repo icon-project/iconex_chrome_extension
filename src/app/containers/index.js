@@ -23,7 +23,9 @@ import MyStatusIScoreContainer from './VotingPage/MyStatusIScoreContainer'
 import MyStatusStakeContainer from './VotingPage/MyStatusStakeContainer'
 import MyPRepsTableContainer from './VotingPage/MyPRepsTableContainer'
 import MyStatusVoteContainer from './VotingPage/MyStatusVoteContainer'
+import MyStatusBondContainer from './VotingPage/MyStatusBondContainer'
 import VoteContainer from './VotingPage/VoteContainer'
+import BondContainer from './VotingPage/BondContainer'
 import TxFeeTableContainer from './VotingPage/TxFeeTableContainer'
 import IissLedgerIframeContainer from './VotingPage/IissLedgerIframeContainer'
 import ExchangeTransactionPageContainer from './ExchangeTransactionPage/ExchangeTransactionPageContainer'
@@ -77,8 +79,10 @@ export {
   MyStatusIScoreContainer,
   MyStatusStakeContainer,
   MyStatusVoteContainer,
+  MyStatusBondContainer,
   MyPRepsTableContainer,
   VoteContainer,
+  BondContainer,
   TxFeeTableContainer,
   IissLedgerIframeContainer,
   ExchangeTransactionPageContainer,

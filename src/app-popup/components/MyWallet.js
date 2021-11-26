@@ -4,7 +4,6 @@ import WalletBar from './WalletBar'
 import { makeWalletArray, openApp } from 'utils';
 import withLanguageProps from 'HOC/withLanguageProps';
 import Worker from 'workers/wallet.worker.js';
-import { makeTxHash } from 'utils/iconex'
 import { routeConstants as ROUTE } from 'constants/index.js';
 
 const INIT_STATE = {

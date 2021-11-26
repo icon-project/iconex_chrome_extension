@@ -1,6 +1,6 @@
 import { icx_call, icx_sendTransaction } from "./walletIcxApi";
 import { makeIcxRawTx, signRawTx, checkHxPrefix, toLoop } from "utils";
-import { pRepType as P_REP_TYPE, ZERO_ADDRESS } from "constants/index";
+import { ZERO_ADDRESS } from "constants/index";
 import { ICX_CPS_SCORE } from "../../constants/config";
 
 export async function getPRep(account) {

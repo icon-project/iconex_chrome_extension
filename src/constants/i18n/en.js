@@ -43,6 +43,7 @@ export default {
     delete: "Delete",
     stake: "Stake",
     vote: "Vote",
+    bond: "Bond",
     claim: "Claim",
     search: "Search",
     adjust: "Adjust",
@@ -161,7 +162,8 @@ export default {
     bytesConfirm: "Please check “bytes” value again.",
 
     alertNoIScore: "No I-Score. Please check the I-Score remaining amount.",
-    alertNoDelegation: "No Voting Power. Please stake the ICX first.",
+    alertNoDelegation: "No Voting Power. Please stake some ICX first.",
+    alertNoBond: "No Bonding Power. Please stake some ICX first.",
     alertNotEnoughForStake:
       "You must have a minimum amount of ICX balance (1 ICX) to stake or un-stake your ICX.",
     alertLTMin: (min, type) => `The minimum amount of ${type} is ${min}.`,
@@ -735,6 +737,7 @@ export default {
 
   stake: "Stake",
   vote: "Delegate",
+  bond: "Bond",
   iScore: "I-Score",
 
   // 6p Voting P-Rep 페이지
@@ -761,6 +764,7 @@ export default {
   myStatusStake_axis1: "Staked",
   myStatusStake_axis2: "Available",
   myStatusStake_axis3: "Voted",
+  myStatusStake_axis3: "Bonded",
   myStatusStake_li1: "Total ICX",
   myStatusStake_li2: "Available ICX",
   myStatusStake_li3: "Staked ICX",
@@ -770,10 +774,16 @@ export default {
   myStatusVote_li1: "Staked ICX",
   myStatusVote_li2: "Delegated ICX",
   myStatusVote_li3: "Available ICX",
+  myStatusBond_axis1: "Bonded",
+  myStatusBond_axis2: "Non-bonded",
+  myStatusBond_li1: "Staked ICX",
+  myStatusBond_li2: "Bonded ICX",
+  myStatusBond_li3: "Available ICX",
   myStatusIScore_p1: "Current I-Score",
   myStatusIScore_p2: "You can receive",
 
   myVote: "My Votes",
+  myBond: "My Bonds",
   pRepTable_rank: "Rank",
   pRepTable_name: "Name",
   pRepTable_totalVotes: "Total Votes (%)",

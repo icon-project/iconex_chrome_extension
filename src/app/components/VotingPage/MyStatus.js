@@ -4,6 +4,7 @@ import {
   MyStatusIScoreContainer,
   MyStatusStakeContainer,
   MyStatusVoteContainer,
+  MyStatusBondContainer,
   MyPRepsTableContainer,
 } from 'app/containers'
 import { Alert } from 'app/components'
@@ -15,6 +16,7 @@ const ERR_MSG = {
   NO_I_SCORE: 'alertNoIScore',
   NOT_ENOUGH_FOR_STAKE: 'alertNotEnoughForStake',
   NO_DELEGATION: 'alertNoDelegation',
+  NO_BOND: 'alertNoBond',
 }
 
 @withLanguageProps
@@ -66,6 +68,15 @@ export default class MyStatus extends Component {
         }
         openVoteMode()
         break
+      case 'bond':
+        if (error) {
+          this.setState({
+            alert: ERR_MSG.NO_BOND
+          })
+          return
+        }
+        openBondMode()
+        break
       case 'iScore':
         if (error) {
           this.setState({
@@ -98,6 +109,7 @@ export default class MyStatus extends Component {
           <div className="vote-holder">
             <MyStatusStakeContainer handleClick={this.handleClick} />
             <MyStatusVoteContainer handleClick={this.handleClick} />
+            <MyStatusBondContainer handleClick={this.handleClick} />
             <MyStatusIScoreContainer handleClick={this.handleClick} />
           </div>
         </div>

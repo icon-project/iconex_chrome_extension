@@ -160,7 +160,6 @@ function handleCopy(selector, index, copyState, setState) {
           copyIndex: index
         },
         () => {
-          const self = this;
           window.setTimeout(function() {
             setState({
               copyState: COPY_STATE["off"],

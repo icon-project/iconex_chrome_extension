@@ -45,8 +45,12 @@ import MyStatusIScore from "./VotingPage/MyStatusIScore";
 import MyStatusStakeVote from "./VotingPage/MyStatusStakeVote";
 import Vote from "./VotingPage/Vote";
 import VoteAlerts from "./VotingPage/VoteAlerts";
-import TxFeeTable from "./VotingPage/TxFeeTable";
 import MyVotesInput from "./VotingPage/MyVotesInput";
+import MyStatusStakeBond from "./VotingPage/MyStatusStakeBond";
+import Bond from "./VotingPage/Bond";
+import BondAlerts from "./VotingPage/BondAlerts";
+import MyBondsInput from "./VotingPage/MyBondsInput";
+import TxFeeTable from "./VotingPage/TxFeeTable";
 import PRepsBarInputRange from "./VotingPage/PRepsBarInputRange";
 import IissLedgerIframe from "./VotingPage/IissLedgerIframe";
 
@@ -229,6 +233,10 @@ export {
   Vote,
   VoteAlerts,
   MyVotesInput,
+  MyStatusStakeBond,
+  Bond,
+  BondAlerts,
+  MyBondsInput,
   PRepsBarInputRange,
   IissLedgerIframe,
   // popup //

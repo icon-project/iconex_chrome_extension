@@ -4,6 +4,7 @@ import { fromLoop } from 'utils'
 
 export const validateStake = balance => balance.lt(1)
 export const validateVote = value => value.eq(0)
+export const validateBond = value => value.eq(0)
 export const validateClaim = value => value.eq(0)
 
 const initStakeElem = {
@@ -24,6 +25,13 @@ const initDelegatedElem = {
 	totalDelegated: new BigNumber(0),
 	available: new BigNumber(0),
 	delegations: []
+}
+
+const initBondedElem = {
+	loading: false,
+	totalBonded: new BigNumber(0),
+	available: new BigNumber(0),
+	bonds: []
 }
 
 const initTxElem = {
@@ -50,7 +58,7 @@ const initialState = {
 export function iissReducer(state = initialState, action) {
 	switch (action.type) {
 		case actionTypes.getWalletFulfilled: {
-			const staked = {}, iScore = {}, delegated = {};
+			const staked = {}, iScore = {}, delegated = {}, bonded = {};
 			let keys = Object.keys(action.payload)
 				.filter(el => el.startsWith('hx'));
 
@@ -58,9 +66,10 @@ export function iissReducer(state = initialState, action) {
 				staked[key] = initStakeElem
 				iScore[key] = initIScoreElem
 				delegated[key] = initDelegatedElem
+				bonded[key] = initBondedElem
 			}
 			return Object.assign({}, state, {
-				staked, iScore, delegated
+				staked, iScore, delegated, bonded
 			})
 		}
 		case actionTypes.setLogInStateForLedger: {
@@ -68,13 +77,16 @@ export function iissReducer(state = initialState, action) {
 			const staked = { ...state.staked }
 			const iScore = { ...state.iScore }
 			const delegated = { ...state.delegated }
+			const bonded = { ...state.bonded }
 			staked[account] = initStakeElem
 			iScore[account] = initIScoreElem
 			delegated[account] = initDelegatedElem
+			bonded[account] = initBondedElem
 			return Object.assign({}, state, {
 				staked,
 				iScore,
 				delegated,
+				bonded,
 				ledgerAddress: account,
 			})
 		}
@@ -131,6 +143,7 @@ export function iissReducer(state = initialState, action) {
 			})
 		}
 		case actionTypes.setDelegationLoading:
+		case actionTypes.setBondLoading:
 		case actionTypes.claimIScoreLoading:
 		case actionTypes.setStakeLoading: {
 			return Object.assign({}, state, {
@@ -141,6 +154,7 @@ export function iissReducer(state = initialState, action) {
 			})
 		}
 		case actionTypes.setDelegationFulfilled:
+		case actionTypes.setBondFulfilled:
 		case actionTypes.claimIScoreFulfilled:
 		case actionTypes.setStakeFulfilled: {
 			return Object.assign({}, state, {
@@ -152,6 +166,7 @@ export function iissReducer(state = initialState, action) {
 			})
 		}
 		case actionTypes.setDelegationRejected:
+		case actionTypes.setBondRejected:
 		case actionTypes.claimIScoreRejected:
 		case actionTypes.setStakeRejected: {
 			return Object.assign({}, state, {
@@ -216,6 +231,60 @@ export function iissReducer(state = initialState, action) {
 				delegated: _delegated
 			})
 		}
+		case actionTypes.getBondLoading: {
+			const { account } = action
+			const _delegated = Object.assign({}, state.bonded, {
+				[account]: {
+					...state.bonded[account],
+					loading: true
+				}
+			})
+			return Object.assign({}, state, {
+				bonded: _bonded
+			})
+		}
+		case actionTypes.getBondFulfilled: {
+			const {
+				payload: {
+					totalBonded,
+					bonds,
+					votingPower: available,
+				},
+				account
+			} = action
+			const _bonded = Object.assign({}, state.bonded, {
+				[account]: {
+					...state.bonded[account],
+					loading: false,
+					totalBonded: fromLoop(totalBonded),
+					available: fromLoop(available),
+					bonds: bonds.map(({ value, ...rest }) => ({
+						...rest,
+						value: fromLoop(value),
+					})),
+				}
+			})
+			return Object.assign({}, state, {
+				bonded: _bonded
+			})
+		}
+		case actionTypes.getBondRejected: {
+			const {
+				account
+			} = action
+			const _delegated = Object.assign({}, state.bonded, {
+				[account]: {
+					...state.bonded[account],
+					loading: false,
+					totalBonded: new BigNumber(0),
+					available: new BigNumber(0),
+					bonds: [],
+				}
+			})
+			return Object.assign({}, state, {
+				bonded: _bonded
+			})
+		}
 		case actionTypes.queryIScoreLoading: {
 			const { account } = action
 			const _iScore = Object.assign({}, state.iScore, {
@@ -262,14 +331,16 @@ export function iissReducer(state = initialState, action) {
 				const staked = { ...state.staked }
 				const iScore = { ...state.iScore }
 				const delegated = { ...state.delegated }
+				const bonded = { ...state.bonded }
 				delete staked[ledgerAddress]
 				delete iScore[ledgerAddress]
-				delete delegated[ledgerAddress]
+				delete bonded[ledgerAddress]
 				return Object.assign({}, state, {
 					...resettableState,
 					staked,
 					iScore,
 					delegated,
+					bonded,
 				})
 			}
 			return Object.assign({}, state, {

@@ -58,13 +58,13 @@ export default class BondAlerts extends Component {
       I18n,
       txResult,
       maxAvailable,
-      setDelegation,
+      setBond,
       input,
-      myVotesCnt,
+      myBondsCnt,
       txFee,
       txFeeRate,
-      myDelegated,
-      myDelegatedPct,
+      myBonded,
+      myBondedPct,
     } = this.props
 
     const {
@@ -97,14 +97,14 @@ export default class BondAlerts extends Component {
       case ALERT_MSG.SHOW_LEDGER:
         return (
           <IissLedgerIframeContainer
-            methodName={'setDelegation'}
+            methodName={'setBond'}
             input={{
-              delegations: input.map(item => ({
+              bonds: input.map(item => ({
                 ...item,
                 value: window.web3.toHex(toLoop(item.value))
               }))
             }}
-            handleSubmit={setDelegation}
+            handleSubmit={setBond}
             handleCancel={this.closeAlert}
           />
         )
@@ -117,8 +117,8 @@ export default class BondAlerts extends Component {
               <p className="txt_box">{I18n.votePage.confirm_title}</p>
               <div className="fee">
                 {/* <p><span className="label">· 소요 시간</span><span className="txt">즉시취소</span></p> */}
-                <p><span className="label">{I18n.votePage.confirm_li1}</span><span>{myVotesCnt}<em className="slash">/</em>100</span></p>
-                <p><span className="label">{I18n.votePage.confirm_li2}</span><span>{myDelegated} ({myDelegatedPct}%)</span></p>
+                <p><span className="label">{I18n.votePage.confirm_li1}</span><span>{myBondsCnt}<em className="slash">/</em>100</span></p>
+                <p><span className="label">{I18n.votePage.confirm_li2}</span><span>{myBonded} ({myBondedPct}%)</span></p>
                 <div className="dot"></div>
                 {/* <p><span className="label">{I18n.estimatedStepAndPrice}</span><span>{`${txFeeLimit} / ${txFeePrice}`}<em>ICX</em></span></p> */}
                 <p><span className="label">{I18n.transferPageLabel5_2}</span><span>{txFee}<em>ICX</em></span></p>
@@ -126,7 +126,7 @@ export default class BondAlerts extends Component {
               </div>
               <div className="btn-holder full">
                 <button onClick={this.closeAlert} className="btn-type-fill size-half"><span>{I18n.button.cancel}</span></button>
-                <button onClick={setDelegation} className="btn-type-normal size-half"><span>{I18n.button.vote}</span></button>
+                <button onClick={setBond} className="btn-type-normal size-half"><span>{I18n.button.vote}</span></button>
               </div>
             </div>
           </div>

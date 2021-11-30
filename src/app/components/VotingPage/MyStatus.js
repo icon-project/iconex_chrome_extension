@@ -45,7 +45,8 @@ export default class MyStatus extends Component {
   handleClick = (compType, error) => {
     const {
       openPopup,
-      openVoteMode
+      openVoteMode,
+      openBondMode
     } = this.props
     switch (compType) {
       case 'stake':

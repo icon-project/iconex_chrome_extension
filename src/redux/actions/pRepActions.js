@@ -12,6 +12,18 @@ export function resetVoteMode() {
   };
 }
 
+export function openBondMode() {
+  return {
+    type: actionTypes.openBondMode
+  };
+}
+
+export function resetBondMode() {
+  return {
+    type: actionTypes.resetBondMode
+  };
+}
+
 export function getPRepData(options) {
   return {
     type: actionTypes.getPRepData,
@@ -22,6 +34,13 @@ export function getPRepData(options) {
 export function updateMyVotes(payload) {
   return {
     type: actionTypes.updateMyVotes,
+    payload,
+  };
+}
+
+export function updateMyBonds(payload) {
+  return {
+    type: actionTypes.updateMyBonds,
     payload,
   };
 }

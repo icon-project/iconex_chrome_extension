@@ -37,6 +37,7 @@ import WalletMenuBar from "./MyWalletPage/WalletMenuBar";
 import VotingPage from "./VotingPage/VotingPage";
 import PReps from "./VotingPage/PReps";
 import PRepsVotingStatusGraph from "./VotingPage/PRepsVotingStatusGraph";
+import PRepsBondingStatusGraph from "./VotingPage/PRepsBondingStatusGraph";
 import PRepsLeaderboard from "./VotingPage/PRepsLeaderboard";
 import PRepsTable from "./VotingPage/PRepsTable";
 import PRepsBar from "./VotingPage/PRepsBar";
@@ -222,8 +223,10 @@ export {
   UpdateToken,
   // *** VOTING PAGE *** //
   VotingPage,
+  BondingPage,
   PReps,
   PRepsVotingStatusGraph,
+  PRepsBondingStatusGraph,
   PRepsLeaderboard,
   PRepsTable,
   PRepsBar,

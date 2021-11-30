@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { HeaderTitle, LoadingComponent, VoteAlerts } from "app/components/";
+import { HeaderTitle, LoadingComponent, BondAlerts } from "app/components/";
 import {
-  PRepsVotingStatusGraphContainer,
+  PRepsBondingStatusGraphContainer,
   PRepsLeaderboardContainer,
   MyPRepsTableContainer,
 } from "app/containers/";
@@ -42,7 +42,7 @@ class Bond extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { loading, myVotesCnt, getEstimatedTxFee } = this.props;
+    const { loading, myBondsCnt, getEstimatedTxFee } = this.props;
     if (loading !== prevProps.loading && !loading) {
       getEstimatedTxFee();
       this.handleScroll();
@@ -50,8 +50,8 @@ class Bond extends Component {
     }
 
     if (
-      myVotesCnt !== prevProps.myVotesCnt &&
-      myVotesCnt > prevProps.myVotesCnt &&
+      myBondsCnt !== prevProps.myBondsCnt &&
+      myBondsCnt > prevProps.myBondsCnt &&
       !prevProps.loading
     ) {
       this.showToast();
@@ -75,7 +75,7 @@ class Bond extends Component {
   };
 
   goBack = () => {
-    this.props.resetVoteMode();
+    this.props.resetBondMode();
     this.props.fetchMyStatusData();
   };
 
@@ -151,8 +151,8 @@ class Bond extends Component {
       loading,
       walletName,
       selectedAccount,
-      myVotes,
-      myVotesCnt,
+      myBonds,
+      myBondsCnt,
       txFeeLimit,
       txFeePrice,
       txFee,
@@ -180,13 +180,13 @@ class Bond extends Component {
           <div className="name-holder">
             <div className="group">
               <span className="label">
-                My Bonds<em>{`(${myVotesCnt}/100)`}</em>
+                My Bonds<em>{`(${myBondsCnt}/100)`}</em>
               </span>
               <span className="money-group">{`${walletName} - ${selectedAccount}`}</span>
             </div>
           </div>
         </div>
-        <PRepsVotingStatusGraphContainer />
+        <PRepsBondingStatusGraphContainer />
         <div className="wrap-holder myvote choice">
           {/* <span className="reset"><i className="_img"></i> My Votes Reset</span> */}
           <MyPRepsTableContainer showAlert={this.showGTMaxAlert} />
@@ -221,19 +221,19 @@ class Bond extends Component {
                   className="btn-type-vote"
                   onClick={this.handleSubmit}
                 >
-                  <span>{I18n.button.vote}</span>
+                  <span>{I18n.button.bond}</span>
                 </button>
               </li>
             </ul>
           </div>
         </div>
         <PRepsLeaderboardContainer />
-        <Toast I18n={I18n} myVotesCnt={myVotesCnt} showToast={showToast} />
-        <VoteAlerts
+        <Toast I18n={I18n} myBondsCnt={myBondsCnt} showToast={showToast} />
+        <BondAlerts
           ALERT_MSG={ALERT_MSG}
           alert={alert}
           handleCancel={this.resetAlert}
-          input={myVotes}
+          input={myBonds}
           maxAvailable={maxAvailable}
           {...this.props}
         />
@@ -242,7 +242,7 @@ class Bond extends Component {
   }
 }
 
-const Toast = ({ myVotesCnt, showToast, I18n }) => (
+const Toast = ({ myBondsCnt, showToast, I18n }) => (
   <dir
     className={`
     wrap-holder
@@ -252,7 +252,7 @@ const Toast = ({ myVotesCnt, showToast, I18n }) => (
   >
     <p>
       <span>
-        {myVotesCnt}
+        {myBondsCnt}
         <em>
           <i>/</i>100
         </em>

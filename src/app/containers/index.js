@@ -18,6 +18,7 @@ import CoinDetailPageContainer from './CoinDetailPage/CoinDetailPageContainer'
 import VotingPageContainer from './VotingPage/VotingPageContainer'
 import PRepsContainer from './VotingPage/PRepsContainer'
 import PRepsVotingStatusGraphContainer from './VotingPage/PRepsVotingStatusGraphContainer'
+import PRepsBondingStatusGraphContainer from './VotingPage/PRepsBondingStatusGraphContainer'
 import PRepsLeaderboardContainer from './VotingPage/PRepsLeaderboardContainer'
 import MyStatusIScoreContainer from './VotingPage/MyStatusIScoreContainer'
 import MyStatusStakeContainer from './VotingPage/MyStatusStakeContainer'
@@ -73,8 +74,10 @@ export {
   DeleteTokenContainer,
   UpdateTokenContainer,
   VotingPageContainer,
+  BondingPageContainer,
   PRepsContainer,
   PRepsVotingStatusGraphContainer,
+  PRepsBondingStatusGraphContainer,
   PRepsLeaderboardContainer,
   MyStatusIScoreContainer,
   MyStatusStakeContainer,

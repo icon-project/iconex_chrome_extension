@@ -43,6 +43,7 @@ const iissState = {
 	staked: {},
 	iScore: {},
 	delegated: {},
+	bonded: {},
 }
 
 const resettableState = {
@@ -90,6 +91,8 @@ export function iissReducer(state = initialState, action) {
 				ledgerAddress: account,
 			})
 		}
+
+		// STAKE
 		case actionTypes.getStakeLoading: {
 			const { account } = action
 			const _staked = Object.assign({}, state.staked, {
@@ -142,6 +145,8 @@ export function iissReducer(state = initialState, action) {
 				staked: _staked
 			})
 		}
+
+		// LOADING
 		case actionTypes.setDelegationLoading:
 		case actionTypes.setBondLoading:
 		case actionTypes.claimIScoreLoading:
@@ -153,6 +158,8 @@ export function iissReducer(state = initialState, action) {
 				}
 			})
 		}
+
+		// FULFILLED
 		case actionTypes.setDelegationFulfilled:
 		case actionTypes.setBondFulfilled:
 		case actionTypes.claimIScoreFulfilled:
@@ -165,6 +172,8 @@ export function iissReducer(state = initialState, action) {
 				}
 			})
 		}
+
+		// REJECTED
 		case actionTypes.setDelegationRejected:
 		case actionTypes.setBondRejected:
 		case actionTypes.claimIScoreRejected:
@@ -177,6 +186,7 @@ export function iissReducer(state = initialState, action) {
 				}
 			})
 		}
+
 		case actionTypes.getDelegationLoading: {
 			const { account } = action
 			const _delegated = Object.assign({}, state.delegated, {
@@ -233,7 +243,7 @@ export function iissReducer(state = initialState, action) {
 		}
 		case actionTypes.getBondLoading: {
 			const { account } = action
-			const _delegated = Object.assign({}, state.bonded, {
+			const _bonded = Object.assign({}, state.bonded, {
 				[account]: {
 					...state.bonded[account],
 					loading: true

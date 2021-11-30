@@ -94,7 +94,7 @@ class MyStatusStakeBond extends Component {
         <div className="btn-group">
           <button
             disabled={!isLoggedIn}
-            onClick={() => { console.log('hi'); handleClick(compType, error)}}
+            onClick={() => { handleClick(compType, error)}}
             type="submit"
             className="btn-type-vote"><span>{I18n.button[buttonLabel]}</span></button>
         </div>

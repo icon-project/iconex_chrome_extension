@@ -2,51 +2,49 @@ import { connect } from 'react-redux';
 import BigNumber from 'bignumber.js'
 import { Bond } from 'app/components/';
 import {
-  getDelegation,
-  setDelegation,
+  getBond,
+  setBond,
   fetchMyStatusData,
 } from 'redux/actions/iissActions'
 import {
   getPRepData,
-  resetVoteMode,
+  resetBondMode,
 } from 'redux/actions/pRepActions'
 import { updateLedgerWalletBalance } from 'redux/actions/ledgerActions'
 import { getEstimatedTxFee } from 'redux/actions/txFeeActions'
 import { fetchCoinBalance, resetSelectedWallet } from 'redux/actions/walletActions'
 import { store } from 'redux/store/store';
 import { convertStakeValueToText, convertToPercent, convertNumberToText, toLoop } from 'utils'
-import {
-  ZERO_ADDRESS
-} from 'constants/index'
+import { ZERO_ADDRESS } from 'constants/index'
 
 function mapStateToProps(state) {
   const { pRep, iiss, ledger } = state
   const { isLedger, ledgerWallet } = ledger
   let { account } = state.wallet.selectedWallet
   const currentWallet = isLedger ? ledgerWallet : state.wallet.wallets[account] || {}
-  const { myDelegated, myAvailable, pRepsLoading, myVotes, editedMap } = pRep
+  const { myBonded, myAvailable, pRepsLoading, myBonds, editedMap } = pRep
   const { txFeeLoading, txFeeLimit, txFeePrice } = state.txFee
-  const delegated = iiss.delegated[account] || {}
-  const { loading: delegatedLoading } = delegated
+  const bonded = iiss.bonded[account] || {}
+  const { loading: bondedLoading } = bonded
   const txFee = txFeePrice.times(txFeeLimit)
   const usdRate = new BigNumber(state.rate.rate['icx'])
   const isNoBalance = currentWallet.balance.minus(txFee).lt(0)
   const isNoChange = Object.values(editedMap).length === 0
   const { loading: txLoading, result: txResult } = state.iiss.tx
-  const totalStaked = myDelegated.plus(myAvailable)
+  const totalStaked = myBonded.plus(myAvailable)
 
   return {
-    myVotes,
-    myVotesCnt: myVotes.length,
-    myDelegated: convertStakeValueToText(myDelegated),
-    myDelegatedPct: convertToPercent(myDelegated, totalStaked, 1),
+    myBonds,
+    myVotesCnt: myBonds.length,
+    myBonded: convertStakeValueToText(myBonded),
+    myBondedPct: convertToPercent(myBonded, totalStaked, 1),
     txFeeLoading,
     txFeeLimit: convertNumberToText(txFeeLimit, 'icx', true),
     txFeePrice: convertNumberToText(txFeePrice, 'icx', true),
     txFee: convertNumberToText(txFee, 'icx', true),
     txFeeRate: convertNumberToText(txFee.times(usdRate), 'usd', false),
     selectedAccount: account,
-    loading: pRepsLoading || delegatedLoading,
+    loading: pRepsLoading || bondedLoading,
     walletName: isLedger ? currentWallet.path : currentWallet.name,
     isLedger,
     isNoBalance,
@@ -67,26 +65,26 @@ function mapDispatchToProps(dispatch) {
         dispatch(fetchCoinBalance(account, 'icx'))
       }
       dispatch(getPRepData())
-      dispatch(getDelegation(account))
+      dispatch(getBond(account))
     },
     getEstimatedTxFee: () => {
-      let { myVotes } = store.getState().pRep
+      let { myBonds } = store.getState().pRep
       dispatch(
         getEstimatedTxFee({
-          methodName: "setDelegation",
+          methodName: "setBond",
           contractAddress: ZERO_ADDRESS,
           inputObj: {
-            delegations: myVotes.map(myVote => ({
-              ...myVote,
-              value: window.web3.toHex(toLoop(myVote.value))
+            bonds: myBonds.map(myBond => ({
+              ...myBond,
+              value: window.web3.toHex(toLoop(myBond.value))
             }))
           }
         })
       )
     },
     fetchMyStatusData: () => dispatch(fetchMyStatusData()),
-    setDelegation: () => dispatch(setDelegation()),
-    resetVoteMode: () => dispatch(resetVoteMode()),
+    setBond: () => dispatch(setBond()),
+    resetBondMode: () => dispatch(resetBondMode()),
     resetReducer: () => {
       dispatch(resetSelectedWallet())
     }

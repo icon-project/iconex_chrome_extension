@@ -146,7 +146,7 @@ export function iissReducer(state = initialState, action) {
 			})
 		}
 
-		// LOADING
+		// SET LOADING
 		case actionTypes.setDelegationLoading:
 		case actionTypes.setBondLoading:
 		case actionTypes.claimIScoreLoading:
@@ -159,7 +159,7 @@ export function iissReducer(state = initialState, action) {
 			})
 		}
 
-		// FULFILLED
+		// SET FULFILLED
 		case actionTypes.setDelegationFulfilled:
 		case actionTypes.setBondFulfilled:
 		case actionTypes.claimIScoreFulfilled:
@@ -173,7 +173,7 @@ export function iissReducer(state = initialState, action) {
 			})
 		}
 
-		// REJECTED
+		// SET REJECTED
 		case actionTypes.setDelegationRejected:
 		case actionTypes.setBondRejected:
 		case actionTypes.claimIScoreRejected:
@@ -187,6 +187,7 @@ export function iissReducer(state = initialState, action) {
 			})
 		}
 
+		// DELEGATION
 		case actionTypes.getDelegationLoading: {
 			const { account } = action
 			const _delegated = Object.assign({}, state.delegated, {
@@ -241,6 +242,8 @@ export function iissReducer(state = initialState, action) {
 				delegated: _delegated
 			})
 		}
+
+		// BOND
 		case actionTypes.getBondLoading: {
 			const { account } = action
 			const _bonded = Object.assign({}, state.bonded, {
@@ -258,7 +261,7 @@ export function iissReducer(state = initialState, action) {
 				payload: {
 					totalBonded,
 					bonds,
-					votingPower: available,
+					bondingPower: available,
 				},
 				account
 			} = action
@@ -295,6 +298,8 @@ export function iissReducer(state = initialState, action) {
 				bonded: _bonded
 			})
 		}
+
+		// ISCORE
 		case actionTypes.queryIScoreLoading: {
 			const { account } = action
 			const _iScore = Object.assign({}, state.iScore, {
@@ -335,6 +340,7 @@ export function iissReducer(state = initialState, action) {
 				iScore: _iScore
 			})
 		}
+
 		case actionTypes.resetPRepIissReducer: {
 			const { ledgerAddress } = state
 			if (ledgerAddress) {

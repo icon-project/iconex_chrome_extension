@@ -45,6 +45,7 @@ const pRepState = {
   totalNetworkStaked: new BigNumber(0),
   totalSupply: new BigNumber(0),
   isVoteMode: false,
+  isBondMode: false,
 }
 
 const myPRepState = {

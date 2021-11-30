@@ -173,7 +173,7 @@ function* claimIScoreFunc(action) {
 
 function* getDelegationFunc({ account }) {
   try {
-    yield put({ type: AT.getBondLoading, account });
+    yield put({ type: AT.getDelegationLoading, account });
     const { payload, error } = yield call(GET_DELEGATION, { account });
     if (payload) {
       yield put({ type: AT.getDelegationFulfilled, payload, account });

@@ -31,13 +31,13 @@ function mapStateToProps(state) {
   const isNoBalance = currentWallet.balance.minus(txFee).lt(0)
   const isNoChange = Object.values(editedMap).length === 0
   const { loading: txLoading, result: txResult } = state.iiss.tx
-  const totalStaked = myBonded.plus(myAvailable)
+  const totalBonded = myBonded.plus(myAvailable)
 
   return {
     myBonds,
     myVotesCnt: myBonds.length,
     myBonded: convertStakeValueToText(myBonded),
-    myBondedPct: convertToPercent(myBonded, totalStaked, 1),
+    myBondedPct: convertToPercent(myBonded, totalBonded, 1),
     txFeeLoading,
     txFeeLimit: convertNumberToText(txFeeLimit, 'icx', true),
     txFeePrice: convertNumberToText(txFeePrice, 'icx', true),

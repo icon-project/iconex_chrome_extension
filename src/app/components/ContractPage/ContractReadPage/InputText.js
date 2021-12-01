@@ -26,6 +26,12 @@ const InputText = ({ input, value, handleFuncInputChange, setFuncInputError, pla
               value: trimLeftZero(e.target.value)
             })
           }
+          else if (input.type === '[]Address') {
+            handleFuncInputChange({
+              name: input.name,
+              value: JSON.parse(e.target.value)
+            })
+          }
         }
         }
         className={`txt-type-normal ${error ? 'error' : ''}`}

@@ -24,7 +24,7 @@ npm install
 npm run dev
 ```
 
-> ICX Network: Testnet (testwallet.icon.foundation)  
+> ICX Network: Testnet (https://lisbon.net.solidwallet.io)  
 > ETH Network: Ropsten ETH (ropsten.infura.io)
 
 [Load unpacked extensions](https://developer.chrome.com/extensions/getstarted#unpacked) with `./build-test` folder.

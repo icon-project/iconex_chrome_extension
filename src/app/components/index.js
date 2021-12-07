@@ -40,7 +40,9 @@ import PRepsVotingStatusGraph from "./VotingPage/PRepsVotingStatusGraph";
 import PRepsBondingStatusGraph from "./VotingPage/PRepsBondingStatusGraph";
 import PRepsLeaderboard from "./VotingPage/PRepsLeaderboard";
 import PRepsTable from "./VotingPage/PRepsTable";
+import PRepsBondTable from "./VotingPage/PRepsBondTable";
 import PRepsBar from "./VotingPage/PRepsBar";
+import PRepsBondBar from "./VotingPage/PRepsBondBar";
 import MyStatus from "./VotingPage/MyStatus";
 import MyStatusIScore from "./VotingPage/MyStatusIScore";
 import MyStatusStakeVote from "./VotingPage/MyStatusStakeVote";
@@ -229,7 +231,9 @@ export {
   PRepsBondingStatusGraph,
   PRepsLeaderboard,
   PRepsTable,
+  PRepsBondTable,
   PRepsBar,
+  PRepsBondBar,
   MyStatus,
   MyStatusIScore,
   MyStatusStakeVote,

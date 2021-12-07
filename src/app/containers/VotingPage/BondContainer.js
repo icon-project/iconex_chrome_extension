@@ -35,7 +35,7 @@ function mapStateToProps(state) {
 
   return {
     myBonds,
-    myVotesCnt: myBonds.length,
+    myBondsCnt: myBonds.length,
     myBonded: convertStakeValueToText(myBonded),
     myBondedPct: convertToPercent(myBonded, totalBonded, 1),
     txFeeLoading,

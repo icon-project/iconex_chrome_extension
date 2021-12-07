@@ -21,6 +21,8 @@ function funcInputToHexData(input, inputType) {
       acc[cur.name] = window.web3.toHex(input[cur.name])
     } else if (cur.type === 'bool') {
       acc[cur.name] = input[cur.name] ? '0x1' : '0x0'
+    } else if (cur.type === '[]Address' || cur.type === '[]struct') {
+      acc[cur.name] = JSON.parse(input[cur.name])
     } else {
       acc[cur.name] = input[cur.name]
     }

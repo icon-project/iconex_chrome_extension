@@ -23,6 +23,7 @@ import PRepsLeaderboardContainer from './VotingPage/PRepsLeaderboardContainer'
 import MyStatusIScoreContainer from './VotingPage/MyStatusIScoreContainer'
 import MyStatusStakeContainer from './VotingPage/MyStatusStakeContainer'
 import MyPRepsTableContainer from './VotingPage/MyPRepsTableContainer'
+import MyPRepsBondTableContainer from './VotingPage/MyPRepsBondTableContainer'
 import MyStatusVoteContainer from './VotingPage/MyStatusVoteContainer'
 import MyStatusBondContainer from './VotingPage/MyStatusBondContainer'
 import VoteContainer from './VotingPage/VoteContainer'
@@ -84,6 +85,7 @@ export {
   MyStatusVoteContainer,
   MyStatusBondContainer,
   MyPRepsTableContainer,
+  MyPRepsBondTableContainer,
   VoteContainer,
   BondContainer,
   TxFeeTableContainer,

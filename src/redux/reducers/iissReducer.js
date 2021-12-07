@@ -261,16 +261,22 @@ export function iissReducer(state = initialState, action) {
 				payload: {
 					totalBonded,
 					bonds,
-					bondingPower: available,
+					votingPower: available,
 				},
 				account
 			} = action
+
+			var totalBondedManual = fromLoop(0);
+			for (var i = 0; i < bonds.length; ++i) {
+				totalBondedManual = totalBondedManual.plus(fromLoop(bonds[i].value));
+			}			
+
 			const _bonded = Object.assign({}, state.bonded, {
 				[account]: {
 					...state.bonded[account],
 					loading: false,
-					totalBonded: fromLoop(totalBonded),
-					available: fromLoop(available),
+					totalBonded: totalBondedManual,
+					available: new BigNumber(100000),
 					bonds: bonds.map(({ value, ...rest }) => ({
 						...rest,
 						value: fromLoop(value),

@@ -44,9 +44,6 @@ export function validateContractAddressError(state) {
 
 function getInitialInput(type) {
   switch (type) {
-    case 'str':
-    case 'Address':
-      return ''
     case 'int':
       return '0';
     case 'bool':

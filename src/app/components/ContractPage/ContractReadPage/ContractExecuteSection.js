@@ -48,6 +48,7 @@ class ContractExecuteSection extends Component {
       case 'bytes':
       case 'Address':
       case '[]Address':
+      case '[]struct':
       case 'str':
       case 'int':
         return <InputText

@@ -3,7 +3,7 @@ import { HeaderTitle, LoadingComponent, BondAlerts } from "app/components/";
 import {
   PRepsBondingStatusGraphContainer,
   PRepsLeaderboardContainer,
-  MyPRepsTableContainer,
+  MyPRepsBondTableContainer,
 } from "app/containers/";
 import withLanguageProps from "HOC/withLanguageProps";
 
@@ -189,7 +189,7 @@ class Bond extends Component {
         <PRepsBondingStatusGraphContainer />
         <div className="wrap-holder myvote choice">
           {/* <span className="reset"><i className="_img"></i> My Votes Reset</span> */}
-          <MyPRepsTableContainer showAlert={this.showGTMaxAlert} />
+          <MyPRepsBondTableContainer showAlert={this.showGTMaxAlert} />
         </div>
 
         <div className="vote-hoder">
@@ -227,6 +227,7 @@ class Bond extends Component {
             </ul>
           </div>
         </div>
+
         <PRepsLeaderboardContainer />
         <Toast I18n={I18n} myBondsCnt={myBondsCnt} showToast={showToast} />
         <BondAlerts

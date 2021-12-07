@@ -8,7 +8,7 @@ class PRepsBondingStatusGraph extends Component {
   render() {
     const {
       I18n,
-      myDelegated,
+      myBonded,
       myBondedPct,
       myAvailable,
       myAvailablePct,
@@ -29,7 +29,7 @@ class PRepsBondingStatusGraph extends Component {
     const BottomLabel =
       (
         <ul>
-          <li><span>{convertStakeValueToText(myDelegated)}</span><em>ICX</em></li>
+          <li><span>{convertStakeValueToText(myBonded)}</span><em>ICX</em></li>
           <li><span>{convertStakeValueToText(myAvailable)}</span><em>ICX</em></li>
         </ul>
       )
@@ -56,52 +56,3 @@ class PRepsBondingStatusGraph extends Component {
 }
 
 export default PRepsBondingStatusGraph
-
-
-
-// <div class="wrap-holder voted notavail">
-// 				<div>
-// 					<p><i class="tri"></i> Total Voted Power (ICX)<span><em>300,000.0009</em>(1%)</span></p>
-// 					<p>Total ICX Circulation : <em>123,000,000.0006</em> ICX</p>
-// 				</div>
-// 				<div class="bar-group">
-// 					<span class="mint" style="width: 10%;"><i></i></span>
-// 					<span class="gray" style="width: 0%;"><i></i></span>
-// 					<span class="dot" style="width: 90%;"><i></i></span>
-// 				</div>
-// 				<div style="margin-left: 0%;">
-// 					<p><i class="tri up"></i> Total Available Power (ICX)<span><em>300,000.0009</em>(0%)</span></p>
-// 				</div>
-// 			</div>
-
-
-// <div class="wrap-holder voted notvoted">
-// 				<div>
-// 					<p><i class="tri"></i> Total Voted Power (ICX)<span><em>300,000.0009</em>(1%)</span></p>
-// 					<p>Total ICX Circulation : <em>123,000,000.0006</em> ICX</p>
-// 				</div>
-// 				<div class="bar-group">
-// 					<span class="mint" style="width: 0%;"><i></i></span>
-// 					<span class="gray" style="width: 10%;"><i></i></span>
-// 					<span class="dot" style="width: 90%;"><i></i></span>
-// 				</div>
-// 				<div style="margin-left: 0%;">
-// 					<p><i class="tri up"></i> Total Available Power (ICX)<span><em>300,000.0009</em>(0%)</span></p>
-// 				</div>
-// 			</div>
-
-
-// <div class="wrap-holder voted">
-// 				<div>
-// 					<p><i class="tri"></i> Total Voted Power (ICX)<span><em>300,000.0009</em>(31.98%)</span></p>
-// 					<p>Total ICX Circulation : <em>123,000,000.0006</em> ICX</p>
-// 				</div>
-// 				<div class="bar-group">
-// 					<span class="mint" style="width: 20%;"><i></i></span>
-// 					<span class="gray" style="width: 30%;"><i></i></span>
-// 					<span class="dot" style="width: 50%;"><i></i></span>
-// 				</div>
-// 				<div style="margin-left: 20%;">
-// 					<p><i class="tri up"></i> Total Available Power (ICX)<span><em>300,000.0009</em>(31.98%)</span></p>
-// 				</div>
-// 			</div>

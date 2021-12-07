@@ -14,8 +14,8 @@ export default class MyBondsInput extends React.Component {
       handleChangeInput,
     } = this.props
     const {
-      newDelegation,
-      newDelegationPct,
+      newBond,
+      newBondPct,
     } = data
     let inputRef;
 
@@ -34,7 +34,7 @@ export default class MyBondsInput extends React.Component {
         />
         {!isInputMode && (
           <span onClick={() => inputRef.focus()} className="p-txt">
-            {`${convertStakeValueToText(newDelegation)} (${newDelegationPct}%)`}
+            {`${convertStakeValueToText(newBond)} (${newBondPct}%)`}
           </span>
         )}
       </td>

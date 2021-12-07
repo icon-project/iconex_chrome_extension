@@ -255,9 +255,15 @@ export function pRepReducer(state = initialState, action) {
         payload: {
           bonds: myBonds,
           totalBonded: myBonded,
-          bondingPower: myAvailable,
+          votingPower: myAvailable,
         },
       } = action
+
+			var totalBondedManual = fromLoop(0);
+			for (var i = 0; i < myBonds.length; ++i) {
+				totalBondedManual = totalBondedManual.plus(fromLoop(myBonds[i].value));
+			}			
+
       const myBondsMap = {}
       const bondedMap = {}
       for (const { address, value } of myBonds) {
@@ -273,8 +279,8 @@ export function pRepReducer(state = initialState, action) {
           .sort(({ value: a }, { value: b }) => b - a),
         bondedMap,
         myBondsMap,
-        myBonded: fromLoop(myBonded),
-        myAvailable: fromLoop(myAvailable),
+        myBonded: totalBondedManual,
+        myAvailable: new BigNumber(100000),//fromLoop(myAvailable),
       })
     }
     case actionTypes.updateMyBonds: {

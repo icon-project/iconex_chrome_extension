@@ -4,25 +4,21 @@ import { convertToPercent } from 'utils'
 import { deletePRep, updateMyVotes } from 'redux/actions/pRepActions'
 
 function mapStateToProps(state) {
-  const { isVoteMode, isBondMode } = state.pRep
+  const { isVoteMode } = state.pRep
   const { account, isLoggedIn } = state.wallet.selectedWallet
   const delegated = state.iiss.delegated[account] || {}
   const {
     pRepsMap,
     pRepsLoading,
     myVotes,
-    myBonds,
     votedMap,
     editedMap,
     myVotesMap,
-    myBondsMap,
     myDelegated,
-    myBonded,
     myAvailable,
   } = state.pRep
   const {
     delegations,
-    bonds,
     loading: delegatedLoading,
     totalDelegated,
     available,
@@ -51,19 +47,6 @@ function mapStateToProps(state) {
           newDelegation: value,
           newDelegationPct: convertToPercent(value, totalStaked, 1),
           isVoted: !!votedMap[address],
-          isEdited: !!editedMap[address],
-          ...pRepData,
-        }
-      })
-    } else if (isBondMode) {
-      return myBonds.map(({ value, address }) => {
-        let pRepData = getPRepData(address)
-        return {
-          myBond: myBondsMap[address],
-          myBondPct: convertToPercent(value, totalBonded, 1),
-          newBond: value,
-          newBondPct: convertToPercent(value, totalStaked, 1),
-          isBonded: !!bondedMap[address],
           isEdited: !!editedMap[address],
           ...pRepData,
         }

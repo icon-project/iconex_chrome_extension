@@ -52,9 +52,23 @@ export function addPRep(payload) {
   };
 }
 
+export function addPRepBond(payload) {
+  return {
+    type: actionTypes.addPRepBond,
+    payload,
+  };
+}
+
 export function deletePRep(payload) {
   return {
     type: actionTypes.deletePRep,
+    payload,
+  };
+}
+
+export function deletePRepBond(payload) {
+  return {
+    type: actionTypes.deletePRepBond,
     payload,
   };
 }

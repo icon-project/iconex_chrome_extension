@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { HeaderTitle, LoadingComponent, BondAlerts } from "app/components/";
 import {
   PRepsBondingStatusGraphContainer,
-  PRepsLeaderboardContainer,
+  PRepsBondLeaderboardContainer,
   MyPRepsBondTableContainer,
 } from "app/containers/";
 import withLanguageProps from "HOC/withLanguageProps";
@@ -228,7 +228,7 @@ class Bond extends Component {
           </div>
         </div>
 
-        <PRepsLeaderboardContainer />
+        <PRepsBondLeaderboardContainer />
         <Toast I18n={I18n} myBondsCnt={myBondsCnt} showToast={showToast} />
         <BondAlerts
           ALERT_MSG={ALERT_MSG}

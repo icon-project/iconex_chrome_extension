@@ -205,7 +205,9 @@ const actionTypes = {
   updateMyVotes: 'UPDATE_MY_VOTES',
   updateMyBonds: 'UPDATE_MY_BONDS',
   addPRep: 'ADD_P_REP',
+  addPRepBond: 'ADD_P_REP_BOND',
   deletePRep: 'DELETE_P_REP',
+  deletePRepBond: 'DELETE_P_REP_BOND',
 
   //iissActions
   fetchMyStatusData: 'FETCH_MY_STATUS_DATA',

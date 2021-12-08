@@ -20,6 +20,7 @@ import PRepsContainer from './VotingPage/PRepsContainer'
 import PRepsVotingStatusGraphContainer from './VotingPage/PRepsVotingStatusGraphContainer'
 import PRepsBondingStatusGraphContainer from './VotingPage/PRepsBondingStatusGraphContainer'
 import PRepsLeaderboardContainer from './VotingPage/PRepsLeaderboardContainer'
+import PRepsBondLeaderboardContainer from './VotingPage/PRepsBondLeaderboardContainer'
 import MyStatusIScoreContainer from './VotingPage/MyStatusIScoreContainer'
 import MyStatusStakeContainer from './VotingPage/MyStatusStakeContainer'
 import MyPRepsTableContainer from './VotingPage/MyPRepsTableContainer'
@@ -80,6 +81,7 @@ export {
   PRepsVotingStatusGraphContainer,
   PRepsBondingStatusGraphContainer,
   PRepsLeaderboardContainer,
+  PRepsBondLeaderboardContainer,
   MyStatusIScoreContainer,
   MyStatusStakeContainer,
   MyStatusVoteContainer,

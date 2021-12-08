@@ -408,7 +408,7 @@ function* watchDeletePRep() {
 }
 
 function* watchDeletePRepBond() {
-  yield takeLatest(AT.deletePRep, deletePRepBondFunc);
+  yield takeLatest(AT.deletePRepBond, deletePRepBondFunc);
 }
 
 function* watchSetDelegation() {

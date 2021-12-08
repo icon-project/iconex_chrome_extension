@@ -6,7 +6,7 @@ import {
   isValidICXInput,
   map,
 } from "utils";
-import { MyBondsInput, PRepsBarInputRange } from "app/components";
+import { MyBondsInput, PRepsBondBarInputRange } from "app/components";
 import { pRepType as P_REP_TYPE } from "constants/index";
 import { trackerAccountUrl as TRACKER_ACCOUNT_URL } from "constants/config.js";
 
@@ -58,7 +58,7 @@ class PRepsBondBar extends React.Component {
   };
 
   handleBlurInput = (e) => {
-    const { data, updateMyBond, maxAvailable, showAlert } = this.props;
+    const { data, updateMyBonds, maxAvailable, showAlert } = this.props;
     const { myBond, address } = data;
     const { inputValue } = this.state;
 
@@ -73,7 +73,7 @@ class PRepsBondBar extends React.Component {
       return;
     }
 
-    updateMyBond({
+    updateMyBonds({
       address,
       value: _value,
       isEdited: !myBond.eq(_value),
@@ -91,7 +91,7 @@ class PRepsBondBar extends React.Component {
   };
 
   handleChangeRange = (_rangeBondedPct) => {
-    const { data, maxAvailable, updateMyBond } = this.props;
+    const { data, maxAvailable, updateMyBonds } = this.props;
     const { myBond, address } = data;
 
     _rangeBondedPct = new BigNumber(_rangeBondedPct);
@@ -111,7 +111,7 @@ class PRepsBondBar extends React.Component {
         rangeBondedPct: _rangeBondedPct,
       },
       () => {
-        updateMyBond({
+        updateMyBonds({
           address,
           value: _newBond,
           isEdited: !myBond.eq(_newBond),
@@ -144,8 +144,8 @@ class PRepsBondBar extends React.Component {
       showRankAndTotalBonds,
       maxAvailablePct,
       selectPRepIndex,
-      addPRep,
-      deletePRep,
+      addPRepBond,
+      deletePRepBond,
     } = this.props;
 
     const {
@@ -195,8 +195,8 @@ class PRepsBondBar extends React.Component {
               isInMyVotes={isInMyVotes}
               myBondsCnt={myBondsCnt}
               isBonded={isBonded}
-              addPRep={addPRep}
-              deletePRep={deletePRep}
+              addPRepBond={addPRepBond}
+              deletePRepBond={deletePRepBond}
             />
           )}
           {showRankAndTotalBonds ? (
@@ -206,7 +206,7 @@ class PRepsBondBar extends React.Component {
           )}
           {isSelected && (
             <div className="controller-group">
-              <PRepsBarInputRange
+              <PRepsBondBarInputRange
                 isInputMode={isInputMode}
                 rangeBondedPct={rangeBondedPct.toNumber()}
                 handleChangeRange={this.handleChangeRange}
@@ -278,8 +278,8 @@ const AddDeleteButton = ({
   myBondsCnt,
   isInMyVotes,
   isMyVotesFull = false,
-  addPRep,
-  deletePRep,
+  addPRepBond,
+  deletePRepBond,
 }) => {
   const getData = () => {
     const result = {
@@ -312,9 +312,9 @@ const AddDeleteButton = ({
     e.stopPropagation();
     if (isDisable) return;
     if (isPlus) {
-      return addPRep(address);
+      return addPRepBond(address);
     } else {
-      return deletePRep(address);
+      return deletePRepBond(address);
     }
   };
   return (

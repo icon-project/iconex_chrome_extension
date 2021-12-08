@@ -24,13 +24,13 @@ class PRepsBondTable extends Component {
   };
 
   componentWillMount() {
-    if (this.getIsMyPRepsTableInVoteMode()) {
+    if (this.getIsMyPRepsTableInBondMode()) {
       document.addEventListener("click", this.detectClickOut, false);
     }
   }
 
   componentWillUnmount() {
-    if (this.getIsMyPRepsTableInVoteMode()) {
+    if (this.getIsMyPRepsTableInBondMode()) {
       document.removeEventListener("click", this.detectClickOut, false);
     }
   }
@@ -48,7 +48,7 @@ class PRepsBondTable extends Component {
     const { sortType } = this.state;
 
     if (
-      this.getIsMyPRepsTableInVoteMode() &&
+      this.getIsMyPRepsTableInBondMode() &&
       myBondsCnt !== prevProps.myBondsCnt &&
       !prevProps.loading
     ) {
@@ -59,7 +59,7 @@ class PRepsBondTable extends Component {
     }
   }
 
-  getIsMyPRepsTableInVoteMode = () => {
+  getIsMyPRepsTableInBondMode = () => {
     const { isBondMode, isLeaderboard } = this.props;
     return isBondMode && !isLeaderboard;
   };
@@ -68,7 +68,7 @@ class PRepsBondTable extends Component {
     let { isAsc, sortType } = this.state;
     const { isLeaderboard } = this.props;
 
-    if (this.getIsMyPRepsTableInVoteMode()) {
+    if (this.getIsMyPRepsTableInBondMode()) {
       return;
     }
 
@@ -87,7 +87,7 @@ class PRepsBondTable extends Component {
     switch (sortType) {
       case SORT_TYPE.MY_BOND:
         return data.sort(
-          ({ myDelegation: a, rank: c }, { myDelegation: b, rank: d }) =>
+          ({ myBond: a, rank: c }, { myBond: b, rank: d }) =>
             (isAsc ? a - b : b - a) || c - d
         );
       case SORT_TYPE.RANK:
@@ -101,9 +101,9 @@ class PRepsBondTable extends Component {
     const { selectedPRepIndex } = this.state;
     const { myAvailable, totalStaked, data } = this.props;
     if (selectedPRepIndex === index) return;
-    if (this.getIsMyPRepsTableInVoteMode()) {
-      const _newDelegation = data[index - 1].newDelegation;
-      const maxAvailable = myAvailable.plus(_newDelegation);
+    if (this.getIsMyPRepsTableInBondMode()) {
+      const _newBond = data[index - 1].newBond;
+      const maxAvailable = myAvailable.plus(_newBond);
       this.setState({
         maxAvailable,
         maxAvailablePct: convertToPercent(maxAvailable, totalStaked, 1),
@@ -119,8 +119,8 @@ class PRepsBondTable extends Component {
       myBondsCnt,
       isLeaderboard,
       isBondMode,
-      addPRep,
-      deletePRep,
+      addPRepBond,
+      deletePRepBond,
       updateMyBonds,
       loading = false,
       showAlert,
@@ -146,7 +146,7 @@ class PRepsBondTable extends Component {
     }
 
     const sortedData = this.sortPReps();
-    const isMyPRepsTableInVoteMode = this.getIsMyPRepsTableInVoteMode();
+    const isMyPRepsTableInBondMode = this.getIsMyPRepsTableInBondMode();
 
     return (
       <table className={`table-typeG ${showRankAndTotalBonds ? "" : "hide"}`}>
@@ -208,10 +208,10 @@ class PRepsBondTable extends Component {
               isLeaderboard={isLeaderboard}
               isBondMode={isBondMode}
               isSelected={
-                isMyPRepsTableInVoteMode && selectedPRepIndex === i + 1
+                isMyPRepsTableInBondMode && selectedPRepIndex === i + 1
               }
               isNotSelected={
-                isMyPRepsTableInVoteMode &&
+                isMyPRepsTableInBondMode &&
                 selectedPRepIndex !== 0 &&
                 selectedPRepIndex !== i + 1
               }
@@ -220,8 +220,8 @@ class PRepsBondTable extends Component {
               showRankAndTotalBonds={showRankAndTotalBonds}
               showCPSData={showCPSData}
               selectPRepIndex={this.selectPRepIndex}
-              addPRep={addPRep}
-              deletePRep={deletePRep}
+              addPRepBond={addPRepBond}
+              deletePRepBond={deletePRepBond}
               updateMyBonds={updateMyBonds}
               showAlert={showAlert}
             />

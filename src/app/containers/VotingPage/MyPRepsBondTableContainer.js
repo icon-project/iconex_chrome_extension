@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { PRepsBondTable } from 'app/components/';
 import { convertToPercent } from 'utils'
-import { deletePRep, updateMyBonds } from 'redux/actions/pRepActions'
+import { deletePRepBond, updateMyBonds } from 'redux/actions/pRepActions'
 import { fromLoop } from 'utils'
 
 function mapStateToProps(state) {
@@ -89,7 +89,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    deletePRep: (address) => dispatch(deletePRep(address)),
+    deletePRepBond: (address) => dispatch(deletePRepBond(address)),
     updateMyBonds: payload => dispatch(updateMyBonds(payload)),
   };
 }

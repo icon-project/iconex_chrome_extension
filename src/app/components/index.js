@@ -39,6 +39,7 @@ import PReps from "./VotingPage/PReps";
 import PRepsVotingStatusGraph from "./VotingPage/PRepsVotingStatusGraph";
 import PRepsBondingStatusGraph from "./VotingPage/PRepsBondingStatusGraph";
 import PRepsLeaderboard from "./VotingPage/PRepsLeaderboard";
+import PRepsBondLeaderboard from "./VotingPage/PRepsBondLeaderboard";
 import PRepsTable from "./VotingPage/PRepsTable";
 import PRepsBondTable from "./VotingPage/PRepsBondTable";
 import PRepsBar from "./VotingPage/PRepsBar";
@@ -55,6 +56,7 @@ import BondAlerts from "./VotingPage/BondAlerts";
 import MyBondsInput from "./VotingPage/MyBondsInput";
 import TxFeeTable from "./VotingPage/TxFeeTable";
 import PRepsBarInputRange from "./VotingPage/PRepsBarInputRange";
+import PRepsBondBarInputRange from "./VotingPage/PRepsBondBarInputRange";
 import IissLedgerIframe from "./VotingPage/IissLedgerIframe";
 
 import Popup from "./Popup/Popup";
@@ -230,6 +232,7 @@ export {
   PRepsVotingStatusGraph,
   PRepsBondingStatusGraph,
   PRepsLeaderboard,
+  PRepsBondLeaderboard,
   PRepsTable,
   PRepsBondTable,
   PRepsBar,
@@ -245,6 +248,7 @@ export {
   BondAlerts,
   MyBondsInput,
   PRepsBarInputRange,
+  PRepsBondBarInputRange,
   IissLedgerIframe,
   // popup //
   ClaimIScore,

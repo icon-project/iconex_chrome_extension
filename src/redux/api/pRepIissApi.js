@@ -139,7 +139,7 @@ export async function setBond({ input, privKey, ...txObj }) {
     contractAddress: ZERO_ADDRESS,
     methodName: "setBond",
     inputObj: {
-      delegations: input.map((item) => ({
+      bonds: input.map((item) => ({
         ...item,
         value: window.web3.toHex(toLoop(item.value)),
       })),

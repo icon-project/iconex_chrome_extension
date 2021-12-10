@@ -26,7 +26,7 @@ export const getCustomIcxServer = () => {
 };
 
 export const INITIAL_API_VERSION_ICX = "v3";
-export const INITIAL_SERVER_ICX = prodDev("mainnet", "euljiro");
+export const INITIAL_SERVER_ICX = prodDev("mainnet", "lisbon");
 export const INITIAL_SERVER_ETH = prodDev("main", "ropsten");
 
 export const HIDE_SERVER = isDevModeOn() ? false : true;
@@ -51,9 +51,8 @@ export const ICX_WALLET_SERVER = () => {
   const icxServer = getCurrentServer("icx");
   const obj = {
     mainnet: "https://wallet.icon.foundation",
-    euljiro: "https://testwallet.icon.foundation",
-    yeouido: "https://bicon.net.solidwallet.io",
-    pagoda: "https://zicon.net.solidwallet.io",
+    lisbon: "https://lisbon.net.solidwallet.io",
+    berlin: "https://berlin.net.solidwallet.io",
     sejong: "https://sejong.net.solidwallet.io",
     custom: getCustomIcxServer().customWalletURL,
   };
@@ -64,9 +63,8 @@ export const ICX_TRACKER_SERVER = () => {
   const icxServer = getCurrentServer("icx");
   const obj = {
     mainnet: "https://tracker.icon.foundation",
-    euljiro: "https://trackerdev.icon.foundation",
-    yeouido: "https://bicon.tracker.solidwallet.io",
-    pagoda: "https://zicon.tracker.solidwallet.io",
+    lisbon: "https://lisbon.tracker.solidwallet.io",
+    berlin: "https://berlin.tracker.solidwallet.io",
     sejong: "https://sejong.tracker.solidwallet.io",
     custom: getCustomIcxServer().customTrackerURL,
   };
@@ -77,9 +75,8 @@ export const ICX_CPS_SCORE = () => {
   const icxServer = getCurrentServer("icx");
   const obj = {
     mainnet: "cx9f4ab72f854d3ccdc59aa6f2c3e2215dd62e879f",
-    euljiro: "",
-    yeouido: "cx39a17d13e01538756e9649f80f0b6604a9e7bd39",
-    pagoda: "",
+    lisbon: "",
+    berlin: "",
     sejong: "",
     custom: "",
   };
@@ -90,9 +87,8 @@ export const ICX_NID = () => {
   const icxServer = getCurrentServer("icx");
   const obj = {
     mainnet: "0x1",
-    euljiro: "0x2",
-    yeouido: "0x3",
-    pagoda: "0x50",
+    lisbon: "0x2",
+    berlin: "0x7",
     sejong: "0x53",
     custom: getCustomIcxServer().customNid,
   };
@@ -158,9 +154,8 @@ export const trackerAccountUrl = {
 // list constants
 export const icxServerList = {
   mainnet: "mainnet",
-  euljiro: "euljiro",
-  yeouido: "yeouido",
-  pagoda: "pagoda",
+  lisbon: "lisbon",
+  berlin: "berlin",
   sejong: "sejong",
   custom: "custom",
 };

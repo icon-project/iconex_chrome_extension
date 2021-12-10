@@ -51,6 +51,8 @@ export const ICX_WALLET_SERVER = () => {
   const icxServer = getCurrentServer("icx");
   const obj = {
     mainnet: "https://wallet.icon.foundation",
+    lisbon: "https://lisbon.net.solidwallet.io",
+    berlin: "https://berlin.net.solidwallet.io",
     sejong: "https://sejong.net.solidwallet.io",
     custom: getCustomIcxServer().customWalletURL,
   };
@@ -61,6 +63,8 @@ export const ICX_TRACKER_SERVER = () => {
   const icxServer = getCurrentServer("icx");
   const obj = {
     mainnet: "https://tracker.icon.foundation",
+    lisbon: "https://lisbon.tracker.solidwallet.io",
+    berlin: "https://berlin.tracker.solidwallet.io",
     sejong: "https://sejong.tracker.solidwallet.io",
     custom: getCustomIcxServer().customTrackerURL,
   };
@@ -71,6 +75,8 @@ export const ICX_CPS_SCORE = () => {
   const icxServer = getCurrentServer("icx");
   const obj = {
     mainnet: "cx9f4ab72f854d3ccdc59aa6f2c3e2215dd62e879f",
+    lisbon: "",
+    berlin: "",
     sejong: "",
     custom: "",
   };
@@ -81,6 +87,8 @@ export const ICX_NID = () => {
   const icxServer = getCurrentServer("icx");
   const obj = {
     mainnet: "0x1",
+    lisbon: "0x2",
+    berlin: "0x7",
     sejong: "0x53",
     custom: getCustomIcxServer().customNid,
   };
@@ -146,9 +154,8 @@ export const trackerAccountUrl = {
 // list constants
 export const icxServerList = {
   mainnet: "mainnet",
-  euljiro: "euljiro",
-  yeouido: "yeouido",
-  pagoda: "pagoda",
+  lisbon: "lisbon",
+  berlin: "berlin",
   sejong: "sejong",
   custom: "custom",
 };

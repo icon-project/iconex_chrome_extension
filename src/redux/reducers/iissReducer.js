@@ -221,6 +221,8 @@ export function iissReducer(state = initialState, action) {
 					})),
 				}
 			})
+			// TODO fixme #yolo
+			window.delegatedAvailable = fromLoop(available)
 			return Object.assign({}, state, {
 				delegated: _delegated
 			})
@@ -276,7 +278,7 @@ export function iissReducer(state = initialState, action) {
 					...state.bonded[account],
 					loading: false,
 					totalBonded: totalBondedManual,
-					available: new BigNumber(100000),
+					available: state.delegated[account].available,
 					bonds: bonds.map(({ value, ...rest }) => ({
 						...rest,
 						value: fromLoop(value),

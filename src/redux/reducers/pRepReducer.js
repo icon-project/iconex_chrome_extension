@@ -280,7 +280,7 @@ export function pRepReducer(state = initialState, action) {
         bondedMap,
         myBondsMap,
         myBonded: totalBondedManual,
-        myAvailable: new BigNumber(100000),//fromLoop(myAvailable),
+        myAvailable: window.delegatedAvailable
       })
     }
     case actionTypes.updateMyBonds: {

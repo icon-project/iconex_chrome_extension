@@ -26,7 +26,7 @@ export const getCustomIcxServer = () => {
 };
 
 export const INITIAL_API_VERSION_ICX = "v3";
-export const INITIAL_SERVER_ICX = prodDev("mainnet", "sejong");
+export const INITIAL_SERVER_ICX = prodDev("mainnet", "lisbon");
 export const INITIAL_SERVER_ETH = prodDev("main", "ropsten");
 
 export const HIDE_SERVER = isDevModeOn() ? false : true;

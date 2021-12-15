@@ -10,10 +10,8 @@ function mapStateToProps(state) {
   const { value, loading: stakedLoading } = staked
   const delegated = state.iiss.delegated[selectedAccount] || {}
   const bonded = state.iiss.bonded[selectedAccount] || {}
-  const { totalDelegated, loading: delegatedLoading } = delegated
   const { totalBonded, loadingBond: bondedLoading } = bonded
-  const available = value &&
-    value.minus(totalDelegated).minus(totalBonded)
+  const available = delegated.available
   const bondedPct = convertToPercent(totalBonded, value, 1)
   const bondedWidthPct = convertToPercent(totalBonded, value)
   const availablePct = (100 - bondedPct).toFixed(1)

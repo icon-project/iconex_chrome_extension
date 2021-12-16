@@ -1,6 +1,6 @@
 {
   "name": "ICONex",
-  "version": "0.4.17",
+  "version": "0.4.18",
   "private": true,
   "dependencies": {
     "@ledgerhq/hw-transport-u2f": "^5.36.0-deprecated",

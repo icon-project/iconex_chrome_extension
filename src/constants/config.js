@@ -6,7 +6,8 @@ const isDevModeOn = () => {
   if (isAccessedFromWorker) {
     return false;
   } else {
-    return localStorage.getItem("isDev") || false;
+    return true; // Always show
+    // return localStorage.getItem("isDev") || false;
   }
 };
 

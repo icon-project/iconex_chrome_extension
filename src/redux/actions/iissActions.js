@@ -35,6 +35,19 @@ export function setDelegation() {
   };
 }
 
+export function getBond(account) {
+  return {
+    type: actionTypes.getBond,
+    account
+  };
+}
+
+export function setBond() {
+  return {
+    type: actionTypes.setBond,
+  };
+}
+
 export function queryIScore(account) {
   return {
     type: actionTypes.queryIScore,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { convertToPercent, convertStakeValueToText, convertIScoreToText } from 'utils'
-import { validateStake, validateVote, validateClaim } from 'redux/reducers/iissReducer';
+import { validateStake, validateVote, validateBond, validateClaim } from 'redux/reducers/iissReducer';
 
 @withLanguageProps
 class WalletStakingBar extends Component {
@@ -27,6 +27,12 @@ class WalletStakingBar extends Component {
       case 'vote':
         if (validateVote(staked.value)) {
           showAlert('alertNoDelegation', 'icx')
+          return
+        }
+        break
+      case 'bond':
+        if (validateBond(staked.value)) {
+          showAlert('alertNoBond', 'icx')
           return
         }
         break
@@ -69,6 +75,11 @@ class WalletStakingBar extends Component {
             onClick={() => this.handleClick('vote')}
             className="btn-type-exchange" >
             <span>Vote</span>
+          </button>
+          <button
+            onClick={() => this.handleClick('bond')}
+            className="btn-type-exchange" >
+            <span>Bond</span>
           </button>
           <button
             onClick={() => this.handleClick('claimIScore')}

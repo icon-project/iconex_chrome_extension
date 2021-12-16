@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { VotingPage } from 'app/components/';
-import { openVoteMode, openBondMode } from 'redux/actions/pRepActions'
+import { BondingPage } from 'app/components/';
+import { openBondMode } from 'redux/actions/pRepActions'
 import { openPopup } from 'redux/actions/popupActions'
 import {
   fetchMyStatusData,
@@ -11,7 +11,6 @@ import { fetchAll, resetSelectedWallet } from 'redux/actions/walletActions'
 function mapStateToProps(state) {
   return {
     selectedAccount: state.wallet.selectedWallet.account,
-    isVoteMode: state.pRep.isVoteMode,
     isBondMode: state.pRep.isBondMode,
     isLoggedIn: state.wallet.selectedWallet.isLoggedIn,
     isLedger: state.ledger.isLedger,
@@ -21,7 +20,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     openPopup: (payload) => dispatch(openPopup(payload)),
-    openVoteMode: () => dispatch(openVoteMode()),
     openBondMode: () => dispatch(openBondMode()),
     fetchAll: (payload) => dispatch(fetchAll(payload)),
     fetchMyStatusData: () => dispatch(fetchMyStatusData()),
@@ -33,6 +31,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const VotingPageContainer = connect(mapStateToProps, mapDispatchToProps)(VotingPage);
+const BondingPageContainer = connect(mapStateToProps, mapDispatchToProps)(BondingPage);
 
-export default VotingPageContainer;
+export default BondingPageContainer;

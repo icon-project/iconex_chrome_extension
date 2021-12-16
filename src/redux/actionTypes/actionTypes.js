@@ -196,13 +196,18 @@ const actionTypes = {
   //pRepActions
   openVoteMode: 'OPEN_VOTE_MODE',
   resetVoteMode: 'RESET_VOTE_MODE',
+  openBondMode: 'OPEN_BOND_MODE',
+  resetBondMode: 'RESET_BOND_MODE',
   getPRepData: 'GET_P_REP_DATA',
   getPRepDataLoading: 'GET_P_REP_DATA_LOADING',
   getPRepDataFulfilled: 'GET_P_REP_DATA_FULFILLED',
   getPRepDataRejected: 'GET_P_REP_DATA_REJECTED',
   updateMyVotes: 'UPDATE_MY_VOTES',
+  updateMyBonds: 'UPDATE_MY_BONDS',
   addPRep: 'ADD_P_REP',
+  addPRepBond: 'ADD_P_REP_BOND',
   deletePRep: 'DELETE_P_REP',
+  deletePRepBond: 'DELETE_P_REP_BOND',
 
   //iissActions
   fetchMyStatusData: 'FETCH_MY_STATUS_DATA',
@@ -230,6 +235,14 @@ const actionTypes = {
   setDelegationLoading: 'SET_DELEGATION_LOADING',
   setDelegationFulfilled: 'SET_DELEGATION_FULFILLED',
   setDelegationRejected: 'SET_DELEGATION_REJECTED',
+  getBond: 'GET_BOND',
+  getBondLoading: 'GET_BOND_LOADING',
+  getBondFulfilled: 'GET_BOND_FULFILLED',
+  getBondRejected: 'GET_BOND_REJECTED',
+  setBond: 'SET_BOND',
+  setBondLoading: 'SET_BOND_LOADING',
+  setBondFulfilled: 'SET_BOND_FULFILLED',
+  setBondRejected: 'SET_BOND_REJECTED',
   resetPRepIissReducer: 'RESET_PREP_IISS_REDUCER',
 
   //txFeeActions

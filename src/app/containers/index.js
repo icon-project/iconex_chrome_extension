@@ -18,12 +18,17 @@ import CoinDetailPageContainer from './CoinDetailPage/CoinDetailPageContainer'
 import VotingPageContainer from './VotingPage/VotingPageContainer'
 import PRepsContainer from './VotingPage/PRepsContainer'
 import PRepsVotingStatusGraphContainer from './VotingPage/PRepsVotingStatusGraphContainer'
+import PRepsBondingStatusGraphContainer from './VotingPage/PRepsBondingStatusGraphContainer'
 import PRepsLeaderboardContainer from './VotingPage/PRepsLeaderboardContainer'
+import PRepsBondLeaderboardContainer from './VotingPage/PRepsBondLeaderboardContainer'
 import MyStatusIScoreContainer from './VotingPage/MyStatusIScoreContainer'
 import MyStatusStakeContainer from './VotingPage/MyStatusStakeContainer'
 import MyPRepsTableContainer from './VotingPage/MyPRepsTableContainer'
+import MyPRepsBondTableContainer from './VotingPage/MyPRepsBondTableContainer'
 import MyStatusVoteContainer from './VotingPage/MyStatusVoteContainer'
+import MyStatusBondContainer from './VotingPage/MyStatusBondContainer'
 import VoteContainer from './VotingPage/VoteContainer'
+import BondContainer from './VotingPage/BondContainer'
 import TxFeeTableContainer from './VotingPage/TxFeeTableContainer'
 import IissLedgerIframeContainer from './VotingPage/IissLedgerIframeContainer'
 import ExchangeTransactionPageContainer from './ExchangeTransactionPage/ExchangeTransactionPageContainer'
@@ -71,14 +76,20 @@ export {
   DeleteTokenContainer,
   UpdateTokenContainer,
   VotingPageContainer,
+  BondingPageContainer,
   PRepsContainer,
   PRepsVotingStatusGraphContainer,
+  PRepsBondingStatusGraphContainer,
   PRepsLeaderboardContainer,
+  PRepsBondLeaderboardContainer,
   MyStatusIScoreContainer,
   MyStatusStakeContainer,
   MyStatusVoteContainer,
+  MyStatusBondContainer,
   MyPRepsTableContainer,
+  MyPRepsBondTableContainer,
   VoteContainer,
+  BondContainer,
   TxFeeTableContainer,
   IissLedgerIframeContainer,
   ExchangeTransactionPageContainer,

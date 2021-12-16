@@ -134,6 +134,42 @@ export async function getDelegation({ account }) {
   }
 }
 
+export async function setBond({ input, privKey, ...txObj }) {
+  const _txObj = Object.assign({}, txObj, {
+    contractAddress: ZERO_ADDRESS,
+    methodName: "setBond",
+    inputObj: {
+      bonds: input.map((item) => ({
+        ...item,
+        value: window.web3.toHex(toLoop(item.value)),
+      })),
+    },
+  });
+  const rawTx = makeIcxRawTx(true, _txObj);
+  const rawTxSigned = signRawTx(privKey, rawTx);
+  const result = await icx_sendTransaction(rawTxSigned);
+  return result;
+}
+
+export async function getBond({ account }) {
+  try {
+    const payload = await icx_call({
+      contractAddress: ZERO_ADDRESS,
+      methodName: "getBond",
+      inputObj: {
+        address: checkHxPrefix(account),
+      },
+    });
+    return {
+      payload: payload[0],
+    };
+  } catch (error) {
+    return {
+      error,
+    };
+  }
+}
+
 export async function getCPSData() {
   try {
     if (ICX_CPS_SCORE()) {

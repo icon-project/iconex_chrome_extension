@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { MyStatus, SubRoute, Alert } from 'app/components';
-import { VoteContainer, PRepsContainer } from 'app/containers';
+import { VoteContainer, BondContainer, PRepsContainer } from 'app/containers';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 const INIT_STATE = {
@@ -49,46 +49,50 @@ class VotingPage extends Component {
   }
 
   render() {
-    const { isVoteMode, I18n } = this.props
+    const { isVoteMode, isBondMode, I18n } = this.props
     const { defaultTab, showAbout } = this.state
-    return isVoteMode ? (
-      <VoteContainer />
-    ) : (
-        <div className={`content-wrap vote`}>
-          <SubRoute
-            title={I18n.voting}
-            labels={[
-              I18n.voting_sub1,
-              I18n.voting_sub2,
-            ]}
-            components={[
-              <PRepsContainer />,
-              <MyStatus {...this.props} />
-            ]}
-            tooltip={
-              <h4
-                style={{ cursor: 'pointer' }}
-                onClick={this.toggleAbout}
-                className="about-vote">
-                <i className="_img info-no"></i>
-                {I18n.voting_about}
-              </h4>
+    if (isVoteMode) {
+      return <VoteContainer /> 
+    } else if (isBondMode) {
+      return <BondContainer />
+    } else {
+      return (
+          <div className={`content-wrap vote`}>
+            <SubRoute
+              title={I18n.voting}
+              labels={[
+                I18n.voting_sub1,
+                I18n.voting_sub2,
+              ]}
+              components={[
+                <PRepsContainer />,
+                <MyStatus {...this.props} />
+              ]}
+              tooltip={
+                <h4
+                  style={{ cursor: 'pointer' }}
+                  onClick={this.toggleAbout}
+                  className="about-vote">
+                  <i className="_img info-no"></i>
+                  {I18n.voting_about}
+                </h4>
+              }
+              tab={defaultTab}
+              handleSetTabEvent={this.handleSetTabEvent}
+            />
+            {
+              showAbout && (
+                <Alert
+                  handleCancel={this.toggleAbout}
+                  text={I18n.voting_about_desc}
+                  isBig={true}
+                  cancelText={I18n.button.confirm}
+                />
+              )
             }
-            tab={defaultTab}
-            handleSetTabEvent={this.handleSetTabEvent}
-          />
-          {
-            showAbout && (
-              <Alert
-                handleCancel={this.toggleAbout}
-                text={I18n.voting_about_desc}
-                isBig={true}
-                cancelText={I18n.button.confirm}
-              />
-            )
-          }
-        </div>
-      );
+          </div>
+        );
+    }
   }
 }
 

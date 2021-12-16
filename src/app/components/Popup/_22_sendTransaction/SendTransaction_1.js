@@ -26,6 +26,7 @@ class SendTransaction1 extends Component {
       pageType: popupType,
       openPopup,
       openVoteMode,
+      openBondMode,
       history,
       setLogInState,
       closePopup,
@@ -43,6 +44,12 @@ class SendTransaction1 extends Component {
           pathname: ROUTE['voting']
         });
         openVoteMode()
+        break
+      case 'bond':
+        history.push({
+          pathname: ROUTE['bonding']
+        });
+        openBondMode()
         break
       case 'stake':
       case 'claimIScore':

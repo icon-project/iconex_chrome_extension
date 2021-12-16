@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { MyStatusStakeVote } from 'app/components/';
+import { MyStatusStakeBond } from 'app/components/';
 import { convertToPercent, convertStakeValueToText } from 'utils';
-import { validateVote } from 'redux/reducers/iissReducer'
+import { validateBond } from 'redux/reducers/iissReducer'
 
 function mapStateToProps(state) {
   const { isLoggedIn } = state.wallet.selectedWallet
@@ -9,20 +9,21 @@ function mapStateToProps(state) {
   const staked = state.iiss.staked[selectedAccount] || {}
   const { value, loading: stakedLoading } = staked
   const delegated = state.iiss.delegated[selectedAccount] || {}
-  const { totalDelegated, loading: delegatedLoading } = delegated
+  const bonded = state.iiss.bonded[selectedAccount] || {}
+  const { totalBonded, loadingBond: bondedLoading } = bonded
   const available = delegated.available
-  const delegatedPct = convertToPercent(totalDelegated, value, 1)
-  const delegatedWidthPct = convertToPercent(totalDelegated, value)
-  const availablePct = (100 - delegatedPct).toFixed(1)
-  const availableWidthPct = (100 - delegatedWidthPct).toString()
-  const isNoBalance = value && validateVote(value)
+  const bondedPct = convertToPercent(totalBonded, value, 1)
+  const bondedWidthPct = convertToPercent(totalBonded, value)
+  const availablePct = (100 - bondedPct).toFixed(1)
+  const availableWidthPct = (100 - bondedWidthPct).toString()
+  const isNoBalance = value && validateBond(value)
   const showHyphen = (val) => isLoggedIn ? val : '-'
   const getGraphClassName = () => {
     if (!isLoggedIn || isNoBalance) {
       return 'no'
     } else if (availableWidthPct === '100') {
       return 'notvoted'
-    } else if (delegatedWidthPct === '100') {
+    } else if (bondedWidthPct === '100') {
       return 'notavail'
     } else {
       return ''
@@ -30,36 +31,36 @@ function mapStateToProps(state) {
   }
 
   return {
-    wrapClassName: 'center-group vote-group',
+    wrapClassName: 'center-group bond-group',
     graphClassName: getGraphClassName(),
-    compType: 'vote',
-    title: 'Vote',
-    buttonLabel: 'vote',
+    compType: 'bond',
+    title: 'Bond',
+    buttonLabel: 'bond',
     axis1: {
-      label: 'myStatusVote_axis1',
-      value: isNoBalance ? '-' : showHyphen(delegatedPct),
-      width: delegatedWidthPct,
+      label: 'myStatusBond_axis1',
+      value: isNoBalance ? '-' : showHyphen(bondedPct),
+      width: bondedWidthPct,
     },
     axis2: {
-      label: 'myStatusVote_axis2',
+      label: 'myStatusBond_axis2',
       value: isNoBalance ? '-' : showHyphen(availablePct),
       width: availableWidthPct,
     },
     li1: {
-      label: 'myStatusVote_li1',
+      label: 'myStatusBond_li1',
       value: showHyphen(convertStakeValueToText(value)),
     },
     li2: {
-      label: 'myStatusVote_li2',
-      value: showHyphen(convertStakeValueToText(totalDelegated)),
+      label: 'myStatusBond_li2',
+      value: showHyphen(convertStakeValueToText(totalBonded)),
     },
     li3: {
-      label: 'myStatusVote_li3',
+      label: 'myStatusBond_li3',
       value: showHyphen(convertStakeValueToText(available)),
     },
     isUnstakeExist: false,
     isLoggedIn,
-    loading: stakedLoading || delegatedLoading,
+    loading: stakedLoading || bondedLoading,
     error: isNoBalance,
   };
 }
@@ -69,6 +70,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const MyStatusVoteContainer = connect(mapStateToProps, mapDispatchToProps)(MyStatusStakeVote);
+const MyStatusBondContainer = connect(mapStateToProps, mapDispatchToProps)(MyStatusStakeBond);
 
-export default MyStatusVoteContainer;
+export default MyStatusBondContainer;

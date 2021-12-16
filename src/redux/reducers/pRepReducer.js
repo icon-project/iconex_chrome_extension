@@ -45,15 +45,20 @@ const pRepState = {
   totalNetworkStaked: new BigNumber(0),
   totalSupply: new BigNumber(0),
   isVoteMode: false,
+  isBondMode: false,
 }
 
 const myPRepState = {
   myVotes: [],
+  myBonds: [],
+  myBonded: new BigNumber(0),
   myDelegated: new BigNumber(0),
   myAvailable: new BigNumber(0),
   votedMap: {},
+  bondedMap: {},
   editedMap: {},
   myVotesMap: {},
+  myBondsMap: {},
 }
 
 const initialState = {
@@ -74,6 +79,19 @@ export function pRepReducer(state = initialState, action) {
         ...myPRepState,
       })
     }
+    case actionTypes.openBondMode: {
+      return Object.assign({}, state, {
+        isBondMode: true
+      })
+    }
+    case actionTypes.resetBondMode: {
+      return Object.assign({}, state, {
+        isBondMode: false,
+        ...myPRepState,
+      })
+    }
+
+    // PREP
     case actionTypes.getPRepDataLoading: {
       return Object.assign({}, state, {
         pRepsLoading: true,
@@ -112,6 +130,8 @@ export function pRepReducer(state = initialState, action) {
         totalSupply: new BigNumber(0),
       })
     }
+
+    // DELEGATION
     case actionTypes.getDelegationLoading: {
       return Object.assign({}, state, myPRepState)
     }
@@ -211,7 +231,6 @@ export function pRepReducer(state = initialState, action) {
         myAvailable,
       })
     }
-
     case actionTypes.setDelegationFulfilled: {
       const votedMap = {}, myVotesMap = {}
       for (const { address, value } of action.input) {
@@ -224,6 +243,126 @@ export function pRepReducer(state = initialState, action) {
         votedMap,
       })
     }
+
+    // BOND
+    case actionTypes.getBondLoading: {
+      return Object.assign({}, state, myPRepState)
+    }
+    case actionTypes.getBondFulfilled: {
+      if (!state.isBondMode) return Object.assign({}, state)
+
+      const {
+        payload: {
+          bonds: myBonds,
+          totalBonded: myBonded,
+          votingPower: myAvailable,
+        },
+      } = action
+
+			var totalBondedManual = fromLoop(0);
+			for (var i = 0; i < myBonds.length; ++i) {
+				totalBondedManual = totalBondedManual.plus(fromLoop(myBonds[i].value));
+			}			
+
+      const myBondsMap = {}
+      const bondedMap = {}
+      for (const { address, value } of myBonds) {
+        myBondsMap[address] = fromLoop(value)
+        bondedMap[address] = true
+      }
+      return Object.assign({}, state, {
+        myBonds: myBonds
+          .map(({ value, ...rest }) => ({
+            ...rest,
+            value: fromLoop(value),
+          }))
+          .sort(({ value: a }, { value: b }) => b - a),
+        bondedMap,
+        myBondsMap,
+        myBonded: totalBondedManual,
+        myAvailable: window.delegatedAvailable
+      })
+    }
+    case actionTypes.updateMyBonds: {
+      const {
+        address,
+        value,
+        isEdited,
+      } = action.payload
+      let {
+        myBonded,
+        myAvailable
+      } = state
+      const _myBonds = [...state.myBonds]
+      const _editedMap = { ...state.editedMap }
+      const idx = _myBonds.findIndex(myBond => myBond.address === address)
+      const diff = value.minus(_myBonds[idx].value)
+      myBonded = myBonded.plus(diff)
+      myAvailable = myAvailable.minus(diff)
+      _myBonds[idx].value = value
+      if (isEdited) {
+        _editedMap[address] = true
+      } else {
+        delete _editedMap[address]
+      }
+      return Object.assign({}, state, {
+        myBonds: _myBonds,
+        editedMap: _editedMap,
+        myBonded,
+        myAvailable,
+      })
+    }
+    case actionTypes.addPRepBond: {
+      const { payload: address } = action
+      const _myBonds = [
+        ...state.myBonds,
+        {
+          address,
+          value: new BigNumber(0),
+        }
+      ]
+      return Object.assign({}, state, {
+        myBonds: _myBonds,
+        myBondsMap: {
+          ...state.myBondsMap,
+          [address]: new BigNumber(0),
+        },
+      })
+    }
+    case actionTypes.deletePRepBond: {
+      const { payload: address } = action
+      let { myBonded, myAvailable } = state
+      const _myBonds = [...state.myBonds]
+      const index = _myBonds.findIndex(el => el.address === address)
+      const { value } = _myBonds[index]
+      const _myBondsMap = { ...state.myBondsMap }
+      const _editedMap = { ...state.editedMap }
+      myBonded = myBonded.minus(value)
+      myAvailable = myAvailable.plus(value)
+      _myBonds.splice(index, 1)
+      delete _myBondsMap[address]
+      delete _editedMap[address]
+      return Object.assign({}, state, {
+        myBonds: _myBonds,
+        myBondsMap: _myBondsMap,
+        editedMap: _editedMap,
+        myBonded,
+        myAvailable,
+      })
+    }
+    case actionTypes.setBondFulfilled: {
+      const bondedMap = {}, myBondsMap = {}
+      for (const { address, value } of action.input) {
+        myBondsMap[address] = value
+        bondedMap[address] = true
+      }
+      return Object.assign({}, state, {
+        editedMap: {},
+        myBondsMap,
+        bondedMap,
+      })
+    }
+
     case actionTypes.resetMyPRepState: {
       return Object.assign({}, state, initialState)
     }

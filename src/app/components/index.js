@@ -37,17 +37,26 @@ import WalletMenuBar from "./MyWalletPage/WalletMenuBar";
 import VotingPage from "./VotingPage/VotingPage";
 import PReps from "./VotingPage/PReps";
 import PRepsVotingStatusGraph from "./VotingPage/PRepsVotingStatusGraph";
+import PRepsBondingStatusGraph from "./VotingPage/PRepsBondingStatusGraph";
 import PRepsLeaderboard from "./VotingPage/PRepsLeaderboard";
+import PRepsBondLeaderboard from "./VotingPage/PRepsBondLeaderboard";
 import PRepsTable from "./VotingPage/PRepsTable";
+import PRepsBondTable from "./VotingPage/PRepsBondTable";
 import PRepsBar from "./VotingPage/PRepsBar";
+import PRepsBondBar from "./VotingPage/PRepsBondBar";
 import MyStatus from "./VotingPage/MyStatus";
 import MyStatusIScore from "./VotingPage/MyStatusIScore";
 import MyStatusStakeVote from "./VotingPage/MyStatusStakeVote";
 import Vote from "./VotingPage/Vote";
 import VoteAlerts from "./VotingPage/VoteAlerts";
-import TxFeeTable from "./VotingPage/TxFeeTable";
 import MyVotesInput from "./VotingPage/MyVotesInput";
+import MyStatusStakeBond from "./VotingPage/MyStatusStakeBond";
+import Bond from "./VotingPage/Bond";
+import BondAlerts from "./VotingPage/BondAlerts";
+import MyBondsInput from "./VotingPage/MyBondsInput";
+import TxFeeTable from "./VotingPage/TxFeeTable";
 import PRepsBarInputRange from "./VotingPage/PRepsBarInputRange";
+import PRepsBondBarInputRange from "./VotingPage/PRepsBondBarInputRange";
 import IissLedgerIframe from "./VotingPage/IissLedgerIframe";
 
 import Popup from "./Popup/Popup";
@@ -218,18 +227,28 @@ export {
   UpdateToken,
   // *** VOTING PAGE *** //
   VotingPage,
+  BondingPage,
   PReps,
   PRepsVotingStatusGraph,
+  PRepsBondingStatusGraph,
   PRepsLeaderboard,
+  PRepsBondLeaderboard,
   PRepsTable,
+  PRepsBondTable,
   PRepsBar,
+  PRepsBondBar,
   MyStatus,
   MyStatusIScore,
   MyStatusStakeVote,
   Vote,
   VoteAlerts,
   MyVotesInput,
+  MyStatusStakeBond,
+  Bond,
+  BondAlerts,
+  MyBondsInput,
   PRepsBarInputRange,
+  PRepsBondBarInputRange,
   IissLedgerIframe,
   // popup //
   ClaimIScore,

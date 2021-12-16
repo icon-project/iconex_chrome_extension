@@ -590,12 +590,12 @@ function convertToPercent(num = 0, den = 0, fixed = 0) {
 }
 
 function fromLoop(value) {
-  if (!value) return 0
+  if (!value) return new BigNumber(0)
   return new BigNumber(value).dividedBy('1000000000000000000')
 }
 
 function toLoop(value) {
-  if (!value) return 0
+  if (!value) return new BigNumber(0)
   return new BigNumber(value).times('1000000000000000000')
 }
 

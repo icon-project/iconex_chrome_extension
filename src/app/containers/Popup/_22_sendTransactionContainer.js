@@ -10,7 +10,7 @@ import {
 } from 'redux/actions/signupActions';
 import { logIn } from 'redux/actions/authActions';
 import { setStake } from 'redux/actions/iissActions'
-import { openVoteMode } from 'redux/actions/pRepActions'
+import { openVoteMode, openBondMode } from 'redux/actions/pRepActions'
 
 function mapStateToProps(state) {
   return {
@@ -70,7 +70,8 @@ function mapDispatchToProps(dispatch) {
     resetLedgerReducer: () => dispatch(resetLedgerReducer()),
 
     setStake: () => dispatch(setStake()),
-    openVoteMode: () => dispatch(openVoteMode())
+    openVoteMode: () => dispatch(openVoteMode()),
+    openBondMode: () => dispatch(openBondMode())
   };
 }
 

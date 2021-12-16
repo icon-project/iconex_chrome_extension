@@ -5,7 +5,6 @@ const path = require('path');
 const paths = require('./paths');
 
 // JH Added
-const MAINNET_VERSION_HEADER = 1
 const DEVELOPER_VERSION_HEADER = 0
 
 function prodDev(prod, dev) {
@@ -84,7 +83,7 @@ function getClientEnvironment(publicUrl) {
         PUBLIC_URL: publicUrl,
         // JH added: app version
         APP_VERSION: prodDev(
-                `${MAINNET_VERSION_HEADER}.${process.env.APP_VERSION}`,
+                `${process.env.APP_VERSION}`,
                 `${DEVELOPER_VERSION_HEADER}.${process.env.APP_VERSION}`
               ), 
       }

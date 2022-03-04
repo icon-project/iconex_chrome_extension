@@ -10,9 +10,13 @@ class PRepsBondingStatusGraph extends Component {
       I18n,
       myBonded,
       myBondedPct,
+      myUnbonding,
+      myUnbondingPct,
       myAvailable,
       myAvailablePct,
-
+      totalBonded,
+      totalBondedPct,
+      isUnbondExist,
       graphClass,
     } = this.props
     const wrapGraphClass = ''
@@ -22,7 +26,9 @@ class PRepsBondingStatusGraph extends Component {
     const TopLabel =
       (
         <ul>
-          <li><span>{myBondedPct}</span>%<em>Bonded</em></li>
+          {isUnbondExist && (<li></li>)}
+          {isUnbondExist && (<li style={{textAlign: "right"}}><em>Unbonding</em><span>{myUnbondingPct}</span>%</li>)}
+          <li style={{color: "#00a1b3"}}><span>{myBondedPct}</span>%<em>Bonded</em></li>
           <li><em>Non-bonded</em><span>{myAvailablePct}</span>%</li>
         </ul>
       )
@@ -30,7 +36,9 @@ class PRepsBondingStatusGraph extends Component {
       (
         <ul>
           <li><span>{convertStakeValueToText(myBonded)}</span><em>ICX</em></li>
-          <li><span>{convertStakeValueToText(myAvailable)}</span><em>ICX</em></li>
+          <li style={{textAlign: "right"}}><span>{convertStakeValueToText(myAvailable)}</span><em>ICX</em></li>
+          {isUnbondExist && (<li></li>)}
+          {isUnbondExist && (<li style={{textAlign: "right"}}><span>{convertStakeValueToText(myUnbonding)}</span><em>ICX</em></li>)}
         </ul>
       )
     return (
@@ -45,6 +53,7 @@ class PRepsBondingStatusGraph extends Component {
           (
             <div className={`bar-group ${barGraphClass}`}>
               <span className="mint" style={{ width: `${myBondedPct}%` }}><i></i></span>
+              {isUnbondExist && (<span className="mint-un" style={{ width: `${myUnbondingPct}%` }}><i><em></em></i></span>)}
               <span className="gray" style={{ width: `${myAvailablePct}%` }}><i></i></span>
             </div>
           )

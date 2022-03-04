@@ -43,6 +43,7 @@ export default {
     delete: "삭제",
     stake: "Stake",
     vote: "Vote",
+    bond: "Bond",
     claim: "Claim",
     search: "검색",
     adjust: "Adjust",
@@ -53,8 +54,10 @@ export default {
     pwErrorEight: "8자 이상으로 입력해주세요.",
     pwErrorMix:
       "영문, 숫자, 특수문자( ? ! : . , % + - / * < > { } ( ) [ ]  ` \" ' ~ _ ^ \\ | @ # $ & )를 혼용하여 입력해주세요.",
-    pwErrorContinuous: "3자 이상 연속되지 않게 입력해주세요.",
-    pwErrorSame: "동일한 문자를 3자 이상 연속해서 입력할 수 없습니다.",
+    pwErrorContinuous:
+        "3자 이상 연속되지 않게 입력해주세요.",
+    pwErrorSame:
+        "동일한 문자를 3자 이상 연속해서 입력할 수 없습니다.",
     pwErrorEmpty: "공백 없이 입력해주세요.",
     pwConfirmError: "비밀번호를 다시 확인해주세요.",
     pwConfirmErrorSame: "비밀번호가 일치하지 않습니다.",
@@ -166,7 +169,6 @@ export default {
     alertLTMin: (min, type) => `입력 가능한 최소 ${type} 수량은 ${min} 입니다.`,
     alertGTMax: (max, type) => `입력 가능한 최대 ${type} 수량은 ${max} 입니다.`,
     alertNoChange: "변경된 수량이 없습니다.",
-
     alertFull: "Stake 가능한 ICX가 없습니다. ICX 수량을 확인해주세요.",
   },
 
@@ -190,14 +192,12 @@ export default {
   mainPageDesc:
     "ICX와 ICON Network의 다양한 암호화폐를 하나의 지갑에서 보관하고 송금하세요.",
   mainPageCreateWallet: "새 지갑 만들기",
-  mainPageCreateWalletDesc:
-    "처음 오셨다면 회원가입 없이 지갑을 만들 수 있습니다.",
+  mainPageCreateWalletDesc: "처음 오셨다면 회원가입 없이 지갑을 만들 수 있습니다.",
   mainPageImportWallet: "지갑 가져오기",
   mainPageImportWalletDesc:
     "지갑 백업 파일 또는 개인 키를 입력한 후에 사용할 수 있습니다.",
   mainPageConnectLedger: "Ledger Wallet 연결",
-  mainPageConnectLedgerDesc:
-    "Ledger Wallet에서 ICX를 보관 및 송금할 수 있습니다.",
+  mainPageConnectLedgerDesc: "Ledger Wallet에서 ICX를 보관 및 송금할 수 있습니다.",
 
   myWalletHeaderTotalValue: "전체 자산 평가금액",
   myWalletHeaderCoinNum: "코인 종류",
@@ -369,7 +369,8 @@ export default {
     "스텝 한도는 Transaction 실행에 지불할 용의가 있는 스텝의 최대량을 의미합니다.",
   transferPageHelperDesc2_icx:
     "스텝 한도를 아주 높게 설정하더라도 Transaction에 필요한 만큼의 스텝만 소진합니다. 즉, 스텝 한도는 최대치만 설정 가능하며 실제 소진되는 스텝량은 유동적입니다.",
-  transferPageHelperTitle3_icx: "Step 한 단위당 지불하는 가격입니다.",
+  transferPageHelperTitle3_icx:
+    "Step 한 단위당 지불하는 가격입니다.",
   transferPageHelperDesc3_icx:
     "Step 가격은 loop로 지불하며 1 loop는 0.000000000000000001(10<sup>-18</sup>) ICX로 고정되어 있습니다. ICON 거래 수수료는 스마트 컨트랙트 기능 사용 횟수, 블록체인 데이터베이스 사용량, 거래 데이터 크기 등에 따라 부과됩니다.",
   transferPageHelperTitle4_icx:
@@ -416,9 +417,10 @@ export default {
       "비밀번호는 강력하고 본인이 확실하게 기억할 수 있는 비밀번호로 설정하세요.",
     leftInfoTitle2_2:
       "비밀번호의 백업 및 관리는 전적으로 개인의 책임이며, 분실 시 어떤 방법으로도 복구될 수 없습니다.",
-    leftInfoDesc2_1: "· 코인 송금 시 지갑 비밀번호를 입력해야 합니다.",
+    leftInfoDesc2_1:
+      "· 코인 송금 시 지갑 비밀번호를 입력해야 합니다.",
     leftInfoDesc2_2:
-      "· 모바일이나 다른 PC로 지갑을 옮기는 경우 지갑 백업 파일(Keystore 파일) 또는 개인 키와 함께 비밀번호를 입력해야 합니다.",
+      "· If you move your wallet to mobile or another PC, you will need to enter your password along with your wallet backup file (Keystore file) or your private key.",
     walletNameInputLabel: "지갑 이름",
     walletNameInputPlaceHolder: "지갑 이름",
     passwordInputLabel: "지갑 비밀번호",
@@ -494,7 +496,8 @@ export default {
     radioLabel1: "지갑 만들기",
     radioDesc1: "새 지갑을 만들 수 있습니다.",
     radioLabel2: "지갑 가져오기",
-    radioDesc2: "만들어 둔 지갑을 가져올 수 있습니다.",
+    radioDesc2:
+        "만들어 둔 지갑을 가져올 수 있습니다.",
   },
 
   updateWalletName: {
@@ -510,7 +513,8 @@ export default {
     inputLabel1: "현재 비밀번호",
     inputPlaceHolder1: "현재 비밀번호 입력",
     inputLabel2: "새 비밀번호",
-    inputPlaceHolder2: "비밀번호 입력 (영문, 숫자, 특수문자 혼용 8자 이상)",
+    inputPlaceHolder2:
+        "비밀번호 입력 (영문, 숫자, 특수문자 혼용 8자 이상)",
     inputPlaceHolder3: "비밀번호 확인",
     infoBoxTitle:
       "· 변경된 비밀번호는 강력하고 본인이 확실하게 기억할 수 있는 비밀번호로 설정하세요. 변경된 비밀번호의 백업 및 관리는 전적으로 개인의 책임이며, 분실 시 어떤 방법으로도 복구될 수 없습니다.",
@@ -529,8 +533,7 @@ export default {
     infoBoxDesc1_2:
       "· 지갑 백업 파일은 개인 키를 대체하여 지갑을 실행하고 송금할 수 있는 중요한 정보이므로, 타인에게 노출되지 않도록 안전하게 보관하세요.",
 
-    infoBoxTitle2_1: "개인 키 저장",
-    // infoBoxDesc2_1: '· 개인 키가 있으면 지갑을 사용하고 송금할 수 있으니, 개인 키가 삭제되거나 타인에게 노출되지 않도록 안전하게 보관해주세요.',
+    infoBoxTitle2_1: "개인 키 저장", // infoBoxDesc2_1: '· 개인 키가 있으면 지갑을 사용하고 송금할 수 있으니, 개인 키가 삭제되거나 타인에게 노출되지 않도록 안전하게 보관해주세요.',
     infoBoxDesc2_1:
       "· 개인 키가 삭제되거나 타인에게 노출되지 않도록 안전하게 보관해 주세요.",
     infoBoxDesc2_2:
@@ -540,7 +543,8 @@ export default {
   addToken: {
     title1: "토큰 추가",
     desc1: "추가할 토큰을 선택해주세요.",
-    info: "목록에 토큰이 없다면 직접 입력하여 추가해주세요.",
+    info:
+        "목록에 토큰이 없다면 직접 입력하여 추가해주세요.",
     title2: "토큰 정보 입력",
     desc2:
       "추가하실 토큰 주소를 입력해 주세요.\n나머지 정보는 자동으로 입력되며, 직접 수정하실 수 있습니다.",
@@ -563,6 +567,7 @@ export default {
   exportWallet: {
     caution:
       "묶어서 내보낼 때, 묶음 지갑 비밀번호를 새로 만들어야 합니다. <br/>기존 지갑들의 비밀번호는 묶음 지갑의 비밀번호로 바뀝니다. 계속 진행하시겠습니까?",
+
     title: "지갑 묶어서 내보내기",
     desc1:
       "묶어서 백업할 지갑들을 선택해주세요. 지갑마다 비밀번호 확인이 필요합니다.",
@@ -650,7 +655,8 @@ export default {
     addressLabel: "지갑 주소",
     addressInfo: "* 위 주소로 코인을 입금할 수 있습니다.",
     privateKeyLabel: "개인 키 QR코드",
-    privateKeyInfo: "* 개인 키를 이용하여 지갑을 가져올 수 있습니다.",
+    privateKeyInfo:
+        "* 개인 키를 이용하여 지갑을 가져올 수 있습니다.",
   },
 
   validationForm: {
@@ -659,7 +665,8 @@ export default {
     walletPassword: "지갑 비밀번호",
     walletNameLabel: "지갑 이름",
     walletNamePlaceHolder: "지갑 이름 입력",
-    inputPlaceHolder1: "비밀번호 입력 (영문, 숫자, 특수문자 혼용 8자 이상)",
+    inputPlaceHolder1:
+        "비밀번호 입력 (영문, 숫자, 특수문자 혼용 8자 이상)",
     inputPlaceHolder2: "비밀번호 확인",
   },
 
@@ -745,6 +752,7 @@ export default {
 
   stake: "Stake",
   vote: "Delegate",
+  bond: "Bond",
   iScore: "I-Score",
 
   // 6p Voting P-Rep 페이지
@@ -771,15 +779,23 @@ export default {
   myStatusStake_axis1: "Staked",
   myStatusStake_axis2: "Available",
   myStatusStake_axis3: "Voted",
+  myStatusStake_axis4: "Bonded",
   myStatusStake_li1: "Total ICX",
   myStatusStake_li2: "Available ICX",
   myStatusStake_li3: "Staked ICX",
   myStatusStake_li4: "Unstaking ICX",
   myStatusVote_axis1: "Delegated",
   myStatusVote_axis2: "Non-delegated",
-  myStatusVote_li1: "Staked ICX",
-  myStatusVote_li2: "위임된 ICX",
-  myStatusVote_li3: "위임 가능한 ICX",
+  myStatusVote_li1: "Delegate Stage ICX",
+  myStatusVote_li2: "Delegated ICX",
+  myStatusVote_li3: "Delegable ICX",
+  myStatusBond_unbond1: "Unbonding",
+  myStatusBond_axis1: "Bonded",
+  myStatusBond_axis2: "Non-bonded",
+  myStatusBond_li1: "Bond Stage ICX",
+  myStatusBond_li2: "Bonded ICX",
+  myStatusBond_li3: "Bondable ICX",
+  myStatusBond_li4: "Unbonding ICX",
   myStatusIScore_p1: "현재 I-Score",
   myStatusIScore_p2: "수령 가능한 ICX의 양",
 
@@ -820,7 +836,8 @@ export default {
     add_added: "추가한 리스트",
     add_cntFull: "최대 100개의 P-Rep을 선택해주세요.",
     delete: "삭제",
-    delete_voted: "해당 P-Rep에게 투표된 수량을 초기화한 후에 다시 시도하세요.",
+    delete_voted:
+        "해당 P-Rep에게 투표된 수량을 초기화한 후에 다시 시도하세요.",
     max: "최대",
     toast: "My Votes에 추가 완료",
     confirm_title: "투표할 내용을 한번 더 확인해 주세요.",

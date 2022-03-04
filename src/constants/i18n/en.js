@@ -289,7 +289,8 @@ export default {
   noticeDesc2: "You can back up your wallet from the wallet menu.",
   noticeNotAgain: "Do not show this again.",
 
-  myPageExportDesc: "Select the wallets to bundle. Passwords are required.",
+  myPageExportDesc:
+      "Select the wallets to bundle. Passwords are required.",
   myPageExportCaution:
     "· [CAUTION] If you back up your wallets using the ‘Wallet bundle’ function, the password of each wallet will be changed into the bundle wallet password.",
   myPageExportSelectedWallets: "Wallets",
@@ -310,7 +311,8 @@ export default {
   myPageLabel3: "Current Passcode",
   myPagePlaceholder1: "Enter 6-digit number",
   myPagePlaceholder2: "Enter password",
-  myPageLockSuccess: "Do you want to lock?",
+  myPageLockSuccess:
+      "Do you want to lock?",
   myPageLockChangeSuccess: "Your passcode has been changed.",
 
   transferPageInfo1:
@@ -402,9 +404,13 @@ export default {
 
     desc1: "Which coin would you like to add?",
     leftInfoTitle1_1: "Select a wallet between ICX wallet and ETH wallet.",
-    leftInfoDesc1_1: "· You can add IRC tokens using ICON wallet menu.",
-    leftInfoDesc1_2: "· You can add ERC20 tokens using Ethereum wallet menu.",
-    leftInfoDesc1_3: "· Wallets for other coins will be added later.",
+    leftInfoDesc1_1:
+        "· You can add IRC tokens using ICON wallet menu.",
+    leftInfoDesc1_2:
+        "· You can add ERC20 tokens using Ethereum wallet menu.",
+    leftInfoDesc1_3:
+        "· Wallets for other coins will be added later.",
+    leftInfoDesc1_4: "· The types of coins that can be added will increase.",
 
     desc2: "Enter a wallet name and a password.",
     leftInfoTitle2_1:
@@ -413,6 +419,8 @@ export default {
       "DO NOT FORGET TO SAVE THIS. If you lose your password, you cannot restore it.",
     leftInfoDesc2_1:
       "· You will need the password to load your wallet in other devices using the Keystore file or your private key.",
+    leftInfoDesc2_2:
+        "· 모바일이나 다른 PC로 지갑을 옮기는 경우 지갑 백업 파일(Keystore 파일) 또는 개인 키와 함께 비밀번호를 입력해야 합니다.",
     walletNameInputLabel: "Wallet Name",
     walletNameInputPlaceHolder: "Wallet Name",
     passwordInputLabel: "Wallet Password",
@@ -428,7 +436,8 @@ export default {
       "This Keystore file contains the encrypted private key and requires the wallet password to access it.",
     leftInfoDesc3_1:
       "· Use this Keystore file to load your wallet from other devices.",
-    leftInfoDesc3_2: "· Keystore file can replace your private key.",
+    leftInfoDesc3_2:
+        "· Keystore file can replace your private key.",
     leftInfoDesc3_3:
       "· You can download your Keystore file from the “Backup wallet” menu.",
     downloadSuccess:
@@ -444,6 +453,8 @@ export default {
       "· Pay special attention to your private key as anyone who can access to the private key can transfer assets from the wallets without your permission.",
     leftInfoDesc4_2:
       "· You can print your private key from the “Backup wallet” menu later.",
+    leftInfoDesc4_3:
+        "· Even if you do not copy or print immediately now, you can proceed again by selecting the ‘Backup Wallet’ menu.",
     privateKey: "Private Key",
   },
 
@@ -523,8 +534,10 @@ export default {
       "· Be careful not to accidentally delete your Keystore file.",
 
     infoBoxTitle2_1: "Save Private Key",
-    infoBoxDesc2_1: "· Be careful not to share your private key with others.",
-    infoBoxDesc2_2: "· Print paper wallet or write down your private key.",
+    infoBoxDesc2_1:
+        "· Be careful not to share your private key with others.",
+    infoBoxDesc2_2:
+        "· Print paper wallet or write down your private key.",
   },
 
   addToken: {
@@ -673,7 +686,8 @@ export default {
       "5. ICON Foundation is not responsible for any indirect, consequential, specific, punitive or any similar damages even though if ICONex is related with any torts, contract, guarantee, liability without fault and carelessness.",
     desc6:
       "6. ICONex supports Korean and English as the official languages. ICON Foundation is not responsible for any loss that comes from mis-translation into other languages than the official languages.",
-    copyright: "※ All copyrights regarding ICONex is held by ICON Foundation.",
+    copyright:
+      "※ All copyrights regarding ICONex is held by ICON Foundation.",
   },
 
   termsOfUse: "Terms of use",
@@ -702,7 +716,8 @@ export default {
     exceedsFailure: "This exceeds block gas limit.",
     internetFailure:
       "Your transaction has been canceled.<br/>There is no Internet connection.",
-    tokenGasFailure: "You have insufficient ETH balance for GAS.",
+    tokenGasFailure:
+        "You have insufficient ETH balance for GAS.",
 
     confirmData: "Check the write information once again.",
     maximumFee: "Estimated Maximum Fee",
@@ -764,7 +779,7 @@ export default {
   myStatusStake_axis1: "Staked",
   myStatusStake_axis2: "Available",
   myStatusStake_axis3: "Voted",
-  myStatusStake_axis3: "Bonded",
+  myStatusStake_axis4: "Bonded",
   myStatusStake_li1: "Total ICX",
   myStatusStake_li2: "Available ICX",
   myStatusStake_li3: "Staked ICX",
@@ -774,11 +789,13 @@ export default {
   myStatusVote_li1: "Staked ICX",
   myStatusVote_li2: "Delegated ICX",
   myStatusVote_li3: "Available ICX",
+  myStatusBond_unbond1: "Unbonding",
   myStatusBond_axis1: "Bonded",
   myStatusBond_axis2: "Non-bonded",
   myStatusBond_li1: "Staked ICX",
   myStatusBond_li2: "Bonded ICX",
   myStatusBond_li3: "Available ICX",
+  myStatusBond_li4: "Unbonding ICX",
   myStatusIScore_p1: "Current I-Score",
   myStatusIScore_p2: "You can receive",
 

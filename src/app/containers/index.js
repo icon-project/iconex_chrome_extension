@@ -31,6 +31,7 @@ import VoteContainer from './VotingPage/VoteContainer'
 import BondContainer from './VotingPage/BondContainer'
 import TxFeeTableContainer from './VotingPage/TxFeeTableContainer'
 import IissLedgerIframeContainer from './VotingPage/IissLedgerIframeContainer'
+// import BondingPageContainer from "./VotingPage/BondingPageContainer";
 import ExchangeTransactionPageContainer from './ExchangeTransactionPage/ExchangeTransactionPageContainer'
 import WalletSelectorContainer from './ExchangeTransactionPage/WalletSelectorContainer'
 import TxFeeAndDataContainer from './ExchangeTransactionPage/TxFeeAndDataContainer'
@@ -76,7 +77,7 @@ export {
   DeleteTokenContainer,
   UpdateTokenContainer,
   VotingPageContainer,
-  BondingPageContainer,
+  // BondingPageContainer,
   PRepsContainer,
   PRepsVotingStatusGraphContainer,
   PRepsBondingStatusGraphContainer,

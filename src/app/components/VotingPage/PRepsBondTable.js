@@ -99,11 +99,11 @@ class PRepsBondTable extends Component {
 
   selectPRepIndex = (index) => {
     const { selectedPRepIndex } = this.state;
-    const { myAvailable, totalStaked, data } = this.props;
+    const { myAvailable, myUnbonding, totalStaked, data } = this.props;
     if (selectedPRepIndex === index) return;
     if (this.getIsMyPRepsTableInBondMode()) {
       const _newBond = data[index - 1].newBond;
-      const maxAvailable = myAvailable.plus(_newBond);
+      const maxAvailable = myAvailable.plus(myUnbonding).plus(_newBond);
       this.setState({
         maxAvailable,
         maxAvailablePct: convertToPercent(maxAvailable, totalStaked, 1),

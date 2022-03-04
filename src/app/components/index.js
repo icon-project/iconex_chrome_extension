@@ -227,7 +227,7 @@ export {
   UpdateToken,
   // *** VOTING PAGE *** //
   VotingPage,
-  BondingPage,
+  // BondingPage,
   PReps,
   PRepsVotingStatusGraph,
   PRepsBondingStatusGraph,

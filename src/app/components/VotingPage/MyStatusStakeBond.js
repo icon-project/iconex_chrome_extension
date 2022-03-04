@@ -45,10 +45,10 @@ class MyStatusStakeBond extends Component {
       li2,
       li3,
       li4,
-      isUnstakeExist,
-      isUnstakingFull,
-      isUnstakingEqualToStake,
-      unstakes = {},
+      isUnbondExist,
+      isUnbondingFull,
+      isUnbondingEqualToBond,
+      unbonds = {},
       isLoggedIn,
       handleClick,
       loading,
@@ -68,26 +68,26 @@ class MyStatusStakeBond extends Component {
       <div className={`${wrapClassName} ${!isLoggedIn ? 'disabled' : ''}`}>
         <h1>{I18n[compType]}</h1>
         <div className={`bar-group ${graphClassName}`}>
-          {(!isUnstakingFull && !isUnstakingEqualToStake) && (<span className="mint" style={{ width: `${axis1.width}%` }}><i></i></span>)}
-          {isUnstakeExist && unstakes.width !== "0" && (<span className="mint-un" style={{ width: `${unstakes.width}%` }}><i><em></em></i></span>)}
+          {(!isUnbondingFull && !isUnbondingEqualToBond) && (<span className="mint" style={{ width: `${axis1.width}%` }}><i></i></span>)}
+          {isUnbondExist && unbonds.width !== "0" && (<span className="mint-un" style={{ width: `${unbonds.width}%` }}><i><em></em></i></span>)}
           <span className="gray" style={{ width: `${axis2.width}%` }}><i></i></span>
         </div>
         <ul>
           <li><span>{axis1.value}</span>%<em>{I18n[axis1.label]}</em></li>
           <li><em>{I18n[axis2.label]}</em><span>{axis2.value}</span>%</li>
-          {isUnstakeExist && (<li><em>{I18n[unstakes.label]}</em><span>{unstakes.percent}</span>%</li>)}
+          {isUnbondExist && (<li><em>{I18n[unbonds.label]}</em><span>{unbonds.percent}</span>%</li>)}
         </ul>
         <h3>{I18n[li1.label]}<span>{li1.value}<em> ICX</em></span></h3>
         <h3>{I18n[li2.label]}<span>{li2.value}<em> ICX</em></span></h3>
         <h3>{I18n[li3.label]}<span>{li3.value}<em> ICX</em></span></h3>
-        {isUnstakeExist && <h3>{I18n[li4.label]}<span>{li4.value}<em> ICX</em></span></h3>}
-        {isUnstakeExist && unstakes.value.map((unstake, i) => {
+        {isUnbondExist && <h3>{I18n[li4.label]}<span>{li4.value}<em> ICX</em></span></h3>}
+        {isUnbondExist && unbonds.value.map((unbond, i) => {
           return (
             <h3 key={i} className="unstake">
               <i className="_img"></i>
-              {`${I18n.myStatusStake_unstake1} ${unstake.unstake} ICX`}
-              <p>{`${I18n.myStatusStake_unstake2} ${unstake.unstakeBlockHeight}`}</p>
-              <p>{`${I18n.myStatusStake_unstake3} ${this.convertTime(unstake.remainingBlocks)}`}</p>
+              {`${I18n.myStatusBond_unbond1} ${unbond.value} ICX`}
+              <p>{`${I18n.myStatusStake_unstake2} ${unbond.expireBlockHeight}`}</p>
+              <p>{`${I18n.myStatusStake_unstake3} ${this.convertTime(unbond.remainingBlocks)}`}</p>
             </h3>
           )
         })}

@@ -18,6 +18,7 @@ const initIScoreElem = {
 	loading: false,
 	value: new BigNumber(0),
 	estimatedICX: new BigNumber(0),
+	blockHeight: new BigNumber(0)
 }
 
 const initDelegatedElem = {
@@ -30,8 +31,10 @@ const initDelegatedElem = {
 const initBondedElem = {
 	loading: false,
 	totalBonded: new BigNumber(0),
+	totalUnbonding: new BigNumber(0),
 	available: new BigNumber(0),
-	bonds: []
+	bonds: [],
+	unbonds: []
 }
 
 const initTxElem = {
@@ -258,31 +261,29 @@ export function iissReducer(state = initialState, action) {
 				bonded: _bonded
 			})
 		}
+		//TODO get unbonds
 		case actionTypes.getBondFulfilled: {
-			const {
-				payload: {
-					totalBonded,
-					bonds,
-					votingPower: available,
-				},
-				account
-			} = action
-
-			var totalBondedManual = fromLoop(0);
-			for (var i = 0; i < bonds.length; ++i) {
-				totalBondedManual = totalBondedManual.plus(fromLoop(bonds[i].value));
-			}			
-
+			const {payload, account} = action
 			const _bonded = Object.assign({}, state.bonded, {
 				[account]: {
 					...state.bonded[account],
 					loading: false,
-					totalBonded: totalBondedManual,
-					available: state.delegated[account].available,
-					bonds: bonds.map(({ value, ...rest }) => ({
-						...rest,
-						value: fromLoop(value),
-					})),
+					totalBonded: payload.bonds ? payload.bonds.reduce((acc, cur) => {
+						return acc.plus(fromLoop(cur.value))
+					}, new BigNumber(0)) : new BigNumber(0),
+					totalUnbonding: payload.unbonds ? payload.unbonds.reduce((acc, cur) => {
+						return acc.plus(fromLoop(cur.value))
+					}, new BigNumber(0)) : new BigNumber(0),
+					available: payload.votingPower,
+					bonds: payload.bonds ? payload.bonds.map((bond) => ({
+							address: bond.address,
+							value: new BigNumber(bond.value)
+						})) : [],
+					unbonds: payload.unbonds ? payload.unbonds.map((unbond) => ({
+							address: unbond.address,
+							value: new BigNumber(unbond.value),
+							expireBlockHeight: new BigNumber(unbond.expireBlockHeight),
+						})) : [],
 				}
 			})
 			return Object.assign({}, state, {
@@ -293,13 +294,15 @@ export function iissReducer(state = initialState, action) {
 			const {
 				account
 			} = action
-			const _delegated = Object.assign({}, state.bonded, {
+			const _bonded = Object.assign({}, state.bonded, {
 				[account]: {
 					...state.bonded[account],
 					loading: false,
 					totalBonded: new BigNumber(0),
+					totalUnbonding: new BigNumber(0),
 					available: new BigNumber(0),
 					bonds: [],
+					unbonds: []
 				}
 			})
 			return Object.assign({}, state, {
@@ -327,6 +330,7 @@ export function iissReducer(state = initialState, action) {
 					...state.iScore[account],
 					value: fromLoop(payload.iscore),
 					estimatedICX: fromLoop(payload.estimatedICX),
+					blockHeight: payload.blockHeight,
 					loading: false
 				}
 			})

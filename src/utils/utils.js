@@ -626,6 +626,12 @@ function convertIScoreToText(val) {
   return numberWithCommasWithZero(val.toFixed(8))
 }
 
+function convertUnbondValueToText(val, isFloor = null) {
+  if (!val) return 0
+  val = new BigNumber(val).dividedBy('1000000000000000000')
+  return numberWithCommasWithZero(val.toFixed(4, isFloor ? 1 : null))
+}
+
 function shuffleArray(arr) {
   return arr
     .map(a => [Math.random(), a])
@@ -698,5 +704,6 @@ export {
   map,
   convertStakeValueToText,
   convertIScoreToText,
+  convertUnbondValueToText,
   shuffleArray,
 }

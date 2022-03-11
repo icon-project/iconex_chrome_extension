@@ -82,7 +82,7 @@ class CheckPassword extends Component {
             <div className="tabbox-holder">
               <div>
                 <p className="title">{I18n.checkPassword.input}</p>
-                <input onChange={this.changeInput} onKeyPress={this.handleKeyPress} type="password" className={`txt-type-normal ${pwError && 'error'}`} placeholder={I18n.checkPassword.placeholder} name="pw" value={pw} />
+                <input autoFocus={true} onChange={this.changeInput} onKeyPress={this.handleKeyPress} type="password" className={`txt-type-normal ${pwError && 'error'}`} placeholder={I18n.checkPassword.placeholder} name="pw" value={pw} />
                 <p className="error">{pwError}</p>
               </div>
               <h3 className="search-pw tooltip"><i className="_img info-no"></i>{I18n.checkPassword.forgotPassword}

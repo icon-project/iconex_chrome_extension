@@ -1043,24 +1043,16 @@ i._icon.L{background:#547345;}
 .content-wrap.vote .myvote .bar-group span{height: 30px; display: inline-block;}
 .content-wrap.vote .myvote .bar-group span i{height: 100%; width: 100%; display: inline-block;}
 .content-wrap.vote .myvote .bar-group .mint{padding-right: 1px;}
-.content-wrap.vote .myvote .bar-group .mint-un{padding:0 1px;}
 .content-wrap.vote .myvote .bar-group .gray{padding-left: 1px;}
-.content-wrap.vote .myvote .bar-group .mint-un i,
 
 .content-wrap.vote .myvote .bar-group .mint i{background: #1daab9;}
 .content-wrap.vote .myvote .bar-group .gray i{background: #4d4d4d;}
 .content-wrap.vote .myvote .bar-group.no span,
-.content-wrap.vote .myvote .bar-group.no .mint-un,
 .content-wrap.vote .myvote .bar-group.notavail span,
 .content-wrap.vote .myvote .bar-group.notvoted span{padding:0;}
 .content-wrap.vote .myvote .bar-group.notavail .gray{display: none; }
-.content-wrap.vote .myvote .bar-group.notavail .mint-un,
 .content-wrap.vote .myvote .bar-group.notvoted .mint{display: none; }
 .content-wrap.vote .myvote .bar-group.notvoted .gray{width: 100% !important; }
-.content-wrap.vote .myvote .bar-group.notvoted .mint-un,
-.content-wrap.vote .myvote .bar-group.unstake .mint-un{padding-right: 0;}
-.content-wrap.vote .myvote .bar-group .mint-un i{overflow: hidden;}
-.content-wrap.vote .myvote .bar-group .mint-un em{width: 500px; height: 30px; background:url(../image/stake-bg.png);  background-size: auto 10px; display: inline-block;  animation: motion-g 1s cubic-bezier(0, 0, 1, 1) infinite;}
 .content-wrap.vote .myvote ul{font-size: 0; margin: 8px 0;}
 .content-wrap.vote .myvote li{display: inline-block; font-size: 20px; width: 50%; }
 .content-wrap.vote .myvote li em{font-size: 14px; margin: 0 6px;}

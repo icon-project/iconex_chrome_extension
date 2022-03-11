@@ -52,17 +52,13 @@ const myPRepState = {
   myVotes: [],
   myBonds: [],
   myBonded: new BigNumber(0),
-  myUnbonds: [],
-  myUnbonding: new BigNumber(0),
   myDelegated: new BigNumber(0),
   myAvailable: new BigNumber(0),
   votedMap: {},
   bondedMap: {},
-  unbondingMap: {},
   editedMap: {},
   myVotesMap: {},
   myBondsMap: {},
-  myUnbondsMap: {}
 }
 
 const initialState = {
@@ -255,31 +251,27 @@ export function pRepReducer(state = initialState, action) {
     case actionTypes.getBondFulfilled: {
       if (!state.isBondMode) return Object.assign({}, state)
 
-      const {payload} = action
+      const {
+        payload: {
+          bonds: myBonds,
+          totalBonded: myBonded,
+          votionPower: myAvailable
+        },
+        } = action
 
       var totalBondedManual = fromLoop(0);
-      for (var i = 0; i < payload.bonds.length; ++i) {
-          totalBondedManual = totalBondedManual.plus(fromLoop(payload.bonds[i].value));
-      }
-      var totalUnbondingManual = fromLoop(0);
-      for (var i = 0; i < payload.unbonds.length; ++i) {
-        totalUnbondingManual = totalUnbondingManual.plus(fromLoop(payload.unbonds[i].value));
+      for (var i = 0; i < myBonds.length; ++i) {
+          totalBondedManual = totalBondedManual.plus(fromLoop(myBonds[i].value));
       }
 
       const myBondsMap = {}
       const bondedMap = {}
-      for (const { address, value } of payload.bonds) {
+      for (const { address, value } of myBonds) {
         myBondsMap[address] = fromLoop(value)
         bondedMap[address] = true
       }
-      const myUnbondsMap = {}
-      const unbondingMap = {}
-      for (const { address, value } of payload.unbonds) {
-        myUnbondsMap[address] = fromLoop(value)
-        unbondingMap[address] = true
-      }
       return Object.assign({}, state, {
-        myBonds: payload.bonds
+        myBonds: myBonds
           .map(({ value, ...rest }) => ({
             ...rest,
             value: fromLoop(value),
@@ -288,15 +280,6 @@ export function pRepReducer(state = initialState, action) {
         bondedMap,
         myBondsMap,
         myBonded: totalBondedManual,
-        myUnbonds: payload.unbonds
-            .map(({ value, ...rest }) => ({
-              ...rest,
-              value: fromLoop(value),
-            }))
-            .sort(({ value: a }, { value: b }) => b - a),
-        unbondingMap: unbondingMap,
-        myUnbondsMap: myUnbondsMap,
-        myUnbonding: totalUnbondingManual,
         myAvailable: window.delegatedAvailable
       })
     }

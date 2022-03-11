@@ -274,7 +274,7 @@ export function iissReducer(state = initialState, action) {
 					totalUnbonding: payload.unbonds ? payload.unbonds.reduce((acc, cur) => {
 						return acc.plus(fromLoop(cur.value))
 					}, new BigNumber(0)) : new BigNumber(0),
-					available: payload.votingPower,
+					available: state.delegated[account].available,
 					bonds: payload.bonds ? payload.bonds.map((bond) => ({
 							address: bond.address,
 							value: new BigNumber(bond.value)

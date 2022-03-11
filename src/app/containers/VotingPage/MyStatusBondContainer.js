@@ -31,7 +31,6 @@ function mapStateToProps(state) {
   const isNoBalance = value && validateBond(value)
 
   const iScore = state.iiss.iScore[selectedAccount] || {}
-  console.log('iScore: ', iScore)
 
   const showHyphen = (val) => isLoggedIn ? val : '-'
   const getGraphClassName = () => {
@@ -49,8 +48,6 @@ function mapStateToProps(state) {
       return ''
     }
   }
-
-  console.log('getGraphClassName: ', getGraphClassName);
 
   return {
     wrapClassName: 'center-group bond-group',

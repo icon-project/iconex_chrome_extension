@@ -1,3 +1,5 @@
+import axios from "axios";
+
 /** @format */
 
 const isAccessedFromWorker = typeof window === "undefined";
@@ -27,8 +29,9 @@ export const getCustomIcxServer = () => {
 };
 
 export const INITIAL_API_VERSION_ICX = "v3";
-export const INITIAL_SERVER_ICX = prodDev("mainnet", "lisbon");
+export const INITIAL_SERVER_ICX = prodDev("mainnet", "berlin");
 export const INITIAL_SERVER_ETH = prodDev("main", "ropsten");
+export const INITIAL_TRACKER_ICX = prodDev("foundation", "solidwallet");
 
 export const HIDE_SERVER = isDevModeOn() ? false : true;
 export const LEDGER_SERVER = prodDev(
@@ -48,13 +51,25 @@ export const getCurrentServer = (coinType) => {
   return server;
 };
 
+export const getCurrentTracker = (coinType) => {
+  let tracker;
+  const initialTracker =
+      coinType === "icx" ? INITIAL_TRACKER_ICX : INITIAL_SERVER_ETH;
+  if (!isAccessedFromWorker) {
+    tracker = localStorage.getItem(`${coinType}Tracker`) || initialTracker;
+  } else {
+    tracker = initialTracker;
+  }
+  return tracker;
+};
+
 export const ICX_WALLET_SERVER = () => {
   const icxServer = getCurrentServer("icx");
+  // TODO handle custom icx server -> getCustomIcxServer().customWalletURL
   const obj = {
     mainnet: "https://wallet.icon.foundation",
     lisbon: "https://lisbon.net.solidwallet.io",
     berlin: "https://berlin.net.solidwallet.io",
-    sejong: "https://sejong.net.solidwallet.io",
     custom: getCustomIcxServer().customWalletURL,
   };
   return obj[icxServer];
@@ -62,14 +77,15 @@ export const ICX_WALLET_SERVER = () => {
 
 export const ICX_TRACKER_SERVER = () => {
   const icxServer = getCurrentServer("icx");
+  const icxTracker = getCurrentTracker("icx");
+  // TODO handle custom icx tracker -> getCustomIcxServer().customTrackerURL
   const obj = {
-    mainnet: "https://tracker.icon.foundation",
-    lisbon: "https://lisbon.tracker.solidwallet.io",
-    berlin: "https://berlin.tracker.solidwallet.io",
-    sejong: "https://sejong.tracker.solidwallet.io",
+    mainnet: {"solidwallet": "https://main.tracker.solidwallet.io", "foundation": "https://tracker.icon.community"},
+    lisbon: {"solidwallet": "https://lisbon.tracker.solidwallet.io", "foundation": "https://tracker.lisbon.icon.community/"},
+    berlin: {"solidwallet": "https://berlin.tracker.solidwallet.io", "foundation": "https://tracker.berlin.icon.community/"},
     custom: getCustomIcxServer().customTrackerURL,
   };
-  return obj[icxServer];
+  return obj[icxServer][icxTracker];
 };
 
 export const ICX_CPS_SCORE = () => {
@@ -78,7 +94,6 @@ export const ICX_CPS_SCORE = () => {
     mainnet: "cx9f4ab72f854d3ccdc59aa6f2c3e2215dd62e879f",
     lisbon: "",
     berlin: "",
-    sejong: "",
     custom: "",
   };
   return obj[icxServer];
@@ -90,7 +105,6 @@ export const ICX_NID = () => {
     mainnet: "0x1",
     lisbon: "0x2",
     berlin: "0x7",
-    sejong: "0x53",
     custom: getCustomIcxServer().customNid,
   };
   return obj[icxServer];
@@ -157,8 +171,12 @@ export const icxServerList = {
   mainnet: "mainnet",
   lisbon: "lisbon",
   berlin: "berlin",
-  sejong: "sejong",
   custom: "custom",
+};
+
+export const icxTrackerList = {
+  foundation: "foundation",
+  solidwallet: "solidwallet"
 };
 
 export const icxApiVersionList = {

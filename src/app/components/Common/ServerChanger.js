@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { getCurrentServer, getCustomIcxServer } from 'constants/config.js'
+import {getConfiguration, getCurrentServer, getCurrentTracker, getCustomIcxServer} from 'constants/config.js'
 import withClickOut from 'HOC/withClickOut';
 import { checkURLSuffix } from 'utils';
-import { icxServerList, ethServerList } from 'constants/config'
+import { icxServerList, icxTrackerList, ethServerList} from 'constants/config'
+import axios from "axios";
 
 const INIT_STATE = {
   showCustomInput: getCurrentServer('icx') === 'custom',
   customWalletURL: getCustomIcxServer().customWalletURL,
   customTrackerURL: getCustomIcxServer().customTrackerURL,
-  customNid: getCustomIcxServer().customNid
+  customNid: getCustomIcxServer().customNid,
+  configuration: {}
 }
 
 // style
@@ -80,6 +82,12 @@ class ServerChanger extends Component {
     window.location.reload();
   }
 
+  changeTracker = (index, coinType) => {
+    localStorage.setItem(`${coinType}Tracker`, index);
+    window.location.reload();
+  }
+
+
   handleChangeInput = (e) => {
     const target = e.target.getAttribute('data-name');
     const newState = { ...this.state }
@@ -137,6 +145,18 @@ class ServerChanger extends Component {
               style={spanStyle}>ICX <em style={emStyle}>(API VER)</em></span>
           </li>
           */}
+          {/*TODO FOR TRACKER*/}
+          <li style={borderStyle}></li>
+          <li style={liStyle}>
+            <ComboBox
+                width={80}
+                list={icxTrackerList}
+                index={getCurrentTracker('icx')}
+                setIndex={(index) => this.changeTracker(index, 'icx')}
+            />
+            <span
+              style={spanStyle}>ICX <em style={emStyle}>(TRACKER)</em></span>
+          </li>
           <li style={borderStyle}></li>
           <li style={liStyle}>
             <ComboBox

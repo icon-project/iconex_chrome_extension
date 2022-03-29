@@ -261,7 +261,6 @@ export function iissReducer(state = initialState, action) {
 				bonded: _bonded
 			})
 		}
-		//TODO get unbonds
 		case actionTypes.getBondFulfilled: {
 			const {payload, account} = action
 			const _bonded = Object.assign({}, state.bonded, {

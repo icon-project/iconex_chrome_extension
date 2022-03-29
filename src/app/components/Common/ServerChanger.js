@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import {getConfiguration, getCurrentServer, getCurrentTracker, getCustomIcxServer} from 'constants/config.js'
+import { getCurrentServer, getCurrentTracker, getCustomIcxServer} from 'constants/config.js'
 import withClickOut from 'HOC/withClickOut';
 import { checkURLSuffix } from 'utils';
 import { icxServerList, icxTrackerList, ethServerList} from 'constants/config'
-import axios from "axios";
 
 const INIT_STATE = {
   showCustomInput: getCurrentServer('icx') === 'custom',
@@ -145,7 +144,6 @@ class ServerChanger extends Component {
               style={spanStyle}>ICX <em style={emStyle}>(API VER)</em></span>
           </li>
           */}
-          {/*TODO FOR TRACKER*/}
           <li style={borderStyle}></li>
           <li style={liStyle}>
             <ComboBox

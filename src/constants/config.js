@@ -31,7 +31,7 @@ export const getCustomIcxServer = () => {
 export const INITIAL_API_VERSION_ICX = "v3";
 export const INITIAL_SERVER_ICX = prodDev("mainnet", "berlin");
 export const INITIAL_SERVER_ETH = prodDev("main", "ropsten");
-export const INITIAL_TRACKER_ICX = prodDev("foundation", "solidwallet");
+export const INITIAL_TRACKER_ICX = prodDev("community", "solidwallet");
 
 export const HIDE_SERVER = isDevModeOn() ? false : true;
 export const LEDGER_SERVER = prodDev(
@@ -65,7 +65,6 @@ export const getCurrentTracker = (coinType) => {
 
 export const ICX_WALLET_SERVER = () => {
   const icxServer = getCurrentServer("icx");
-  // TODO handle custom icx server -> getCustomIcxServer().customWalletURL
   const obj = {
     mainnet: "https://wallet.icon.foundation",
     lisbon: "https://lisbon.net.solidwallet.io",
@@ -78,11 +77,10 @@ export const ICX_WALLET_SERVER = () => {
 export const ICX_TRACKER_SERVER = () => {
   const icxServer = getCurrentServer("icx");
   const icxTracker = getCurrentTracker("icx");
-  // TODO handle custom icx tracker -> getCustomIcxServer().customTrackerURL
   const obj = {
-    mainnet: {"solidwallet": "https://main.tracker.solidwallet.io", "foundation": "https://tracker.icon.community"},
-    lisbon: {"solidwallet": "https://lisbon.tracker.solidwallet.io", "foundation": "https://tracker.lisbon.icon.community/"},
-    berlin: {"solidwallet": "https://berlin.tracker.solidwallet.io", "foundation": "https://tracker.berlin.icon.community/"},
+    mainnet: {"solidwallet": "https://main.tracker.solidwallet.io", "community": "https://tracker.icon.community"},
+    lisbon: {"solidwallet": "https://lisbon.tracker.solidwallet.io", "community": "https://tracker.lisbon.icon.community"},
+    berlin: {"solidwallet": "https://berlin.tracker.solidwallet.io", "community": "https://tracker.berlin.icon.community"},
     custom: getCustomIcxServer().customTrackerURL,
   };
   return obj[icxServer][icxTracker];
@@ -175,8 +173,8 @@ export const icxServerList = {
 };
 
 export const icxTrackerList = {
-  foundation: "foundation",
-  solidwallet: "solidwallet"
+  community: "community",
+  solidwallet: "iconloop"
 };
 
 export const icxApiVersionList = {

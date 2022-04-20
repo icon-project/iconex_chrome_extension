@@ -8,8 +8,7 @@ const INIT_STATE = {
   showCustomInput: getCurrentServer('icx') === 'custom',
   customWalletURL: getCustomIcxServer().customWalletURL,
   customTrackerURL: getCustomIcxServer().customTrackerURL,
-  customNid: getCustomIcxServer().customNid,
-  configuration: {}
+  customNid: getCustomIcxServer().customNid
 }
 
 // style
@@ -35,7 +34,7 @@ const emStyle = { color: '#666' }
 
 const inputUlStyle = {
   position: 'absolute',
-  right: '353px',
+  right: '450px',
   top: '8px'
 }
 
@@ -48,7 +47,7 @@ const inputButtonStyle = {
   background: 'none',
   border: '1px dotted #777',
   borderRadius: '2px',
-  width: '38px',
+  width: '45px',
   height: '20px',
   fontSize: '11px',
   color: '#888',
@@ -108,6 +107,7 @@ class ServerChanger extends Component {
 
   render() {
     const { showCustomInput, customWalletURL, customTrackerURL, customNid } = this.state;
+    const { I18n } = this.props;
     return (
       <div>
         {
@@ -116,7 +116,7 @@ class ServerChanger extends Component {
               <li style={inputLiStyle}><input type="text" placeholder="ex) https://xyz:3000" data-name='customWalletURL' onChange={this.handleChangeInput} value={customWalletURL} /><span style={spanStyle}>Wallet URL</span></li>
               <li style={inputLiStyle}><input type="text" placeholder="ex) https://xyz:3000" data-name='customTrackerURL' onChange={this.handleChangeInput} value={customTrackerURL} /><span style={spanStyle}>Tracker URL</span></li>
               <li style={inputLiStyle}><input type="text" placeholder="ex) 0x1" data-name='customNid' onChange={this.handleChangeInput} value={customNid} /><span style={spanStyle}>nid</span></li>
-              <li style={inputLiStyle}><button style={inputButtonStyle} onClick={this.setCustomURL}>설정</button></li>
+              <li style={inputLiStyle}><button style={inputButtonStyle} onClick={this.setCustomURL}>{I18n.button.confirm}</button></li>
             </ul>
           )
         }

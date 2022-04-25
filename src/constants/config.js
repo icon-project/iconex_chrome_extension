@@ -1,5 +1,3 @@
-import axios from "axios";
-
 /** @format */
 
 const isAccessedFromWorker = typeof window === "undefined";
@@ -43,8 +41,15 @@ export const getCurrentServer = (coinType) => {
   let server;
   const initialServer =
     coinType === "icx" ? INITIAL_SERVER_ICX : INITIAL_SERVER_ETH;
+
   if (!isAccessedFromWorker) {
-    server = localStorage.getItem(`${coinType}Server`) || initialServer;
+    let storageServer = localStorage.getItem(`${coinType}Server`);
+    if(isExistServer(storageServer, 'server')) {
+      server = storageServer;
+    } else {
+      server = initialServer;
+      localStorage.setItem(`${coinType}Server`, server);
+    }
   } else {
     server = initialServer;
   }
@@ -53,15 +58,44 @@ export const getCurrentServer = (coinType) => {
 
 export const getCurrentTracker = (coinType) => {
   let tracker;
-  const initialTracker =
-      coinType === "icx" ? INITIAL_TRACKER_ICX : INITIAL_SERVER_ETH;
   if (!isAccessedFromWorker) {
-    tracker = localStorage.getItem(`${coinType}Tracker`) || initialTracker;
+    let storageTracker = localStorage.getItem(`${coinType}Tracker`);
+    if(isExistServer(storageTracker, 'tracker')) {
+      tracker = storageTracker;
+    } else {
+      tracker = INITIAL_TRACKER_ICX;
+      localStorage.setItem(`${coinType}Tracker`, tracker);
+    }
   } else {
-    tracker = initialTracker;
+    tracker = INITIAL_TRACKER_ICX;
   }
   return tracker;
 };
+
+const isExistServer = (server, type) => {
+  if(type === 'server') {
+    const serverList = {
+      mainnet: "mainnet",
+      lisbon: "lisbon",
+      berlin: "berlin",
+      sejong: "sejong",
+      custom: "custom",
+    };
+    if(serverList[server] === undefined) {
+      return false;
+    }
+  }
+  if(type === 'tracker') {
+    const trackerList = {
+      community: "community",
+      solidwallet: "iconloop"
+    }
+    if(trackerList[server] === undefined) {
+      return false;
+    }
+  }
+  return true;
+}
 
 export const ICX_WALLET_SERVER = () => {
   const icxServer = getCurrentServer("icx");
@@ -69,6 +103,7 @@ export const ICX_WALLET_SERVER = () => {
     mainnet: "https://wallet.icon.foundation",
     lisbon: "https://lisbon.net.solidwallet.io",
     berlin: "https://berlin.net.solidwallet.io",
+    sejong: "https://sejong.net.solidwallet.io",
     custom: getCustomIcxServer().customWalletURL,
   };
   return obj[icxServer];
@@ -81,6 +116,7 @@ export const ICX_TRACKER_SERVER = () => {
     mainnet: {"solidwallet": "https://main.tracker.solidwallet.io", "community": "https://tracker.icon.community"},
     lisbon: {"solidwallet": "https://lisbon.tracker.solidwallet.io", "community": "https://tracker.lisbon.icon.community"},
     berlin: {"solidwallet": "https://berlin.tracker.solidwallet.io", "community": "https://tracker.berlin.icon.community"},
+    sejong: {"solidwallet": "https://sejong.tracker.solidwallet.io", "community": "https://tracker.sejong.icon.community"},
     custom: getCustomIcxServer().customTrackerURL,
   };
   return obj[icxServer][icxTracker];
@@ -92,6 +128,7 @@ export const ICX_CPS_SCORE = () => {
     mainnet: "cx9f4ab72f854d3ccdc59aa6f2c3e2215dd62e879f",
     lisbon: "",
     berlin: "",
+    sejong: "",
     custom: "",
   };
   return obj[icxServer];
@@ -103,6 +140,7 @@ export const ICX_NID = () => {
     mainnet: "0x1",
     lisbon: "0x2",
     berlin: "0x7",
+    sejong: "0x53",
     custom: getCustomIcxServer().customNid,
   };
   return obj[icxServer];
@@ -169,6 +207,7 @@ export const icxServerList = {
   mainnet: "mainnet",
   lisbon: "lisbon",
   berlin: "berlin",
+  sejong: "sejong",
   custom: "custom",
 };
 

@@ -32,7 +32,8 @@ module.exports = {
         "storage",
         "https://wallet.icon.foundation/*",
         "https://lisbon.net.solidwallet.io/*",
-        "https://berlin.net.solidwallet.io/*"
+        "https://berlin.net.solidwallet.io/*",
+        "https://sejong.net.solidwallet.io/*"
     ]
 };
 

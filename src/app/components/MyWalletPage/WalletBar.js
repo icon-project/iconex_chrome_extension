@@ -44,9 +44,6 @@ class WalletBar extends Component {
       account,
       tokenId
     })
-    history.push({
-      pathname: ROUTE['transaction']
-    });
     this.props.openPopup({
       popupType: 'sendTransaction_transaction'
     });
@@ -88,7 +85,7 @@ class WalletBar extends Component {
               )}
           </td>
           <td>
-            <button onClick={this.handleTransactionClick} className="btn-type-exchange"><span>{I18n.button.transfer}</span></button>
+            <button onClick={this.handleTransactionClick} className="btn info" style={{width: '100px'}}><span>{I18n.button.transfer}</span></button>
           </td>
         </tr>
       )

@@ -68,22 +68,22 @@ class WalletStakingBar extends Component {
         <td>
           <button
             onClick={() => this.handleClick('stake')}
-            className="btn-type-exchange">
+            className="btn success" style={{marginRight: '3px'}}>
             <span>Stake</span>
           </button>
           <button
             onClick={() => this.handleClick('vote')}
-            className="btn-type-exchange" >
+            className="btn warning" style={{marginRight: '3px'}}>
             <span>Vote</span>
           </button>
           <button
             onClick={() => this.handleClick('bond')}
-            className="btn-type-exchange" >
+            className="btn info" style={{marginRight: '3px'}}>
             <span>Bond</span>
           </button>
           <button
             onClick={() => this.handleClick('claimIScore')}
-            className="btn-type-exchange">
+            className="btn danger">
             <span>Claim</span>
           </button>
         </td>

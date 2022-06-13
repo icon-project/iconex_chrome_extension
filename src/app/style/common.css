@@ -2328,8 +2328,70 @@ div#gasTable .datainput .-holder span{font-size: 12px;}
 .isMac .content-wrap .wrap-holder.exchange .quantity-holder .all label{margin-top: 0;}
 .isMac .content-wrap .layer.default li{padding: 6px 7px 8px;}*/
 
-
-
-
-
 /*.help-layer{display: none;}*/
+
+/* Main Page - Wallet List - Button */
+.btn {
+	border: 2px solid black;
+	border-radius: 10px;
+	background-color: white;
+	color: black;
+	padding: 7px 14px;
+	font-size: 12px;
+	cursor: pointer;
+	width: 60px;
+}
+
+/* Green */
+.success {
+	border-color: #04AA6D;
+	color: green;
+}
+
+.success:hover {
+	background-color: #04AA6D;
+	color: white;
+}
+
+/* Blue */
+.info {
+	border-color: #2196F3;
+	color: dodgerblue
+}
+
+.info:hover {
+	background: #2196F3;
+	color: white;
+}
+
+/* Orange */
+.warning {
+	border-color: #ff9800;
+	color: orange;
+}
+
+.warning:hover {
+	background: #ff9800;
+	color: white;
+}
+
+/* Red */
+.danger {
+	border-color: #f44336;
+	color: red
+}
+
+.danger:hover {
+	background: #f44336;
+	color: white;
+}
+
+/* Gray */
+.default {
+	border-color: #e7e7e7;
+	color: black;
+}
+
+.default:hover {
+	background: #e7e7e7;
+}

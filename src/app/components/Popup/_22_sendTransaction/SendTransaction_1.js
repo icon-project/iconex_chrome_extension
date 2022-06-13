@@ -55,6 +55,10 @@ class SendTransaction1 extends Component {
       case 'claimIScore':
         openPopup({ popupType })
         break
+      case 'transaction':
+        history.push({
+          pathname: ROUTE['transaction']
+        });
       default:
         break
     }

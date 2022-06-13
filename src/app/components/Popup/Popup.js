@@ -113,6 +113,7 @@ class Popup extends Component {
         case 'myWallet':
           return <AddressListContainer type={type} />
         case 'sendTransaction_exchange':
+        case 'sendTransaction_transfer':
         case 'sendTransaction_transaction':
         case 'sendTransaction_contract':
         case 'sendTransaction_vote':

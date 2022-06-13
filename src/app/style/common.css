@@ -2332,8 +2332,8 @@ div#gasTable .datainput .-holder span{font-size: 12px;}
 
 /* Main Page - Wallet List - Button */
 .btn {
-	border: 2px solid black;
-	border-radius: 10px;
+	border: 1px solid #d9d9d9;
+	border-radius: 3px;
 	background-color: white;
 	color: black;
 	padding: 7px 14px;
@@ -2386,6 +2386,17 @@ div#gasTable .datainput .-holder span{font-size: 12px;}
 	color: white;
 }
 
+/* Black */
+.expired {
+	border-color: #000000;
+	color: black
+}
+
+.expired:hover {
+	background: #000000;
+	color: white;
+}
+
 /* Gray */
 .default {
 	border-color: #e7e7e7;
@@ -2393,5 +2404,5 @@ div#gasTable .datainput .-holder span{font-size: 12px;}
 }
 
 .default:hover {
-	background: #e7e7e7;
+	border-color: #808080;
 }

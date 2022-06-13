@@ -117,6 +117,7 @@ class Popup extends Component {
         case 'sendTransaction_contract':
         case 'sendTransaction_vote':
         case 'sendTransaction_stake':
+        case 'sendTransaction_bond':
         case 'sendTransaction_claimIScore':
           const pageType = popupType.split('_')[1];
           return <SendTransactionContainer type={type} pageType={pageType} />

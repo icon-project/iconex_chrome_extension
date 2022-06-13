@@ -77,7 +77,6 @@ class MyStatusStakeBond extends Component {
           <li><em>{I18n[axis2.label]}</em><span>{axis2.value}</span>%</li>
           {isUnbondExist && (<li><em>{I18n[unbonds.label]}</em><span>{unbonds.percent}</span>%</li>)}
         </ul>
-        {/*<h3>{I18n[li1.label]}<span>{li1.value}<em> ICX</em></span></h3>*/}
         <h3>{I18n[li2.label]}<span>{li2.value}<em> ICX</em></span></h3>
         <h3>{I18n[li3.label]}<span>{li3.value}<em> ICX</em></span></h3>
         {isUnbondExist && <h3>{I18n[li4.label]}<span>{li4.value}<em> ICX</em></span></h3>}

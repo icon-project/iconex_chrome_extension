@@ -32,6 +32,7 @@ export const routeConstants = {
   home: "/",
   mywallet: "/mywallet",
   voting: "/voting",
+  bonding: "/voting",
   exchange: "/exchange",
   transaction: "/transaction",
   contract: "/contract",

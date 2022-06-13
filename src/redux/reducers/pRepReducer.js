@@ -255,7 +255,7 @@ export function pRepReducer(state = initialState, action) {
         payload: {
           bonds: myBonds,
           totalBonded: myBonded,
-          votionPower: myAvailable
+          votingPower: myAvailable
         },
         } = action
 
@@ -280,7 +280,7 @@ export function pRepReducer(state = initialState, action) {
         bondedMap,
         myBondsMap,
         myBonded: totalBondedManual,
-        myAvailable: window.delegatedAvailable
+        myAvailable: fromLoop(myAvailable)
       })
     }
     case actionTypes.updateMyBonds: {

@@ -103,7 +103,7 @@ class CheckTransaction extends Component {
               <span><LoadingComponent type="black" style={{ height: '8px', display: '-webkit-inline-box' }} /></span>
             </button>
             :
-            <button className="btn-type-ok" onClick={this.confirmTransaction}>
+            <button className="btn-type-ok" autoFocus={true} onClick={this.confirmTransaction}>
               <span>{I18n.button.transfer}</span>
             </button>
           }

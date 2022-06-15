@@ -349,7 +349,7 @@ class SendTransaction extends Component {
 				</div>
 				<div className="footer cols-2">
 					<button className="btn-type-cancel" onClick={() => { this.cancelTransaction() }}><span>{I18n.button.cancel}</span></button>
-					<button className="btn-type-ok" onClick={this.confirmTransaction} disabled={stepLimitError === '' ? false : true}><span>{I18n.button.transfer}</span></button>
+					<button className="btn-type-ok" autoFocus={true} onClick={this.confirmTransaction} disabled={stepLimitError === '' ? false : true}><span>{I18n.button.transfer}</span></button>
 				</div>
 			</div>
 		);

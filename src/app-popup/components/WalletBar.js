@@ -120,6 +120,7 @@ class WalletBar extends Component {
                 value={password}
                 onChange={handleChange}
                 onKeyPress={this.handleKeyPress}
+                autoFocus={true}
               />
               {pwError && <p className="error">{pwError}</p>}
             </div>

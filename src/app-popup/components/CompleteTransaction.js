@@ -16,6 +16,13 @@ class CompleteTransaction extends Component {
     this.closePopup()
   }
 
+  handleKeyPress = (e) => {
+    if (e.key === 'Escape') {
+      this.props.initExternalState()
+      window.chrome.runtime.sendMessage({ type: 'CLOSE_POPUP' });
+    }
+  }
+
   render() {
     const { I18n, transaction } = this.props;
     const { txHash, error, from } = transaction
@@ -24,7 +31,7 @@ class CompleteTransaction extends Component {
     const Content = () => {
       if (!!txHash) {
         return (
-          <div className="wrap remittance complete">
+          <div className="wrap remittance complete" onKeyDown={this.handleKeyPress}>
             <div className="content-wrap">
               <div className="scroll">
                 <i className="_img"></i>
@@ -33,8 +40,8 @@ class CompleteTransaction extends Component {
               </div>
             </div>
             <div className="footer cols-2">
-              <button className="btn-type-normal" onClick={this.closePopup} ><span>{I18n.button.close}</span></button>
-              <button className="btn-type-normal" onClick={() => { this.checkTransaction(walletPath) }}><span>{I18n.button.checkTransction}</span></button>
+              <button className="btn-type-normal" onClick={this.closePopup}><span>{I18n.button.close}</span></button>
+              <button className="btn-type-normal" autoFocus={true} onClick={() => { this.checkTransaction(walletPath) }}><span>{I18n.button.checkTransction}</span></button>
             </div>
           </div>
         )

@@ -12,8 +12,8 @@ class CompleteTransaction extends Component {
   }
 
   checkTransaction = url => {
+    this.closePopup();
     window.open(url, '_blank');
-    this.closePopup()
   }
 
   handleKeyPress = (e) => {
@@ -36,12 +36,12 @@ class CompleteTransaction extends Component {
               <div className="scroll">
                 <i className="_img"></i>
                 <p ref={ref => { if (ref) ref.innerHTML = I18n.completeTransaction.success }}></p>
-                <a href={txUrl} target="_blank"><span>{I18n.sendTransaction.openTracker}</span></a>
+                {/*<a href={txUrl} target="_blank"><span>{I18n.sendTransaction.openTracker}</span></a>*/}
               </div>
             </div>
             <div className="footer cols-2">
               <button className="btn-type-normal" onClick={this.closePopup}><span>{I18n.button.close}</span></button>
-              <button className="btn-type-normal" autoFocus={true} onClick={() => { this.checkTransaction(walletPath) }}><span>{I18n.button.checkTransction}</span></button>
+              <button className="btn-type-normal" autoFocus={true} onClick={() => { this.checkTransaction(txUrl) }}><span>{I18n.button.checkTransction}</span></button>
             </div>
           </div>
         )

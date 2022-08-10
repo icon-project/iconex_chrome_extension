@@ -9,10 +9,6 @@ class MyStatusStakeVote extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      curTime: moment()
-    }
-    // this.timer = null
   }
 
   componentWillReceiveProps(nextProps) {
@@ -21,16 +17,12 @@ class MyStatusStakeVote extends Component {
       && !nextProps.loading
       && nextProps.isUnstakeExist
       && nextProps.isLoggedIn) {
-      this.setState({
-        curTime: moment()
-      })
     }
   }
 
-  convertTime = (remainingBlocks) => {
-    const { curTime } = this.state
-    const remainingTime = remainingBlocks.times(2)
-    return curTime.clone().add(remainingTime.toNumber(), 'seconds').format(DATE_FORMAT)
+  convertTime = (remainingBlocks, blockTimeStamp) => {
+    const remainingTime = remainingBlocks.times(2);
+    return moment.unix(blockTimeStamp/1000000).add(remainingTime.toNumber(), 'seconds').format(DATE_FORMAT);
   }
 
   render() {
@@ -87,7 +79,7 @@ class MyStatusStakeVote extends Component {
               <i className="_img"></i>
               {`${I18n.myStatusStake_unstake1} ${unstake.unstake} ICX`}
               <p>{`${I18n.myStatusStake_unstake2} ${unstake.unstakeBlockHeight}`}</p>
-              <p>{`${I18n.myStatusStake_unstake3} ${this.convertTime(unstake.remainingBlocks)}`}</p>
+              <p>{`${I18n.myStatusStake_unstake3} ${this.convertTime(unstake.remainingBlocks, unstake.blockTimeStamp)}`}</p>
             </h3>
           )
         })}

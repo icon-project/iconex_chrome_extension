@@ -1,8 +1,41 @@
 import { connect } from 'react-redux';
 import { MyStatusStakeVote } from 'app/components/';
 import BigNumber from 'bignumber.js';
-import { convertStakeValueToText, convertToPercent, convertNumberToText } from 'utils';
+import {convertStakeValueToText, convertToPercent, convertNumberToText, randomUint32} from 'utils';
 import { validateStake } from 'redux/reducers/iissReducer';
+import axios from "axios";
+import {ICX_WALLET_SERVER} from "../../../constants/config";
+
+let lastBlock;
+setLastBlock();
+
+function setLastBlock() {
+  let walletApi = axios.create({
+    baseURL: ICX_WALLET_SERVER(),
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+  let param = {
+    jsonrpc: "2.0",
+    method: "icx_getLastBlock",
+    id: randomUint32()
+  };
+  return new Promise((resolve, reject) => {
+    walletApi.post(`/api/v3`, JSON.stringify(param))
+        .then(res => {
+          if (res.data.result) {
+            console.log("walletIcxApi icx_getLastBlock called", res.data.result);
+            lastBlock = res.data.result;
+          } else {
+            throw new Error(res.data.error);
+          }
+        })
+        .catch(error => {
+          reject(error);
+        })
+  });
+}
 
 function mapStateToProps(state) {
   const { isLedger, ledgerWallet } = state.ledger
@@ -84,7 +117,8 @@ function mapStateToProps(state) {
       value: !!unstakes ? unstakes.map(unstake => ({
         unstake: showHyphen(convertStakeValueToText(unstake.unstake)),
         unstakeBlockHeight: showHyphen(convertNumberToText(unstake.unstakeBlockHeight, 'icx', true)),
-        remainingBlocks: unstake.remainingBlocks
+        remainingBlocks: new BigNumber(unstake.unstakeBlockHeight - lastBlock.height),
+        blockTimeStamp: lastBlock.time_stamp
       })) : [],
       width: unstakingWidthPct,
       percent: showHyphen(unstakingPct),

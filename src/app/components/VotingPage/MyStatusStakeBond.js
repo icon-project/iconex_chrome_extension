@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import { dateFormat as DATE_FORMAT } from 'constants/index';
-import { LoadingComponent } from 'app/components'
+import { LoadingComponent } from 'app/components';
 import withLanguageProps from 'HOC/withLanguageProps';
 
 @withLanguageProps
@@ -9,10 +9,6 @@ class MyStatusStakeBond extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      curTime: moment()
-    }
-    // this.timer = null
   }
 
   componentWillReceiveProps(nextProps) {
@@ -21,16 +17,12 @@ class MyStatusStakeBond extends Component {
       && !nextProps.loading
       && nextProps.isUnstakeExist
       && nextProps.isLoggedIn) {
-      this.setState({
-        curTime: moment()
-      })
     }
   }
 
-  convertTime = (remainingBlocks) => {
-    const { curTime } = this.state
-    const remainingTime = remainingBlocks.times(2)
-    return curTime.clone().add(remainingTime.toNumber(), 'seconds').format(DATE_FORMAT)
+  convertTime = (remainingBlocks, blockTimeStamp) => {
+    const remainingTime = remainingBlocks.times(2);
+    return moment.unix(blockTimeStamp/1000000).add(remainingTime.toNumber(), 'seconds').format(DATE_FORMAT);
   }
 
   render() {
@@ -86,7 +78,7 @@ class MyStatusStakeBond extends Component {
               <i className="_img"></i>
               {`${I18n.myStatusBond_unbond1} ${unbond.value} ICX`}
               <p>{`${I18n.myStatusStake_unstake2} ${unbond.expireBlockHeight}`}</p>
-              <p>{`${I18n.myStatusStake_unstake3} ${this.convertTime(unbond.remainingBlocks)}`}</p>
+              <p>{`${I18n.myStatusStake_unstake3} ${this.convertTime(unbond.remainingBlocks, unbond.blockTimeStamp)}`}</p>
             </h3>
           )
         })}

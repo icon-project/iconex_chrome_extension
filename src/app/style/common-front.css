@@ -841,6 +841,9 @@ input.txt-type-value.input-mode {
 .content-wrap.vote .vote-holder .center-group.vote-group {
   margin-bottom: 20px;
 }
+.content-wrap.vote .vote-holder .center-group.bond-group {
+  margin-bottom: 20px;
+}
 
 .content-wrap.vote .vote-holder li:nth-child(2) {
   text-align: right;

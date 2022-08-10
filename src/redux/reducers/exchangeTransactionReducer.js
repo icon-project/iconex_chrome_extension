@@ -222,10 +222,7 @@ export const initialStepLimit = (isToken, txFeeLimitTable) => {
 
 const initializeTxFeeLimit = (isToken, walletCoinType, txFeeLimitTable) => {
   if (walletCoinType === 'icx') {
-    console.log(txFeeLimitTable)
-    return !isEmpty(txFeeLimitTable)
-      ? initialStepLimit(isToken, txFeeLimitTable)
-      : 100000
+    return !isEmpty(txFeeLimitTable) ? initialStepLimit(isToken, txFeeLimitTable) : 100000
   } else {
     return isToken ? 55000 : 21000
   }

@@ -36,7 +36,6 @@ function* fetchMyStatusDataFunc() {
       (state) => state.wallet.selectedWallet.account
     );
     const isLedger = yield select((state) => state.ledger.isLedger);
-    console.log(account);
     if (isLedger) {
       yield put({ type: AT.updateLedgerWalletBalance });
     } else {

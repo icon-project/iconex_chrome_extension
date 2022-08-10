@@ -351,7 +351,6 @@ export function iissReducer(state = initialState, action) {
 				iScore: _iScore
 			})
 		}
-
 		case actionTypes.resetPRepIissReducer: {
 			const { ledgerAddress } = state
 			if (ledgerAddress) {

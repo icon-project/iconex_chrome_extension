@@ -27,7 +27,7 @@ function mapDispatchToProps(dispatch) {
     resetReducer: () => {
       dispatch(resetSelectedWallet())
       dispatch(resetPRepIissReducer())
-    },
+    }
   };
 }
 

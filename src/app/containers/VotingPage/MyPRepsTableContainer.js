@@ -54,7 +54,6 @@ function mapStateToProps(state) {
     } else {
       return (delegations || []).map(({ value, address }) => {
         let pRepData = getPRepData(address)
-        console.log(pRepData)
         return {
           myDelegation: value,
           myDelegationPct: convertToPercent(value, totalDelegated, 1),

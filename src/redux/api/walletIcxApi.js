@@ -4,7 +4,6 @@ import { signRawTx, customValueToTokenValue, makeIcxRawTx, checkHxPrefix, check0
 import moment from 'moment';
 import BigNumber from 'bignumber.js';
 import { ICX_WALLET_SERVER, ICX_TRACKER_SERVER } from 'constants/config.js';
-import { getCurrentServer } from 'constants/config.js'
 
 let GOVERNANCE_ADDRESS = 'cx0000000000000000000000000000000000000001'
 

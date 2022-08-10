@@ -846,4 +846,12 @@ export default {
     success1: "Vote Request Complete.",
     success2: "You can check the voting history<br/>on ICON Tracker.",
   },
+
+  bondPage: {
+    confirm_title: "Please recheck the bonding request.",
+    confirm_li1: "· Bonded P-Rep",
+    confirm_li2: "· Bonded",
+    success1: "Bond Request Complete.",
+    success2: "You can check the bonding history<br/>on ICON Tracker."
+  }
 };

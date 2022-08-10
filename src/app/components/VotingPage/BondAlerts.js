@@ -114,11 +114,11 @@ export default class BondAlerts extends Component {
             <div className="dimmed fade-in"></div>
             <div className="popup moving-down">
               {/* <p className="txt_box">Unstake 취소 수수료가 발생합니다.<br />취소하시겠습니까?</p> */}
-              <p className="txt_box">{I18n.votePage.confirm_title}</p>
+              <p className="txt_box">{I18n.bondPage.confirm_title}</p>
               <div className="fee">
                 {/* <p><span className="label">· 소요 시간</span><span className="txt">즉시취소</span></p> */}
-                <p><span className="label">{I18n.votePage.confirm_li1}</span><span>{myBondsCnt}<em className="slash">/</em>100</span></p>
-                <p><span className="label">{I18n.votePage.confirm_li2}</span><span>{myBonded} ({myBondedPct}%)</span></p>
+                <p><span className="label">{I18n.bondPage.confirm_li1}</span><span>{myBondsCnt}<em className="slash">/</em>100</span></p>
+                <p><span className="label">{I18n.bondPage.confirm_li2}</span><span>{myBonded} ({myBondedPct}%)</span></p>
                 <div className="dot"></div>
                 {/* <p><span className="label">{I18n.estimatedStepAndPrice}</span><span>{`${txFeeLimit} / ${txFeePrice}`}<em>ICX</em></span></p> */}
                 <p><span className="label">{I18n.transferPageLabel5_2}</span><span>{txFee}<em>ICX</em></span></p>
@@ -126,7 +126,7 @@ export default class BondAlerts extends Component {
               </div>
               <div className="btn-holder full">
                 <button onClick={this.closeAlert} className="btn-type-fill size-half"><span>{I18n.button.cancel}</span></button>
-                <button onClick={setBond} className="btn-type-normal size-half"><span>{I18n.button.vote}</span></button>
+                <button onClick={setBond} className="btn-type-normal size-half"><span>{I18n.button.bond}</span></button>
               </div>
             </div>
           </div>
@@ -137,8 +137,8 @@ export default class BondAlerts extends Component {
             <div>
               <div className="dimmed"></div>
               <div className="popup">
-                <p className="txt_box">{I18n.votePage.success1}</p>
-                <p className="txt" ref={ref => { if (ref) ref.innerHTML = I18n.votePage.success2 }}></p>
+                <p className="txt_box">{I18n.bondPage.success1}</p>
+                <p className="txt" ref={ref => { if (ref) ref.innerHTML = I18n.bondPage.success2 }}></p>
                 <a href={TXID_URL['icx'] + txResult} target="_blank" rel="noopener noreferrer"><p className="mint">{I18n.sendTransaction.openTracker}</p></a>
                 <div className="btn-holder full">
                   <button onClick={this.handleSubmit} className="btn-type-normal size-full"><span>{I18n.button.close}</span></button>

@@ -843,7 +843,15 @@ export default {
     confirm_title: "투표할 내용을 한번 더 확인해 주세요.",
     confirm_li1: "· 투표한 P-Rep",
     confirm_li2: "· Delegated",
-    success1: "투표가 완료되었습니다.",
+    success1: "투표가 완료 되었습니다.",
     success2: "Voting 내역은 ICON Tracker에서 조회 가능합니다.",
   },
+
+  bondPage: {
+    confirm_title: "본딩할 내용을 한번 더 확인해 주세요.",
+    confirm_li1: "· 본딩된 P-Rep",
+    confirm_li2: "· Bonded",
+    success1: "본딩이 완료 되었습니다.",
+    success2: "Bonding 내역은 ICON Tracker에서 조회 가능합니다."
+  }
 };

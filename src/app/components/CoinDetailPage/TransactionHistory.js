@@ -182,7 +182,6 @@ class TransactionHistory extends Component {
                       txHistory.length > 0
                         ? (
                           txHistory.map((row, i) => {
-                            // console.log(row)
                             const newRow = {
                               to: row.address || row.toAddr,
                               time: row.time || row.age || row.createDate,

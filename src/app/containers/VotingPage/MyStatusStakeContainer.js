@@ -25,7 +25,6 @@ function setLastBlock() {
     walletApi.post(`/api/v3`, JSON.stringify(param))
         .then(res => {
           if (res.data.result) {
-            console.log("walletIcxApi icx_getLastBlock called", res.data.result);
             lastBlock = res.data.result;
           } else {
             throw new Error(res.data.error);

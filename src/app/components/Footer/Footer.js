@@ -42,6 +42,10 @@ class Footer extends Component {
                 <span onClick={() => {
                   window.open("http://docs.icon.foundation/ICON-Terms-and-Conditions-en.pdf")
                 }} className="noti">{I18n.termsOfUse}</span>
+                <em></em>
+                <span onClick={() => {
+                    window.open("https://docs.icon.foundation/Privacy-Policy.pdf")
+                }} className="noti">{I18n.privacyPolicy}</span>
               </p>
               {
                 !HIDE_SERVER && (

@@ -691,6 +691,7 @@ export default {
   },
 
   termsOfUse: "이용약관",
+  privacyPolicy:"개인정보처리방침",
 
   sendTransaction: {
     infoSuccess: "송금 요청이 완료되었습니다.",

@@ -691,6 +691,7 @@ export default {
   },
 
   termsOfUse: "Terms of use",
+  privacyPolicy:"Privacy Policy",
 
   sendTransaction: {
     infoSuccess: "Transfer Request Complete.",

@@ -45,7 +45,7 @@
     "js-sha3": "^0.7.0",
     "keythereum": "^1.0.2",
     "lodash.isequal": "^4.5.0",
-    "moment": "^2.19.2",
+    "moment": "^2.29.4",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",

@@ -14,17 +14,23 @@
   "main": "lib/Icx.js",
   "license": "Apache-2.0",
   "dependencies": {
-    "@ledgerhq/hw-transport": "^5.43.0"
+    "@ledgerhq/hw-transport": "^5.43.0",
+    "ansi-regex": ">=3.0.1"
   },
   "devDependencies": {
     "flow-bin": "^0.68.0",
     "flow-typed": "^2.4.0",
-    "secp256k1": "^4.0.2"
+    "secp256k1": "^4.0.2",
+    "ansi-regex": ">=3.0.1"
   },
   "scripts": {
     "flow": "flow",
     "clean": "rm -rf lib/",
     "build": "cd ../.. && export PATH=$(yarn bin):$PATH && cd - && babel --source-maps -d lib src && flow-copy-source -v src lib",
     "watch": "cd ../.. && export PATH=$(yarn bin):$PATH && cd - && babel --watch --source-maps -d lib src & flow-copy-source -w -v src lib"
+  },
+  "resolutions": {
+    "**/node-fetch": "2.6.7",
+    "**/shelljs": "0.8.5"
   }
 }

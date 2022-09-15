@@ -154,6 +154,14 @@
     "react/**/node-fetch": "2.6.7",
     "react-dom/**/node-fetch": "2.6.7",
     "css-loader/**/is-svg": "4.3.0",
-    "sw-precache-webpack-plugin/**/trim-newlines": "3.0.1"
+    "css-loader/**/color-string": "1.5.5",
+    "sw-precache-webpack-plugin/**/trim-newlines": "3.0.1",
+    "**/mem": "4.0.0",
+    "**/mime": "1.4.1",
+    "**/apollo-server-express": "2.14.2",
+    "**/yargs-parser": "^13.1.2",
+    "**/ajv": "6.12.3",
+    "**/got": "11.8.5",
+    "**/postcss": "7.0.36"
   }
 }

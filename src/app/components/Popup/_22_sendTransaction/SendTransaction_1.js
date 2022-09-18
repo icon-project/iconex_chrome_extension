@@ -59,6 +59,7 @@ class SendTransaction1 extends Component {
         history.push({
           pathname: ROUTE['transaction']
         });
+        break
       default:
         break
     }

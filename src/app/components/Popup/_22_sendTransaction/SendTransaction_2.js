@@ -94,6 +94,8 @@ class SendTransaction2 extends Component {
                             <p className="address">{funcInput[input.name]}</p>
                           </div>
                         )
+                      } else {
+                        return null
                       }
                     })
                   }

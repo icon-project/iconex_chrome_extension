@@ -78,7 +78,7 @@ class WalletSectionList extends Component {
     let dataArr = this.walletDataToArr(data, isCoinView);
 
     // get a list of tokens
-    let tokenArray = this.makeTokenArr(data, isCoinView)
+    let tokenArray = this.makeTokenArr(data, isCoinView);
 
     return (
       <div>

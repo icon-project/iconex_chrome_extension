@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import withLanguageProps from 'HOC/withLanguageProps';
 import { txidUrl as TXID_URL } from 'constants/config.js'
-import { routeConstants as ROUTE } from '../../constants';
+// import { routeConstants as ROUTE } from '../../constants';
 
 @withLanguageProps
 class CompleteTransaction extends Component {
@@ -25,9 +25,10 @@ class CompleteTransaction extends Component {
 
   render() {
     const { I18n, transaction } = this.props;
-    const { txHash, error, from } = transaction
+    // const { txHash, error, from } = transaction
+    const { txHash, error } = transaction
     const txUrl = TXID_URL['icx'] + txHash
-    const walletPath = `/index.html#${ROUTE.mywallet}/${from}`
+    // const walletPath = `/index.html#${ROUTE.mywallet}/${from}`
     const Content = () => {
       if (!!txHash) {
         return (

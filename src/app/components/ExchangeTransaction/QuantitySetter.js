@@ -138,7 +138,6 @@ class QuantitySetter extends Component {
               className="cbox-type"
               type="checkbox"
               name=""
-
               checked={isFullBalance}
             />
             <label htmlFor="cbox-01" className="_img" onClick={() => { isLoggedIn && this.toggleCheckBox(calcData.totalBalance) }}>{I18n.transferPageAllCheckBtn}</label>

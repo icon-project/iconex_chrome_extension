@@ -254,13 +254,13 @@ export function pRepReducer(state = initialState, action) {
       const {
         payload: {
           bonds: myBonds,
-          totalBonded: myBonded,
+          // totalBonded: myBonded,
           votingPower: myAvailable
         },
-        } = action
+      } = action
 
-      var totalBondedManual = fromLoop(0);
-      for (var i = 0; i < myBonds.length; ++i) {
+      let totalBondedManual = fromLoop(0);
+      for (let i = 0; i < myBonds.length; ++i) {
           totalBondedManual = totalBondedManual.plus(fromLoop(myBonds[i].value));
       }
 

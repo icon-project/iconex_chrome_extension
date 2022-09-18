@@ -18,7 +18,7 @@ class WalletBar extends Component {
   }
 
   handleTransactionClick = () => {
-    const { data, history, walletCoinType } = this.props;
+    const { data, walletCoinType } = this.props;
     const { account, balance, tokenId, isError, walletBalance } = data;
 
     if (!isError) {

@@ -236,11 +236,11 @@ function arrTraverse(arr) {
 function escapeString(value) {
   let newString = String.raw`${value}`;
   newString = newString.split('\\').join('\\\\');
-  newString = newString.split('\.').join('\\.');
-  newString = newString.split('\{').join('\\{');
-  newString = newString.split('\}').join('\\}');
-  newString = newString.split('\[').join('\\[');
-  newString = newString.split('\]').join('\\]');
+  newString = newString.split('.').join('\\.');
+  newString = newString.split('{').join('\\{');
+  newString = newString.split('}').join('\\}');
+  newString = newString.split('[').join('\\[');
+  newString = newString.split(']').join('\\]');
   return newString
 }
 

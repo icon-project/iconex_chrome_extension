@@ -4,8 +4,6 @@ import { convertToPercent} from 'utils'
 
 function mapStateToProps(state) {
   const {
-  } = state.pRep
-  const {
     myBonded,
     myAvailable,
   } = state.pRep

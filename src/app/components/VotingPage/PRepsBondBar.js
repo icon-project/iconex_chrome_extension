@@ -158,7 +158,7 @@ class PRepsBondBar extends React.Component {
       country,
       rank,
       myBond,
-      myBondPct,
+      // myBondPct,
       governance,
       sponsoredProjects,
       isUnregistered = false,

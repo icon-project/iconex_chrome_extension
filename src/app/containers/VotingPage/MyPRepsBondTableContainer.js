@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
 import { PRepsBondTable } from 'app/components/';
-import {convertStakeValueToText, convertToPercent} from 'utils'
+import { convertToPercent} from 'utils'
 import { deletePRepBond, updateMyBonds } from 'redux/actions/pRepActions'
-import { fromLoop } from 'utils'
 import BigNumber from "bignumber.js";
 
 function mapStateToProps(state) {
@@ -22,7 +21,6 @@ function mapStateToProps(state) {
   const {
     bonds,
     loading: bondedLoading,
-    totalBonded,
     available,
   } = bonded
 

@@ -20,7 +20,7 @@ export function* callScoreFunc(action) {
     window.chrome.tabs.sendMessage(tabId, { type: 'RESPONSE_JSON-RPC', payload: error });
   }
 }
-export function* callSigningFunc(action) {
+export function callSigningFunc(action) {
   const { tabId, privKey, hash } = action.payload
   let payload
   if (Array.isArray(hash)) {

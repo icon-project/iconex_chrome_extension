@@ -7,10 +7,6 @@ import withLanguageProps from 'HOC/withLanguageProps';
 @withLanguageProps
 class MyStatusStakeVote extends Component {
 
-  constructor(props) {
-    super(props)
-  }
-
   componentWillReceiveProps(nextProps) {
     const { loading } = this.props
     if (loading !== nextProps.loading
@@ -33,7 +29,6 @@ class MyStatusStakeVote extends Component {
       graphClassName,
       axis1,
       axis2,
-      li1,
       li2,
       li3,
       li4,

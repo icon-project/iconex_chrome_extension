@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import withLanguageProps from "HOC/withLanguageProps";
 import { PRepsBondBar, LoadingComponent } from "app/components";
-import {convertStakeValueToText, convertToPercent} from "utils";
+import { convertToPercent } from "utils";
 
 const SORT_TYPE = {
   RANK: "RANK",

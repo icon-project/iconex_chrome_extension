@@ -7,7 +7,7 @@ class PRepsBondingStatusGraph extends Component {
 
   render() {
     const {
-      I18n,
+      // I18n,
       myBonded,
       myBondedPct,
       myAvailable,

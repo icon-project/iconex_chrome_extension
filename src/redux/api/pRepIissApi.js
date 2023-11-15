@@ -175,12 +175,12 @@ export async function getCPSData() {
     if (ICX_CPS_SCORE()) {
       const getPRepsRes = await icx_call({
         contractAddress: ICX_CPS_SCORE(),
-        methodName: "get_PReps",
+        methodName: "getPReps",
         inputObj: {},
       });
       const getSponsorsRecordRes = await icx_call({
         contractAddress: ICX_CPS_SCORE(),
-        methodName: "get_sponsors_record",
+        methodName: "getSponsorsRecord",
         inputObj: {},
       });
       return {

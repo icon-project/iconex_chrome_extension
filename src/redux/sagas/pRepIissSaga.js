@@ -64,7 +64,7 @@ function* getPRepDataFunc({ options }) {
       _payload.preps = _payload.preps.map((prep) => ({
         ...prep,
         governance: !!governance[prep.address],
-        sponsoredProjects: sponsoredProjects[prep.address] || 0,
+        sponsoredProjects: Number(sponsoredProjects[prep.address]) || 0,
       }));
       yield put({
         type: AT.getPRepDataFulfilled,
